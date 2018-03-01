@@ -33,6 +33,12 @@ enum class AngleUnit : byte {
 	RADIANS
 };
 
+enum class Axis : byte {
+	X,
+	Y,
+	Z
+};
+
 #define COMPARE_FLOATING_POINT_EQUAL(type, f1, f2) std::fabs(f1 - f2) <= \
 		(std::numeric_limits<type>::epsilon() * std::max(fabs(f1), fabs(f2)))
 #define COMPARE_FLOATING_POINT_NOT_EQUAL(type, f1, f2) !COMPARE_FLOATING_POINT_EQUAL(type, f1, f2)

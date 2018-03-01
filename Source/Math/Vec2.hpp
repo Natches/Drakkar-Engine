@@ -1,9 +1,7 @@
 #pragma once
 
-#include "SIMDUtils.hpp"
 #include "MathUtils.hpp"
 
-extern "C++" {
 namespace drak {
 namespace math {
 
@@ -39,10 +37,10 @@ public:
 	bool isNormalized() const;
 	bool isNull() const;
 
-	f32 magnitude() const;
+	F32 magnitude() const;
 
-	template<MathUtils::AngleUnit au = MathUtils::AngleUnit::DEGREE>
-	f32 rotation() const;
+	template<AngleUnit au = AngleUnit::DEGREE>
+	F32 rotation() const;
 
 	Vec2<T>& operator=(const Vec2<T>& v);
 	Vec2<T>& operator=(Vec2<T>&& v);
@@ -54,11 +52,11 @@ public:
 	Vec2<T>& operator-=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
 	Vec2<T>& operator*=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
 	Vec2<T>& operator/=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec2<T>& operator>>=(const ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n);
-	Vec2<T>& operator<<=(const ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n);
-	Vec2<T>& operator&=(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n);
-	Vec2<T>& operator^=(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n);
-	Vec2<T>& operator|=(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n);
+	Vec2<T>& operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec2<T>& operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec2<T>& operator&=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec2<T>& operator^=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec2<T>& operator|=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
 	Vec2<T>& operator++();
 	Vec2<T>& operator--();
 
@@ -70,21 +68,19 @@ public:
 	Vec2<T> operator-(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
 	Vec2<T> operator*(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
 	Vec2<T> operator/(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec2<T> operator>>(const ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n) const;
-	Vec2<T> operator<<(const ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n) const;
-	Vec2<T> operator&(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n) const;
-	Vec2<T> operator^(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n) const;
-	Vec2<T> operator|(const  ENABLE_IF_ELSE_T(isIntegral, int32, NOT_A_TYPE) n) const;
-	Vec2<T> operator++(const int32) const;
-	Vec2<T> operator--(const int32) const;
+	Vec2<T> operator>>(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec2<T> operator<<(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec2<T> operator&(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec2<T> operator^(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec2<T> operator|(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec2<T> operator++(const I32) const;
+	Vec2<T> operator--(const I32) const;
 	Vec2<T> operator-()	  const;
 
 	Vec2<T> conjugate() const;
 	Vec2<T> normalize() const;
-	Vec2<T> rotate(const f32 angle) const;
+	Vec2<T> rotate(const F32 angle) const;
 	Vec2<T> perpendicularVector() const;
-
-	T* vec() const;
 
 	template<typename U>
 	Vec2<U> cast() const;
@@ -144,19 +140,19 @@ Vec2<T>& operator|=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)& 
 	const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)& v2);
 
 template<typename T>
-f32 Dot(const Vec2<T>& v1, const Vec2<T>& v2);
+T Dot(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
 Vec2<T> Cross(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
-f32 Distance(const Vec2<T>& v1, const Vec2<T>& v2);
+F32 Distance(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
 Vec2<T> Direction(const Vec2<T>& origin, const Vec2<T>& destination);
 
 template<typename T>
-void RotateAround(Vec2<T>& v1, const Vec2<T>& point, const f32 angle);
+void RotateAround(Vec2<T>& v1, const Vec2<T>& point, const F32 angle);
 
 template<typename T>
 bool ArePerpendicular(const Vec2<T>& v1, const Vec2<T>& v2);
@@ -173,20 +169,17 @@ bool AreSameDirection(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
 bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2);
 
-using Vec2c = typename Vec2<uint8>;
-using Vec2sc = typename Vec2<int8>;
-using Vec2si = typename Vec2<int16>;
-using Vec2sui = typename Vec2<uint16>;
-using Vec2i = typename Vec2<int32>;
-using Vec2ui = typename Vec2<uint32>;
-using Vec2lli = typename Vec2<int64>;
-using Vec2ulli = typename Vec2<uint64>;
-using Vec2f = typename Vec2<f32>;
-using Vec2d = typename Vec2<f64>;
-using Vec2ld = typename Vec2<d81>;
+using Vec2c    = typename Vec2<U8>;
+using Vec2sc   = typename Vec2<I8>;
+using Vec2si   = typename Vec2<I16>;
+using Vec2sui  = typename Vec2<U16>;
+using Vec2i    = typename Vec2<I32>;
+using Vec2ui   = typename Vec2<U32>;
+using Vec2lli  = typename Vec2<I64>;
+using Vec2ulli = typename Vec2<U64>;
+using Vec2f    = typename Vec2<F32>;
+using Vec2d    = typename Vec2<F64>;
 
 } //namespace maths
 } //namespace drak
 #include "Vec2.inl"
-
-} //extern"C++"
