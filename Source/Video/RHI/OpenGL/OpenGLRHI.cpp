@@ -1,11 +1,11 @@
 #include "SDL.h"
 #undef main // undefine SDL main to avoid potential name conflicts
 
-#include <RHI/OpenGL/OpenGLRHI.h>
-#include <RHI/OpenGL/OpenGLWindow.h>
+#include <Video/RHI/OpenGL/OpenGLRHI.hpp>
+#include <Video/RHI/OpenGL/OpenGLWindow.hpp>
 
 namespace drak {
-namespace gfx {
+namespace video {
 	
 #pragma region Static Initialization
 bool OpenGLRHI::s_ready	= false;

@@ -2,13 +2,10 @@
 
 #include <Core/Core.hpp>
 
-//---------------------------------------------------------------------------------------
-//	Forward declarations
-//---------------------------------------------------------------------------------------
 struct SDL_Window;
 
 namespace drak {
-namespace gfx {
+namespace video {
 	
 class OpenGLWindow final {
 public:

@@ -2,18 +2,13 @@
 
 #include <Core/Core.hpp>
 
-#include <RHI/OpenGL/OpenGLWindow.h>
-#include <RHI/OpenGL/OpenGLContext.h>
+#include <Video/RHI/OpenGL/OpenGLWindow.h>
+#include <Video/RHI/OpenGL/OpenGLContext.h>
 
 namespace drak {
-namespace gfx {
+namespace video {
 
-/*!
- * \class DrakVideo
- * \ingroup DrakRHI
- * \brief 
- *
- */
+
 class OpenGLRHI final {
 public:
 	OpenGLRHI()	= delete;
@@ -22,7 +17,7 @@ public:
 	static void	Shutdown();
 
 	static OpenGLWindow* CreateGLWindow(I32 resX, I32 resY, const char* title);
-	static OpenGLContext* CreateGLContext(OpenGLWindow* const pGLwin);
+	static OpenGLContext* CreateGLContext(OpenGLWindow* const pWin);
 
 private:
 	static bool	s_ready;

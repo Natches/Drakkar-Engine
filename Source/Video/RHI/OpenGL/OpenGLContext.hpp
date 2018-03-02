@@ -1,7 +1,7 @@
 #pragma once
 
 namespace drak {
-namespace gfx {
+namespace video {
 
 class OpenGLWindow;
 
@@ -13,7 +13,7 @@ public:
 	void operator=(OpenGLContext&&)			= delete;
 
 private:
-	OpenGLContext(OpenGLWindow* const pGLwin);
+	OpenGLContext(OpenGLWindow* const pWin);
 
 private:
 	void* m_pCtx;

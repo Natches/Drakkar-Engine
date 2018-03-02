@@ -19,15 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLRHI.cpp" />
-    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLWindow.cpp" />
-    <ClCompile Include="..\..\Source\RHI\RHI_Test.cpp" />
+    <ClCompile Include="..\..\Source\Video\DrakVideo.cpp" />
+    <ClCompile Include="..\..\Source\Video\DrakVideoTest.cpp" />
+    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.cpp" />
+    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.cpp" />
+    <ClCompile Include="..\..\Source\Video\Windowing\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLRHI.h" />
-    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLWindow.h" />
+    <ClInclude Include="..\..\Source\Video\DrakVideo.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.hpp" />
+    <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\Window.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
