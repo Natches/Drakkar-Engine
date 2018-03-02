@@ -13,30 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\OpenGL">
+      <UniqueIdentifier>{9e005f4e-c1fb-4ba1-b2b0-2abef4574ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OpenGL">
+      <UniqueIdentifier>{1d4db4f8-3c64-445b-91de-ddcad41d5d69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\DrakRHI\DrakGLContext.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLContext.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DrakRHI\DrakGLWindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLRHI.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DrakRHI\DrakVideo.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\RHI\OpenGL\OpenGLWindow.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DrakRHI\DrakRHI.cpp">
+    <ClCompile Include="..\..\Source\RHI\RHI_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\DrakRHI\DrakGLWindow.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLWindow.h">
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DrakRHI\DrakVideo.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLContext.h">
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DrakRHI\DrakGLContext.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\RHI\OpenGL\OpenGLRHI.h">
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

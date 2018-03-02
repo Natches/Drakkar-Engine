@@ -1,13 +1,13 @@
 #include "SDL_video.h"
 
-#include <DrakRHI/DrakGLContext.h>
-#include <DrakRHI/DrakGLWindow.h>
+#include <RHI/OpenGL/OpenGLContext.h>
+#include <RHI/OpenGL/OpenGLWindow.h>
 
 namespace drak {
 namespace gfx {
 
-DrakGLContext::DrakGLContext(DrakGLWindow* const pGLwin) {
-	m_pGLctx = SDL_GL_CreateContext(pGLwin->m_pWin);
+OpenGLContext::OpenGLContext(OpenGLWindow* const pWin) {
+	m_pCtx = SDL_GL_CreateContext(pWin->m_pWin);
 	// TODO (Simon): major + minor versions, profile mask, vendor + renderer (GPU)...?
 }
 

@@ -1,12 +1,12 @@
 #include "SDL.h"
 #undef main // undefine SDL main to avoid potential name conflicts
 
-#include <DrakRHI/DrakGLWindow.h>
+#include <RHI/OpenGL/OpenGLWindow.h>
 
 namespace drak {
 namespace gfx {
 
-DrakGLWindow::DrakGLWindow(I32 resX, I32 resY, const char* title)
+OpenGLWindow::OpenGLWindow(I32 resX, I32 resY, const char* title)
 :	m_resX(resX), m_resY(resY) {
 	m_pWin = SDL_CreateWindow(
 		title, 

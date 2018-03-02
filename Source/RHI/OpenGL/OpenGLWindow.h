@@ -10,23 +10,23 @@ struct SDL_Window;
 namespace drak {
 namespace gfx {
 	
-class DrakGLWindow final {
+class OpenGLWindow final {
 public:
-	DrakGLWindow()							= delete;
-	DrakGLWindow(const DrakGLWindow&)		= delete;
-	DrakGLWindow(DrakGLWindow&&)			= delete;
-	void operator=(const DrakGLWindow&)		= delete;
-	void operator=(DrakGLWindow&&)			= delete;
+	OpenGLWindow()							= delete;
+	OpenGLWindow(const OpenGLWindow&)		= delete;
+	OpenGLWindow(OpenGLWindow&&)			= delete;
+	void operator=(const OpenGLWindow&)		= delete;
+	void operator=(OpenGLWindow&&)			= delete;
 
 private:
-	DrakGLWindow(I32 resX, I32 resY, const char* title);
+	OpenGLWindow(I32 resX, I32 resY, const char* title);
 
 private:
 	SDL_Window*		m_pWin;
-	int				m_resX, m_resY;
+	I32				m_resX, m_resY;
 
-friend class DrakVideo;
-friend class DrakGLContext;
+friend class OpenGLRHI;
+friend class OpenGLContext;
 };
 
 } // namespace gfx
