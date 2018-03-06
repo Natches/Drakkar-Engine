@@ -3,14 +3,20 @@
 using namespace drak::video;
 
 int main() {
-	WindowSettings	ws = {"DrakVideoTest", 1280, 720, 0, 0};
+	WindowSettings	ws = {"DrakVideoTest", 1280, 720};
 	VideoSettings	settings = {ws};
+	RenderWindow*	pWin;
 
 	if (DrakVideo::Startup(settings)) {
-		
+		pWin = DrakVideo::MainWindow();
+		while (pWin->IsOpen()) {
+			pWin->PollEvents();
+			pWin->Clear();
+			pWin->SwapBuffers();
+		}
+		pWin->Close();
 
 		system("pause");
-
 		DrakVideo::Shutdown();
 		return 0;
 	}

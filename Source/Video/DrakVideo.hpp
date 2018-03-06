@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Windowing/Window.hpp>
+#include <Video/Windowing/RenderWindow.hpp>
 #include <Video/VideoSettings.hpp>
 
 namespace drak {
@@ -18,14 +18,14 @@ public:
 	~DrakVideo() = delete;
 
 public:
-	static bool		Startup(const VideoSettings& settings);
-	static void		Shutdown();
+	static bool	Startup(const VideoSettings& settings);
+	static void	Shutdown();
 
-	static Window*	MainWindow() { return s_pMainWin; }
+	static RenderWindow*	MainWindow() { return s_pMainWin; }
 
 private:
-	static Window*	s_pMainWin;
-	static bool		s_ready;
+	static RenderWindow*	s_pMainWin;
+	static bool				s_ready;
 };
 
 } // namespace video

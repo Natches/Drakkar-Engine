@@ -39,19 +39,13 @@
     <ClCompile Include="..\..\Source\Video\DrakVideoTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.cpp">
-      <Filter>Source Files\RHI\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.cpp">
       <Filter>Source Files\RHI\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.cpp">
-      <Filter>Source Files\RHI\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Windowing\SDLWinWrapper.cpp">
+    <ClCompile Include="..\..\Source\Video\Windowing\RenderWindow.cpp">
       <Filter>Source Files\Windowing</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Windowing\Window.cpp">
+    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp">
       <Filter>Source Files\Windowing</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,23 +56,17 @@
     <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp">
       <Filter>Header Files\Windowing</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.hpp">
-      <Filter>Header Files\RHI\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.hpp">
       <Filter>Header Files\RHI\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.hpp">
-      <Filter>Header Files\RHI\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Windowing\Window.hpp">
-      <Filter>Header Files\Windowing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Windowing\SDLWinWrapper.hpp">
-      <Filter>Header Files\Windowing</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Windowing\RenderWindow.hpp">
+      <Filter>Header Files\Windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp">
+      <Filter>Header Files\Windowing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

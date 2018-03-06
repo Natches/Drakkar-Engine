@@ -21,20 +21,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\DrakVideo.cpp" />
     <ClCompile Include="..\..\Source\Video\DrakVideoTest.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\SDLWinWrapper.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\Window.cpp" />
+    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp" />
+    <ClCompile Include="..\..\Source\Video\Windowing\RenderWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\DrakVideo.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLContext.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLWindow.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\SDLWinWrapper.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\Window.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\RenderWindow.hpp" />
     <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -122,16 +118,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\Visual Leak Detector\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\Visual Leak Detector\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) 
-xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)</Command>
+xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)
+xcopy /y $(SolutionDir)ThirdParty\VLD\bin\$(Platform) $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,16 +136,17 @@ xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(Soluti
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\Visual Leak Detector\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\Visual Leak Detector\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) 
-xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)</Command>
+xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)
+xcopy /y $(SolutionDir)ThirdParty\VLD\bin\$(Platform) $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,14 +156,14 @@ xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(Soluti
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) 
@@ -179,14 +177,14 @@ xcopy /y $(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll $(Soluti
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll $(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform) 

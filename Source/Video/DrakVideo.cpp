@@ -3,9 +3,10 @@
 // undefine SDL main to avoid potential name conflicts
 #undef main
 
-#include <Video/Windowing/SDLWinWrapper.hpp>
+#include <Video/Windowing/SDLRenderWindow.hpp>
 #endif // WINDOWING_SDL
 
+#include <GL/glew.h>
 #include <vld.h>
 
 #include <Video/DrakVideo.hpp>
@@ -15,8 +16,8 @@ namespace video {
 
 #pragma region Static Initialization
 
-Window* DrakVideo::s_pMainWin	= nullptr;
-bool	DrakVideo::s_ready		= false;
+RenderWindow* DrakVideo::s_pMainWin	= nullptr;
+bool DrakVideo::s_ready	= false;
 
 #pragma endregion
 
@@ -28,8 +29,14 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 		// TODO (Simon): log DrakVideo::Init() failed error message
 		return false;
 	}
-	s_pMainWin = new SDLWinWrapper(settings.window); 
+	s_pMainWin = new SDLRenderWindow(settings.window);
 #endif // WINDOWING_SDL
+
+	// TODO (Simon) vvv: Move to RHI.dll 
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK)
+		return false;
+
 	s_ready	= true;
 
 	//...
@@ -37,10 +44,10 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 	return true;
 }
 
-
 void DrakVideo::Shutdown() {
+	delete s_pMainWin;
+
 #ifdef WINDOWING_SDL
-	SDL_DestroyWindow((SDL_Window*)s_pMainWin->m_pWin);
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	//SDL_Quit();
 #endif
