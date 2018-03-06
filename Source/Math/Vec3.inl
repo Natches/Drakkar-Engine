@@ -4,9 +4,6 @@ namespace drak {
 namespace math {
 
 template<typename T>
-constexpr bool Vec3<T>::isLarger;
-
-template<typename T>
 constexpr bool Vec3<T>::isIntegral;
 
 template<typename T>
@@ -14,14 +11,7 @@ Vec3<T>::Vec3() : m_vec{ static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
 }
 
 template<typename T>
-Vec3<T>::Vec3(const Type X, const Type Y, const Type Z) : m_vec{ X, Y, Z } {
-}
-
-template<typename T>
-Vec3<T>::Vec3(ENABLE_IF_ELSE_T(isLarger, T &&, NOT_A_TYPE)X,
-	ENABLE_IF_ELSE_T(isLarger, T &&, NOT_A_TYPE)Y,
-	ENABLE_IF_ELSE_T(isLarger, T &&, NOT_A_TYPE)Z) :
-	m_vec{ std::forward<T>(X), std::forward<T>(Y), std::forward<T>(Z) } {
+Vec3<T>::Vec3(const T X, const T Y, const T Z) : m_vec{ X, Y, Z } {
 }
 
 template<typename T>
@@ -47,22 +37,22 @@ bool Vec3<T>::operator!=(const Vec3<T>& v) const {
 
 template<typename T>
 bool Vec3<T>::operator>(const Vec3<T>& v) const {
-	return x > v.x && y > v.y && z > v.z;
+	return !(x < v.x && y < v.y && z < v.z);
 }
 
 template<typename T>
 bool Vec3<T>::operator<(const Vec3<T>& v) const {
-	return x < v.x && y < v.y && z < v.z;
+	return !(x > v.x && y > v.y && z > v.z);
 }
 
 template<typename T>
 bool Vec3<T>::operator>=(const Vec3<T>& v) const {
-	return x >= v.x && y >= v.y && z >= v.z;
+	return !(x <= v.x && y <= v.y && z <= v.z);
 }
 
 template<typename T>
 bool Vec3<T>::operator<=(const Vec3<T>& v) const {
-	return x <= v.x && y <= v.y && z <= v.z;
+	return !(x >= v.x && y >= v.y && z >= v.z);
 }
 
 template<typename T>
@@ -163,7 +153,7 @@ Vec3<T>& Vec3<T>::operator=(Vec3<T>&& v) {
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator+=(const Type n) {
+Vec3<T>& Vec3<T>::operator+=(const T n) {
 	x += n;
 	y += n;
 	z += n;
@@ -171,7 +161,7 @@ Vec3<T>& Vec3<T>::operator+=(const Type n) {
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator-=(const Type n) {
+Vec3<T>& Vec3<T>::operator-=(const T n) {
 	x -= n;
 	y -= n;
 	z -= n;
@@ -179,7 +169,7 @@ Vec3<T>& Vec3<T>::operator-=(const Type n) {
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator*=(const Type n) {
+Vec3<T>& Vec3<T>::operator*=(const T n) {
 	x *= n;
 	y *= n;
 	z *= n;
@@ -187,7 +177,7 @@ Vec3<T>& Vec3<T>::operator*=(const Type n) {
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator/=(const Type n) {
+Vec3<T>& Vec3<T>::operator/=(const T n) {
 	assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
 	if (types::IsNotEqual_V<T>(n, static_cast<T>(0))) {
 		x /= n;
@@ -198,42 +188,7 @@ Vec3<T>& Vec3<T>::operator/=(const Type n) {
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator+=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) {
-	x += std::forward<T>(n);
-	y += std::forward<T>(n);
-	z += std::forward<T>(n);
-	return *this;
-}
-
-template<typename T>
-Vec3<T>& Vec3<T>::operator-=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) {
-	x -= std::forward<T>(n);
-	y -= std::forward<T>(n);
-	z -= std::forward<T>(n);
-	return *this;
-}
-
-template<typename T>
-Vec3<T>& Vec3<T>::operator*=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) {
-	x *= std::forward<T>(n);
-	y *= std::forward<T>(n);
-	z *= std::forward<T>(n);
-	return *this;
-}
-
-template<typename T>
-Vec3<T>& Vec3<T>::operator/=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) {
-	assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
-	if (types::IsNotEqual_V<T>(n, static_cast<T>(0))) {
-		x /= std::forward<T>(n);
-		y /= std::forward<T>(n);
-		z /= std::forward<T>(n);
-	}
-	return *this;
-}
-
-template<typename T>
-Vec3<T>& Vec3<T>::operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) {
+Vec3<T>& Vec3<T>::operator>>=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) {
 	x >>= n;
 	y >>= n;
 	z >>= n;
@@ -241,7 +196,7 @@ Vec3<T>& Vec3<T>::operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) {
+Vec3<T>& Vec3<T>::operator<<=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) {
 	x <<= n;
 	y <<= n;
 	z <<= n;
@@ -249,7 +204,7 @@ Vec3<T>& Vec3<T>::operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator&=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) {
+Vec3<T>& Vec3<T>::operator&=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) {
 	x &= n;
 	y &= n;
 	z &= n;
@@ -257,7 +212,7 @@ Vec3<T>& Vec3<T>::operator&=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator^=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) {
+Vec3<T>& Vec3<T>::operator^=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) {
 	x ^= n;
 	y ^= n;
 	z ^= n;
@@ -265,7 +220,7 @@ Vec3<T>& Vec3<T>::operator^=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)
 }
 
 template<typename T>
-Vec3<T>& Vec3<T>::operator|=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) {
+Vec3<T>& Vec3<T>::operator|=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) {
 	x |= n;
 	y |= n;
 	z |= n;
@@ -289,22 +244,22 @@ Vec3<T>& Vec3<T>::operator--() {
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator+(const Type n) const {
+Vec3<T> Vec3<T>::operator+(const T n) const {
 	return Vec3<T>(v.x + n, v.y + n, v.z + n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator-(const Type n) const {
+Vec3<T> Vec3<T>::operator-(const T n) const {
 	return Vec3<T>(v.x - n, v.y - n, v.z - n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator*(const Type n) const {
+Vec3<T> Vec3<T>::operator*(const T n) const {
 	return Vec3<T>(v.x * n, v.y * n, v.z * n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator/(const Type n) const {
+Vec3<T> Vec3<T>::operator/(const T n) const {
 	assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
 	if (types::IsNotEqual_V<T>(n, static_cast<T>(0)))
 		return Vec3<T>(x / n, y / n, z / n);
@@ -312,50 +267,27 @@ Vec3<T> Vec3<T>::operator/(const Type n) const {
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator+(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) const {
-	return Vec3<T>(x + std::forward<T>(n), y + std::forward<T>(n), z + std::forward<T>(n));
-}
-
-template<typename T>
-Vec3<T> Vec3<T>::operator-(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) const {
-	return Vec3<T>(x - std::forward<T>(n), y - std::forward<T>(n), z - std::forward<T>(n));
-}
-
-template<typename T>
-Vec3<T> Vec3<T>::operator*(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) const {
-	return Vec3<T>(x * std::forward<T>(n), y * std::forward<T>(n), z * std::forward<T>(n));
-}
-
-template<typename T>
-Vec3<T> Vec3<T>::operator/(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE)n) const {
-	assert(types::IsEqual_V<T>(std::forward<T>(n), static_cast<T>(0)));
-	if (types::IsNotEqual_V<T>(std::forward<T>(n), static_cast<T>(0)))
-		return Vec3<T>(x / std::forward<T>(n), y / std::forward<T>(n), z / std::forward<T>(n));
-	return Vec3<T>(x, y, z);
-}
-
-template<typename T>
-Vec3<T> Vec3<T>::operator>>(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) const {
+Vec3<T> Vec3<T>::operator>>(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) const {
 	return Vec3<T>(x >> n, y >> n, z >> n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator<<(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) const {
+Vec3<T> Vec3<T>::operator<<(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) const {
 	return Vec3<T>(x << n, y << n, z << n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator&(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) const {
+Vec3<T> Vec3<T>::operator&(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) const {
 	return Vec3<T>(x & n, y & n, z & n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator^(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) const {
+Vec3<T> Vec3<T>::operator^(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) const {
 	return Vec3<T>(x ^ n, y ^ n, z ^ n);
 }
 
 template<typename T>
-Vec3<T> Vec3<T>::operator|(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE)n) const {
+Vec3<T> Vec3<T>::operator|(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE)n) const {
 	return Vec3<T>(x | n, y | n, z | n);
 }
 
@@ -425,7 +357,157 @@ Vec3<T> operator*(const Vec3<T>& v1, const Vec3<T>& v2) {
 
 template<typename T>
 Vec3<T> operator/(const Vec3<T>& v1, const Vec3<T>& v2) {
-	return Vec3<T>();
+	assert(v2.isNull());
+	if (!v2.isNull())
+		return Vec2<T>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
+	else
+		return *this;
+}
+
+template<typename T>
+Vec3<T> operator>>(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	return Vec3<T>(v1.x >> v2.x, v1.y >> v2.y, v1.z >> v2.z);
+}
+template<typename T>
+Vec3<T> operator<<(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	return Vec3<T>(v1.x << v2.x, v1.y << v2.y, v1.z << v2.z);
+}
+template<typename T>
+Vec3<T> operator&(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	return Vec3<T>(v1.x & v2.x, v1.y & v2.y, v1.z & v2.z);
+}
+template<typename T>
+Vec3<T> operator^(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	return Vec3<T>(v1.x ^ v2.x, v1.y ^ v2.y, v1.z ^ v2.z);
+}
+template<typename T>
+Vec3<T> operator|(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	return Vec3<T>(v1.x | v2.x, v1.y | v2.y, v1.z | v2.z);
+}
+
+template<typename T>
+Vec3<T>& operator+=(Vec3<T>& v1, const Vec3<T>& v2) {
+	v1.x += v2.x;
+	v1.y += v2.y;
+	v1.z += v2.z;
+	return *this;
+}
+
+template<typename T>
+Vec3<T>& operator-=(Vec3<T>& v1, const Vec3<T>& v2) {
+	v1.x -= v2.x;
+	v1.y -= v2.y;
+	v1.z -= v2.z;
+	return *this;
+}
+
+template<typename T>
+Vec3<T>& operator*=(Vec3<T>& v1, const Vec3<T>& v2) {
+	v1.x *= v2.x;
+	v1.y *= v2.y;
+	v1.z *= v2.z;
+	return *this;
+}
+
+template<typename T>
+Vec3<T>& operator/=(Vec3<T>& v1, const Vec3<T>& v2) {
+	assert(v2.isNull());
+	if (!v2.isNull()) {
+
+		v1.x /= v2.x;
+		v1.y /= v2.y;
+		v1.z /= v2.z;
+	}
+	return *this;
+}
+
+template<typename T>
+Vec3<T>& operator>>=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	v1.x >>= v2.x;
+	v1.y >>= v2.y;
+	v1.z >>= v2.z;
+	return *this;
+}
+template<typename T>
+Vec3<T>& operator<<=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	v1.x <<= v2.x;
+	v1.y <<= v2.y;
+	v1.z <<= v2.z;
+	return *this;
+}
+template<typename T>
+Vec3<T>& operator&=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	v1.x &= v2.x;
+	v1.y &= v2.y;
+	v1.z &= v2.z;
+	return *this;
+}
+template<typename T>
+Vec3<T>& operator^=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	v1.x ^= v2.x;
+	v1.y ^= v2.y;
+	v1.z ^= v2.z;
+	return *this;
+}
+template<typename T>
+Vec3<T>& operator|=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2) {
+	v1.x |= v2.x;
+	v1.y |= v2.y;
+	v1.z |= v2.z;
+	return *this;
+}
+
+template<typename T>
+T Dot(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+template<typename T>
+Vec3<T> Cross(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return Vec3<T>(v1.y * v2.z - v1.z * v2.y,
+		v1.z * v2.x - v1.x * v2.z,
+		v1.x * v2.y - v1.y * v2.x);
+}
+
+template<typename T>
+F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return (v1 - v2).magnitude();
+}
+
+template<typename T>
+Vec3<T> Direction(const Vec3<T>& origin, const Vec3<T>& destination) {
+	return destination - origin;
+}
+
+template<typename T>
+bool ArePerpendicular(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
+}
+template<typename T>
+bool AreColinear(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(1));
+}
+template<typename T>
+bool AreOpposed(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(-1));
+}
+template<typename T>
+bool AreSameDirection(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return Dot(v1, v2) > static_cast<T>(0);
+}
+template<typename T>
+bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2) {
+	return Dot(v1, v2) < static_cast<T>(0);
 }
 
 } //namespace math 

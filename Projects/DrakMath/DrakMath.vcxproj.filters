@@ -56,6 +56,9 @@
     <None Include="..\..\Source\Math\Vec4.inl">
       <Filter>Header Files\Math</Filter>
     </None>
+    <None Include="..\..\Source\Math\SIMDUtils.inl">
+      <Filter>Header Files\Math</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Math\Math.cpp">

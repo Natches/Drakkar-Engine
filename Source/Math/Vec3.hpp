@@ -7,22 +7,13 @@ namespace math {
 
 template<typename T>
 struct Vec3 {
-#define x m_vec[0]
-#define y m_vec[1]
-#define z m_vec[2]
-	static_assert(std::is_scalar_v<T>, "\"T\" must be a scalar Type");
+	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
+		"\"T\" must be a scalar Type and not a 64 bits data type");
 	static constexpr bool isIntegral = std::is_integral_v<T>;
-private:
-	static constexpr bool isLarger = IS_LARGER_THAN_V(T, T*);
-	using Type = ADD_REF_IF_T(isLarger, T);
-
 public:
 	Vec3();
 
-	explicit Vec3(const Type X, const Type Y, const Type Z);
-	explicit Vec3(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) X,
-		ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) Y,
-		ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) Z);
+	explicit Vec3(const T X, const T Y, const T Z);
 
 	Vec3(const Vec3<T>& v);
 	Vec3(Vec3<T>&& v);
@@ -50,35 +41,27 @@ public:
 
 	Vec3<T>& operator  =(const Vec3<T>& v);
 	Vec3<T>& operator  =(Vec3<T>&& v);
-	Vec3<T>& operator +=(const Type n);
-	Vec3<T>& operator -=(const Type n);
-	Vec3<T>& operator *=(const Type n);
-	Vec3<T>& operator /=(const Type n);
-	Vec3<T>& operator +=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator -=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator *=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator /=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator &=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator ^=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator |=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator +=(const T n);
+	Vec3<T>& operator -=(const T n);
+	Vec3<T>& operator *=(const T n);
+	Vec3<T>& operator /=(const T n);
+	Vec3<T>& operator>>=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator<<=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator &=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator ^=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator |=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
 	Vec3<T>& operator++();
 	Vec3<T>& operator--();
 
-	Vec3<T> operator+(const Type n) const;
-	Vec3<T> operator-(const Type n) const;
-	Vec3<T> operator*(const Type n) const;
-	Vec3<T> operator/(const Type n) const;
-	Vec3<T> operator+(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator-(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator*(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator/(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator>>(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator<<(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator&(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator^(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator|(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator+(const T n) const;
+	Vec3<T> operator-(const T n) const;
+	Vec3<T> operator*(const T n) const;
+	Vec3<T> operator/(const T n) const;
+	Vec3<T> operator>>(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator<<(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator&(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator^(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator|(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
 	Vec3<T> operator++(const I32) const;
 	Vec3<T> operator--(const I32) const;
 	Vec3<T> operator-()	  const;
@@ -101,7 +84,10 @@ private:
 	F32 computeAngleZ();
 
 public:
-	T m_vec[3];
+	union {
+		T m_vec[3];
+		struct{T x, y, z};
+	};
 };
 
 template<typename T>
@@ -155,7 +141,7 @@ Vec3<T>& operator|=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& 
 	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2);
 
 template<typename T>
-F32 Dot(const Vec3<T>& v1, const Vec3<T>& v2);
+T Dot(const Vec3<T>& v1, const Vec3<T>& v2);
 
 template<typename T>
 Vec3<T> Cross(const Vec3<T>& v1, const Vec3<T>& v2);
@@ -166,9 +152,15 @@ F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 Vec3<T> Direction(const Vec3<T>& origin, const Vec3<T>& destination);
 
-template<typename T>
-template<Axis ax>
+template<Axis ax, typename T>
 void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const F32 angle);
+
+template<Axis ax, typename T>
+void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Vec3<T>& euler);
+
+//TODO template<typename T>
+//TODO template<Axis ax>
+//TODO void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Quat<T>& q);
 
 template<typename T>
 bool ArePerpendicular(const Vec3<T>& v1, const Vec3<T>& v2);
