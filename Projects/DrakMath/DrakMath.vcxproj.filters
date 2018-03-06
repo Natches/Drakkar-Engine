@@ -45,6 +45,9 @@
     <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec8.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Math\Vec2.inl">
@@ -57,6 +60,9 @@
       <Filter>Header Files\Math</Filter>
     </None>
     <None Include="..\..\Source\Math\SIMDUtils.inl">
+      <Filter>Header Files\Math</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec8.inl">
       <Filter>Header Files\Math</Filter>
     </None>
   </ItemGroup>

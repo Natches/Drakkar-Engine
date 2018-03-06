@@ -416,17 +416,32 @@ Vec4<T> Vec4<T>::normalize() const {
 
 template<typename T>
 Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::ceil() {
-	return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::ceil(m_simdVec));
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::ceil(m_simdVec));
+	else {
+		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::ceil(x), std::ceil(y),
+			std::ceil(z), std::ceil(w));
+	}
 }
 
 template<typename T>
 Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::floor() {
-	return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::floor(m_simdVec));
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::floor(m_simdVec));
+	else {
+		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::floor(x), std::floor(y),
+			std::floor(z), std::floor(w));
+	}
 }
 
 template<typename T>
 Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::round() {
-	return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::round(m_simdVec));
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::round(m_simdVec));
+	else {
+		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::round(x), std::round(y),
+			std::round(z), std::round(w));
+	}
 }
 
 template<typename T>
