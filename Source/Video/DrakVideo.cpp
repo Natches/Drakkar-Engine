@@ -37,6 +37,7 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 	return true;
 }
 
+
 void DrakVideo::Shutdown() {
 #ifdef WINDOWING_SDL
 	SDL_DestroyWindow((SDL_Window*)s_pMainWin->m_pWin);
