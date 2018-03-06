@@ -1,5 +1,8 @@
-#include "SIMDUtils.hpp"
-#include "MathUtils.hpp"
+#pragma once
+
+#include<Math/MathUtils.hpp>
+#include<Math/SIMDUtils.hpp>
+#include<ostream>
 
 namespace drak {
 namespace math {
@@ -69,16 +72,16 @@ public:
 	template<typename U>
 	Vec8<U> cast() const;
 
-	Vec8<ENABLE_IF_ELSE_T(!Vec8<T>::isIntegral, T, NOT_A_TYPE)> ceil();
-	Vec8<ENABLE_IF_ELSE_T(!Vec8<T>::isIntegral, T, NOT_A_TYPE)> floor();
-	Vec8<ENABLE_IF_ELSE_T(!Vec8<T>::isIntegral, T, NOT_A_TYPE)> round();
+	Vec8<F32> ceil();
+	Vec8<F32> floor();
+	Vec8<F32> round();
 
 public:
-	union alignas(SIMDStruct::alignement) {
+	union {
 		T m_vec[8];
 		struct { T x, y, z, w, a, b, c, d; };
 		SIMDType m_simdVec;
-	};
+	}alignas(SIMDStruct::alignement);
 };
 
 template<typename T>
@@ -137,6 +140,9 @@ Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
 template<typename T>
 Vec8<T> Max(const Vec8<T>& v1, const Vec8<T>& v2);
 
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec8<T>& v);
+
 using Vec8c = typename Vec8<U8>;
 using Vec8sc = typename Vec8<I8>;
 using Vec8si = typename Vec8<I16>;
@@ -150,5 +156,5 @@ using Vec8d = typename Vec8<F64>;
 
 } //namespace maths
 } //namespace drak
-#include "Vec8.inl"
+#include<Math/Vec8.inl>
 

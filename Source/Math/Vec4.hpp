@@ -1,7 +1,8 @@
 #pragma once
 
-#include "SIMDUtils.hpp"
-#include "MathUtils.hpp"
+#include <Math/MathUtils.hpp>
+#include <Math/SIMDUtils.hpp>
+#include<ostream>
 
 namespace drak {
 namespace math {
@@ -84,9 +85,9 @@ public:
 	template<typename U>
 	Vec4<U> cast() const;
 
-	Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> ceil();
-	Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> floor();
-	Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> round();
+	Vec4<F32> ceil();
+	Vec4<F32> floor();
+	Vec4<F32> round();
 
 private:
 	F32 computeAngleX();
@@ -94,11 +95,12 @@ private:
 	F32 computeAngleZ();
 
 public:
-	union alignas(SIMDStruct::alignement) {
+	union {
 		T m_vec[4];
 		struct { T x, y, z, w; };
+		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
-	};
+	}alignas(SIMDStruct::alignement);
 };
 
 template<typename T>
@@ -196,6 +198,9 @@ bool AreSameDirection(const Vec4<T>& v1, const Vec4<T>& v2);
 template<typename T>
 bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2);
 
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec4<T>& v);
+
 using Vec4c = typename Vec4<U8>;
 using Vec4sc = typename Vec4<I8>;
 using Vec4si = typename Vec4<I16>;
@@ -209,4 +214,4 @@ using Vec4d = typename Vec4<F64>;
 
 } //namespace maths
 } //namespace drak
-#include "Vec4.inl"
+#include<Math/Vec4.inl>

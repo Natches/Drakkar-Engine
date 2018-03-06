@@ -123,7 +123,6 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	static constexpr I32 alignement = 16;
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4) {
 		m = _mm_set_epi32(n1, n2, n3, n4);
-		return m;
 	}
 	static void set(SIMDType& m, T i) {
 		m = _mm_set1_epi32(i);
@@ -170,14 +169,14 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	static SIMDType div(const SIMDType& m, const T i) {
 #ifndef __INTEL_COMPILER
 		__m128 temp1, temp2;
-		BestSIMDType<F32, 4, 32, true, false>::set(temp1,
-			static_cast<F32>(m1.m128i_i32[0]), static_cast<F32>(m1.m128i_i32[1]),
-			static_cast<F32>(m1.m128i_i32[2]), static_cast<F32>(m1.m128i_i32[3]));
-		BestSIMDType<F32, 4, 32, true, false>::set(temp2, static_cast<F32>(i));
-		temp1 = BestSIMDType<F32, 4, 32, true, false>::div(temp1, temp2);
+		BestSIMDType<F32, 4>::set(temp1,
+			static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
+			static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]));
+		BestSIMDType<F32, 4>::set(temp2, static_cast<F32>(i));
+		temp1 = BestSIMDType<F32, 4>::div(temp1, temp2);
 		SIMDType res;
 		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]))
+			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
 
 		return res;
 #else
@@ -217,16 +216,16 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 #ifndef __INTEL_COMPILER
 		__m128 temp1, temp2;
-		BestSIMDType<F32, 4, 32, true, false>::set(temp1,
+		BestSIMDType<F32, 4>::set(temp1,
 			static_cast<F32>(m1.m128i_i32[0]), static_cast<F32>(m1.m128i_i32[1]),
 			static_cast<F32>(m1.m128i_i32[2]), static_cast<F32>(m1.m128i_i32[3]));
-		BestSIMDType<F32, 4, 32, true, false>::set(temp2,
+		BestSIMDType<F32, 4>::set(temp2,
 			static_cast<F32>(m2.m128i_i32[0]), static_cast<F32>(m2.m128i_i32[1]),
 			static_cast<F32>(m2.m128i_i32[2]), static_cast<F32>(m2.m128i_i32[3]));
-		temp1 = BestSIMDType<F32, 4, 32, true, false>::div(temp1, temp2);
+		temp1 = BestSIMDType<F32, 4>::div(temp1, temp2);
 		SIMDType res;
 		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]))
+			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
 		return res;
 #else
 		return _mm_div_epi32(m1, m2);
@@ -286,11 +285,12 @@ struct BestSIMDType<T, 4, 16, true, false> {
 		_m_empty();
 	}
 	static SIMDType load(T const* arr) {
-		return (SIMDType const*)arr;
+		return *(SIMDType const*)arr;
 	}
 	static SIMDType loadu(T const* arr) {
 		__m64 res;
-		memcpy_inline(res.m64_i16, arr, sizeof(res.m64_i16))
+		memcpy_inline(res.m64_i16, arr, sizeof(res.m64_i16));
+		_m_empty();
 		return res;
 	}
 
@@ -316,10 +316,14 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
-		return _mm_add_pi16(m, _mm_set1_pi16(i));
+		__m64 res = _mm_add_pi16(m, _mm_set1_pi16(i));
+		_m_empty();
+		return res;
 	}
 	static SIMDType sub(const SIMDType& m, const T i) {
-		return _mm_sub_pi16(m, _mm_set1_pi16(i));
+		__m64 res = _mm_sub_pi16(m, _mm_set1_pi16(i));
+		_m_empty();
+		return res;
 	}
 	static SIMDType mul(const SIMDType& m, const T i) {
 		SIMDType hi = _mm_mulhi_pi16(m, _mm_set1_pi16(i));
@@ -363,8 +367,8 @@ struct BestSIMDType<T, 4, 16, true, false> {
 		return _mm_sub_pi16(m1, m2);
 	}
 	static SIMDType mul(const SIMDType& m1, const SIMDType& m2) {
-		SIMDType hi = _mm_mulhi_pi16(m, m2);
-		SIMDType low = _mm_mullo_pi16(m, m2);
+		SIMDType hi = _mm_mulhi_pi16(m1, m2);
+		SIMDType low = _mm_mullo_pi16(m1, m2);
 		SIMDType res;
 		res.m64_i16[0] = low.m64_i16[0];
 		res.m64_i16[1] = hi.m64_i16[0];
@@ -375,7 +379,7 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 		static_assert("No division allowed on \" I8 \\ I16 \\ __m64\" Data Type!!");
-		return 0;
+		return m1;
 	}
 
 	static SIMDType rShift(const SIMDType& m1, const SIMDType& m2) {
@@ -403,7 +407,7 @@ struct BestSIMDType<T, 4, 16, true, false> {
 			m2.m64_i16[1], m2.m64_i16[2], m2.m64_i16[0], 0.f, 0.f);
 
 		temp1 = _mm_mullo_epi16(temp1, temp2);
-
+		_m_empty();
 		return sub(temp1.m128i_i64[0], temp1.m128i_i64[1]);
 	}
 
@@ -419,7 +423,7 @@ struct BestSIMDType<T, 4, 16, true, false> {
 
 template<typename T>
 struct BestSIMDType<T, 8, 16, true, false> {
-	using type = typename __m128;
+	using SIMDType = typename __m128i;
 	static constexpr I32 alignement = 16;
 
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4, T n5, T n6, T n7, T n8) {
@@ -533,12 +537,11 @@ struct BestSIMDType<T, 8, 16, true, false> {
 
 template<typename T>
 struct BestSIMDType<T, 8, 32, true, false> {
-	using type = typename __m256i;
+	using SIMDType = typename __m256i;
 	static constexpr I32 alignement = 32;
 
-	static void set(SIMDType& m, T n1, T n2, T n3, T n4) {
-		m = _mm256_set_epi32(n1, n2, n3, n4);
-		return m;
+	static void set(SIMDType& m, T n1, T n2, T n3, T n4, T n5, T n6, T n7, T n8) {
+		m = _mm256_set_epi32(n1, n2, n3, n4, n5, n6, n7, n8);
 	}
 	static void set(SIMDType& m, T i) {
 		m = _mm256_set1_epi32(i);
@@ -584,18 +587,18 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 		__m256 temp1, temp2;
-		BestSIMDType<F32, 8, 32, true, false>::set(temp1,
-			static_cast<F32>(m1.m128i_i32[0]), static_cast<F32>(m1.m128i_i32[1]),
-			static_cast<F32>(m1.m128i_i32[2]), static_cast<F32>(m1.m128i_i32[3]),
-			static_cast<F32>(m1.m128i_i32[4]), static_cast<F32>(m1.m128i_i32[5]),
-			static_cast<F32>(m1.m128i_i32[6]), static_cast<F32>(m1.m128i_i32[7]));
-		BestSIMDType<F32, 8, 32, true, false>::set(temp2, static_cast<F32>(i));
-		temp1 = BestSIMDType<F32, 8, 32, true, false>::div(temp1, temp2);
+		BestSIMDType<F32, 8>::set(temp1,
+			static_cast<F32>(m.m256i_i32[0]), static_cast<F32>(m.m256i_i32[1]),
+			static_cast<F32>(m.m256i_i32[2]), static_cast<F32>(m.m256i_i32[3]),
+			static_cast<F32>(m.m256i_i32[4]), static_cast<F32>(m.m256i_i32[5]),
+			static_cast<F32>(m.m256i_i32[6]), static_cast<F32>(m.m256i_i32[7]));
+		BestSIMDType<F32, 8>::set(temp2, static_cast<F32>(i));
+		temp1 = BestSIMDType<F32, 8>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]),
-			static_cast<T>(temp1.m128_f32[4]), static_cast<T>(temp1.m128_f32[5]),
-			static_cast<T>(temp1.m128_f32[6]), static_cast<T>(temp1.m128_f32[7]))
+		set(res, static_cast<T>(temp1.m256_f32[0]), static_cast<T>(temp1.m256_f32[1]),
+			static_cast<T>(temp1.m256_f32[2]), static_cast<T>(temp1.m256_f32[3]),
+			static_cast<T>(temp1.m256_f32[4]), static_cast<T>(temp1.m256_f32[5]),
+			static_cast<T>(temp1.m256_f32[6]), static_cast<T>(temp1.m256_f32[7]));
 
 		return res;
 	}
@@ -630,24 +633,24 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 		__m256 temp1, temp2;
-		BestSIMDType<F32, 8, 32, true, false>::set(temp1,
-			static_cast<F32>(m1.m128i_i32[0]), static_cast<F32>(m1.m128i_i32[1]),
-			static_cast<F32>(m1.m128i_i32[2]), static_cast<F32>(m1.m128i_i32[3]),
-			static_cast<F32>(m1.m128i_i32[4]), static_cast<F32>(m1.m128i_i32[5]),
-			static_cast<F32>(m1.m128i_i32[6]), static_cast<F32>(m1.m128i_i32[7]));
+		BestSIMDType<F32, 8>::set(temp1,
+			static_cast<F32>(m1.m256i_i32[0]), static_cast<F32>(m1.m256i_i32[1]),
+			static_cast<F32>(m1.m256i_i32[2]), static_cast<F32>(m1.m256i_i32[3]),
+			static_cast<F32>(m1.m256i_i32[4]), static_cast<F32>(m1.m256i_i32[5]),
+			static_cast<F32>(m1.m256i_i32[6]), static_cast<F32>(m1.m256i_i32[7]));
 
-		BestSIMDType<F32, 8, 32, true, false>::set(temp2,
-			static_cast<F32>(m2.m128i_i32[0]), static_cast<F32>(m2.m128i_i32[1]),
-			static_cast<F32>(m2.m128i_i32[2]), static_cast<F32>(m2.m128i_i32[3]),
-			static_cast<F32>(m2.m128i_i32[4]), static_cast<F32>(m2.m128i_i32[5]),
-			static_cast<F32>(m2.m128i_i32[6]), static_cast<F32>(m2.m128i_i32[7]));
+		BestSIMDType<F32, 8>::set(temp2,
+			static_cast<F32>(m2.m256i_i32[0]), static_cast<F32>(m2.m256i_i32[1]),
+			static_cast<F32>(m2.m256i_i32[2]), static_cast<F32>(m2.m256i_i32[3]),
+			static_cast<F32>(m2.m256i_i32[4]), static_cast<F32>(m2.m256i_i32[5]),
+			static_cast<F32>(m2.m256i_i32[6]), static_cast<F32>(m2.m256i_i32[7]));
 
-		temp1 = BestSIMDType<F32, 8, 32, true, false>::div(temp1, temp2);
+		temp1 = BestSIMDType<F32, 8>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]),
-			static_cast<T>(temp1.m128_f32[4]), static_cast<T>(temp1.m128_f32[5]),
-			static_cast<T>(temp1.m128_f32[6]), static_cast<T>(temp1.m128_f32[7]))
+		set(res, static_cast<T>(temp1.m256_f32[0]), static_cast<T>(temp1.m256_f32[1]),
+			static_cast<T>(temp1.m256_f32[2]), static_cast<T>(temp1.m256_f32[3]),
+			static_cast<T>(temp1.m256_f32[4]), static_cast<T>(temp1.m256_f32[5]),
+			static_cast<T>(temp1.m256_f32[6]), static_cast<T>(temp1.m256_f32[7]));
 		return res;
 	}
 
@@ -678,7 +681,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 
 template<typename T>
 struct BestSIMDType<T, 8, 32, false, true> {
-	using type = typename __m256;
+	using SIMDType = typename __m256;
 	static constexpr I32 alignement = 32;
 
 	static void set(SIMDType& m, T f1, T f2, T f3, T f4, T f5, T f6, T f7, T f8) {

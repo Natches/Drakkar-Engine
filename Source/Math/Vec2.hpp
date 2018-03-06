@@ -1,6 +1,7 @@
 #pragma once
 
-#include "MathUtils.hpp"
+#include<Math/MathUtils.hpp>
+#include<ostream>
 
 namespace drak {
 namespace math {
@@ -74,7 +75,7 @@ public:
 public:
 	union {
 		T m_vec[2];
-		struct{T x, y};
+		struct { T x, y; };
 	};
 };
 
@@ -158,6 +159,9 @@ bool AreSameDirection(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
 bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2);
 
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
+
 using Vec2c    = typename Vec2<U8>;
 using Vec2sc   = typename Vec2<I8>;
 using Vec2si   = typename Vec2<I16>;
@@ -171,4 +175,4 @@ using Vec2d    = typename Vec2<F64>;
 
 } //namespace maths
 } //namespace drak
-#include "Vec2.inl"
+#include<Math/Vec2.inl>

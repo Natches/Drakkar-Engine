@@ -1,4 +1,5 @@
-#include "Vec4.hpp"
+#include<cassert>
+#include<Math/Vec4.hpp>
 
 namespace drak {
 namespace math {
@@ -407,40 +408,38 @@ Vec4<T> Vec4<T>::normalize() const {
 		return Vec4<T>(SIMDStruct::div(m_simdVec, magnitude()));
 	else {
 		F32 size = magnitude();
-		assert(types::IsEqual_V(size, static_cast<T>(0)))
-			if (types::IsNotEqual_V(size, static_cast<T>(0)))
+		assert(types::IsEqual_V(size, static_cast<T>(0)));
+		if (types::IsNotEqual_V(size, static_cast<T>(0)))
 				return *this / size;
-		return *this;
+		return Vec4<T>(x, y, z, w);
 	}
 }
 
-template<typename T>
-Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::ceil() {
+template<>
+Vec4<F32> Vec4<F32>::ceil() {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::ceil(m_simdVec));
+		return Vec4<F32>(SIMDStruct::ceil(m_simdVec));
 	else {
-		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::ceil(x), std::ceil(y),
+		Vec4<F32>(std::ceil(x), std::ceil(y),
 			std::ceil(z), std::ceil(w));
 	}
 }
 
-template<typename T>
-Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::floor() {
+template<>
+Vec4<F32> Vec4<F32>::floor() {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::floor(m_simdVec));
+		return Vec4<F32>(SIMDStruct::floor(m_simdVec));
 	else {
-		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::floor(x), std::floor(y),
-			std::floor(z), std::floor(w));
+		Vec4<F32>(std::floor(x), std::floor(y), std::floor(z), std::floor(w));
 	}
 }
 
-template<typename T>
-Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)> Vec4<T>::round() {
+template<>
+Vec4<F32> Vec4<F32>::round() {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(SIMDStruct::round(m_simdVec));
+		return Vec4<F32>(SIMDStruct::round(m_simdVec));
 	else {
-		Vec4<ENABLE_IF_ELSE_T(!Vec4<T>::isIntegral, T, NOT_A_TYPE)>(std::round(x), std::round(y),
-			std::round(z), std::round(w));
+		Vec4<F32>(std::round(x), std::round(y), std::round(z), std::round(w));
 	}
 }
 
@@ -453,32 +452,32 @@ Vec4<U> Vec4<T>::cast() const {
 
 template<typename T>
 Vec4<T> operator+(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::add(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::add(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
 }
 
 template<typename T>
 Vec4<T> operator-(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::sub(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::sub(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
 }
 
 template<typename T>
 Vec4<T> operator*(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::mul(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::mul(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w);
 }
 
 template<typename T>
 Vec4<T> operator/(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::div(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::div(v1.m_simdVec, v2.m_simdVec));
 	else {
 		assert(v2.isNull());
 		if (!v2.isNull())
@@ -489,40 +488,40 @@ Vec4<T> operator/(const Vec4<T>& v1, const Vec4<T>& v2) {
 template<typename T>
 Vec4<T> operator>>(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::rShift(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::rShift(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x >> v2.x, v1.y >> v2.y, v1.z >> v2.z, v1.w >> v2.w);
 }
 template<typename T>
 Vec4<T> operator<<(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::lShift(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::lShift(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x << v2.x, v1.y << v2.y, v1.z << v2.z, v1.w << v2.w);
 }
 template<typename T>
 Vec4<T> operator&(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::andOp(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::andOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x & v2.x, v1.y & v2.y, v1.z & v2.z, v1.w & v2.w);
 }
 template<typename T>
 Vec4<T> operator^(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::xorOp(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::xorOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x ^ v2.x, v1.y ^ v2.y, v1.z ^ v2.z, v1.w ^ v2.w);
 }
 template<typename T>
 Vec4<T> operator|(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::orOp(v1.m_simdVec, v2.m_simdVec));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::orOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.x | v2.x, v1.y | v2.y, v1.z | v2.z, v1.w | v2.w);
 }
@@ -575,16 +574,16 @@ Vec4<T>& operator|=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& 
 
 template<typename T>
 T Dot(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return SIMDStruct::horizontalAdd(v1 * v2);
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>::SIMDStruct::horizontalAdd(v1 * v2);
 	else
 		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 }
 
 template<typename T>
 Vec4<T> Cross(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec4<T>(SIMDStruct::cross(v1, v2));
+	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+		return Vec4<T>(Vec4<T>::SIMDStruct::cross(v1, v2));
 	else
 		return Vec4<T>(v1.y * v2.z - v1.z * v2.y,
 			v1.z * v2.x - v1.x * v2.z,
@@ -603,12 +602,12 @@ Vec4<T> Direction(const Vec4<T>& origin, const Vec4<T>& destination) {
 
 template<typename T>
 Vec4<T> Min(const Vec4<T>& v1, const Vec4<T>& v2) {
-	return SIMDStruct::min(v1, v2);
+	return Vec4<T>::SIMDStruct::min(v1, v2);
 }
 
 template<typename T>
 Vec4<T> Max(const Vec4<T>& v1, const Vec4<T>& v2) {
-	return SIMDStruct::max(v1, v2);
+	return Vec4<T>::SIMDStruct::max(v1, v2);
 }
 
 template<typename T>
@@ -636,6 +635,10 @@ bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2) {
 	return Dot(v1, v2) < static_cast<T>(0);
 }
 
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec4<T>& v) {
+	return o << " x : " << v.x << ", y :" << v.y << ", z :" << v.z << ", w :" << v.w;
+}
 
 } //namespace math 
 } //namespace drak

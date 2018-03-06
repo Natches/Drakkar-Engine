@@ -1,5 +1,6 @@
-#include "Vec2.hpp"
-#include <cassert>
+#include<cassert>
+#include <string>
+#include<Math/Vec2.hpp>
 
 namespace drak {
 namespace math {
@@ -29,11 +30,11 @@ Vec2<T>::Vec2(Vec2<T>&& v)
 
 template<typename T>
 bool Vec2<T>::operator==(const Vec2<T>& v) const {
-	return types::IsEqual_V<T>(v.x, x) && types::IsEqual_V<T>(v.y, y);
+	return IsEqual_V<T>(v.x, x) && IsEqual_V<T>(v.y, y);
 }
 template<typename T>
 bool Vec2<T>::operator!=(const Vec2<T>& v) const {
-	return types::IsNotEqual_V<T>(v.x, x) && types::IsNotEqual_V<T>(v.y, y);
+	return IsNotEqual_V<T>(v.x, x) && IsNotEqual_V<T>(v.y, y);
 }
 template<typename T>
 bool Vec2<T>::operator>(const Vec2<T>& v) const {
@@ -53,11 +54,11 @@ bool Vec2<T>::operator<=(const Vec2<T>& v) const {
 }
 template<typename T>
 bool Vec2<T>::isNormalized() const {
-	return types::IsEqual_V<F32>(magnitude(), 1.0f);
+	return IsEqual_V<F32>(magnitude(), 1.0f);
 }
 template<typename T>
 bool Vec2<T>::isNull() const {
-	return types::IsEqual_V<T>(x, 0.0f) && types::IsEqual_V<T>(y, 0.0f);
+	return IsEqual_V<T>(x, static_cast<T>(0)) && IsEqual_V<T>(y, static_cast<T>(0));
 }
 template<typename T>
 F32 Vec2<T>::magnitude() const {
@@ -116,8 +117,8 @@ Vec2<T>& Vec2<T>::operator*=(const T n) {
 }
 template<typename T>
 Vec2<T>& Vec2<T>::operator/=(const T n) {
-	assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
-	if (types::IsNotEqual_V<T>(n, static_cast<T>(0))) {
+	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	if (IsNotEqual_V<T>(n, static_cast<T>(0))) {
 		x /= n;
 		y /= n;
 	}
@@ -181,8 +182,8 @@ Vec2<T> Vec2<T>::operator*(const T n) const {
 }
 template<typename T>
 Vec2<T> Vec2<T>::operator/(const T n) const {
-	assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
-	if(types::IsNotEqual_V<T>(n, static_cast<T>(0)))
+	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	if(IsNotEqual_V<T>(n, static_cast<T>(0)))
 		return Vec2<T>(x / n, y / n);
 	return Vec2<T>(x, y);
 }
@@ -229,10 +230,10 @@ Vec2<T> Vec2<T>::conjugate() const{
 template<typename T>
 Vec2<T> Vec2<T>::normalize() const{
 	F32 size = magnitude();
-	assert(types::IsEqual_V(size, static_cast<T>(0)))
-	if(types::IsNotEqual_V(size, static_cast<T>(0)))
+	assert(IsEqual_V(size, static_cast<T>(0)))
+	if(IsNotEqual_V(size, static_cast<T>(0)))
 		return *this / size;
-	return *this;
+	return Vec2<T>(x, y);
 }
 
 template<typename T>
@@ -276,7 +277,7 @@ Vec2<T> operator/(const Vec2<T>& v1, const Vec2<T>& v2) {
 	if (!v2.isNull())
 		return Vec2<T>(v1.x / v2.x, v1.y / v2.y);
 	else
-		return *this;
+		return Vec2<T>(v1.x, v1.y);
 }
 
 template<typename T>
@@ -313,21 +314,21 @@ template<typename T>
 Vec2<T>& operator+=(Vec2<T>& v1, const Vec2<T>& v2) {
 	v1.x += v2.x;
 	v1.y += v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator-=(Vec2<T>& v1, const Vec2<T>& v2) {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator*=(Vec2<T>& v1, const Vec2<T>& v2) {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
@@ -338,42 +339,42 @@ Vec2<T>& operator/=(Vec2<T>& v1, const Vec2<T>& v2) {
 		v1.x /= v2.x;
 		v1.y /= v2.y;
 	}
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator>>=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v1, const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v2) {
 	v1.x >>= v2.x;
 	v1.y >>= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator<<=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v1, const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v2) {
 	v1.x <<= v2.x;
 	v1.y <<= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator&=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v1, const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v2) {
 	v1.x &= v2.x;
 	v1.y &= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator^=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v1, const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v2) {
 	v1.x ^= v2.x;
 	v1.y ^= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
 Vec2<T>& operator|=(ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v1, const ENABLE_IF_ELSE_T(Vec2<T>::isIntegral, Vec2<T>, NOT_A_TYPE)&v2) {
 	v1.x |= v2.x;
 	v1.y |= v2.y;
-	return *this;
+	return v1;
 }
 
 template<typename T>
@@ -402,15 +403,15 @@ void RotateAround(Vec2<T>& v1, const Vec2<T>& point, const F32 angle) {
 }
 template<typename T>
 bool ArePerpendicular(const Vec2<T>& v1, const Vec2<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
 }
 template<typename T>
 bool AreColinear(const Vec2<T>& v1, const Vec2<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(1));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(1));
 }
 template<typename T>
 bool AreOpposed(const Vec2<T>& v1, const Vec2<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(-1));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(-1));
 }
 template<typename T>
 bool AreSameDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
@@ -419,6 +420,12 @@ bool AreSameDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
 template<typename T>
 bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
 	return Dot(v1, v2) < static_cast<T>(0);
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec2<T>& v) {
+	o << " x : " << std::to_string(v.x) << ", y :" << std::to_string(v.y);
+	return o;
 }
 
 } //namespace math
