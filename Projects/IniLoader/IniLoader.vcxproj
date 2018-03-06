@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IniFile.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="..\..\Source\IniLoader\IniFile.cpp" />
+    <ClCompile Include="..\..\Source\IniLoader\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IniFile.h" />
+    <ClInclude Include="..\..\Source\IniLoader\IniFile.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

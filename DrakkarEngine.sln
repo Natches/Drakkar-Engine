@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakMath", "Projects\DrakMa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "Projects\ResourceManager\ResourceManager.vcxproj", "{A8101317-50C5-44E7-B9C1-A15E68DD03BE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IniLoader", "IniLoader\IniLoader.vcxproj", "{9C7C677F-F5A7-4E19-A6AD-DA14A6396ABE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IniLoader", "Projects\IniLoader\IniLoader.vcxproj", "{9C7C677F-F5A7-4E19-A6AD-DA14A6396ABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

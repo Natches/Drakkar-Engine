@@ -3,7 +3,7 @@
 class IniFile
 {
 	const char* filename;
-	std::map<char*, char*> values;
+	std::map<const char*, const char*> parameters;
 public:
 	IniFile();
 	~IniFile();
