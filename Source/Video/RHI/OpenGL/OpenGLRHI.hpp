@@ -2,8 +2,8 @@
 
 #include <Core/Core.hpp>
 
-#include <Video/RHI/OpenGL/OpenGLWindow.h>
-#include <Video/RHI/OpenGL/OpenGLContext.h>
+#include <Video/RHI/OpenGL/OpenGLWindow.hpp>
+#include <Video/RHI/OpenGL/OpenGLContext.hpp>
 
 namespace drak {
 namespace video {

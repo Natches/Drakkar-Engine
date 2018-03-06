@@ -8,16 +8,20 @@ namespace video {
 
 /*!
 * \class DrakVideo
-* \ingroup DrakRHI
+* \ingroup DrakVideo
 * \brief
 *
 */
 class DrakVideo final {
 public:
-	DrakVideo() = delete;
+	DrakVideo()	= delete;
+	~DrakVideo() = delete;
 
-	static bool	Startup(const VideoSettings& settings);
-	static void	Shutdown();
+public:
+	static bool		Startup(const VideoSettings& settings);
+	static void		Shutdown();
+
+	static Window*	MainWindow() { return s_pMainWin; }
 
 private:
 	static Window*	s_pMainWin;

@@ -5,10 +5,8 @@
 namespace drak {
 namespace video {
 
-
-
 struct VideoSettings {
-	WindowSettings	 window;
+	WindowSettings window;
 };
 
 } // namespace video

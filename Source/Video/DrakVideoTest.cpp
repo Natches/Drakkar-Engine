@@ -8,6 +8,9 @@ int main() {
 
 	if (DrakVideo::Startup(settings)) {
 		
+
+		system("pause");
+
 		DrakVideo::Shutdown();
 		return 0;
 	}
