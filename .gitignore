@@ -289,3 +289,9 @@ __pycache__/
 *.xsd.cs
 /Projects/DrakMath/My Advisor Results - DrakMath
 /Projects/DrakMath/My Amplifier Results - DrakMath
+/Source/Log/main.cpp
+/Source/LogTest
+/Projects/DrakLog/LOG_FILE
+/Projects/LogTest/LOG_FILE
+/Projects/LogTest/LogTest.vcxproj
+/Projects/LogTest/LogTest.vcxproj.filters
