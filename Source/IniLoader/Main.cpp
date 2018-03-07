@@ -3,5 +3,7 @@ int main()
 {
 	IniFile file;
 	file.LoadFile("Ini/IniTest.txt");
-	float porkvalue = file.GetValue<float>("PorkPrice");
+	float porkCost = file.GetValue<float>("PorkCost");
+	float sheildCost = file.GetValue<float>("ShieldCost");
+ 	system("pause");
 }

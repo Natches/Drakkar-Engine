@@ -5,41 +5,49 @@
 template<>
 inline int IniFile::GetValue<int>(const char * parameterName)
 {
-	try
+	if (parameters.find(parameterName) != parameters.end())
 	{
-		parameters.at(parameterName);
+		return std::stoi(parameters[parameterName]);
 	}
-	catch (std::out_of_range)
-	{
-		assert(false);
-	}
-	return std::stoi( parameters[parameterName]);
+	assert(false);
 }
 
 template<>
 inline float IniFile::GetValue<float>(const char * parameterName)
 {
-	try
+	if (parameters.find(parameterName) != parameters.end())
 	{
-		parameters.at(parameterName);
+		return std::stof(parameters[parameterName]);
 	}
-	catch (std::out_of_range)
-	{
-		assert(false);
-	}
-	return std::stof(parameters[parameterName]);
+	assert(false);
 }
 
 template<>
 inline std::string IniFile::GetValue <std::string> (const char * parameterName)
 {
-	try
+	if (parameters.find(parameterName) != parameters.end())
 	{
-		parameters.at(parameterName);
+		return std::string(parameters[parameterName]);
 	}
-	catch (std::out_of_range)
+	assert(false);
+}
+
+template<>
+inline long IniFile::GetValue <long>(const char * parameterName)
+{
+	if (parameters.find(parameterName) != parameters.end())
 	{
-		assert(false);
+		return std::stol(parameters[parameterName]);
 	}
-	return std::string(parameters[parameterName]);
+	assert(false);
+}
+
+template<>
+inline double IniFile::GetValue <double>(const char * parameterName)
+{
+	if (parameters.find(parameterName) != parameters.end())
+	{
+		return std::stod(parameters[parameterName]);
+	}
+	assert(false);
 }
