@@ -3,6 +3,7 @@
 #include <Core/Core.hpp>
 #include <limits>
 #include <algorithm>
+#include <cmath>
 
 #define M_PI 3.14159265358979323
 #define M_PIF 3.14159265f
@@ -41,7 +42,7 @@ enum class Axis : byte {
 
 #define COMPARE_FLOATING_POINT_EQUAL(type, f1, f2) std::fabs(f1 - f2) <= \
 		(std::numeric_limits<type>::epsilon() * std::max(fabs(f1), fabs(f2)))
-#define COMPARE_FLOATING_POINT_NOT_EQUAL(type, f1, f2) !COMPARE_FLOATING_POINT_EQUAL(type, f1, f2)
+#define COMPARE_FLOATING_POINT_NOT_EQUAL(type, f1, f2) !(COMPARE_FLOATING_POINT_EQUAL(type, f1, f2))
 
 template<typename T, bool b = std::is_floating_point_v<T>>
 struct IsEqual {
@@ -65,7 +66,7 @@ inline constexpr bool IsEqual_V(T n1, T n2) {
 template<typename T, bool b = std::is_floating_point_v<T>>
 struct IsNotEqual {
 	static inline constexpr bool value(T n1, T n2) {
-		return n1 == n2;
+		return n1 != n2;
 	}
 };
 

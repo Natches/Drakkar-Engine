@@ -73,6 +73,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.sln
 
 # Chutzpah Test files
 _Chutzpah*
@@ -292,3 +293,5 @@ __pycache__/
 /Projects/LogTest/LogTest.vcxproj
 /Projects/LogTest/LogTest.vcxproj.filters
 /Source/LogTest/Main.cpp
+/Projects/DrakMath/My Advisor Results - DrakMath
+/Projects/DrakMath/My Amplifier Results - DrakMath
