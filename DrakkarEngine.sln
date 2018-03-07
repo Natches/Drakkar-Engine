@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_ProjectTemplate", "Projects\_ProjectTemplate\_ProjectTemplate.vcxproj", "{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakLog", "Projects\DrakLog\DrakLog.vcxproj", "{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}.Release|x64.Build.0 = Release|x64
 		{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}.Release|x86.ActiveCfg = Release|Win32
 		{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}.Release|x86.Build.0 = Release|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.ActiveCfg = Debug|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.Build.0 = Debug|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.ActiveCfg = Debug|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.Build.0 = Debug|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.ActiveCfg = Release|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.Build.0 = Release|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.ActiveCfg = Release|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

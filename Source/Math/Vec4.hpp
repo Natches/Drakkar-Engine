@@ -1,142 +1,250 @@
 #pragma once
-#pragma once
 
-#include <type_traits>
-#include "types.hpp"
-#include "Warning.h"
+#include <Math/MathUtils.hpp>
+#include <Math/SIMDUtils.hpp>
+#include<ostream>
 
-extern "C++" {
-	namespace drakMaths {
-		template<typename T>
-		struct Vec4 {
+namespace drak {
+namespace math {
 
-#define x m_pVec[0]
-#define y m_pVec[1]
-#define z m_pVec[2]
-#define w m_pVec[3]
+template<typename T>
+struct Vec2;
 
-			static_assert(std::is_scalar_v<T>, "\"T\" must be a scalar Type");
+template<typename T>
+struct Vec3;
 
-		public:
-			enum class Axis {
-				X,
-				Y,
-				Z
-			};
+template<typename T>
+struct Vec4 {
+	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
+		"\"T\" must be a scalar Type and not a 64 bits data type");
+	static constexpr bool isIntegral = std::is_integral_v<T>;
+	using SIMDStruct = typename SIMDUtils::BestSIMDType<T, 4>;
+	using SIMDType = typename SIMDStruct::SIMDType;
 
-		public:
-			Vec4();
-			explicit Vec4(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) X,
-				const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) Y,
-				const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) Z,
-				const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) W);
+public:
+	Vec4();
+	Vec4(T* arr);
+	Vec4(const T X, const T Y, const T Z, const T W);
 
-			explicit Vec4(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) X,
-				ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) Y,
-				ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) Z,
-				ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) W);
+	Vec4(const Vec4<T>& v);
+	Vec4(Vec4<T>&& v);
+	Vec4(const SIMDType& ss);
+	Vec4(const Vec2<T>& v);
+	Vec4(Vec2<T>&& v);
+	Vec4(const Vec2<T>& v1, const Vec2<T>& v2);
+	Vec4(Vec2<T>&& v1, Vec2<T>&& v2);
+	Vec4(const Vec3<T>& v);
+	Vec4(Vec3<T>&& v);
+	Vec4(const Vec3<T>& v, T W);
+	Vec4(Vec3<T>&& v, T W);
+	~Vec4() = default;
 
-			Vec4(const Vec4<T>& v);
-			Vec4(Vec4<T>&& v);
-			~Vec4() = default;
+public:
+	bool operator==(const Vec4<T>& v) const;
+	bool operator!=(const Vec4<T>& v) const;
+	bool operator>(const Vec4<T>& v)  const;
+	bool operator<(const Vec4<T>& v)  const;
+	bool operator>=(const Vec4<T>& v) const;
+	bool operator<=(const Vec4<T>& v) const;
 
-		public:
-			bool operator==(const Vec4<T>& v) const;
-			bool operator!=(const Vec4<T>& v) const;
-			bool operator>(const Vec4<T>& v)  const;
-			bool operator<(const Vec4<T>& v)  const;
-			bool operator>=(const Vec4<T>& v) const;
-			bool operator<=(const Vec4<T>& v) const;
+	bool isNormalized() const;
+	bool isNull() const;
 
-			bool isNormalized(const Vec4<T>& v) const;
-			bool isNull(const Vec4<T>& v) const;
+	F32 magnitude() const;
 
-			float magnitude() const;
-			float angle(const Axis& axis) const;
+	template<Axis ax, AngleUnit au = AngleUnit::DEGREE>
+	F32 rotation() const;
 
-			Vec4<T>& conjugate();
-			Vec4<T>& normalize();
-			Vec4<T>& rotate(const Axis& axis, f32 angle);
+	template<AngleUnit au = AngleUnit::DEGREE>
+	Vec4<T> rotation() const;
+	//TODO : Quat<F32> rotation() const;
 
-			Vec4<T>& operator=(const Vec4<T>& v);
-			Vec4<T>& operator=(Vec4<T>&& v);
-			Vec4<T>& operator+=(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n);
-			Vec4<T>& operator-=(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n);
-			Vec4<T>& operator*=(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n);
-			Vec4<T>& operator/=(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n);
-			Vec4<T>& operator+=(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n);
-			Vec4<T>& operator-=(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n);
-			Vec4<T>& operator*=(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n);
-			Vec4<T>& operator/=(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n);
-			Vec4<T>& operator>>=(const std::enable_if_t<std::is_integral_v<T>, T> n);
-			Vec4<T>& operator<<=(const std::enable_if_t<std::is_integral_v<T>, T> n);
-			Vec4<T>& operator&=(const std::enable_if_t<std::is_integral_v<T>, T> n);
-			Vec4<T>& operator^=(const std::enable_if_t<std::is_integral_v<T>, T> n);
-			Vec4<T>& operator|=(const std::enable_if_t<std::is_integral_v<T>, T> n);
-			Vec4<T>& operator++();
-			Vec4<T>& operator--();
+	Vec4<T>& operator  =(const Vec4<T>& v);
+	Vec4<T>& operator  =(Vec4<T>&& v);
+	Vec4<T>& operator +=(const T n);
+	Vec4<T>& operator -=(const T n);
+	Vec4<T>& operator *=(const T n);
+	Vec4<T>& operator /=(const T n);
+	Vec4<T>& operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec4<T>& operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec4<T>& operator &=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec4<T>& operator ^=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec4<T>& operator |=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec4<T>& operator++();
+	Vec4<T>& operator--();
 
-			Vec4<T> operator+(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n) const;
-			Vec4<T> operator-(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n) const;
-			Vec4<T> operator*(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n) const;
-			Vec4<T> operator/(const ADD_REF_IF_T(IS_LARGER_THAN_V(T, T*), T) n) const;
-			Vec4<T> operator+(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n) const;
-			Vec4<T> operator-(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n) const;
-			Vec4<T> operator*(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n) const;
-			Vec4<T> operator/(ENABLE_IF_ELSE_T(IS_LARGER_THAN_V(T, T*), T&&, NOT_A_TYPE) n) const;
-			Vec4<T> operator>>(const std::enable_if_t<std::is_integral_v<T>, T> n)const;
-			Vec4<T> operator<<(const std::enable_if_t<std::is_integral_v<T>, T> n)const;
-			Vec4<T> operator&(const std::enable_if_t<std::is_integral_v<T>, T> n) const;
-			Vec4<T> operator^(const std::enable_if_t<std::is_integral_v<T>, T> n) const;
-			Vec4<T> operator|(const std::enable_if_t<std::is_integral_v<T>, T> n) const;
-			Vec4<T> operator++(const int32) const;
-			Vec4<T> operator--(const int32) const;
-			Vec4<T> operator-()	  const;
+	Vec4<T> operator+(const T n) const;
+	Vec4<T> operator-(const T n) const;
+	Vec4<T> operator*(const T n) const;
+	Vec4<T> operator/(const T n) const;
+	Vec4<T> operator>>(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec4<T> operator<<(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec4<T> operator&(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec4<T> operator^(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec4<T> operator|(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec4<T> operator++(const I32) const;
+	Vec4<T> operator--(const I32) const;
+	Vec4<T> operator-()	  const;
 
-			float* vec() const;
+	Vec4<T> conjugate() const;
+	Vec4<T> normalize() const;
 
-			template<typename U>
-			Vec4<U> cast() const;
+	template<Axis ax>
+	Vec4<T> rotate(const F32 angle) const;
+	template<Axis ax>
+	Vec4<T> rotate(const Vec4<T>& euler) const;
+	//Todo template<Axis ax>
+	//Todo Vec4<T> rotate(const Vec4<T>& euler) const;
 
-		public:
-			T m_pVec[4];
-		};
+	template<typename U>
+	Vec4<U> cast() const;
 
-		template<typename T>
-		float dot(const Vec4<T>& v1, const Vec4<T>& v2);
+	Vec4<F32> ceil();
+	Vec4<F32> floor();
+	Vec4<F32> round();
 
-		template<typename T>
-		Vec4<T> cross(const Vec4<T>& v1, const Vec4<T>& v2);
+	Vec3<T> xyz();
+	Vec3<T> zyx();
+	Vec3<T> yzx();
+	Vec3<T> zxy();
 
-		template<typename T>
-		float distance(const Vec4<T>& v1, const Vec4<T>& v2);
+	Vec3<T> rgb();
+	Vec3<T> bgr();
+	Vec3<T> gbr();
+	Vec3<T> brg();
 
-		template<typename T>
-		Vec4<T> direction(const Vec4<T>& origin, const Vec4<T>& destination);
+	Vec3<T> wyz();
+	Vec3<T> zyw();
+	Vec3<T> yzw();
+	Vec3<T> zwy();
 
-		template<typename T>
-		void rotateAround(const Vec4<T>& v1, const Vec4<T>& point, const typename Vec4<T>::Axis& axis, const f32 angle);
+	Vec4<T> bgra();
+	Vec4<T> gbra();
+	Vec4<T> brga();
 
-		template<typename T>
-		bool arePerpendicular(const Vec4<T>& v1, const Vec4<T>& v2);
+private:
+	F32 computeAngleX();
+	F32 computeAngleY();
+	F32 computeAngleZ();
 
-		template<typename T>
-		bool areColinear(const Vec4<T>& v1, const Vec4<T>& v2);
+public:
+	union {
+		T m_vec[4];
+		struct { T x, y, z, w; };
+		struct { T r, g, b, a; };
+		SIMDType m_simdVec;
+	}alignas(SIMDStruct::alignement);
+};
 
-		template<typename T>
-		bool areOpposed(const Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T> operator+(const Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T> operator-(const Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T> operator*(const Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T> operator/(const Vec4<T>& v1, const Vec4<T>& v2);
 
-		using Vec4c = typename Vec4<uint8>;
-		using Vec4sc = typename Vec4<int8>;
-		using Vec4si = typename Vec4<int16>;
-		using Vec4sui = typename Vec4<uint16>;
-		using Vec4i = typename Vec4<int32>;
-		using Vec4ui = typename Vec4<uint32>;
-		using Vec4lli = typename Vec4<int64>;
-		using Vec4ulli = typename Vec4<uint64>;
-		using Vec4f = typename Vec4<f32>;
-		using Vec4d = typename Vec4<f64>;
-		using Vec4ld = typename Vec4<d81>;
-	}
-#include "Vec4.inl"
-}
+template<typename T>
+Vec4<T> operator>>(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T> operator<<(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T> operator&(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T> operator^(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T> operator|(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+
+template<typename T>
+Vec4<T>& operator+=(Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T>& operator-=(Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T>& operator*=(Vec4<T>& v1, const Vec4<T>& v2);
+template<typename T>
+Vec4<T>& operator/=(Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+Vec4<T>& operator>>=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T>& operator<<=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T>& operator&=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T>& operator^=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+template<typename T>
+Vec4<T>& operator|=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
+	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2);
+
+template<typename T>
+T Dot(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+Vec4<T> Cross(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+F32 Distance(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+Vec4<T> Direction(const Vec4<T>& origin, const Vec4<T>& destination);
+
+template<typename T>
+Vec4<T> Min(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+Vec4<T> Max(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<Axis ax, typename T>
+void RotateAround(Vec4<T>& v1, const Vec4<T>& point, const F32 angle);
+
+/*
+template<typename T>
+template<Axis ax>
+void RotateAround(Vec4<T>& v1, const Vec4<T>& point, const Vec4<T>& euler);*/
+
+//TODO template<typename T>
+//TODO template<Axis ax>
+//TODO void RotateAround(Vec4<T>& v1, const Vec4<T>& point, const Quat<T>& q);
+
+template<typename T>
+bool ArePerpendicular(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+bool AreColinear(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+bool AreOpposed(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+bool AreSameDirection(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2);
+
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec4<T>& v);
+
+using Vec4c = typename Vec4<U8>;
+using Vec4sc = typename Vec4<I8>;
+using Vec4si = typename Vec4<I16>;
+using Vec4sui = typename Vec4<U16>;
+using Vec4i = typename Vec4<I32>;
+using Vec4ui = typename Vec4<U32>;
+using Vec4lli = typename Vec4<I64>;
+using Vec4ulli = typename Vec4<U64>;
+using Vec4f = typename Vec4<F32>;
+using Vec4d = typename Vec4<F64>;
+
+} //namespace maths
+} //namespace drak
+#include<Math/Vec4.inl>
