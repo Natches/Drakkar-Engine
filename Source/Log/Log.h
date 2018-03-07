@@ -12,11 +12,11 @@ enum class LoggerVerbosity {
 	FATAL = 20 /*!< Fatal level verbosity: outputs to file and crashes program */
 };
 
-inline bool constexpr operator<(LoggerVerbosity& a, LoggerVerbosity& b) {
+inline constexpr bool operator<(LoggerVerbosity& a, LoggerVerbosity& b) {
 	return (int)a < (int)b;
 }
 
-inline bool constexpr operator>(LoggerVerbosity& a, LoggerVerbosity& b) {
+inline constexpr bool operator>(LoggerVerbosity& a, LoggerVerbosity& b) {
 	return (int)a > (int)b;
 }
 
@@ -34,19 +34,19 @@ void CloseLogFile(FILE* file);
 
 #define DRAK_LOG(category, verbosity, outputString, ...){			\
 	if constexpr(verbosity <= category::compileMaxVerbosity){		\
-		FILE * logFile = OpenLogFile(#category);					\
+		FILE* logFile = OpenLogFile(#category);						\
 		switch (verbosity) {										\
 		case LoggerVerbosity::DEBUG:								\
-				fprintf(logFile, outputString, __VA_ARGS__);		\
-				printf(outputString, __VA_ARGS__);					\
+				fprintf_s(logFile, outputString, __VA_ARGS__);		\
+				printf_s(outputString, __VA_ARGS__);				\
 				CloseLogFile(logFile);								\
 				break;												\
 		case LoggerVerbosity::RELEASE:								\
-				fprintf(logFile, outputString, __VA_ARGS__);		\
+				fprintf_s(logFile, outputString, __VA_ARGS__);		\
 				CloseLogFile(logFile);								\
 				break;												\
 		case LoggerVerbosity::FATAL:								\
-				fprintf(logFile, outputString, __VA_ARGS__);		\
+				fprintf_s(logFile, outputString, __VA_ARGS__);		\
 				CloseLogFile(logFile);								\
 				break;												\
 		}															\
