@@ -287,3 +287,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/Projects/DrakLog/LOG_FILE
+/Projects/LogTest/LOG_FILE
+/Projects/LogTest/LogTest.vcxproj
+/Projects/LogTest/LogTest.vcxproj.filters
+/Source/LogTest/Main.cpp
