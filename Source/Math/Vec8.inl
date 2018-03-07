@@ -61,6 +61,49 @@ Vec8<T>::Vec8(Vec8<T>&& v) {
 }
 
 template<typename T>
+Vec8<T>::Vec8(const Vec4<T>& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, v.x, v.y, v.z, v.w,
+			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+	else {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+		w = v.w;
+		a = static_cast<T>(0);
+		b = static_cast<T>(0);
+		c = static_cast<T>(0);
+		d = static_cast<T>(0);
+	}
+}
+
+template<typename T>
+Vec8<T>::Vec8(Vec4<T>&& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v).x, std::forward<Vec4<T>>(v).y,
+			std::forward<Vec4<T>>(v).z, std::forward<Vec4<T>>(v).w, static_cast<T>(0),
+			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+	else {
+		x = std::forward<Vec4<T>>(v).x;
+		y = std::forward<Vec4<T>>(v).y;
+		z = std::forward<Vec4<T>>(v).z;
+		w = std::forward<Vec4<T>>(v).w;
+		a = static_cast<T>(0);
+		b = static_cast<T>(0);
+		c = static_cast<T>(0);
+		d = static_cast<T>(0);
+	}
+}
+
+template<typename T>
+Vec8<T>::Vec8(const Vec4<T>& v1, const Vec4<T>& v2) {
+}
+
+template<typename T>
+Vec8<T>::Vec8(Vec4<T>&& v1, Vec4<T>&& v2) {
+}
+
+template<typename T>
 Vec8<T>::Vec8(const SIMDType& ss) {
 	m_simdVec = ss;
 }

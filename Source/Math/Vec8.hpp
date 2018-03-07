@@ -23,6 +23,10 @@ public:
 
 	Vec8(const Vec8<T>& v);
 	Vec8(Vec8<T>&& v);
+	Vec8(const Vec4<T>& v);
+	Vec8(Vec4<T>&& v);
+	Vec8(const Vec4<T>& v1, const Vec4<T>& v2);
+	Vec8(Vec4<T>&& v1, Vec4<T>&& v2);
 	~Vec8() = default;
 	Vec8(const SIMDType& ss);
 
