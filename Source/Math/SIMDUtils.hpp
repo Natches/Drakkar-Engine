@@ -435,7 +435,13 @@ struct BestSIMDType<T, 8, 16, true, false> {
 	static T horizontalAdd(const SIMDType& m) {
 		__m64 m2 = _mm_hadd_pi16(m.m128_i64[0], m.m128_i64[1]);
 		m2 = _mm_hadd_pi16(m2, m2);
-		return m2.m64_i32[0];
+		return m2.m64_i32[0] + m2.m64_i32[1];
+	}
+
+	static auto twiceHorizontalAdd(const SIMDType& m) {
+		__m64 m2 = _mm_hadd_pi16(m.m128_i64[0], m.m128_i64[1]);
+		m2 = _mm_hadd_pi16(m2, m2);
+		return std::make_tuple(m2.m64_i32[0], m2.m64_i32[1]);
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
@@ -542,9 +548,15 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		return _mm256_test_all_zeros(_mm256_set1_epi32(1), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
-		__m128 m2 = _mm_hadd_epi32(m.m128_i64[0], m.m128_i64[1]);
+		__m128i m2 = _mm_hadd_epi32(m.m128i_i64[0], m.m128i_i64[1]);
 		m2 = _mm_hadd_epi32(m2, m2);
-		return m2.m128_i32[0];
+		return m2.m128i_i32[0] + m2.m128i_i32[1];
+	}
+
+	static auto twiceHorizontalAdd(const SIMDType& m) {
+		__m128i m2 = _mm_hadd_epi32(m.m128i_i64[0], m.m128i_i64[1]);
+		m2 = _mm_hadd_epi32(m2, m2);
+		return std::make_tuple(m2.m128i_i32[0], m2.m128i_i32[1]);
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
@@ -685,7 +697,13 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	static T horizontalAdd(const SIMDType& m) {
 		__m128 m2 = _mm_hadd_ps(_mm256_extractf128_ps(m, 0), _mm256_extractf128_ps(m, 1));
 		m2 = _mm_hadd_ps(m2, m2);
-		return m2.m128_f32[0];
+		return m2.m128_f32[0] + m2.m128_f32[1];
+	}
+
+	static auto twiceHorizontalAdd(const SIMDType& m) {
+		__m128 m2 = _mm_hadd_ps(_mm256_extractf128_ps(m, 0), _mm256_extractf128_ps(m, 1));
+		m2 = _mm_hadd_ps(m2, m2);
+		return std::make_tuple(m2.m128_f32[0], m2.m128_f32[1]);
 	}
 
 	static SIMDType add(const SIMDType& m, const T f) {

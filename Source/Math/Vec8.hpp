@@ -80,6 +80,9 @@ public:
 	Vec8<F32> floor();
 	Vec8<F32> round();
 
+	Vec4<T> xyzw();
+	Vec4<T> abcd();
+
 public:
 	union {
 		T m_vec[8];
@@ -137,6 +140,12 @@ Vec8<T>& operator^=(ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& 
 template<typename T>
 Vec8<T>& operator|=(ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& v2);
+
+template<typename T>
+auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
+
+template<typename T>
+auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
