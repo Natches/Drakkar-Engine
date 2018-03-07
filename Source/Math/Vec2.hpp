@@ -5,7 +5,6 @@
 
 namespace drak {
 namespace math {
-
 template<typename T>
 struct Vec2 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
@@ -15,7 +14,7 @@ struct Vec2 {
 public:
 	Vec2();
 
-	explicit Vec2(const T X, const T Y);
+	Vec2(const T X, const T Y);
 
 	Vec2(const Vec2<T>& v);
 	Vec2(Vec2<T>&& v);
@@ -71,6 +70,12 @@ public:
 
 	template<typename U>
 	Vec2<U> cast() const;
+
+	Vec2<F32> ceil();
+	Vec2<F32> floor();
+	Vec2<F32> round();
+
+	Vec2<T> yx();
 
 public:
 	union {
@@ -133,7 +138,7 @@ template<typename T>
 T Dot(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
-Vec2<T> Cross(const Vec2<T>& v1, const Vec2<T>& v2);
+T Cross(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
 F32 Distance(const Vec2<T>& v1, const Vec2<T>& v2);

@@ -7,6 +7,9 @@ namespace drak {
 namespace math {
 
 template<typename T>
+struct Vec2;
+
+template<typename T>
 struct Vec3 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
@@ -14,10 +17,12 @@ struct Vec3 {
 public:
 	Vec3();
 
-	explicit Vec3(const T X, const T Y, const T Z);
+	Vec3(const T X, const T Y, const T Z);
 
 	Vec3(const Vec3<T>& v);
 	Vec3(Vec3<T>&& v);
+	Vec3(const Vec2<T>& v);
+	Vec3(Vec2<T>&& v);
 	~Vec3() = default;
 
 public:
@@ -78,6 +83,25 @@ public:
 
 	template<typename U>
 	Vec3<U> cast() const;
+
+	Vec3<F32> ceil();
+	Vec3<F32> floor();
+	Vec3<F32> round();
+
+	Vec2<T> xy();
+	Vec2<T> yz();
+	Vec2<T> yx();
+	Vec2<T> zy();
+	Vec2<T> xz();
+	Vec2<T> zx();
+
+	Vec3<T> zyx();
+	Vec3<T> yzx();
+	Vec3<T> zxy();
+
+	Vec3<T> bgr();
+	Vec3<T> gbr();
+	Vec3<T> brg();
 
 private:
 	F32 computeAngleX();

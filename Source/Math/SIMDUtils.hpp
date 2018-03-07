@@ -10,6 +10,7 @@ template<typename T, U32 nElement, U32 size = sizeof(T) * 8,
 	bool isIntegral = std::is_integral_v<T>, bool isF32 = std::is_same_v<T, F32>>
 struct BestSIMDType {
 	using SIMDType = NOT_A_TYPE;
+	static constexpr I32 alignement = 0;
 };
 
 template<typename T>
@@ -17,8 +18,8 @@ struct BestSIMDType<T, 4, 32, false, true> {
 	using SIMDType = typename __m128;
 
 	static constexpr I32 alignement = 16;
-	static void set(SIMDType& m, T n1, T n2, T n3, T n4) {
-		m = _mm_set_ps(n1, n2, n3, n4);
+	static void set(SIMDType& m, T f1, T f2, T f3, T f4) {
+		m = _mm_set_ps(f4, f3, f2, f1);
 	}
 	static void set(SIMDType& m, T f) {
 		m = _mm_set_ps1(f);
@@ -30,7 +31,7 @@ struct BestSIMDType<T, 4, 32, false, true> {
 		return _mm_loadu_ps(arr);
 	}
 	static bool areEqual(const SIMDType& m1, const SIMDType& m2) {
-		return isAllZeros(_mm_castps_si128(_mm_xor_ps(m1, m2)));
+		return isAllZeros(_mm_xor_ps(m1, m2));
 	}
 
 	static bool isGreaterThan(const SIMDType& m1, const SIMDType& m2) {
@@ -41,17 +42,13 @@ struct BestSIMDType<T, 4, 32, false, true> {
 		return !isAllZeros(_mm_castps_si128(_mm_cmpge_ps(m1, m2)));
 	}
 	static bool isAllZeros(const SIMDType& m) {
-		union alignas(alignement) {
-			T mask[4] = { 1, 1, 1, 1 };
-			SIMDType m2;
-		};
-		return _mm_test_all_zeros(_mm_castps_si128(m2), _mm_castps_si128(m));
+		return _mm_test_all_zeros(_mm_castps_si128(_mm_set_ps1(1)), _mm_castps_si128(m));
 	}
 
 	static T horizontalAdd(const SIMDType& m) {
-		__m64 m2 = _mm_hadd_pi32(m.m128_i64[0], m.m128_i64[1]);
-		m2 = _mm_hadd_pi32(m2, m2);
-		return m2.m64_f32[0];
+		__m128 m2 = _mm_hadd_ps(m, m);
+		m2 = _mm_hadd_ps(m2, m2);
+		return m2.m128_f32[0];
 	}
 
 	static SIMDType add(const SIMDType& m, const T f) {
@@ -87,10 +84,10 @@ struct BestSIMDType<T, 4, 32, false, true> {
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m256 temp1, temp2;
 
-		temp1 = _mm256_set_ps(m1.m128_f32[1], m1.m128_f32[2], m1.m128_f32[0],
-			m1.m128_f32[2], m1.m128_f32[0], m1.m128_f32[1], 0.f, 0.f);
-		temp2 = _mm256_set_ps(m2.m128_f32[2], m2.m128_f32[0], m2.m128_f32[1],
-			m2.m128_f32[1], m2.m128_f32[2], m2.m128_f32[0], 0.f, 0.f);
+		temp1 = _mm256_set_ps(0.f, m1.m128_f32[1], m1.m128_f32[0], m1.m128_f32[2], 0.f,
+			m1.m128_f32[0], m1.m128_f32[2], m1.m128_f32[1]);
+		temp2 = _mm256_set_ps(0.f, m2.m128_f32[0], m2.m128_f32[2], m2.m128_f32[1], 0.f,
+			m2.m128_f32[1], m2.m128_f32[0], m2.m128_f32[2]);
 
 		temp1 = _mm256_mul_ps(temp1, temp2);
 
@@ -122,7 +119,7 @@ struct BestSIMDType<T, 4, 32, true, false> {
 
 	static constexpr I32 alignement = 16;
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4) {
-		m = _mm_set_epi32(n1, n2, n3, n4);
+		m = _mm_set_epi32(n4, n3, n2, n1);
 	}
 	static void set(SIMDType& m, T i) {
 		m = _mm_set1_epi32(i);
@@ -145,16 +142,19 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		union alignas(alignement) {
-			T mask[4] = { 1, 1, 1, 1 };
-			SIMDType m2;
-		};
-		return _mm_test_all_zeros(m2, m);
+		return _mm_test_all_zeros(_mm_set1_epi32(1), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
-		__m64 m2 = _mm_hadd_pi32(m.m128_i64[0], m.m128_i64[1]);
+#if defined(_M_IX86) || defined(__INTEL_COMPILER)
+		__m64 m2 = _mm_hadd_pi32(*(__m64 const*)m.m128i_i64, *(__m64 const*)&m.m128i_i64[1]);
 		m2 = _mm_hadd_pi32(m2, m2);
+		_m_empty();
 		return m2.m64_i32[0];
+#else
+		SIMDType m2 = _mm_hadd_epi32(m, m);
+		m2 = _mm_hadd_epi32(m2, m2);
+		return m2.m128i_i32[0];
+#endif
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
@@ -164,7 +164,7 @@ struct BestSIMDType<T, 4, 32, true, false> {
 		return _mm_sub_epi32(m, _mm_set1_epi32(i));
 	}
 	static SIMDType mul(const SIMDType& m, const T i) {
-		return _mm_mul_epi32(m, _mm_set1_epi32(i));
+		return _mm_mullo_epi32(m, _mm_set1_epi32(i));
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 #ifndef __INTEL_COMPILER
@@ -211,7 +211,7 @@ struct BestSIMDType<T, 4, 32, true, false> {
 		return _mm_sub_epi32(m1, m2);
 	}
 	static SIMDType mul(const SIMDType& m1, const SIMDType& m2) {
-		return _mm_mul_epi32(m1, m2);
+		return _mm_mullo_epi32(m1, m2);
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 #ifndef __INTEL_COMPILER
@@ -251,12 +251,12 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m256i temp1, temp2;
 
-		temp1 = _mm256_set_epi32(m1.m128_f32[1], m1.m128_f32[2], m1.m128_f32[0],
-			m1.m128_f32[2], m1.m128_f32[0], m1.m128_f32[1], 0.f, 0.f);
-		temp2 = _mm256_set_epi32(m2.m128_f32[2], m2.m128_f32[0], m2.m128_f32[1],
-			m2.m128_f32[1], m2.m128_f32[2], m2.m128_f32[0], 0.f, 0.f);
+		temp1 = _mm256_set_epi32(0, m1.m128i_i32[1], m1.m128i_i32[0], m1.m128i_i32[2], 0,
+			m1.m128i_i32[0], m1.m128i_i32[2], m1.m128i_i32[1]);
+		temp2 = _mm256_set_epi32(0, m2.m128i_i32[0], m2.m128i_i32[2], m2.m128i_i32[1], 0,
+			m2.m128i_i32[1], m2.m128i_i32[0], m2.m128i_i32[2]);
 
-		temp1 = _mm256_mul_epi32(temp1, temp2);
+		temp1 = _mm256_mullo_epi32(temp1, temp2);
 
 		return sub(_mm256_extractf128_si256(temp1, 0), _mm256_extractf128_si256(temp1, 1));
 	}
@@ -277,7 +277,7 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	static constexpr I32 alignement = 8;
 
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4) {
-		m = _mm_set_pi16(n1, n2, n3, n4);
+		m = _mm_set_pi16(n4, n3, n2, n1);
 		_m_empty();
 	}
 	static void set(SIMDType& m, T i) {
@@ -289,13 +289,14 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	}
 	static SIMDType loadu(T const* arr) {
 		__m64 res;
-		memcpy_inline(res.m64_i16, arr, sizeof(res.m64_i16));
-		_m_empty();
+		memcpy(res.m64_i16, arr, sizeof(res.m64_i16));
 		return res;
 	}
 
 	static bool areEqual(const SIMDType& m1, const SIMDType& m2) {
-		return isAllZeros(_m_pxor(m1, m2));
+		__m64 temp = _m_pxor(m1, m2);
+		_m_empty();
+		return isAllZeros(temp);
 	}
 	static bool isGreaterThan(const SIMDType& m1, const SIMDType& m2) {
 		return !isAllZeros(_m_pcmpgtw(m1, m2));
@@ -305,7 +306,6 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		_m_empty();
 		return !static_cast<bool>(m.m64_i64);
 	}
 	static T horizontalAdd(const SIMDType& m) {
@@ -316,28 +316,16 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
-		__m64 res = _mm_add_pi16(m, _mm_set1_pi16(i));
-		_m_empty();
-		return res;
+		return _mm_add_pi16(m, _mm_set1_pi16(i));
 	}
 	static SIMDType sub(const SIMDType& m, const T i) {
-		__m64 res = _mm_sub_pi16(m, _mm_set1_pi16(i));
-		_m_empty();
-		return res;
+		return _mm_sub_pi16(m, _mm_set1_pi16(i));
 	}
 	static SIMDType mul(const SIMDType& m, const T i) {
-		SIMDType hi = _mm_mulhi_pi16(m, _mm_set1_pi16(i));
-		SIMDType low = _mm_mullo_pi16(m, _mm_set1_pi16(i));
-		SIMDType res;
-		res.m64_i16[0] = low.m64_i16[0];
-		res.m64_i16[1] = hi.m64_i16[0];
-		res.m64_i16[2] = low.m64_i16[2];
-		res.m64_i16[3] = hi.m64_i16[2];
-		_m_empty();
-		return res;
+		return _mm_mullo_pi16(m, _mm_set1_pi16(i));;
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
-		static_assert("No division allowed on \" I8 \\ I16 \\ __m64\" Data Type!!");
+		static_assert(false, "No division allowed on \"I8\\I16\\__m64\" Data Type!!");
 		return mul(m, 1 / i);
 	}
 
@@ -367,18 +355,10 @@ struct BestSIMDType<T, 4, 16, true, false> {
 		return _mm_sub_pi16(m1, m2);
 	}
 	static SIMDType mul(const SIMDType& m1, const SIMDType& m2) {
-		SIMDType hi = _mm_mulhi_pi16(m1, m2);
-		SIMDType low = _mm_mullo_pi16(m1, m2);
-		SIMDType res;
-		res.m64_i16[0] = low.m64_i16[0];
-		res.m64_i16[1] = hi.m64_i16[0];
-		res.m64_i16[2] = low.m64_i16[2];
-		res.m64_i16[3] = hi.m64_i16[2];
-		_m_empty();
-		return res;
+		return _mm_mullo_pi16(m1, m2);
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
-		static_assert("No division allowed on \" I8 \\ I16 \\ __m64\" Data Type!!");
+		static_assert(false, "No division allowed on \"I8\\I16\\__m64\" Data Type!!");
 		return m1;
 	}
 
@@ -401,14 +381,13 @@ struct BestSIMDType<T, 4, 16, true, false> {
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m128i temp1, temp2;
 
-		temp1 = _mm_set_epi16(m1.m64_i16[1], m1.m64_i16[2], m1.m64_i16[0],
-			m1.m64_i16[2], m1.m64_i16[0], m1.m64_i16[1], 0.f, 0.f);
-		temp2 = _mm_set_epi16(m2.m64_i16[2], m2.m64_i16[0], m2.m64_i16[1],
-			m2.m64_i16[1], m2.m64_i16[2], m2.m64_i16[0], 0.f, 0.f);
+		temp1 = _mm_set_epi16(0, m1.m64_i16[1], m1.m64_i16[0], m1.m64_i16[2], 0,
+			m1.m64_i16[0], m1.m64_i16[2], m1.m64_i16[1]);
+		temp2 = _mm_set_epi16(0, m2.m64_i16[0], m2.m64_i16[2], m2.m64_i16[1], 0,
+			m2.m64_i16[1], m2.m64_i16[0], m2.m64_i16[2]);
 
 		temp1 = _mm_mullo_epi16(temp1, temp2);
-		_m_empty();
-		return sub(temp1.m128i_i64[0], temp1.m128i_i64[1]);
+		return sub(*(__m64 const*)temp1.m128i_i64, *(__m64 const*)&temp1.m128i_i64[1]);
 	}
 
 	static SIMDType max(const SIMDType& m1, const SIMDType& m2) {
@@ -427,7 +406,7 @@ struct BestSIMDType<T, 8, 16, true, false> {
 	static constexpr I32 alignement = 16;
 
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4, T n5, T n6, T n7, T n8) {
-		m = _mm_set_epi16(n1, n2, n3, n4, n5, n6, n7, n8);
+		m = _mm_set_epi16(n8, n7, n6, n5, n4, n3, n2, n1);
 		return m;
 	}
 	static void set(SIMDType& m, T i) {
@@ -451,11 +430,7 @@ struct BestSIMDType<T, 8, 16, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		union alignas(alignement) {
-			T mask[8] = { 1, 1, 1, 1, 1, 1, 1, 1};
-			SIMDType m2;
-		};
-		return _mm_test_all_zeros(m2, m);
+		return _mm_test_all_zeros(_mm_set1_epi16(1), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
 		__m64 m2 = _mm_hadd_pi16(m.m128_i64[0], m.m128_i64[1]);
@@ -473,7 +448,7 @@ struct BestSIMDType<T, 8, 16, true, false> {
 		return _mm_mullo_epi16(m, _mm_set1_epi16(i));
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
-		static_assert("No division allowed on \" I8 \\ I16 \\ __m64\" Data Type!!");
+		static_assert(false, "No division allowed on \"I8\\I16\\__m64\" Data Type!!");
 		return 0;
 	}
 
@@ -506,7 +481,7 @@ struct BestSIMDType<T, 8, 16, true, false> {
 		return _mm_mullo_epi16(m1, m2);
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
-		static_assert("No division allowed on \" I8 \\ I16 \\ __m64\" Data Type!!");
+		static_assert(false, "No division allowed on \"I8\\I16\\__m64\" Data Type!!");
 		return 0;
 	}
 
@@ -541,7 +516,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	static constexpr I32 alignement = 32;
 
 	static void set(SIMDType& m, T n1, T n2, T n3, T n4, T n5, T n6, T n7, T n8) {
-		m = _mm256_set_epi32(n1, n2, n3, n4, n5, n6, n7, n8);
+		m = _mm256_set_epi32(n8, n7, n6, n5, n4, n3, n2, n1);
 	}
 	static void set(SIMDType& m, T i) {
 		m = _mm256_set1_epi32(i);
@@ -564,11 +539,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		union alignas(alignement) {
-			T mask[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
-			SIMDType m2;
-		};
-		return _mm256_test_all_zeros(m2, m);
+		return _mm256_test_all_zeros(_mm256_set1_epi32(1), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
 		__m128 m2 = _mm_hadd_epi32(m.m128_i64[0], m.m128_i64[1]);
@@ -583,7 +554,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		return _mm256_sub_epi32(m, _mm256_set1_epi32(i));
 	}
 	static SIMDType mul(const SIMDType& m, const T i) {
-		return _mm256_mul_epi32(m, _mm256_set1_epi32(i));
+		return _mm256_mullo_epi32(m, _mm256_set1_epi32(i));
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 		__m256 temp1, temp2;
@@ -629,7 +600,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		return _mm256_sub_epi32(m1, m2);
 	}
 	static SIMDType mul(const SIMDType& m1, const SIMDType& m2) {
-		return _mm256_mul_epi32(m1, m2);
+		return _mm256_mullo_epi32(m1, m2);
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 		__m256 temp1, temp2;
@@ -685,7 +656,7 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	static constexpr I32 alignement = 32;
 
 	static void set(SIMDType& m, T f1, T f2, T f3, T f4, T f5, T f6, T f7, T f8) {
-		m = _mm256_set_ps(f1, f2, f3, f4, f5, f6, f7, f8);
+		m = _mm256_set_ps(f8, f7, f6, f5, f4, f3, f2, f1);
 	}
 	static void set(SIMDType& m, T f) {
 		m = _mm256_set1_ps(f);
@@ -697,7 +668,7 @@ struct BestSIMDType<T, 8, 32, false, true> {
 		return _mm256_loadu_ps(arr);
 	}
 	static bool areEqual(const SIMDType& m1, const SIMDType& m2) {
-		return isAllZeros(_mm256_castps_si256(_mm256_xor_ps(m1, m2)));
+		return isAllZeros(_mm256_xor_ps(m1, m2));
 	}
 
 	static bool isGreaterThan(const SIMDType& m1, const SIMDType& m2) {
@@ -708,11 +679,7 @@ struct BestSIMDType<T, 8, 32, false, true> {
 		return !isAllZeros(_mm256_castps_si256(_mm256_cmp_ps(m1, m2, _CMP_GE_OS)));
 	}
 	static bool isAllZeros(const SIMDType& m) {
-		union alignas(alignement) {
-			T mask[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
-			SIMDType m2;
-		};
-		return _mm256_test_all_zeros(_mm256_castps_si256(m2), _mm256_castps_si256(m));
+		return _mm256_test_all_zeros(_mm256_castps_si256(_mm256_set1_ps(1)), _mm256_castps_si256(m));
 	}
 
 	static T horizontalAdd(const SIMDType& m) {

@@ -1,5 +1,5 @@
 #include<cassert>
-#include <string>
+#include<string>
 #include<Math/Vec2.hpp>
 
 namespace drak {
@@ -13,8 +13,7 @@ Vec2<T>::Vec2() : m_vec{ static_cast<T>(0), static_cast<T>(0) } {
 }
 
 template<typename T>
-Vec2<T>::Vec2(const T X,
-	const T Y) : m_vec{ X, Y } {
+Vec2<T>::Vec2(const T X, const T Y) : m_vec{ X, Y } {
 
 }
 
@@ -24,7 +23,7 @@ Vec2<T>::Vec2(const Vec2<T>& v) : m_vec{ v.x, v.y } {
 
 template<typename T> 
 Vec2<T>::Vec2(Vec2<T>&& v) 
-	: m_vec{ std::move(std::forward<Vec2<T>>(v).x), std::move(std::forward<Vec2<T>>(v).y) } {
+	: m_vec{ std::forward<Vec2<T>>(v).x, std::forward<Vec2<T>>(v).y } {
 }
 
 
@@ -62,7 +61,7 @@ bool Vec2<T>::isNull() const {
 }
 template<typename T>
 F32 Vec2<T>::magnitude() const {
-	return std::sqrt<F32>(x * x + y * y);
+	return std::sqrt(static_cast<F32>(x * x + y * y));
 }
 
 template<typename T>
@@ -117,7 +116,7 @@ Vec2<T>& Vec2<T>::operator*=(const T n) {
 }
 template<typename T>
 Vec2<T>& Vec2<T>::operator/=(const T n) {
-	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
 	if (IsNotEqual_V<T>(n, static_cast<T>(0))) {
 		x /= n;
 		y /= n;
@@ -182,7 +181,7 @@ Vec2<T> Vec2<T>::operator*(const T n) const {
 }
 template<typename T>
 Vec2<T> Vec2<T>::operator/(const T n) const {
-	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
 	if(IsNotEqual_V<T>(n, static_cast<T>(0)))
 		return Vec2<T>(x / n, y / n);
 	return Vec2<T>(x, y);
@@ -230,7 +229,7 @@ Vec2<T> Vec2<T>::conjugate() const{
 template<typename T>
 Vec2<T> Vec2<T>::normalize() const{
 	F32 size = magnitude();
-	assert(IsEqual_V(size, static_cast<T>(0)))
+	assert(IsNotEqual_V(size, static_cast<T>(0)))
 	if(IsNotEqual_V(size, static_cast<T>(0)))
 		return *this / size;
 	return Vec2<T>(x, y);
@@ -247,6 +246,26 @@ Vec2<T> Vec2<T>::rotate(const F32 angle)const {
 template<typename T>
 Vec2<T> Vec2<T>::perpendicularVector() const {
 	return Vec2<T>(x, -y);
+}
+
+template<>
+Vec2<F32> Vec2<F32>::ceil() {
+	return Vec2<F32>(std::ceil(x), std::ceil(y));
+}
+
+template<>
+Vec2<F32> Vec2<F32>::floor() {
+	return Vec2<F32>(std::floor(x), std::floor(y));
+}
+
+template<>
+Vec2<F32> Vec2<F32>::round() {
+	return Vec2<F32>(std::round(x), std::round(y));
+}
+
+template<typename T>
+Vec2<T> Vec2<T>::yx() {
+	return Vec2<T>(y, x);
 }
 
 template<typename T>
@@ -273,7 +292,7 @@ Vec2<T> operator*(const Vec2<T>& v1, const Vec2<T>& v2) {
 
 template<typename T>
 Vec2<T> operator/(const Vec2<T>& v1, const Vec2<T>& v2) {
-	assert(v2.isNull());
+	assert(!v2.isNull());
 	if (!v2.isNull())
 		return Vec2<T>(v1.x / v2.x, v1.y / v2.y);
 	else
@@ -333,7 +352,7 @@ Vec2<T>& operator*=(Vec2<T>& v1, const Vec2<T>& v2) {
 
 template<typename T>
 Vec2<T>& operator/=(Vec2<T>& v1, const Vec2<T>& v2) {
-	assert(v2.isNull());
+	assert(!v2.isNull());
 	if (!v2.isNull()) {
 
 		v1.x /= v2.x;
@@ -382,8 +401,8 @@ T Dot(const Vec2<T>& v1, const Vec2<T>& v2) {
 	return (v1.x * v2.x + v1.y * v2.y);
 }
 template<typename T>
-Vec2<T> Cross(const Vec2<T>& v1, const Vec2<T>& v2) {
-	return Vec2<T>((v1.x * v2.y) - (v1.y * v2.x));
+T Cross(const Vec2<T>& v1, const Vec2<T>& v2) {
+	return (v1.x * v2.y) - (v1.y * v2.x);
 }
 template<typename T>
 F32 Distance(const Vec2<T>& v1, const Vec2<T>& v2) {
@@ -424,7 +443,7 @@ bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
 
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec2<T>& v) {
-	o << " x : " << std::to_string(v.x) << ", y :" << std::to_string(v.y);
+	o << "{ x : " << std::to_string(v.x) << ", y :" << std::to_string(v.y) << " }";
 	return o;
 }
 

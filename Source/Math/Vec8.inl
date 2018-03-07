@@ -24,7 +24,7 @@ Vec8<T>::Vec8(T* arr) {
 			m_simdVec = SIMDStruct::loadu(arr);
 	}
 	else
-		memcpy_inline(m_vec, arr, sizeof(m_vec));
+		memcpy(m_vec, arr, sizeof(m_vec));
 }
 
 template<typename T>
@@ -49,15 +49,15 @@ Vec8<T>::Vec8(const Vec8<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		m_simdVec = SIMDStruct::load(v.m_vec);
 	else
-		memcpy_inline(m_vec, v.m_vec, sizeof(m_vec));
+		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
 
 template<typename T>
 Vec8<T>::Vec8(Vec8<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = SIMDStruct::load(std::forward<Vec4<T>>(v).m_vec);
 	else
-		memcpy_inline(m_vec, v.m_vec, sizeof(m_vec));
+		memcpy(m_vec, std::forward<Vec4<T>>(v).m_vec, sizeof(m_vec));
 }
 
 template<typename T>
@@ -151,7 +151,7 @@ Vec8<T>& Vec8<T>::operator=(const Vec8<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		m_simdVec = SIMDStruct::load(v.m_vec);
 	else
-		memcpy_inline(m_vec, v.m_vec, sizeof(m_vec));
+		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 	return *this;
 }
 
@@ -160,7 +160,7 @@ Vec8<T>& Vec8<T>::operator=(Vec8<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		m_simdVec = SIMDStruct::load(std::forward<Vec8<T>>(v).m_vec);
 	else
-		memcpy_inline(m_vec, std::forward<Vec8<T>>(v).m_vec, sizeof(m_vec));
+		memcpy(m_vec, std::forward<Vec8<T>>(v).m_vec, sizeof(m_vec));
 	return *this;
 }
 
@@ -220,8 +220,8 @@ Vec8<T>& Vec8<T>::operator/=(const T n) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		m_simdVec = SIMDStruct::div(m_simdVec, n);
 	else {
-		assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
-		if (types::IsNotEqual_V<T>(n, static_cast<T>(0))) {
+		assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
+		if (IsNotEqual_V<T>(n, static_cast<T>(0))) {
 			x /= n;
 			y /= n;
 			z /= n;
@@ -386,8 +386,8 @@ Vec8<T> Vec8<T>::operator/(const T n) const {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec8<T>(SIMDStruct::div(m_simdVec, n));
 	else {
-		assert(types::IsEqual_V<T>(n, static_cast<T>(0)));
-		if (types::IsNotEqual_V<T>(n, static_cast<T>(0)))
+		assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
+		if (IsNotEqual_V<T>(n, static_cast<T>(0)))
 			return Vec8<T>(x / n, y / n, z / n, w / n,
 				a / n, b / n, c / n, d / n);
 	}
@@ -480,8 +480,8 @@ Vec8<T> Vec8<T>::normalize() const {
 		return Vec8<T>(SIMDStruct::div(m_simdVec, magnitude()));
 	else {
 		F32 size = magnitude();
-		assert(types::IsEqual_V(size, static_cast<T>(0)));
-		if (types::IsNotEqual_V(size, static_cast<T>(0)))
+		assert(IsNotEqual_V(size, static_cast<T>(0)));
+		if (IsNotEqual_V(size, static_cast<T>(0)))
 			return *this / size;
 		return Vec8<T>(*this);
 	}
@@ -556,7 +556,7 @@ Vec8<T> operator/(const Vec8<T>& v1, const Vec8<T>& v2) {
 	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>)
 		return Vec8<T>(Vec8<T>::SIMDStruct::div(v1.m_simdVec, v2.m_simdVec));
 	else {
-		assert(v2.isNull());
+		assert(!v2.isNull());
 		if (!v2.isNull())
 			return Vec8<T>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w,
 				v1.a / v2.a, v1.b / v2.b, v1.c / v2.c, v1.d / v2.d);
@@ -667,8 +667,8 @@ Vec8<T> Max(const Vec8<T>& v1, const Vec8<T>& v2) {
 
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec8<T>& v) {
-	return o << " x : " << v.x << ", y :" << v.y << ", z :" << v.z << ", w :" << v.w <<
-		" a : " << v.a << ", b :" << v.b << ", c :" << v.c << ", d :" << v.d;
+	return o << "{ x : " << v.x << ", y :" << v.y << ", z :" << v.z << ", w :" << v.w <<
+		" a : " << v.a << ", b :" << v.b << ", c :" << v.c << ", d :" << v.d << " }";
 }
 
 } //namespace math 

@@ -8,6 +8,12 @@ namespace drak {
 namespace math {
 
 template<typename T>
+struct Vec2;
+
+template<typename T>
+struct Vec3;
+
+template<typename T>
 struct Vec4 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
@@ -17,13 +23,21 @@ struct Vec4 {
 
 public:
 	Vec4();
-	explicit Vec4(T* arr);
-	explicit Vec4(const T X, const T Y, const T Z, const T W);
+	Vec4(T* arr);
+	Vec4(const T X, const T Y, const T Z, const T W);
 
 	Vec4(const Vec4<T>& v);
 	Vec4(Vec4<T>&& v);
-	~Vec4() = default;
 	Vec4(const SIMDType& ss);
+	Vec4(const Vec2<T>& v);
+	Vec4(Vec2<T>&& v);
+	Vec4(const Vec2<T>& v1, const Vec2<T>& v2);
+	Vec4(Vec2<T>&& v1, Vec2<T>&& v2);
+	Vec4(const Vec3<T>& v);
+	Vec4(Vec3<T>&& v);
+	Vec4(const Vec3<T>& v, T W);
+	Vec4(Vec3<T>&& v, T W);
+	~Vec4() = default;
 
 public:
 	bool operator==(const Vec4<T>& v) const;
@@ -88,6 +102,25 @@ public:
 	Vec4<F32> ceil();
 	Vec4<F32> floor();
 	Vec4<F32> round();
+
+	Vec3<T> xyz();
+	Vec3<T> zyx();
+	Vec3<T> yzx();
+	Vec3<T> zxy();
+
+	Vec3<T> rgb();
+	Vec3<T> bgr();
+	Vec3<T> gbr();
+	Vec3<T> brg();
+
+	Vec3<T> wyz();
+	Vec3<T> zyw();
+	Vec3<T> yzw();
+	Vec3<T> zwy();
+
+	Vec4<T> bgra();
+	Vec4<T> gbra();
+	Vec4<T> brga();
 
 private:
 	F32 computeAngleX();

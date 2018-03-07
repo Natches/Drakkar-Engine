@@ -21,9 +21,17 @@ Vec3<T>::Vec3(const Vec3<T>& v) : m_vec{ v.x, v.y, v.z } {
 
 template<typename T>
 Vec3<T>::Vec3(Vec3<T>&& v) 
-	: m_vec{ std::move(std::forward<Vec2<T>>(v).x),
-	std::move(std::forward<Vec2<T>>(v).y),
-	std::move(std::forward<Vec2<T>>(v).z) } {
+	: m_vec{ std::forward<Vec3<T>>(v).x, std::forward<Vec3<T>>(v).y, std::forward<Vec3<T>>(v).z } {
+}
+
+template<typename T>
+Vec3<T>::Vec3(const Vec2<T>& v)
+	: m_vec{ v.x, v.y, static_cast<T>(0) } {
+}
+
+template<typename T>
+Vec3<T>::Vec3(Vec2<T>&& v)
+	: m_vec{ std::forward<Vec2<T>>(v).x, std::forward<Vec2<T>>(v).y, static_cast<T>(0) } {
 }
 
 template<typename T>
@@ -70,7 +78,7 @@ bool Vec3<T>::isNull() const {
 
 template<typename T>
 F32 Vec3<T>::magnitude() const {
-	return sqrt<F32>(x * x + y * y + z * z);
+	return std::sqrt(static_cast<F32>(x * x + y * y + z * z));
 }
 
 template<typename T>
@@ -109,6 +117,81 @@ template<typename T>
 template<AngleUnit au>
 Vec3<T> Vec3<T>::rotation() const {
 	return Vec3<T>(rotation<Axis::X, au>(), rotation<Axis::Y, au>(), rotation<Axis::Z, au>());
+}
+
+template<>
+Vec3<F32> Vec3<F32>::ceil() {
+	return Vec3<F32>(std::ceil(x), std::ceil(y), std::ceil(z));
+}
+
+template<>
+Vec3<F32> Vec3<F32>::floor() {
+	return Vec3<F32>(std::floor(x), std::floor(y), std::floor(z));
+}
+
+template<>
+Vec3<F32> Vec3<F32>::round() {
+	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::xy() {
+	return Vec2<T>(x, y);
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::yz() {
+	return Vec2<T>(y, z);
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::yx() {
+	return Vec2<T>(y, x);
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::zy() {
+	return Vec2<T>(z, y);
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::xz() {
+	return Vec2<T>(x, z);
+}
+
+template<typename T>
+Vec2<T> Vec3<T>::zx() {
+	return Vec2<T>(z, x);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::zyx() {
+	return Vec3<T>(z, y, x);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::yzx() {
+	return Vec3<T>(y, z, x);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::zxy() {
+	return Vec3<T>(z, x, y);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::bgr() {
+	return Vec3<T>(b, g, r);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::gbr() {
+	return Vec3<T>(g, b, r);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::brg() {
+	return Vec3<T>(b, r, g);
 }
 
 template<typename T>
@@ -180,7 +263,7 @@ Vec3<T>& Vec3<T>::operator*=(const T n) {
 
 template<typename T>
 Vec3<T>& Vec3<T>::operator/=(const T n) {
-	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
 	if (IsNotEqual_V<T>(n, static_cast<T>(0))) {
 		x /= n;
 		y /= n;
@@ -262,7 +345,7 @@ Vec3<T> Vec3<T>::operator*(const T n) const {
 
 template<typename T>
 Vec3<T> Vec3<T>::operator/(const T n) const {
-	assert(IsEqual_V<T>(n, static_cast<T>(0)));
+	assert(IsNotEqual_V<T>(n, static_cast<T>(0)));
 	if (IsNotEqual_V<T>(n, static_cast<T>(0)))
 		return Vec3<T>(x / n, y / n, z / n);
 	return Vec3<T>(x, y, z);
@@ -316,8 +399,8 @@ Vec3<T> Vec3<T>::conjugate() const {
 template<typename T>
 Vec3<T> Vec3<T>::normalize() const {
 	F32 size = magnitude();
-	assert(types::IsEqual_V(size, static_cast<T>(0)))
-	if (types::IsNotEqual_V(size, static_cast<T>(0)))
+	assert(IsNotEqual_V(size, static_cast<T>(0)))
+	if (IsNotEqual_V(size, static_cast<T>(0)))
 		return *this / size;
 	return Vec3<T>(x, y, z);
 }
@@ -359,7 +442,7 @@ Vec3<T> operator*(const Vec3<T>& v1, const Vec3<T>& v2) {
 
 template<typename T>
 Vec3<T> operator/(const Vec3<T>& v1, const Vec3<T>& v2) {
-	assert(v2.isNull());
+	assert(!v2.isNull());
 	if (!v2.isNull())
 		return Vec3<T>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
 	else
@@ -418,7 +501,7 @@ Vec3<T>& operator*=(Vec3<T>& v1, const Vec3<T>& v2) {
 
 template<typename T>
 Vec3<T>& operator/=(Vec3<T>& v1, const Vec3<T>& v2) {
-	assert(v2.isNull());
+	assert(!v2.isNull());
 	if (!v2.isNull()) {
 
 		v1.x /= v2.x;
@@ -483,7 +566,7 @@ Vec3<T> Cross(const Vec3<T>& v1, const Vec3<T>& v2) {
 
 template<typename T>
 F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2) {
-	return (v1 - v2).magnitude();
+	return Direction(v1, v2).magnitude();
 }
 
 template<typename T>
@@ -514,7 +597,7 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2) {
 
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v) {
-	return o << " x : " << v.x << ", y :" << v.y << ", z : " << v.z;
+	return o << "{ x : " << v.x << ", y :" << v.y << ", z : " << v.z << " }";
 }
 
 } //namespace math 
