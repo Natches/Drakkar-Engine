@@ -16,27 +16,16 @@
     <Filter Include="Header Files\Core">
       <UniqueIdentifier>{b2316ecc-3918-4772-bb53-26adba12b5ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{055f1276-c9cc-499e-9668-30fe9569a309}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Core.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Types.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine.hpp">
+    <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Engine.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

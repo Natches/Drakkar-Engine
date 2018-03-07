@@ -22,17 +22,12 @@
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
-    <ClInclude Include="..\DrakCore\Engine.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\DrakCore\Engine.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{d9be413d-e677-48aa-b0e9-6f1b91f59367}</ProjectGuid>
-    <RootNamespace>DrakMath</RootNamespace>
+    <RootNamespace>DrakCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>DrakCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
