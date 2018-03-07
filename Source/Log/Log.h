@@ -26,7 +26,7 @@ struct LogCategory {
 	static const LoggerVerbosity compileMaxVerbosity;
 };
 
-FILE* OpenLogFile();
+FILE* OpenLogFile(const char* filenameFromCategory = nullptr);
 void CloseLogFile(FILE* file);
 
 #define DEFINE_CATEGORY(name) struct name : public LogCategory<name>{}; 
@@ -34,7 +34,7 @@ void CloseLogFile(FILE* file);
 
 #define DRAK_LOG(category, verbosity, outputString, ...){			\
 	if constexpr(verbosity <= category::compileMaxVerbosity){		\
-		FILE * logFile = OpenLogFile();								\
+		FILE * logFile = OpenLogFile(#category);					\
 		switch (verbosity) {										\
 		case LoggerVerbosity::DEBUG:								\
 				fprintf(logFile, outputString, __VA_ARGS__);		\
