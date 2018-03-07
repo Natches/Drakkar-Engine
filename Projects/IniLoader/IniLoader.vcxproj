@@ -25,6 +25,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\IniLoader\IniFile.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\IniLoader\IniFile.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9c7c677f-f5a7-4e19-a6ad-da14a6396abe}</ProjectGuid>

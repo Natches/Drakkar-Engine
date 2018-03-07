@@ -25,7 +25,7 @@ bool IniFile::LoadFile(const char * name)
 			std::getline(fs, line);
 			std::string ParamName = line.substr(0, line.find_first_of(" = "));
 			std::string ParamVal = line.substr(line.find_first_of(" = ") + 3);
-			parameters.insert(std::pair<const char*, const char*>(ParamName.c_str(), ParamVal.c_str()));
+			parameters.insert(std::pair<std::string, std::string>(ParamName, ParamVal));
 		}
 	}
 	fs.close();
