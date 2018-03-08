@@ -22,7 +22,7 @@
     <ClCompile Include="..\..\Source\Log\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Log\Log.h" />
+    <ClInclude Include="..\..\Source\Log\Log.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
