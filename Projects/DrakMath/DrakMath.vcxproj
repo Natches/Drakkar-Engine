@@ -20,12 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine.hpp" />
+    <ClInclude Include="..\..\Source\Core\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
-    <ClInclude Include="..\DrakCore\Engine.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\DrakCore\Engine.cpp" />
+    <ClCompile Include="..\..\Source\Core\Engine.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

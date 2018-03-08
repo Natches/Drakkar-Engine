@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\Source\Core\Engine.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\ISystem.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Engine.cpp">
