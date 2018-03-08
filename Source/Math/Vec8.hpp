@@ -158,8 +158,8 @@ std::ostream& operator<<(std::ostream& o, const Vec8<T>& v);
 
 using Vec8c = typename Vec8<U8>;
 using Vec8sc = typename Vec8<I8>;
-using Vec8si = typename Vec8<I16>;
-using Vec8sui = typename Vec8<U16>;
+using Vec8s = typename Vec8<I16>;
+using Vec8us = typename Vec8<U16>;
 using Vec8i = typename Vec8<I32>;
 using Vec8ui = typename Vec8<U32>;
 using Vec8lli = typename Vec8<I64>;
