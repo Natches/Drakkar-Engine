@@ -1,4 +1,4 @@
-#include "IniFile.h"
+#include "IniFile.hpp"
 int main()
 {
 	IniFile file;

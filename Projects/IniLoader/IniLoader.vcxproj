@@ -23,7 +23,7 @@
     <ClCompile Include="..\..\Source\IniLoader\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\IniLoader\IniFile.h" />
+    <ClInclude Include="..\..\Source\IniLoader\IniFile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\IniLoader\IniFile.inl" />
