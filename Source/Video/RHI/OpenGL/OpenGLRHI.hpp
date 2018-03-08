@@ -1,27 +1,31 @@
 #pragma once
 
-#include <Core/Core.hpp>
-
-#include <Video/RHI/OpenGL/OpenGLWindow.hpp>
-#include <Video/RHI/OpenGL/OpenGLContext.hpp>
+#include <Core/Types.hpp>
 
 namespace drak {
 namespace video {
+namespace ogl {
 
+extern bool s_Ready;
 
-class OpenGLRHI final {
-public:
-	OpenGLRHI()	= delete;
+bool Init();
 
-	static bool	Startup();
-	static void	Shutdown();
-
-	static OpenGLWindow* CreateGLWindow(I32 resX, I32 resY, const char* title);
-	static OpenGLContext* CreateGLContext(OpenGLWindow* const pWin);
-
-private:
-	static bool	s_ready;
+enum class DepthFunc : U8 {
+	LESS, 
+	LEQUAL, 
+	EQUAL, 
+	GEQUAL, 
+	GREATER 
 };
+void DepthMode(bool on, DepthFunc func = DepthFunc::LESS);
 
+enum class CullFunc : U8 { 
+	FRONT,
+	BACK, 
+	BOTH 
+};
+void CullMode(bool on, CullFunc func = CullFunc::BACK);
+
+} // namespace ogl
 } // namespace gfx
 } // namespace drak

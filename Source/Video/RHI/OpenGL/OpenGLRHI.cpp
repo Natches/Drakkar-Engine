@@ -1,56 +1,48 @@
-#include "SDL.h"
-#undef main // undefine SDL main to avoid potential name conflicts
-
+#include <GL/glew.h>
 #include <Video/RHI/OpenGL/OpenGLRHI.hpp>
-#include <Video/RHI/OpenGL/OpenGLWindow.hpp>
 
 namespace drak {
 namespace video {
-	
+namespace ogl {
+
+#pragma region Macro Utils
+#define DK_SELECT(query)	switch(query) {
+#define DK_CASE(cond, line)	case cond: line; break;
+#define DK_EXIT				}
+#pragma endregion
+
 #pragma region Static Initialization
-bool OpenGLRHI::s_ready	= false;
+bool s_ready = false;
 #pragma endregion
 
-#pragma region Startup/Shutdown
-bool OpenGLRHI::Startup() {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		// TODO (Simon): log DrakVideo::Init() failed error message
-		return false;
-	}
-
-	s_ready = true;
-
-	//TODO (Simon): additional video init code
-
-	return true;
+bool Init() {
+	glewExperimental = true;
+	s_ready = glewInit() == GLEW_OK;
+	return s_ready;
 }
 
-void OpenGLRHI::Shutdown() {
-	
-}
-#pragma endregion
+void DepthMode(bool on, DepthFunc func) {
+	on ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 
-OpenGLWindow* OpenGLRHI::CreateGLWindow(I32 resX, I32 resY, const char* title) {
-	OpenGLWindow* pWin = nullptr;
-	if (s_ready) {
-		pWin = new OpenGLWindow(resX, resY, title);
-	}
-	else {
-		// TODO (Simon): log DrakVideo::Init() uncalled error message
-	}
-	return pWin;
+	DK_SELECT(func) 
+		DK_CASE(DepthFunc::LESS,	glDepthFunc(GL_LESS))
+		DK_CASE(DepthFunc::LEQUAL,	glDepthFunc(GL_LEQUAL))
+		DK_CASE(DepthFunc::EQUAL,	glDepthFunc(GL_EQUAL))
+		DK_CASE(DepthFunc::GEQUAL,	glDepthFunc(GL_GEQUAL))
+		DK_CASE(DepthFunc::GREATER, glDepthFunc(GL_GREATER))
+	DK_EXIT
 }
 
-OpenGLContext* OpenGLRHI::CreateGLContext(OpenGLWindow* const pWin) {
-	OpenGLContext* pCtx = nullptr;
-	if (s_ready && pWin != nullptr) {
-		pCtx = new OpenGLContext(pWin);
-	}
-	else {
-		// TODO (Simon): log DrakVideo error message
-	}
-	return pCtx;
+void CullMode(bool on, CullFunc func) {
+	on ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+
+	DK_SELECT(func)
+		DK_CASE(CullFunc::FRONT,	glCullFace(GL_FRONT))
+		DK_CASE(CullFunc::BACK,		glCullFace(GL_BACK))
+		DK_CASE(CullFunc::BOTH,		glCullFace(GL_FRONT_AND_BACK))
+	DK_EXIT
 }
 
+} // namespace ogl
 } // namespace gfx
 } // namespace drak

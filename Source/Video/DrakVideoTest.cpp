@@ -1,4 +1,5 @@
 #include <Video/DrakVideo.hpp>
+#include <Video/RHI/OpenGL/OpenGLRHI.hpp>
 
 using namespace drak::video;
 
@@ -20,5 +21,6 @@ int main() {
 		DrakVideo::Shutdown();
 		return 0;
 	}
+
 	return 1;
 }
