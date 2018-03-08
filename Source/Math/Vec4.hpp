@@ -2,16 +2,12 @@
 
 #include <Math/MathUtils.hpp>
 #include <Math/SIMDUtils.hpp>
+#include <Math/Vec2.hpp>
+#include <Math/Vec3.hpp>
 #include<ostream>
 
 namespace drak {
 namespace math {
-
-template<typename T>
-struct Vec2;
-
-template<typename T>
-struct Vec3;
 
 template<typename T>
 struct Vec4 {

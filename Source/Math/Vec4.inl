@@ -43,7 +43,7 @@ Vec4<T>::Vec4(const T X, const T Y, const T Z, const T W) {
 template<typename T>
 Vec4<T>::Vec4(const Vec4<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = v.m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -51,7 +51,7 @@ Vec4<T>::Vec4(const Vec4<T>& v) {
 template<typename T>
 Vec4<T>::Vec4(Vec4<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = std::forward<Vec4<T>>(v).m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }

@@ -15,7 +15,6 @@ public:
 	Vec2();
 
 	Vec2(const T X, const T Y);
-
 	Vec2(const Vec2<T>& v);
 	Vec2(Vec2<T>&& v);
 	~Vec2() = default;

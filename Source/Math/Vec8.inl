@@ -47,7 +47,7 @@ Vec8<T>::Vec8(const T X, const T Y, const T Z, const T W,
 template<typename T>
 Vec8<T>::Vec8(const Vec8<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = v.m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -55,16 +55,16 @@ Vec8<T>::Vec8(const Vec8<T>& v) {
 template<typename T>
 Vec8<T>::Vec8(Vec8<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(std::forward<Vec4<T>>(v).m_vec);
+		m_simdVec = std::forward<Vec8<T>>(v).m_simdVec;
 	else
-		memcpy(m_vec, std::forward<Vec4<T>>(v).m_vec, sizeof(m_vec));
+		memcpy(m_vec, std::forward<Vec8<T>>(v).m_vec, sizeof(m_vec));
 }
 
 template<typename T>
 Vec8<T>::Vec8(const Vec4<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, v.x, v.y, v.z, v.w,
-			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v).m_simdVec,
+			Vec4<T>::SIMDStruct::set(static_cast<T>(0)));
 	else {
 		x = v.x;
 		y = v.y;
@@ -80,9 +80,8 @@ Vec8<T>::Vec8(const Vec4<T>& v) {
 template<typename T>
 Vec8<T>::Vec8(Vec4<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v).x, std::forward<Vec4<T>>(v).y,
-			std::forward<Vec4<T>>(v).z, std::forward<Vec4<T>>(v).w, static_cast<T>(0),
-			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v).m_simdVec,
+			Vec4<T>::SIMDStruct::set(static_cast<T>(0)));
 	else {
 		x = std::forward<Vec4<T>>(v).x;
 		y = std::forward<Vec4<T>>(v).y;
@@ -98,7 +97,7 @@ Vec8<T>::Vec8(Vec4<T>&& v) {
 template<typename T>
 Vec8<T>::Vec8(const Vec4<T>& v1, const Vec4<T>& v2) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, v1.x, v1.y, v1.z, v1.w, v2.x, v2.y, v2.z, v2.w);
+		SIMDStruct::set(m_simdVec, v1.m_simdVec, v2.m_simdVec);
 	else {
 		x = v1.x;
 		y = v1.y;
@@ -114,9 +113,8 @@ Vec8<T>::Vec8(const Vec4<T>& v1, const Vec4<T>& v2) {
 template<typename T>
 Vec8<T>::Vec8(Vec4<T>&& v1, Vec4<T>&& v2) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v1).x, std::forward<Vec4<T>>(v1).y,
-			std::forward<Vec4<T>>(v1).z, std::forward<Vec4<T>>(v1).w, std::forward<Vec4<T>>(v2).x,
-			std::forward<Vec4<T>>(v2).y, std::forward<Vec4<T>>(v2).z, std::forward<Vec4<T>>(v2).w);
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v1).m_simdVec,
+			std::forward<Vec4<T>>(v2).m_simdVec);
 	else {
 		x = std::forward<Vec4<T>>(v1).x;
 		y = std::forward<Vec4<T>>(v1).y;
@@ -218,7 +216,7 @@ F32 Vec8<T>::magnitude() const {
 template<typename T>
 Vec8<T>& Vec8<T>::operator=(const Vec8<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = v.m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 	return *this;
@@ -227,7 +225,7 @@ Vec8<T>& Vec8<T>::operator=(const Vec8<T>& v) {
 template<typename T>
 Vec8<T>& Vec8<T>::operator=(Vec8<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(std::forward<Vec8<T>>(v).m_vec);
+		m_simdVec = std::forward<Vec8<T>>(v).m_simdVec;
 	else
 		memcpy(m_vec, std::forward<Vec8<T>>(v).m_vec, sizeof(m_vec));
 	return *this;
@@ -740,8 +738,11 @@ auto Dot(const Vec8<T>& v1, const Vec8<T>& v2) {
 }
 
 template<typename T>
-auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2) {
-	return Vec8<T>::SIMDStruct::twiceHorizontalAdd((v1 * v2).m_simdVec);
+typename Vec8<T>::SIMDType EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1, const Vec8<T>& col2) {
+
+	return Vec8<T>::SIMDStruct::eightHorizontalAdd((row1 * col1).m_simdVec, (row1 * col2).m_simdVec,
+		(row2 * col1).m_simdVec, (row2 * col2).m_simdVec);
 }
 
 template<typename T>

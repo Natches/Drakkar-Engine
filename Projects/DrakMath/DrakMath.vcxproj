@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
+    <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\Source\Math\Vec8.hpp" />
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp" />
     <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp" />
@@ -30,6 +31,12 @@
     <ClInclude Include="..\..\Source\Math\Vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\Math\Matrix4x4.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="..\..\Source\Math\SIMDUtils.inl" />
     <None Include="..\..\Source\Math\Vec2.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -147,9 +154,9 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>
@@ -165,8 +172,8 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;</AdditionalIncludeDirectories>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>
@@ -184,8 +191,9 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -205,8 +213,9 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

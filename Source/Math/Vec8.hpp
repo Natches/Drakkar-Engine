@@ -2,7 +2,9 @@
 
 #include<Math/MathUtils.hpp>
 #include<Math/SIMDUtils.hpp>
+#include<Math/Vec4.hpp>
 #include<ostream>
+#include <initializer_list>
 
 namespace drak {
 namespace math {
@@ -145,7 +147,8 @@ template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
-auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2);
+typename Vec8<T>::SIMDType EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1, const Vec8<T>& col2);
 
 template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
