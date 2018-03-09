@@ -30,7 +30,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{d9be413d-e677-48aa-b0e9-6f1b91f59367}</ProjectGuid>
+    <ProjectGuid>{B229E3D0-D01E-4C43-9452-5892D30B67ED}</ProjectGuid>
     <RootNamespace>DrakCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
