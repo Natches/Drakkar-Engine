@@ -21,13 +21,18 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\DrakVideo.cpp" />
     <ClCompile Include="..\..\Source\Video\DrakVideoTest.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.cpp" />
+    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLRHI.cpp" />
+    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp" />
     <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\DrakVideo.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\OpenGLRHI.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLFrameBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLRHI.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLTypes.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexArray.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp" />
     <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp" />

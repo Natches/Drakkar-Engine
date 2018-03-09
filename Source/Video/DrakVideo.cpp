@@ -9,7 +9,7 @@
 #include <vld.h>
 
 #include <Video/DrakVideo.hpp>
-#include <Video/RHI/OpenGL/OpenGLRHI.hpp>
+#include <Video/RHI/OpenGL/GLRHI.hpp>
 
 namespace drak {
 namespace video {
@@ -29,13 +29,13 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
-	if (!ogl::Init()) {
+	if (!ogl::Init(true)) {
 		// TODO (Simon): log DrakVideo::Init() failed error message
 		return false;
 	}
 
-	ogl::DepthMode	(true, ogl::DepthFunc::LESS);
-	ogl::CullMode	(true, ogl::CullFunc::BACK);
+	ogl::DepthFunc	(true, ogl::DepthMode::LESS);
+	ogl::CullFunc	(true, ogl::FaceSide::BACK);
 
 	s_ready = true;
 	return true;

@@ -1,17 +1,19 @@
 #pragma once
 
-using I8 = signed char;
-using U8 = unsigned char;
-using byte = U8;
+using I8    = signed char;
+using I16   = signed short;
+using I32   = signed int;
+using I64   = signed long long;
 
-using I16 = short int;
-using U16 = unsigned short int;
+using U8    = unsigned char;
+using U16   = unsigned short;
+using U32   = unsigned int;
+using U64   = unsigned long long;
 
-using I32 = int;
-using U32 = unsigned int;
+using UL32	= unsigned long;
 
-using I64 = long long int;
-using U64 = unsigned long long int;
+using F32   = float;
+using F64   = double;
 
-using F32 = float;
-using F64 = double;
+using byte  = I8;
+using ubyte = U8;

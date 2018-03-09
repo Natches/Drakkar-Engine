@@ -1,5 +1,5 @@
 #include <Video/DrakVideo.hpp>
-#include <Video/RHI/OpenGL/OpenGLRHI.hpp>
+#include <Video/RHI/OpenGL/GLRHI.hpp>
 
 using namespace drak::video;
 
