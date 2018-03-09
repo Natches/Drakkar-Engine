@@ -19,15 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Core\AComponent.h" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine.hpp" />
+    <ClInclude Include="..\..\Source\Core\AGameObject.h" />
     <ClInclude Include="..\..\Source\Core\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\SceneSystem.h" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Core\AComponent.cpp" />
     <ClCompile Include="..\..\Source\Core\Engine.cpp" />
+    <ClCompile Include="..\..\Source\Core\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Main.cpp" />
     <ClCompile Include="..\..\Source\Core\SceneSystem.cpp" />
   </ItemGroup>

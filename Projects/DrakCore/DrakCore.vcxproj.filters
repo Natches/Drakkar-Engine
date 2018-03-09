@@ -36,6 +36,12 @@
     <ClInclude Include="..\..\Source\Core\SceneSystem.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\AGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\AComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Engine.cpp">
@@ -45,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\SceneSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\AGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\AComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
