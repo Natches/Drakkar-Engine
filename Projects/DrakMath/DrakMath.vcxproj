@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Core.hpp" />
-    <ClInclude Include="..\..\Source\Core\Types.hpp" />
-    <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
     <ClInclude Include="..\..\Source\Math\Vec8.hpp" />
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp" />
     <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp" />

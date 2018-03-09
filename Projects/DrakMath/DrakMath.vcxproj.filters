@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{f65da3f8-433b-45d3-8e33-f8043e32cf0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Core">
-      <UniqueIdentifier>{b2316ecc-3918-4772-bb53-26adba12b5ee}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp">
@@ -35,15 +32,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec4.hpp">
       <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Types.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Core.hpp">
-      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec8.hpp">
       <Filter>Header Files\Math</Filter>
