@@ -3,7 +3,7 @@
 #include "SDL_video.h"
 #include "SDL_events.h"
 
-#include <Video/Windowing/RenderWindow.hpp>
+#include <Video/Windowing/ARenderWindow.hpp>
 
 namespace drak {
 namespace video {
@@ -11,10 +11,10 @@ namespace video {
 /*!
 * \class SDLRenderWindow
 * \ingroup DrakVideo
-* \brief Inherits Window; builds on an SDLWindow
+* \brief Inherits ARenderWindow; builds on an SDL_Window
 *
 */
-class SDLRenderWindow : public RenderWindow {
+class SDLRenderWindow : public ARenderWindow {
 protected:
 	SDLRenderWindow(const WindowSettings& settings);
 	virtual ~SDLRenderWindow();

@@ -17,14 +17,14 @@ enum class DepthFunc : U8 {
 	GEQUAL, 
 	GREATER 
 };
-void DepthMode(bool on, DepthFunc func = DepthFunc::LESS);
+void DepthMode(bool on, DepthFunc func);
 
 enum class CullFunc : U8 { 
 	FRONT,
 	BACK, 
 	BOTH 
 };
-void CullMode(bool on, CullFunc func = CullFunc::BACK);
+void CullMode(bool on, CullFunc func);
 
 } // namespace ogl
 } // namespace gfx

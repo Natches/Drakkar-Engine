@@ -4,7 +4,7 @@ namespace drak {
 namespace video {
 
 SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
-:	RenderWindow(settings) {
+:	ARenderWindow(settings) {
 	m_pWin = SDL_CreateWindow(
 		settings.title,
 		SDL_WINDOWPOS_CENTERED,

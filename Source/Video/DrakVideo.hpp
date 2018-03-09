@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Windowing/RenderWindow.hpp>
+#include <Video/Windowing/ARenderWindow.hpp>
 #include <Video/VideoSettings.hpp>
 
 namespace drak {
@@ -21,10 +21,10 @@ public:
 	static bool	Startup(const VideoSettings& settings);
 	static void	Shutdown();
 
-	static RenderWindow*	MainWindow() { return s_pMainWin; }
+	static ARenderWindow*	MainWindow() { return s_pMainWin; }
 
 private:
-	static RenderWindow*	s_pMainWin;
+	static ARenderWindow*	s_pMainWin;
 	static bool				s_ready;
 };
 

@@ -9,12 +9,13 @@
 #include <vld.h>
 
 #include <Video/DrakVideo.hpp>
+#include <Video/RHI/OpenGL/OpenGLRHI.hpp>
 
 namespace drak {
 namespace video {
 
 #pragma region Static Initialization
-RenderWindow* DrakVideo::s_pMainWin	= nullptr;
+ARenderWindow* DrakVideo::s_pMainWin = nullptr;
 bool DrakVideo::s_ready	= false;
 #pragma endregion
 
@@ -28,7 +29,15 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
-	s_ready	= true;
+	if (!ogl::Init()) {
+		// TODO (Simon): log DrakVideo::Init() failed error message
+		return false;
+	}
+
+	ogl::DepthMode	(true, ogl::DepthFunc::LESS);
+	ogl::CullMode	(true, ogl::CullFunc::BACK);
+
+	s_ready = true;
 	return true;
 }
 

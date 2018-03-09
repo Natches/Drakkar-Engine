@@ -6,7 +6,7 @@ using namespace drak::video;
 int main() {
 	WindowSettings	ws = {"DrakVideoTest", 1280, 720};
 	VideoSettings	settings = {ws};
-	RenderWindow*	pWin;
+	ARenderWindow*	pWin;
 
 	if (DrakVideo::Startup(settings)) {
 		pWin = DrakVideo::MainWindow();
