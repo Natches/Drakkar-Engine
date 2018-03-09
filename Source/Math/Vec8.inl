@@ -554,6 +554,15 @@ Vec8<T> Vec8<T>::normalize() const {
 	}
 }
 
+template<typename T>
+Vec8<T> Vec8<T>::broadcast(const Vec4<T>& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		return { Vec8<T>::SIMDStruct::broadcast(v.m_simdVec) };
+	else {
+		return { v, v };
+	}
+}
+
 template<>
 Vec8<F32> Vec8<F32>::ceil() {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
@@ -734,25 +743,72 @@ Vec8<T>& operator|=(ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& 
 
 template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2) {
-	return Vec8<T>::SIMDStruct::horizontalAdd((v1 * v2).m_simdVec);
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>)
+		return Vec8<T>::SIMDStruct::horizontalAdd((v1 * v2).m_simdVec);
+	else {
+		Vec8<T> temp{ v1 * v2 };
+		Vec4<T> temp2{ temp.abcd() + temp.xyzw() };
+		Vec2<T> temp3{ temp2.xy() + temp2.zw() };
+		return temp3.x + temp3.y;
+	}
 }
 
 template<typename T>
-typename Vec8<T>::SIMDType EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
 	const Vec8<T>& col1, const Vec8<T>& col2) {
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {	
+		return { Vec8<T>::SIMDStruct::eightHorizontalAdd((row1 * col1).m_simdVec,
+			(row1 * col2).m_simdVec, (row2 * col1).m_simdVec, (row2 * col2).m_simdVec) };
+	}
+	else {
+		Vec8<T> Mult1{ (row1 * col1) };
+		Vec8<T> Mult2{ (row1 * col2) };
+		Vec8<T> Dot1{ { Mult1.xyzw().xy() + Mult1.xyzw().zw(),
+			Mult1.abcd().xy() + Mult1.abcd().zw() },{ Mult2.xyzw().xy() + Mult2.xyzw().zw(),
+			Mult2.abcd().xy() + Mult2.abcd().zw() } };
 
-	return Vec8<T>::SIMDStruct::eightHorizontalAdd((row1 * col1).m_simdVec, (row1 * col2).m_simdVec,
-		(row2 * col1).m_simdVec, (row2 * col2).m_simdVec);
+		Mult1 = { (row2 * col1) };
+		Mult2 = { (row2 * col2) };
+		Vec8<T> Dot2{ { Mult1.xyzw().xy() + Mult1.xyzw().zw(),
+			Mult1.abcd().xy() + Mult1.abcd().zw() },{ Mult2.xyzw().xy() + Mult2.xyzw().zw(),
+			Mult2.abcd().xy() + Mult2.abcd().zw() } };
+
+		return { Vec4<T>(Dot1.xyzw().xy().x + Dot1.xyzw().xy().y,
+			Dot1.xyzw().wz().x + Dot1.xyzw().wz().y,
+			Dot1.abcd().xy().x + Dot1.abcd().xy().y,
+			Dot1.abcd().wz().x + Dot1.abcd().wz().y),
+			Vec4<T>( Dot2.xyzw().xy().x + Dot2.xyzw().xy().y,
+			Dot2.xyzw().wz().x + Dot2.xyzw().wz().y,
+			Dot2.abcd().xy().x + Dot2.abcd().xy().y,
+			Dot2.abcd().wz().x + Dot2.abcd().wz().y ) };
+	}
 }
+
 
 template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2) {
-	return Vec8<T>::SIMDStruct::min(v1, v2);
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>)
+		return Vec8<T>::SIMDStruct::min(v1, v2);
+	else {
+		Vec8<T> res;
+		for (int i = 0; i < 8; ++i) 			{
+			res.m_vec[i] = v1 < v2 ? v1.m_vec[i] : v2.m_vec[i];
+		}
+		return res;
+	}
 }
 
 template<typename T>
 Vec8<T> Max(const Vec8<T>& v1, const Vec8<T>& v2) {
-	return Vec8<T>::SIMDStruct::max(v1, v2);
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>)
+		return Vec8<T>::SIMDStruct::max(v1, v2);
+	else {
+		Vec8<T> res;
+		for (int i = 0; i < 8; ++i) {
+			res.m_vec[i] = v1 > v2 ? v1.m_vec[i] : v2.m_vec[i];
+		}
+		return res;
+	}
 }
 
 template<typename T>

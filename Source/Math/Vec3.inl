@@ -405,9 +405,11 @@ Vec3<T> Vec3<T>::normalize() const {
 	return Vec3<T>(x, y, z);
 }
 
+/*
 template<typename T>
 template<Axis ax>
 Vec3<T> Vec3<T>::rotate(const F32 angle) const {
+	static_assert(false, "Not implemented !!");
 	return Vec3<T>();
 	//TODO rotation with quat return Vec3<T>();
 }
@@ -415,9 +417,11 @@ Vec3<T> Vec3<T>::rotate(const F32 angle) const {
 template<typename T>
 template<Axis ax>
 Vec3<T> Vec3<T>::rotate(const Vec3<T>& euler) const {
+	static_assert(false, "Not implemented !!");
 	return Vec3<T>();
 	//TODO rotation with quat return Vec3<T>();
 }
+*/
 
 template<typename T>
 template<typename U>

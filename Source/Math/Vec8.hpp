@@ -4,7 +4,6 @@
 #include<Math/SIMDUtils.hpp>
 #include<Math/Vec4.hpp>
 #include<ostream>
-#include <initializer_list>
 
 namespace drak {
 namespace math {
@@ -31,6 +30,7 @@ public:
 	Vec8(Vec4<T>&& v1, Vec4<T>&& v2);
 	~Vec8() = default;
 	Vec8(const SIMDType& ss);
+	static Vec8<T> broadcast(const Vec4<T>& v);
 
 public:
 	bool operator==(const Vec8<T>& v) const;
@@ -147,7 +147,7 @@ template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
-typename Vec8<T>::SIMDType EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
 	const Vec8<T>& col1, const Vec8<T>& col2);
 
 template<typename T>
@@ -161,8 +161,8 @@ std::ostream& operator<<(std::ostream& o, const Vec8<T>& v);
 
 using Vec8c = typename Vec8<U8>;
 using Vec8sc = typename Vec8<I8>;
-using Vec8si = typename Vec8<I16>;
-using Vec8sui = typename Vec8<U16>;
+using Vec8s = typename Vec8<I16>;
+using Vec8us = typename Vec8<U16>;
 using Vec8i = typename Vec8<I32>;
 using Vec8ui = typename Vec8<U32>;
 using Vec8lli = typename Vec8<I64>;

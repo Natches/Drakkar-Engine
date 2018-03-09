@@ -85,10 +85,10 @@ public:
 	Vec4<T> conjugate() const;
 	Vec4<T> normalize() const;
 
-	template<Axis ax>
+	/*template<Axis ax>
 	Vec4<T> rotate(const F32 angle) const;
 	template<Axis ax>
-	Vec4<T> rotate(const Vec4<T>& euler) const;
+	Vec4<T> rotate(const Vec4<T>& euler) const;*/
 	//Todo template<Axis ax>
 	//Todo Vec4<T> rotate(const Vec4<T>& euler) const;
 
@@ -98,6 +98,13 @@ public:
 	Vec4<F32> ceil();
 	Vec4<F32> floor();
 	Vec4<F32> round();
+
+	Vec2<T> xy();
+	Vec2<T> zw();
+	Vec2<T> yz();
+	Vec2<T> yx();
+	Vec2<T> wz();
+	Vec2<T> zy();
 
 	Vec3<T> xyz();
 	Vec3<T> zyx();
@@ -119,9 +126,9 @@ public:
 	Vec4<T> brga();
 
 private:
-	F32 computeAngleX();
+	/*F32 computeAngleX();
 	F32 computeAngleY();
-	F32 computeAngleZ();
+	F32 computeAngleZ();*/
 
 public:
 	union {
@@ -200,8 +207,9 @@ Vec4<T> Min(const Vec4<T>& v1, const Vec4<T>& v2);
 template<typename T>
 Vec4<T> Max(const Vec4<T>& v1, const Vec4<T>& v2);
 
+/*
 template<Axis ax, typename T>
-void RotateAround(Vec4<T>& v1, const Vec4<T>& point, const F32 angle);
+void RotateAround(Vec4<T>& v1, const Vec4<T>& point, const F32 angle);*/
 
 /*
 template<typename T>
@@ -232,8 +240,8 @@ std::ostream& operator<<(std::ostream& o, const Vec4<T>& v);
 
 using Vec4c = typename Vec4<U8>;
 using Vec4sc = typename Vec4<I8>;
-using Vec4si = typename Vec4<I16>;
-using Vec4sui = typename Vec4<U16>;
+using Vec4s = typename Vec4<I16>;
+using Vec4us = typename Vec4<U16>;
 using Vec4i = typename Vec4<I32>;
 using Vec4ui = typename Vec4<U32>;
 using Vec4lli = typename Vec4<I64>;

@@ -565,6 +565,36 @@ Vec4<F32> Vec4<F32>::round() {
 }
 
 template<typename T>
+Vec2<T> Vec4<T>::xy() {
+	return Vec2<T>(x, y);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zw() {
+	return Vec2<T>(z, w);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yz() {
+	return Vec2<T>(y, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yx() {
+	return Vec2<T>(y, x);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::wz() {
+	return Vec2<T>(w, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zy() {
+	return Vec2<T>(z, y);
+}
+
+template<typename T>
 Vec3<T> Vec4<T>::xyz() {
 	return Vec3<T>(x, y, z);
 }
