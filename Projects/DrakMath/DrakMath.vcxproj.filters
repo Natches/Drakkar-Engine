@@ -13,33 +13,47 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Math">
-      <UniqueIdentifier>{f65da3f8-433b-45d3-8e33-f8043e32cf0e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Core.hpp">
-      <Filter>Header Files\Core</Filter>
+    <ClCompile Include="..\..\Source\Math\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Math\MathUtils.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec2.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec3.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec4.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Vec8.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Engine.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
+    <None Include="..\..\Source\Math\SIMDUtils.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec2.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec8.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
