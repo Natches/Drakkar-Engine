@@ -25,7 +25,7 @@ struct AddRefIf {
 
 template<typename T>
 struct AddRefIf<true, T> {
-	using type = T & ;
+	using type = T& ;
 };
 
 template<bool b, typename T>
