@@ -169,8 +169,8 @@ std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
 
 using Vec2c    = typename Vec2<U8>;
 using Vec2sc   = typename Vec2<I8>;
-using Vec2si   = typename Vec2<I16>;
-using Vec2sui  = typename Vec2<U16>;
+using Vec2s    = typename Vec2<I16>;
+using Vec2us  = typename Vec2<U16>;
 using Vec2i    = typename Vec2<I32>;
 using Vec2ui   = typename Vec2<U32>;
 using Vec2lli  = typename Vec2<I64>;

@@ -74,10 +74,10 @@ public:
 
 	Vec3<T> conjugate() const;
 	Vec3<T> normalize() const;
-	template<Axis ax>
+	/*template<Axis ax>
 	Vec3<T> rotate(const F32 angle) const;
 	template<Axis ax>
-	Vec3<T> rotate(const Vec3<T>& euler) const;
+	Vec3<T> rotate(const Vec3<T>& euler) const;*/
 	//Todo template<Axis ax>
 	//Todo Vec3<T> rotate(const Vec3<T>& euler) const;
 
@@ -178,11 +178,12 @@ F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 Vec3<T> Direction(const Vec3<T>& origin, const Vec3<T>& destination);
 
+/*
 template<Axis ax, typename T>
 void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const F32 angle);
 
 template<Axis ax, typename T>
-void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Vec3<T>& euler);
+void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Vec3<T>& euler);*/
 
 //TODO template<typename T>
 //TODO template<Axis ax>
@@ -208,8 +209,8 @@ std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
 
 using Vec3c = typename Vec3<U8>;
 using Vec3sc = typename Vec3<I8>;
-using Vec3si = typename Vec3<I16>;
-using Vec3sui = typename Vec3<U16>;
+using Vec3s = typename Vec3<I16>;
+using Vec3us = typename Vec3<U16>;
 using Vec3i = typename Vec3<I32>;
 using Vec3ui = typename Vec3<U32>;
 using Vec3lli = typename Vec3<I64>;

@@ -20,12 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine.hpp" />
+    <ClInclude Include="..\..\Source\Core\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Core\Engine.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{d9be413d-e677-48aa-b0e9-6f1b91f59367}</ProjectGuid>
+    <ProjectGuid>{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}</ProjectGuid>
     <RootNamespace>DrakCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

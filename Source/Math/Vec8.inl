@@ -61,6 +61,75 @@ Vec8<T>::Vec8(Vec8<T>&& v) {
 }
 
 template<typename T>
+Vec8<T>::Vec8(const Vec4<T>& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, v.x, v.y, v.z, v.w,
+			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+	else {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+		w = v.w;
+		a = static_cast<T>(0);
+		b = static_cast<T>(0);
+		c = static_cast<T>(0);
+		d = static_cast<T>(0);
+	}
+}
+
+template<typename T>
+Vec8<T>::Vec8(Vec4<T>&& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v).x, std::forward<Vec4<T>>(v).y,
+			std::forward<Vec4<T>>(v).z, std::forward<Vec4<T>>(v).w, static_cast<T>(0),
+			static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+	else {
+		x = std::forward<Vec4<T>>(v).x;
+		y = std::forward<Vec4<T>>(v).y;
+		z = std::forward<Vec4<T>>(v).z;
+		w = std::forward<Vec4<T>>(v).w;
+		a = static_cast<T>(0);
+		b = static_cast<T>(0);
+		c = static_cast<T>(0);
+		d = static_cast<T>(0);
+	}
+}
+
+template<typename T>
+Vec8<T>::Vec8(const Vec4<T>& v1, const Vec4<T>& v2) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, v1.x, v1.y, v1.z, v1.w, v2.x, v2.y, v2.z, v2.w);
+	else {
+		x = v1.x;
+		y = v1.y;
+		z = v1.z;
+		w = v1.w;
+		a = v2.x;
+		b = v2.y;
+		c = v2.z;
+		d = v2.w;
+	}
+}
+
+template<typename T>
+Vec8<T>::Vec8(Vec4<T>&& v1, Vec4<T>&& v2) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, std::forward<Vec4<T>>(v1).x, std::forward<Vec4<T>>(v1).y,
+			std::forward<Vec4<T>>(v1).z, std::forward<Vec4<T>>(v1).w, std::forward<Vec4<T>>(v2).x,
+			std::forward<Vec4<T>>(v2).y, std::forward<Vec4<T>>(v2).z, std::forward<Vec4<T>>(v2).w);
+	else {
+		x = std::forward<Vec4<T>>(v1).x;
+		y = std::forward<Vec4<T>>(v1).y;
+		z = std::forward<Vec4<T>>(v1).z;
+		w = std::forward<Vec4<T>>(v1).w;
+		a = std::forward<Vec4<T>>(v2).x;
+		b = std::forward<Vec4<T>>(v2).y;
+		c = std::forward<Vec4<T>>(v2).z;
+		d = std::forward<Vec4<T>>(v2).w;
+	}
+}
+
+template<typename T>
 Vec8<T>::Vec8(const SIMDType& ss) {
 	m_simdVec = ss;
 }
@@ -518,6 +587,16 @@ Vec8<F32> Vec8<F32>::round() {
 }
 
 template<typename T>
+Vec4<T> Vec8<T>::xyzw() {
+	return Vec4<T>(x, y, z, w);
+}
+
+template<typename T>
+Vec4<T> Vec8<T>::abcd() {
+	return Vec4<T>(a, b, c, d);
+}
+
+template<typename T>
 template<typename U>
 Vec8<U> Vec8<T>::cast() const {
 	return Vec8<U>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z), static_cast<U>(w),
@@ -653,6 +732,16 @@ template<typename T>
 Vec8<T>& operator|=(ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& v2) {
 	return v1 = v1 | v2;
+}
+
+template<typename T>
+auto Dot(const Vec8<T>& v1, const Vec8<T>& v2) {
+	return Vec8<T>::SIMDStruct::horizontalAdd((v1 * v2).m_simdVec);
+}
+
+template<typename T>
+auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2) {
+	return Vec8<T>::SIMDStruct::twiceHorizontalAdd((v1 * v2).m_simdVec);
 }
 
 template<typename T>
