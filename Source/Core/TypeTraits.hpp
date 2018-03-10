@@ -25,7 +25,7 @@ struct AddRefIf {
 
 template<typename T>
 struct AddRefIf<true, T> {
-	using type = T & ;
+	using type = T& ;
 };
 
 template<bool b, typename T>
@@ -41,10 +41,13 @@ struct IsLargerThan {
 template<typename T1, typename T2>
 constexpr bool IsLargerThan_V = IsLargerThan<T1, T2>::value;
 
+namespace noTypes {
+class NoType {};
+}
+
 } //namespace types
 } //namespace drak
-
-#define NOT_A_TYPE class NoType
+#define NOT_A_TYPE drak::types::noTypes::NoType
 #define IS_LARGER_THAN_V(T1, T2)  drak::types::IsLargerThan_V<T1, T2>
 #define ADD_REF_IF_T(b, T) drak::types::AddRefIf_T<b, T>
 #define ENABLE_IF_ELSE_T(b, T1, T2)  drak::types::EnableIfElse_T<b, T1, T2>
