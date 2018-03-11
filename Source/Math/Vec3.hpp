@@ -1,13 +1,11 @@
 #pragma once
 
 #include<Math/MathUtils.hpp>
+#include<Math/Vec2.hpp>
 #include<ostream>
 
 namespace drak {
 namespace math {
-
-template<typename T>
-struct Vec2;
 
 template<typename T>
 struct Vec3 {

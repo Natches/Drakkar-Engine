@@ -84,8 +84,8 @@ F32 Vec3<T>::magnitude() const {
 template<typename T>
 template<Axis ax, AngleUnit au>
 F32 Vec3<T>::rotation() const {
-	if constexpr(ax == Axis::Z) {
-		if constexpr (au == AngleUnit::DEGREE) {
+	if /*constexpr*/(ax == Axis::Z) {
+		if /*constexpr*/ (au == AngleUnit::DEGREE) {
 			if (F32 angle = computeAngleZ(); 0.f < angle)
 				return angle * ToDegF;
 			else if (0.f > angle)
@@ -93,8 +93,8 @@ F32 Vec3<T>::rotation() const {
 		}
 		return angle;		
 	}
-	else if constexpr(ax == Axis::Y) {
-		if constexpr (au == AngleUnit::DEGREE) {
+	else if /*constexpr*/(ax == Axis::Y) {
+		if /*constexpr*/ (au == AngleUnit::DEGREE) {
 			if (F32 angle = computeAngleY(); 0.f < angle)
 				return angle * ToDegF;
 			else if (0.f > angle)
@@ -103,7 +103,7 @@ F32 Vec3<T>::rotation() const {
 		return angle;
 	}
 	else {
-		if constexpr (au == AngleUnit::DEGREE) {
+		if /*constexpr*/ (au == AngleUnit::DEGREE) {
 			if (F32 angle = computeAngleX(); 0.f < angle)
 				return angle * ToDegF;
 			else if (0.f > angle)
@@ -405,6 +405,7 @@ Vec3<T> Vec3<T>::normalize() const {
 	return Vec3<T>(x, y, z);
 }
 
+/*
 template<typename T>
 template<Axis ax>
 Vec3<T> Vec3<T>::rotate(const F32 angle) const {
@@ -420,6 +421,7 @@ Vec3<T> Vec3<T>::rotate(const Vec3<T>& euler) const {
 	return Vec3<T>();
 	//TODO rotation with quat return Vec3<T>();
 }
+*/
 
 template<typename T>
 template<typename U>
