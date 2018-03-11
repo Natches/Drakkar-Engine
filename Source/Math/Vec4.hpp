@@ -131,12 +131,12 @@ private:
 	F32 computeAngleZ();*/
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[4];
 		struct { T x, y, z, w; };
 		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
 };
 
 template<typename T>

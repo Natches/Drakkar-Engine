@@ -69,12 +69,12 @@ template<AngleUnit au>
 F32 Vec2<T>::rotation() const {
 	if (y) {
 		if (y > static_cast<T>(0))
-			if constexpr (au == AngleUnit::DEGREE)
+			if /*constexpr*/ (au == AngleUnit::DEGREE)
 				return std::acos<F32>(x / magnitude()) * ToDegF;
 			else
 				return std::acos<F32>(x / magnitude());
 		else if (y < static_cast<T>(0))
-			if constexpr (au == AngleUnit::DEGREE)
+			if /*constexpr*/ (au == AngleUnit::DEGREE)
 				return -(std::acos<F32>(x / magnitude()) * ToDegF) + 360.f;
 			else
 				return -std::acos<F32>(x / magnitude());

@@ -39,7 +39,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +59,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\Source\Math\Matrix4x4.inl">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
 </Project>

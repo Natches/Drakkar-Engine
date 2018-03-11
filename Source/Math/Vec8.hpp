@@ -86,11 +86,11 @@ public:
 	Vec4<T> abcd();
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[8];
 		struct { T x, y, z, w, a, b, c, d; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
 };
 
 template<typename T>

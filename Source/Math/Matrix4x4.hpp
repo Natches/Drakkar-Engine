@@ -162,6 +162,9 @@ Matrix4x4<F32, order> RotationY(F32 angleY);
 template<Ordering order = Ordering::ROW_MAJOR, AngleUnit unit = AngleUnit::DEGREE>
 Matrix4x4<F32, order> RotationZ(F32 angleZ);
 
+template<typename T, Ordering order>
+std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v);
+
 using Mat4x4c    = typename Matrix4x4<U8>;
 using Mat4x4sc   = typename Matrix4x4<I8>;
 using Mat4x4s    = typename Matrix4x4<I16>;

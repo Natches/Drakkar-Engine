@@ -42,7 +42,8 @@ enum class Axis : byte {
 
 #define COMPARE_FLOATING_POINT_EQUAL(type, f1, f2) std::fabs(f1 - f2) <= \
 		(std::numeric_limits<type>::epsilon() * std::max(fabs(f1), fabs(f2)))
-#define COMPARE_FLOATING_POINT_NOT_EQUAL(type, f1, f2) !(COMPARE_FLOATING_POINT_EQUAL(type, f1, f2))
+#define COMPARE_FLOATING_POINT_NOT_EQUAL(type, f1, f2) \
+!(COMPARE_FLOATING_POINT_EQUAL(type, f1, f2))
 
 template<typename T, bool b = std::is_floating_point_v<T>>
 struct IsEqual {

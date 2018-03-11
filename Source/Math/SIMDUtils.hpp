@@ -180,7 +180,7 @@ struct BestSIMDType<T, 4, 32, true, false> {
 
 		return res;
 #else
-		return _mm_div_epi32(m, i);
+		return _mm_div_epi32(m, _mm_set1_epi32(i));
 #endif // !__INTEL_COMPILER
 
 	}
@@ -413,9 +413,11 @@ struct BestSIMDType<T, 8, 16, true, false> {
 		m = _mm_set1_epi16(i);
 	}
 
+#if defined(_M_IX86) || defined(__INTEL_COMPILER)
 	static void set(SIMDType& m, const __m64& m1, const __m64& m2) {
 		m = _mm_set_epi64(m1, m2);
 	}
+#endif
 
 	static SIMDType load(T const* arr) {
 		return _mm_load_si128((SIMDType const*)arr);
@@ -438,17 +440,26 @@ struct BestSIMDType<T, 8, 16, true, false> {
 	static bool isAllZeros(const SIMDType& m) {
 		return _mm_test_all_zeros(_mm_set1_epi16(1), m);
 	}
+
 	static T horizontalAdd(const SIMDType& m) {
+#if defined(_M_IX86) || defined(__INTEL_COMPILER)
 		__m64 m2 = _mm_hadd_pi16(m.m128_i64[0], m.m128_i64[1]);
 		m2 = _mm_hadd_pi16(m2, m2);
 		return m2.m64_i32[0] + m2.m64_i32[1];
+#else
+		__m128i m2 = _mm_hadd_epi16(m.m128_i64[0], m.m128_i64[1]);
+		m2 = _mm_hadd_epi16(m2, m2);
+		return m2.m64_i32[0] + m2.m64_i32[1];
+#endif
 	}
 
+#if defined(_M_IX86) || defined(__INTEL_COMPILER)
 	static SIMDType broadcast(const __m64& m) {
 		SIMDType res = _mm_set1_epi64(m);
 		_m_empty();
 		return res;
 	}
+#endif
 
 	static SIMDType add(const SIMDType& m, const T i) {
 		return _mm_add_epi16(m, _mm_set1_epi16(i));
@@ -571,7 +582,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm256_test_all_zeros(_mm256_set1_epi32(1), m);
+		return _mm256_testz_si256(_mm256_set1_epi32(1), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
 		__m128i m2 = _mm_hadd_epi32(m.m128i_i64[0], m.m128i_i64[1]);
@@ -738,7 +749,8 @@ struct BestSIMDType<T, 8, 32, false, true> {
 		return !isAllZeros(_mm256_castps_si256(_mm256_cmp_ps(m1, m2, _CMP_GE_OS)));
 	}
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm256_test_all_zeros(_mm256_castps_si256(_mm256_set1_ps(1)), _mm256_castps_si256(m));
+		return _mm256_testz_si256(_mm256_castps_si256(_mm256_set1_ps(1)),
+			_mm256_castps_si256(m));
 	}
 
 	static T horizontalAdd(const SIMDType& m) {
@@ -754,11 +766,12 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	}
 
 	static void transpose(const SIMDType& m1, const SIMDType& m2, SIMDType& m3, SIMDType& m4) {
+		SIMDType temp = m3;
 		m3 = _mm256_permutevar8x32_ps(m1, _mm256_set_epi32(6, 2, 7, 3, 5, 1, 4, 0));
 		m4 = _mm256_permutevar8x32_ps(m2, _mm256_set_epi32(5, 1, 4, 0, 7, 3, 6, 2));
-		SIMDType temp = _mm256_blend_ps(m3, m4, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
-		m4 = _mm256_blend_ps(m4, m3, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
-		m3 = _mm256_permutevar8x32_ps(temp, _mm256_set_epi32(7, 6, 3, 2, 5, 4, 1, 0));
+		m3 = _mm256_blend_ps(m3, m4, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
+		m4 = _mm256_blend_ps(m4, temp, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
+		m3 = _mm256_permutevar8x32_ps(m3, _mm256_set_epi32(7, 6, 3, 2, 5, 4, 1, 0));
 		m4 = _mm256_permutevar8x32_ps(m4, _mm256_set_epi32(3, 2, 5, 4, 1, 0, 7, 6));
 	}
 
