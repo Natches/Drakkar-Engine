@@ -36,7 +36,7 @@ Matrix4x4<T, order> Identity() {
 
 template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> Rotation(const Vec3<F32>& euler) {
-	if /*constexpr*/(unit == AngleUnit::DEGREE) {
+	if constexpr(unit == AngleUnit::DEGREE) {
 		Vec4<F32> t{ euler };
 		t *= ToRadF;
 
@@ -51,7 +51,7 @@ Matrix4x4<F32, order> Rotation(const Vec3<F32>& euler) {
 
 template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationX(F32 angleX) {
-	if /*constexpr*/(unit == AngleUnit::DEGREE) 
+	if constexpr(unit == AngleUnit::DEGREE) 
 		angleX *= ToRadF;
 	Matrix4x4<F32, order> temp;
 	temp.j = sin(angleX);
@@ -62,7 +62,7 @@ Matrix4x4<F32, order> RotationX(F32 angleX) {
 
 template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationY(F32 angleY) {
-	if /*constexpr*/(unit == AngleUnit::DEGREE)
+	if constexpr(unit == AngleUnit::DEGREE)
 		angleY *= ToRadF;
 	Matrix4x4<F32, order> temp;
 	temp.c = sin(angleY);
@@ -73,7 +73,7 @@ Matrix4x4<F32, order> RotationY(F32 angleY) {
 
 template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationZ(F32 angleZ) {
-	if /*constexpr*/(unit == AngleUnit::DEGREE)
+	if constexpr(unit == AngleUnit::DEGREE)
 		angleZ *= ToRadF;
 	Matrix4x4<F32, order> temp;
 	temp.e = sin(angleX);
@@ -254,7 +254,7 @@ Matrix4x4<T> Matrix4x4<T, order>::operator/(const T n) const {
 
 template<typename T, Ordering order>
 MATRIX_COLUMN_MAJOR(T) Matrix4x4<T, order>::transpose() const {
-	if /*constexpr*/ (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
 		Vec8<T>::SIMDType m1, m2;
 		Vec8<T>::SIMDStruct::transpose(m_row12.m_simdVec, m_row34.m_simdVec, m1, m2);
 		return MATRIX_COLUMN_MAJOR(T)(m1, m2);
@@ -474,7 +474,7 @@ MATRIX_COLUMN_MAJOR(T) MATRIX_COLUMN_MAJOR(T)::operator/(const T n) const {
 
 template<typename T>
 Matrix4x4<T> MATRIX_COLUMN_MAJOR(T)::transpose() const {
-	if /*constexpr*/ (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
 		Vec8<T>::SIMDType m1, m2;
 		Vec8<T>::SIMDStruct::transpose(m_col12.m_simdVec, m_col34.m_simdVec, m1, m2);
 		return Matrix4x4<T>(m1, m2);
