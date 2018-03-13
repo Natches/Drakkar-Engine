@@ -21,13 +21,13 @@
     <ClInclude Include="..\..\Source\Core\Engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\ISystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\ISystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

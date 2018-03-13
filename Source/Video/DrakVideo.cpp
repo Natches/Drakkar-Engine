@@ -29,13 +29,13 @@ bool DrakVideo::Startup(const VideoSettings& settings) {
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
-	if (!ogl::Init(true)) {
+	if (!gl::Init(true)) {
 		// TODO (Simon): log DrakVideo::Init() failed error message
 		return false;
 	}
 
-	ogl::DepthFunc	(true, ogl::DepthMode::LESS);
-	ogl::CullFunc	(true, ogl::FaceSide::BACK);
+	gl::DepthFunc(true, gl::DepthMode::LESS);
+	gl::CullFunc(true, gl::FaceSide::BACK);
 
 	s_ready = true;
 	return true;

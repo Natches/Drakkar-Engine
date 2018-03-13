@@ -1,18 +1,23 @@
 #pragma once
 
+#include <Video/RHI/OpenGL/GLTypes.hpp>
+
 namespace drak {
 namespace video {
-namespace ogl {
+namespace gl {
 
 class GLFrameBuffer final {
 public:
-	//GLFrameBuffer();
-	//~GLFrameBuffer();
+	GLFrameBuffer();
+	~GLFrameBuffer();
+
+	void create();
+	void bind();
 
 private:
-
+	GLuint m_glID;
 };
 
-} // namespace ogl
+} // namespace gl
 } // namespace video
 } // namespace drak

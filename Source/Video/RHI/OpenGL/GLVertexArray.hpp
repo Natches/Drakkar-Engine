@@ -4,20 +4,21 @@
 
 namespace drak {
 namespace video {
-namespace ogl {
+namespace gl {
 
 class GLVertexArray final {
 public:
 	GLVertexArray();
 	~GLVertexArray();
 
-	void Bind();
+	void create();
+	void bind();
 
 private:
-	static GLVertexArray* s_pCurrent;
+	GLuint m_glID;
 };
 
-} // namespace ogl
+} // namespace gl
 } // namespace gfx
 } // namespace drak
 

@@ -4,7 +4,7 @@
 
 namespace drak {
 namespace video {
-namespace ogl {
+namespace gl {
 
 extern bool s_Ready;
 
@@ -61,6 +61,6 @@ enum class BlendMode : byte {
 void BlendFunc(bool on, BlendMode mode);
 */
 
-} // namespace ogl
+} // namespace gl
 } // namespace gfx
 } // namespace drak

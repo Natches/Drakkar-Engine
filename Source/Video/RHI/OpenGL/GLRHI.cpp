@@ -5,7 +5,7 @@
 
 namespace drak {
 namespace video {
-namespace ogl {
+namespace gl {
 
 #pragma region Macro Utils
 #define DK_SELECT(query)		switch(query) {
@@ -18,7 +18,6 @@ namespace ogl {
 #pragma region Static Initialization
 bool s_ready = false;
 #pragma endregion
-
 
 bool Init(bool debug) {
 	glewExperimental = true;
@@ -51,7 +50,7 @@ void ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const void*		userParam) {
-	fprintf(stderr, "OpenGL error: %s\n", message);
+	fprintf(stderr, "Openglerror: %s\n", message);
 }
 #pragma endregion
 
@@ -75,6 +74,6 @@ void CullFunc(bool on, FaceSide side) {
 	DK_END
 }
 
-} // namespace ogl
+} // namespace gl
 } // namespace gfx
 } // namespace drak

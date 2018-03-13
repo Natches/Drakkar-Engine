@@ -4,7 +4,7 @@
 
 namespace drak {
 namespace video {
-namespace ogl {
+namespace gl {
 
 using GLbyte        = I8;
 using GLshort       = I16;
@@ -28,6 +28,6 @@ using GLclampd		= F64;
 using GLchar		= char;
 using GLvoid		= void;
 
-} // namespace ogl
+} // namespace gl
 } // namespace gfx
 } // namespace drak

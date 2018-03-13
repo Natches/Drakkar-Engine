@@ -3,11 +3,7 @@
 
 namespace drak {
 namespace video {
-namespace ogl {
-
-#pragma region Static Initialization
-GLVertexArray* GLVertexArray::s_pCurrent = nullptr;
-#pragma endregion
+namespace gl {
 
 GLVertexArray::GLVertexArray() {
 
@@ -17,10 +13,16 @@ GLVertexArray::~GLVertexArray() {
 
 }
 
-void GLVertexArray::Bind() {
-	s_pCurrent = this;
+void GLVertexArray::create() {
+	glGenVertexArrays(1, &m_glID);
+
 }
 
-} // namespace ogl
+void GLVertexArray::bind() {
+	glBindVertexArray(m_glID);
+	//glVertexArrayVertexBuffers()
+}
+
+} // namespace gl
 } // namespace gfx
 } // namespace drak
