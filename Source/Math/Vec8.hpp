@@ -23,6 +23,10 @@ public:
 
 	Vec8(const Vec8<T>& v);
 	Vec8(Vec8<T>&& v);
+	Vec8(const Vec4<T>& v);
+	Vec8(Vec4<T>&& v);
+	Vec8(const Vec4<T>& v1, const Vec4<T>& v2);
+	Vec8(Vec4<T>&& v1, Vec4<T>&& v2);
 	~Vec8() = default;
 	Vec8(const SIMDType& ss);
 
@@ -75,6 +79,9 @@ public:
 	Vec8<F32> ceil();
 	Vec8<F32> floor();
 	Vec8<F32> round();
+
+	Vec4<T> xyzw();
+	Vec4<T> abcd();
 
 public:
 	union {
@@ -135,6 +142,12 @@ Vec8<T>& operator|=(ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& 
 	const ENABLE_IF_ELSE_T(Vec8<T>::isIntegral, Vec8<T>, NOT_A_TYPE)& v2);
 
 template<typename T>
+auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
+
+template<typename T>
+auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2);
+
+template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
@@ -145,8 +158,8 @@ std::ostream& operator<<(std::ostream& o, const Vec8<T>& v);
 
 using Vec8c = typename Vec8<U8>;
 using Vec8sc = typename Vec8<I8>;
-using Vec8si = typename Vec8<I16>;
-using Vec8sui = typename Vec8<U16>;
+using Vec8s = typename Vec8<I16>;
+using Vec8us = typename Vec8<U16>;
 using Vec8i = typename Vec8<I32>;
 using Vec8ui = typename Vec8<U32>;
 using Vec8lli = typename Vec8<I64>;

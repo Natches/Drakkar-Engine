@@ -127,6 +127,15 @@ Vec4<T>::Vec4(const Vec3<T>& v) {
 
 template<typename T>
 Vec4<T>::Vec4(Vec3<T>&& v) {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		SIMDStruct::set(m_simdVec, std::forward<Vec3<T>>(v).x,
+			std::forward<Vec3<T>>(v).y, std::forward<Vec3<T>>(v).z, static_cast<T>(0));
+	else {
+		x = std::forward<Vec3<T>>(v).x;
+		y = std::forward<Vec3<T>>(v).y;
+		z = std::forward<Vec3<T>>(v).z;
+		w = static_cast<T>(0);
+	}
 }
 
 template<typename T>
@@ -144,11 +153,12 @@ Vec4<T>::Vec4(const Vec3<T>& v, T W) {
 template<typename T>
 Vec4<T>::Vec4(Vec3<T>&& v, T W) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, v.x, v.y, v.z, W);
+		SIMDStruct::set(m_simdVec, std::forward<Vec3<T>>(v).x,
+			std::forward<Vec3<T>>(v).y, std::forward<Vec3<T>>(v).z, W);
 	else {
-		x = v.x;
-		y = v.y;
-		z = v.z;
+		x = std::forward<Vec3<T>>(v).x;
+		y = std::forward<Vec3<T>>(v).y;
+		z = std::forward<Vec3<T>>(v).z;
 		w = W;
 	}
 }
@@ -555,78 +565,78 @@ Vec4<F32> Vec4<F32>::round() {
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::xyz() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::xyz() {
+	return Vec3<T>(x, y, z);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::zyx() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::zyx() {
+	return Vec3<T>(z, y, x);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::yzx() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::yzx() {
+	return Vec3<T>(y, z, x);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::zxy() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::zxy() {
+	return Vec3<T>(z, x, y);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::rgb() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::rgb() {
+	return Vec3<T>(r, g, b);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::bgr() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::bgr() {
+	return Vec3<T>(b, g, r);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::gbr() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::gbr() {
+	return Vec3<T>(g, b, r);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::brg() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::brg() {
+	return Vec3<T>(b, r, g);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::wyz() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::wyz() {
+	return Vec3<T>(w, y, z);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::zyw() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::zyw() {
+	return Vec3<T>(z, y, w);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::yzw() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::yzw() {
+	return Vec3<T>(y, z, w);
 }
 
 template<typename T>
-inline Vec3<T> Vec4<T>::zwy() {
-	return Vec3<T>();
+Vec3<T> Vec4<T>::zwy() {
+	return Vec3<T>(z, w, y);
 }
 
 template<typename T>
-inline Vec4<T> Vec4<T>::bgra() {
-	return Vec4<T>();
+Vec4<T> Vec4<T>::bgra() {
+	return Vec4<T>(b, r, g, a);
 }
 
 template<typename T>
-inline Vec4<T> Vec4<T>::gbra() {
-	return Vec4<T>();
+Vec4<T> Vec4<T>::gbra() {
+	return Vec4<T>(g, b, r, a);
 }
 
 template<typename T>
-inline Vec4<T> Vec4<T>::brga() {
-	return Vec4<T>();
+Vec4<T> Vec4<T>::brga() {
+	return Vec4<T>(b, r, g, a);
 }
 
 template<typename T>
