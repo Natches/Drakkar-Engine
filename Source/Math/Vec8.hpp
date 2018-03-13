@@ -147,6 +147,10 @@ template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
+Vec4<T> FourDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1);
+
+template<typename T>
 Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
 	const Vec8<T>& col1, const Vec8<T>& col2);
 

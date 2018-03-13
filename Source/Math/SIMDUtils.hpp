@@ -692,6 +692,11 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		return _mm256_min_epi32(m1, m2);
 	}
 
+	static __m128i fourHorizontalAdd(const SIMDType& m1, const SIMDType& m2) {
+		return  _mm256_permutevar8x32_epi32(_mm256_hadd_epi32(_mm256_hadd_epi32(m1, m2),
+			_mm256_hadd_epi32(m3, m4)), _mm256_set_epi32(7, 3, 6, 2, 5, 1, 4, 0));
+	}
+
 	static SIMDType eightHorizontalAdd(const SIMDType& m1, const SIMDType& m2,
 		const SIMDType& m3, const SIMDType& m4) {
 		return  _mm256_permutevar8x32_epi32(_mm256_hadd_epi32(_mm256_hadd_epi32(m1, m2),
@@ -755,8 +760,14 @@ struct BestSIMDType<T, 8, 32, false, true> {
 
 	static T horizontalAdd(const SIMDType& m) {
 		__m256 m2 = _mm256_hadd_ps(m, m);
-		__m128 m3 = _mm_hadd_ps(_mm256_castps256_ps128(m2), _mm256_castps256_ps128(m2));
+		__m128 m3 = _mm_hadd_ps(_mm256_castps256_ps128(m2), _mm256_extractf128_ps(m2, 1));
 		return m3.m128_f32[0] + m3.m128_f32[1];
+	}
+
+	static __m128 fourHorizontalAdd(const SIMDType& m1, const SIMDType& m2) {
+		__m256 add1 = _mm256_hadd_ps(m1, m2);
+		return  _mm_permutevar_ps(_mm_hadd_ps(_mm256_castps256_ps128(add1),
+			_mm256_extractf128_ps(add1, 1)), _mm_set_epi32(3,1,2,0));
 	}
 
 	static SIMDType eightHorizontalAdd(const SIMDType& m1, const SIMDType& m2,
@@ -766,13 +777,17 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	}
 
 	static void transpose(const SIMDType& m1, const SIMDType& m2, SIMDType& m3, SIMDType& m4) {
-		SIMDType temp = m3;
-		m3 = _mm256_permutevar8x32_ps(m1, _mm256_set_epi32(6, 2, 7, 3, 5, 1, 4, 0));
-		m4 = _mm256_permutevar8x32_ps(m2, _mm256_set_epi32(5, 1, 4, 0, 7, 3, 6, 2));
-		m3 = _mm256_blend_ps(m3, m4, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
-		m4 = _mm256_blend_ps(m4, temp, (0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7));
-		m3 = _mm256_permutevar8x32_ps(m3, _mm256_set_epi32(7, 6, 3, 2, 5, 4, 1, 0));
-		m4 = _mm256_permutevar8x32_ps(m4, _mm256_set_epi32(3, 2, 5, 4, 1, 0, 7, 6));
+
+		__m256 temp1 = _mm256_permutevar8x32_ps(m1, _mm256_set_epi32(6, 2, 7, 3, 5, 1, 4, 0));
+		__m256 temp2 = _mm256_permutevar8x32_ps(m2, _mm256_set_epi32(5, 1, 4, 0, 7, 3, 6, 2));
+
+		m3 = _mm256_permutevar8x32_ps(_mm256_blend_ps(temp1,temp2,
+			(0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7)),
+			_mm256_set_epi32(7, 6, 3, 2, 5, 4, 1, 0));
+
+		m4 = _mm256_permutevar8x32_ps(_mm256_blend_ps(temp2,temp1,
+			(0 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7)),
+			_mm256_set_epi32(3, 2, 5, 4, 1, 0, 7, 6));
 	}
 
 	static SIMDType add(const SIMDType& m, const T f) {
