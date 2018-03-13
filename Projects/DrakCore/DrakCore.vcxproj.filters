@@ -30,6 +30,9 @@
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\ClassUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Engine.cpp">
