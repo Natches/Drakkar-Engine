@@ -7,6 +7,7 @@ namespace math {
 
 template<typename T, Ordering order>
 Matrix4x4<T, order>::Matrix4x4() {
+	memset(m_mat, 0, sizeof(m_mat));
 }
 
 template<typename T, Ordering order>
@@ -226,10 +227,7 @@ bool Matrix4x4<T, order>::operator<=(const Matrix4x4<T>& m) const {
 
 template<typename T, Ordering order>
 bool Matrix4x4<T, order>::isIdentity() const {
-	return m_row12 == { static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), static_cast<T>(0) } &&
-		m_row34 == { static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1) };
+	return (*this == Identity<T>());
 }
 
 template<typename T, Ordering order>
