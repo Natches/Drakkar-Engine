@@ -15,25 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Core.hpp">
+    <ClCompile Include="..\..\Source\Math\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Math\MathUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine.hpp">
+    <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\ISystem.h">
+    <ClInclude Include="..\..\Source\Math\Vec2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Types.hpp">
+    <ClInclude Include="..\..\Source\Math\Vec3.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
+    <ClInclude Include="..\..\Source\Math\Vec4.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec8.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="..\..\Source\Math\SIMDUtils.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec2.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Vec8.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
