@@ -42,7 +42,7 @@ struct BestSIMDType<T, 4, 32, false, true> {
 		return !isAllZeros(_mm_castps_si128(_mm_cmpge_ps(m1, m2)));
 	}
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm_test_all_zeros(_mm_castps_si128(_mm_set_ps1(1)), _mm_castps_si128(m));
+		return _mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(m));
 	}
 
 	static T horizontalAdd(const SIMDType& m) {
@@ -142,7 +142,7 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm_test_all_zeros(_mm_set1_epi32(1), m);
+		return _mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
 #if defined(_M_IX86) || defined(__INTEL_COMPILER)
@@ -438,7 +438,7 @@ struct BestSIMDType<T, 8, 16, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm_test_all_zeros(_mm_set1_epi16(1), m);
+		return _mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), m);
 	}
 
 	static T horizontalAdd(const SIMDType& m) {
@@ -582,7 +582,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 	}
 
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm256_testz_si256(_mm256_set1_epi32(1), m);
+		return _mm256_testz_si256(_mm256_set1_epi32(0xFFFFFFFF), m);
 	}
 	static T horizontalAdd(const SIMDType& m) {
 		__m128i m2 = _mm_hadd_epi32(m.m128i_i64[0], m.m128i_i64[1]);
@@ -754,7 +754,7 @@ struct BestSIMDType<T, 8, 32, false, true> {
 		return !isAllZeros(_mm256_castps_si256(_mm256_cmp_ps(m1, m2, _CMP_GE_OS)));
 	}
 	static bool isAllZeros(const SIMDType& m) {
-		return _mm256_testz_si256(_mm256_castps_si256(_mm256_set1_ps(1)),
+		return _mm256_testz_si256(_mm256_set1_epi32(0xFFFFFFFF),
 			_mm256_castps_si256(m));
 	}
 
