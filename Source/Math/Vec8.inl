@@ -611,7 +611,7 @@ Vec8<T> operator-(const Vec8<T>& v1, const Vec8<T>& v2) {
 template<typename T>
 Vec8<T> operator*(const Vec8<T>& v1, const Vec8<T>& v2) {
 	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>)
-		return Vec8<T>(Vec8<T>::SIMDStruct::mul(v1.m_simdVec, v2.m_simdVec));
+		return Vec8<T>::SIMDStruct::mul(v1.m_simdVec, v2.m_simdVec);
 	else
 		return Vec8<T>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w,
 			v1.a * v2.a, v1.b * v2.b, v1.c * v2.c, v1.d * v2.d);
@@ -734,11 +734,19 @@ auto Dot(const Vec8<T>& v1, const Vec8<T>& v2) {
 }
 
 template<typename T>
+Vec4<T> FourDot(const Vec8<T>& row1, const Vec8<T>& row2, const Vec8<T>& col1) {
+	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
+		return Vec8<T>::SIMDStruct::fourHorizontalAdd((row1 * col1).m_simdVec,
+			(row2 * col1).m_simdVec);
+	}
+}
+
+template<typename T>
 Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
 	const Vec8<T>& col1, const Vec8<T>& col2) {
 	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {	
-		return { Vec8<T>::SIMDStruct::eightHorizontalAdd((row1 * col1).m_simdVec,
-			(row1 * col2).m_simdVec, (row2 * col1).m_simdVec, (row2 * col2).m_simdVec) };
+		return Vec8<T>::SIMDStruct::eightHorizontalAdd((row1 * col1).m_simdVec,
+			(row1 * col2).m_simdVec, (row2 * col1).m_simdVec, (row2 * col2).m_simdVec);
 	}
 	else {
 		Vec8<T> Mult1{ (row1 * col1) };
@@ -771,7 +779,7 @@ Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2) {
 		return Vec8<T>::SIMDStruct::min(v1, v2);
 	else {
 		Vec8<T> res;
-		for (int i = 0; i < 8; ++i) 			{
+		for (int i = 0; i < 8; ++i) {
 			res.m_vec[i] = v1 < v2 ? v1.m_vec[i] : v2.m_vec[i];
 		}
 		return res;

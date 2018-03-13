@@ -8,15 +8,18 @@ namespace drak {
 namespace math {
 
 template<typename T>
+struct Vec4;
+
+template<typename T>
 struct Vec3 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 	static constexpr bool isIntegral = std::is_integral_v<T>;
 public:
 	Vec3();
-
 	Vec3(const T X, const T Y, const T Z);
-
+	Vec3(const Vec4<T>& v);
+	Vec3(Vec4<T>&& v);
 	Vec3(const Vec3<T>& v);
 	Vec3(Vec3<T>&& v);
 	Vec3(const Vec2<T>& v);

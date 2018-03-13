@@ -129,11 +129,39 @@ public:
 #pragma endregion ColumnOrdered
 
 
+#define MATRIX_ROW_MAJOR(T) Matrix4x4<T>
+#define MATRIX_COLUMN_MAJOR(T) Matrix4x4<T, Ordering::COLUMN_MAJOR>
+
+
 template<typename T, Ordering order>
 Matrix4x4<T, order> operator*(const Matrix4x4<T, order>& m1, const Matrix4x4<T, order>& m2);
 
 template<typename T, Ordering order>
-Matrix4x4<T, order>& operator*=(Matrix4x4<T, order>& m1, const Matrix4x4<T, order>& m2);
+ Matrix4x4<T, order>& operator*=(Matrix4x4<T, order>& m1, const Matrix4x4<T, order>& m2);
+
+ template<typename T>
+ Matrix4x4<T> operator*(const Matrix4x4<T>& m1, const MATRIX_COLUMN_MAJOR(T)& m2);
+
+ template<typename T>
+ Matrix4x4<T>& operator*=(Matrix4x4<T>& m1, const  MATRIX_COLUMN_MAJOR(T)& m2);
+
+ template<typename T>
+ MATRIX_COLUMN_MAJOR(T) operator*(const MATRIX_COLUMN_MAJOR(T)& m1, const Matrix4x4<T>& m2);
+
+ template<typename T>
+ MATRIX_COLUMN_MAJOR(T)& operator*=(MATRIX_COLUMN_MAJOR(T)& m1, const  Matrix4x4<T>& m2);
+
+template<typename T, Ordering order>
+Vec4<T> operator*(const Matrix4x4<T, order>& m, const Vec4<T>& v);
+
+template<typename T, Ordering order>
+Vec4<T>& operator*=(const Matrix4x4<T, order>& m, Vec4<T>& v);
+
+template<typename T, Ordering order>
+Vec3<T> operator*(const Matrix4x4<T, order>& m, const Vec3<T>& v);
+
+template<typename T, Ordering order>
+Vec3<T>& operator*=(const Matrix4x4<T, order>& m, Vec3<T>& v);
 
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order> Scale(const Vec3<T>& v);
@@ -175,10 +203,6 @@ using Mat4x4lli  = typename Matrix4x4<I64>;
 using Mat4x4ulli = typename Matrix4x4<U64>;
 using Mat4x4f    = typename Matrix4x4<F32>;
 using Mat4x4d    = typename Matrix4x4<F64>;
-
-#define MATRIX_ROW_MAJOR(T) Matrix4x4<T>
-#define MATRIX_COLUMN_MAJOR(T) Matrix4x4<T, Ordering::COLUMN_MAJOR>
-
 } //namespace math
 } //namespace drak
 #include<Math/Matrix4x4.inl>

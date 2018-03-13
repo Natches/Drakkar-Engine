@@ -84,10 +84,38 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ) {
 
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v) {
-	return o << " | " << v.a << " | " << v.b << " | " << v.c << " | " << v.d <<
-		" | " << v.e << " | " << v.f << " | " << v.g << " | " << v.h <<
-		" | " << v.i << " | " << v.j << " | " << v.k << " | " << v.l <<
+	return o << " | " << v.a << " | " << v.b << " | " << v.c << " | " << v.d << "\n"
+		" | " << v.e << " | " << v.f << " | " << v.g << " | " << v.h << "\n"
+		" | " << v.i << " | " << v.j << " | " << v.k << " | " << v.l << "\n"
 		" | " << v.m << " | " << v.n << " | " << v.o << " | " << v.p << " | ";
+}
+
+template<typename T>
+Matrix4x4<T> operator*(const Matrix4x4<T>& m1, const MATRIX_COLUMN_MAJOR(T)& m2) {
+	return { EightDot(Vec8<T>::broadcast(m1.m_row1),
+		Vec8<T>::broadcast(m1.m_row2), m2.m_col12, m2.m_col34),
+		EightDot(Vec8<T>::broadcast(m1.m_row3),
+			Vec8<T>::broadcast(m1.m_row4), m2.m_col12, m2.m_col34) };
+}
+
+template<typename T>
+Matrix4x4<T>& operator*=(Matrix4x4<T>& m1, const MATRIX_COLUMN_MAJOR(T)& m2) {
+	m1.m_row12 = EightDot(Vec8<T>::broadcast(m1.m_row1),
+		Vec8<T>::broadcast(m1.m_row2), m2.m_col12, m2.m_col34);
+	m1.m_row34 = EightDot(Vec8<T>::broadcast(m1.m_row3),
+		Vec8<T>::broadcast(m1.m_row4), m2.m_col12, m2.m_col34);
+
+	return m1;
+}
+
+template<typename T>
+MATRIX_COLUMN_MAJOR(T) operator*(const MATRIX_COLUMN_MAJOR(T)& m1, const Matrix4x4<T>& m2) 	{
+	return m1 * MATRIX_COLUMN_MAJOR(T)(m2.m_row12, m2.m_row34);
+}
+
+template<typename T>
+MATRIX_COLUMN_MAJOR(T)& operator*=(MATRIX_COLUMN_MAJOR(T)& m1, const  Matrix4x4<T>& m2) {
+	return (m1 = m1 * MATRIX_COLUMN_MAJOR(T)(m2.m_row12, m2.m_row34));
 }
 
 #pragma endregion MutualFunction
@@ -286,12 +314,32 @@ template<typename T>
 Matrix4x4<T>& operator*=(Matrix4x4<T>& m1, const Matrix4x4<T>& m2) {
 	MATRIX_COLUMN_MAJOR(T)& rs = m2.transpose();
 
-	m1.m_row12 = { EightDot( Vec8<T>::broadcast(m1.m_row1),
-		Vec8<T>::broadcast(m1.m_row2), rs.m_col12, rs.m_col34) };
-	m1.m_row34 = { EightDot(Vec8<T>::broadcast(m1.m_row3),
-		Vec8<T>::broadcast(m1.m_row4), rs.m_col12, rs.m_col34) };
+	m1.m_row12 = EightDot( Vec8<T>::broadcast(m1.m_row1),
+		Vec8<T>::broadcast(m1.m_row2), rs.m_col12, rs.m_col34);
+	m1.m_row34 = EightDot(Vec8<T>::broadcast(m1.m_row3),
+		Vec8<T>::broadcast(m1.m_row4), rs.m_col12, rs.m_col34);
 
 	return m1;
+}
+
+template<typename T>
+Vec4<T> operator*(const Matrix4x4<T>& m, const Vec4<T>& v) {
+	return FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast(v));
+}
+
+template<typename T>
+Vec4<T>& operator*=(const Matrix4x4<T>& m, Vec4<T>& v) {
+	return (v = FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast(v)));
+}
+
+template<typename T>
+Vec3<T> operator*(const Matrix4x4<T>& m, const Vec3<T>& v) {
+	return FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast({ v, 1.f }));
+}
+
+template<typename T>
+Vec3<T>& operator*=(const Matrix4x4<T>& m, Vec3<T>& v) {
+	return (v = FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
 
 template<typename T>
@@ -495,27 +543,53 @@ Matrix4x4<T> MATRIX_COLUMN_MAJOR(T)::toRowMajor() const {
 template<typename T>
 MATRIX_COLUMN_MAJOR(T) operator*(const MATRIX_COLUMN_MAJOR(T)& m1,
 	const MATRIX_COLUMN_MAJOR(T)& m2) {
-	Matrix4x4<T>& rs = m2.transpose();
+	Matrix4x4<T>& trps = m1.transpose();
 
-	return { EightDot(Vec8<T>::broadcast(m1.m_col1),
-		Vec8<T>::broadcast(m1.m_col2), rs.m_row12, rs.m_row34),
-		EightDot(Vec8<T>::broadcast(m1.m_col3),
-			Vec8<T>::broadcast(m1.m_col4), rs.m_row12, rs.m_row34) };
+	return { EightDot(Vec8<T>::broadcast(trps.m_row1),
+		Vec8<T>::broadcast(trps.m_row2),
+		m2.m_col12, m2.m_col34),
+		EightDot(Vec8<T>::broadcast(trps.m_row3),
+			Vec8<T>::broadcast(trps.m_row4),
+			m2.m_col12, m2.m_col34) };
 }
 
 template<typename T>
 MATRIX_COLUMN_MAJOR(T)& operator*=(MATRIX_COLUMN_MAJOR(T)& m1,
 	const MATRIX_COLUMN_MAJOR(T)& m2) {
-	Matrix4x4<T> rs(m2.transpose());
+	Matrix4x4<T>& trps = m1.transpose();
 
-	m1.m_col12 = { EightDot(Vec8<T>::broadcast(m1.m_col1),
-		Vec8<T>::broadcast(m1.m_col2),
-		rs.m_row12, rs.m_row34) };
-	m1.m_col34 = { EightDot(Vec8<T>::broadcast(m1.m_col3),
-		Vec8<T>::broadcast(m1.m_col4),
-		rs.m_row12, rs.m_row34) };
+	m1.m_col12 = EightDot(Vec8<T>::broadcast(trps.m_row1),
+		Vec8<T>::broadcast(trps.m_row2),
+		m2.m_col12, m2.m_col34);
+	m1.m_col34 = EightDot(Vec8<T>::broadcast(trps.m_row3),
+		Vec8<T>::broadcast(trps.m_row4),
+		m2.m_col12, m2.m_col34);
 
 	return m1;
+}
+
+template<typename T>
+Vec4<T> operator*(const MATRIX_COLUMN_MAJOR(T)& m, const Vec4<T>& v) {
+	Matrix4x4<T>& trps = m.transpose();
+	return FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast(v));
+}
+
+template<typename T>
+Vec4<T>& operator*=(const MATRIX_COLUMN_MAJOR(T)& m, Vec4<T>& v) {
+	Matrix4x4<T>& trps = m.transpose();
+	return (v = FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast(v)));
+}
+
+template<typename T>
+Vec3<T> operator*(const MATRIX_COLUMN_MAJOR(T)& m, const Vec3<T>& v) {
+	Matrix4x4<T>& trps = m.transpose();
+	return FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast({ v, 1.f }));
+}
+
+template<typename T>
+Vec3<T>& operator*=(const MATRIX_COLUMN_MAJOR(T)& m, Vec3<T>& v) {
+	Matrix4x4<T>& trps = m.transpose();
+	return (v = FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
 
 template<typename T>
