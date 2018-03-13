@@ -67,7 +67,10 @@ void MyTestSceneBlueprint::build(Scene& scene) {
 	scene.addComponentToGameObject<Transform>(pDebugCube1);
 	scene.addComponentToGameObject<Transform>(pDebugCube2);
 	Transform* t1 = scene.getComponentFromHandle<Transform>(pDebugCube1->getHandle(ComponentID<Transform>()));
+	t1->pos = vec3TEMP{0,0,0};
 	Transform* t2 = scene.getComponentFromHandle<Transform>(pDebugCube2->getHandle(ComponentID<Transform>()));
-
+	t2->pos = vec3TEMP{ 10,0,0 };
+	t1->children.push_back(t2);
+	t2->parent = t1;
 	DK_LOG(SCENE_SYSTEM_LOG, LoggerVerbosity::DEBUG, "Build manual scene for MyTestScene\n")
 }

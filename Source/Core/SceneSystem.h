@@ -6,25 +6,32 @@
 #include <vector>
 #include <unordered_map>
 namespace drak {
-	namespace core {
+namespace core {
 #define COMPONENT_CONTAINER_NAME(ComponentType) ComponentType##ComponentContainer
-#define COMPONENT_CONTAINER(ComponentType) {																																					\
+#define COMPONENT_CONTAINER(ComponentType)																																						\
 	std::vector<components::##ComponentType> COMPONENT_CONTAINER_NAME(ComponentType);																											\
-	template <typename T>																																										\
-	inline constexpr std::vector<components::##ComponentType>* GetComponentContainerID() {;}																									\
+	template <int T>																																											\
+	inline std::vector<components::##ComponentType>* GetComponentContainerID();																													\
 	template <>																																													\
-	inline constexpr std::vector<components::##ComponentType>* GetComponentContainerID<components::ComponentID<components::##ComponentType>()>() { return &ComponentType##ComponentContainer;}	\
-}
+	inline std::vector<components::##ComponentType>* GetComponentContainerID<components::ComponentID<components::##ComponentType>()>() { return &ComponentType##ComponentContainer;}
+												
+
 class Scene {
 	std::list<AGameObject> m_gameObjects;
 public:
+	/*std::vector<components::Transform> TransformComponentContainer;
+	template <int T>																																							
+	inline std::vector<components::Transform>* GetComponentContainerID();
+	template <>																																										
+	inline std::vector<components::Transform>* GetComponentContainerID<components::ComponentID<components::Transform>()>() { return &TransformComponentContainer;}
+	/*
 	std::vector<components::Transform> TransformComponentContainer;
 	template <int T>																																						
 	inline std::vector<components::Transform>* GetComponentContainerID();
 	template <>																																									
 	inline std::vector<components::Transform>* GetComponentContainerID<components::ComponentID<components::Transform>()>() { return &TransformComponentContainer;}
-	
-	//COMPONENT_CONTAINER(Transform)
+	*/
+	COMPONENT_CONTAINER(Transform)
 	//std::unordered_map<int, std::vector<components::AComponent>*> componentMap;
 	Scene();
 	~Scene();

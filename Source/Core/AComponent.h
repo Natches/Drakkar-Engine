@@ -6,7 +6,7 @@ namespace drak {
 namespace components {
 
 template <typename T>
-inline int UniqueID() {
+inline constexpr int UniqueID() {
 	static int i = 0;
 	return i++;
 }
