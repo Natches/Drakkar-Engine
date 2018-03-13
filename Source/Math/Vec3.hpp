@@ -1,31 +1,28 @@
 #pragma once
 
-#include "MathUtils.hpp"
+#include<Math/MathUtils.hpp>
+#include<ostream>
 
 namespace drak {
 namespace math {
 
 template<typename T>
-struct Vec3 {
-#define x m_vec[0]
-#define y m_vec[1]
-#define z m_vec[2]
-	static_assert(std::is_scalar_v<T>, "\"T\" must be a scalar Type");
-	static constexpr bool isIntegral = std::is_integral_v<T>;
-private:
-	static constexpr bool isLarger = IS_LARGER_THAN_V(T, T*);
-	using Type = ADD_REF_IF_T(isLarger, T);
+struct Vec2;
 
+template<typename T>
+struct Vec3 {
+	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
+		"\"T\" must be a scalar Type and not a 64 bits data type");
+	static constexpr bool isIntegral = std::is_integral_v<T>;
 public:
 	Vec3();
 
-	explicit Vec3(const Type X, const Type Y, const Type Z);
-	explicit Vec3(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) X,
-		ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) Y,
-		ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) Z);
+	Vec3(const T X, const T Y, const T Z);
 
 	Vec3(const Vec3<T>& v);
 	Vec3(Vec3<T>&& v);
+	Vec3(const Vec2<T>& v);
+	Vec3(Vec2<T>&& v);
 	~Vec3() = default;
 
 public:
@@ -50,50 +47,61 @@ public:
 
 	Vec3<T>& operator  =(const Vec3<T>& v);
 	Vec3<T>& operator  =(Vec3<T>&& v);
-	Vec3<T>& operator +=(const Type n);
-	Vec3<T>& operator -=(const Type n);
-	Vec3<T>& operator *=(const Type n);
-	Vec3<T>& operator /=(const Type n);
-	Vec3<T>& operator +=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator -=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator *=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator /=(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n);
-	Vec3<T>& operator>>=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator<<=(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator &=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator ^=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
-	Vec3<T>& operator |=(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator +=(const T n);
+	Vec3<T>& operator -=(const T n);
+	Vec3<T>& operator *=(const T n);
+	Vec3<T>& operator /=(const T n);
+	Vec3<T>& operator>>=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator<<=(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator &=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator ^=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
+	Vec3<T>& operator |=(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n);
 	Vec3<T>& operator++();
 	Vec3<T>& operator--();
 
-	Vec3<T> operator+(const Type n) const;
-	Vec3<T> operator-(const Type n) const;
-	Vec3<T> operator*(const Type n) const;
-	Vec3<T> operator/(const Type n) const;
-	Vec3<T> operator+(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator-(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator*(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator/(ENABLE_IF_ELSE_T(isLarger, T&&, NOT_A_TYPE) n) const;
-	Vec3<T> operator>>(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator<<(const ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator&(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator^(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
-	Vec3<T> operator|(const  ENABLE_IF_ELSE_T(isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator+(const T n) const;
+	Vec3<T> operator-(const T n) const;
+	Vec3<T> operator*(const T n) const;
+	Vec3<T> operator/(const T n) const;
+	Vec3<T> operator>>(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator<<(const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator&(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator^(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
+	Vec3<T> operator|(const  ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, I32, NOT_A_TYPE) n) const;
 	Vec3<T> operator++(const I32) const;
 	Vec3<T> operator--(const I32) const;
 	Vec3<T> operator-()	  const;
 
 	Vec3<T> conjugate() const;
 	Vec3<T> normalize() const;
-	template<Axis ax>
+	/*template<Axis ax>
 	Vec3<T> rotate(const F32 angle) const;
 	template<Axis ax>
-	Vec3<T> rotate(const Vec3<T>& euler) const;
+	Vec3<T> rotate(const Vec3<T>& euler) const;*/
 	//Todo template<Axis ax>
 	//Todo Vec3<T> rotate(const Vec3<T>& euler) const;
 
 	template<typename U>
 	Vec3<U> cast() const;
+
+	Vec3<F32> ceil();
+	Vec3<F32> floor();
+	Vec3<F32> round();
+
+	Vec2<T> xy();
+	Vec2<T> yz();
+	Vec2<T> yx();
+	Vec2<T> zy();
+	Vec2<T> xz();
+	Vec2<T> zx();
+
+	Vec3<T> zyx();
+	Vec3<T> yzx();
+	Vec3<T> zxy();
+
+	Vec3<T> bgr();
+	Vec3<T> gbr();
+	Vec3<T> brg();
 
 private:
 	F32 computeAngleX();
@@ -101,7 +109,11 @@ private:
 	F32 computeAngleZ();
 
 public:
-	T m_vec[3];
+	union {
+		T m_vec[3];
+		struct { T x, y, z; };
+		struct { T r, g, b; };
+	};
 };
 
 template<typename T>
@@ -155,7 +167,7 @@ Vec3<T>& operator|=(ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& 
 	const ENABLE_IF_ELSE_T(Vec3<T>::isIntegral, Vec3<T>, NOT_A_TYPE)& v2);
 
 template<typename T>
-F32 Dot(const Vec3<T>& v1, const Vec3<T>& v2);
+T Dot(const Vec3<T>& v1, const Vec3<T>& v2);
 
 template<typename T>
 Vec3<T> Cross(const Vec3<T>& v1, const Vec3<T>& v2);
@@ -166,9 +178,16 @@ F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 Vec3<T> Direction(const Vec3<T>& origin, const Vec3<T>& destination);
 
-template<typename T>
-template<Axis ax>
+/*
+template<Axis ax, typename T>
 void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const F32 angle);
+
+template<Axis ax, typename T>
+void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Vec3<T>& euler);*/
+
+//TODO template<typename T>
+//TODO template<Axis ax>
+//TODO void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Quat<T>& q);
 
 template<typename T>
 bool ArePerpendicular(const Vec3<T>& v1, const Vec3<T>& v2);
@@ -185,10 +204,13 @@ bool AreSameDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 
+template<typename T>
+std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
+
 using Vec3c = typename Vec3<U8>;
 using Vec3sc = typename Vec3<I8>;
-using Vec3si = typename Vec3<I16>;
-using Vec3sui = typename Vec3<U16>;
+using Vec3s = typename Vec3<I16>;
+using Vec3us = typename Vec3<U16>;
 using Vec3i = typename Vec3<I32>;
 using Vec3ui = typename Vec3<U32>;
 using Vec3lli = typename Vec3<I64>;
@@ -198,4 +220,4 @@ using Vec3d = typename Vec3<F64>;
 
 } //namespace maths
 } //namespace drak
-#include "Vec3.inl"
+#include<Math/Vec3.inl>
