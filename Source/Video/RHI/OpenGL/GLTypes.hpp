@@ -28,6 +28,15 @@ using GLclampd		= F64;
 using GLchar		= char;
 using GLvoid		= void;
 
+//--------------------------------------------------------------------------------------------
+
+struct GLVertex {
+	GLfloat		position	[4];
+	GLubyte		color		[4];
+	GLfloat		normal		[3];
+	GLclampf	texcoords	[2];
+};
+
 } // namespace gl
 } // namespace gfx
 } // namespace drak

@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Windowing">
       <UniqueIdentifier>{1a70ff73-d154-4468-ac65-7960ff0be786}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering">
+      <UniqueIdentifier>{b70bac32-ae5c-476d-87d1-28bfc6296dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering">
+      <UniqueIdentifier>{906bb1af-9d9a-4935-94cd-70cc729b40e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\DrakVideo.cpp">

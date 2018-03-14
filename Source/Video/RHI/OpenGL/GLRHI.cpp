@@ -36,10 +36,10 @@ bool Init(bool debug) {
 #pragma region Logging/Error-handling
 void GraphicsInfo() {
 	fprintf(stderr, "%s%s\n%s%s\n%s",
-		"\n--------- GLRHI Information ---------\n"
+		"\n------------------ GLRHI Information ------------------\n"
 		"Renderer: ", glGetString(GL_RENDERER),
 		"Version:  ", glGetString(GL_VERSION),
-		"-------------------------------------\n");
+		"-------------------------------------------------------\n");
 }
 
 void ErrorHandler(
