@@ -14,6 +14,7 @@ public:
 	AGameObject();
 	~AGameObject();
 	void setComponentFlag(int id, bool value);
+	bool getComponentFlag(int id);
 	void setHandleIDPair(int id, int handle);
 	int getHandle(int id);
 protected:

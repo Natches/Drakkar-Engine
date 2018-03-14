@@ -7,20 +7,3 @@ DK_LOG_CATEGORY_DECLARE(COMPONENT_LOGGER, LoggerVerbosity::DEBUG)
 
 using namespace drak;
 using namespace components;
-
-AComponent::AComponent()
-{
-}
-
-AComponent::~AComponent()
-{
-}
-
-Transform::Transform()
-{
-	id = ComponentID<Transform>();
-}
-
-Transform::~Transform()
-{
-}

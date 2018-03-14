@@ -1,46 +1,24 @@
 #pragma once
 #include "Core.hpp"
 #include <vector>
+/*!
+*	@file
+*	Stores the definition of all components.
+*/
+
 
 namespace drak {
 namespace components {
+#include "AComponentUtils.h"
 
-template <typename T>
-inline constexpr int UniqueID() {
-	static int i = 0;
-	return i++;
-}
+DRAK_COMPONENT_START(Transform)
+std::vector<Transform*> children;
+Transform* parent;
+DRAK_COMPONENT_END(Transform)
 
-template <typename T>
-inline constexpr int ComponentID() {
-	constexpr int id = 0;
-	return id;
-}
-
-struct AComponent {
-public:
-	AComponent();
-	~AComponent();
-	int id;
-private:
-};
-
-//DELETE AND REPLACE AS SOON AS MATH IS ADDED
-struct vec3TEMP {
-	F32 x;
-	F32 y;
-	F32 z;
-};
-
-struct Transform : AComponent {
-	std::vector<Transform*> children;
-	vec3TEMP pos;
-	Transform* parent;
-	Transform();
-	~Transform();
-};
-
-
+DRAK_COMPONENT_START(Mesh)
+U32 meshID;
+DRAK_COMPONENT_END(Mesh)
 
 } //components
 } //drak

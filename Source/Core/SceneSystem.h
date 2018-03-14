@@ -4,35 +4,16 @@
 #include "AComponent.h"
 #include <list>
 #include <vector>
-#include <unordered_map>
 namespace drak {
 namespace core {
-#define COMPONENT_CONTAINER_NAME(ComponentType) ComponentType##ComponentContainer
-#define COMPONENT_CONTAINER(ComponentType)																																						\
-	std::vector<components::##ComponentType> COMPONENT_CONTAINER_NAME(ComponentType);																											\
-	template <int T>																																											\
-	inline std::vector<components::##ComponentType>* GetComponentContainerID();																													\
-	template <>																																													\
-	inline std::vector<components::##ComponentType>* GetComponentContainerID<components::ComponentID<components::##ComponentType>()>() { return &ComponentType##ComponentContainer;}
-												
-
+#include "SceneSystemUtils.h"									
 class Scene {
 	std::list<AGameObject> m_gameObjects;
 public:
-	/*std::vector<components::Transform> TransformComponentContainer;
-	template <int T>																																							
-	inline std::vector<components::Transform>* GetComponentContainerID();
-	template <>																																										
-	inline std::vector<components::Transform>* GetComponentContainerID<components::ComponentID<components::Transform>()>() { return &TransformComponentContainer;}
-	/*
-	std::vector<components::Transform> TransformComponentContainer;
-	template <int T>																																						
-	inline std::vector<components::Transform>* GetComponentContainerID();
-	template <>																																									
-	inline std::vector<components::Transform>* GetComponentContainerID<components::ComponentID<components::Transform>()>() { return &TransformComponentContainer;}
-	*/
+	template <int T>
+	inline void* getComponentContainerID();
 	COMPONENT_CONTAINER(Transform)
-	//std::unordered_map<int, std::vector<components::AComponent>*> componentMap;
+	COMPONENT_CONTAINER(Mesh)
 	Scene();
 	~Scene();
 	template <typename T>
