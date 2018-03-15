@@ -11,18 +11,18 @@ namespace drak {
 namespace components {
 #include "AComponentUtils.h"
 
-DRAK_COMPONENT_START(Transform)
+DK_COMPONENT_START(Transform)
 std::vector<Transform*> children;
 Transform* parent;
-DRAK_COMPONENT_END(Transform)
+DK_COMPONENT_END(Transform)
 
-DRAK_COMPONENT_START(Mesh)
+DK_COMPONENT_START(Mesh)
 U32 meshID;
-DRAK_COMPONENT_END(Mesh)
+DK_COMPONENT_END(Mesh)
 
-DRAK_COMPONENT_START(Ben)
-int howPD;
-DRAK_COMPONENT_END(Ben)
+DK_COMPONENT_START(Simon)
+int age;
+DK_COMPONENT_END(Simon)
 
 } //components
 } //drak

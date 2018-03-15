@@ -39,9 +39,6 @@
     <ClInclude Include="..\..\Source\Core\ISystem.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\SceneSystem.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\AGameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,8 +51,11 @@
     <ClInclude Include="..\..\Source\Core\AComponentUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\SceneSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Core\SceneSystemUtils.h">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

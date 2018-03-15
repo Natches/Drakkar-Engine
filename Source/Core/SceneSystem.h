@@ -14,7 +14,7 @@ public:
 	inline void* getComponentContainerID();
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(Mesh)
-	COMPONENT_CONTAINER(Ben)
+	COMPONENT_CONTAINER(Simon)
 	Scene();
 	~Scene();
 	template <typename T>
