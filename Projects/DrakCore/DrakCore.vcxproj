@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\ClassUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\ClassUtils.h" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine.hpp" />
     <ClInclude Include="..\..\Source\Core\ISystem.h" />
+    <ClInclude Include="..\..\Source\Core\MacroUtils.h" />
+    <ClInclude Include="..\..\Source\Core\ServiceLocator.hpp" />
+    <ClInclude Include="..\..\Source\Core\ServiceUtils.h" />
+    <ClInclude Include="..\..\Source\Core\TemplateUtils.h" />
     <ClInclude Include="..\..\Source\Core\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\TypeTraits.hpp" />
   </ItemGroup>
