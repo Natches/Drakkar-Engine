@@ -1,12 +1,12 @@
 #pragma once
-#include "Core/ISystem.h"
-#include "AGameObject.h"
-#include "AComponent.h"
+#include <Core/Engine/ISystem.h>
+#include <Core/Components/AGameObject.h>
+#include <Core/Components/AComponent.h>
 #include <list>
 #include <vector>
 namespace drak {
 namespace core {
-#include "SceneSystemUtils.h"									
+#include <Core/Utils/SceneSystemUtils.h>
 class Scene {
 	std::list<AGameObject> m_gameObjects;
 public:

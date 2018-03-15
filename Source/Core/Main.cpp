@@ -1,18 +1,8 @@
-#include "Core/SceneSystem.h"
+#include <Core/Scene/SceneSystem.h>
 #include <iostream>
 #include <vector>
-
-template <int T>
-inline int foo();
-
-template <>
-inline int foo<2>() {}
+#include <Core/Log/Log.hpp>
 
 int main() {
-	drak::core::SceneSystem sceneSystem;
-	sceneSystem.Startup();
-	drak::core::MyTestSceneBlueprint blueprint;
-	sceneSystem.loadScene(blueprint);
-	sceneSystem.Shutdown();
-	std::cin.get();
+
 }
