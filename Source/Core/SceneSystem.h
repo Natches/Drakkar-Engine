@@ -9,12 +9,14 @@ namespace drak {
 namespace core {
 #include <Core/SceneSystemUtils.h>									
 class Scene {
-	std::list<AGameObject> m_gameObjects;
+	std::list<AGameObject*> m_gameObjects;
 public:
 	template <I32 n>
 	inline void* getComponentContainerID();
 	COMPONENT_CONTAINER(Transform)
-	COMPONENT_CONTAINER(Mesh)
+	COMPONENT_CONTAINER(Other)
+	COMPONENT_CONTAINER(H1)
+	COMPONENT_CONTAINER(H2)
 	DRAK_API Scene();
 	DRAK_API ~Scene();
 	template <typename T>
@@ -27,18 +29,18 @@ public:
 	}
 	template <typename T>
 	AGameObject* addGameObject() {
-		m_gameObjects.push_back(T());
-		std::list<AGameObject>::iterator it = m_gameObjects.begin();
+		m_gameObjects.push_back(new T());
+		std::list<AGameObject*>::iterator it = m_gameObjects.begin();
 		std::advance(it, m_gameObjects.size() - 1);
-		(*it).myScene = this;
-		return &(*it);
+		(*it)->myScene = this;
+		return (*it);
 	}
 	template <typename T>
 	T* getComponentFromHandle(int handle) {
 		return &(*((std::vector<T>*)getComponentContainerID<AComponent<T>::id>()))[handle];
 	}
 
-	DRAK_API std::list<AGameObject>& GetGameObjects();
+	DRAK_API std::list<AGameObject*>& GetGameObjects();
 
 };
 

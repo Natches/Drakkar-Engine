@@ -11,13 +11,6 @@ struct DRAK_API AComponent
 	static const int ID;
 };
 
-#define ENUM_VALUE(symbol ,value) symbol = value
-enum class IDENUM
-{
-#include "ComponentGeneratedID.h"
-	END
-};
-#define ID(name) IDENUM::name
 #define DRAK_COMPONENT_START(name) 	\
 struct name							\
 {											 								
@@ -28,7 +21,7 @@ struct name							\
 template <>										\
 struct DRAK_API AComponent<name>				\
 {												\
-	static const U32 id = (U32)ID(name);		\
+	static const U32 id = (U32)__COUNTER__;		\
 };												
 
 /*!
@@ -42,4 +35,3 @@ struct DRAK_API AComponent<name>				\
 *	\brief Defines the end of a component 
 *	Creates a template specialization of AComponent templated with the defined component. This allows templated functions to use the component ID as template parameters
 */
-

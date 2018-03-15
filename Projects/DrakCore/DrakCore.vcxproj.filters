@@ -54,9 +54,6 @@
     <ClInclude Include="..\..\Source\Core\AComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\ComponentGeneratedID.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Types.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>

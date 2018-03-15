@@ -4,9 +4,9 @@ DK_LOG_CATEGORY_DECLARE(EngineLog, LoggerVerbosity::DEBUG)
 namespace drak {
 namespace core {
 
+	bool Engine::running = true;
 
-
-	SceneSystem& Engine::GetSceneSystem()
+	SceneSystem& Engine::getSceneSystem()
 	{
 		return sceneSystem;
 	}
@@ -29,15 +29,28 @@ namespace core {
 	void Engine::startLoop()
 	{
 		Scene* scene = sceneSystem.GetScene();
+		std::list<AGameObject*> gameObjects = scene->GetGameObjects();
+		std::list<AGameObject*>::iterator it = gameObjects.begin();
+		while (it != gameObjects.end())
+		{
+			(*it)->Start();
+			std::advance(it, 1);
+		}
 		while (running)
 		{
-
+			std::list<AGameObject*> gameObjects = scene->GetGameObjects();
+			std::list<AGameObject*>::iterator it = gameObjects.begin();
+			for (unsigned int i = 0; i < gameObjects.size(); ++i)
+			{
+				std::advance(it, i);
+				(*it)->Update();
+			}
 		}
 	}
 
-	void Engine::stopGame()
+ void Engine::stopGame()
 	{
-		running = false;
+		Engine::running = false;
 	}
 
 } // namespace core

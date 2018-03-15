@@ -41,7 +41,7 @@ Scene::Scene() {
 Scene::~Scene() {
 }
 
-std::list<AGameObject>& drak::core::Scene::GetGameObjects()
+std::list<AGameObject*>& drak::core::Scene::GetGameObjects()
 {
 	return m_gameObjects;
 }

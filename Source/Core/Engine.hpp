@@ -11,16 +11,17 @@ namespace core {
  * \brief 
  *
  */
+
 class Engine final {
 private:
 	SceneSystem sceneSystem;
-	bool running;
+	static bool running;
 public:
-	DRAK_API SceneSystem& GetSceneSystem();
+	DRAK_API SceneSystem& getSceneSystem();
 	DRAK_API int startup();
 	DRAK_API int shutdown();
 	DRAK_API void startLoop();
-	DRAK_API void stopGame();
+	DRAK_API static void stopGame();
 };
 
 } // namespace core

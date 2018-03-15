@@ -17,8 +17,8 @@ public:
 	DRAK_API bool getComponentFlag(int id);
 	DRAK_API void setHandleIDPair(int id, int handle);
 	DRAK_API int getHandle(int id);
-	DRAK_API virtual void Update() {};
-	DRAK_API virtual void Start() {};
+	DRAK_API virtual void Update() = 0;
+	DRAK_API virtual void Start() = 0;
 	DRAK_API drak::core::Scene* CurrentScene();
 	drak::core::Scene* myScene;
 private:
