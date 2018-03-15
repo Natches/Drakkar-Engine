@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.hpp"
+#include <Core/Core.hpp>
 #include <map>
 
 struct ComponentIDHandlePair

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Core.hpp>
-#include <Core/ServiceLocator.hpp>
+#include <Core/ServiceLocator/ServiceLocator.hpp>
 
 namespace drak {
 namespace io {

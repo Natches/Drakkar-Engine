@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakMath", "Projects\DrakMa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakCore", "Projects\DrakCore\DrakCore.vcxproj", "{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakLog", "Projects\DrakLog\DrakLog.vcxproj", "{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "Projects\ResourceManager\ResourceManager.vcxproj", "{A8101317-50C5-44E7-B9C1-A15E68DD03BE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IniLoader", "Projects\IniLoader\IniLoader.vcxproj", "{9C7C677F-F5A7-4E19-A6AD-DA14A6396ABE}"
@@ -44,13 +42,6 @@ Global
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x64.Build.0 = Release|x64
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x86.ActiveCfg = Release|Win32
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x86.Build.0 = Release|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.ActiveCfg = Debug|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.Build.0 = Debug|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.ActiveCfg = Debug|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.ActiveCfg = Release|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.Build.0 = Release|x64
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.ActiveCfg = Release|Win32
-		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.Build.0 = Release|Win32
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x64.ActiveCfg = Debug|x64
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x64.Build.0 = Debug|x64
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x86.ActiveCfg = Debug|Win32

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <ResourceManager/ResourceManager.hpp>
 #include <map>
 #include <string>
+#include <ResourceManager/ResourceManager.hpp>
 
 namespace drak {
 namespace io {

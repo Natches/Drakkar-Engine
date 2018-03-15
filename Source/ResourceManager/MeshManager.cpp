@@ -1,5 +1,5 @@
 #include <cassert>
-#include "MeshManager.hpp"
+#include <ResourceManager/MeshManager.hpp>
 
 namespace drak {
 namespace io {

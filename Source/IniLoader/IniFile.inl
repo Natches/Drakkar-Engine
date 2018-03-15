@@ -8,6 +8,7 @@ inline int IniFile::GetValue<int>(const char * parameterName) {
 		return std::stoi(parameters[parameterName]);
 	}
 	assert(false);
+	return 0;
 }
 
 template<>
@@ -16,6 +17,7 @@ inline float IniFile::GetValue<float>(const char * parameterName) {
 		return std::stof(parameters[parameterName]);
 	}
 	assert(false);
+	return 0.f;
 }
 
 template<>
@@ -24,6 +26,7 @@ inline std::string IniFile::GetValue <std::string>(const char * parameterName) {
 		return std::string(parameters[parameterName]);
 	}
 	assert(false);
+	return "";
 }
 
 template<>
@@ -32,6 +35,7 @@ inline long IniFile::GetValue <long>(const char * parameterName) {
 		return std::stol(parameters[parameterName]);
 	}
 	assert(false);
+	return 0l;
 }
 
 template<>
@@ -40,4 +44,5 @@ inline double IniFile::GetValue <double>(const char * parameterName) {
 		return std::stod(parameters[parameterName]);
 	}
 	assert(false);
+	return 0.0;
 }

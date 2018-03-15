@@ -12,13 +12,13 @@ struct AComponent
 #define ENUM_VALUE(symbol ,value) symbol = value
 enum class IDENUM
 {
-#include "ComponentGeneratedID.h"
+#include <Core/Components/ComponentGeneratedID.h>
 	END
 };
 #define ID(name) IDENUM::name
 #define DRAK_COMPONENT_START(name) 			\
 struct name									\
-{											
+{
 #define DRAK_COMPONENT_END(name)			\
 };											\
 											\
@@ -36,7 +36,7 @@ struct AComponent<name>						\
 
 /*!
 *	\def  DRAK_COMPONENT_END(name)
-*	\brief Defines the end of a component 
+*	\brief Defines the end of a component
 *	Creates a template specialization of AComponent templated with the defined component. This allows templated functions to use the component ID as template parameters
 */
 

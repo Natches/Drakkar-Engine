@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/Types.hpp>
-#include <Core/TypeTraits.hpp>
-#include <Core/ClassUtils.h>
-#include <Core/TemplateUtils.h>
+#include <Core/Engine/Types.hpp>
+#include <Core/Engine/TypeTraits.hpp>
+#include <Core/Utils/ClassUtils.h>
+#include <Core/Utils/TemplateUtils.h>

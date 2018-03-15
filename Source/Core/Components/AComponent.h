@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.hpp"
+#include <Core/Core.hpp>
 #include <vector>
 /*!
 *	@file
@@ -9,7 +9,7 @@
 
 namespace drak {
 namespace components {
-#include "AComponentUtils.h"
+#include <Core/Utils/AComponentUtils.h>
 
 DRAK_COMPONENT_START(Transform)
 std::vector<Transform*> children;
