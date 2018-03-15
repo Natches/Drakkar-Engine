@@ -10,15 +10,13 @@ struct ServiceLocator {
 	struct Services {
 	};
 
-	void Startup(Services* services, Type* tList) {
+	void Startup(Services* services, types::Type* tList) {
 		m_service = services;
 		m_tList = tList;
 	}
 
-	using T = Type;
-
 	Services* m_service;
-	Type* m_tList;
+	types::Type* m_tList;
 };
 
 } // namespace sys

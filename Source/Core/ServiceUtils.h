@@ -2,96 +2,101 @@
 
 #include <Core/TemplateUtils.h>
 
-#define SERVICEVARNAME(T) m_##T
+#define DK_SERVICE_VARNAME(Class) m_##Class
 
-#define SERVICE(T) \
-T SERVICEVARNAME(T) = T::Create();
+#define DK_SERVICE(Class) \
+Class DK_SERVICE_VARNAME(Class) = Class::Create();
 
-#define REGISTER_SERVICES(Name, N, ...)															\
-TYPELIST(N, Name, 1, __VA_ARGS__)																\
-SERVICESPECIALIZE(N, __VA_ARGS__)																\
-inline void CONCAT(Startup, Name)() {															\
-	Name::instance().Startup(new ServiceTemplated<N, __VA_ARGS__>(), new TypeList<Name, 1>());	\
-}																								\
-using CONCAT(Name, RegisteredServiceType) = TypeList<Name, N>;
+#define DK_REGISTER_SERVICES(ServiceLocation, ArgsN, ...)											\
+DK_TYPELIST(ArgsN, ServiceLocation, 1, __VA_ARGS__)													\
+DK_SERVICE_SPECIALIZE(ArgsN, __VA_ARGS__)															\
+inline void DK_CONCAT(Startup, ServiceLocation)() {													\
+	ServiceLocation::instance().Startup(new ServiceTemplated<ArgsN, __VA_ARGS__>(),					\
+		new TypeList<ServiceLocation, 1>());														\
+}																									\
+using DK_CONCAT(ServiceLocation, RegisteredServiceTypeList) = TypeList<ServiceLocation, 1>;			\
+using DK_CONCAT(ServiceLocation, RegisteredServiceTemplated) =										\
+	ServiceTemplated<ArgsN, __VA_ARGS__>;
 
-#define GETSERVICE(SL, N, T, TypeListStruct)													\
-	static_cast<ServiceTemplated<N, GATHERTYPE(TypeListStruct, N)>*>							\
-		(SL::instance().m_service)->SERVICEVARNAME(T)
+#define DK_GET_SERVICE(ServiceLoc, T, RegisteredServiceTemplated)									\
+static_cast<RegisteredServiceTemplated*>(ServiceLoc::instance().m_service)->DK_SERVICE_VARNAME(T)
 
-#define SERVICESPECIALIZE(N, ...)														\
-template<int i, typename ...U>															\
-struct ServiceTemplated {																\
-};																						\
-template<>																				\
-struct ServiceTemplated<N, __VA_ARGS__> : public drak::sys::ServiceLocator::Services {	\
-	SERVICESPECIALIZETEMPLATE(N, __VA_ARGS__)											\
+#define DK_SERVICE_SPECIALIZE(ArgsN, ...)															\
+template<int I, typename ...U>																		\
+struct ServiceTemplated {																			\
+};																									\
+template<>																							\
+struct ServiceTemplated<ArgsN, __VA_ARGS__> : public drak::sys::ServiceLocator::Services {			\
+	DK_IMPLEMENT_SERVICE(ArgsN, __VA_ARGS__)														\
 };
 
-#define SERVICESPECIALIZETEMPLATE(N, ...)							\
-	EXPAND(CONCAT(SERVICESPECIALIZETEMPLATE, N)(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE(ArgsN, ...) \
+	DK_EXPAND(DK_CONCAT(DK_IMPLEMENT_SERVICE, ArgsN)(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE0()
+#define DK_IMPLEMENT_SERVICE0()
 
-#define SERVICESPECIALIZETEMPLATE1(T)								\
-	SERVICE(T)														\
+#define DK_IMPLEMENT_SERVICE1(Class) \
+	DK_SERVICE(Class)
 
-#define SERVICESPECIALIZETEMPLATE2(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE1(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE2(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE1(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE3(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE2(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE3(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE2(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE4(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE3(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE4(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE3(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE5(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE4(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE5(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE4(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE6(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE5(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE6(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE5(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE7(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE6(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE7(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE6(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE8(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE7(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE8(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE7(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE9(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE8(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE9(Class, ...)						\
+	DK_SERVICE(Class)											\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE8(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE10(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE9(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE11(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE10(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE12(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE11(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE13(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE12(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE10(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE9(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE14(T,...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE13(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE11(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE10(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE15(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE14(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE12(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE11(__VA_ARGS__))
 
-#define SERVICESPECIALIZETEMPLATE16(T, ...)							\
-	SERVICE(T)														\
-	EXPAND(SERVICESPECIALIZETEMPLATE15(__VA_ARGS__))
+#define DK_IMPLEMENT_SERVICE13(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE12(__VA_ARGS__))
+
+#define DK_IMPLEMENT_SERVICE14(Class,...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE13(__VA_ARGS__))
+
+#define DK_IMPLEMENT_SERVICE15(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE14(__VA_ARGS__))
+
+#define DK_IMPLEMENT_SERVICE16(Class, ...)							\
+	DK_SERVICE(Class)														\
+	DK_EXPAND(DK_IMPLEMENT_SERVICE15(__VA_ARGS__))

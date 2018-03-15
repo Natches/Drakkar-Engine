@@ -5,7 +5,7 @@
 namespace drak {
 namespace io {
 
-REGISTER_SERVICES(ResourceManager, 1, MeshManager)
+DK_REGISTER_SERVICES(ResourceManager, 1, MeshManager)
 
 } // namespace io
 } // namespace drak
