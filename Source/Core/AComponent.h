@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.hpp"
+#include <Core/Core.hpp>
 #include <vector>
 /*!
 *	@file
@@ -19,10 +19,6 @@ DRAK_COMPONENT_END(Transform)
 DRAK_COMPONENT_START(Mesh)
 U32 meshID;
 DRAK_COMPONENT_END(Mesh)
-
-DRAK_COMPONENT_START(Ben)
-int howPD;
-DRAK_COMPONENT_END(Ben)
 
 } //components
 } //drak

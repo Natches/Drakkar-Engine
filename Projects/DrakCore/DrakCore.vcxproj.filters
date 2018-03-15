@@ -71,19 +71,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\AGameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\AComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Engine.cpp">
+    <ClCompile Include="..\..\Source\Core\SceneSystem.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\SceneSystem.cpp">
+    <ClCompile Include="..\..\Source\Core\Engine.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>

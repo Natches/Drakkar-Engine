@@ -1,10 +1,12 @@
 #pragma once
+#include <Core/Core.hpp>
 /*!
 *	@file
 *	Macros and templated structures used in the component system
 */
+
 template <class c>
-struct AComponent
+struct DRAK_API AComponent
 {
 	static const int ID;
 };
@@ -16,17 +18,18 @@ enum class IDENUM
 	END
 };
 #define ID(name) IDENUM::name
-#define DRAK_COMPONENT_START(name) 			\
-struct name									\
-{											
-#define DRAK_COMPONENT_END(name)			\
-};											\
-											\
-template <>									\
-struct AComponent<name>						\
-{											\
-	static const int id = (int)ID(name);	\
-};
+#define DRAK_COMPONENT_START(name) 	\
+struct name							\
+{											 								
+
+#define DRAK_COMPONENT_END(name)				\
+};												\
+												\
+template <>										\
+struct DRAK_API AComponent<name>				\
+{												\
+	static const U32 id = (U32)ID(name);		\
+};												
 
 /*!
 *	\def  DRAK_COMPONENT_START(name)

@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakCore", "Projects\DrakCo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakLog", "Projects\DrakLog\DrakLog.vcxproj", "{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Projects\Game\Game.vcxproj", "{DEBC86C9-14A4-475D-B69E-650408DF141A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.Build.0 = Release|x64
 		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.ActiveCfg = Release|Win32
 		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.Build.0 = Release|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x64.ActiveCfg = Debug|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x64.Build.0 = Debug|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x86.ActiveCfg = Debug|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x86.Build.0 = Debug|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x64.ActiveCfg = Release|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x64.Build.0 = Release|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x86.ActiveCfg = Release|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

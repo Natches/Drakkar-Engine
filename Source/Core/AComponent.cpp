@@ -1,5 +1,4 @@
 #include "AComponent.h"
-#include "Log.hpp"
 
 
 DK_LOG_CATEGORY_DEFINE(COMPONENT_LOGGER)

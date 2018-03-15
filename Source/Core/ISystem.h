@@ -1,5 +1,5 @@
 #pragma once
-
+#include <Core/Core.hpp>
 namespace drak {
 namespace core {
 
@@ -9,7 +9,7 @@ namespace core {
 * \brief Engine system interface
 *
 */
-class ISystem {
+class DRAK_API ISystem {
 public:
 	ISystem() = default;
 	virtual ~ISystem() = default;
