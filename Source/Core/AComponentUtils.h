@@ -16,10 +16,10 @@ enum class IDENUM
 	END
 };
 #define ID(name) IDENUM::name
-#define DK_COMPONENT_START(name) 			\
+#define DRAK_COMPONENT_START(name) 			\
 struct name									\
 {											
-#define DK_COMPONENT_END(name)			\
+#define DRAK_COMPONENT_END(name)			\
 };											\
 											\
 template <>									\
@@ -29,7 +29,7 @@ struct AComponent<name>						\
 };
 
 /*!
-*	\def  DK_COMPONENT_START(name)
+*	\def  DRAK_COMPONENT_START(name)
 *	\brief Defines the beginning of a component
 *	The Component ID Generator uses this as a tag to find which IDs it must generate.
 */

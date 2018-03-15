@@ -67,16 +67,16 @@ void MyTestSceneBlueprint::build(Scene& scene) {
 	scene.addComponentToGameObject<Transform>(pDebugCube1);
 	scene.addComponentToGameObject<Transform>(pDebugCube2);
 	scene.addComponentToGameObject<Mesh>(pDebugCube1);
-	scene.addComponentToGameObject<Simon>(pDebugCube1);
+	scene.addComponentToGameObject<Ben>(pDebugCube1);
 	
 	Transform* t1 = scene.getComponentFromHandle<Transform>(pDebugCube1->getHandle(AComponent<Transform>::id));
 	Transform* t2 = scene.getComponentFromHandle<Transform>(pDebugCube2->getHandle(AComponent<Transform>::id));
 
-	Simon* n1 = scene.getComponentFromHandle<Simon>(pDebugCube1->getHandle(AComponent<Simon>::id));
+	Ben* n1 = scene.getComponentFromHandle<Ben>(pDebugCube1->getHandle(AComponent<Transform>::id));
 
 	t1->children.push_back(t2);
 	t2->parent = t1;
-	n1->age = 9001;
+	n1->howPD = 9001;
 
 	Mesh* m1 = scene.getComponentFromHandle<Mesh>(pDebugCube1->getHandle(AComponent<Mesh>::id));
 	m1->meshID = 20;
