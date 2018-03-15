@@ -50,7 +50,7 @@ void ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const void*		userParam) {
-	fprintf(stderr, "Openglerror: %s\n", message);
+	fprintf(stderr, "%s\n", message);
 }
 #pragma endregion
 

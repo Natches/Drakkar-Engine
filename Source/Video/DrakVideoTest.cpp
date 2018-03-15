@@ -12,9 +12,9 @@ void testRun(ARenderWindow* pWin) {
 #pragma region Test
 	static const float points[3][3] =
 	{
-		{0.f, 0.f, 0.f},
-		{0.5f, 0.f, 0.f},
-		{0.5f, 0.5f, 0.f},
+		{-0.25f, -0.25f, 0.f},
+		{0.25f, -0.25f, 0.f},
+		{0.25f, 0.5f, 0.f},
 	};
 
 	static const float colors[3][4] =

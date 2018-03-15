@@ -26,7 +26,8 @@ public:
 	void draw();
 
 private:
-	GLuint m_glID;
+	GLuint				m_glID;
+	GLVertexBuffer*		m_vbo;
 };
 
 } // namespace gl

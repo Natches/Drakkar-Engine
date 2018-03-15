@@ -17,13 +17,12 @@ void GLVertexArray::create(const std::vector<GLVertex>& verts) {
 	GLuint binding = 0u;
 
 	glCreateBuffers(1, &vbo);
-	glNamedBufferData(
+
+	glNamedBufferStorage(
 		vbo,
 		verts.size() * sizeof(GLVertex),
 		verts.data(),
-		GL_STATIC_DRAW);
-	
-	glVertexArrayVertexBuffer(m_glID, binding, vbo, 0, sizeof(GLVertex));
+		GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
 	
 	glVertexArrayAttribFormat(m_glID, GL_VERT_ATTR_POS, 3, GL_FLOAT, GL_FALSE, 0);
 	glEnableVertexArrayAttrib(m_glID, GL_VERT_ATTR_POS);
@@ -32,6 +31,8 @@ void GLVertexArray::create(const std::vector<GLVertex>& verts) {
 	glVertexArrayAttribFormat(m_glID, GL_VERT_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, 12);
 	glEnableVertexArrayAttrib(m_glID, GL_VERT_ATTR_COLOR);
 	glVertexArrayAttribBinding(m_glID, GL_VERT_ATTR_COLOR, binding);
+	
+	glVertexArrayVertexBuffer(m_glID, binding, vbo, 0, sizeof(GLVertex));
 }
 
 void GLVertexArray::draw() {
