@@ -9,19 +9,24 @@ namespace drak {
 namespace video {
 namespace gl {
 
+/*!
+* \class GLShader
+* \ingroup DrakVideo
+* \brief
+*
+*/
 class GLShader final
 {
 	using UniformMap = std::unordered_map<std::string, GLint>;
 
 public:
 	//GLShader();
-	//~GLShader();
+	~GLShader();
 
-	bool loadFromFile(
-		const std::string& vertFilename,
-		const std::string& fragFilename);
+	bool loadFromData(const std::string& vertCode, const std::string& fragCode);
+	bool loadFromFile(const std::string& vertFilename, const std::string& fragFilename);
 
-	//static void Use(GLShader* const pShader);
+	void use();
 
 	void setUniform(const std::string& name, GLfloat value);
 	void setUniform(const std::string& name, GLint value);

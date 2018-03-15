@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cassert>
 
 #include <GL/glew.h>
 #include <Video/RHI/OpenGL/GLShader.hpp>
@@ -9,19 +10,19 @@
 namespace drak {
 namespace video {
 namespace gl {
-/*
-void GLShader::Use(GLShader* const pShader) {
-	if (pShader && pShader->m_glID != INVALID_SHADER)
-	{
-		glUseProgram(pShader->m_glID);
-	}
-	else
-	{
-		//assert(g_DefaultProgram);
-		glUseProgram(g_DefaultProgram->m_glID);
-	}
+
+GLShader::~GLShader() {
+	glDeleteProgram(m_glID);
 }
-*/
+
+void GLShader::use() {
+	assert(m_glID != INVALID_SHADER);
+	glUseProgram(m_glID);
+}
+
+bool GLShader::loadFromData(const std::string& vertCode, const std::string& fragCode) {
+	return compileProgram(vertCode.c_str(), fragCode.c_str());
+}
 
 bool GLShader::loadFromFile(const std::string& vertFilename, const std::string& fragFilename) {
 	std::vector<char> vertCode;
@@ -112,44 +113,38 @@ bool GLShader::readFileText(const std::string& filename, std::vector<char>& text
 	}
 }
 
-void GLShader::setUniform(const std::string& name, GLfloat value)
-{
+void GLShader::setUniform(const std::string& name, GLfloat value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1f(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, GLint value)
-{
+void GLShader::setUniform(const std::string& name, GLint value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1i(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, GLuint value)
-{
+void GLShader::setUniform(const std::string& name, GLuint value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1ui(m_glID, m_uniMap[name], value);
 }
 
 /*
-void GLShader::setUniform(const std::string& name, const glm::vec3& v3)
-{
+void GLShader::setUniform(const std::string& name, const glm::vec3& v3) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v3.x);
 }
 
-void GLShader::setUniform(const std::string& name, const glm::vec4& v4)
-{
+void GLShader::setUniform(const std::string& name, const glm::vec4& v4) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v4.x);
 }
 
-void GLShader::setUniform(const std::string& name, const glm::mat4& matrix)
-{
+void GLShader::setUniform(const std::string& name, const glm::mat4& matrix) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1u, GL_FALSE, &matrix[0][0]);

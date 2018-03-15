@@ -30,13 +30,15 @@ using GLvoid		= void;
 
 //--------------------------------------------------------------------------------------------
 
-struct GLVertex {
-	GLfloat		position	[4];
-	GLubyte		color		[4];
-	GLfloat		normal		[3];
-	GLclampf	texcoords	[2];
-};
+#define DK_GET(			T, name, var)	T			name() const			{ return var; }
+#define DK_GET_REF_C(	T, name, var)	const T&	name() const			{ return var; }
+#define DK_GET_REF_V(	T, name, var)	T&			name()					{ return var; }
+
+#define DK_SET(			T, name, var)	void		name(		T	val)	{ var = val; }
+#define DK_SET_REF_C(	T, name, var)	void		name(const	T&	val)	{ var = val; }
+
+//--------------------------------------------------------------------------------------------
 
 } // namespace gl
-} // namespace gfx
+} // namespace video
 } // namespace drak

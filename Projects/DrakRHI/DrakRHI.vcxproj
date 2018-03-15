@@ -35,6 +35,7 @@
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLRHI.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLShader.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLTypes.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertex.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexArray.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />

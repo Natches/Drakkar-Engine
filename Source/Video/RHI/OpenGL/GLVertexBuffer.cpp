@@ -1,27 +1,24 @@
 #include <GL/glew.h>
+
 #include <Video/RHI/OpenGL/GLVertexBuffer.hpp>
 
 namespace drak {
 namespace video {
 namespace gl {
 
-GLVertexBuffer::GLVertexBuffer() {
-
-}
-
 GLVertexBuffer::~GLVertexBuffer() {
-
+	glDeleteBuffers(1, &m_glID);
 }
 
-void GLVertexBuffer::create() {
-	glGenBuffers(1, &m_glID);
-	//glBindVertexBuffer()
-}
-
-void GLVertexBuffer::bind() {
-	glBindVertexArray(m_glID);
+void GLVertexBuffer::create(const void* data, U32 size) {
+	glCreateBuffers(1, &m_glID);
+	glNamedBufferStorage(
+		m_glID, 
+		size, 
+		data, 
+		GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
 }
 
 } // namespace gl
-} // namespace gfx
+} // namespace video
 } // namespace drak
