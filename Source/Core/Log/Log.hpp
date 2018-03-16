@@ -1,9 +1,10 @@
 #pragma once
+
+#include <ctime>
 #include <cstdio>
-#include <iostream>
 #include <iomanip>
-#include <string>
-#include <time.h>
+
+#include <Core/Utils/MacroUtils.h>
 
 /*!
 *	@file
@@ -22,7 +23,6 @@ inline constexpr bool operator<(ELoggerVerbosity& a, ELoggerVerbosity& b) {
 inline constexpr bool operator>(ELoggerVerbosity& a, ELoggerVerbosity& b) {
 	return (int)a > (int)b;
 }
-
 
 template <typename T>
 struct LogCategory {
@@ -51,7 +51,7 @@ const ELoggerVerbosity name::Category::compileMaxVerbosity(comp);
 
 #define DK_LOG(category, verbosity, outputString, ...){				\
 	if constexpr(verbosity <= category::compileMaxVerbosity){		\
-		FILE* logFile = OpenLogFile(#category);						\
+		FILE* logFile = OpenLogFile(DK_CONCAT(#category, ".log"));	\
 		switch (verbosity) {										\
 		case ELoggerVerbosity::DEBUG:								\
 				fprintf_s(logFile, outputString, __VA_ARGS__);		\
@@ -69,6 +69,19 @@ const ELoggerVerbosity name::Category::compileMaxVerbosity(comp);
 		}															\
 	}																\
 }
+
+inline FILE* OpenLogFile(const char* filenameFromCategory) {
+	FILE* pLogFile = nullptr;
+	if (fopen_s(&pLogFile, filenameFromCategory, "a+") == 0) {
+		return pLogFile;
+	}
+	return nullptr;
+}
+
+inline void CloseLogFile(FILE* file) {
+	fclose(file);
+}
+
 
 /*!
 	\enum LoggerVerbosity
