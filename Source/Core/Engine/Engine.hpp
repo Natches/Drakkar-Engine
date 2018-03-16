@@ -1,17 +1,32 @@
 #pragma once
 
+#include <Core/Utils/ClassUtils.h>
+
 namespace drak {
+
+namespace time {
+
+class FrameTimer;
+
+} // namespace time
 namespace core {
 
 /*!
  * \class Engine
  * \ingroup Core
- * \brief 
+ * \brief
  *
  */
 class Engine final {
+	DK_NONMOVABLE_NONCOPYABLE(Engine)
 
-private:
+public:
+	Engine() = default;
+	~Engine() = default;
+	static void update();
+
+public:
+	static time::FrameTimer& s_frameTime;
 	// System X
 	// System Y
 	// ...
