@@ -43,7 +43,7 @@ Vec4<T>::Vec4(const T X, const T Y, const T Z, const T W) {
 template<typename T>
 Vec4<T>::Vec4(const Vec4<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = v.m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -51,7 +51,7 @@ Vec4<T>::Vec4(const Vec4<T>& v) {
 template<typename T>
 Vec4<T>::Vec4(Vec4<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = std::forward<Vec4<T>>(v).m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -562,6 +562,36 @@ Vec4<F32> Vec4<F32>::round() {
 	else {
 		Vec4<F32>(std::round(x), std::round(y), std::round(z), std::round(w));
 	}
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::xy() {
+	return Vec2<T>(x, y);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zw() {
+	return Vec2<T>(z, w);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yz() {
+	return Vec2<T>(y, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yx() {
+	return Vec2<T>(y, x);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::wz() {
+	return Vec2<T>(w, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zy() {
+	return Vec2<T>(z, y);
 }
 
 template<typename T>
