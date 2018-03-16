@@ -13,17 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Core">
-      <UniqueIdentifier>{9a50b21c-7713-44b3-8498-7bb11a11275a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utils">
-      <UniqueIdentifier>{c817da72-4d90-4105-b5de-6e683a80e8ed}</UniqueIdentifier>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{5853c5ca-19cd-496d-bdfb-57f1ade5436f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{422ee053-2c19-4d85-956b-b24c21e74264}</UniqueIdentifier>
+      <UniqueIdentifier>{5c100485-0e78-4a06-a039-48aa63660813}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{2ae452dc-ba61-4e2c-a1f5-1aa2cf1b1c37}</UniqueIdentifier>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{912da90a-a633-4813-9fc8-e270fbf6dbf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{59df907f-c80f-4891-af5e-fab36c26d684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component">
+      <UniqueIdentifier>{3c959af2-7dcd-4d1a-ae38-66005dd354ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Log">
+      <UniqueIdentifier>{f8282b93-ca6f-49a0-b482-e8fc1e57ca27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{e2a4921e-f95f-4084-b363-3d5b9b7cef9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene">
+      <UniqueIdentifier>{559ca1a4-6bdf-4eaa-a3c0-7c1ab458480f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{e7b008a5-7602-44c9-a335-a17e17bf3ea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ServiceLocator">
+      <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ServiceLocator">
+      <UniqueIdentifier>{2754ec27-e8db-4299-921c-f24271cc32da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,59 +52,81 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\ISystem.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\AGameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
-      <Filter>Header Files\Core</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\ISystem.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\SceneSystemUtils.h">
+    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\AComponentUtils.h">
+    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\AComponent.h">
+    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Components\AComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Types.hpp">
-      <Filter>Header Files\Core</Filter>
+    <ClInclude Include="..\..\Source\Core\Components\AGameObject.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\TypeTraits.hpp">
-      <Filter>Header Files\Core</Filter>
+    <ClInclude Include="..\..\Source\Core\Engine\Engine.hpp">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\ClassUtils.hpp">
+    <ClInclude Include="..\..\Source\Core\Engine\ISystem.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\ServiceLocator.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Types.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Log\Log.hpp">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\SceneSystem.h">
-      <Filter>Header Files\Core</Filter>
+    <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp">
+      <Filter>Header Files\ServiceLocator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\AGameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\AComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\SceneSystem.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Engine.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Engine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Log\Log.cpp">
+      <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp">
+      <Filter>Source Files\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
