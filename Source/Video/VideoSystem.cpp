@@ -8,20 +8,17 @@
 #include <vld.h>
 
 #include <Video/VideoSystem.hpp>
-#include <Video/RHI/OpenGL/GLRHI.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
 namespace drak {
 namespace video {
 
-//-----[STATIC INITIALIZATION]---------------------------------------------------------------------
-
+#pragma region Static Initialization
 ARenderWindow*	VideoSystem::s_pMainWin	= nullptr;
 bool			VideoSystem::s_ready	= false;
+#pragma endregion
 
-//-------------------------------------------------------------------------------------------------
-
-//-----[STARTUP/SHUTDOWN]--------------------------------------------------------------------------
-
+#pragma region Startup/Shutdown
 bool VideoSystem::Startup(const VideoSettings& settings) {
 	#ifdef WINDOWING_SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -31,13 +28,10 @@ bool VideoSystem::Startup(const VideoSettings& settings) {
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
-	if (!gl::Init(true)) {
+	if (!gl::GLRHI::Init(true)) { // TODO (Simon): refactor to call abstract RHI init
 		// TODO (Simon): log DrakVideo::Init() failed error message
 		return false;
 	}
-
-	gl::DepthFunc(true, gl::DepthMode::LESS);
-	gl::CullFunc(true, gl::FaceSide::BACK);
 
 	s_ready = true;
 	return true;
@@ -50,8 +44,7 @@ void VideoSystem::Shutdown() {
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	#endif
 }
-
-//-------------------------------------------------------------------------------------------------
+#pragma endregion
 
 } // namespace video
 } // namespace drak

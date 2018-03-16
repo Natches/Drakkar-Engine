@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <GL/glew.h>
 
-#include <Video/RHI/OpenGL/GLRHI.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
 namespace drak {
 namespace video {
@@ -16,10 +16,10 @@ namespace gl {
 #pragma endregion
 
 #pragma region Static Initialization
-bool s_ready = false;
+bool GLRHI::s_ready = false;
 #pragma endregion
 
-bool Init(bool debug) {
+bool GLRHI::Init(bool debug) {
 	glewExperimental = true;
 	if (glewInit() == GLEW_OK) {
 		if (debug) {
@@ -28,13 +28,16 @@ bool Init(bool debug) {
 			glDebugMessageCallback((GLDEBUGPROC)ErrorHandler, 0);
 		}
 
+		DepthFunc(true, DepthMode::LESS);
+		CullFunc(true, FaceSide::BACK);
+
 		s_ready = true;
 	}
 	return s_ready;
 }
 
 #pragma region Logging/Error-handling
-void GraphicsInfo() {
+void GLRHI::GraphicsInfo() {
 	fprintf(stderr, "%s%s\n%s%s\n%s",
 		"------------------ GLRHI Information ------------------\n"
 		"Renderer: ", glGetString(GL_RENDERER),
@@ -42,7 +45,7 @@ void GraphicsInfo() {
 		"-------------------------------------------------------\n");
 }
 
-void ErrorHandler(
+void GLRHI::ErrorHandler(
 	GLenum			source,
 	GLenum			type,
 	GLuint			id,
@@ -54,7 +57,7 @@ void ErrorHandler(
 }
 #pragma endregion
 
-void DepthFunc(bool on, DepthMode mode) {
+void GLRHI::DepthFunc(bool on, DepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)
 		DK_CASE(DepthMode::LESS,	glDepthFunc(GL_LESS))
@@ -65,7 +68,7 @@ void DepthFunc(bool on, DepthMode mode) {
 	DK_END
 }
 
-void CullFunc(bool on, FaceSide side) {
+void GLRHI::CullFunc(bool on, FaceSide side) {
 	DK_GL_TOGGLE(on, GL_CULL_FACE)
 	DK_SELECT(side)
 		DK_CASE(FaceSide::FRONT, glCullFace(GL_FRONT))

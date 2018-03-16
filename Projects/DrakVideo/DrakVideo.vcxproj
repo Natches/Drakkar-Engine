@@ -19,38 +19,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\main.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLFrameBuffer.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLRHI.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLShader.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLVertexArray.cpp" />
-    <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLVertexBuffer.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTypes.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertex.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\RHIDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
+    <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp" />
+    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
-    <ClInclude Include="..\..\Source\Video\Rendering\OpenGL\GLMesh.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLElementBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLFrameBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLRHI.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLShader.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLTypes.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertex.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexArray.hpp" />
-    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLVertexBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\main.cpp" />
+    <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
+    <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp" />
+    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4777d9a5-56ea-4560-991a-865dc8e98fdc}</ProjectGuid>
     <RootNamespace>DrakRHI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>DrakRHI</ProjectName>
+    <ProjectName>DrakVideo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

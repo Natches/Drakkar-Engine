@@ -1,10 +1,10 @@
 #include <vector>
 
 #include <Video/VideoSystem.hpp>
-#include <Video/RHI/OpenGL/GLRHI.hpp>
-#include <Video/RHI/OpenGL/GLVertex.hpp>
-#include <Video/RHI/OpenGL/GLVertexArray.hpp>
-#include <Video/RHI/OpenGL/GLShader.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLShader.hpp>
 
 using namespace drak::video;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/RHI/OpenGL/GLTypes.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
 
 namespace drak {
 namespace video {
