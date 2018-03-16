@@ -1,33 +1,45 @@
 #pragma once
+
+#include <ctime>
 #include <cstdio>
-#include <iostream>
+#include <iomanip>
+
+#include <Core/Utils/MacroUtils.h>
 
 /*!
 *	@file
 */
 
-enum class LoggerVerbosity {
+enum class ELoggerVerbosity {
 	RELEASE = 0, /*!< Release level verbosity: outputs to file */
 	DEBUG = 10, /*!< Debug level verbosity: outputs to file and console */
 	FATAL = 20 /*!< Fatal level verbosity: outputs to file and crashes program */
 };
 
-inline constexpr bool operator<(LoggerVerbosity& a, LoggerVerbosity& b) {
+inline constexpr bool operator<(ELoggerVerbosity& a, ELoggerVerbosity& b) {
 	return (int)a < (int)b;
 }
 
-inline constexpr bool operator>(LoggerVerbosity& a, LoggerVerbosity& b) {
+inline constexpr bool operator>(ELoggerVerbosity& a, ELoggerVerbosity& b) {
 	return (int)a > (int)b;
 }
 
-
 template <typename T>
 struct LogCategory {
-	static const LoggerVerbosity compileMaxVerbosity;
+	static const ELoggerVerbosity compileMaxVerbosity;
 };
 
-FILE* OpenLogFile(const char* filenameFromCategory = nullptr);
-void CloseLogFile(FILE* file);
+ 
+inline FILE* OpenLogFile(const char* filenameFromCategory = nullptr) {
+	FILE* pLogFile = nullptr;
+	if (fopen_s(&pLogFile, filenameFromCategory, "a+") == 0) {
+		return pLogFile;
+	}
+	return nullptr;
+}
+inline void CloseLogFile(FILE* file) {
+	fclose(file);
+}
 
 #define DK_LOG_CATEGORY_DEFINE(name)		\
  struct name : public LogCategory<name> {	\
@@ -35,22 +47,22 @@ void CloseLogFile(FILE* file);
 };
 
 #define DK_LOG_CATEGORY_DECLARE(name, comp) \
-const LoggerVerbosity name::Category::compileMaxVerbosity(comp);
+const ELoggerVerbosity name::Category::compileMaxVerbosity(comp);
 
 #define DK_LOG(category, verbosity, outputString, ...){				\
 	if constexpr(verbosity <= category::compileMaxVerbosity){		\
-		FILE* logFile = OpenLogFile(#category);						\
+		FILE* logFile = OpenLogFile(DK_CONCAT(#category, ".log"));	\
 		switch (verbosity) {										\
-		case LoggerVerbosity::DEBUG:								\
+		case ELoggerVerbosity::DEBUG:								\
 				fprintf_s(logFile, outputString, __VA_ARGS__);		\
 				printf_s(outputString, __VA_ARGS__);				\
 				CloseLogFile(logFile);								\
 				break;												\
-		case LoggerVerbosity::RELEASE:								\
+		case ELoggerVerbosity::RELEASE:								\
 				fprintf_s(logFile, outputString, __VA_ARGS__);		\
 				CloseLogFile(logFile);								\
 				break;												\
-		case LoggerVerbosity::FATAL:								\
+		case ELoggerVerbosity::FATAL:								\
 				fprintf_s(logFile, outputString, __VA_ARGS__);		\
 				CloseLogFile(logFile);								\
 				break;												\

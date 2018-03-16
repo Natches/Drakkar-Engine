@@ -17,10 +17,8 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
 x86/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
 [Bb]inaries/
@@ -311,3 +309,9 @@ __pycache__/
 /Projects/DrakMath/My Advisor Results - DrakMath
 /Projects/DrakMath/My Amplifier Results - DrakMath
 Projects/_ProjectTemplate/My Advisor Results - _ProjectTemplate/
+
+Projects/Game/EngineLog
+
+Projects/Game/GAME
+
+Projects/Game/SCENE_SYSTEM_LOG

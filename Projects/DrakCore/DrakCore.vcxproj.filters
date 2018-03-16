@@ -31,9 +31,6 @@
     <Filter Include="Header Files\Log">
       <UniqueIdentifier>{f8282b93-ca6f-49a0-b482-e8fc1e57ca27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Log">
-      <UniqueIdentifier>{e2a4921e-f95f-4084-b363-3d5b9b7cef9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scene">
       <UniqueIdentifier>{559ca1a4-6bdf-4eaa-a3c0-7c1ab458480f}</UniqueIdentifier>
     </Filter>
@@ -119,9 +116,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
@@ -130,9 +124,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp">
       <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Log\Log.cpp">
-      <Filter>Source Files\Log</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp">
       <Filter>Source Files\Scene</Filter>

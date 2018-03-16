@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_ProjectTemplate", "Projects\_ProjectTemplate\_ProjectTemplate.vcxproj", "{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakCore", "Projects\DrakCore\DrakCore.vcxproj", "{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "Projects\ResourceManager\ResourceManager.vcxproj", "{A8101317-50C5-44E7-B9C1-A15E68DD03BE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Projects\Game\Game.vcxproj", "{DEBC86C9-14A4-475D-B69E-650408DF141A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakVideo", "Projects\DrakVideo\DrakVideo.vcxproj", "{4777D9A5-56EA-4560-991A-865DC8E98FDC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IniLoader", "Projects\IniLoader\IniLoader.vcxproj", "{9C7C677F-F5A7-4E19-A6AD-DA14A6396ABE}"
 EndProject
@@ -61,6 +65,38 @@ Global
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x64.Build.0 = Release|x64
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x86.ActiveCfg = Release|Win32
 		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}.Release|x86.Build.0 = Release|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.ActiveCfg = Debug|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.Build.0 = Debug|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.ActiveCfg = Debug|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.Build.0 = Debug|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.ActiveCfg = Release|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.Build.0 = Release|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.ActiveCfg = Release|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.Build.0 = Release|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x64.ActiveCfg = Debug|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x64.Build.0 = Debug|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x86.ActiveCfg = Debug|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Debug|x86.Build.0 = Debug|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x64.ActiveCfg = Release|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x64.Build.0 = Release|x64
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x86.ActiveCfg = Release|Win32
+		{DEBC86C9-14A4-475D-B69E-650408DF141A}.Release|x86.Build.0 = Release|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.ActiveCfg = Debug|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x64.Build.0 = Debug|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.ActiveCfg = Debug|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Debug|x86.Build.0 = Debug|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.ActiveCfg = Release|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x64.Build.0 = Release|x64
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.ActiveCfg = Release|Win32
+		{9D520BCC-ABB0-4EBA-B2D1-8337DB12EEDA}.Release|x86.Build.0 = Release|Win32
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Debug|x64.ActiveCfg = Debug|x64
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Debug|x64.Build.0 = Debug|x64
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Debug|x86.ActiveCfg = Debug|Win32
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Debug|x86.Build.0 = Debug|Win32
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Release|x64.ActiveCfg = Release|x64
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Release|x64.Build.0 = Release|x64
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Release|x86.ActiveCfg = Release|Win32
+		{4777D9A5-56EA-4560-991A-865DC8E98FDC}.Release|x86.Build.0 = Release|Win32
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x64.ActiveCfg = Debug|x64
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x64.Build.0 = Debug|x64
 		{A8101317-50C5-44E7-B9C1-A15E68DD03BE}.Debug|x86.ActiveCfg = Debug|Win32
