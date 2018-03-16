@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Core/Core.hpp>
 #include <Core/Timer/ATimer.hpp>
 
 namespace drak {
@@ -11,11 +10,11 @@ class FrameTimer : public ATimer {
 	friend drak::core::Engine;
 
 public:
-	float frameRate() const;
-	float deltaTimeNoScale() const;
-	float deltaTime() const;
-	float timeScale() const;
-	void timeScale(const float f);
+	F32 frameRate() const;
+	F32 deltaTimeNoScale() const;
+	F32 deltaTime() const;
+	F32 timeScale() const;
+	void timeScale(const F32 f);
 
 	virtual void resume() override;
 	virtual void pause() override;
@@ -23,7 +22,7 @@ public:
 private:
 	FrameTimer();
 	~FrameTimer() = default;
-	virtual float duration(const TimeDuration duration_type = TimeDuration::AUTO,
+	virtual F32 duration(const TimeDuration duration_type = TimeDuration::AUTO,
 		TimeDuration* duration_type_returned = nullptr) override;
 	virtual void start() override;
 	virtual void stop() override;
@@ -31,9 +30,9 @@ private:
 	void update();
 
 private:
-	float m_deltaTimeNoScale;
-	float m_deltaTime;
-	float m_timeScale;
+	F32 m_deltaTimeNoScale;
+	F32 m_deltaTime;
+	F32 m_timeScale;
 };
 
 } //namespace time

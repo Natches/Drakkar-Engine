@@ -4,26 +4,26 @@
 namespace drak {
 namespace time {
 
-float FrameTimer::frameRate() const {
-	if (drak::math::IsNotEqual_V<float>(0.f, m_deltaTimeNoScale))
-		return static_cast<float>(1 / m_deltaTimeNoScale);
+F32 FrameTimer::frameRate() const {
+	if (drak::math::IsNotEqual_V<F32>(0.f, m_deltaTimeNoScale))
+		return 1.f / m_deltaTimeNoScale;
 	else
-		return std::numeric_limits<float>::infinity();
+		return std::numeric_limits<F32>::infinity();
 }
 
-float FrameTimer::deltaTimeNoScale() const {
+F32 FrameTimer::deltaTimeNoScale() const {
 	return m_deltaTimeNoScale;
 }
 
-float FrameTimer::deltaTime() const {
+F32 FrameTimer::deltaTime() const {
 	return m_deltaTime;
 }
 
-float FrameTimer::timeScale() const {
+F32 FrameTimer::timeScale() const {
 	return m_timeScale;
 }
 
-void FrameTimer::timeScale(const float f) {
+void FrameTimer::timeScale(const F32 f) {
 	m_timeScale = f;
 }
 
@@ -33,13 +33,13 @@ FrameTimer::FrameTimer() {
 	m_deltaTime = 0.f;
 }
 
-float FrameTimer::duration(const TimeDuration duration_type,
+F32 FrameTimer::duration(const TimeDuration duration_type,
 	TimeDuration* duration_type_returned) {
 
-	constexpr double invNano = 1.0 / (double)TimeDuration::NANOSECONDS;
-	unsigned long long elapsed = (unsigned long long)
+	constexpr F64 invNano = 1.0 / (F64)TimeDuration::NANOSECONDS;
+	U64 elapsed = (U64)
 		std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime() - m_begin).count();
-	return static_cast<float>(elapsed * invNano);
+	return static_cast<F32>(elapsed * invNano);
 }
 
 void FrameTimer::start() {

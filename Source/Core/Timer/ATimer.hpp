@@ -1,13 +1,14 @@
 #pragma once
 
 #include <chrono>
+#include <Core/Core.hpp>
 
 namespace drak {
 namespace time {
 
 class ATimer {
 public:
-	enum class TimeDuration : int {
+	enum class TimeDuration : I32 {
 		HOURS = 3600,
 		MINUTES = 60,
 		SECONDS = 1,
@@ -18,7 +19,7 @@ public:
 	};
 
 public:
-	virtual float duration(const TimeDuration duration_type,
+	virtual F32 duration(const TimeDuration duration_type,
 		TimeDuration* duration_type_returned = nullptr) = 0;
 	virtual void start() = 0;
 	virtual void resume() = 0;

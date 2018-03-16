@@ -12,7 +12,7 @@ public:
 	Timer();
 	virtual ~Timer();
 
-	virtual float duration(const TimeDuration duration_type,
+	virtual F32 duration(const TimeDuration duration_type,
 		TimeDuration* duration_type_returned = nullptr) override;
 
 	virtual void start()override;
@@ -21,21 +21,21 @@ public:
 	virtual void stop()override;
 	virtual void reset(const bool enabled)override;
 
-	void interval(const float f);
-	double interval()const;
+	void interval(const F32 f);
+	F64 interval()const;
 	void intervalType(const TimeDuration td);
 	TimeDuration intervalType()const;
 
-	float elapsed( const TimeDuration duration_type,
+	F32 elapsed( const TimeDuration duration_type,
 		TimeDuration* duration_type_returned = nullptr);
-	float elapsed()const;
+	F32 elapsed()const;
 
 	bool enabled()const;
 	void enabled(const bool b);
 
 private:
-	float m_time;
-	float m_interval;
+	F32 m_time;
+	F32 m_interval;
 	TimeDuration m_intervalType;
 	bool m_enabled;
 };

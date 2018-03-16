@@ -147,7 +147,7 @@
       <Filter>Source Files\Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
