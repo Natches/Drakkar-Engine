@@ -19,5 +19,16 @@ enum class FaceSide : U8 {
 	BOTH
 };
 
+enum class PrimitiveType : U8 {
+	POINTS,
+	LINES,
+	LINE_LOOP,
+	LINE_STRIP,
+	TRIANGLES,
+	TRIANGLE_STRIP,
+	TRIANGLE_FAN
+	//...
+};
+
 } // namespace video
 } // namespace drak

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Video\Graphics\Primitives.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.hpp" />
@@ -35,6 +37,7 @@
     <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.cpp" />

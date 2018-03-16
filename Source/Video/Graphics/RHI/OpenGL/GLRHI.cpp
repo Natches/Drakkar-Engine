@@ -7,6 +7,7 @@ namespace drak {
 namespace video {
 namespace gl {
 
+// TODO (Simon): vvv Move to Core/Utils vvv
 #pragma region Macro Utils
 #define DK_SELECT(query)		switch(query) {
 #define DK_CASE(cond, line)		case cond: line; break;
@@ -52,7 +53,7 @@ void GLRHI::ErrorHandler(
 	GLenum			severity,
 	GLsizei			length,
 	const GLchar*	message,
-	const void*		userParam) {
+	const GLvoid*	userParam) {
 	fprintf(stderr, "%s\n", message);
 }
 #pragma endregion

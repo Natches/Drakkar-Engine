@@ -36,7 +36,7 @@ private:
 		GLenum			severity,
 		GLsizei			length,
 		const GLchar*	message,
-		const void*		userParam);
+		const GLvoid*	userParam);
 
 };
 

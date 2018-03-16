@@ -28,7 +28,7 @@ bool VideoSystem::Startup(const VideoSettings& settings) {
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
-	if (!gl::GLRHI::Init(true)) { // TODO (Simon): refactor to call abstract RHI init
+	if (!gl::GLRHI::Init(true)) { // TODO (Simon): refactor to call abstract RHI Init()
 		// TODO (Simon): log DrakVideo::Init() failed error message
 		return false;
 	}

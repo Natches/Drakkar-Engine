@@ -81,6 +81,12 @@
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Primitives.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp">
@@ -109,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
