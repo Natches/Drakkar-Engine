@@ -15,13 +15,13 @@ namespace gl {
 * \brief
 *
 */
-class GLShader final
+class GLShader
 {
 	using UniformMap = std::unordered_map<std::string, GLint>;
 
 public:
-	//GLShader();
-	~GLShader();
+	GLShader() = default;
+	virtual ~GLShader();
 
 	bool loadFromData(const std::string& vertCode, const std::string& fragCode);
 	bool loadFromFile(const std::string& vertFilename, const std::string& fragFilename);

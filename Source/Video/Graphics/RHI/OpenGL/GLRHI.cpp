@@ -17,7 +17,8 @@ namespace gl {
 #pragma endregion
 
 #pragma region Static Initialization
-bool GLRHI::s_ready = false;
+bool		GLRHI::s_ready = false;
+GLShader	GLRHI::s_defaultShader;
 #pragma endregion
 
 bool GLRHI::Init(bool debug) {
@@ -25,16 +26,19 @@ bool GLRHI::Init(bool debug) {
 	if (glewInit() == GLEW_OK) {
 		if (debug) {
 			GraphicsInfo();
-			DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
+			DK_GL_TOGGLE(debug, GL_DEBUG_OUTPUT);
 			glDebugMessageCallback((GLDEBUGPROC)ErrorHandler, 0);
 		}
 
+		if (!s_defaultShader.loadFromFile("default.vs", "default.fs"))
+			return false;
+		s_defaultShader.use();
+
 		DepthFunc(true, DepthMode::LESS);
 		CullFunc(true, FaceSide::BACK);
-
-		s_ready = true;
 	}
-	return s_ready;
+	s_ready = true;
+	return true;
 }
 
 #pragma region Logging/Error-handling

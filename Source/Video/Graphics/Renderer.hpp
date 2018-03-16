@@ -5,8 +5,6 @@
 namespace drak {
 namespace video {
 
-class Mesh;
-
 /*!
 * \class Renderer
 * \ingroup DrakVideo

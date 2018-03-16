@@ -30,10 +30,6 @@ void testRun(ARenderWindow* pWin) {
 		gl::GLVertex(points[2], colors[2])
 	};
 
-	gl::GLShader fallback;
-	fallback.loadFromFile("default.vs", "default.fs");
-	fallback.use();
-
 	gl::GLVertexArray mesh;
 	mesh.create(verts);
 #pragma endregion

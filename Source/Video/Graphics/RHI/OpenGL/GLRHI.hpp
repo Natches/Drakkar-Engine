@@ -2,6 +2,7 @@
 
 #include <Video/Graphics/RHI/RHIDefinitions.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLShader.hpp>
 
 namespace drak {
 namespace video {
@@ -38,6 +39,8 @@ private:
 		const GLchar*	message,
 		const GLvoid*	userParam);
 
+private:
+	static GLShader s_defaultShader;
 };
 
 /*
