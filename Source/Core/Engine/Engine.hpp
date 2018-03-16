@@ -1,9 +1,12 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <Core/Timer/FrameTimer.hpp>
 namespace drak {
-
+namespace time {
+	class FrameTimer;
+}
 namespace core {
+
+
 
 /*!
  * \class Engine
