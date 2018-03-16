@@ -1,21 +1,24 @@
 #include <Core/Core.hpp>
-#include <Core/Engine.hpp>
-#include <Log/Log.hpp>
-#include <Core/AGameObject.h>
-#include <Core/AComponent.h>
+#include <Core/Engine/Engine.hpp>
+#include <Core/Log/Log.hpp>
+#include <Core/Components/AGameObject.h>
+#include <Core/Components/AComponent.h>
+#include <Core/Scene/SceneSystem.h>
 
 DK_LOG_CATEGORY_DEFINE(GAME)
-DK_LOG_CATEGORY_DECLARE(GAME, LoggerVerbosity::DEBUG)
+DK_LOG_CATEGORY_DECLARE(GAME, ELoggerVerbosity::DEBUG)
 
 using namespace drak;
 using namespace core;
 using namespace components;
+
+
 class Player : public AGameObject {
 	Transform* transform;
 	int counter = 0;
 	virtual void Update() override {
 		if (counter <= 100) {
-			DK_LOG(GAME, LoggerVerbosity::DEBUG, "Player update\n")
+			DK_LOG(GAME, ELoggerVerbosity::DEBUG, "Player update\n")
 		}
 		else {
 			Engine::stopGame();
@@ -55,11 +58,10 @@ class MainScene : public IManualSceneBlueprint {
 };
 
 int main(int argc, char** argv) {
-	Engine engine;
-	engine.startup();
+	Engine::startup();
 	MainScene scene;
-	engine.getSceneSystem().loadScene(scene);
-	engine.startLoop();
-	engine.shutdown();
+	SceneSystem::loadScene(scene);
+	Engine::startLoop();
+	Engine::shutdown();
 	system("pause");
 }

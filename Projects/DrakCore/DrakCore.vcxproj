@@ -22,8 +22,6 @@
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp" />
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\Source\Core\Log\Log.cpp" />
-    <ClCompile Include="..\..\Source\Core\Main.cpp" />
     <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +134,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>DRAK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -155,6 +154,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -176,6 +176,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -199,6 +200,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

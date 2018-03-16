@@ -9,7 +9,7 @@ namespace core {
 * \brief Engine system interface
 *
 */
-class DRAK_API ISystem {
+class ISystem {
 public:
 	ISystem() = default;
 	virtual ~ISystem() = default;

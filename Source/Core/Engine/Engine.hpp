@@ -1,6 +1,5 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <Core/SceneSystem.h>
 
 namespace drak {
 namespace core {
@@ -14,13 +13,11 @@ namespace core {
 
 class Engine final {
 private:
-	SceneSystem sceneSystem;
 	static bool running;
 public:
-	DRAK_API SceneSystem& getSceneSystem();
-	DRAK_API int startup();
-	DRAK_API int shutdown();
-	DRAK_API void startLoop();
+	DRAK_API static int startup();
+	DRAK_API static int shutdown();
+	DRAK_API static void startLoop();
 	DRAK_API static void stopGame();
 };
 
