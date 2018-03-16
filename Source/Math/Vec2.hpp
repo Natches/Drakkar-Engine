@@ -15,7 +15,6 @@ public:
 	Vec2();
 
 	Vec2(const T X, const T Y);
-
 	Vec2(const Vec2<T>& v);
 	Vec2(Vec2<T>&& v);
 	~Vec2() = default;
@@ -169,7 +168,7 @@ std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
 
 using Vec2c    = typename Vec2<U8>;
 using Vec2sc   = typename Vec2<I8>;
-using Vec2s    = typename Vec2<I16>;
+using Vec2s   = typename Vec2<I16>;
 using Vec2us  = typename Vec2<U16>;
 using Vec2i    = typename Vec2<I32>;
 using Vec2ui   = typename Vec2<U32>;

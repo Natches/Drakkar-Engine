@@ -2,16 +2,12 @@
 
 #include <Math/MathUtils.hpp>
 #include <Math/SIMDUtils.hpp>
+#include <Math/Vec2.hpp>
+#include <Math/Vec3.hpp>
 #include<ostream>
 
 namespace drak {
 namespace math {
-
-template<typename T>
-struct Vec2;
-
-template<typename T>
-struct Vec3;
 
 template<typename T>
 struct Vec4 {
@@ -103,6 +99,13 @@ public:
 	Vec4<F32> floor();
 	Vec4<F32> round();
 
+	Vec2<T> xy();
+	Vec2<T> zw();
+	Vec2<T> yz();
+	Vec2<T> yx();
+	Vec2<T> wz();
+	Vec2<T> zy();
+
 	Vec3<T> xyz();
 	Vec3<T> zyx();
 	Vec3<T> yzx();
@@ -128,12 +131,12 @@ private:
 	F32 computeAngleZ();*/
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[4];
 		struct { T x, y, z, w; };
 		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
 };
 
 template<typename T>

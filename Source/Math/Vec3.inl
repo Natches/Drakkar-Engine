@@ -1,5 +1,6 @@
 #include<cassert>
 #include<Math/Vec3.hpp>
+#include<Math/Vec4.hpp>
 
 namespace drak {
 namespace math {
@@ -13,6 +14,16 @@ Vec3<T>::Vec3() : m_vec{ static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
 
 template<typename T>
 Vec3<T>::Vec3(const T X, const T Y, const T Z) : m_vec{ X, Y, Z } {
+}
+
+template<typename T>
+Vec3<T>::Vec3(const Vec4<T>& v) {
+	memcpy(m_vec, v.m_vec, sizeof(m_vec));
+}
+
+template<typename T>
+Vec3<T>::Vec3(Vec4<T>&& v) {
+	memcpy(m_vec, std::forward<Vec3<T>>(v).m_vec, sizeof(m_vec));
 }
 
 template<typename T>
@@ -405,6 +416,7 @@ Vec3<T> Vec3<T>::normalize() const {
 	return Vec3<T>(x, y, z);
 }
 
+/*
 template<typename T>
 template<Axis ax>
 Vec3<T> Vec3<T>::rotate(const F32 angle) const {
@@ -420,6 +432,7 @@ Vec3<T> Vec3<T>::rotate(const Vec3<T>& euler) const {
 	return Vec3<T>();
 	//TODO rotation with quat return Vec3<T>();
 }
+*/
 
 template<typename T>
 template<typename U>
