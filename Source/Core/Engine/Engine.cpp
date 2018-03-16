@@ -1,11 +1,13 @@
 #include <Core/Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
 #include <Core/Scene/SceneSystem.h>
+#include <Core/Timer/FrameTimer.hpp>
 DK_LOG_CATEGORY_DEFINE(EngineLog)
 DK_LOG_CATEGORY_DECLARE(EngineLog, ELoggerVerbosity::DEBUG)
 namespace drak {
+
+	time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
 namespace core {
-time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
 	bool Engine::running = true;
 
 	int Engine::startup()
@@ -13,6 +15,7 @@ time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
 		DK_LOG(EngineLog, ELoggerVerbosity::DEBUG, "Init systems\n")
 		//Init systems
 		SceneSystem::Startup();
+		s_frameTime.start();
 		return 0;
 	}
 
@@ -35,6 +38,8 @@ time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
 		}
 		while (running)
 		{
+			s_frameTime.update();
+			DK_LOG(EngineLog, ELoggerVerbosity::DEBUG,"DeltaTime: %f\n",s_frameTime.deltaTime());
 			std::list<AGameObject*> gameObjects = scene->GetGameObjects();
 			std::list<AGameObject*>::iterator it = gameObjects.begin();
 			for (unsigned int i = 0; i < gameObjects.size(); ++i)
