@@ -1,11 +1,12 @@
+#include <Core/Timer/FrameTimer.hpp>
 #include <Core/Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
 #include <Core/Scene/SceneSystem.h>
 DK_LOG_CATEGORY_DEFINE(EngineLog)
 DK_LOG_CATEGORY_DECLARE(EngineLog, ELoggerVerbosity::DEBUG)
 namespace drak {
-namespace core {
 
+time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
 	bool Engine::running = true;
 
 	int Engine::startup()

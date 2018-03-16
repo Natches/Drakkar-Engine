@@ -23,6 +23,10 @@
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp" />
+    <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Timer\Timer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Timer\TimeThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AComponent.h" />
@@ -36,6 +40,10 @@
     <ClInclude Include="..\..\Source\Core\Log\Log.hpp" />
     <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h" />
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp" />
+    <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp" />
+    <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
+    <ClInclude Include="..\..\Source\Core\Timer\Timer.hpp" />
+    <ClInclude Include="..\..\Source\Core\Timer\TimeThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.h" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.h" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.h" />
