@@ -3,6 +3,8 @@
 namespace drak {
 namespace core {
 
+#include <Core/Core.hpp>
+
 /*!
 * \class ISystem
 * \ingroup Core
@@ -10,10 +12,10 @@ namespace core {
 *
 */
 class ISystem {
+	DK_NONMOVABLE_NONCOPYABLE(ISystem)
 public:
-	ISystem() = default;
 	virtual ~ISystem() = default;
-	
+
 	virtual bool Startup() = 0;
 	virtual void Shutdown() = 0;
 };

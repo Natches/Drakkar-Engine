@@ -1,9 +1,10 @@
 #pragma once
 
 #include <Core/Timer/ATimer.hpp>
+
 namespace drak {
-namespace core {		
-	class Engine;
+namespace core {
+class Engine;
 }
 namespace time {
 

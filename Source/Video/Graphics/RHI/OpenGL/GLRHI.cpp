@@ -4,7 +4,7 @@
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
 DK_LOG_CATEGORY_DEFINE(GLRHILog)
-DK_LOG_CATEGORY_DECLARE(GLRHILog, LoggerVerbosity::DEBUG)
+DK_LOG_CATEGORY_DECLARE(GLRHILog, ELoggerVerbosity::DEBUG)
 
 namespace drak {
 namespace video {
@@ -42,9 +42,9 @@ bool GLRHI::Init(bool debug) {
 #pragma region Logging/Error-handling
 void GLRHI::GraphicsInfo() {
 	DK_LOG(
-		GLRHILog, 
-		LoggerVerbosity::DEBUG, 
-		"Renderer: %s\nVersion: %s\n", 
+		GLRHILog,
+		ELoggerVerbosity::DEBUG,
+		"Renderer: %s\nVersion: %s\n",
 		glGetString(GL_RENDERER), glGetString(GL_VERSION));
 
 	/*
@@ -64,7 +64,7 @@ void GLRHI::ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	DK_LOG(GLRHI, LoggerVerbosity::DEBUG, "%s\n", message)
+	DK_LOG(GLRHILog, ELoggerVerbosity::DEBUG, "%s\n", message)
 }
 #pragma endregion
 
