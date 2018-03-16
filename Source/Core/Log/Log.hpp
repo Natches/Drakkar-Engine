@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <iomanip>
 
-#include <Core/Utils/MacroUtils.h>
+#include <Core/Utils/MacroUtils.hpp>
 
 /*!
 *	@file
@@ -29,7 +29,7 @@ struct LogCategory {
 	static const ELoggerVerbosity compileMaxVerbosity;
 };
 
- 
+
 inline FILE* OpenLogFile(const char* filenameFromCategory = nullptr) {
 	FILE* pLogFile = nullptr;
 	if (fopen_s(&pLogFile, filenameFromCategory, "a+") == 0) {

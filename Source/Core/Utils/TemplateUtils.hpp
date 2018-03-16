@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/Utils/MacroUtils.h>
+#include <Core/Utils/MacroUtils.hpp>
 
 namespace drak {
 namespace types {
