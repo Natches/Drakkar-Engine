@@ -70,19 +70,6 @@ const ELoggerVerbosity name::Category::compileMaxVerbosity(comp);
 	}																\
 }
 
-inline FILE* OpenLogFile(const char* filenameFromCategory) {
-	FILE* pLogFile = nullptr;
-	if (fopen_s(&pLogFile, filenameFromCategory, "a+") == 0) {
-		return pLogFile;
-	}
-	return nullptr;
-}
-
-inline void CloseLogFile(FILE* file) {
-	fclose(file);
-}
-
-
 /*!
 	\enum LoggerVerbosity
 	\brief An enum defining logging verbosity.
