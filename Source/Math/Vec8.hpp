@@ -2,6 +2,7 @@
 
 #include<Math/MathUtils.hpp>
 #include<Math/SIMDUtils.hpp>
+#include<Math/Vec4.hpp>
 #include<ostream>
 
 namespace drak {
@@ -29,6 +30,7 @@ public:
 	Vec8(Vec4<T>&& v1, Vec4<T>&& v2);
 	~Vec8() = default;
 	Vec8(const SIMDType& ss);
+	static Vec8<T> broadcast(const Vec4<T>& v);
 
 public:
 	bool operator==(const Vec8<T>& v) const;
@@ -84,11 +86,11 @@ public:
 	Vec4<T> abcd();
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[8];
 		struct { T x, y, z, w, a, b, c, d; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
 };
 
 template<typename T>
@@ -145,7 +147,12 @@ template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
-auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2);
+Vec4<T> FourDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1);
+
+template<typename T>
+Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1, const Vec8<T>& col2);
 
 template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
