@@ -20,16 +20,16 @@ protected:
 	virtual ~SDLRenderWindow();
 
 protected:
-	virtual void PollEvents() override;
-	virtual void SwapBuffers() override;
-	virtual void Close() override;
+	virtual void PollEvents()	override;
+	virtual void SwapBuffers()	override;
+	virtual void Close()		override;
 
 protected:
 	void*		m_pWin;
 	I32			m_resX, m_resY;
 	SDL_Event	m_evt;
 
-friend class DrakVideo;
+friend class VideoSystem;
 };
 
 } // namespace video

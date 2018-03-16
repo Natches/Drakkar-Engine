@@ -6,7 +6,7 @@ namespace drak {
 namespace video {
 
 /*!
-* \class Window
+* \class ARenderWindow
 * \ingroup DrakVideo
 * \brief Abstract base window class, forcing implementation of essential functionality.
 *
@@ -41,7 +41,7 @@ protected:
 	I32		m_resX, m_resY;
 	bool	m_open;
 
-friend class DrakVideo;
+friend class VideoSystem;
 };
 
 } // namespace video

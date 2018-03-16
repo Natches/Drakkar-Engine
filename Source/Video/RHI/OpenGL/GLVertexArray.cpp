@@ -40,7 +40,17 @@ void GLVertexArray::draw() {
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void GLVertexArray::bindVertexBuffer(const GLVertexBuffer& vbo) {
+void GLVertexArray::bindVertexBuffer(GLuint bindIndex, const GLVertexBuffer* const vbo) {
+	glVertexArrayAttribFormat(m_glID, GL_VERT_ATTR_POS, 3, GL_FLOAT, GL_FALSE, 0);
+	glEnableVertexArrayAttrib(m_glID, GL_VERT_ATTR_POS);
+	glVertexArrayAttribBinding(m_glID, GL_VERT_ATTR_POS, bindIndex);
+
+	glVertexArrayAttribFormat(m_glID, GL_VERT_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, 12);
+	glEnableVertexArrayAttrib(m_glID, GL_VERT_ATTR_COLOR);
+	glVertexArrayAttribBinding(m_glID, GL_VERT_ATTR_COLOR, bindIndex);
+
+	glVertexArrayVertexBuffer(m_glID, bindIndex, vbo->glID(), 0, sizeof(GLVertex));
+
 	/*
 	 *	TODO (Simon):
 	 *		- refactor attribute binding/enabling to loop on a attrib desc. container	

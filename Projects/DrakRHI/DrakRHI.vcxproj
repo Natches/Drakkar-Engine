@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Video\DrakVideo.cpp" />
-    <ClCompile Include="..\..\Source\Video\DrakVideoTest.cpp" />
+    <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
+    <ClCompile Include="..\..\Source\Video\main.cpp" />
     <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLFrameBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLRHI.cpp" />
     <ClCompile Include="..\..\Source\Video\RHI\OpenGL\GLShader.cpp" />
@@ -30,7 +30,9 @@
     <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Video\DrakVideo.hpp" />
+    <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
+    <ClInclude Include="..\..\Source\Video\Rendering\OpenGL\GLMesh.hpp" />
+    <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLElementBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLRHI.hpp" />
     <ClInclude Include="..\..\Source\Video\RHI\OpenGL\GLShader.hpp" />

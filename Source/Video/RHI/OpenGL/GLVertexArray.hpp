@@ -22,12 +22,12 @@ public:
 	~GLVertexArray();
 
 	void create(const std::vector<GLVertex>& verts);
-	void bindVertexBuffer(const GLVertexBuffer& vbo);
+	void bindVertexBuffer(GLuint bindIndex, const GLVertexBuffer* const vbo);
 	void draw();
 
 private:
-	GLuint				m_glID;
-	GLVertexBuffer*		m_vbo;
+	GLuint m_glID;
+	GLVertexBuffer*	m_vbo;
 };
 
 } // namespace gl

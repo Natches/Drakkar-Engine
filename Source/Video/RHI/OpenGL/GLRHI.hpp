@@ -6,8 +6,6 @@ namespace drak {
 namespace video {
 namespace gl {
 
-//----------------------------------------------------------------------------------------
-
 extern bool s_Ready;
 
 bool Init(bool debug = false);
@@ -62,8 +60,6 @@ enum class BlendMode : byte {
 };
 void BlendFunc(bool on, BlendMode mode);
 */
-
-//----------------------------------------------------------------------------------------
 
 } // namespace gl
 } // namespace gfx

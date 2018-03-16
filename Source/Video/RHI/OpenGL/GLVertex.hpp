@@ -34,10 +34,10 @@ enum GLVertexAttrib : GLuint {
 
 struct GLVertexAttribDesc {
 	GLVertexAttrib	attrib;
-	GLuint			offset;
-	GLenum			type;
-	GLint			size;
-	GLboolean		normalized;
+	GLuint offset;
+	GLenum type;
+	GLint size;
+	GLboolean normalized;
 };
 
 } // namespace gl

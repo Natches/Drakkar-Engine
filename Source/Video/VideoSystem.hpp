@@ -7,21 +7,21 @@ namespace drak {
 namespace video {
 
 /*!
-* \class DrakVideo
+* \class VideoSystem
 * \ingroup DrakVideo
 * \brief
 *
 */
-class DrakVideo final {
+class VideoSystem final {
 public:
-	DrakVideo()	= delete;
-	~DrakVideo() = delete;
+	VideoSystem()	= delete;
+	~VideoSystem()	= delete;
 
 public:
 	static bool	Startup(const VideoSettings& settings);
 	static void	Shutdown();
 
-	static ARenderWindow*	MainWindow() { return s_pMainWin; }
+	static ARenderWindow* MainWindow() { return s_pMainWin; }
 
 private:
 	static ARenderWindow*	s_pMainWin;
