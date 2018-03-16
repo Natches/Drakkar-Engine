@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Windowing">
+      <UniqueIdentifier>{03d9f454-accf-42fe-8402-2ed7a7e65647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windowing">
+      <UniqueIdentifier>{1a70ff73-d154-4468-ac65-7960ff0be786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{b3be7c19-7809-40bb-bf66-038ec7c337e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\RHI">
+      <UniqueIdentifier>{a08994b8-f43d-47b8-a0d0-d5b484507695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\RHI\OpenGL">
+      <UniqueIdentifier>{9e005f4e-c1fb-4ba1-b2b0-2abef4574ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{1b9dd476-89b7-4fe1-9c20-7811ad3a9aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\RHI">
+      <UniqueIdentifier>{afe13766-863e-4df4-a4dd-bfe45039a087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\RHI\OpenGL">
+      <UniqueIdentifier>{1d4db4f8-3c64-445b-91de-ddcad41d5d69}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\RHIDefinitions.hpp">
+      <Filter>Header Files\Graphics\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertex.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTypes.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp">
+      <Filter>Header Files\Windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp">
+      <Filter>Header Files\Windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp">
+      <Filter>Header Files\Windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\VideoSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Primitives.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp">
+      <Filter>Source Files\Windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp">
+      <Filter>Source Files\Windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\VideoSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
