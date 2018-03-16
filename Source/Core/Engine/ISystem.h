@@ -2,9 +2,6 @@
 #include <Core/Core.hpp>
 namespace drak {
 namespace core {
-
-#include <Core/Core.hpp>
-
 /*!
 * \class ISystem
 * \ingroup Core

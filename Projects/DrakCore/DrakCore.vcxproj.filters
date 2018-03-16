@@ -54,21 +54,6 @@
     <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Components\AComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -79,9 +64,6 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine\ServiceLocator.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp">
@@ -95,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h">
       <Filter>Header Files\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.h">
-      <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp">
       <Filter>Header Files\ServiceLocator</Filter>
@@ -113,6 +92,24 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp">
       <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
