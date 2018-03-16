@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Core/Timer/ATimer.hpp>
-
 namespace drak {
 namespace time {
 
 class FrameTimer : public ATimer {
 	DK_NONMOVABLE_NONCOPYABLE(FrameTimer)
-	friend drak::core::Engine;
 
 public:
 	F32 frameRate() const;
@@ -18,10 +16,9 @@ public:
 
 	virtual void resume() override;
 	virtual void pause() override;
-
-private:
 	FrameTimer();
 	~FrameTimer() = default;
+private:
 	virtual F32 duration(const TimeDuration duration_type = TimeDuration::AUTO,
 		TimeDuration* duration_type_returned = nullptr) override;
 	virtual void start() override;
