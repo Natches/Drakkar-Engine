@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Core/Types.hpp>
+#include <Core/Engine/Types.hpp>
 
 namespace drak {
 namespace video {
 
-enum class DepthMode : U8 {
+enum class EDepthMode : U8 {
 	LESS,
 	LEQUAL,
 	EQUAL,
@@ -13,13 +13,13 @@ enum class DepthMode : U8 {
 	GREATER
 };
 
-enum class FaceSide : U8 {
+enum class EFaceSide : U8 {
 	FRONT,
 	BACK,
 	BOTH
 };
 
-enum class PrimitiveType : U8 {
+enum class EPrimitiveType : U8 {
 	POINTS,
 	LINES,
 	LINE_LOOP,

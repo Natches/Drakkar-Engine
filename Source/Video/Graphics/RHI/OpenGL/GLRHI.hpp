@@ -26,8 +26,8 @@ public:
 	static bool Init(bool debug = false);
 	static void GraphicsInfo();
 
-	static void DepthFunc(bool on, DepthMode mode);
-	static void CullFunc(bool on, FaceSide side);
+	static void DepthFunc(bool on, EDepthMode mode);
+	static void CullFunc(bool on, EFaceSide side);
 
 private:
 	static void ErrorHandler(

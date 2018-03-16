@@ -1,18 +1,16 @@
-#include <cstdio>
 #include <GL/glew.h>
 
+#include <Core/Core.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
+
+DK_LOG_CATEGORY_DEFINE(GLRHILog)
+DK_LOG_CATEGORY_DECLARE(GLRHILog, LoggerVerbosity::DEBUG)
 
 namespace drak {
 namespace video {
 namespace gl {
 
-// TODO (Simon): vvv Move to Core/Utils vvv
 #pragma region Macro Utils
-#define DK_SELECT(query)		switch(query) {
-#define DK_CASE(cond, line)		case cond: line; break;
-#define DK_END					}
-
 #define DK_GL_TOGGLE(on, mode)	on ? glEnable(mode) : glDisable(mode);
 #pragma endregion
 
@@ -34,8 +32,8 @@ bool GLRHI::Init(bool debug) {
 			return false;
 		s_defaultShader.use();
 
-		DepthFunc(true, DepthMode::LESS);
-		CullFunc(true, FaceSide::BACK);
+		DepthFunc(true, EDepthMode::LESS);
+		CullFunc(true, EFaceSide::BACK);
 	}
 	s_ready = true;
 	return true;
@@ -43,11 +41,19 @@ bool GLRHI::Init(bool debug) {
 
 #pragma region Logging/Error-handling
 void GLRHI::GraphicsInfo() {
+	DK_LOG(
+		GLRHILog, 
+		LoggerVerbosity::DEBUG, 
+		"Renderer: %s\nVersion: %s\n", 
+		glGetString(GL_RENDERER), glGetString(GL_VERSION));
+
+	/*
 	fprintf(stderr, "%s%s\n%s%s\n%s",
 		"------------------ GLRHI Information ------------------\n"
 		"Renderer: ", glGetString(GL_RENDERER),
 		"Version:  ", glGetString(GL_VERSION),
 		"-------------------------------------------------------\n");
+	*/
 }
 
 void GLRHI::ErrorHandler(
@@ -58,27 +64,27 @@ void GLRHI::ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	fprintf(stderr, "%s\n", message);
+	DK_LOG(GLRHI, LoggerVerbosity::DEBUG, "%s\n", message)
 }
 #pragma endregion
 
-void GLRHI::DepthFunc(bool on, DepthMode mode) {
+void GLRHI::DepthFunc(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)
-		DK_CASE(DepthMode::LESS,	glDepthFunc(GL_LESS))
-		DK_CASE(DepthMode::LEQUAL,	glDepthFunc(GL_LEQUAL))
-		DK_CASE(DepthMode::EQUAL,	glDepthFunc(GL_EQUAL))
-		DK_CASE(DepthMode::GEQUAL,	glDepthFunc(GL_GEQUAL))
-		DK_CASE(DepthMode::GREATER, glDepthFunc(GL_GREATER))
+		DK_CASE(EDepthMode::LESS,	glDepthFunc(GL_LESS))
+		DK_CASE(EDepthMode::LEQUAL,	glDepthFunc(GL_LEQUAL))
+		DK_CASE(EDepthMode::EQUAL,	glDepthFunc(GL_EQUAL))
+		DK_CASE(EDepthMode::GEQUAL,	glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::GREATER, glDepthFunc(GL_GREATER))
 	DK_END
 }
 
-void GLRHI::CullFunc(bool on, FaceSide side) {
+void GLRHI::CullFunc(bool on, EFaceSide side) {
 	DK_GL_TOGGLE(on, GL_CULL_FACE)
 	DK_SELECT(side)
-		DK_CASE(FaceSide::FRONT, glCullFace(GL_FRONT))
-		DK_CASE(FaceSide::BACK,	 glCullFace(GL_BACK))
-		DK_CASE(FaceSide::BOTH,	 glCullFace(GL_FRONT_AND_BACK))
+		DK_CASE(EFaceSide::FRONT, glCullFace(GL_FRONT))
+		DK_CASE(EFaceSide::BACK,	 glCullFace(GL_BACK))
+		DK_CASE(EFaceSide::BOTH,	 glCullFace(GL_FRONT_AND_BACK))
 	DK_END
 }
 

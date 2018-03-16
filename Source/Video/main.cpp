@@ -37,7 +37,9 @@ void testRun(ARenderWindow* pWin) {
 	while (pWin->IsOpen()) {
 		pWin->PollEvents();
 		pWin->Clear();
+
 		mesh.draw();
+
 		pWin->SwapBuffers();
 	}
 	pWin->Close();

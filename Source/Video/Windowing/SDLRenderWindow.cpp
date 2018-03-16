@@ -21,7 +21,6 @@ SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
 	);
 
 	SDL_GL_CreateContext((SDL_Window*)m_pWin);
-
 	m_open = true;
 }
 
