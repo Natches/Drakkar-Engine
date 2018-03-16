@@ -1,34 +1,31 @@
-#include <Core/Engine.hpp>
+#include <Core/Engine/Engine.hpp>
+#include <Core/Components/AGameObject.h>
+#include <Core/Scene/SceneSystem.h>
 DK_LOG_CATEGORY_DEFINE(EngineLog)
-DK_LOG_CATEGORY_DECLARE(EngineLog, LoggerVerbosity::DEBUG)
+DK_LOG_CATEGORY_DECLARE(EngineLog, ELoggerVerbosity::DEBUG)
 namespace drak {
 namespace core {
 
 	bool Engine::running = true;
 
-	SceneSystem& Engine::getSceneSystem()
-	{
-		return sceneSystem;
-	}
-
 	int Engine::startup()
 	{
-		DK_LOG(EngineLog, LoggerVerbosity::DEBUG, "Init systems\n")
+		DK_LOG(EngineLog, ELoggerVerbosity::DEBUG, "Init systems\n")
 		//Init systems
-		sceneSystem.Startup();
+		SceneSystem::Startup();
 		return 0;
 	}
 
 	int Engine::shutdown()
 	{
-		DK_LOG(EngineLog, LoggerVerbosity::DEBUG, "Shutdown systems\n")
-		sceneSystem.Shutdown();
+		DK_LOG(EngineLog, ELoggerVerbosity::DEBUG, "Shutdown systems\n")
+		SceneSystem::Shutdown();
 		return 0;
 	}
 
 	void Engine::startLoop()
 	{
-		Scene* scene = sceneSystem.GetScene();
+		Scene* scene = SceneSystem::GetScene();
 		std::list<AGameObject*> gameObjects = scene->GetGameObjects();
 		std::list<AGameObject*>::iterator it = gameObjects.begin();
 		while (it != gameObjects.end())
@@ -42,8 +39,8 @@ namespace core {
 			std::list<AGameObject*>::iterator it = gameObjects.begin();
 			for (unsigned int i = 0; i < gameObjects.size(); ++i)
 			{
-				std::advance(it, i);
 				(*it)->Update();
+				std::advance(it, 1);
 			}
 		}
 	}
