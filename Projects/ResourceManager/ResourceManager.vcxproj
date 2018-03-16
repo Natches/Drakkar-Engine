@@ -26,7 +26,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.h" />
+    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

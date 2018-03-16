@@ -9,7 +9,7 @@
 
 namespace drak {
 namespace components {
-#include <Core/Utils/AComponentUtils.h>
+#include <Core/Utils/AComponentUtils.hpp>
 
 DRAK_COMPONENT_START(Transform)
 std::vector<Transform*> children;

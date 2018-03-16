@@ -1,5 +1,5 @@
 #ifdef WINDOWING_SDL
-#include "SDL.h" 
+#include "SDL.h"
 #undef main // avoid SDL name conflict
 
 #include <Video/Windowing/SDLRenderWindow.hpp>

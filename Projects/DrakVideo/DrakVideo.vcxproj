@@ -142,9 +142,9 @@
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"</Command>
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" 
+xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" 
+xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -161,9 +161,9 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)"</Command>
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" 
+xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" 
+xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
