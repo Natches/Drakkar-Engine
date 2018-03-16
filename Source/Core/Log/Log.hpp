@@ -29,10 +29,15 @@ struct LogCategory {
 FILE* OpenLogFile(const char* filenameFromCategory = nullptr);
 void CloseLogFile(FILE* file);
 
-#define DEFINE_CATEGORY(name) struct name : public LogCategory<name>{}; 
-#define DECLARE_CATEGORY(name, comp) const LoggerVerbosity name::compileMaxVerbosity(comp);
+#define DK_LOG_CATEGORY_DEFINE(name)		\
+ struct name : public LogCategory<name> {	\
+	using Category = LogCategory<name>;		\
+};
 
-#define DRAK_LOG(category, verbosity, outputString, ...){			\
+#define DK_LOG_CATEGORY_DECLARE(name, comp) \
+const LoggerVerbosity name::Category::compileMaxVerbosity(comp);
+
+#define DK_LOG(category, verbosity, outputString, ...){				\
 	if constexpr(verbosity <= category::compileMaxVerbosity){		\
 		FILE* logFile = OpenLogFile(#category);						\
 		switch (verbosity) {										\
