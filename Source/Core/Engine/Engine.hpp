@@ -1,14 +1,8 @@
 #pragma once
-
-#include <Core/Utils/ClassUtils.h>
-
+#include <Core/Core.hpp>
+#include <Core/Timer/FrameTimer.hpp>
 namespace drak {
 
-namespace time {
-
-class FrameTimer;
-
-} // namespace time
 namespace core {
 
 /*!
@@ -17,19 +11,24 @@ namespace core {
  * \brief
  *
  */
+
 class Engine final {
 	DK_NONMOVABLE_NONCOPYABLE(Engine)
 
 public:
 	Engine() = default;
 	~Engine() = default;
-	static void update();
 
 public:
 	static time::FrameTimer& s_frameTime;
-	// System X
-	// System Y
-	// ...
+	DRAK_API static int startup();
+	DRAK_API static int shutdown();
+	DRAK_API static void startLoop();
+	DRAK_API static void stopGame();
+
+private:
+	static bool running;
+	
 };
 
 } // namespace core
