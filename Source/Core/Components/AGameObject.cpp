@@ -1,8 +1,4 @@
 #include <Core/Components/AGameObject.h>
-
-DK_LOG_CATEGORY_DEFINE(GameObjectLog)
-DK_LOG_CATEGORY_DECLARE(GameObjectLog, ELoggerVerbosity::DEBUG)
-
 void AGameObject::setComponentFlag(int id, bool value) {
 	m_componentFlags = value ? m_componentFlags | (1LL << id) : m_componentFlags ^ (1LL << id);
 }
