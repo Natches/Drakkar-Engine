@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{3c959af2-7dcd-4d1a-ae38-66005dd354ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Log">
-      <UniqueIdentifier>{f8282b93-ca6f-49a0-b482-e8fc1e57ca27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scene">
       <UniqueIdentifier>{559ca1a4-6bdf-4eaa-a3c0-7c1ab458480f}</UniqueIdentifier>
     </Filter>
@@ -71,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp">
       <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Log\Log.hpp">
-      <Filter>Header Files\Log</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h">
       <Filter>Header Files\Scene</Filter>
