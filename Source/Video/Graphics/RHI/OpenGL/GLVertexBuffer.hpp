@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
 
 namespace drak {
@@ -13,20 +13,21 @@ namespace gl {
 * \brief 
 *
 */
-class GLVertexBuffer final
-{
+class GLVertexBuffer final : public GLObject {
 public:
 	GLVertexBuffer() = default;
 	~GLVertexBuffer();
 
-	void create(const GLVertex* vertData, U32 size);
+	void create(
+		const GLVertex*	const pVerts,
+		const GLuint byteSize, 
+		const GLuint bindIndex = 0u);
 
-	DK_GETTER(GLuint, glID, m_glID)
-	DK_GETTER_REF_C(GLVertexAttribDesc, desc, m_desc)
+	DK_GETTER(GLuint, bindIndex, m_bindIndex)
 
 private:
-	GLuint				m_glID;
-	GLVertexAttribDesc	m_desc;
+	GLuint	m_bindIndex;
+	GLuint	m_byteSize;
 };
 
 } // namespace gl

@@ -10,12 +10,19 @@ GLVertexBuffer::~GLVertexBuffer() {
 	glDeleteBuffers(1, &m_glID);
 }
 
-void GLVertexBuffer::create(const GLVertex* vertData, U32 size) {
+void GLVertexBuffer::create(
+	const GLVertex*	const pVerts,
+	const GLuint vertCount,  
+	const GLuint bindIndex) {
+
+	m_byteSize	= sizeof(GLVertex) * vertCount;
+	m_bindIndex	= bindIndex;
+
 	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
 		m_glID, 
-		size, 
-		vertData,
+		m_byteSize,
+		pVerts,
 		GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
 }
 

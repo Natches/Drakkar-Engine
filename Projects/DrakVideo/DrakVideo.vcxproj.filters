@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp">
-      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
@@ -87,6 +84,12 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLObject.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp">
@@ -118,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertex.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

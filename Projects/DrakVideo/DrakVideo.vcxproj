@@ -21,7 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\Graphics\Primitives.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLObject.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.hpp" />
@@ -39,8 +40,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertex.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp" />

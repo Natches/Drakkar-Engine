@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
+#include <Math/Vec3.hpp>
+#include <Math/Vec2.hpp>
 
 namespace drak {
 namespace video {
@@ -8,38 +10,40 @@ namespace gl {
 
 struct GLVertex {
 	GLVertex() = default;
-	GLVertex(const float p[3], const float c[4]) {
-		pos[0] = p[0]; pos[1] = p[1]; pos[2] = p[2];
-		color[0] = c[0]; color[1] = c[1]; color[2] = c[2]; color[3] = c[3];
-	}
+	GLVertex(
+		const math::Vec3f& aPos,
+		const math::Vec3f& aNormal,
+		const math::Vec2f& aUV);
 
-	GLfloat		pos[3];
-	GLfloat		color[4];
+	math::Vec3f pos;
+	math::Vec3f normal;
+	math::Vec2f uv;
 };
-
-/*
-struct GLVertex {
-	GLfloat		pos		[3];
-	GLfloat		color	[4];
-	GLfloat		normal	[3];
-	GLfloat		uv		[2];
-};
-*/
 
 enum GLVertexAttrib : GLuint {
-	GL_VERT_ATTR_POS, 
-	GL_VERT_ATTR_COLOR,
+	GL_VERT_ATTR_POS,
 	GL_VERT_ATTR_NORMAL,
-	GL_VERT_ATTR_UV
+	GL_VERT_ATTR_UV,
+	GL_VERT_ATTR_COUNT
 };
 
 struct GLVertexAttribDesc {
+	GLVertexAttribDesc() = default;
+	GLVertexAttribDesc(
+		GLVertexAttrib	attrib,
+		GLuint			offset,
+		GLenum			type,
+		GLint			size,
+		GLboolean		normalized);
+
 	GLVertexAttrib	attrib;
-	GLuint offset;
-	GLenum type;
-	GLint size;
-	GLboolean normalized;
+	GLuint			offset;
+	GLenum			type;
+	GLint			size;
+	GLboolean		normalized;
 };
+
+extern const GLVertexAttribDesc g_VertexAttribDescArray[];
 
 } // namespace gl
 } // namespace video

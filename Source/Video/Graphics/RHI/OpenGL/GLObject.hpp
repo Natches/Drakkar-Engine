@@ -7,23 +7,22 @@ namespace video {
 namespace gl {
 
 /*!
-* \class GLElementBuffer
+* \class GLObject
 * \ingroup DrakVideo
 * \brief
 *
 */
-class GLElementBuffer final
-{
+class GLObject {
 public:
-	GLElementBuffer() = default;
-	~GLElementBuffer() = default;
+	GLObject() = default;
+	virtual ~GLObject() = default;
 
 	DK_GETTER(GLuint, glID, m_glID)
 
-private:
+protected:
 	GLuint m_glID;
 };
 
 } // namespace gl
-} // namespace gfx
+} // namespace video
 } // namespace drak

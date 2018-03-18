@@ -4,41 +4,33 @@
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLShader.hpp>
 
 using namespace drak::video;
 
 void testRun(ARenderWindow* pWin) {
-#pragma region Test
-	static const float points[3][3] =
-	{
-		{-0.25f, -0.25f, 0.f},
-		{0.25f, -0.25f, 0.f},
-		{0.25f, 0.5f, 0.f},
+	std::vector<gl::GLVertex> quadVerts = {
+		{{0.f , 0.f ,  0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f}},
+		{{0.5f, 0.f ,  0.f}, {0.f, 0.f, 1.f}, {1.f, 0.f}},
+		{{0.5f, 0.5f,  0.f}, {0.f, 0.f, 1.f}, {1.f, 1.f}},
+		{{0.f , 0.5f,  0.f}, {0.f, 0.f, 1.f}, {0.f, 1.f}},
 	};
 
-	static const float colors[3][4] =
-	{
-		{ 1.f, 0.f, 0.f, 1.f },
-		{ 0.f, 1.f, 0.f, 1.f },
-		{ 0.f, 0.f, 1.f, 1.f }
-	};
+	U16 quadElems[] = {0, 1, 2, 0, 2, 3};
 
-	std::vector<gl::GLVertex> verts = {
-		gl::GLVertex(points[0], colors[0]),
-		gl::GLVertex(points[1], colors[1]),
-		gl::GLVertex(points[2], colors[2])
-	};
+	gl::GLVertexBuffer vbo;
+	vbo.create(quadVerts.data(), quadVerts.size() * sizeof(quadVerts[0]));
 
-	gl::GLVertexArray mesh;
-	mesh.create(verts);
-#pragma endregion
+	gl::GLIndexBuffer ibo;
+	ibo.create(quadElems, 6);
+	
+	gl::GLVertexArray vao;
+	vao.create(vbo, ibo);
 
 	while (pWin->IsOpen()) {
 		pWin->PollEvents();
 		pWin->Clear();
 
-		mesh.draw();
+		vao.draw();
 
 		pWin->SwapBuffers();
 	}
