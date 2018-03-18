@@ -130,18 +130,21 @@ Vec3<T> Vec3<T>::rotation() const {
 	return Vec3<T>(rotation<Axis::X, au>(), rotation<Axis::Y, au>(), rotation<Axis::Z, au>());
 }
 
-template<>
-Vec3<F32> Vec3<F32>::ceil() {
+template<typename T>
+Vec3<F32> Vec3<T>::ceil() {
+	static_assert(!Vec3<T>::isIntegral, "Use only ceil with floating point type !!");
 	return Vec3<F32>(std::ceil(x), std::ceil(y), std::ceil(z));
 }
 
-template<>
-Vec3<F32> Vec3<F32>::floor() {
+template<typename T>
+Vec3<F32> Vec3<T>::floor() {
+	static_assert(!Vec3<T>::isIntegral, "Use only floor with floating point type !!");
 	return Vec3<F32>(std::floor(x), std::floor(y), std::floor(z));
 }
 
-template<>
-Vec3<F32> Vec3<F32>::round() {
+template<typename T>
+Vec3<F32> Vec3<T>::round() {
+	static_assert(!Vec3<T>::isIntegral, "Use only round with floating point type !!");
 	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
 }
 

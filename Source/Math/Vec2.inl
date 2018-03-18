@@ -248,18 +248,21 @@ Vec2<T> Vec2<T>::perpendicularVector() const {
 	return Vec2<T>(x, -y);
 }
 
-template<>
-Vec2<F32> Vec2<F32>::ceil() {
+template<typename T>
+Vec2<F32> Vec2<T>::ceil() {
+	static_assert(!Vec2<T>::isIntegral, "Use only ceil with floating point type !!");
 	return Vec2<F32>(std::ceil(x), std::ceil(y));
 }
 
-template<>
-Vec2<F32> Vec2<F32>::floor() {
+template<typename T>
+Vec2<F32> Vec2<T>::floor() {
+	static_assert(!Vec2<T>::isIntegral, "Use only floor with floating point type !!");
 	return Vec2<F32>(std::floor(x), std::floor(y));
 }
 
-template<>
-Vec2<F32> Vec2<F32>::round() {
+template<typename T>
+Vec2<F32> Vec2<T>::round() {
+	static_assert(!Vec2<T>::isIntegral, "Use only round with floating point type !!");
 	return Vec2<F32>(std::round(x), std::round(y));
 }
 
