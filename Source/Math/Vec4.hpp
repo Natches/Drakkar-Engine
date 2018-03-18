@@ -48,12 +48,13 @@ public:
 
 	F32 magnitude() const;
 
+/*
 	template<Axis ax, AngleUnit au = AngleUnit::DEGREE>
 	F32 rotation() const;
 
 	template<AngleUnit au = AngleUnit::DEGREE>
 	Vec4<T> rotation() const;
-	//TODO : Quat<F32> rotation() const;
+	//TODO : Quat<F32> rotation() const;*/
 
 	Vec4<T>& operator  =(const Vec4<T>& v);
 	Vec4<T>& operator  =(Vec4<T>&& v);
@@ -95,9 +96,9 @@ public:
 	template<typename U>
 	Vec4<U> cast() const;
 
-	Vec4<F32> ceil();
+	/*Vec4<F32> ceil();
 	Vec4<F32> floor();
-	Vec4<F32> round();
+	Vec4<F32> round();*/
 
 	Vec2<T> xy();
 	Vec2<T> zw();

@@ -247,6 +247,7 @@ template<typename T>
 Vec2<T> Vec2<T>::perpendicularVector() const {
 	return Vec2<T>(x, -y);
 }
+/*
 
 template<>
 Vec2<F32> Vec2<F32>::ceil() {
@@ -261,7 +262,7 @@ Vec2<F32> Vec2<F32>::floor() {
 template<>
 Vec2<F32> Vec2<F32>::round() {
 	return Vec2<F32>(std::round(x), std::round(y));
-}
+}*/
 
 template<typename T>
 Vec2<T> Vec2<T>::yx() {
