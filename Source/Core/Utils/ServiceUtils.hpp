@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/Utils/TemplateUtils.h>
+#include <Core/Utils/TemplateUtils.hpp>
 
 #define DK_SERVICE_VARNAME(Class) m_##Class
 

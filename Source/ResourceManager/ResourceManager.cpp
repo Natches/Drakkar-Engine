@@ -1,4 +1,4 @@
-#include <ResourceManager/ServiceRegistered.h>
+#include <ResourceManager/ServiceRegistered.hpp>
 
 namespace drak {
 namespace io {

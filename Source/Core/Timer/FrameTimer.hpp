@@ -3,12 +3,14 @@
 #include <Core/Timer/ATimer.hpp>
 
 namespace drak {
+namespace core {
+class Engine;
+}
 namespace time {
 
 class FrameTimer : public ATimer {
 	DK_NONMOVABLE_NONCOPYABLE(FrameTimer)
-	friend drak::core::Engine;
-
+	friend core::Engine;
 public:
 	F32 frameRate() const;
 	F32 deltaTimeNoScale() const;
@@ -18,7 +20,6 @@ public:
 
 	virtual void resume() override;
 	virtual void pause() override;
-
 private:
 	FrameTimer();
 	~FrameTimer() = default;

@@ -3,8 +3,8 @@
 #include <Core/Core.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
-DK_LOG_CATEGORY_DEFINE(GLRHILog)
-DK_LOG_CATEGORY_DECLARE(GLRHILog, LoggerVerbosity::DEBUG)
+DK_LOG_CATEGORY_DEFINE(GLRHICategory)
+DK_LOG_CATEGORY_DECLARE(GLRHICategory, ELoggerVerbosity::DEBUG)
 
 namespace drak {
 namespace video {
@@ -42,18 +42,10 @@ bool GLRHI::Init(bool debug) {
 #pragma region Logging/Error-handling
 void GLRHI::GraphicsInfo() {
 	DK_LOG(
-		GLRHILog, 
-		LoggerVerbosity::DEBUG, 
+		GLRHICategory, 
+		ELoggerVerbosity::DEBUG, 
 		"Renderer: %s\nVersion: %s\n", 
-		glGetString(GL_RENDERER), glGetString(GL_VERSION));
-
-	/*
-	fprintf(stderr, "%s%s\n%s%s\n%s",
-		"------------------ GLRHI Information ------------------\n"
-		"Renderer: ", glGetString(GL_RENDERER),
-		"Version:  ", glGetString(GL_VERSION),
-		"-------------------------------------------------------\n");
-	*/
+		glGetString(GL_RENDERER), glGetString(GL_VERSION))
 }
 
 void GLRHI::ErrorHandler(
@@ -64,27 +56,27 @@ void GLRHI::ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	DK_LOG(GLRHI, LoggerVerbosity::DEBUG, "%s\n", message)
+	DK_LOG(GLRHICategory, ELoggerVerbosity::DEBUG, "%s\n", message)
 }
 #pragma endregion
 
 void GLRHI::DepthFunc(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)
-		DK_CASE(EDepthMode::LESS,	glDepthFunc(GL_LESS))
-		DK_CASE(EDepthMode::LEQUAL,	glDepthFunc(GL_LEQUAL))
-		DK_CASE(EDepthMode::EQUAL,	glDepthFunc(GL_EQUAL))
-		DK_CASE(EDepthMode::GEQUAL,	glDepthFunc(GL_GEQUAL))
-		DK_CASE(EDepthMode::GREATER, glDepthFunc(GL_GREATER))
+		DK_CASE(EDepthMode::LESS,		glDepthFunc(GL_LESS))
+		DK_CASE(EDepthMode::LEQUAL,		glDepthFunc(GL_LEQUAL))
+		DK_CASE(EDepthMode::EQUAL,		glDepthFunc(GL_EQUAL))
+		DK_CASE(EDepthMode::GEQUAL,		glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::GREATER,	glDepthFunc(GL_GREATER))
 	DK_END
 }
 
 void GLRHI::CullFunc(bool on, EFaceSide side) {
 	DK_GL_TOGGLE(on, GL_CULL_FACE)
 	DK_SELECT(side)
-		DK_CASE(EFaceSide::FRONT, glCullFace(GL_FRONT))
-		DK_CASE(EFaceSide::BACK,	 glCullFace(GL_BACK))
-		DK_CASE(EFaceSide::BOTH,	 glCullFace(GL_FRONT_AND_BACK))
+		DK_CASE(EFaceSide::FRONT,	glCullFace(GL_FRONT))
+		DK_CASE(EFaceSide::BACK,	glCullFace(GL_BACK))
+		DK_CASE(EFaceSide::BOTH,	glCullFace(GL_FRONT_AND_BACK))
 	DK_END
 }
 

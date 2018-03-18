@@ -22,7 +22,6 @@
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp" />
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\Source\Core\Main.cpp" />
     <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
@@ -35,22 +34,20 @@
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Engine.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h" />
-    <ClInclude Include="..\..\Source\Core\Engine\ServiceLocator.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp" />
-    <ClInclude Include="..\..\Source\Core\Log\Log.hpp" />
     <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h" />
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\Timer.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\TimeThread.hpp" />
-    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.h" />
-    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.h" />
-    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.h" />
-    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.h" />
-    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.h" />
-    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.h" />
+    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -60,27 +57,27 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseIntelMKL>No</UseIntelMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -143,10 +140,11 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
@@ -162,10 +160,11 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
@@ -183,12 +182,13 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
@@ -206,12 +206,13 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>

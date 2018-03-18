@@ -7,6 +7,7 @@ namespace video {
 namespace gl {
 
 struct GLVertex {
+	GLVertex() = default;
 	GLVertex(const float p[3], const float c[4]) {
 		pos[0] = p[0]; pos[1] = p[1]; pos[2] = p[2];
 		color[0] = c[0]; color[1] = c[1]; color[2] = c[2]; color[3] = c[3];
