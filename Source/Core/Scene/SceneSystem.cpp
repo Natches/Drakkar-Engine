@@ -1,7 +1,4 @@
 #include <Core/Scene/SceneSystem.h>
-//#include "AComponent.h"
-DK_LOG_CATEGORY_DEFINE(SCENE_SYSTEM_LOG)
-DK_LOG_CATEGORY_DECLARE(SCENE_SYSTEM_LOG, ELoggerVerbosity::DEBUG)
 using namespace drak;
 using namespace core;
 using namespace components;
@@ -14,7 +11,7 @@ Scene* drak::core::SceneSystem::GetScene()
 }
 
 void SceneSystem::loadScene(const char* name) {
-	DK_LOG(SCENE_SYSTEM_LOG, ELoggerVerbosity::DEBUG, "Load and build Scene from file\n")
+	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Load and build Scene from file\n");
 }
 
 void SceneSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
@@ -22,12 +19,12 @@ void SceneSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 }
 
 bool SceneSystem::Startup() {
-	DK_LOG(SCENE_SYSTEM_LOG, ELoggerVerbosity::DEBUG, "Startup Scene System\n")
+	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
 	return true;
 }
 
 void SceneSystem::Shutdown() {
-	DK_LOG(SCENE_SYSTEM_LOG, ELoggerVerbosity::DEBUG, "Shutdown Scene System\n")
+	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
 }
 
 Scene::Scene() {

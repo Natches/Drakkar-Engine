@@ -1,12 +1,8 @@
 #include <Core/Core.hpp>
 #include <Core/Engine/Engine.hpp>
-#include <Core/Log/Log.hpp>
 #include <Core/Components/AGameObject.h>
 #include <Core/Components/AComponent.h>
 #include <Core/Scene/SceneSystem.h>
-
-DK_LOG_CATEGORY_DEFINE(GAME)
-DK_LOG_CATEGORY_DECLARE(GAME, ELoggerVerbosity::DEBUG)
 
 using namespace drak;
 using namespace core;
@@ -18,7 +14,7 @@ class Player : public AGameObject {
 	int counter = 0;
 	virtual void Update() override {
 		if (counter <= 100) {
-			DK_LOG(GAME, ELoggerVerbosity::DEBUG, "Player update\n")
+			Logbook::Log(Logbook::EOutput::CONSOLE, "GameLog.txt", "Player update\n");
 		}
 		else {
 			Engine::stopGame();
