@@ -18,7 +18,7 @@ GLVertex::GLVertex(
 
 const GLVertexAttribDesc g_VertexAttribDescArray[] = {
 	{ GL_VERT_ATTR_POS,		0,	GL_FLOAT, 3, GL_FALSE },
-	{ GL_VERT_ATTR_NORMAL,	28, GL_FLOAT, 3, GL_FALSE },
+	{ GL_VERT_ATTR_NORMAL,	28, GL_FLOAT, 3, GL_TRUE  },
 	{ GL_VERT_ATTR_UV,		40, GL_FLOAT, 2, GL_FALSE },
 };
 

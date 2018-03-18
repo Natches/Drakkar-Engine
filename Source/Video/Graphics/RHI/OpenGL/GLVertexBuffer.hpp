@@ -20,14 +20,14 @@ public:
 
 	void create(
 		const GLVertex*	const pVerts,
-		const GLuint byteSize, 
+		const GLuint vertCount,
 		const GLuint bindIndex = 0u);
 
 	DK_GETTER(GLuint, bindIndex, m_bindIndex)
 
 private:
 	GLuint	m_bindIndex;
-	GLuint	m_byteSize;
+	U32	m_byteSize;
 };
 
 } // namespace gl

@@ -12,7 +12,7 @@ GLVertexBuffer::~GLVertexBuffer() {
 
 void GLVertexBuffer::create(
 	const GLVertex*	const pVerts,
-	const GLuint vertCount,  
+	const GLuint vertCount,
 	const GLuint bindIndex) {
 
 	m_byteSize	= sizeof(GLVertex) * vertCount;

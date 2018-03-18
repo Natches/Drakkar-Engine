@@ -9,16 +9,16 @@ using namespace drak::video;
 
 void testRun(ARenderWindow* pWin) {
 	std::vector<gl::GLVertex> quadVerts = {
-		{{0.f , 0.f ,  0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f}},
-		{{0.5f, 0.f ,  0.f}, {0.f, 0.f, 1.f}, {1.f, 0.f}},
-		{{0.5f, 0.5f,  0.f}, {0.f, 0.f, 1.f}, {1.f, 1.f}},
-		{{0.f , 0.5f,  0.f}, {0.f, 0.f, 1.f}, {0.f, 1.f}},
+		{{-0.28f, -0.5f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f}},
+		{{ 0.28f, -0.5f, 0.f}, {0.f, 0.f, 1.f}, {1.f, 0.f}},
+		{{ 0.28f,  0.5f, 0.f}, {0.f, 0.f, 1.f}, {1.f, 1.f}},
+		{{-0.28f,  0.5f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 1.f}},
 	};
 
 	U16 quadElems[] = {0, 1, 2, 0, 2, 3};
 	
 	gl::GLVertexBuffer vbo;
-	vbo.create(quadVerts.data(), quadVerts.size() * sizeof(gl::GLVertex));
+	vbo.create(quadVerts.data(), (U32)quadVerts.size() * sizeof(gl::GLVertex));
 
 	gl::GLIndexBuffer ibo;
 	ibo.create(quadElems, 6);
