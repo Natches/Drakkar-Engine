@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\OBJParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\OBJParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

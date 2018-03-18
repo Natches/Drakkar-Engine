@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\OBJParser.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\OBJParser.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.h" />
   </ItemGroup>
