@@ -25,7 +25,9 @@ void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) 
 		glEnableVertexArrayAttrib(m_glID, i);
 		glVertexArrayAttribBinding(m_glID, i, vbo.bindIndex());
 	}
+	m_vertCount = ibo.indexCount();
 	m_iboID = ibo.glID();
+	glVertexArrayElementBuffer(m_glID, m_iboID);
 }
 
 void GLVertexArray::draw() {

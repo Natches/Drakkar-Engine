@@ -12,6 +12,7 @@ GLIndexBuffer::~GLIndexBuffer() {
 
 void GLIndexBuffer::create(GLushort* pIndices, GLsizei indexCount) {
 	m_indexCount = indexCount;
+	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
 		m_glID,
 		sizeof(GLushort) * m_indexCount,

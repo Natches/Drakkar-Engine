@@ -16,13 +16,13 @@ void testRun(ARenderWindow* pWin) {
 	};
 
 	U16 quadElems[] = {0, 1, 2, 0, 2, 3};
-
+	
 	gl::GLVertexBuffer vbo;
-	vbo.create(quadVerts.data(), quadVerts.size() * sizeof(quadVerts[0]));
+	vbo.create(quadVerts.data(), quadVerts.size() * sizeof(gl::GLVertex));
 
 	gl::GLIndexBuffer ibo;
 	ibo.create(quadElems, 6);
-	
+
 	gl::GLVertexArray vao;
 	vao.create(vbo, ibo);
 
