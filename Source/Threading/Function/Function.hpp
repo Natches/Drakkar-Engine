@@ -1,7 +1,7 @@
 #pragma once
 
 #include <tuple>
-#include <Threading/IFunction.hpp>
+#include <Threading/Function/IFunction.hpp>
 
 namespace drak {
 namespace function {
@@ -304,7 +304,15 @@ protected:
 
 #pragma endregion MemberFunction
 
+#pragma region Lambda
+#include <functional>
+template<class T, class Y>
+std::function<T> makeLambda(Y&& t) 	{
+	return std::function<T>(t);
+}
+#pragma endregion Lambda
+
 } // namespace function
 } // namespace drak
 
-#include <Threading/Function.inl>
+#include <Threading/Function/Function.inl>

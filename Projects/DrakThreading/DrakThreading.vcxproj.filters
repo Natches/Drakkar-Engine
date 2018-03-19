@@ -13,30 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Function">
+      <UniqueIdentifier>{f67ae77b-f1c9-4c5a-b689-0d54971554fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Task">
+      <UniqueIdentifier>{c92599f6-14f4-41be-8066-3241e49bfab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\ITask.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Threading\Function\IFunction.hpp">
+      <Filter>Header Files\Function</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\Function.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Threading\Function\IndicesTrick.hpp">
+      <Filter>Header Files\Function</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\IFunction.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Threading\Function\Function.hpp">
+      <Filter>Header Files\Function</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\IndicesTrick.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Threading\Task\ITask.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\Task.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\DeferredTask.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\RecurentTask.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\FuturTask.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\PackagedTask.hpp">
+      <Filter>Header Files\Task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Threading\StealableQueue.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="..\..\Source\Threading\Function.inl">
-      <Filter>Header Files</Filter>
+    <None Include="..\..\Source\Threading\Function\Function.inl">
+      <Filter>Header Files\Function</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\Task.inl">
+      <Filter>Header Files\Task</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

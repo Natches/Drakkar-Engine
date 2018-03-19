@@ -19,14 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Threading\Function.hpp" />
-    <ClInclude Include="..\..\Source\Threading\IFunction.hpp" />
-    <ClInclude Include="..\..\Source\Threading\IndicesTrick.hpp" />
-    <ClInclude Include="..\..\Source\Threading\ITask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Function\Function.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Function\IFunction.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Function\IndicesTrick.hpp" />
     <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\DeferredTask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\FuturTask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\ITask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\PackagedTask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\RecurentTask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\Task.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\Threading\Function.inl">
+    <None Include="..\..\Source\Threading\Function\Function.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -38,6 +43,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="..\..\Source\Threading\Task\Task.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Main.cpp" />
@@ -127,6 +133,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>LOG2;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -138,6 +145,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>LOG2;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -150,6 +158,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>LOG2;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -164,6 +173,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>LOG2;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

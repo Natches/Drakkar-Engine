@@ -1,6 +1,5 @@
-#include <Threading/Function.hpp>
-#include <Threading/IndicesTrick.hpp>
-#define LOG2
+#include <Threading/Function/Function.hpp>
+#include <Threading/Function/IndicesTrick.hpp>
 #include <Log/Log.hpp>
 
 namespace drak {
@@ -727,5 +726,3 @@ void MemberFunction<CallerType, void, void>::invoke(CallerType* caller) {
 
 } // namespace function
 } // namespace drak 
-
-#undef LOG2
