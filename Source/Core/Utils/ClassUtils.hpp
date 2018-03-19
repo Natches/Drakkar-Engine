@@ -32,3 +32,9 @@ DK_NOMOVE_NOCOPY_OP(T)
 
 #define DK_SETTER(T, name, var)	void name(T	val) { var = val; }
 #define DK_SETTER_REF_C(T, name, var) void name(const T& val) { var = val; }
+
+#ifdef DRAK_EXPORT
+#define DRAK_API __declspec(dllexport)
+#else
+#define DRAK_API __declspec(dllimport)
+#endif
