@@ -539,6 +539,7 @@ Vec8<T> Vec8<T>::broadcast(const Vec4<T>& v) {
 	}
 }
 
+/*
 template<>
 Vec8<F32> Vec8<F32>::ceil() {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
@@ -571,7 +572,7 @@ Vec8<F32> Vec8<F32>::round() {
 			std::round(a), std::round(b),
 			std::round(c), std::round(d));
 	}
-}
+}*/
 
 template<typename T>
 Vec4<T> Vec8<T>::xyzw() {

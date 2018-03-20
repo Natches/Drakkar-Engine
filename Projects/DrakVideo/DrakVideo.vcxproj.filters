@@ -37,21 +37,21 @@
     <Filter Include="Header Files\Graphics\RHI\OpenGL">
       <UniqueIdentifier>{1d4db4f8-3c64-445b-91de-ddcad41d5d69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Geometry">
+      <UniqueIdentifier>{68cb2e5e-a090-4230-9c0a-ee5540c69390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry">
+      <UniqueIdentifier>{b5ab2431-6e25-44e2-b051-acfbbf0523c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\RHIDefinitions.hpp">
       <Filter>Header Files\Graphics\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertex.hpp">
-      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.hpp">
-      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLElementBuffer.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp">
@@ -81,11 +81,29 @@
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Primitives.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLObject.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\OBJLoader.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Primitives.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +136,21 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\OBJLoader.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

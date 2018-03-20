@@ -1,44 +1,38 @@
 #include <vector>
 
 #include <Video/VideoSystem.hpp>
+
+#include <Video/Graphics/OBJLoader.hpp>
+#include <Video/Graphics/Geometry/Vertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLShader.hpp>
 
 using namespace drak::video;
+using namespace drak::video::geom;
 
 void testRun(ARenderWindow* pWin) {
-#pragma region Test
-	static const float points[3][3] =
-	{
-		{-0.25f, -0.25f, 0.f},
-		{0.25f, -0.25f, 0.f},
-		{0.25f, 0.5f, 0.f},
-	};
+	OBJLoader loader;
 
-	static const float colors[3][4] =
-	{
-		{ 1.f, 0.f, 0.f, 1.f },
-		{ 0.f, 1.f, 0.f, 1.f },
-		{ 0.f, 0.f, 1.f, 1.f }
-	};
+	Mesh mesh;
+	loader.load("cube.obj", mesh);
 
-	std::vector<gl::GLVertex> verts = {
-		gl::GLVertex(points[0], colors[0]),
-		gl::GLVertex(points[1], colors[1]),
-		gl::GLVertex(points[2], colors[2])
-	};
+	const std::vector<Vertex>& verts = mesh.vertices();
+	const std::vector<U16>& indices = mesh.indices();
+	
+	gl::GLVertexBuffer vbo;
+	vbo.create(verts.data(), verts.size());
 
-	gl::GLVertexArray mesh;
-	mesh.create(verts);
-#pragma endregion
+	gl::GLIndexBuffer ibo;
+	ibo.create(indices.data(), indices.size());
+
+	gl::GLVertexArray vao;
+	vao.create(vbo, ibo);
 
 	while (pWin->IsOpen()) {
 		pWin->PollEvents();
 		pWin->Clear();
 
-		mesh.draw();
+		vao.draw();
 
 		pWin->SwapBuffers();
 	}
