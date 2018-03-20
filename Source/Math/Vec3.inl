@@ -130,6 +130,7 @@ Vec3<T> Vec3<T>::rotation() const {
 	return Vec3<T>(rotation<Axis::X, au>(), rotation<Axis::Y, au>(), rotation<Axis::Z, au>());
 }
 
+/*
 template<>
 Vec3<F32> Vec3<F32>::ceil() {
 	return Vec3<F32>(std::ceil(x), std::ceil(y), std::ceil(z));
@@ -143,7 +144,7 @@ Vec3<F32> Vec3<F32>::floor() {
 template<>
 Vec3<F32> Vec3<F32>::round() {
 	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
-}
+}*/
 
 template<typename T>
 Vec2<T> Vec3<T>::xy() {

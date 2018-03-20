@@ -11,6 +11,9 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
+//DK_LOG_CATEGORY_DEFINE(VideoSystemLog)
+//DK_LOG_CATEGORY_DECLARE(VideoSystemLog, ELoggerVerbosity::DEBUG)
+
 namespace drak {
 namespace video {
 
@@ -23,12 +26,14 @@ bool			VideoSystem::s_ready	= false;
 bool VideoSystem::Startup(const VideoSettings& settings) {
 	#ifdef WINDOWING_SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		//DK_LOG(VideoSystemLog, ELoggerVerbosity::DEBUG, "SDL error: %s\n", SDL_GetError())
 		return false;
 	}
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
 	if (!gl::GLRHI::Init(true)) { // TODO (Simon): refactor to call abstract RHI Init()
+		//DK_LOG(VideoSystemLog, ELoggerVerbosity::DEBUG, "Failed to init GLRHI\n")
 		return false;
 	}
 

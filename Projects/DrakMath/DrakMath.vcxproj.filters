@@ -43,6 +43,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\Math\Matrix4x4.inl">
+      <Filter>Header Files</Filter>
+    </None>
     <None Include="..\..\Source\Math\SIMDUtils.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -56,9 +59,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\Source\Math\Vec8.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\..\Source\Math\Matrix4x4.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
