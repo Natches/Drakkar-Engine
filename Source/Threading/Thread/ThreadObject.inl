@@ -8,7 +8,7 @@ template<class ...VArgs>
 void ThreadObject::addTask(Task* task, VArgs&&...args) {
 	m_taskList.push(task);
 	if constexpr (sizeof...(VArgs))
-		addTask(std::forward<VArgs>(args)...)
+		addTask(std::forward<VArgs>(args)...);
 }
 
 } //namespace thread

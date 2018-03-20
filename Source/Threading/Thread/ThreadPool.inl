@@ -5,17 +5,18 @@ namespace thread {
 
 template<class ...VArgs>
 void ThreadPool::addTask(Task* task, VArgs&&...args) {
-	m_pool[0].addTask(task);
-	addTask(1, std::forward<VArgs>(args)...);
+	m_pool[0]->addTask(task);
+	if constexpr (static_cast<bool>(sizeof...(VArgs)))
+		addTask(1, std::forward<VArgs>(args)...);
 }
 
 template<class ...VArgs>
-void ThreadPool::addTask(U8 threadNumber, Task* task, VArgs&&...args) {
-	if (threadNumber == m_pool.size())
+void ThreadPool::addTask(U16 threadNumber, Task* task, VArgs&&...args) {
+	if (threadNumber == static_cast<U16>(m_pool.size()))
 		threadNumber = 0;
-	m_pool[threadNumber].addTask(task);
-	if constexpr (sizeof...(VArgs))
-		addTask(threadNumber + 1, std::forward<VArgs>(args)...);
+	m_pool[threadNumber]->addTask(task);
+	if constexpr (static_cast<bool>(sizeof...(VArgs)))
+		addTask(++threadNumber, std::forward<VArgs>(args)...);
 }
 
 } //namespace thread

@@ -34,7 +34,6 @@ public:
 	template<bool DeallocateNode = true>
 	void pop();
 
-	void steal(U32 number, T* result);
 	void steal(U32 number, StealableQueue<T>& queue);
 
 	void push(const T& Data);
@@ -55,9 +54,10 @@ public:
 
 	void reserve(U32 ui);
 	void clear();
+	void shrinkToFit();
 
 private:
-	Node* steal(U32 number);
+	auto steal(U32 number);
 
 	template<class..._Vt>
 	Node* addNode(Node* node, Node* next, Node* previous, _Vt&&...data);
@@ -86,9 +86,9 @@ private:
 	void decSizeCapacity(U32 ui);
 
 private:
-	Node* m_pFront;
-	Node* m_pBack;
-	std::mutex m_frontMutex, m_backMutex, m_sizeMutex, m_capacityMutex;
+	Node *m_pFront, *m_pBack;
+	Node *m_pFrontUnUsedCapacity, *m_pBackUnUsedCapacity;
+	std::mutex m_mutex;
 	std::atomic<U32> m_size;
 	std::atomic<U32> m_capacity;
 };

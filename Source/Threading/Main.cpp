@@ -14,19 +14,21 @@ DK_IMPORT(drak::function)
 DK_IMPORT(drak::math)
 
 void add() {
-	for (int i = 0; i < 100000; ++i);
+	for (int i = 0; i < 1000000000; ++i);
 }
 
 int main() {
-
 	Task<GlobalFunction<void, void>> t({ add });
 
 	ThreadPool pool;
 
-	for (int i = 0; i < 1000000000; ++i) {
-		pool.addTask(&t, &t, &t, &t, &t, &t, &t, &t, &t, &t);
+	auto t1 = std::chrono::high_resolution_clock::now();
+	for (int i = 0; i < 100000; ++i) {
+		pool.addTask(&t, &t, &t, &t, &t, &t, &t, &t);
 	}
-
+	pool.WaitForAllTasks();
+	auto t2 = std::chrono::high_resolution_clock::now();
+	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() / (float)1000 << std::endl;
 
 	//auto f = [&i]() { return i += 1; };
 
@@ -35,7 +37,6 @@ int main() {
 	//std::cout << f() << std::endl;
 
 	//GlobalFunction<int, void> g(add);
-
 	system("pause");
 
 	return 0;

@@ -14,16 +14,19 @@ public:
 	ThreadPool(const U32 threadNumber = std::thread::hardware_concurrency());
 	~ThreadPool();
 
+	void WaitForAllTasks();
+
 	template<class...VArgs>
 	void addTask(Task* task, VArgs&&...args);
 
 private:
 	template<class...VArgs>
-	void addTask(U8 threadNumber, Task* task, VArgs&&...args);
+	void addTask(U16 threadNumber, Task* task, VArgs&&...args);
 
 private:
-	std::vector<ThreadObject> m_pool;
+	std::vector<ThreadObject*> m_pool;
 };
 
 } //namespace thread
 } //namespace drak
+#include <Threading/Thread/ThreadPool.inl>
