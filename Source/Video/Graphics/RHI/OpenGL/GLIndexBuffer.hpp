@@ -17,7 +17,7 @@ public:
 	GLIndexBuffer() = default;
 	~GLIndexBuffer();
 
-	void create(GLushort* pIndices, GLsizei indexCount);
+	void create(const GLushort* pIndices, GLsizei indexCount);
 
 	DK_GETTER(GLushort, indexCount, m_indexCount)
 

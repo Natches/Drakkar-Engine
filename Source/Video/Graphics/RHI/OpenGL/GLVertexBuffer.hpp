@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
+#include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
 namespace video {
@@ -19,7 +19,7 @@ public:
 	~GLVertexBuffer();
 
 	void create(
-		const GLVertex*	const pVerts,
+		const geom::Vertex* const pVerts,
 		const GLuint vertCount,
 		const GLuint bindIndex = 0u);
 
@@ -27,7 +27,6 @@ public:
 
 private:
 	GLuint	m_bindIndex;
-	U32	m_byteSize;
 };
 
 } // namespace gl

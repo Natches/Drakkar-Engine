@@ -1,27 +1,29 @@
 #include <vector>
 
 #include <Video/VideoSystem.hpp>
+
+#include <Video/Graphics/OBJLoader.hpp>
+#include <Video/Graphics/Geometry/Vertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLVertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
 
 using namespace drak::video;
+using namespace drak::video::geom;
 
 void testRun(ARenderWindow* pWin) {
-	std::vector<gl::GLVertex> quadVerts = {
-		{{-0.28f, -0.5f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f}},
-		{{ 0.28f, -0.5f, 0.f}, {0.f, 0.f, 1.f}, {1.f, 0.f}},
-		{{ 0.28f,  0.5f, 0.f}, {0.f, 0.f, 1.f}, {1.f, 1.f}},
-		{{-0.28f,  0.5f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 1.f}},
-	};
+	OBJLoader loader;
 
-	U16 quadElems[] = {0, 1, 2, 0, 2, 3};
+	Mesh mesh;
+	loader.load("cube.obj", mesh);
+
+	const std::vector<Vertex>& verts = mesh.vertices();
+	const std::vector<U16>& indices = mesh.indices();
 	
 	gl::GLVertexBuffer vbo;
-	vbo.create(quadVerts.data(), (U32)quadVerts.size() * sizeof(gl::GLVertex));
+	vbo.create(verts.data(), verts.size());
 
 	gl::GLIndexBuffer ibo;
-	ibo.create(quadElems, 6);
+	ibo.create(indices.data(), indices.size());
 
 	gl::GLVertexArray vao;
 	vao.create(vbo, ibo);

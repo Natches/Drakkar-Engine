@@ -2,6 +2,9 @@
 #include <GL/glew.h>
 
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
+#include <Video/Graphics/RHI/OpenGL/GLVertexAttrib.hpp>
+
+using namespace drak::video::geom;
 
 namespace drak {
 namespace video {
@@ -13,8 +16,8 @@ GLVertexArray::~GLVertexArray() {
 
 void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) {
 	glCreateVertexArrays(1, &m_glID);
-	glVertexArrayVertexBuffer(m_glID, vbo.bindIndex(), vbo.glID(), 0, sizeof(GLVertex));
-	for (GLuint i = GL_VERT_ATTR_POS; i < GL_VERT_ATTR_COUNT; ++i) {
+	glVertexArrayVertexBuffer(m_glID, vbo.bindIndex(), vbo.glID(), 0, sizeof(Vertex));
+	for (U32 i = VERT_ATTR_POS; i < VERT_ATTR_COUNT; ++i) {
 		glVertexArrayAttribFormat(
 			m_glID, 
 			i,

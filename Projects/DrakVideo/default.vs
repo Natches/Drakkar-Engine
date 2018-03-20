@@ -10,11 +10,11 @@ out VS_OUT {
 	vec3 uv;
 } vert;
 
-
 void main()
 {
 	vert.pos = pos;
 	vert.normal = normal;
 	vert.uv = uv;
-	gl_Position = vec4(pos, 1.0f);
+
+	gl_Position = vec4(vert.pos, 1.0f);
 }

@@ -10,7 +10,7 @@ GLIndexBuffer::~GLIndexBuffer() {
 	glDeleteBuffers(1, &m_glID);
 }
 
-void GLIndexBuffer::create(GLushort* pIndices, GLsizei indexCount) {
+void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 	m_indexCount = indexCount;
 	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
