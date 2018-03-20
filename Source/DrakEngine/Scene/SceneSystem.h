@@ -7,7 +7,7 @@
 #include <vector>
 namespace drak {
 namespace core {
-#include <Core/Utils/SceneSystemUtils.hpp>
+#include <DrakEngine/Scene/SceneSystemUtils.hpp>
 class Scene {
 	std::list<AGameObject*> m_gameObjects;
 public:

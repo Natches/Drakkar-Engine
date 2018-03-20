@@ -6,7 +6,7 @@
 */
 
 template <class c>
-struct DRAK_API AComponent
+struct  AComponent
 {
 	static const int ID;
 };
@@ -19,7 +19,7 @@ struct name							\
 };												\
 												\
 template <>										\
-struct DRAK_API AComponent<name>				\
+struct  AComponent<name>				\
 {												\
 	static const U32 id = (U32)__COUNTER__;		\
 };												

@@ -31,9 +31,6 @@
     <Filter Include="Header Files\Scene">
       <UniqueIdentifier>{559ca1a4-6bdf-4eaa-a3c0-7c1ab458480f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene">
-      <UniqueIdentifier>{e7b008a5-7602-44c9-a335-a17e17bf3ea7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\ServiceLocator">
       <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine\Engine.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
@@ -68,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp">
       <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h">
-      <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp">
       <Filter>Header Files\ServiceLocator</Filter>
@@ -96,9 +87,6 @@
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.hpp">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
@@ -112,12 +100,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
       <Filter>Source Files\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp">
-      <Filter>Source Files\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\Timer.cpp">
       <Filter>Source Files\Timer</Filter>
