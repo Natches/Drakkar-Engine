@@ -84,10 +84,11 @@ public:
 
 	template<typename U>
 	Vec3<U> cast() const;
+/*
 
 	Vec3<F32> ceil();
 	Vec3<F32> floor();
-	Vec3<F32> round();
+	Vec3<F32> round();*/
 
 	Vec2<T> xy();
 	Vec2<T> yz();

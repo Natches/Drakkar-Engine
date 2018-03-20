@@ -2,6 +2,8 @@
 
 #include <Video/Graphics/RHI/OpenGL/GLVertexBuffer.hpp>
 
+using namespace drak::video::geom;
+
 namespace drak {
 namespace video {
 namespace gl {
@@ -10,12 +12,18 @@ GLVertexBuffer::~GLVertexBuffer() {
 	glDeleteBuffers(1, &m_glID);
 }
 
-void GLVertexBuffer::create(const GLVertex* vertData, U32 size) {
+void GLVertexBuffer::create(
+	const Vertex* const pVerts,
+	const GLuint vertCount,
+	const GLuint bindIndex) {
+
+	m_bindIndex	= bindIndex;
+
 	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
 		m_glID, 
-		size, 
-		vertData,
+		vertCount * sizeof(Vertex),
+		pVerts,
 		GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
 }
 
