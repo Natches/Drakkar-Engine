@@ -22,35 +22,35 @@ T StealableQueue<T>::front() {
 }
 
 template<class T>
-U32 StealableQueue<T>::safeCapacity() {
+U32 StealableQueue<T>::safeCapacity(){
 	std::scoped_lock<std::mutex> lck(m_capacityMutex);
 	return m_capacity;
 }
 
 template<class T>
-U32 StealableQueue<T>::safeSize() {
+U32 StealableQueue<T>::safeSize(){
 	std::scoped_lock<std::mutex> lck(m_sizeMutex);
 	return m_size.load(std::memory_order_acquire);
 }
 
 template<class T>
-bool StealableQueue<T>::safeEmpty() {
+bool StealableQueue<T>::safeEmpty(){
 	std::scoped_lock<std::mutex> lck(m_sizeMutex);
 	return (m_size.load(std::memory_order_acquire) == 0);
 }
 
 template<class T>
-U32 StealableQueue<T>::capacity() {
+U32 StealableQueue<T>::capacity() const {
 	return m_capacity;
 }
 
 template<class T>
-U32 StealableQueue<T>::size() {
+U32 StealableQueue<T>::size() const {
 	return m_size.load(std::memory_order_acquire);
 }
 
 template<class T>
-bool StealableQueue<T>::empty() {
+bool StealableQueue<T>::empty() const {
 	return (m_size.load(std::memory_order_acquire) == 0);
 }
 
@@ -61,8 +61,27 @@ StealableQueue<T>::StealableQueue()
 }
 
 template<class T>
+StealableQueue<T>::StealableQueue(StealableQueue<T>&& queue) 
+	: m_pFront(std::forward<StealableQueue<T>>(queue).m_pFront),
+	m_pBack(std::forward<StealableQueue<T>>(queue).m_pBack),
+	m_capacity(std::forward<StealableQueue<T>>(queue).safeCapacity()),
+	m_size(std::forward<StealableQueue<T>>(queue).safeSize()) {
+	
+	while (queue.safeCapacity())queue.pop();
+}
+
+template<class T>
 StealableQueue<T>::~StealableQueue() {
 	while (safeCapacity())pop();
+}
+
+template<class T>
+StealableQueue<T>& StealableQueue<T>::operator=(StealableQueue&& queue) {
+	m_pFront = std::forward<StealableQueue<T>>(queue).m_pFront;
+	m_pBack = std::forward<StealableQueue<T>>(queue).m_pBack;
+	m_capacity = std::forward<StealableQueue<T>>(queue).safeCapacity();
+	m_size = std::forward<StealableQueue<T>>(queue).safeSize();
+	while(queue.safeCapacity())queue.pop();
 }
 
 template<class T>
@@ -130,26 +149,39 @@ void StealableQueue<T>::steal(U32 number, T* result) {
 
 template<class T>
 void StealableQueue<T>::steal(U32 number, StealableQueue<T>& queue) {
-	Node* node = queue.steal(number);
-	if (node) {
-		if (safeSize()) {
-			std::scoped_lock<std::mutex> lck(m_backMutex);
-			if (sizeEqualOne()) {
+	T* arr = new T[number];
+	Node* node = new Node[number];
+	queue.steal(number, arr);
+	if (safeSize()) {
+		std::scoped_lock<std::mutex> lck(m_backMutex);
+		if (sizeEqualOne()) {
+
+			{
 				std::scoped_lock<std::mutex> lck2(m_frontMutex);
-				addNode(node, m_pBack->m_pNext, m_pBack, node->m_data);
+				addNode(node, m_pBack->m_pNext, m_pBack, arr[0]);
 			}
-			else
-				addNode(node, m_pBack->m_pNext, m_pBack, node->m_data);
+			if (number > 1) {
+				for (U32 i = 1; i < number; ++i)
+					addNode(node + i, m_pBack->m_pNext, m_pBack, arr[i]);
+			}
 		}
 		else {
-			std::scoped_lock<std::mutex> lck(m_backMutex);
-			std::scoped_lock<std::mutex> lck2(m_frontMutex);
-			m_pFront = node;
-			for (; node->m_pNext; node = node->m_pNext);
-			m_pBack = node;
+			for (U32 i = 0; i < number; ++i)
+				addNode(node + i, m_pBack->m_pNext, m_pBack, arr[i]);
 		}
 	}
-	incSizeCapacity(number);
+	else {
+		std::scoped_lock<std::mutex> lck(m_backMutex);
+		std::scoped_lock<std::mutex> lck2(m_frontMutex);
+		addNode(node, nullptr, nullptr, arr[0]);
+		for (U32 i = 1; i < number; ++i) {
+			addNode(node, nullptr, m_pBack, arr[i]);
+		}
+	}
+	if(m_capacity < number + safeSize())
+		incCapacity(number + safeSize() - m_capacity);
+	incSize(number);
+	delete arr;
 }
 
 template<class T>
@@ -260,7 +292,7 @@ void StealableQueue<T>::decCapacity(U32 ui) {
 template<class T>
 void StealableQueue<T>::decSizeCapacity(U32 ui) {
 	std::scoped_lock<std::mutex> lck(m_sizeMutex);
-	std::scoped_lock<std::mutex> lck(m_capacityMutex);
+	std::scoped_lock<std::mutex> lck2(m_capacityMutex);
 	m_size.store(m_size.load(std::memory_order_acquire) - ui, std::memory_order_release);
 	m_capacity.store(m_capacity.load(std::memory_order_acquire) - ui, std::memory_order_release);
 }
@@ -269,21 +301,23 @@ template<class T>
 void StealableQueue<T>::reserve(U32 ui) {
 	incCapacity(ui);
 	std::scoped_lock<std::mutex> lck(m_backMutex);
-	Node* node = m_pBack;
-	for (U32 i = 0; i ^ ui; ++i) {
-		if (!capacity()) {
-			std::scoped_lock<std::mutex> lck(m_frontMutex);
-			node = m_pFront = addNode(new Node(), nullptr, nullptr, T());
-		}
-		else {
-			if (m_pBack == m_pFront) {
-				std::scoped_lock<std::mutex> lck(m_frontMutex);
-				node = addNode(new Node(), nullptr, node, T());
-			}
-			else
-				node = addNode(new Node(), nullptr, node, T());
+	Node* node = new Node[ui];
+	if (!capacity()) {
+		addNode(node, nullptr, nullptr, T());
+		for (U32 i = 1; i < ui; ++i) {
+			addNode(node + i, nullptr, m_pBack, T());
+			m_pBack = node;
 		}
 	}
+	else {
+		Node* n = m_pBack;
+		for (; n->m_pNext; n = n->m_pNext);
+		for (U32 i = 0; i < ui; ++i) {
+			addNode(node + i, nullptr, n, T());
+			n = node + i;
+		}
+	}
+
 }
 
 template<class T>

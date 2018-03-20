@@ -10,8 +10,7 @@ namespace thread {
 
 template<class T>
 class StealableQueue {
-
-	DK_NONMOVABLE_NONCOPYABLE(StealableQueue)
+	DK_NONCOPYABLE(StealableQueue)
 	struct StealableQueueNode {
 		StealableQueueNode() = default;
 		StealableQueueNode(StealableQueueNode* previous, StealableQueueNode* next, const T& data);
@@ -27,7 +26,10 @@ class StealableQueue {
 
 public:
 	StealableQueue();
+	StealableQueue(StealableQueue&& queue);
 	~StealableQueue();
+
+	StealableQueue& operator=(StealableQueue&& queue);
 
 	template<bool DeallocateNode = true>
 	void pop();
@@ -43,9 +45,9 @@ public:
 	T front();
 	T back();
 
-	U32 capacity();
-	U32 size();
-	bool empty();
+	U32 capacity() const;
+	U32 size() const;
+	bool empty() const;
 
 	U32 safeCapacity();
 	U32 safeSize();

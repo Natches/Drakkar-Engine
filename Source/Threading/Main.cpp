@@ -1,6 +1,7 @@
 #include <Threading/StealableQueue.hpp>
 #include <Threading/Function/Function.hpp>
 #include <Threading/Task/Task.hpp>
+#include <Threading/Thread/ThreadPool.hpp>
 #include <iostream>
 #include <functional>
 #include <Math/Vec2.hpp>
@@ -13,39 +14,19 @@ DK_IMPORT(drak::function)
 DK_IMPORT(drak::math)
 
 void add() {
+	for (int i = 0; i < 100000; ++i);
 }
-
-int add2() {
-	return 1;
-}
-
-int add2(int i) {
-	return i;
-}
-
-void add(int i) {
-
-}
-
-struct A {
-	void add() {
-	}
-
-	int add2() {
-		return 1;
-	}
-
-	int add2(int i) {
-		return i;
-	}
-
-	void add(int i) {
-
-	}
-};
-
 
 int main() {
+
+	Task<GlobalFunction<void, void>> t({ add });
+
+	ThreadPool pool;
+
+	for (int i = 0; i < 1000000000; ++i) {
+		pool.addTask(&t, &t, &t, &t, &t, &t, &t, &t, &t, &t);
+	}
+
 
 	//auto f = [&i]() { return i += 1; };
 

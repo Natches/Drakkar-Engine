@@ -78,12 +78,6 @@
     <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Timer\Timer.hpp">
-      <Filter>Header Files\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Timer\TimeThread.hpp">
-      <Filter>Header Files\Timer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
@@ -118,12 +112,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp">
       <Filter>Source Files\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Timer\Timer.cpp">
-      <Filter>Source Files\Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Timer\TimeThread.cpp">
-      <Filter>Source Files\Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
       <Filter>Source Files\Timer</Filter>

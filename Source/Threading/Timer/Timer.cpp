@@ -1,4 +1,4 @@
-#include <Core/Timer/Timer.hpp>
+#include <Threading/Timer/Timer.hpp>
 
 namespace drak {
 namespace time {
@@ -10,7 +10,18 @@ Timer::Timer() {
 	m_intervalType = TimeDuration::MILLISECONDS;
 }
 
+Timer::Timer(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop)
+	: m_pFunc(func), m_interval(interval), m_intervalType(intervalType), m_loop(loop) {
+}
+
 Timer::~Timer() {
+}
+
+void Timer::configure(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop) {
+	m_interval = interval;
+	m_intervalType = intervalType;
+	m_loop = loop;
+	m_pFunc = func;
 }
 
 F32 Timer::duration(const TimeDuration duration_type, TimeDuration* duration_type_returned) {
@@ -189,6 +200,14 @@ bool Timer::enabled() const {
 
 void Timer::enabled(const bool b) {
 	m_enabled = b;
+}
+
+bool Timer::loop() const {
+	return m_loop;
+}
+
+void Timer::loop(const bool b) {
+	m_loop = b;
 }
 
 } // namespace time

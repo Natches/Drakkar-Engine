@@ -36,6 +36,8 @@ public:
 	virtual ReturnType operator()(VArgs&&...args);
 	virtual ReturnType invoke(VArgs&&...args);
 
+	using RetType = typename ReturnType;
+
 protected:
 	GlobalFunction(const std::tuple<VArgs...>& args);
 	GlobalFunction(std::tuple<VArgs...>&& args);
@@ -108,6 +110,8 @@ public:
 
 	virtual ReturnType operator()();
 	virtual ReturnType invoke();
+
+	using RetType = typename ReturnType;
 private:
 	ReturnType(*m_pFunc)();
 };
@@ -175,6 +179,8 @@ public:
 
 	virtual ReturnType operator()(VArgs&&...args)override;
 	virtual ReturnType invoke(VArgs&&...args)override;
+
+	using RetType = typename ReturnType;
 
 private:
 	ReturnType(CallerType::*m_pFunc)(VArgs...);
@@ -259,6 +265,7 @@ public:
 
 	ReturnType operator()(CallerType* caller);
 	ReturnType invoke(CallerType* caller);
+	using RetType = typename ReturnType;
 
 private:
 	ReturnType(CallerType::*m_pFunc)();

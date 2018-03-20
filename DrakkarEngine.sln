@@ -28,6 +28,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Log", "Projects\Log\Log.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakThreading", "Projects\DrakThreading\DrakThreading.vcxproj", "{C7E5D990-A700-4830-BBAD-E41600D1125C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC} = {FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}
 		{CCCCA1BE-A5A1-4F1A-9EEF-9E62F2CC0434} = {CCCCA1BE-A5A1-4F1A-9EEF-9E62F2CC0434}
 	EndProjectSection
 EndProject
