@@ -193,16 +193,16 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ);
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v);
 
-using Mat4x4c    = typename Matrix4x4<U8>;
-using Mat4x4sc   = typename Matrix4x4<I8>;
-using Mat4x4s    = typename Matrix4x4<I16>;
-using Mat4x4us   = typename Matrix4x4<U16>;
-using Mat4x4i    = typename Matrix4x4<I32>;
-using Mat4x4ui   = typename Matrix4x4<U32>;
-using Mat4x4lli  = typename Matrix4x4<I64>;
-using Mat4x4ulli = typename Matrix4x4<U64>;
-using Mat4x4f    = typename Matrix4x4<F32>;
-using Mat4x4d    = typename Matrix4x4<F64>;
+using Mat4c    = typename Matrix4x4<U8,  Ordering::COLUMN_MAJOR>;
+using Mat4sc   = typename Matrix4x4<I8,  Ordering::COLUMN_MAJOR>;
+using Mat4s    = typename Matrix4x4<I16, Ordering::COLUMN_MAJOR>;
+using Mat4us   = typename Matrix4x4<U16, Ordering::COLUMN_MAJOR>;
+using Mat4i    = typename Matrix4x4<I32, Ordering::COLUMN_MAJOR>;
+using Mat4u    = typename Matrix4x4<U32, Ordering::COLUMN_MAJOR>;
+using Mat4lli  = typename Matrix4x4<I64, Ordering::COLUMN_MAJOR>;
+using Mat4ulli = typename Matrix4x4<U64, Ordering::COLUMN_MAJOR>;
+using Mat4f    = typename Matrix4x4<F32, Ordering::COLUMN_MAJOR>;
+using Mat4d    = typename Matrix4x4<F64, Ordering::COLUMN_MAJOR>;
 } //namespace math
 } //namespace drak
 #include<Math/Matrix4x4.inl>

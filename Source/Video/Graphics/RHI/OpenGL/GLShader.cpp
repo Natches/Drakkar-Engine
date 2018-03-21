@@ -132,7 +132,7 @@ void GLShader::setUniform(const std::string& name, GLuint value) {
 }
 
 /*
-void GLShader::setUniform(const std::string& name, const glm::vec3& v3) {
+void GLShader::setUniform(const std::string& name, const math::Vec3f& v3) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v3.x);
@@ -144,7 +144,7 @@ void GLShader::setUniform(const std::string& name, const glm::vec4& v4) {
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v4.x);
 }
 
-void GLShader::setUniform(const std::string& name, const glm::mat4& matrix) {
+void GLShader::setUniform(const std::string& name, const math::Mat4& matrix) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1u, GL_FALSE, &matrix[0][0]);
