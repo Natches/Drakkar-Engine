@@ -125,7 +125,7 @@
       <Filter>Source Files\Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Thread\ThreadPool.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

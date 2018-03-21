@@ -21,7 +21,7 @@ class ThreadObject {
 	using Task = task::ITask;
 public:
 	ThreadObject() = delete;
-	ThreadObject(ThreadPool& pool, const U32 waitingSize = 10u);
+	ThreadObject(ThreadPool& pool, const U8 instance, const U32 waitingSize = 10u);
 	~ThreadObject();
 
 	ThreadObject(ThreadObject&& object);
@@ -46,9 +46,10 @@ private:
 	ThreadPool& m_pParent;
 	std::thread* m_pThread;
 	StealableQueue<Task*> m_taskList;
+	StealableQueue<Task*> m_stealedTaskList;
 	U32 m_waitingSize;
+	U8 m_instance;
 	bool m_join;
-	bool m_sleep;
 };
 
 } //namespace thread

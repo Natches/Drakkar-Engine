@@ -6,7 +6,7 @@ namespace thread {
 ThreadPool::ThreadPool(const U32 threadNumber) {
 	m_pool.reserve(threadNumber);
 	for (U32 i = 0; i < threadNumber; ++i) {
-		m_pool.emplace_back(new ThreadObject(*this));
+		m_pool.emplace_back(new ThreadObject(*this, i));
 	}
 }
 

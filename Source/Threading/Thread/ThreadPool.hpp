@@ -2,6 +2,7 @@
 
 #include <Core/Utils/ClassUtils.hpp>
 #include <Threading/Thread/ThreadObject.hpp>
+#include <vector>
 
 namespace drak {
 namespace thread {
@@ -21,7 +22,7 @@ public:
 
 private:
 	template<class...VArgs>
-	void addTask(U16 threadNumber, Task* task, VArgs&&...args);
+	U16 addTask(U16 threadNumber, Task* task, VArgs&&...args);
 
 private:
 	std::vector<ThreadObject*> m_pool;

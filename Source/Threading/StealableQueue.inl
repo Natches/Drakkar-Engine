@@ -127,27 +127,24 @@ void StealableQueue<T>::pop() {
 		else {
 			if (size() == 1) {
 				m_pFront->m_data.~T();
-				{
-					if (m_pFrontUnUsedCapacity)
-						m_pBackUnUsedCapacity =
-						addNode(m_pFront, nullptr, m_pBackUnUsedCapacity, T());
-					else
-						m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity =
-						addNode(m_pFront, nullptr, nullptr, T());
-				}
+				if (m_pFrontUnUsedCapacity)
+					m_pBackUnUsedCapacity =
+					addNode(m_pFront, nullptr, m_pBackUnUsedCapacity, T());
+				else
+					m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity =
+					addNode(m_pFront, nullptr, nullptr, T());
 				m_pFront = m_pBack = nullptr;
 			}
 			else {
 				m_pFront->m_data.~T();
 				m_pFront = m_pFront->m_pNext;
-				{
-					if (m_pFrontUnUsedCapacity)
-						m_pBackUnUsedCapacity =
-						addNode(m_pFront->m_pPrevious, nullptr, m_pBackUnUsedCapacity, T());
-					else
-						m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity =
-						addNode(m_pFront->m_pPrevious, nullptr, m_pBack, T());
-				}
+				if (m_pFrontUnUsedCapacity)
+					m_pBackUnUsedCapacity =
+					addNode(m_pFront->m_pPrevious, nullptr, m_pBackUnUsedCapacity, T());
+				else
+					m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity =
+					addNode(m_pFront->m_pPrevious, nullptr, m_pBack, T());
+				
 				m_pFront->m_pPrevious = nullptr;
 			}
 			m_size.store(size() - 1, std::memory_order_release);
@@ -157,7 +154,6 @@ void StealableQueue<T>::pop() {
 
 template<class T>
 auto StealableQueue<T>::steal(U32 number) {
-	std::scoped_lock<std::mutex> lck(m_mutex);
 	if (number <= size() && number) {
 		Node* res = m_pBack;
 		Node* back = m_pBack;
@@ -184,7 +180,7 @@ auto StealableQueue<T>::steal(U32 number) {
 
 template<class T>
 void StealableQueue<T>::steal(U32 number, StealableQueue<T>& queue) {
-	std::scoped_lock<std::mutex> lck(m_mutex);
+	std::scoped_lock<std::mutex, std::mutex> lck(m_mutex, queue.m_mutex);
 	auto [stealedNode, backNode] = queue.steal(number);
 	if (stealedNode) {
 		if (m_pBack) {
@@ -400,6 +396,23 @@ void StealableQueue<T>::shrinkToFit() {
 		delete node;
 		decCapacity(capacity() - size());
 	}
+}
+
+template<class T>
+void StealableQueue<T>::swap(StealableQueue& queue) {
+
+	std::swap(queue.m_pFront, m_pFront);
+	std::swap(queue.m_pBack, m_pBack); 
+	std::swap(queue.m_pFrontUnUsedCapacity, m_pFrontUnUsedCapacity); 
+	std::swap(queue.m_pBackUnUsedCapacity, m_pBackUnUsedCapacity);
+
+	queue.m_size ^= m_size;
+	m_size ^= queue.m_size;
+	queue.m_size ^= m_size;
+
+	queue.m_capacity ^= m_capacity;
+	m_capacity ^= queue.m_capacity;
+	queue.m_capacity ^= m_capacity;
 }
 
 

@@ -56,6 +56,8 @@ public:
 	void clear();
 	void shrinkToFit();
 
+	void swap(StealableQueue& queue);
+
 private:
 	auto steal(U32 number);
 
@@ -92,6 +94,8 @@ private:
 	std::atomic<U32> m_size;
 	std::atomic<U32> m_capacity;
 };
+
+//TODO Better Mutex implementation for this queue
 
 } // namespace thread
 } // namespace drak
