@@ -378,7 +378,7 @@ typename StealableQueue<T>::Node* StealableQueue<T>::addNode(StealableQueue<T>::
 		previous->m_pNext = node;
 	node->m_pPrevious = previous;
 	node->m_pNext = next;
-	new (&node->m_data) T(std::forward<_Vt...>(data...));
+	new (&node->m_data) T(std::forward<_Vt>(data)...);
 	return node;
 }
 

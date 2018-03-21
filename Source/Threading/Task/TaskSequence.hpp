@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Task/ATask.hpp>
 #include <vector>
 
 namespace drak {
 namespace thread {
 namespace task {
 
-class TaskSequence : public ITask {
+class TaskSequence : public ATask {
 
 public:
 	TaskSequence() = default;
@@ -20,7 +20,7 @@ public:
 	virtual void execute() override;
 
 private:
-	std::vector<ITask*> m_taskList;
+	std::vector<ATask*> m_taskList;
 	void addTasks() {};
 };
 

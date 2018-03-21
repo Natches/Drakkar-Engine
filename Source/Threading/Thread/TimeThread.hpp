@@ -1,30 +1,35 @@
 #pragma once
 
 #include <thread>
-#include <condition_variable>
+#include <Core/Utils/ClassUtils.hpp>
 
-class Timer;
 namespace drak {
 namespace time {
+class Timer;
+} //namespace time
+namespace thread {
 
-/*
+class ThreadPool;
+
 class TimeThread {
+	DK_NONCOPYABLE(TimeThread)
+	DK_NOMOVE_OP(TimeThread)
 public:
-	TimeThread() = delete;
-	TimeThread(Timer& t);
+	TimeThread(time::Timer& m_timer);
+	TimeThread(TimeThread&& thread);
 	~TimeThread();
 
-	void time();
-	void notify();
+	void mainloop();
+	void join();
+
+	void resetThread();
 
 private:
-	Timer & _t;
-	std::thread _th;
-	std::condition_variable cv;
-	std::mutex _m;
-	bool _join;
-};*/
+	time::Timer& m_timer;
+	std::thread* m_pThread;
+	bool m_join;
+};
 
-}
-}
+} // namespace thread
+} // namespace drak
 

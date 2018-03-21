@@ -1,5 +1,5 @@
 #include <thread>
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Task/ATask.hpp>
 #include <Threading/Thread/ThreadObject.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
 
@@ -45,13 +45,13 @@ bool ThreadObject::hasJoined() const {
 }
 
 void ThreadObject::mainLoop() {
-	std::this_thread::sleep_for(50ms);
+	std::this_thread::sleep_for(10us);
 	while (!m_join) {
-		if (m_taskList.safeEmpty())
+		if (m_taskList.empty())
 			std::this_thread::sleep_for(378ns);
 		else {
-			if (Task* t = m_taskList.front()) {
-				t->execute();
+			if (Task* pTask = m_taskList.front()) {
+				pTask->execute();
 				m_taskList.pop<false>();
 			}
 			if (m_taskList.safeEmpty())
@@ -65,9 +65,9 @@ void ThreadObject::join() {
 }
 
 void ThreadObject::stealTask() {
-	ThreadObject* neighboor = m_pParent.m_pool[m_instance + (m_instance & 1) ? (-1) : 1];
-	if (neighboor->m_taskList.size() > (m_waitingSize))
-		m_taskList.steal(m_waitingSize - 1, neighboor->m_taskList);
+	ThreadObject* pNeighbor = m_pParent.m_pool[m_instance + (m_instance & 1) ? (-1) : 1];
+	if (pNeighbor->m_taskList.size() > (m_waitingSize))
+		m_taskList.steal(U32(m_waitingSize * 0.5f), pNeighbor->m_taskList);
 }
 
 } //namespace thread

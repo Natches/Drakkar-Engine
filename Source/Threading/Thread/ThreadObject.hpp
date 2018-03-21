@@ -13,12 +13,12 @@ namespace thread {
 class ThreadPool;
 
 namespace task {
-	class ITask;
+	class ATask;
 }
 class ThreadObject {
 	DK_NONCOPYABLE(ThreadObject)
 	DK_NOMOVE_OP(ThreadObject)
-	using Task = task::ITask;
+	using Task = task::ATask;
 public:
 	ThreadObject() = delete;
 	ThreadObject(ThreadPool& pool, const U8 instance, const U32 waitingSize = 10u);

@@ -1,27 +1,44 @@
+#include <Threading/Thread/TimeThread.hpp>
 #include <Threading/Timer/Timer.hpp>
 
 namespace drak {
 namespace time {
 
 Timer::Timer() {
+	m_enabled = false;
 	m_begin = currentTime();
-	m_time = 0.f;
 	m_interval = 0.f;
 	m_intervalType = TimeDuration::MILLISECONDS;
+	m_pTask = nullptr;
+	m_pThread = new thread::TimeThread(*this);
 }
 
-Timer::Timer(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop)
-	: m_pFunc(func), m_interval(interval), m_intervalType(intervalType), m_loop(loop) {
+Timer::Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
+	const bool loop, const bool autoStart)
+	: m_pTask(pTask), m_interval(interval), m_intervalType(intervalType),
+	m_loop(loop), m_enabled(autoStart) {
+	m_pThread = new thread::TimeThread(*this);
+	if (m_enabled)
+		m_pThread->resetThread();
 }
 
 Timer::~Timer() {
+	if (m_pThread) {
+		m_pThread->join();
+		delete m_pThread;
+	}
 }
 
-void Timer::configure(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop) {
+void Timer::configure(Task* pTask, const F32 interval, const TimeDuration intervalType,
+	const bool loop, const bool autoStart) {
+	m_enabled = false;
 	m_interval = interval;
 	m_intervalType = intervalType;
 	m_loop = loop;
-	m_pFunc = func;
+	m_pTask = pTask;
+	m_enabled = autoStart;
+	if(m_enabled)
+		m_pThread->resetThread();
 }
 
 F32 Timer::duration(const TimeDuration duration_type, TimeDuration* duration_type_returned) {
@@ -76,13 +93,12 @@ F32 Timer::duration(const TimeDuration duration_type, TimeDuration* duration_typ
 
 void Timer::start() {
 	m_enabled = true;
-	m_begin = currentTime();
-	m_time = 0.f;
+	m_pThread->resetThread();
 }
 
 void Timer::resume() {
 	m_enabled = true;
-	m_time -= duration(m_intervalType);
+	m_pThread->resetThread();
 }
 
 void Timer::pause() {
@@ -94,9 +110,10 @@ void Timer::stop() {
 }
 
 void Timer::reset(const bool enabled) {
-	m_enabled = true;
+	m_enabled = enabled;
 	m_begin = currentTime();
-	m_time = 0.f;
+	if(m_enabled)
+		m_pThread->resetThread();
 }
 
 void Timer::interval(const F32 f) {
@@ -117,82 +134,7 @@ void Timer::intervalType(const TimeDuration td)
 		m_intervalType = TimeDuration::MILLISECONDS;
 	else
 		m_intervalType = td;
-	m_time = 0.0;
 };
-
-F32 Timer::elapsed(const TimeDuration duration_type, TimeDuration* duration_type_returned) {
-	constexpr F64 invNano = 1.0 / (F64)TimeDuration::NANOSECONDS;
-	U64 elapsed = 0ull;
-
-	if (m_intervalType == duration_type)
-		return m_time;
-
-	switch (m_intervalType) {
-	case TimeDuration::HOURS:
-		elapsed = static_cast<U64>(m_time * (F64)TimeDuration::HOURS);
-		break;
-	case TimeDuration::MINUTES:
-		elapsed = static_cast<U64>(m_time * (F64)TimeDuration::MINUTES);
-		break;
-	case TimeDuration::MILLISECONDS:
-		elapsed = static_cast<U64>(m_time / (F64)TimeDuration::MILLISECONDS);
-		break;
-	case TimeDuration::MICROSECONDS:
-		elapsed = static_cast<U64>(m_time / (F64)TimeDuration::MICROSECONDS);
-		break;
-	case TimeDuration::NANOSECONDS:
-		elapsed = static_cast<U64>(m_time * invNano);
-	}
-
-	switch (duration_type) {
-	case TimeDuration::HOURS:
-		return static_cast<F32>(elapsed / (F64)TimeDuration::HOURS);
-	case TimeDuration::MINUTES:
-		return static_cast<F32>(elapsed / (F64)TimeDuration::MINUTES);
-	case TimeDuration::SECONDS:
-		return static_cast<F32>(elapsed);
-	case TimeDuration::MILLISECONDS:
-		return static_cast<F32>(elapsed * (F64)TimeDuration::MILLISECONDS);
-	case TimeDuration::MICROSECONDS:
-		return static_cast<F32>(elapsed * (F64)TimeDuration::MICROSECONDS);
-	case TimeDuration::NANOSECONDS:
-		return static_cast<F32>(elapsed / invNano);
-	case TimeDuration::AUTO:
-	{
-		if (elapsed < 1000) {
-			*duration_type_returned = TimeDuration::NANOSECONDS;
-			return static_cast<F32>(elapsed / invNano);
-		}
-		else if (elapsed < 1000000) {
-			*duration_type_returned = TimeDuration::MICROSECONDS;
-			return static_cast<F32>(elapsed * (F64)TimeDuration::MICROSECONDS);
-		}
-		else if (elapsed < 1000000000) {
-			*duration_type_returned = TimeDuration::MILLISECONDS;
-			return static_cast<F32>(elapsed * (F64)TimeDuration::MILLISECONDS);
-		}
-		else if (elapsed < (U64)1000000000 * 60) {
-			*duration_type_returned = TimeDuration::SECONDS;
-			return static_cast<F32>(elapsed);
-		}
-		else if (elapsed < (U64)1000000000 * 3600) {
-			*duration_type_returned = TimeDuration::MINUTES;
-			return static_cast<F32>(elapsed / (F64)TimeDuration::MINUTES);
-		}
-		else {
-			*duration_type_returned = TimeDuration::HOURS;
-			return static_cast<F32>(elapsed / (F64)TimeDuration::HOURS);
-		}
-	}
-	default:
-		*duration_type_returned = TimeDuration::MILLISECONDS;
-		return static_cast<F32>(elapsed * (F64)TimeDuration::MILLISECONDS);
-	}
-}
-
-F32 Timer::elapsed() const {
-	return m_time;
-}
 
 bool Timer::enabled() const {
 	return m_enabled;
@@ -200,6 +142,8 @@ bool Timer::enabled() const {
 
 void Timer::enabled(const bool b) {
 	m_enabled = b;
+	if (m_enabled)
+		m_pThread->resetThread();
 }
 
 bool Timer::loop() const {
@@ -208,6 +152,14 @@ bool Timer::loop() const {
 
 void Timer::loop(const bool b) {
 	m_loop = b;
+}
+
+void Timer::task(Task* pTask) {
+	m_pTask = pTask;
+}
+
+Timer::Task* Timer::task() {
+	return m_pTask;
 }
 
 } // namespace time

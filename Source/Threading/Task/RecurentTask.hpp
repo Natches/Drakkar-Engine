@@ -1,23 +1,34 @@
 #pragma once
 
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Timer/Timer.hpp>
+#include <Threading/Task/ATask.hpp>
 
 namespace drak {
 namespace thread {
+
+class ThreadPool;
+
 namespace task {
 
-class RecurentTask : public ITask {
+class RecurentTask {
 
 public:
 	RecurentTask() = delete;
-	RecurentTask(ITask* task);
+	RecurentTask(ATask* pTask, ThreadPool& pool);
+	RecurentTask(ATask* pTask, ThreadPool& pool, const drak::time::Timer& timer);
+
+	void timer(const drak::time::Timer& timer);
+	void enabled(const bool b);
+
+	void recur();
+	void task(ATask* pTask);
 
 private:
-	ITask* m_pTask;
-
+	ATask* m_pTask;
+	ThreadPool& m_pool;
+	drak::time::Timer m_timer;
 };
 
 } // namespace task
 } // namespace thread
 } // namespace drak
-#include <Threading/Task/RecurentTask.inl>

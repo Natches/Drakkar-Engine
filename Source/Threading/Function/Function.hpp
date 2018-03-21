@@ -120,22 +120,22 @@ template<>
 class GlobalFunction<void, void>
 	: public IFunction {
 public:
-	GlobalFunction() = default;
-	GlobalFunction(void(*func)());
-	virtual ~GlobalFunction() = default;
+	inline GlobalFunction() = default;
+	inline GlobalFunction(void(*func)());
+	inline virtual ~GlobalFunction() = default;
 
-	GlobalFunction(const GlobalFunction& gf);
-	GlobalFunction(GlobalFunction&& gf);
-	void operator=(const GlobalFunction& gf);
-	void operator=(GlobalFunction&& gf);
+	inline GlobalFunction(const GlobalFunction& gf);
+	inline GlobalFunction(GlobalFunction&& gf);
+	inline void operator=(const GlobalFunction& gf);
+	inline void operator=(GlobalFunction&& gf);
 
-	bool operator==(const GlobalFunction& gf);
-	bool operator!=(const GlobalFunction& gf);
+	inline bool operator==(const GlobalFunction& gf);
+	inline bool operator!=(const GlobalFunction& gf);
 
-	void function(void(*func)());
+	inline void function(void(*func)());
 
-	virtual void operator()() override;
-	virtual void invoke() override;
+	inline virtual void operator()() override;
+	inline virtual void invoke() override;
 
 private:
 	void(*m_pFunc)();

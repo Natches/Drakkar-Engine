@@ -1,14 +1,13 @@
 #pragma once
 
-#include <atomic>
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Task/ATask.hpp>
 
 namespace drak {
 namespace thread {
 namespace task {
 
 template<class FunctionType>
-class DeferredTask : public ITask {
+class DeferredTask : public ATask {
 
 public:
 	DeferredTask() = delete;
@@ -19,12 +18,10 @@ public:
 	virtual void execute() override;
 
 	typename FunctionType::RetType get();
-	bool completed();
 
 private:
 	FunctionType m_func;
 	FunctionType::RetType m_return;
-	std::atomic<bool> m_completed;
 };
 
 } // namespace task

@@ -6,15 +6,17 @@ namespace thread {
 namespace task {
 
 void TaskSequence::operator()() {
-	for each(ITask* task in m_taskList) {
-		task->execute();
+	for each(ATask* pTask in m_taskList) {
+		pTask->execute();
 	}
+	m_executed.store(true, std::memory_order_release);
 }
 
 void TaskSequence::execute() {
-	for each(ITask* task in m_taskList) {
-		task->execute();
+	for each(ATask* pTask in m_taskList) {
+		pTask->execute();
 	}
+	m_executed.store(true, std::memory_order_release);
 }
 
 } // namespace task

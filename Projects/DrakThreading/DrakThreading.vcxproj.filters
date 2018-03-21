@@ -34,11 +34,11 @@
     <Filter Include="Source Files\Thread">
       <UniqueIdentifier>{583c3f42-1d47-4a3d-9e18-4be80e3b35f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Thread\ThreadSafeQueue">
+      <UniqueIdentifier>{749dee8d-00d3-4f89-9c02-22c29c761bd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Threading\Function\IFunction.hpp">
       <Filter>Header Files\Function</Filter>
     </ClInclude>
@@ -47,9 +47,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Threading\Function\Function.hpp">
       <Filter>Header Files\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\Task\ITask.hpp">
-      <Filter>Header Files\Task</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Threading\Task\Task.hpp">
       <Filter>Header Files\Task</Filter>
@@ -78,11 +75,14 @@
     <ClInclude Include="..\..\Source\Threading\Thread\ThreadPool.hpp">
       <Filter>Header Files\Thread</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\ATask.hpp">
+      <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp">
+      <Filter>Header Files\Thread\ThreadSafeQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\Threading\StealableQueue.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="..\..\Source\Threading\Function\Function.inl">
       <Filter>Header Files\Function</Filter>
     </None>
@@ -98,14 +98,14 @@
     <None Include="..\..\Source\Threading\Task\DelayedTask.inl">
       <Filter>Header Files\Task</Filter>
     </None>
-    <None Include="..\..\Source\Threading\Task\RecurentTask.inl">
-      <Filter>Header Files\Task</Filter>
-    </None>
     <None Include="..\..\Source\Threading\Thread\ThreadObject.inl">
       <Filter>Header Files\Thread</Filter>
     </None>
     <None Include="..\..\Source\Threading\Thread\ThreadPool.inl">
       <Filter>Header Files\Thread</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\StealableQueue.inl">
+      <Filter>Header Files\Thread\ThreadSafeQueue</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +126,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Thread\ThreadPool.cpp">
       <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Threading\Task\ATask.cpp">
+      <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Threading\Task\RecurentTask.cpp">
+      <Filter>Source Files\Task</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

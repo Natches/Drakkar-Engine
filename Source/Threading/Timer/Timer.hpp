@@ -2,19 +2,28 @@
 
 #include <mutex>
 #include <Core/Timer/ATimer.hpp>
-#include <Threading/Function/IFunction.hpp>
+#include <Threading/Task/ATask.hpp>
 
 namespace drak {
+namespace thread {
+	class TimeThread;
+} //namespace thread
+
 namespace time {
 
 class Timer : public ATimer {
-	/*friend TimeThread;*/
+	friend thread::TimeThread;
+	using Task = drak::thread::task::ATask;
 public:
 	Timer();
-	Timer(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop);
+	Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
+		const bool loop, const bool autoStart = false);\
+	/*Timer(const Timer& timer);
+	Timer(Timer&& timer);*/
 	virtual ~Timer();
 
-	void configure(drak::function::IFunction* func, const F32 interval, const TimeDuration intervalType, const bool loop);
+	void configure(Task* pTask, const F32 interval, const TimeDuration intervalType,
+		const bool loop, const bool autoStart = false);
 
 	virtual F32 duration(const TimeDuration duration_type,
 		TimeDuration* duration_type_returned = nullptr) override;
@@ -30,23 +39,23 @@ public:
 	void intervalType(const TimeDuration td);
 	TimeDuration intervalType()const;
 
-	F32 elapsed(const TimeDuration duration_type,
-		TimeDuration* duration_type_returned = nullptr);
-	F32 elapsed()const;
-
 	bool enabled()const;
 	void enabled(const bool b);
 
 	bool loop()const;
 	void loop(const bool b);
 
+	void task(Task* pTask);
+
+	Task* task();
+
 private:
-	F32 m_time;
 	F32 m_interval;
 	TimeDuration m_intervalType;
 	bool m_enabled;
 	bool m_loop;
-	drak::function::IFunction* m_pFunc;
+	Task* m_pTask;
+	thread::TimeThread* m_pThread;
 };
 
 } // namespace time

@@ -25,7 +25,7 @@
     <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\DelayedTask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\DeferredTask.hpp" />
-    <ClInclude Include="..\..\Source\Threading\Task\ITask.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Task\ATask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\TaskSequence.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\RecurentTask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\Task.hpp" />
@@ -47,16 +47,37 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\Source\Threading\Task\DeferredTask.inl" />
-    <None Include="..\..\Source\Threading\Task\DelayedTask.inl" />
-    <None Include="..\..\Source\Threading\Task\RecurentTask.inl" />
-    <None Include="..\..\Source\Threading\Task\Task.inl" />
-    <None Include="..\..\Source\Threading\Task\TaskSequence.inl" />
+    <None Include="..\..\Source\Threading\Task\DeferredTask.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Threading\Task\DelayedTask.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Threading\Task\Task.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Threading\Task\TaskSequence.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="..\..\Source\Threading\Thread\ThreadObject.inl" />
     <None Include="..\..\Source\Threading\Thread\ThreadPool.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Main.cpp" />
+    <ClCompile Include="..\..\Source\Threading\Task\ATask.cpp" />
+    <ClCompile Include="..\..\Source\Threading\Task\RecurentTask.cpp" />
     <ClCompile Include="..\..\Source\Threading\Task\TaskSequence.cpp" />
     <ClCompile Include="..\..\Source\Threading\Thread\ThreadObject.cpp" />
     <ClCompile Include="..\..\Source\Threading\Thread\ThreadPool.cpp" />

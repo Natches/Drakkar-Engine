@@ -1,18 +1,19 @@
 #pragma once
 
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Task/ATask.hpp>
 
 namespace drak {
 namespace thread {
 namespace task {
 
-template<class FunctionType>
-class DelayedTask : public ITask {
+class DelayedTask : public ATask {
+
+	using DelayType = drak::time::Timer::TimeDuration;
 
 public:
 	DelayedTask() = delete;
-	DelayedTask(FunctionType&& func, const F32 delay,
-		const drak::time::Timer::TimeDuration delayType);
+	DelayedTask(ATask* pTask, const F32 delay,
+		const DelayType delayType);
 	virtual ~DelayedTask() = default;
 
 	virtual void operator()() override;
@@ -21,12 +22,12 @@ public:
 	F32 delay() const;
 	void delay(const F32 newDelay);
 
-	void delayType(const drak::time::Timer::TimeDuration newDelayType);
+	void delayType(const DelayType newDelayType);
 
 private:
-	FunctionType m_func;
+	ATask* m_pTask;
 	F32 m_delay;
-	drak::time::Timer::TimeDuration m_delayType;
+	DelayType m_delayType;
 };
 
 } // namespace task

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Threading/Task/ITask.hpp>
+#include <Threading/Task/ATask.hpp>
 #include <Threading/Function/IFunction.hpp>
 
 namespace drak {
@@ -8,7 +8,7 @@ namespace thread {
 namespace task {
 
 template<class FunctionType>
-class Task : public ITask {
+class Task : public ATask {
 
 public:
 	Task() = delete;

@@ -5,23 +5,28 @@ namespace thread {
 namespace task {
 
 template<class FunctionType>
-Task<FunctionType>::Task(const FunctionType& f) : m_func(f) {
-
+Task<FunctionType>::Task(const FunctionType& f) 
+	: m_func(f) {
+	m_executed.store(false, std::memory_order_release);
 }
 
 template<class FunctionType>
-Task<FunctionType>::Task(FunctionType && f) : m_func(std::forward<FunctionType>(f)) {
+Task<FunctionType>::Task(FunctionType&& f) 
+	: m_func(std::forward<FunctionType>(f)) {
+	m_executed.store(false, std::memory_order_release);
 }
 
 template<class FunctionType>
 void Task<FunctionType>::operator()() {
 	m_func();
+	m_executed.store(true, std::memory_order_release);
 
 }
 
 template<class FunctionType>
 void Task<FunctionType>::execute() {
 	m_func();
+	m_executed.store(true, std::memory_order_release);
 }
 
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <Core/Engine/ISystem.h>
+#include <Core/Engine/ISystem.hpp>
 #include <Core/Components/AGameObject.h>
 #include <Core/Components/AComponent.h>
 #include <list>

@@ -1,40 +1,59 @@
-/*
-#include "Timer.h"
-#include "TimeThread.h"
+#include <Threading/Timer/Timer.hpp>
+#include <Threading/Thread/TimeThread.hpp>
 
-namespace NLib
-{
+namespace drak {
+namespace thread {
 
-	TimeThread::TimeThread(Timer& t)
-		: _t(t)
-	{
+using namespace std::chrono_literals;
+
+TimeThread::TimeThread(time::Timer& timer) : m_timer(timer), m_join(false) {
+	m_pThread = new std::thread(&TimeThread::mainloop, this);
+}
+
+TimeThread::TimeThread(TimeThread&& thread)
+	: m_join(false), m_timer(std::forward<time::Timer>(thread.m_timer)), m_pThread(thread.m_pThread) {
+	thread.join();
+	thread.m_pThread->join();
+	thread.m_pThread = nullptr;
+	new (m_pThread) std::thread(&TimeThread::mainloop, this);
+}
+
+TimeThread::~TimeThread() {
+	if (m_pThread) {
+		m_pThread->join();
+		delete m_pThread;
 	}
+}
 
-	TimeThread::~TimeThread()
-	{
-		_th.join();
+void TimeThread::mainloop() {
+	while (m_timer.m_enabled && !m_join) {
+		DK_SELECT(m_timer.intervalType())
+			DK_CASE(time::Timer::TimeDuration::HOURS,
+				std::this_thread::sleep_for(std::chrono::hours(U64(m_timer.m_interval))))
+			DK_CASE(time::Timer::TimeDuration::MINUTES,
+				std::this_thread::sleep_for(std::chrono::minutes(U64(m_timer.m_interval))))
+			DK_CASE(time::Timer::TimeDuration::SECONDS,
+				std::this_thread::sleep_for(std::chrono::seconds(U64(m_timer.m_interval))))
+			DK_CASE(time::Timer::TimeDuration::MILLISECONDS,
+				std::this_thread::sleep_for(std::chrono::milliseconds(U64(m_timer.m_interval))))
+			DK_CASE(time::Timer::TimeDuration::MICROSECONDS,
+				std::this_thread::sleep_for(std::chrono::microseconds(U64(m_timer.m_interval))))
+			DK_CASE(time::Timer::TimeDuration::NANOSECONDS,
+				std::this_thread::sleep_for(std::chrono::nanoseconds(U64(m_timer.m_interval))))
+		DK_END
+		m_timer.task()->execute();
+		if (!m_timer.m_loop)
+			m_timer.m_enabled = false;
 	}
+}
 
-	void TimeThread::time()
-	{
-		while (!_join)
-		{
-			cv.wait(std::unique_lock<std::mutex>(_m));
-			while (_t._enabled)
-			{
-				_t._time += _t.duration(_t._interval_type);
-				if (_t._time > _t._interval)
-				{
-					//execute func
-					_t._time = 0.0;
-				}
-				_t._begin = _t.current_time();
-			}
-		}
-	}
+void TimeThread::join() {
+	m_join = true;
+}
 
-	void TimeThread::notify()
-	{
-		cv.notify_all();
-	}
-}*/
+void TimeThread::resetThread() {
+	new (m_pThread) std::thread(&TimeThread::mainloop, this);
+}
+
+} // namespace drak
+} // namespace thread
