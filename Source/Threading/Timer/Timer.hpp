@@ -12,20 +12,19 @@ namespace thread {
 namespace time {
 
 class Timer : public ATimer {
-	friend thread::TimeThread;
 	using Task = drak::thread::task::ATask;
 	DK_NONCOPYABLE(Timer);
 public:
 	Timer();
 	Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
-		const bool loop, const bool autoStart = false);
+		const I16 loop = -1, const bool autoStart = false);
 	Timer(Timer&& timer);
 	virtual ~Timer();
 
 	void operator=(Timer&& timer);
 
 	void configure(Task* pTask, const F32 interval, const TimeDuration intervalType,
-		const bool loop, const bool autoStart = false);
+		const I16 loop, const bool autoStart);
 
 	virtual F32 duration(const TimeDuration duration_type,
 		TimeDuration* duration_type_returned = nullptr) override;
@@ -44,8 +43,8 @@ public:
 	bool enabled()const;
 	void enabled(const bool b);
 
-	bool loop()const;
-	void loop(const bool b);
+	I16 loop()const;
+	void loop(const I16 u);
 
 	void task(Task* pTask);
 
@@ -55,7 +54,7 @@ private:
 	F32 m_interval;
 	TimeDuration m_intervalType;
 	bool m_enabled;
-	bool m_loop;
+	I16 m_loop;
 	Task* m_pTask;
 	thread::TimeThread* m_pThread;
 };

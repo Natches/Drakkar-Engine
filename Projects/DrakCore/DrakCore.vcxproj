@@ -141,7 +141,7 @@
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -166,7 +166,7 @@
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -198,7 +198,7 @@
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -230,7 +230,7 @@
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

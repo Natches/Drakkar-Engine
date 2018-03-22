@@ -236,6 +236,26 @@ F32 Vec3<T>::computeAngleZ() {
 }
 
 template<typename T>
+Vec3<T> Vec3<T>::Null() {
+	return Vec3<T>();
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Up() {
+	return Vec3<T>(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0));
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Right() {
+	return Vec3<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Forward() {
+	return Vec3<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
+}
+
+template<typename T>
 Vec3<T>& Vec3<T>::operator=(const Vec3<T>& v) {
 	x = v.x;
 	y = v.y;

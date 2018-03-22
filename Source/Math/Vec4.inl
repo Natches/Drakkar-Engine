@@ -673,6 +673,26 @@ Vec4<T> Vec4<T>::brga() {
 }
 
 template<typename T>
+Vec4<T> Vec4<T>::Null() {
+	return Vec4<T>();
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Up() {
+	return Vec4<T>(Vec3<T>::Up(), static_cast<T>(1));
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Right() {
+	return Vec4<T>(Vec3<T>::Right(), static_cast<T>(1));
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Forward() {
+	return Vec4<T>(Vec3<T>::Forward(), static_cast<T>(1));
+}
+
+template<typename T>
 template<typename U>
 Vec4<U> Vec4<T>::cast() const {
 	return Vec4<U>(static_cast<U>(x), static_cast<U>(y),

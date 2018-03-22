@@ -115,6 +115,12 @@ public:
 		struct { T x, y, z; };
 		struct { T r, g, b; };
 	};
+
+public:
+	static Vec3<T> Null();
+	static Vec3<T> Up();
+	static Vec3<T> Right();
+	static Vec3<T> Forward();
 };
 
 template<typename T>

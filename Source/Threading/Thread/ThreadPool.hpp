@@ -1,23 +1,22 @@
 #pragma once
 
 #include <vector>
-#include <DrakEngine/Engine/Engine.hpp>
 #include <Core/Utils/ClassUtils.hpp>
 #include <Threading/Thread/ThreadObject.hpp>
 
 namespace drak {
+namespace core {
+	class Engine;
+} // namespace core
 namespace thread {
 
 class ThreadPool {
 	friend ThreadObject;
-	friend drak::core::Engine;
-
+	friend core::Engine;
 	DK_NONMOVABLE_NONCOPYABLE(ThreadPool)
 
 	using Task = task::ATask;
 public:
-	~ThreadPool() = default;
-
 	void waitForAllTasks()const;
 
 	template<class...VArgs>
@@ -25,6 +24,7 @@ public:
 
 private:
 	ThreadPool() = default;
+	~ThreadPool() = default;
 	bool startup(const U32 threadNumber = std::thread::hardware_concurrency());
 	void shutdown();
 
