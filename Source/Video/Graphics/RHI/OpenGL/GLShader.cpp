@@ -7,6 +7,8 @@
 
 #define INVALID_SHADER (U32)-1
 
+using namespace drak::math;
+
 namespace drak {
 namespace video {
 namespace gl {
@@ -131,25 +133,24 @@ void GLShader::setUniform(const std::string& name, GLuint value) {
 	glProgramUniform1ui(m_glID, m_uniMap[name], value);
 }
 
-/*
+
 void GLShader::setUniform(const std::string& name, const math::Vec3f& v3) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v3.x);
 }
 
-void GLShader::setUniform(const std::string& name, const glm::vec4& v4) {
+void GLShader::setUniform(const std::string& name, const math::Vec4f& v4) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v4.x);
 }
 
-void GLShader::setUniform(const std::string& name, const math::Mat4& matrix) {
+void GLShader::setUniform(const std::string& name, const math::Mat4f& matrix) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
-	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1u, GL_FALSE, &matrix[0][0]);
+	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1u, GL_FALSE, matrix.m_mat);
 }
-*/
 
 } // namespace gl
 } // namespace gfx

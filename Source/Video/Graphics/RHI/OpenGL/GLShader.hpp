@@ -3,7 +3,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
+#include <Math/Vec2.hpp>
+#include <Math/Vec3.hpp>
+#include <Math/Matrix4x4.hpp>
 
 namespace drak {
 namespace video {
@@ -32,9 +34,9 @@ public:
 	void setUniform(const std::string& name, GLint value);
 	void setUniform(const std::string& name, GLuint value);
 
-	//void setUniform(const std::string& name, const math::Vec3f& v3);
-	//void setUniform(const std::string& name, const glm::vec4& v4);
-	//void setUniform(const std::string& name, const math::Mat4& matrix);
+	void setUniform(const std::string& name, const math::Vec3f& v3);
+	void setUniform(const std::string& name, const math::Vec4f& v4);
+	void setUniform(const std::string& name, const math::Mat4f& matrix);
 
 private:
 	bool readFileText(const std::string& filename, std::vector<char>& text);

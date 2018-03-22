@@ -39,7 +39,7 @@ private:
 		const GLchar*	message,
 		const GLvoid*	userParam);
 
-private:
+public:
 	static GLShader s_defaultShader;
 };
 

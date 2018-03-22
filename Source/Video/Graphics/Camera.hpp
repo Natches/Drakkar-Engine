@@ -12,17 +12,21 @@ public:
 	Camera();
 	~Camera();
 
-	math::Mat4f lookAt(const math::Vec3f& eye, const math::Vec3f& at, const math::Vec3f& up);
-	math::Mat4f perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ);
-	math::Mat4f orthographic(F32 width, F32 height, F32 nearZ, F32 farZ); 
+	const math::Mat4f& lookAt(const math::Vec3f& eye, const math::Vec3f& at, const math::Vec3f& up);
+	const math::Mat4f& perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ);
+	const math::Mat4f& orthographic(F32 width, F32 height, F32 nearZ, F32 farZ);
+
+	DK_GETTER(math::Mat4f, viewPerspective, buildViewPerspective())
 
 private:
 	void buildView();
 	void buildPerspective();
 	void buildOrthographic();
 
+	inline math::Mat4f buildViewPerspective() { return m_prsp * m_view; }
+
 private:
-	math::Mat4f 	m_view;
+	math::Mat4f		m_view;
 	math::Mat4f 	m_prsp;
 	math::Mat4f		m_ortho;
 	

@@ -10,6 +10,11 @@ Matrix4x4<T, order>::Matrix4x4() {
 	memset(m_mat, 0, sizeof(m_mat));
 }
 
+template<typename T>
+Matrix4x4<T, Ordering::COLUMN_MAJOR>::Matrix4x4() {
+	memset(m_mat, 0, sizeof(m_mat));
+}
+
 template<typename T, Ordering order>
 bool Matrix4x4<T, order>::isOrthogonal() const {
 	return isIdentity(*this * transpose());
@@ -17,7 +22,7 @@ bool Matrix4x4<T, order>::isOrthogonal() const {
 
 template<typename T, Ordering order>
 Matrix4x4<T, order> Scale(const Vec3<T>& v) {
-	return Identity() * v;
+	return Identity<T, order>() * v;
 }
 
 template<typename T, Ordering order>

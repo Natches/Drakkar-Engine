@@ -411,7 +411,7 @@ Vec3<T> Vec3<T>::conjugate() const {
 template<typename T>
 Vec3<T> Vec3<T>::normalize() const {
 	F32 size = magnitude();
-	assert(IsNotEqual_V(size, static_cast<T>(0)))
+	assert(IsNotEqual_V(size, static_cast<T>(0)));
 	if (IsNotEqual_V(size, static_cast<T>(0)))
 		return *this / size;
 	return Vec3<T>(x, y, z);
