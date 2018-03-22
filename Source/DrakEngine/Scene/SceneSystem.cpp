@@ -1,4 +1,5 @@
-#include <Core/Scene/SceneSystem.h>
+#include <DrakEngine/Scene/SceneSystem.h>
+#include <Log/Log.hpp>
 using namespace drak;
 using namespace core;
 using namespace components;

@@ -64,7 +64,8 @@ public:
 		T m_mat[16];
 		struct { Vec8<T> m_row12, m_row34; };
 		struct { Vec4<T> m_row1, m_row2, m_row3, m_row4; };
-		struct { T a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p; };
+		struct { T a00, a01, a02, a03, a10, a11, a12, a13, a20, a21, a22,
+			a23, a30, a31, a32, a33; };
 	};
 };
 #pragma endregion RowOrdered
@@ -123,7 +124,8 @@ public:
 		T m_mat[16];
 		struct { Vec8<T> m_col12, m_col34; };
 		struct { Vec4<T> m_col1, m_col2, m_col3, m_col4; };
-		struct { T a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p; };
+		struct { T a00, a01, a02, a03, a10, a11, a12, a13, a20, a21, a22,
+			a23, a30, a31, a32, a33; };
 	};
 };
 #pragma endregion ColumnOrdered
@@ -169,10 +171,10 @@ Matrix4x4<T, order> Scale(const Vec3<T>& v);
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order> Translate(const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Translate(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
@@ -193,16 +195,13 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ);
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v);
 
-using Mat4c = typename Matrix4x4<U8>;
-using Mat4sc = typename Matrix4x4<I8>;
-using Mat4s = typename Matrix4x4<I16>;
-using Mat4us = typename Matrix4x4<U16>;
-using Mat4i = typename Matrix4x4<I32>;
-using Mat4u = typename Matrix4x4<U32>;
-using Mat4lli = typename Matrix4x4<I64>;
-using Mat4ulli = typename Matrix4x4<U64>;
-using Mat4f = typename Matrix4x4<F32>;
-using Mat4d = typename Matrix4x4<F64>;
+using Mat4c    = typename Matrix4x4<U8, Ordering::COLUMN_MAJOR>;
+using Mat4sc   = typename Matrix4x4<I8, Ordering::COLUMN_MAJOR>;
+using Mat4s    = typename Matrix4x4<I16, Ordering::COLUMN_MAJOR>;
+using Mat4us   = typename Matrix4x4<U16, Ordering::COLUMN_MAJOR>;
+using Mat4i    = typename Matrix4x4<I32, Ordering::COLUMN_MAJOR>;
+using Mat4u    = typename Matrix4x4<U32, Ordering::COLUMN_MAJOR>;
+using Mat4f    = typename Matrix4x4<F32, Ordering::COLUMN_MAJOR>;
 } //namespace math
 } //namespace drak
 #include<Math/Matrix4x4.inl>

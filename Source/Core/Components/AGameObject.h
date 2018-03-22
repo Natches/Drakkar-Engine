@@ -13,13 +13,13 @@ class AGameObject
 public:
 	AGameObject() = default;
 	~AGameObject() = default;
-	DRAK_API void setComponentFlag(int id, bool value);
-	DRAK_API bool getComponentFlag(int id);
-	DRAK_API void setHandleIDPair(int id, int handle);
-	DRAK_API int getHandle(int id);
-	DRAK_API virtual void Update() = 0;
-	DRAK_API virtual void Start() = 0;
-	DRAK_API drak::core::Scene* CurrentScene();
+	 void setComponentFlag(int id, bool value);
+	 bool getComponentFlag(int id);
+	 void setHandleIDPair(int id, int handle);
+	 int getHandle(int id);
+	 virtual void Update() = 0;
+	 virtual void Start() = 0;
+	 drak::core::Scene* CurrentScene();
 	drak::core::Scene* myScene;
 private:
 	U64 m_componentFlags;

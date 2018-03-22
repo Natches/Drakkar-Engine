@@ -1,10 +1,10 @@
-#include <Core/Engine/Engine.hpp>
+#include <DrakEngine/Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
-#include <Core/Scene/SceneSystem.h>
-#include <Core/Timer/FrameTimer.hpp>
+#include <DrakEngine/Scene/SceneSystem.h>
+#include <Log/Log.hpp>
 namespace drak {
-
-	time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
+	time::FrameTimer core::Engine::s_frameTime;
+	thread::ThreadPool core::Engine::s_pool;
 namespace core {
 	bool Engine::running = true;
 
@@ -14,6 +14,7 @@ namespace core {
 		//Init systems
 		SceneSystem::Startup();
 		s_frameTime.start();
+		s_pool.startup();
 		return 0;
 	}
 
@@ -22,6 +23,7 @@ namespace core {
 		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
 		SceneSystem::Shutdown();
 		Logbook::CloseLogs();
+		s_pool.shutdown();
 		return 0;
 	}
 

@@ -84,11 +84,10 @@ public:
 
 	template<typename U>
 	Vec3<U> cast() const;
-/*
 
 	Vec3<F32> ceil();
 	Vec3<F32> floor();
-	Vec3<F32> round();*/
+	Vec3<F32> round();
 
 	Vec2<T> xy();
 	Vec2<T> yz();
@@ -116,6 +115,12 @@ public:
 		struct { T x, y, z; };
 		struct { T r, g, b; };
 	};
+
+public:
+	static Vec3<T> Null();
+	static Vec3<T> Up();
+	static Vec3<T> Right();
+	static Vec3<T> Forward();
 };
 
 template<typename T>
@@ -209,16 +214,13 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
 
-using Vec3c = typename Vec3<U8>;
+using Vec3c  = typename Vec3<U8>;
 using Vec3sc = typename Vec3<I8>;
-using Vec3s = typename Vec3<I16>;
+using Vec3s  = typename Vec3<I16>;
 using Vec3us = typename Vec3<U16>;
-using Vec3i = typename Vec3<I32>;
-using Vec3u = typename Vec3<U32>;
-using Vec3lli = typename Vec3<I64>;
-using Vec3ulli = typename Vec3<U64>;
-using Vec3f = typename Vec3<F32>;
-using Vec3d = typename Vec3<F64>;
+using Vec3i  = typename Vec3<I32>;
+using Vec3u  = typename Vec3<U32>;
+using Vec3f  = typename Vec3<F32>;
 
 } //namespace maths
 } //namespace drak
