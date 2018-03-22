@@ -70,9 +70,10 @@ public:
 	template<typename U>
 	Vec2<U> cast() const;
 
+/*
 	Vec2<F32> ceil();
 	Vec2<F32> floor();
-	Vec2<F32> round();
+	Vec2<F32> round();*/
 
 	Vec2<T> yx();
 

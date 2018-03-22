@@ -21,8 +21,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp" />
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
-    <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
   </ItemGroup>
@@ -30,18 +28,15 @@
     <ClInclude Include="..\..\Source\Core\Components\AComponent.h" />
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
-    <ClInclude Include="..\..\Source\Core\Engine\Engine.hpp" />
-    <ClInclude Include="..\..\Source\Core\Engine\ISystem.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp" />
-    <ClInclude Include="..\..\Source\Core\Scene\SceneSystem.h" />
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
-    <ClInclude Include="..\..\Source\Core\Utils\SceneSystemUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />
   </ItemGroup>
@@ -130,7 +125,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
@@ -145,18 +140,23 @@
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
@@ -165,6 +165,10 @@
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -182,6 +186,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -192,6 +197,10 @@
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -206,6 +215,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
@@ -219,6 +229,10 @@
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Core\Components\ComponentIDBuilder.exe" "$(SolutionDir)Source\Core\Components\AComponent.h" DRAK_COMPONENT_START "$(SolutionDir)Source\Core\Components\ComponentGeneratedID.h"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

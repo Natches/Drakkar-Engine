@@ -3,8 +3,8 @@
 #include <Core/Core.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
-DK_LOG_CATEGORY_DEFINE(GLRHICategory)
-DK_LOG_CATEGORY_DECLARE(GLRHICategory, ELoggerVerbosity::DEBUG)
+//DK_LOG_CATEGORY_DEFINE(GLRHICategory)
+//DK_LOG_CATEGORY_DECLARE(GLRHICategory, ELoggerVerbosity::DEBUG)
 
 namespace drak {
 namespace video {
@@ -41,11 +41,12 @@ bool GLRHI::Init(bool debug) {
 
 #pragma region Logging/Error-handling
 void GLRHI::GraphicsInfo() {
-	DK_LOG(
-		GLRHICategory, 
-		ELoggerVerbosity::DEBUG, 
-		"Renderer: %s\nVersion: %s\n", 
-		glGetString(GL_RENDERER), glGetString(GL_VERSION))
+	//DK_LOG(
+	//	GLRHICategory, 
+	//	ELoggerVerbosity::DEBUG, 
+	//	"Renderer: %s\nVersion: %s\n", 
+	//	glGetString(GL_RENDERER), glGetString(GL_VERSION))
+	fprintf(stderr, "Renderer: %s\nVersion: %s\n", glGetString(GL_RENDERER), glGetString(GL_VERSION));
 }
 
 void GLRHI::ErrorHandler(
@@ -56,7 +57,8 @@ void GLRHI::ErrorHandler(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	DK_LOG(GLRHICategory, ELoggerVerbosity::DEBUG, "%s\n", message)
+	//DK_LOG(GLRHICategory, ELoggerVerbosity::DEBUG, "%s\n", message)
+	fprintf(stderr, "%s\n", message);
 }
 #pragma endregion
 

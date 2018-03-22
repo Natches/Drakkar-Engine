@@ -574,7 +574,7 @@ Vec8<F32> Vec8<T>::round() {
 			std::round(a), std::round(b),
 			std::round(c), std::round(d));
 	}
-}
+}*/
 
 template<typename T>
 Vec4<T> Vec8<T>::xyzw() {
