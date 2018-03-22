@@ -22,16 +22,16 @@ Matrix4x4<T, order> Scale(const Vec3<T>& v) {
 
 template<typename T, Ordering order>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v) {
-	m.a *= v.x;
-	m.f *= v.y;
-	m.k *= v.z;
+	m.a00 *= v.x;
+	m.a11 *= v.y;
+	m.a22 *= v.z;
 	return m;
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order> Identity() {
 	Matrix4x4<T, order> temp;
-	temp.a = temp.f = temp.k = temp.p = static_cast<T>(1);
+	temp.a00 = temp.a11 = temp.a22 = temp.a33 = static_cast<T>(1);
 	return temp;
 }
 
@@ -55,9 +55,9 @@ Matrix4x4<F32, order> RotationX(F32 angleX) {
 	if constexpr(unit == AngleUnit::DEGREE) 
 		angleX *= ToRadF;
 	Matrix4x4<F32, order> temp;
-	temp.j = sin(angleX);
-	temp.g = -(temp.j);
-	temp.f =  temp.k = cos(angleX);
+	temp.a21 = sin(angleX);
+	temp.a12 = -(temp.a21);
+	temp.a11 =  temp.a22 = cos(angleX);
 	return temp;
 }
 
@@ -66,9 +66,9 @@ Matrix4x4<F32, order> RotationY(F32 angleY) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleY *= ToRadF;
 	Matrix4x4<F32, order> temp;
-	temp.c = sin(angleY);
-	temp.i = -(temp.c);
-	temp.a = temp.k = cos(angleX);
+	temp.a02 = sin(angleY);
+	temp.a20 = -(temp.a02);
+	temp.a00 = temp.a22 = cos(angleX);
 	return temp;
 }
 
@@ -77,18 +77,18 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleZ *= ToRadF;
 	Matrix4x4<F32, order> temp;
-	temp.e = sin(angleX);
-	temp.b = -(temp.e);
-	temp.a = temp.f = cos(angleX);
+	temp.a10 = sin(angleX);
+	temp.a01 = -(temp.a10);
+	temp.a00 = temp.a11 = cos(angleX);
 	return temp;
 }
 
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v) {
-	return o << " | " << v.a << " | " << v.b << " | " << v.c << " | " << v.d << "\n"
-		" | " << v.e << " | " << v.f << " | " << v.g << " | " << v.h << "\n"
-		" | " << v.i << " | " << v.j << " | " << v.k << " | " << v.l << "\n"
-		" | " << v.m << " | " << v.n << " | " << v.o << " | " << v.p << " | ";
+	return o << " | " << v.a00 << " | " << v.a01 << " | " << v.a02 << " | " << v.a03 << "\n"
+		" | " << v.a10 << " | " << v.a11 << " | " << v.a12 << " | " << v.a13 << "\n"
+		" | " << v.a20 << " | " << v.a21 << " | " << v.a22 << " | " << v.a23 << "\n"
+		" | " << v.a30 << " | " << v.a31 << " | " << v.a32 << " | " << v.a33 << " | ";
 }
 
 template<typename T>

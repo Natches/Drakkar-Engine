@@ -208,16 +208,13 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
 
-using Vec3c = typename Vec3<U8>;
+using Vec3c  = typename Vec3<U8>;
 using Vec3sc = typename Vec3<I8>;
-using Vec3s = typename Vec3<I16>;
+using Vec3s  = typename Vec3<I16>;
 using Vec3us = typename Vec3<U16>;
-using Vec3i = typename Vec3<I32>;
-using Vec3ui = typename Vec3<U32>;
-using Vec3lli = typename Vec3<I64>;
-using Vec3ulli = typename Vec3<U64>;
-using Vec3f = typename Vec3<F32>;
-using Vec3d = typename Vec3<F64>;
+using Vec3i  = typename Vec3<I32>;
+using Vec3u  = typename Vec3<U32>;
+using Vec3f  = typename Vec3<F32>;
 
 } //namespace maths
 } //namespace drak
