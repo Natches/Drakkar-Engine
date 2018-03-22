@@ -25,23 +25,6 @@ void add() {
 using namespace std::chrono_literals;
 
 int main() {
-	ThreadPool pool;
-	pool.startup();
-
-	TaskGroup<Task<GlobalFunction<void, void>>> group(pool);
-
-	group.registerTask(Task<GlobalFunction<void, void>>(add));
-	group.registerTask(Task<GlobalFunction<void, void>>(add));
-	group.registerTask(Task<GlobalFunction<void, void>>(add));
-	group.registerTask(Task<GlobalFunction<void, void>>(add));
-	group.registerTask(Task<GlobalFunction<void, void>>(add));
-
-	group.sendGroupToThreadPool();
-
-	auto t1 = std::chrono::high_resolution_clock::now();
-	group.waitForTasks();
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "Waited : " << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count()<< std::endl;
 	/*auto t1 = std::chrono::high_resolution_clock::now();
 	std::this_thread::sleep_for(10000ms);
 	auto t2 = std::chrono::high_resolution_clock::now();
@@ -55,7 +38,5 @@ int main() {
 
 	//GlobalFunction<int, void> g(add);
 	system("pause");
-	pool.waitForAllTasks();
-	pool.shutdown();
 	return 0;
 }

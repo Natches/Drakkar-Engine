@@ -81,6 +81,11 @@ public:
 		T m_vec[2];
 		struct { T x, y; };
 	};
+
+public:
+	static Vec2<T> Null();
+	static Vec2<T> Up();
+	static Vec2<T> Right();
 };
 
 template<typename T>

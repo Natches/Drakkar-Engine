@@ -8,13 +8,15 @@ Timer::Timer() {
 	m_enabled = false;
 	m_begin = currentTime();
 	m_interval = 0.f;
+	m_loop = 0;
 	m_intervalType = TimeDuration::MILLISECONDS;
 	m_pTask = nullptr;
 	m_pThread = new thread::TimeThread(*this);
 }
 
+
 Timer::Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
-	const bool loop, const bool autoStart)
+	const I16 loop, const bool autoStart)
 	: m_pTask(pTask), m_interval(interval), m_intervalType(intervalType),
 	m_loop(loop), m_enabled(autoStart) {
 	m_pThread = new thread::TimeThread(*this);
@@ -55,7 +57,7 @@ void Timer::operator=(Timer&& timer) {
 }
 
 void Timer::configure(Task* pTask, const F32 interval, const TimeDuration intervalType,
-	const bool loop, const bool autoStart) {
+	const I16 loop, const bool autoStart) {
 	m_enabled = false;
 	m_interval = interval;
 	m_intervalType = intervalType;
@@ -171,12 +173,12 @@ void Timer::enabled(const bool b) {
 		m_pThread->resetThread();
 }
 
-bool Timer::loop() const {
+I16 Timer::loop() const {
 	return m_loop;
 }
 
-void Timer::loop(const bool b) {
-	m_loop = b;
+void Timer::loop(const I16 u) {
+	m_loop = u;
 }
 
 void Timer::task(Task* pTask) {

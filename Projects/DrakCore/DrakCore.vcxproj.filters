@@ -87,9 +87,6 @@
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine\ISystem.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp">
@@ -97,12 +94,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
       <Filter>Source Files\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Engine\Engine.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Scene\SceneSystem.cpp">
-      <Filter>Source Files\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
       <Filter>Source Files\Timer</Filter>

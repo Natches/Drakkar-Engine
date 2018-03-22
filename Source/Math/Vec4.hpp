@@ -138,6 +138,12 @@ public:
 		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
 	};
+
+public:
+	static Vec4<T> Null();
+	static Vec4<T> Up();
+	static Vec4<T> Right();
+	static Vec4<T> Forward();
 };
 
 template<typename T>
