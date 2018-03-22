@@ -96,9 +96,9 @@ public:
 	template<typename U>
 	Vec4<U> cast() const;
 
-	/*Vec4<F32> ceil();
+	Vec4<F32> ceil();
 	Vec4<F32> floor();
-	Vec4<F32> round();*/
+	Vec4<F32> round();
 
 	Vec2<T> xy();
 	Vec2<T> zw();

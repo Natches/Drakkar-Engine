@@ -9,7 +9,7 @@ class ThreadPool;
 namespace task {
 class ATask;
 
-template<class Task>
+template<class T>
 class TaskGroup {
 
 public:
@@ -17,14 +17,14 @@ public:
 	TaskGroup(ThreadPool& pool);
 	~TaskGroup() = default;
 
-	void registerTask(Task&& task);
-	void unRegisterTask(Task&& task);
+	void registerTask(T&& task);
+	void unRegisterTask(T&& task);
 	void waitForTasks();
 
 	void clearGroup();
 	void sendGroupToThreadPool();
 private:
-	std::vector<Task> m_taskList;
+	std::vector<T> m_taskList;
 	ThreadPool& m_pool;
 };
 

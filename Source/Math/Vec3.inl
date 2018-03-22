@@ -146,7 +146,7 @@ template<typename T>
 Vec3<F32> Vec3<T>::round() {
 	static_assert(!Vec3<T>::isIntegral, "Use only round with floating point type !!");
 	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
-}*/
+}
 
 template<typename T>
 Vec2<T> Vec3<T>::xy() {

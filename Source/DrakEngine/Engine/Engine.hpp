@@ -3,7 +3,7 @@
 namespace drak {
 namespace time {
 	class FrameTimer;
-}
+} // namespace time
 namespace core {
 
 
@@ -31,7 +31,7 @@ public:
 
 private:
 	static bool running;
-	
+
 };
 
 } // namespace core

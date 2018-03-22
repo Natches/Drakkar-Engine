@@ -14,15 +14,17 @@ namespace task {
 class RecurentTask {
 
 	using MemberFunction = drak::function::MemberFunction<RecurentTask, void, void>;
-
+	DK_NONCOPYABLE(RecurentTask)
 public:
 	RecurentTask() = delete;
 	RecurentTask(ATask* pTask, ThreadPool& pool);
 	RecurentTask(ATask* pTask, ThreadPool& pool, drak::time::Timer&& timer);
+	RecurentTask(RecurentTask&& r);
+
+	void operator=(RecurentTask&& r);
 
 	void timer(drak::time::Timer&& timer);
 	void enabled(const bool b);
-
 	void recur();
 	void task(ATask* pTask);
 

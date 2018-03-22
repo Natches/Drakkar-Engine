@@ -13,14 +13,14 @@ TimeThread::TimeThread(time::Timer& timer) : m_timer(timer), m_join(false) {
 TimeThread::TimeThread(TimeThread&& thread)
 	: m_join(false), m_timer(std::forward<time::Timer>(thread.m_timer)), m_pThread(thread.m_pThread) {
 	thread.join();
-	thread.m_pThread->join();
+	thread.m_pThread->detach();
 	thread.m_pThread = nullptr;
 	new (m_pThread) std::thread(&TimeThread::mainloop, this);
 }
 
 TimeThread::~TimeThread() {
 	if (m_pThread) {
-		m_pThread->join();
+		m_pThread->detach();
 		delete m_pThread;
 	}
 }

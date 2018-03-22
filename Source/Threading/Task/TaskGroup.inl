@@ -6,35 +6,36 @@ namespace drak {
 namespace thread {
 namespace task {
 
-template<class Task>
-TaskGroup::TaskGroup(ThreadPool& pool) : m_pool(pool) {
+template<class T>
+TaskGroup<T>::TaskGroup(ThreadPool& pool) : m_pool(pool) {
 }
 
-template<class Task>
-void TaskGroup::registerTask(Task&& task) {
-	m_taskList.push_back(std::move(task));
+template<class T>
+void TaskGroup<T>::registerTask(T&& task) {
+	m_taskList.emplace_back(std::forward<T>(task));
 }
 
-template<class Task>
-void TaskGroup::unRegisterTask(Task&& task) {
+template<class T>
+void TaskGroup<T>::unRegisterTask(T&& task) {
 	m_taskList.erase(m_taskList.remove(std::move(task)));
 }
 
-template<class Task>
-void TaskGroup::waitForTasks() {
-	for each(Task& task in m_taskList)
-		while (!task->executed());
+template<class T>
+void TaskGroup<T>::waitForTasks() {
+	for each(const T& task in m_taskList)
+		while (!task.executed());
 }
 
 template<class Task>
-void TaskGroup::clearGroup() {
+void TaskGroup<Task>::clearGroup() {
 	m_taskList.clear();
 }
 
-template<class Task>
-void TaskGroup::sendGroupToThreadPool() {
-	for each(Task& task in m_taskList)
-		m_pool.addTask(&task);
+template<class T>
+void TaskGroup<T>::sendGroupToThreadPool() {
+	T* data = m_taskList.data();
+	for(size_t i = 0, size = m_taskList.size(); i < size; ++i)
+		m_pool.addTask(data + i);
 }
 
 } //namespace task

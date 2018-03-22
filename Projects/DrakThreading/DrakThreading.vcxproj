@@ -77,7 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Function\Function.cpp" />
-    <ClCompile Include="..\..\Source\Threading\Main.cpp" />
+    <ClCompile Include="..\..\Source\Threading\Main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Task\ATask.cpp" />
     <ClCompile Include="..\..\Source\Threading\Task\RecurentTask.cpp" />
     <ClCompile Include="..\..\Source\Threading\Task\TaskGroup.inl">
@@ -100,26 +105,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -144,28 +149,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>

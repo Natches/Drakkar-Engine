@@ -4,7 +4,7 @@ namespace drak {
 namespace thread {
 namespace task {
 
-bool ATask::executed() {
+bool ATask::executed() const {
 	return m_executed.load(std::memory_order_acquire);
 }
 

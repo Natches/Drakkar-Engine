@@ -5,38 +5,46 @@ namespace drak {
 namespace thread {
 namespace task {
 
-template<class FunctionType>
-DelayedTask<FunctionType>::DelayedTask(ATask* pTask, const F32 delay,
+DelayedTask::DelayedTask(ATask* pTask, const F32 delay,
 	const DelayType delayType) : m_pTask(pTask), m_delay(delay), m_delayType(delayType) {
 	m_executed.store(false, std::memory_order_release);
 }
 
-template<class FunctionType>
-void DelayedTask<FunctionType>::operator()() {
-	drak::time::Timer delay(m_pTask, m_delay, m_delayType, false);
-	delay.enabled(true);
-	m_executed.store(true, std::memory_order_release)
+DelayedTask::DelayedTask(DelayedTask&& d) : m_delay(std::move(d.m_delay)),
+	m_delayType(std::move(d.m_delayType)), m_pTask(std::move(d.m_pTask)),
+	m_timer(std::move(d.m_timer)) {
+	d.m_pTask = nullptr;
+	m_executed.store(false, std::memory_order_release);
 }
 
-template<class FunctionType>
-void DelayedTask<FunctionType>::execute() {
-	drak::time::Timer delay(m_pTask, m_delay, m_delayType, false);
-	delay.enabled(true);
-	m_executed.store(true, std::memory_order_release)
+void DelayedTask::operator=(DelayedTask&& d) {
+	m_delay = std::move(d.m_delay);
+	m_delayType = std::move(d.m_delayType);  
+	m_pTask = std::move(d.m_pTask);
+	m_timer = std::move(d.m_timer);
+	d.m_pTask = nullptr;
+	m_executed.store(false, std::memory_order_release);
 }
 
-template<class FunctionType>
-F32 DelayedTask<FunctionType>::delay() const {
+void DelayedTask::operator()() {
+	m_timer.configure(m_pTask, m_delay, m_delayType, false, true);
+	m_executed.store(true, std::memory_order_release);
+}
+
+void DelayedTask::execute() {
+	m_timer.configure(m_pTask, m_delay, m_delayType, false, true);
+	m_executed.store(true, std::memory_order_release);
+}
+
+F32 DelayedTask::delay() const {
 	return delay;
 }
 
-template<class FunctionType>
-void DelayedTask<FunctionType>::delay(const F32 newDelay) {
+void DelayedTask::delay(const F32 newDelay) {
 	m_delay = newDelay;
 }
 
-template<class FunctionType>
-void DelayedTask<FunctionType>::delayType(const DelayType newDelayType) {
+void DelayedTask::delayType(const DelayType newDelayType) {
 	m_delayType = newDelayType;
 }
 

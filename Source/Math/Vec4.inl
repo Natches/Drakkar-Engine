@@ -565,7 +565,7 @@ Vec4<F32> Vec4<T>::round() {
 	else {
 		Vec4<F32>(std::round(x), std::round(y), std::round(z), std::round(w));
 	}
-}*/
+}
 
 template<typename T>
 Vec2<T> Vec4<T>::xy() {

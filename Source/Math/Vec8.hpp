@@ -78,9 +78,9 @@ public:
 	template<typename U>
 	Vec8<U> cast() const;
 
-	/*Vec8<F32> ceil();
+	Vec8<F32> ceil();
 	Vec8<F32> floor();
-	Vec8<F32> round();*/
+	Vec8<F32> round();
 
 	Vec4<T> xyzw();
 	Vec4<T> abcd();

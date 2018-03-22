@@ -15,7 +15,21 @@ RecurentTask::RecurentTask(ATask* pTask, ThreadPool& pool) : m_pool(pool), m_pTa
 RecurentTask::RecurentTask(ATask* pTask, ThreadPool& pool, Timer&& timer)
 	: m_pool(pool), m_pTask(pTask), m_timer(std::move(timer)),
 	m_recurTask(MemberFunction(this, &RecurentTask::recur)) {
-	m_timer.task(m_pTask);
+	m_timer.task(&m_recurTask);
+}
+
+RecurentTask::RecurentTask(RecurentTask&& r)
+	: m_pool(r.m_pool), m_pTask(r.m_pTask), m_timer(std::move(r.m_timer)),
+	m_recurTask(MemberFunction(this, &RecurentTask::recur)) {
+	r.m_pTask = nullptr;
+	m_timer.task(&m_recurTask);
+}
+
+void RecurentTask::operator=(RecurentTask&& r) {
+	m_pTask = r.m_pTask;
+	m_timer = std::move(r.m_timer);
+	r.m_pTask = nullptr;
+	m_timer.task(&m_recurTask);
 }
 
 void RecurentTask::timer(Timer&& timer) {

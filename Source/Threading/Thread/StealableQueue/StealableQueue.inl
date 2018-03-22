@@ -310,17 +310,16 @@ void StealableQueue<T>::decSizeCapacity(U32 ui) {
 
 template<class T>
 void StealableQueue<T>::reserve(U32 ui) {
-	Node* node = new Node[ui];
 	if (std::scoped_lock<std::mutex> lck(m_mutex); !capacity()) {
-		m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity = addNode(node, nullptr, nullptr, T());
+		m_pFrontUnUsedCapacity = m_pBackUnUsedCapacity = addNode(new Node(), nullptr, nullptr, T());
 		for (U32 i = 1; i < ui; ++i) {
-			m_pBackUnUsedCapacity = addNode(node + i, nullptr, m_pBackUnUsedCapacity, T());
+			m_pBackUnUsedCapacity = addNode(new Node(), nullptr, m_pBackUnUsedCapacity, T());
 		}
 	}
 	else {
 		Node* n = m_pBackUnUsedCapacity;
 		for (U32 i = 0; i < ui; ++i) {
-			n = addNode(node + i, nullptr, n, T());
+			n = addNode(new Node(), nullptr, n, T());
 		}
 	}
 	incCapacity(ui);

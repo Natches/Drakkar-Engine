@@ -12,7 +12,7 @@ public:
 	virtual void operator()() = 0;
 	virtual void execute() = 0;
 
-	bool executed();
+	bool executed()const;
 	void reset();
 
 protected:

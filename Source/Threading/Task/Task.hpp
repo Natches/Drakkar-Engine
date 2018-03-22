@@ -12,9 +12,14 @@ class Task : public ATask {
 
 public:
 	Task() = delete;
+	Task(const Task& t);
+	Task(Task&& t);
 	Task(const FunctionType& f);
 	Task(FunctionType&& f);
 	virtual ~Task() = default;
+
+	Task& operator=(const Task& t);
+	Task& operator=(Task&& t);
 
 	virtual void operator()() override;
 	virtual void execute() override;

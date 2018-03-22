@@ -11,8 +11,14 @@ class DeferredTask : public ATask {
 
 public:
 	DeferredTask() = delete;
+	DeferredTask(const FunctionType& func);
 	DeferredTask(FunctionType&& func);
+	DeferredTask(const DeferredTask& d);
+	DeferredTask(DeferredTask&& d);
 	virtual ~DeferredTask() = default;
+
+	DeferredTask& operator=(const DeferredTask& d);
+	DeferredTask& operator=(DeferredTask&& d);
 
 	virtual void operator()() override;
 	virtual void execute() override;
