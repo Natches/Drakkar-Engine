@@ -70,10 +70,9 @@ public:
 	template<typename U>
 	Vec2<U> cast() const;
 
-/*
 	Vec2<F32> ceil();
 	Vec2<F32> floor();
-	Vec2<F32> round();*/
+	Vec2<F32> round();
 
 	Vec2<T> yx();
 
@@ -169,14 +168,11 @@ std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
 
 using Vec2c    = typename Vec2<U8>;
 using Vec2sc   = typename Vec2<I8>;
-using Vec2s   = typename Vec2<I16>;
-using Vec2us  = typename Vec2<U16>;
+using Vec2s    = typename Vec2<I16>;
+using Vec2us   = typename Vec2<U16>;
 using Vec2i    = typename Vec2<I32>;
-using Vec2ui   = typename Vec2<U32>;
-using Vec2lli  = typename Vec2<I64>;
-using Vec2ulli = typename Vec2<U64>;
+using Vec2u    = typename Vec2<U32>;
 using Vec2f    = typename Vec2<F32>;
-using Vec2d    = typename Vec2<F64>;
 
 } //namespace maths
 } //namespace drak
