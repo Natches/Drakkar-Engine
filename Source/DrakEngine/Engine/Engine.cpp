@@ -1,51 +1,53 @@
 #include <DrakEngine/Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
-#include <DrakEngine/Scene/SceneSystem.h>
 #include <Core/Timer/FrameTimer.hpp>
-namespace drak {
+#include <DrakEngine/Physics/PhysicsSystem.h>
+#include <DrakEngine/Scene/SceneSystem.h>
 
-	time::FrameTimer& core::Engine::s_frameTime = time::FrameTimer();
+namespace drak {
 namespace core {
+
 	bool Engine::running = true;
 
 	int Engine::startup()
 	{
 		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 		//Init systems
-		SceneSystem::Startup();
+		sceneSystem.Startup();
 		s_frameTime.start();
+		physicsSystem.Startup();
+		physicsSystem.InitPxScene(sceneSystem.scene.m_pPhysXScene);
 		return 0;
 	}
 
 	int Engine::shutdown()
 	{
 		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-		SceneSystem::Shutdown();
+		sceneSystem.Shutdown();
+		physicsSystem.Shutdown();
 		Logbook::CloseLogs();
 		return 0;
 	}
 
 	void Engine::startLoop()
 	{
-		Scene* scene = SceneSystem::GetScene();
-		std::list<AGameObject*> gameObjects = scene->GetGameObjects();
-		std::list<AGameObject*>::iterator it = gameObjects.begin();
-		while (it != gameObjects.end())
+		std::vector<AGameObject*>& gameObjects = sceneSystem.scene.GetGameObjects();
+		for (unsigned int i = 0; i < gameObjects.size(); ++i)
 		{
-			(*it)->Start();
-			std::advance(it, 1);
+			gameObjects[0]->Start();
 		}
 		while (running)
 		{
 			s_frameTime.update();
 			Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "DeltaTime: %f\n",s_frameTime.deltaTime());
-			std::list<AGameObject*> gameObjects = scene->GetGameObjects();
-			std::list<AGameObject*>::iterator it = gameObjects.begin();
+			std::vector<AGameObject*>& gameObjects = sceneSystem.scene.GetGameObjects();
 			for (unsigned int i = 0; i < gameObjects.size(); ++i)
 			{
-				(*it)->Update();
-				std::advance(it, 1);
+				gameObjects[i]->Update();
 			}
+			physicsSystem.Update(sceneSystem.scene.m_pPhysXScene, s_frameTime.deltaTime(),
+				&(*sceneSystem.scene.getComponentContainerFromType<components::RigidBody>())[0],
+				&sceneSystem.scene.getComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id)[0]);
 		}
 	}
 
@@ -53,6 +55,11 @@ namespace core {
 	{
 		Engine::running = false;
 	}
+
+ void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint)
+ {
+	 sceneSystem.loadScene(sceneBlueprint);
+ }
 
 } // namespace core
 } // namespace drak

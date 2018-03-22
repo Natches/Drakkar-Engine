@@ -4,10 +4,10 @@ namespace drak {
 namespace time {
 	class FrameTimer;
 }
+class PhysicsSystem;
+class SceneSystem;
+class IManualSceneBlueprint;
 namespace core {
-
-
-
 /*!
  * \class Engine
  * \ingroup Core
@@ -15,23 +15,24 @@ namespace core {
  *
  */
 
-class Engine final {
+class DRAK_API Engine final {
 	DK_NONMOVABLE_NONCOPYABLE(Engine)
 
 public:
-	Engine() = default;
+	Engine();
 	~Engine() = default;
 
 public:
-	static time::FrameTimer& s_frameTime;
-	DRAK_API static int startup();
-	DRAK_API static int shutdown();
-	DRAK_API static void startLoop();
-	DRAK_API static void stopGame();
-
+	int startup();
+	int shutdown();
+	void startLoop();
+	static void stopGame();
+	void loadScene(IManualSceneBlueprint& sceneBluePrint);
 private:
+	time::FrameTimer& s_frameTime;
+	PhysicsSystem& physicsSystem;
+	SceneSystem& sceneSystem;
 	static bool running;
-	
 };
 
 } // namespace core

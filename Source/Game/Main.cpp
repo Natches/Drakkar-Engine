@@ -1,7 +1,7 @@
 #include <Core/Core.hpp>
 #include <DrakEngine/Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
-#include <Core/Components/AComponent.h>
+#include <DrakEngine/Components/Components.h>
 #include <DrakEngine/Scene/SceneSystem.h>
 
 using namespace drak;
@@ -23,7 +23,7 @@ class Player : public AGameObject {
 	}
 
 	virtual void Start() override {
-		transform = CurrentScene()->getComponentFromHandle<Transform>(getHandle(AComponent<Transform>::id));
+		transform = myScene->getComponentFromHandle<Transform>(getHandle(ComponentType<Transform>::id));
 	}
 };
 
@@ -41,23 +41,16 @@ class MainScene : public IManualSceneBlueprint {
 	{
 		Player* p1 = (Player*)scene.addGameObject<Player>();
 		scene.addComponentToGameObject<Transform>(p1);
-
-		Cube* c1 = (Cube*)scene.addGameObject<Cube>();
-		scene.addComponentToGameObject<Transform>(c1);
-		Cube* c2 = (Cube*)scene.addGameObject<Cube>();
-		scene.addComponentToGameObject<Transform>(c2);
-		Transform* c1Trans = scene.getComponentFromHandle<Transform>(c1->getHandle(AComponent<Transform>::id));
-		Transform* c2Trans = scene.getComponentFromHandle<Transform>(c2->getHandle(AComponent<Transform>::id));
-		c1Trans->children.push_back(c2Trans);
-		c2Trans->parent = c1Trans;
+		scene.addComponentToGameObject<RigidBody>(p1);
 	}
 };
 
 int main(int argc, char** argv) {
-	Engine::startup();
+	Engine engine;
+	engine.startup();
 	MainScene scene;
-	SceneSystem::loadScene(scene);
-	Engine::startLoop();
-	Engine::shutdown();
+	engine.loadScene(scene);
+	engine.startLoop();
+	engine.shutdown();
 	system("pause");
 }

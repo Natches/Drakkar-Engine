@@ -1,21 +1,20 @@
 #include <DrakEngine/Scene/SceneSystem.h>
+#include <DrakEngine/Physics/PhysicsSystem.h>
+#include <PxPhysicsAPI.h>
 using namespace drak;
 using namespace core;
-using namespace components;
-
-Scene* SceneSystem::scene = new Scene();
-
-Scene* drak::core::SceneSystem::GetScene()
-{
-	return scene;
-}
 
 void SceneSystem::loadScene(const char* name) {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Load and build Scene from file\n");
 }
 
 void SceneSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
-	sceneBluePrint.build(*scene);
+	sceneBluePrint.build(scene);
+}
+
+SceneSystem::SceneSystem() {
+}
+SceneSystem::~SceneSystem() {
 }
 
 bool SceneSystem::Startup() {
@@ -27,13 +26,18 @@ void SceneSystem::Shutdown() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
 }
 
-Scene::Scene() {
+drak::Scene::Scene() {
 }
 
-Scene::~Scene() {
+drak::Scene::~Scene() {
+	m_pPhysXScene->release();
+	for (unsigned int i = 0; i < m_gameObjects.size(); ++i)
+	{
+		delete m_gameObjects[i];
+	}
 }
 
-std::list<AGameObject*>& drak::core::Scene::GetGameObjects()
+std::vector<AGameObject*>& drak::Scene::GetGameObjects()
 {
 	return m_gameObjects;
 }
