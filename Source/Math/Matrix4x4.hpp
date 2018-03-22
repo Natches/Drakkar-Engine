@@ -195,13 +195,13 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ);
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v);
 
-using Mat4c    = typename Matrix4x4<U8, Ordering::COLUMN_MAJOR>;
-using Mat4sc   = typename Matrix4x4<I8, Ordering::COLUMN_MAJOR>;
-using Mat4s    = typename Matrix4x4<I16, Ordering::COLUMN_MAJOR>;
-using Mat4us   = typename Matrix4x4<U16, Ordering::COLUMN_MAJOR>;
-using Mat4i    = typename Matrix4x4<I32, Ordering::COLUMN_MAJOR>;
-using Mat4u    = typename Matrix4x4<U32, Ordering::COLUMN_MAJOR>;
-using Mat4f    = typename Matrix4x4<F32, Ordering::COLUMN_MAJOR>;
+using Mat4c    = typename Matrix4x4<U8>;
+using Mat4sc   = typename Matrix4x4<I8>;
+using Mat4s    = typename Matrix4x4<I16>;
+using Mat4us   = typename Matrix4x4<U16>;
+using Mat4i    = typename Matrix4x4<I32>;
+using Mat4u    = typename Matrix4x4<U32>;
+using Mat4f    = typename Matrix4x4<F32>;
 } //namespace math
 } //namespace drak
 #include<Math/Matrix4x4.inl>

@@ -28,7 +28,7 @@ const Mat4f& Camera::lookAt(
 }
 
 void Camera::buildView() {
-	Vec3f zc = (m_at - m_eye).normalize();
+	Vec3f zc = (m_eye - m_at).normalize();
 	Vec3f xc = Cross(m_up, zc).normalize();
 	Vec3f yc = Cross(zc, xc);
 

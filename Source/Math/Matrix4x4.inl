@@ -39,9 +39,9 @@ Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v) {
 template<typename T, Ordering order>
 Matrix4x4<T, order> Translate(const Vec3<T>& v) {
 	Matrix4x4<T, order> res { Identity<T, order>() };
-	res.a30 = v.x;
-	res.a31 = v.y;
-	res.a32 = v.z;
+	res.a03 = v.x;
+	res.a13 = v.y;
+	res.a23 = v.z;
 	return res;
 }
 
@@ -77,7 +77,7 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationX(F32 angleX) {
 	if constexpr(unit == AngleUnit::DEGREE) 
 		angleX *= ToRadF;
-	Matrix4x4<F32, order> temp;
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
 	temp.a21 = sin(angleX);
 	temp.a12 = -(temp.a21);
 	temp.a11 =  temp.a22 = cos(angleX);
@@ -88,10 +88,10 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationY(F32 angleY) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleY *= ToRadF;
-	Matrix4x4<F32, order> temp;
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
 	temp.a02 = sin(angleY);
 	temp.a20 = -(temp.a02);
-	temp.a00 = temp.a22 = cos(angleX);
+	temp.a00 = temp.a22 = cos(angleY);
 	return temp;
 }
 
@@ -99,10 +99,10 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationZ(F32 angleZ) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleZ *= ToRadF;
-	Matrix4x4<F32, order> temp;
-	temp.a10 = sin(angleX);
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
+	temp.a10 = sin(angleZ);
 	temp.a01 = -(temp.a10);
-	temp.a00 = temp.a11 = cos(angleX);
+	temp.a00 = temp.a11 = cos(angleZ);
 	return temp;
 }
 

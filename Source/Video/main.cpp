@@ -20,7 +20,7 @@ void testRun(ARenderWindow* pWin) {
 
 	const std::vector<Vertex>& verts = mesh.vertices();
 	const std::vector<U16>& indices = mesh.indices();
-	
+
 	gl::GLVertexBuffer vbo;
 	vbo.create(verts.data(), verts.size());
 
@@ -31,29 +31,13 @@ void testRun(ARenderWindow* pWin) {
 	vao.create(vbo, ibo);
 
 	Camera c;
-	c.lookAt({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	c.lookAt({ 0.f, 0.f, -30.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	c.perspective(60.f, 16.f / 9.f, 0.1f, 100.f);
 
-	Mat4f mvp = {
-		-4.87139f,
-		0.f,
-		0.f,
-		0.f,
-		0.f,
-		8.66025f,
-		0.f,
-		0.f,
-		0.f,
-		0.f,
-		5.1f,
-		9.81982f,
-		0.f,
-		0.f,
-		5.f,
-		10.f
-	};
-
-	//Mat4f mvp = c.viewPerspective();
+	Mat4f mvp = c.viewPerspective() * 
+		Translate<F32>({5.f, 2.f, 8.f}) *
+		Rotation({ 45.f, 25.f, 63.f }) *
+		Scale<F32>({2.f, 6.f, 3.425f});
 
 	gl::GLRHI::s_defaultShader.use();
 	gl::GLRHI::s_defaultShader.setUniform("MVP", mvp);
