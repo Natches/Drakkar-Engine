@@ -1,4 +1,3 @@
-#include <Threading/StealableQueue.hpp>
 #include <Threading/Function/Function.hpp>
 #include <Threading/Task/Task.hpp>
 #include <Threading/Thread/ThreadPool.hpp>

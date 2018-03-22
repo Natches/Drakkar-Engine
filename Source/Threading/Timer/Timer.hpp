@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mutex>
+#include <Core/Utils/ClassUtils.hpp>
 #include <Core/Timer/ATimer.hpp>
 #include <Threading/Task/ATask.hpp>
 
@@ -14,13 +14,15 @@ namespace time {
 class Timer : public ATimer {
 	friend thread::TimeThread;
 	using Task = drak::thread::task::ATask;
+	DK_NONCOPYABLE(Timer);
 public:
 	Timer();
 	Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
-		const bool loop, const bool autoStart = false);\
-	/*Timer(const Timer& timer);
-	Timer(Timer&& timer);*/
+		const bool loop, const bool autoStart = false);
+	Timer(Timer&& timer);
 	virtual ~Timer();
+
+	void operator=(Timer&& timer);
 
 	void configure(Task* pTask, const F32 interval, const TimeDuration intervalType,
 		const bool loop, const bool autoStart = false);

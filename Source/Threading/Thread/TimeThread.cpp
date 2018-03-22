@@ -41,9 +41,11 @@ void TimeThread::mainloop() {
 			DK_CASE(time::Timer::TimeDuration::NANOSECONDS,
 				std::this_thread::sleep_for(std::chrono::nanoseconds(U64(m_timer.m_interval))))
 		DK_END
-		m_timer.task()->execute();
-		if (!m_timer.m_loop)
-			m_timer.m_enabled = false;
+		if (m_timer.m_enabled) {
+			m_timer.task()->execute();
+			if (!m_timer.m_loop)
+				m_timer.m_enabled = false;
+		}
 	}
 }
 

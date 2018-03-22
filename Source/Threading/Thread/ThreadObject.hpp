@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Utils/ClassUtils.hpp>
-#include <Threading/StealableQueue.hpp>
+#include <Threading/Thread/StealableQueue/StealableQueue.hpp>
 
 namespace std {
 	class thread;

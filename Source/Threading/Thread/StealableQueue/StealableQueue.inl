@@ -1,4 +1,4 @@
-#include <Threading/StealableQueue.hpp>
+#include <Threading/Thread/StealableQueue/StealableQueue.hpp>
 
 #include <cassert>
 #include <tuple>

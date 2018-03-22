@@ -34,7 +34,10 @@
     <Filter Include="Source Files\Thread">
       <UniqueIdentifier>{583c3f42-1d47-4a3d-9e18-4be80e3b35f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Thread\ThreadSafeQueue">
+    <Filter Include="Source Files\Function">
+      <UniqueIdentifier>{b694f09f-03a2-443b-b28d-037b5e4d9adc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Thread\StealableQueue">
       <UniqueIdentifier>{749dee8d-00d3-4f89-9c02-22c29c761bd9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -79,7 +82,10 @@
       <Filter>Header Files\Task</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp">
-      <Filter>Header Files\Thread\ThreadSafeQueue</Filter>
+      <Filter>Header Files\Thread\StealableQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Task\TaskGroup.hpp">
+      <Filter>Header Files\Task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +111,7 @@
       <Filter>Header Files\Thread</Filter>
     </None>
     <None Include="..\..\Source\Threading\StealableQueue.inl">
-      <Filter>Header Files\Thread\ThreadSafeQueue</Filter>
+      <Filter>Header Files\Thread\StealableQueue</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +138,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Task\RecurentTask.cpp">
       <Filter>Source Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Threading\Task\TaskGroup.inl">
+      <Filter>Header Files\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Threading\Function\Function.cpp">
+      <Filter>Source Files\Function</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

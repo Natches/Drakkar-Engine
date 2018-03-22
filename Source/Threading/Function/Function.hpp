@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <tuple>
 #include <Threading/Function/IFunction.hpp>
 
@@ -120,22 +121,22 @@ template<>
 class GlobalFunction<void, void>
 	: public IFunction {
 public:
-	inline GlobalFunction() = default;
-	inline GlobalFunction(void(*func)());
-	inline virtual ~GlobalFunction() = default;
+	GlobalFunction() = default;
+	GlobalFunction(void(*func)());
+	virtual ~GlobalFunction() = default;
 
-	inline GlobalFunction(const GlobalFunction& gf);
-	inline GlobalFunction(GlobalFunction&& gf);
-	inline void operator=(const GlobalFunction& gf);
-	inline void operator=(GlobalFunction&& gf);
+	GlobalFunction(const GlobalFunction& gf);
+	GlobalFunction(GlobalFunction&& gf);
+	void operator=(const GlobalFunction& gf);
+	void operator=(GlobalFunction&& gf);
 
-	inline bool operator==(const GlobalFunction& gf);
-	inline bool operator!=(const GlobalFunction& gf);
+	bool operator==(const GlobalFunction& gf);
+	bool operator!=(const GlobalFunction& gf);
 
-	inline void function(void(*func)());
+	void function(void(*func)());
 
-	inline virtual void operator()() override;
-	inline virtual void invoke() override;
+	virtual void operator()() override;
+	virtual void invoke() override;
 
 private:
 	void(*m_pFunc)();
@@ -312,9 +313,8 @@ protected:
 #pragma endregion MemberFunction
 
 #pragma region Lambda
-#include <functional>
 template<class T, class Y>
-std::function<T> makeLambda(Y&& t) 	{
+inline std::function<T> makeLambda(Y&& t) 	{
 	return std::function<T>(t);
 }
 #pragma endregion Lambda

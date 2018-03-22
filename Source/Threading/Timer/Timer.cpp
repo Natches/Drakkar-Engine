@@ -18,8 +18,18 @@ Timer::Timer(Task* pTask, const F32 interval, const TimeDuration intervalType,
 	: m_pTask(pTask), m_interval(interval), m_intervalType(intervalType),
 	m_loop(loop), m_enabled(autoStart) {
 	m_pThread = new thread::TimeThread(*this);
-	if (m_enabled)
-		m_pThread->resetThread();
+}
+
+Timer::Timer(Timer&& timer) : m_pTask(timer.m_pTask), m_interval(timer.m_interval),
+	m_intervalType(timer.m_intervalType), m_loop(timer.m_loop), m_pThread(timer.m_pThread),
+	m_enabled(timer.m_enabled) {
+
+	m_begin = timer.m_begin;
+	timer.m_enabled = false;
+	timer.m_pThread = nullptr;
+	timer.m_pTask = nullptr;
+
+	new (m_pThread) thread::TimeThread(*this);
 }
 
 Timer::~Timer() {
@@ -27,6 +37,21 @@ Timer::~Timer() {
 		m_pThread->join();
 		delete m_pThread;
 	}
+}
+
+void Timer::operator=(Timer&& timer) {
+	m_pTask = timer.m_pTask;
+	m_interval = timer.m_interval;
+	m_intervalType = timer.m_intervalType;
+	m_loop = timer.m_loop;
+	m_pThread = timer.m_pThread;
+	m_enabled = timer.m_enabled;
+	m_begin = timer.m_begin;
+	timer.m_enabled = false;
+	timer.m_pThread = nullptr;
+	timer.m_pTask = nullptr;
+
+	new (m_pThread) thread::TimeThread(*this);
 }
 
 void Timer::configure(Task* pTask, const F32 interval, const TimeDuration intervalType,

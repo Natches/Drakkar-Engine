@@ -99,4 +99,4 @@ private:
 
 } // namespace thread
 } // namespace drak
-#include <Threading/StealableQueue.inl>
+#include <Threading/Thread/StealableQueue/StealableQueue.inl>

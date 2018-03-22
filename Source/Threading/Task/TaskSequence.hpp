@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Threading/Task/ATask.hpp>
 #include <vector>
+#include <Threading/Task/ATask.hpp>
 
 namespace drak {
 namespace thread {
