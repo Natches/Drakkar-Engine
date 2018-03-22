@@ -10,22 +10,45 @@ Matrix4x4<T, order>::Matrix4x4() {
 	memset(m_mat, 0, sizeof(m_mat));
 }
 
+template<typename T>
+MATRIX_COLUMN_MAJOR(T)::Matrix4x4() {
+	memset(m_mat, 0, sizeof(m_mat));
+}
+
 template<typename T, Ordering order>
 bool Matrix4x4<T, order>::isOrthogonal() const {
-	return isIdentity(*this * transpose());
+	return (*this * transpose()).isIdentity();
+}
+
+template<typename T>
+bool MATRIX_COLUMN_MAJOR(T)::isOrthogonal() const {
+	return (*this * transpose()).isIdentity();
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order> Scale(const Vec3<T>& v) {
-	return Identity() * v;
+	return Matrix4x4<T, order>(v.x, 0.f, 0.f, 0.f, 0.f, v.y, 0.f, 0.f,
+		0.f, 0.f, v.z, 0.f, 0.f, 0.f, 0.f, 1.f);
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v) {
-	m.a00 *= v.x;
-	m.a11 *= v.y;
-	m.a22 *= v.z;
-	return m;
+	return m *= Scale<T, order>(v);
+}
+
+template<typename T, Ordering order>
+Matrix4x4<T, order> Translate(const Vec3<T>& v) {
+	Matrix4x4<T, order> res { Identity<T, order>() };
+	res.a30 = v.x;
+	res.a31 = v.y;
+	res.a32 = v.z;
+	return res;
+}
+
+template<typename T, Ordering order>
+Matrix4x4<T, order>& Translate(Matrix4x4<T, order> & m,
+	const Vec3<T>& v) {
+	return m *= Translate<T, order>(v);
 }
 
 template<typename T, Ordering order>
@@ -340,19 +363,6 @@ Vec3<T>& operator*=(const Matrix4x4<T>& m, Vec3<T>& v) {
 	return (v = FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
 
-template<typename T>
-Matrix4x4<T> Translate(const Vec3<T>& v) {
-	Matrix4x4<T> res{ Identity() };
-	res.m_row4 = { v, static_cast<T>(1) };
-	return Identity();
-}
-
-template<typename T>
-Matrix4x4<T>& Translate(Matrix4x4<T>& m, const Vec3<T>& v) {
-	m.m_row4 += { v };
-	return m;
-}
-
 #pragma endregion RowOrdered
 
 #pragma region ColumnOrdered
@@ -398,8 +408,8 @@ MATRIX_COLUMN_MAJOR(T)::Matrix4x4(const MATRIX_COLUMN_MAJOR(T)& m)
 
 template<typename T>
 MATRIX_COLUMN_MAJOR(T)::Matrix4x4(MATRIX_COLUMN_MAJOR(T)&& m)
-	: m_col12(std::forward<Matrix4x4<T>>(m).m_col12),
-	m_col34(std::forward<Matrix4x4<T>>(m).m_col34) {
+	: m_col12(std::forward<Vec8<T>>(m.m_col12)),
+	m_col34(std::forward<Vec8<T>>(m.m_col34)) {
 }
 
 template<typename T>
@@ -464,10 +474,7 @@ bool MATRIX_COLUMN_MAJOR(T)::operator<=(const MATRIX_COLUMN_MAJOR(T)& m) const {
 
 template<typename T>
 bool MATRIX_COLUMN_MAJOR(T)::isIdentity() const {
-	return m_col12 == { static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), static_cast<T>(0) } &&
-		m_col34 == { static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1) };
+	return (*this == Identity<T, Ordering::COLUMN_MAJOR>());
 }
 
 template<typename T>
@@ -589,21 +596,6 @@ Vec3<T>& operator*=(const MATRIX_COLUMN_MAJOR(T)& m, Vec3<T>& v) {
 	Matrix4x4<T>& trps = m.transpose();
 	return (v = FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
-
-template<typename T>
-MATRIX_COLUMN_MAJOR(T) Translate(const Vec3<T>& v) {
-	MATRIX_COLUMN_MAJOR(T) res{ Identity() };
-	res.m_col4 = { v, static_cast<T>(1) };
-	return Identity();
-}
-
-template<typename T>
-MATRIX_COLUMN_MAJOR(T)& Translate(MATRIX_COLUMN_MAJOR(T)& m,
-	const Vec3<T>& v) {
-	m.m_col4 += { v };
-	return m;
-}
-
 
 #pragma endregion ColumnOrdered
 

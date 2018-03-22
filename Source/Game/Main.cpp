@@ -3,11 +3,13 @@
 #include <Core/Components/AGameObject.h>
 #include <Core/Components/AComponent.h>
 #include <DrakEngine/Scene/SceneSystem.h>
+#include <Math/Matrix4x4.hpp>
 #include <Log/Log.hpp>
 
 using namespace drak;
 using namespace core;
 using namespace components;
+DK_IMPORT(drak::math)
 
 
 class Player : public AGameObject {

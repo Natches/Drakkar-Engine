@@ -171,10 +171,10 @@ Matrix4x4<T, order> Scale(const Vec3<T>& v);
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order> Translate(const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Translate(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
