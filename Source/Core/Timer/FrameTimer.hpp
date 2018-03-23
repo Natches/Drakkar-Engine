@@ -5,7 +5,7 @@
 namespace drak {
 namespace core {
 class Engine;
-}
+} //namespace core
 namespace time {
 
 class FrameTimer : public ATimer {

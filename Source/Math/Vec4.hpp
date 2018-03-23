@@ -96,9 +96,9 @@ public:
 	template<typename U>
 	Vec4<U> cast() const;
 
-	/*Vec4<F32> ceil();
+	Vec4<F32> ceil();
 	Vec4<F32> floor();
-	Vec4<F32> round();*/
+	Vec4<F32> round();
 
 	Vec2<T> xy();
 	Vec2<T> zw();
@@ -138,6 +138,12 @@ public:
 		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
 	};
+
+public:
+	static Vec4<T> Null();
+	static Vec4<T> Up();
+	static Vec4<T> Right();
+	static Vec4<T> Forward();
 };
 
 template<typename T>
@@ -239,16 +245,13 @@ bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec4<T>& v);
 
-using Vec4c = typename Vec4<U8>;
+using Vec4c  = typename Vec4<U8>;
 using Vec4sc = typename Vec4<I8>;
-using Vec4s = typename Vec4<I16>;
+using Vec4s  = typename Vec4<I16>;
 using Vec4us = typename Vec4<U16>;
-using Vec4i = typename Vec4<I32>;
-using Vec4ui = typename Vec4<U32>;
-using Vec4lli = typename Vec4<I64>;
-using Vec4ulli = typename Vec4<U64>;
-using Vec4f = typename Vec4<F32>;
-using Vec4d = typename Vec4<F64>;
+using Vec4i  = typename Vec4<I32>;
+using Vec4u  = typename Vec4<U32>;
+using Vec4f  = typename Vec4<F32>;
 
 } //namespace maths
 } //namespace drak

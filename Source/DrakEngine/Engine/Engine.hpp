@@ -1,9 +1,8 @@
 #pragma once
 #include <Core/Core.hpp>
+#include <Core/Timer/FrameTimer.hpp>
+#include <Threading/Thread/ThreadPool.hpp>
 namespace drak {
-namespace time {
-	class FrameTimer;
-}
 namespace core {
 
 
@@ -23,7 +22,8 @@ public:
 	~Engine() = default;
 
 public:
-	static time::FrameTimer& s_frameTime;
+	static time::FrameTimer s_frameTime;
+	static thread::ThreadPool s_pool;
 	DRAK_API static int startup();
 	DRAK_API static int shutdown();
 	DRAK_API static void startLoop();
@@ -31,7 +31,7 @@ public:
 
 private:
 	static bool running;
-	
+
 };
 
 } // namespace core
