@@ -9,8 +9,11 @@ namespace core {
 
 	bool Engine::running = true;
 
-	int Engine::startup()
-	{
+	Engine::Engine() {
+
+	}
+
+	int Engine::startup() {
 		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 		//Init systems
 		sceneSystem.Startup();
@@ -20,8 +23,7 @@ namespace core {
 		return 0;
 	}
 
-	int Engine::shutdown()
-	{
+	int Engine::shutdown() {
 		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
 		sceneSystem.Shutdown();
 		physicsSystem.Shutdown();
@@ -29,20 +31,16 @@ namespace core {
 		return 0;
 	}
 
-	void Engine::startLoop()
-	{
+	void Engine::startLoop() {
 		std::vector<AGameObject*>& gameObjects = sceneSystem.scene.GetGameObjects();
-		for (unsigned int i = 0; i < gameObjects.size(); ++i)
-		{
+		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
 			gameObjects[0]->Start();
 		}
-		while (running)
-		{
+		while (running) {
 			s_frameTime.update();
 			Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "DeltaTime: %f\n",s_frameTime.deltaTime());
 			std::vector<AGameObject*>& gameObjects = sceneSystem.scene.GetGameObjects();
-			for (unsigned int i = 0; i < gameObjects.size(); ++i)
-			{
+			for (unsigned int i = 0; i < gameObjects.size(); ++i) {
 				gameObjects[i]->Update();
 			}
 			physicsSystem.Update(sceneSystem.scene.m_pPhysXScene, s_frameTime.deltaTime(),
@@ -51,13 +49,11 @@ namespace core {
 		}
 	}
 
- void Engine::stopGame()
-	{
-		Engine::running = false;
-	}
+ void Engine::stopGame() {
+	Engine::running = false;
+}
 
- void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint)
- {
+ void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
 	 sceneSystem.loadScene(sceneBlueprint);
  }
 

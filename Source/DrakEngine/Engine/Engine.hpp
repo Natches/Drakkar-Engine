@@ -20,8 +20,6 @@ class DRAK_API Engine final {
 
 public:
 	Engine();
-	~Engine() = default;
-
 public:
 	int startup();
 	int shutdown();
@@ -29,9 +27,9 @@ public:
 	static void stopGame();
 	void loadScene(IManualSceneBlueprint& sceneBluePrint);
 private:
-	time::FrameTimer& s_frameTime;
-	PhysicsSystem& physicsSystem;
-	SceneSystem& sceneSystem;
+	time::FrameTimer s_frameTime;
+	PhysicsSystem physicsSystem;
+	SceneSystem sceneSystem;
 	static bool running;
 };
 
