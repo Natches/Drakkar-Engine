@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\Source\Threading\Function\Function.hpp" />
     <ClInclude Include="..\..\Source\Threading\Function\IFunction.hpp" />
     <ClInclude Include="..\..\Source\Threading\Function\IndicesTrick.hpp" />
-    <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\DelayedTask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\DeferredTask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\ATask.hpp" />
@@ -30,6 +29,7 @@
     <ClInclude Include="..\..\Source\Threading\Task\TaskSequence.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\RecurentTask.hpp" />
     <ClInclude Include="..\..\Source\Threading\Task\Task.hpp" />
+    <ClInclude Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.hpp" />
     <ClInclude Include="..\..\Source\Threading\Thread\ThreadObject.hpp" />
     <ClInclude Include="..\..\Source\Threading\Thread\ThreadPool.hpp" />
     <ClInclude Include="..\..\Source\Threading\Thread\TimeThread.hpp" />
@@ -37,12 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Threading\Function\Function.inl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\..\Source\Threading\StealableQueue.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -72,8 +66,24 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\Source\Threading\Thread\ThreadObject.inl" />
-    <None Include="..\..\Source\Threading\Thread\ThreadPool.inl" />
+    <None Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Threading\Thread\ThreadObject.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Threading\Thread\ThreadPool.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Function\Function.cpp" />
