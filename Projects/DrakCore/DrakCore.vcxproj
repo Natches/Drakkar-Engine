@@ -22,8 +22,6 @@
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
-    <ClCompile Include="..\..\Source\Core\Timer\Timer.cpp" />
-    <ClCompile Include="..\..\Source\Core\Timer\TimeThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
@@ -34,8 +32,6 @@
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
-    <ClInclude Include="..\..\Source\Core\Timer\Timer.hpp" />
-    <ClInclude Include="..\..\Source\Core\Timer\TimeThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
@@ -144,7 +140,7 @@
       </Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -170,7 +166,7 @@
       </Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -187,6 +183,9 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -200,7 +199,7 @@
       </Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -218,6 +217,9 @@
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -230,7 +232,7 @@
       </Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>Log.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

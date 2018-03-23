@@ -1,15 +1,20 @@
 #version 450 core
 
 layout(location = 0) in vec3 pos;
-layout(location = 1) in vec4 color;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec3 uv;
 
 out VS_OUT {
-	vec4 color;
+	vec3 pos;
+	vec3 normal;
+	vec3 uv;
 } vert;
-
 
 void main()
 {
-	vert.color = color;
-	gl_Position = vec4(pos, 1.0f);
+	vert.pos = pos;
+	vert.normal = normal;
+	vert.uv = uv;
+
+	gl_Position = vec4(vert.pos, 1.0f);
 }

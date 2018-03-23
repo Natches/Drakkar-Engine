@@ -5,8 +5,9 @@
 #include <DrakEngine/Scene/SceneSystem.h>
 
 namespace drak {
+	time::FrameTimer core::Engine::s_frameTime;
+	thread::ThreadPool core::Engine::s_pool;
 namespace core {
-
 	bool Engine::running = true;
 
 	Engine::Engine() {
@@ -18,6 +19,7 @@ namespace core {
 		//Init systems
 		sceneSystem.Startup();
 		s_frameTime.start();
+		s_pool.startup();
 		physicsSystem.Startup();
 		physicsSystem.InitPxScene(sceneSystem.scene.m_pPhysXScene);
 		return 0;
@@ -28,6 +30,7 @@ namespace core {
 		sceneSystem.Shutdown();
 		physicsSystem.Shutdown();
 		Logbook::CloseLogs();
+		s_pool.shutdown();
 		return 0;
 	}
 

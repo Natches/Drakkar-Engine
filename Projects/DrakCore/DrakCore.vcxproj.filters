@@ -60,12 +60,6 @@
     <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Timer\Timer.hpp">
-      <Filter>Header Files\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Timer\TimeThread.hpp">
-      <Filter>Header Files\Timer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
@@ -88,12 +82,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
       <Filter>Source Files\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Timer\Timer.cpp">
-      <Filter>Source Files\Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Timer\TimeThread.cpp">
-      <Filter>Source Files\Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
       <Filter>Source Files\Timer</Filter>
