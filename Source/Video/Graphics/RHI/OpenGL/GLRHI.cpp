@@ -65,11 +65,14 @@ void GLRHI::ErrorHandler(
 void GLRHI::DepthFunc(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)
+		DK_CASE(EDepthMode::NEVER,		glDepthFunc(GL_NEVER))
 		DK_CASE(EDepthMode::LESS,		glDepthFunc(GL_LESS))
-		DK_CASE(EDepthMode::LEQUAL,		glDepthFunc(GL_LEQUAL))
 		DK_CASE(EDepthMode::EQUAL,		glDepthFunc(GL_EQUAL))
-		DK_CASE(EDepthMode::GEQUAL,		glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::LEQUAL,		glDepthFunc(GL_LEQUAL))
 		DK_CASE(EDepthMode::GREATER,	glDepthFunc(GL_GREATER))
+		DK_CASE(EDepthMode::NOT_EQUAL,	glDepthFunc(GL_NOTEQUAL))
+		DK_CASE(EDepthMode::GEQUAL,		glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::ALWAYS,		glDepthFunc(GL_ALWAYS))
 	DK_END
 }
 

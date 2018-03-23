@@ -35,7 +35,9 @@ void testRun(ARenderWindow* pWin) {
 	c.perspective(60.f, 16.f / 9.f, 0.1f, 100.f);
 
 	Mat4f mvp = c.viewPerspective() *
-		Rotation({45.f, 45.f, 0.f});
+		Translate<F32>({ 0.f, 0.f, 10.f }) *
+		Rotation({ 45.f, 45.f,  0.f }) *
+		Scale<F32>({ 5.f, 5.f, 5.f });
 
 	gl::GLRHI::s_defaultShader.use();
 	gl::GLRHI::s_defaultShader.setUniform("MVP", mvp);

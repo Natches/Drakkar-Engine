@@ -6,11 +6,14 @@ namespace drak {
 namespace video {
 
 enum class EDepthMode : U8 {
+	NEVER,
 	LESS,
-	LEQUAL,
 	EQUAL,
+	LEQUAL,
+	GREATER,
 	GEQUAL,
-	GREATER
+	NOT_EQUAL,
+	ALWAYS,
 };
 
 enum class EFaceSide : U8 {
