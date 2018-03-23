@@ -36,6 +36,7 @@
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\EventUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />
