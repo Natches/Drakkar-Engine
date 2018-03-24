@@ -14,7 +14,7 @@ Camera::~Camera()
 }
 
 #pragma region View Matrix
-const Mat4f& Camera::lookAt(
+const Mat4f& Camera::view(
 	const math::Vec3f& eye, 
 	const math::Vec3f& at, 
 	const math::Vec3f& up) {
@@ -66,7 +66,8 @@ const Mat4f& Camera::perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ) {
 }
 
 void Camera::buildPerspective() {
-	F32 inv_tan = 1.f / tan(ToRadian(m_fov * 0.5f));
+	m_tanHalfFov = tan(ToRadian(m_fov * 0.5f));
+	F32 inv_tan = 1.f / m_tanHalfFov;
 
 	m_prsp = Mat4f(
 		inv_tan / m_aspect,
@@ -80,7 +81,7 @@ void Camera::buildPerspective() {
 		0.f,					
 		0.f,		
 		m_inv_fsubn * (m_farZ + m_nearZ),
-		m_inv_fsubn * m_farZ * m_nearZ * 2.f,
+		m_inv_fsubn * (m_farZ * m_nearZ) * 2.f,
 		0.f,					
 		0.f,		
 		-1.f,

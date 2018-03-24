@@ -30,6 +30,8 @@ public:
 	static void CullFunc(bool on, EFaceSide side);
 
 private:
+	static bool LoadShaders();
+
 	static void ErrorHandler(
 		GLenum			source,
 		GLenum			type,

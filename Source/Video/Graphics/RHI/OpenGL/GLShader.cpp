@@ -133,6 +133,11 @@ void GLShader::setUniform(const std::string& name, GLuint value) {
 	glProgramUniform1ui(m_glID, m_uniMap[name], value);
 }
 
+void GLShader::setUniform(const std::string& name, const math::Vec2f& v2) {
+	if (m_uniMap.find(name) == m_uniMap.end())
+		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
+	glProgramUniform2fv(m_glID, m_uniMap[name], 1u, &v2.x);
+}
 
 void GLShader::setUniform(const std::string& name, const math::Vec3f& v3) {
 	if (m_uniMap.find(name) == m_uniMap.end())

@@ -34,6 +34,7 @@ public:
 	void setUniform(const std::string& name, GLint value);
 	void setUniform(const std::string& name, GLuint value);
 
+	void setUniform(const std::string& name, const math::Vec2f& v2);
 	void setUniform(const std::string& name, const math::Vec3f& v3);
 	void setUniform(const std::string& name, const math::Vec4f& v4);
 	void setUniform(const std::string& name, const math::Mat4f& matrix);

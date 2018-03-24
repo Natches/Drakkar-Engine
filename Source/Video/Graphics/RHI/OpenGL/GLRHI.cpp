@@ -28,15 +28,21 @@ bool GLRHI::Init(bool debug) {
 			glDebugMessageCallback((GLDEBUGPROC)ErrorHandler, 0);
 		}
 
-		if (!s_defaultShader.loadFromFile("default.vs", "default.fs"))
-			return false;
+		LoadShaders();
 		s_defaultShader.use();
 
 		DepthFunc(true, EDepthMode::LESS);
 		CullFunc(true, EFaceSide::BACK);
+
+		DK_GL_TOGGLE(true, GL_LINE_SMOOTH)
 	}
 	s_ready = true;
 	return true;
+}
+
+bool GLRHI::LoadShaders() {
+	if (!s_defaultShader.loadFromFile("Shaders/default.vert", "Shaders/default.frag"))
+		return false;
 }
 
 #pragma region Logging/Error-handling
