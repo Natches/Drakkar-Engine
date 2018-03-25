@@ -34,6 +34,9 @@ bool GLRHI::Init(bool debug) {
 		DepthFunc(true, EDepthMode::LESS);
 		CullFunc(true, EFaceSide::BACK);
 
+		// ... winding order
+		// ... polygon mode
+
 		DK_GL_TOGGLE(true, GL_LINE_SMOOTH)
 	}
 	s_ready = true;
@@ -43,6 +46,8 @@ bool GLRHI::Init(bool debug) {
 bool GLRHI::LoadShaders() {
 	if (!s_defaultShader.loadFromFile("Shaders/default.vert", "Shaders/default.frag"))
 		return false;
+
+	return true;
 }
 
 #pragma region Logging/Error-handling

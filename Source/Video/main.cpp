@@ -29,8 +29,8 @@ void testRun(ARenderWindow* pWin) {
 	gl::GLIndexBuffer ibo;
 	ibo.create(indices.data(), (I32)indices.size());
 
-	gl::GLVertexArray grid;
-	grid.create(vbo, ibo);
+	gl::GLVertexArray vao;
+	vao.create(vbo, ibo);
 
 	gl::GLTexture tex;
 	tex.loadFromFile("Textures/error.bmp");
@@ -40,9 +40,9 @@ void testRun(ARenderWindow* pWin) {
 	c.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	Mat4f mvp = c.viewPerspective() *
-		Translate<F32>({ 0.f, 0.f, 50.f }) *
+		Translate<F32>({0.f, 0.f, 14.f}) *
 		Rotation({45.f, 45.f, 0.f}) *
-		Scale<F32>({ 25.f, 25.f, 256.f });
+		Scale<F32>({ 5.f, 5.f, 5.f });
 
 	gl::GLRHI::s_defaultShader.use();
 	gl::GLRHI::s_defaultShader.setUniform("MVP", mvp);
@@ -53,7 +53,7 @@ void testRun(ARenderWindow* pWin) {
 		pWin->PollEvents();
 		pWin->Clear();
 
-		grid.draw();
+		vao.draw();
 
 		pWin->SwapBuffers();
 	}

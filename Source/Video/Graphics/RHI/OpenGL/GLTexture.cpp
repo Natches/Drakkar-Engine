@@ -36,7 +36,7 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 		glTextureSubImage2D	(m_glID, 0, 0, 0, dimX, dimY, GL_RGB, GL_UNSIGNED_BYTE, image);
 		glTextureParameteri	(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri	(m_glID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//	glBindTextureUnit	(0, m_glID);
+		glBindTextureUnit	(0, m_glID);
 
 		// ... texture arrays
 		// ... parameter flexibility

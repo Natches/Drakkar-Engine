@@ -9,7 +9,7 @@ uniform mat4 MVP;
 out VS_OUT {
 	vec3 pos;
 	vec3 normal;
-	vec2 uv;
+	flat vec2 uv;
 } vert;
 
 void main()

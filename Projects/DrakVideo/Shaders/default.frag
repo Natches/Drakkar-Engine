@@ -11,7 +11,7 @@ uniform vec2		resolution;
 in FS_IN {
 	vec3 pos;
 	vec3 normal;
-	vec2 uv;
+	flat vec2 uv;
 } frag;
 
 out vec4 fragColor;
