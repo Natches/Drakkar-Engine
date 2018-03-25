@@ -11,3 +11,4 @@
 #define DK_END					}
 
 #define DK_IMPORT(Namespace) using namespace Namespace;
+#define DK_USE(UsingType, Type) using UsingType = Type;

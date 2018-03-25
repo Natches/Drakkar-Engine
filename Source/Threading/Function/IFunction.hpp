@@ -6,7 +6,7 @@ namespace function {
 class IFunction {
 public:
 	IFunction() = default;
-	~IFunction() = default;
+	virtual ~IFunction() = default;
 
 	virtual void operator()() = 0;
 	virtual void invoke() = 0;
