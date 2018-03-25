@@ -5,7 +5,7 @@ layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 uv;
 
 uniform mat4 	MVP;
-uniform float	scale;
+uniform vec2	resolution;
 
 out VS_OUT {
 	vec3 pos;
@@ -17,7 +17,7 @@ void main()
 {
 	vert.pos = pos;
 	vert.normal = normal;
-	vert.uv = uv * scale;
+	vert.uv = uv * resolution;
 	
 	gl_Position = MVP * vec4(vert.pos, 1.0f);
 }

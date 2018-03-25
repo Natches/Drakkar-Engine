@@ -17,6 +17,7 @@ namespace gl {
 #pragma region Static Initialization
 bool		GLRHI::s_ready = false;
 GLShader	GLRHI::s_defaultShader;
+GLShader	GLRHI::s_gridShader;
 #pragma endregion
 
 bool GLRHI::Init(bool debug) {
@@ -33,6 +34,7 @@ bool GLRHI::Init(bool debug) {
 
 		DepthFunc(true, EDepthMode::LESS);
 		CullFunc(true, EFaceSide::BACK);
+		BlendFunc(true, EBlendMode::SRC_ALPHA, EBlendMode::ONE_MINUS_SRC_ALPHA);
 
 		// ... winding order
 		// ... polygon mode
@@ -45,6 +47,9 @@ bool GLRHI::Init(bool debug) {
 
 bool GLRHI::LoadShaders() {
 	if (!s_defaultShader.loadFromFile("Shaders/default.vert", "Shaders/default.frag"))
+		return false;
+
+	if (!s_gridShader.loadFromFile("Shaders/grid.vert", "Shaders/grid.frag"))
 		return false;
 
 	return true;
@@ -94,6 +99,11 @@ void GLRHI::CullFunc(bool on, EFaceSide side) {
 		DK_CASE(EFaceSide::BACK,	glCullFace(GL_BACK))
 		DK_CASE(EFaceSide::BOTH,	glCullFace(GL_FRONT_AND_BACK))
 	DK_END
+}
+
+void GLRHI::BlendFunc(bool on, EBlendMode srcFactor, EBlendMode dstFactor) {
+	DK_GL_TOGGLE(on, GL_BLEND)
+	glBlendFunc((GLenum)srcFactor, (GLenum)dstFactor);
 }
 
 } // namespace gl

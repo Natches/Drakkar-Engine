@@ -10,6 +10,8 @@
 #include <Video/Graphics/Camera.hpp>
 #include <Math/Vec2.hpp>
 
+#include <iostream>
+
 using namespace drak::math;
 using namespace drak::video;
 using namespace drak::video::geom;
@@ -18,7 +20,7 @@ void testRun(ARenderWindow* pWin) {
 	OBJLoader loader;
 
 	Mesh mesh;
-	loader.load("Models/cube.obj", mesh);
+	loader.load("Models/quad.obj", mesh);
 
 	const std::vector<Vertex>& verts = mesh.vertices();
 	const std::vector<U16>& indices = mesh.indices();
@@ -33,26 +35,28 @@ void testRun(ARenderWindow* pWin) {
 	vao.create(vbo, ibo);
 
 	gl::GLTexture tex;
-	tex.loadFromFile("Textures/error.bmp");
+	tex.loadFromFile("Textures/grid_cell.bmp");
 
 	Camera c;
 	c.view({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	c.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	Mat4f mvp = c.viewPerspective() *
-		Translate<F32>({0.f, 0.f, 15.f}) *
-		Rotation({45.f, 45.f, 0.f}) *
-		Scale<F32>({ 15.f, 15.f, 15.f });
+		Translate<F32>({0.f, 0.f, 96.f}) *
+		Rotation({225.f, 0.f, 0.f}) *
+		Scale<F32>({ 128.f, 128.f, 1.f });
 
-	gl::GLRHI::s_defaultShader.use();
-	gl::GLRHI::s_defaultShader.setUniform("MVP", mvp);
+	gl::GLRHI::s_gridShader.use();
+	gl::GLRHI::s_gridShader.setUniform("MVP", mvp);
+
+	gl::GLRHI::s_gridShader.setUniform("resolution", Vec2f{ 16.f, 16.f });
 
 	tex.use();
 	
 	while (pWin->IsOpen()) {
 		pWin->PollEvents();
 		pWin->Clear();
-
+		
 		vao.draw();
 
 		pWin->SwapBuffers();
