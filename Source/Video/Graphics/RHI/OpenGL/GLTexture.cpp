@@ -20,8 +20,7 @@ GLTexture::~GLTexture() {
 }
 
 void GLTexture::use() const {
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_glID);
+	glBindTextureUnit(0, m_glID);
 }
 
 bool GLTexture::loadFromFile(const std::string& filename) {
@@ -35,8 +34,9 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 		glTextureStorage2D	(m_glID, 1, GL_RGB8, dimX, dimY);
 		glTextureSubImage2D	(m_glID, 0, 0, 0, dimX, dimY, GL_RGB, GL_UNSIGNED_BYTE, image);
 		glTextureParameteri	(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri	(m_glID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glBindTextureUnit	(0, m_glID);
+		glTextureParameteri	(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri	(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri	(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
 		// ... texture arrays
 		// ... parameter flexibility

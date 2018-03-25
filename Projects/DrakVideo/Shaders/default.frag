@@ -8,10 +8,10 @@ uniform float 		nearZ 		= 0.1f;
 uniform float 		farZ  		= 100.f; 
 uniform vec2		resolution;
 
-in FS_IN {
+in VS_OUT {
 	vec3 pos;
 	vec3 normal;
-	flat vec2 uv;
+	vec2 uv;
 } frag;
 
 out vec4 fragColor;
