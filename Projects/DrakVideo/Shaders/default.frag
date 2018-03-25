@@ -1,21 +1,22 @@
 #version 450 core
 
-uniform vec4 	tint 		= {0.f, 1.f, 0.f, 1.f};
+layout(binding = 0)
+uniform sampler2D 	tex;
+uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
 
-uniform float 	nearZ 		= 0.1f; 
-uniform float 	farZ  		= 100.f; 
-
-uniform vec2	resolution;
+uniform float 		nearZ 		= 0.1f; 
+uniform float 		farZ  		= 100.f; 
+uniform vec2		resolution;
 
 in FS_IN {
 	vec3 pos;
 	vec3 normal;
-	vec3 uv;
+	vec2 uv;
 } frag;
 
 out vec4 fragColor;
 
 void main()
 {             
-    fragColor = tint;
+    fragColor = texture(tex, frag.uv);
 }

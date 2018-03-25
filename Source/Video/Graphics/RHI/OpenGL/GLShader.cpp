@@ -17,7 +17,7 @@ GLShader::~GLShader() {
 	glDeleteProgram(m_glID);
 }
 
-void GLShader::use() {
+void GLShader::use() const {
 	assert(m_glID != INVALID_SHADER);
 	glUseProgram(m_glID);
 }
