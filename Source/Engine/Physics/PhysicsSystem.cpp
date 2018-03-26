@@ -1,9 +1,10 @@
-#include <DrakEngine/Physics/PhysicsSystem.h>
+#include <Engine/Physics/PhysicsSystem.h>
+#include <PxPhysicsAPI.h>
 #include <Core/Utils/MacroUtils.hpp>
-#include <DrakEngine/Components/Components.h>
+#include <Engine/Components/Components.h>
 
 
-#define SIM_RATE 1.f/60.f
+#define SIM_RATE 1.f/60.f 
 
 DK_IMPORT(drak)
 
@@ -19,13 +20,13 @@ PhysicsSystem::PhysicsSystem() {
 PhysicsSystem::~PhysicsSystem() {
 }
 
-bool drak::PhysicsSystem::InitPxScene(PxScene * pxScene) {
-	PxSceneDesc desc(*m_cScale);
-	desc.filterShader = PxDefaultSimulationFilterShader;
-	desc.cpuDispatcher = PxDefaultCpuDispatcherCreate(4);
+bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
+	physx::PxSceneDesc desc(*m_cScale);
+	desc.filterShader = physx::PxDefaultSimulationFilterShader;
+	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 
-	pxScene = m_pPhysics->createScene(desc);
-	pxScene->setGravity(PxVec3(0, -9.8f, 0));
+	*pxScene = m_pPhysics->createScene(desc);
+	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
 	return false;
 }
 
@@ -41,12 +42,8 @@ bool drak::PhysicsSystem::Update(physx::PxScene* scene, F64 deltaTime, component
 }
 
 bool PhysicsSystem::Startup() {
-	PxDefaultErrorCallback* gDefaultErrorCallback = new PxDefaultErrorCallback();
-	PxDefaultAllocator* gDefaultAllocatorCallback = new PxDefaultAllocator();
-	m_cScale = new PxTolerancesScale();
-	m_cScale->length = 1;
-	m_cScale->speed = 10;
-	m_cScale->mass = 1000;
+	physx::PxDefaultErrorCallback* gDefaultErrorCallback = new physx::PxDefaultErrorCallback();
+	physx::PxDefaultAllocator* gDefaultAllocatorCallback = new physx::PxDefaultAllocator();
 
 	m_pFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, *gDefaultAllocatorCallback, *gDefaultErrorCallback);
 	if (!m_pFoundation)
@@ -59,7 +56,8 @@ bool PhysicsSystem::Startup() {
 	m_pPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, PxTolerancesScale(m_cScale), recordMemoryAllocations, m_pPvd);
 #else
-	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, *m_cScale, recordMemoryAllocations);
+	m_cScale = new physx::PxTolerancesScale();
+	m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale());
 #endif
 	if (!m_pPhysics)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log", "Failed to create PhysX physics.\n");

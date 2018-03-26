@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source\$(ProjectName)\;$(SolutionDir)Source\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Source\$(ProjectName)\;$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
@@ -108,11 +108,11 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;DrakEngine.lib;DrakCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;DrakCore.lib;DrakEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,6 +123,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

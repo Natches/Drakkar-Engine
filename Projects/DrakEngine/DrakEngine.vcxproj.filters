@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{df350572-4d83-48fa-87b3-749283b45194}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{6b2ce6be-0540-4248-8485-8fd616558ed6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scene">
       <UniqueIdentifier>{6e6ff060-1a85-4249-9312-5162914494f2}</UniqueIdentifier>
     </Filter>
@@ -39,36 +33,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\DrakEngine\Engine\Engine.cpp">
-      <Filter>Source Files\Engine</Filter>
+    <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DrakEngine\Scene\SceneSystem.cpp">
+    <ClCompile Include="..\..\Source\Engine\Scene\SceneSystem.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DrakEngine\Physics\PhysicsSystem.cpp">
-      <Filter>Source Files\Physics</Filter>
+    <ClCompile Include="..\..\Source\Engine\Engine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\DrakEngine\Engine\Engine.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Scene\SceneSystem.h">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Scene\SceneSystemUtils.hpp">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Physics\PhysicsSystem.h">
+    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Components\TransformComponent.h">
+    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystemUtils.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Components\Components.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Components\Components.h">
+    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DrakEngine\Components\RigidBodyComponent.h">
+    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

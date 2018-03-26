@@ -1,8 +1,8 @@
 #pragma once
 #include <Core/Core.hpp>
 #include <Core/Components/AGameObject.h>
-#include <DrakEngine/Components/Components.h>
-#include <DrakEngine/Scene/SceneSystemUtils.hpp>
+#include <Engine/Components/Components.h>
+#include <Engine/Scene/SceneSystemUtils.hpp>
 #include <list>
 #include <vector>
 namespace physx{
@@ -85,14 +85,13 @@ class SceneSystem {
 	DK_NONMOVABLE_NONCOPYABLE(SceneSystem)
 	friend core::Engine;
 private:
-	// Inherited via ISystem
 	~SceneSystem();
 	SceneSystem(); 
 	void loadScene(const char* name);
 	void loadScene(IManualSceneBlueprint& sceneBluePrint);
 	bool Startup();
 	void Shutdown();
-	Scene scene;
+	Scene* scene;
 };
 
 } //core

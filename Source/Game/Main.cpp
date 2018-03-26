@@ -1,16 +1,14 @@
 #include <Core/Core.hpp>
-#include <DrakEngine/Engine/Engine.hpp>
+#include <Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
-#include <DrakEngine/Components/Components.h>
-#include <DrakEngine/Scene/SceneSystem.h>
+#include <Engine/Components/Components.h>
+#include <Engine/Scene/SceneSystem.h>
 #include <Math/Matrix4x4.hpp>
-#include <Log/Log.hpp>
 
 using namespace drak;
 using namespace core;
 using namespace components;
 DK_IMPORT(drak::math)
-
 
 class Player : public AGameObject {
 	Transform* transform;
@@ -49,11 +47,10 @@ class MainScene : public IManualSceneBlueprint {
 };
 
 int main(int argc, char** argv) {
-	Engine engine;
-	engine.startup();
+	Engine::GetInstance().startup();
 	MainScene scene;
-	engine.loadScene(scene);
-	engine.startLoop();
-	engine.shutdown();
+	Engine::GetInstance().loadScene(scene);
+	Engine::GetInstance().startLoop();
+	Engine::GetInstance().shutdown();
 	system("pause");
 }

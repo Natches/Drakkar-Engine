@@ -1,7 +1,12 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <PxPhysicsAPI.h>
-using namespace physx;
+namespace physx {
+	class PxScene;
+	class PxFoundation;
+	class PxPhysics;
+	class PxCooking;
+	class PxTolerancesScale;
+}
 
 namespace drak {
 	namespace components {
@@ -19,14 +24,14 @@ namespace drak {
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
-		bool InitPxScene(PxScene* pxScene);
+		bool InitPxScene(physx::PxScene** pxScene);
 		bool Update(physx::PxScene* scene, F64 deltaTime, components::RigidBody* rigidBodies, components::Transform* transforms);
 		bool Startup();
 		void Shutdown();
-		PxFoundation*		m_pFoundation;
-		PxPhysics*			m_pPhysics;
-		PxCooking*			m_pCooking;
-		PxTolerancesScale*	m_cScale;
+		physx::PxFoundation*		m_pFoundation;
+		physx::PxPhysics*			m_pPhysics;
+		physx::PxCooking*			m_pCooking;
+		physx::PxTolerancesScale*	m_cScale;
 #ifdef USE_PVD
 		PxPvd*				m_pPvd;
 #endif // DEBUG
