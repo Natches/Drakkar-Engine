@@ -27,12 +27,12 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 	I32 dimX, dimY, channels;
 
 	stbi_set_flip_vertically_on_load(true);
-	U8* image = stbi_load(filename.c_str(), &dimX, &dimY, &channels, 0);
+	U8* image = stbi_load(filename.c_str(), &dimX, &dimY, &channels, STBI_rgb_alpha);
 
 	if (image) {
 		glCreateTextures		(GL_TEXTURE_2D, 1, &m_glID);
-		glTextureStorage2D		(m_glID, 4, GL_RGB8, dimX, dimY);
-		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glTextureStorage2D		(m_glID, 4, GL_RGBA8, dimX, dimY);
+		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, GL_RGBA, GL_UNSIGNED_BYTE, image);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

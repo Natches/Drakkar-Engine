@@ -12,7 +12,9 @@ ARenderWindow::ARenderWindow(const WindowSettings& settings)
 }
 
 void ARenderWindow::Clear() const {
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	F32 color[] = { 0.173f, 0.173f, 0.173f };
+	glClearBufferfv(GL_COLOR, 0, color);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 } // namespace video

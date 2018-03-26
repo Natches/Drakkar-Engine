@@ -2,7 +2,7 @@
 
 layout(binding = 0)
 uniform sampler2D 	tex;
-uniform vec3 		tint 		= {0.f, 1.f, 0.f};
+uniform vec4 		tint 		= {0.514f, 1.f, 0.902f, 0.33f};
 
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
@@ -18,9 +18,6 @@ out vec4 fragColor;
 void main()
 {        
 	vec4 texColor = texture(tex, frag.uv);
-	if (texColor.rgb == vec3(0.f, 0.f, 0.f))
-		discard;
 	
-    fragColor = texColor * vec4(tint, 1.f);
-	fragColor.a *= 0.25f;
+    fragColor = texColor * tint;
 }
