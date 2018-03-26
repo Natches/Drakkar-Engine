@@ -12,9 +12,9 @@ DK_TYPELIST(ArgsN, ServiceLocation, 1, __VA_ARGS__)													\
 DK_SERVICE_SPECIALIZE(ArgsN, __VA_ARGS__)															\
 inline void DK_CONCAT(Startup, ServiceLocation)() {													\
 	ServiceLocation::instance().Startup(new ServiceTemplated<ArgsN, __VA_ARGS__>(),					\
-		new TypeList<ServiceLocation, 1>());														\
+		new drak::types::TypeList<ServiceLocation, 1>());														\
 }																									\
-using DK_CONCAT(ServiceLocation, RegisteredServiceTypeList) = TypeList<ServiceLocation, 1>;			\
+using DK_CONCAT(ServiceLocation, RegisteredServiceTypeList) = drak::types::TypeList<ServiceLocation, 1>;			\
 using DK_CONCAT(ServiceLocation, RegisteredServiceTemplated) =										\
 	ServiceTemplated<ArgsN, __VA_ARGS__>;
 

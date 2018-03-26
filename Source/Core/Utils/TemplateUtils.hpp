@@ -8,19 +8,20 @@ namespace types {
 struct Type {
 };
 
+template<typename T, int i>
+struct TypeList {
+};
+
 } // namespace types
 } // namespace drak
 
 #define DK_TYPELIST(ArgsN, Class, Instance, ...)				\
-template<typename T, int i>										\
-struct TypeList {												\
-};																\
 template<>														\
-struct TypeList<Class, Instance> : public drak::types::Type {	\
+struct drak::types::TypeList<Class, Instance> : public drak::types::Type {	\
 	DK_TYPE(ArgsN, __VA_ARGS__)									\
 };																\
 using DK_CONCAT(DK_CONCAT(TypeList, Class), Instance) =			\
-	typename TypeList<Class, Instance>;
+	typename drak::types::TypeList<Class, Instance>;
 
 #define DK_TYPE(ArgsN, ...)										\
 	DK_EXPAND(DK_CONCAT(DK_TYPE, ArgsN)(__VA_ARGS__))

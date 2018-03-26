@@ -45,6 +45,19 @@ namespace noTypes {
 class NoType {};
 }
 
+template<typename T>
+struct IsBaseType {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64>
+	};
+};
+
+template<typename T>
+constexpr bool IsBaseType_V = IsBaseType<T>::value;
+
 } //namespace types
 } //namespace drak
 #define NOT_A_TYPE drak::types::noTypes::NoType
