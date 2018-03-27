@@ -11,6 +11,7 @@ using namespace components;
 DK_IMPORT(drak::math)
 
 class Player : public AGameObject {
+
 	Transform* transform;
 	int counter = 0;
 	virtual void Update() override {

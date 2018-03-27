@@ -42,7 +42,6 @@ void Engine::startLoop() {
 	}
 	while (running) {
 		s_frameTime.update();
-		Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "DeltaTime: %f\n",s_frameTime.deltaTime());
 		std::vector<AGameObject*>& gameObjects = sceneSystem.scene->GetGameObjects();
 		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
 			gameObjects[i]->Update();
