@@ -31,7 +31,7 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 
 	if (image) {
 		glCreateTextures		(GL_TEXTURE_2D, 1, &m_glID);
-		glTextureStorage2D		(m_glID, 4, GL_RGBA8, dimX, dimY);
+		glTextureStorage2D		(m_glID, 8, GL_RGBA8, dimX, dimY);
 		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, GL_RGBA, GL_UNSIGNED_BYTE, image);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_T, GL_REPEAT);

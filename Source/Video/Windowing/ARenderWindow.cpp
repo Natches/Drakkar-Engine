@@ -12,7 +12,7 @@ ARenderWindow::ARenderWindow(const WindowSettings& settings)
 }
 
 void ARenderWindow::Clear() const {
-	F32 color[] = { 0.173f, 0.173f, 0.173f };
+	F32 color[] = { 0.f, 0.f, 0.f };
 	glClearBufferfv(GL_COLOR, 0, color);
 	glClear(GL_DEPTH_BUFFER_BIT);
 }

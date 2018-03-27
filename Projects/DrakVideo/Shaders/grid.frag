@@ -2,7 +2,7 @@
 
 layout(binding = 0)
 uniform sampler2D 	tex;
-uniform vec4 		tint 		= {0.514f, 1.f, 0.902f, 0.33f};
+uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
 
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
@@ -15,9 +15,7 @@ in VS_OUT {
 
 out vec4 fragColor;
 
-void main()
-{        
+void main() {        
 	vec4 texColor = texture(tex, frag.uv);
-	
     fragColor = texColor * tint;
 }
