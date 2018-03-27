@@ -81,11 +81,11 @@
     <ClInclude Include="..\..\Source\Threading\Task\ATask.hpp">
       <Filter>Header Files\Task</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Threading\StealableQueue.hpp">
-      <Filter>Header Files\Thread\StealableQueue</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Threading\Task\TaskGroup.hpp">
       <Filter>Header Files\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.hpp">
+      <Filter>Header Files\Thread\StealableQueue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,7 +110,7 @@
     <None Include="..\..\Source\Threading\Thread\ThreadPool.inl">
       <Filter>Header Files\Thread</Filter>
     </None>
-    <None Include="..\..\Source\Threading\StealableQueue.inl">
+    <None Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.inl">
       <Filter>Header Files\Thread\StealableQueue</Filter>
     </None>
   </ItemGroup>
