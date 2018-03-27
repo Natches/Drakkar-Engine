@@ -368,8 +368,8 @@ void StealableQueue<T>::emplace(_Vt&&...data) {
 
 template<class T>
 template<class..._Vt>
-typename StealableQueue<T>::Node* StealableQueue<T>::addNode(StealableQueue<T>::Node* node,
-	StealableQueue<T>::Node* next, StealableQueue<T>::Node* previous, _Vt&& ...data) {
+typename StealableQueue<T>::Node* StealableQueue<T>::addNode(typename StealableQueue<T>::Node* node,
+	typename StealableQueue<T>::Node* next, typename StealableQueue<T>::Node* previous, _Vt&& ...data) {
 
 	if (next)
 		next->m_pPrevious = node;
