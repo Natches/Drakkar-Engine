@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <Video/Windowing/SDLRenderWindow.hpp>
 
 namespace drak {
@@ -25,7 +26,7 @@ SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
 }
 
 SDLRenderWindow::~SDLRenderWindow() {
-	
+	if (m_open) Close();
 }
 
 void SDLRenderWindow::PollEvents() {
@@ -35,6 +36,12 @@ void SDLRenderWindow::PollEvents() {
 		m_open = m_evt.window.event != SDL_WINDOWEVENT_CLOSE;
 		break;
 	}
+}
+
+void SDLRenderWindow::Clear() {
+	F32 color[] = { 0.f, 0.f, 0.f };
+	glClearBufferfv(GL_COLOR, 0, color);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void SDLRenderWindow::SwapBuffers() {

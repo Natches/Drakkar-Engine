@@ -11,15 +11,11 @@ namespace video {
 * \brief Abstract base window class, forcing implementation of essential functionality.
 *
 */
-class ARenderWindow {
+class ARenderWindow { 
+	DK_NONMOVABLE_NONCOPYABLE(ARenderWindow)
 public:
 	ARenderWindow() = delete;
-	ARenderWindow(const ARenderWindow&) = delete;
-	ARenderWindow(ARenderWindow&&) = delete;
 	virtual ~ARenderWindow() = default;
-
-	void operator=(const ARenderWindow&) = delete;
-	void operator=(ARenderWindow&&) = delete;
 
 public:
 	virtual void*	WindowPointer() const	{ return m_pWin; }
@@ -27,11 +23,11 @@ public:
 	virtual I32		Height()		const	{ return m_resY; }
 	virtual F32		AspectRatio()	const	{ return (F32)m_resX / (F32)m_resY; }
 	virtual bool	IsOpen()		const	{ return m_open; }
-	virtual void	Clear()			const;
-
-	virtual void	PollEvents() = 0;
-	virtual void	SwapBuffers() = 0;
-	virtual void	Close() = 0;
+	
+	virtual void	PollEvents()	= 0;
+	virtual void	Clear()			= 0;
+	virtual void	SwapBuffers()	= 0;
+	virtual void	Close()			= 0;
 
 protected:
 	ARenderWindow(const WindowSettings& settings);

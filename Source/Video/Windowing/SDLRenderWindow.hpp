@@ -20,9 +20,10 @@ protected:
 	virtual ~SDLRenderWindow();
 
 protected:
-	virtual void PollEvents()	override;
-	virtual void SwapBuffers()	override;
-	virtual void Close()		override;
+	void PollEvents()	override;
+	void SwapBuffers()	override;
+	void Clear()		override;
+	void Close()		override;
 
 protected:
 	void*		m_pWin;

@@ -11,11 +11,5 @@ ARenderWindow::ARenderWindow(const WindowSettings& settings)
 	m_open(false) {
 }
 
-void ARenderWindow::Clear() const {
-	F32 color[] = { 0.f, 0.f, 0.f };
-	glClearBufferfv(GL_COLOR, 0, color);
-	glClear(GL_DEPTH_BUFFER_BIT);
-}
-
 } // namespace video
 } // namespace drak
