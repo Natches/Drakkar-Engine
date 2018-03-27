@@ -10,8 +10,6 @@
 #include <Video/Graphics/Camera.hpp>
 #include <Math/Vec2.hpp>
 
-#include <iostream>
-
 using namespace drak::math;
 using namespace drak::video;
 using namespace drak::video::geom;

@@ -1,6 +1,4 @@
-#include <GL/glew.h>
-
-#include <Video/Windowing/ARenderWindow.hpp>
+#include <Windowing/ARenderWindow.hpp>
 
 namespace drak {
 namespace video {

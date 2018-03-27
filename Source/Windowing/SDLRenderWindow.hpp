@@ -3,7 +3,7 @@
 #include "SDL_video.h"
 #include "SDL_events.h"
 
-#include <Video/Windowing/ARenderWindow.hpp>
+#include <Windowing/ARenderWindow.hpp>
 
 namespace drak {
 namespace video {

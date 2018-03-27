@@ -38,9 +38,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\RHIDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\Graphics\Camera.cpp" />
@@ -58,8 +55,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp" />
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp" />
-    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

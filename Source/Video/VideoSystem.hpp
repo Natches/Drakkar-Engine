@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Windowing/ARenderWindow.hpp>
+#include <Windowing/ARenderWindow.hpp>
 #include <Video/VideoSettings.hpp>
 
 namespace drak {

@@ -45,6 +45,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakEngine", "Projects\Drak
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakSerialization", "Projects\DrakSerialization\DrakSerialization.vcxproj", "{CA4B903D-A2BB-4EB1-922B-50C7A83B07C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakWindowing", "Projects\DrakWindowing\DrakWindowing.vcxproj", "{2AA57F66-23EF-48B7-A476-12EDEFBE470F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -140,6 +142,14 @@ Global
 		{CA4B903D-A2BB-4EB1-922B-50C7A83B07C4}.Release|x64.Build.0 = Release|x64
 		{CA4B903D-A2BB-4EB1-922B-50C7A83B07C4}.Release|x86.ActiveCfg = Release|Win32
 		{CA4B903D-A2BB-4EB1-922B-50C7A83B07C4}.Release|x86.Build.0 = Release|Win32
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Debug|x64.ActiveCfg = Debug|x64
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Debug|x64.Build.0 = Debug|x64
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Debug|x86.ActiveCfg = Debug|Win32
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Debug|x86.Build.0 = Debug|Win32
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Release|x64.ActiveCfg = Release|x64
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Release|x64.Build.0 = Release|x64
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Release|x86.ActiveCfg = Release|Win32
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
