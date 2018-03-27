@@ -87,6 +87,9 @@
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Event.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp">
