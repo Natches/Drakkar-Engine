@@ -6,9 +6,13 @@ namespace serialization {
 template<typename T>
 struct MetaData {};
 
-/*
-template<typename T, size_t X>
-struct MetaData {};*/
+template<typename T>
+struct IFields {
+	virtual const char* varName(int idx) = 0;
+	virtual size_t varN() = 0;
+	virtual size_t totalSizeAllVar() = 0;
+	virtual bool hasDynamiclyAllocatedMemory() = 0;
+};
 
 } // namespace serialization
 } // namespace drak
@@ -21,29 +25,26 @@ DK_EXPAND(DK_CONCAT(DK_STRINGIZE_BASE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 #define DK_PASTE_VA_ARGS(...)	\
 DK_EXPAND(DK_CONCAT(DK_PASTE_BASE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
-#define DK_POINT_MEMBER(type, ...)	\
-DK_EXPAND(DK_CONCAT(DK_POINT_MEMBER_BASE, DK_ARGS_N(__VA_ARGS__))(type, __VA_ARGS__))
+#define DK_POINT_MEMBER(...)	\
+DK_EXPAND(DK_CONCAT(DK_POINT_MEMBER_BASE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
-#define DK_CHECK_BASE_TYPE(type, ...)	\
-DK_EXPAND(DK_CONCAT(DK_CHECK_BASE_TYPE_BASE, DK_ARGS_N(__VA_ARGS__))(type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR(...)	\
+DK_EXPAND(DK_CONCAT(DK_CHECK_FOR_PTR, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR(fields, type, ...)	\
-DK_EXPAND(DK_CONCAT(DK_CHECK_FOR_PTR, DK_ARGS_N(__VA_ARGS__))(fields, type, __VA_ARGS__))
-
-#define DK_SIZEOF_VA_ARGS(type, ...)	\
-DK_EXPAND(DK_CONCAT(DK_SIZEOF_VA_ARGS, DK_ARGS_N(__VA_ARGS__))(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS(...)	\
+DK_EXPAND(DK_CONCAT(DK_SIZEOF_VA_ARGS, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
 #define DK_ALL_FIELDS_BINARY_DATA(fields, N)\
 DK_EXPAND(DK_CONCAT(DK_ALL_FIELDS_BINARY_DATA, N)(fields, N - 1))
 
-#define DK_GETTER_METADATA(varArray, N)	\
-DK_EXPAND(DK_CONCAT(DK_GETTER_METADATA, N)(varArray))
+#define DK_GETTER_METADATA( N)	\
+DK_EXPAND(DK_CONCAT(DK_GETTER_METADATA, N)( N - 1))
 
 #define DK_SETTER_METADATA(varArray, N)	\
 DK_EXPAND(DK_CONCAT(DK_SETTER_METADATA, N)(varArray))
 
-#define DK_TYPE_NAME(varArray, type, ...)	\
-DK_EXPAND(DK_CONCAT(DK_TYPE_NAME, DK_ARGS_N(__VA_ARGS__))(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME(...)	\
+DK_EXPAND(DK_CONCAT(DK_TYPE_NAME, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
 #define DK_REVERSE_VA_ARGS(...)	\
 DK_EXPAND(DK_CONCAT(DK_REVERSE_VA_ARGS, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
@@ -154,339 +155,251 @@ DK_EXPAND(DK_CONCAT(DK_REVERSE_VA_ARGS, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 #define DK_PASTE_BASE32(t, ...) DK_EXPAND(DK_PASTE_BASE31(__VA_ARGS__, ##t))
 
 #define DK_POINT_MEMBER_BASE0(...)	__VA_ARGS__
-#define DK_POINT_MEMBER_BASE1(type, t)\
+#define DK_POINT_MEMBER_BASE1(t)\
 DK_POINT_MEMBER_BASE0(&type::t)
 
-#define DK_POINT_MEMBER1(type, t, ...)\
+#define DK_POINT_MEMBER1(t, ...)\
 DK_POINT_MEMBER_BASE0(__VA_ARGS__, &type::t)
 
-#define DK_POINT_MEMBER_BASE2(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER1(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE2(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER1(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE3(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE2(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE3(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE2(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE4(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE3(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE4(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE3(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE5(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE4(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE5(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE4(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE6(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE5(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE6(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE5(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE7(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE6(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE7(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE6(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE8(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE7(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE8(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE7(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE9(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE8(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE9(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE8(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE10(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE9(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE10(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE9(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE11(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE10(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE11(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE10(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE12(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE11(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE12(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE11(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE13(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE12(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE13(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE12(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE14(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE13(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE14(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE13(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE15(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE14(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE15(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE14(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE16(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE15(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE16(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE15(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE17(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE16(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE17(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE16(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE18(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE17(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE18(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE17(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE19(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE18(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE19(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE18(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE20(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE19(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE20(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE19(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE21(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE20(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE21(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE20(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE22(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE21(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE22(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE21(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE23(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE22(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE23(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE22(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE24(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE23(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE24(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE23(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE25(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE24(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE25(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE24(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE26(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE25(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE26(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE25(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE27(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE26(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE27(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE26(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE28(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE27(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE28(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE27(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE29(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE28(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE29(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE28(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE30(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE29(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE30(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE29(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE31(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE30(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE31(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE30(__VA_ARGS__, &type::t))
 
-#define DK_POINT_MEMBER_BASE32(type, t, ...)\
-DK_EXPAND(DK_POINT_MEMBER_BASE31(type, __VA_ARGS__, &type::t))
+#define DK_POINT_MEMBER_BASE32(t, ...)\
+DK_EXPAND(DK_POINT_MEMBER_BASE31(__VA_ARGS__, &type::t))
 
 
-#define DK_CHECK_BASE_TYPE_BASE0(...)	__VA_ARGS__
-#define DK_CHECK_BASE_TYPE_BASE1(type, t)\
-DK_POINT_MEMBER_BASE0(drak::types::IsBaseType_V<TYPEOF(type::t)>)
-
-#define DK_CHECK_BASE_TYPE1(type, t, ...)\
-DK_POINT_MEMBER_BASE0(__VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>)
-
-#define DK_CHECK_BASE_TYPE_BASE2(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE1(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE3(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE2(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE4(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE3(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE5(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE4(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE6(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE5(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE7(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE6(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE8(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE7(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE9(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE8(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE10(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE9(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE11(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE10(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE12(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE11(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE13(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE12(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE14(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE13(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE15(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE14(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE16(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE15(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE17(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE16(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE18(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE17(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE19(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE18(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE20(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE19(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE21(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE20(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE22(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE21(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE23(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE22(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE24(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE23(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE25(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE24(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE26(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE25(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE27(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE26(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE28(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE27(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE29(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE28(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE30(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE29(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE31(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE30(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-#define DK_CHECK_BASE_TYPE_BASE32(type, t, ...)\
-DK_EXPAND(DK_CHECK_BASE_TYPE_BASE31(type, __VA_ARGS__, drak::types::IsBaseType_V<TYPEOF(type::t)>))
-
-
-#define DK_GETTER_METADATA_IMPL(varArray, N)\
-if (!strcmp(str, ##varArray[N]))	\
-	return std::make_tuple<void*, size_t>(&(t.*(std::get<N>(s_var))), sizeof(std::get<N>(s_var)));
+#define DK_GETTER_METADATA_IMPL											\
+template<typename T, int N>												\
+static std::tuple<void*, size_t> getData(type& t) {						\
+if constexpr (!std::is_array_v<T>){										\
+	return std::make_tuple<void*, size_t>								\
+	(&(t.*(std::get<N>(s_var))), sizeof(std::get<N>(s_var)));			\
+}																		\
+else {																	\
+	return std::make_tuple<void*, size_t>								\
+	((void*)(t.*(std::get<N>(s_var))), sizeof(t.*(std::get<N>(s_var))));\
+}																		\
+}
+
+#define DK_CALL_GETTER( N)							\
+if (!strcmp(str, s_varName[N]))						\
+return getData<TYPEOF(t.*(std::get<N>(s_var))), N>(t);
 
 #define DK_GETTER_METADATA0 return std::make_tuple<void*, size_t>(nullptr, 0);
-#define DK_GETTER_METADATA1(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 0)	\
+#define DK_GETTER_METADATA1( N)\
+DK_CALL_GETTER( N)	\
 DK_GETTER_METADATA0
 
-#define DK_GETTER_METADATA2(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 1)	\
-DK_EXPAND(DK_GETTER_METADATA1(varArray))
+#define DK_GETTER_METADATA2( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA1( N - 1))
 
-#define DK_GETTER_METADATA3(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 2)	\
-DK_EXPAND(DK_GETTER_METADATA2(varArray))
+#define DK_GETTER_METADATA3( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA2( N - 1))
 
-#define DK_GETTER_METADATA4(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 3)	\
-DK_EXPAND(DK_GETTER_METADATA3(varArray))
+#define DK_GETTER_METADATA4( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA3( N - 1))
 
-#define DK_GETTER_METADATA5(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 4)	\
-DK_EXPAND(DK_GETTER_METADATA4(varArray))
+#define DK_GETTER_METADATA5( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA4( N - 1))
 
-#define DK_GETTER_METADATA6(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 5)	\
-DK_EXPAND(DK_GETTER_METADATA5(varArray))
+#define DK_GETTER_METADATA6( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA5( N - 1))
 
-#define DK_GETTER_METADATA7(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 6)	\
-DK_EXPAND(DK_GETTER_METADATA6(varArray))
+#define DK_GETTER_METADATA7( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA6( N - 1))
 
-#define DK_GETTER_METADATA8(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 7)	\
-DK_EXPAND(DK_GETTER_METADATA7(varArray))
+#define DK_GETTER_METADATA8( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA7( N - 1))
 
-#define DK_GETTER_METADATA9(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 8)	\
-DK_EXPAND(DK_GETTER_METADATA8(varArray))
+#define DK_GETTER_METADATA9( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA8( N - 1))
 
-#define DK_GETTER_METADATA10(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 9)	\
-DK_EXPAND(DK_GETTER_METADATA9(varArray))
+#define DK_GETTER_METADATA10(N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA9( N - 1))
 
-#define DK_GETTER_METADATA11(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 10)	\
-DK_EXPAND(DK_GETTER_METADATA10(varArray))
+#define DK_GETTER_METADATA11( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA10( N - 1))
 
-#define DK_GETTER_METADATA12(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 11)	\
-DK_EXPAND(DK_GETTER_METADATA11(varArray))
+#define DK_GETTER_METADATA12( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA11( N - 1))
 
-#define DK_GETTER_METADATA13(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 12)	\
-DK_EXPAND(DK_GETTER_METADATA12(varArray))
+#define DK_GETTER_METADATA13( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA12( N - 1))
 
-#define DK_GETTER_METADATA14(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 13)	\
-DK_EXPAND(DK_GETTER_METADATA13(varArray))
+#define DK_GETTER_METADATA14( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA13( N - 1))
 
-#define DK_GETTER_METADATA15(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 14)	\
-DK_EXPAND(DK_GETTER_METADATA14(varArray))
+#define DK_GETTER_METADATA15( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA14( N - 1))
 
-#define DK_GETTER_METADATA16(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 15)	\
-DK_EXPAND(DK_GETTER_METADATA15(varArray))
+#define DK_GETTER_METADATA16( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA15( N - 1))
 
-#define DK_GETTER_METADATA17(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 16)	\
-DK_EXPAND(DK_GETTER_METADATA16(varArray))
+#define DK_GETTER_METADATA17( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA16( N - 1))
 
-#define DK_GETTER_METADATA18(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 17)	\
-DK_EXPAND(DK_GETTER_METADATA17(varArray))
+#define DK_GETTER_METADATA18( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA17( N - 1))
 
-#define DK_GETTER_METADATA19(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 18)	\
-DK_EXPAND(DK_GETTER_METADATA18(varArray))
+#define DK_GETTER_METADATA19( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA18( N - 1))
 
-#define DK_GETTER_METADATA20(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 19)	\
-DK_EXPAND(DK_GETTER_METADATA19(varArray))
+#define DK_GETTER_METADATA20( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA19( N - 1))
 
-#define DK_GETTER_METADATA21(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 20)	\
-DK_EXPAND(DK_GETTER_METADATA20(varArray))
+#define DK_GETTER_METADATA21( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA20( N - 1))
 
-#define DK_GETTER_METADATA22(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 21)	\
-DK_EXPAND(DK_GETTER_METADATA21(varArray))
+#define DK_GETTER_METADATA22( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA21( N - 1))
 
-#define DK_GETTER_METADATA23(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 22)	\
-DK_EXPAND(DK_GETTER_METADATA22(varArray))
+#define DK_GETTER_METADATA23( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA22( N - 1))
 
-#define DK_GETTER_METADATA24(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 23)	\
-DK_EXPAND(DK_GETTER_METADATA23(varArray))
+#define DK_GETTER_METADATA24( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA23( N - 1))
 
-#define DK_GETTER_METADATA25(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 24)	\
-DK_EXPAND(DK_GETTER_METADATA24(varArray))
+#define DK_GETTER_METADATA25( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA24( N - 1))
 
-#define DK_GETTER_METADATA26(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 25)	\
-DK_EXPAND(DK_GETTER_METADATA25(varArray))
+#define DK_GETTER_METADATA26( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA25( N - 1))
 
-#define DK_GETTER_METADATA27(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 26)	\
-DK_EXPAND(DK_GETTER_METADATA26(varArray))
+#define DK_GETTER_METADATA27( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA26( N - 1))
 
-#define DK_GETTER_METADATA28(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 27)	\
-DK_EXPAND(DK_GETTER_METADATA27(varArray))
+#define DK_GETTER_METADATA28( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA27( N - 1))
 
-#define DK_GETTER_METADATA29(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 28)	\
-DK_EXPAND(DK_GETTER_METADATA28(varArray))
+#define DK_GETTER_METADATA29( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA28( N - 1))
 
-#define DK_GETTER_METADATA30(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 29)	\
-DK_EXPAND(DK_GETTER_METADATA29(varArray))
+#define DK_GETTER_METADATA30( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA29( N - 1))
 
-#define DK_GETTER_METADATA31(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 30)	\
-DK_EXPAND(DK_GETTER_METADATA30(varArray))
+#define DK_GETTER_METADATA31( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA30( N - 1))
 
-#define DK_GETTER_METADATA32(varArray)	\
-DK_GETTER_METADATA_IMPL(varArray, 31)	\
-DK_EXPAND(DK_GETTER_METADATA31(varArray))
+#define DK_GETTER_METADATA32( N)\
+DK_CALL_GETTER( N)	\
+DK_EXPAND(DK_GETTER_METADATA31( N - 1))
 
 #define DK_SETTER_METADATA_IMPL(varArray, N)							\
 if constexpr (!std::is_array_v<TYPEOF(t.*(std::get<N>(s_var)))>) {		\
@@ -626,390 +539,395 @@ DK_EXPAND(DK_SETTER_METADATA30(varArray))
 DK_SETTER_METADATA_IMPL(varArray, 31)	\
 DK_EXPAND(DK_SETTER_METADATA31(varArray))
 
-#define DK_CHECK_FOR_PTR_IMPL(fields, type, t)													\
-( drak::types::IsBaseType_V<TYPEOF(type::t)> ?													\
-std::is_array_v<TYPEOF(type::t)> : drak::serialization::MetaData<TYPEOF(type::t)>::fields::s_hasDynamiclyAllocatedMemory )
+#define DK_CHECK_FOR_PTR_IMPL(fields)															\
+template<typename T>																			\
+static constexpr bool CheckForPTR() {															\
+ if constexpr (drak::types::IsBaseType_V<std::remove_pointer_t<std::remove_all_extents_t<T>>>)	\
+	return std::is_pointer_v<T>;																\
+ else																							\
+	return drak::serialization::MetaData<T>::s_hasDynamiclyAllocatedMemory;						\
+}
 
 #define DK_CHECK_FOR_PTR0
-#define DK_CHECK_FOR_PTR1(fields, type, t)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t)	\
+#define DK_CHECK_FOR_PTR1(t)\
+CheckForPTR<TYPEOF(type::t)>()	\
 
-#define DK_CHECK_FOR_PTR2(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR1(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR2(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR1(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR3(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR2(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR3(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR2(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR4(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR3(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR4(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR3(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR5(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR4(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR5(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR4(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR6(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR5(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR6(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR5(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR7(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR6(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR7(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR6(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR8(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR7(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR8(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR7(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR9(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR8(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR9(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR8(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR10(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR9(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR10(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR9(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR11(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR10(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR11(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR10(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR12(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR11(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR12(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR11(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR13(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR12(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR13(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR12(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR14(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR13(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR14(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR13(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR15(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR14(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR15(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR14(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR16(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR15(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR16(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR15(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR17(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR16(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR17(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR16(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR18(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR17(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR18(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR17(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR19(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR18(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR19(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR18(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR20(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR19(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR20(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR19(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR21(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR20(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR21(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR20(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR22(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR21(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR22(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR21(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR23(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR22(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR23(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR22(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR24(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR23(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR24(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR23(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR25(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR24(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR25(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR24(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR26(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR25(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR26(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR25(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR27(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR26(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR27(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR26(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR28(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR27(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR28(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR27(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR29(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR28(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR29(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR28(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR30(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR29(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR30(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR29(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR31(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR30(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR31(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR30(__VA_ARGS__))
 
-#define DK_CHECK_FOR_PTR32(fields, type, t, ...)\
-DK_CHECK_FOR_PTR_IMPL(fields, type, t) && DK_EXPAND(DK_CHECK_FOR_PTR31(fields, type, __VA_ARGS__))
+#define DK_CHECK_FOR_PTR32(t, ...)\
+CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR31(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS_IMPL(type, t)\
+#define DK_SIZEOF_VA_ARGS_IMPL(t)\
 sizeof(TYPEOF(type::t))
 
 #define DK_SIZEOF_VA_ARGS0
-#define DK_SIZEOF_VA_ARGS1(type, t)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t)	\
+#define DK_SIZEOF_VA_ARGS1(t)\
+DK_SIZEOF_VA_ARGS_IMPL(t)	\
 
-#define DK_SIZEOF_VA_ARGS2(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS1(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS2(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS1(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS3(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS2(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS3(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS2(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS4(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS3(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS4(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS3(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS5(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS4(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS5(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS4(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS6(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS5(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS6(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS5(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS7(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS6(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS7(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS6(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS8(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS7(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS8(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS7(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS9(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS8(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS9(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS8(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS10(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS9(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS10(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS9(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS11(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS10(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS11(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS10(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS12(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS11(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS12(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS11(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS13(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS12(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS13(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS12(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS14(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS13(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS14(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS13(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS15(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS14(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS15(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS14(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS16(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS15(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS16(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS15(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS17(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS16(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS17(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS16(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS18(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS17(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS18(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS17(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS19(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS18(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS19(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS18(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS20(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS19(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS20(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS19(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS21(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS20(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS21(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS20(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS22(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS21(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS22(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS21(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS23(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS22(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS23(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS22(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS24(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS23(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS24(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS23(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS25(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS24(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS25(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS24(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS26(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS25(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS26(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS25(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS27(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS26(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS27(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS26(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS28(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS27(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS28(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS27(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS29(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS28(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS29(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS28(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS30(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS29(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS30(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS29(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS31(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS30(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS31(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS30(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS32(type, t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(type, t) +	\
-DK_EXPAND(DK_SIZEOF_VA_ARGS31(type, __VA_ARGS__))
+#define DK_SIZEOF_VA_ARGS32(t, ...)\
+DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+DK_EXPAND(DK_SIZEOF_VA_ARGS31(__VA_ARGS__))
 
 
-#define DK_TYPE_NAME_IMPL(varArray, type, t, N)\
-if (!strcmp(str, ##varArray[N]))	\
+#define DK_TYPE_NAME_IMPL(t, N)\
+if (!strcmp(str, s_varName[N]))	\
 	return typeid(TYPEOF(type::t)).name();
 
 #define DK_TYPE_NAME0 return "";
-#define DK_TYPE_NAME1(varArray, type, t)\
-DK_TYPE_NAME_IMPL(varArray, type, t, 0)	\
+#define DK_TYPE_NAME1(t)\
+DK_TYPE_NAME_IMPL(t, 0)	\
 DK_TYPE_NAME0
 
-#define DK_TYPE_NAME2(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME1(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME2(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME1(__VA_ARGS__))
 
-#define DK_TYPE_NAME3(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME2(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME3(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME2(__VA_ARGS__))
 
-#define DK_TYPE_NAME4(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME3(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME4(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME3(__VA_ARGS__))
 
-#define DK_TYPE_NAME5(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME4(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME5(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME4(__VA_ARGS__))
 
-#define DK_TYPE_NAME6(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME5(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME6(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME5(__VA_ARGS__))
 
-#define DK_TYPE_NAME7(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME6(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME7(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME6(__VA_ARGS__))
 
-#define DK_TYPE_NAME8(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME7(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME8(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME7(__VA_ARGS__))
 
-#define DK_TYPE_NAME9(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME8(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME9(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME8(__VA_ARGS__))
 
-#define DK_TYPE_NAME10(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME9(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME10(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME9(__VA_ARGS__))
 
-#define DK_TYPE_NAME11(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME10(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME11(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME10(__VA_ARGS__))
 
-#define DK_TYPE_NAME12(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME11(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME12(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME11(__VA_ARGS__))
 
-#define DK_TYPE_NAME13(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME12(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME13(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME12(__VA_ARGS__))
 
-#define DK_TYPE_NAME14(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME13(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME14(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME13(__VA_ARGS__))
 
-#define DK_TYPE_NAME15(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME14(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME15(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME14(__VA_ARGS__))
 
-#define DK_TYPE_NAME16(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME15(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME16(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME15(__VA_ARGS__))
 
-#define DK_TYPE_NAME17(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME16(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME17(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME16(__VA_ARGS__))
 
-#define DK_TYPE_NAME18(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME17(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME18(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME17(__VA_ARGS__))
 
-#define DK_TYPE_NAME19(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME18(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME19(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME18(__VA_ARGS__))
 
-#define DK_TYPE_NAME20(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME19(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME20(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME19(__VA_ARGS__))
 
-#define DK_TYPE_NAME21(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME20(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME21(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME20(__VA_ARGS__))
 
-#define DK_TYPE_NAME22(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME21(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME22(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME21(__VA_ARGS__))
 
-#define DK_TYPE_NAME23(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME22(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME23(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME22(__VA_ARGS__))
 
-#define DK_TYPE_NAME24(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME23(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME24(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME23(__VA_ARGS__))
 
-#define DK_TYPE_NAME25(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME24(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME25(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME24(__VA_ARGS__))
 
-#define DK_TYPE_NAME26(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME25(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME26(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME25(__VA_ARGS__))
 
-#define DK_TYPE_NAME27(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME26(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME27(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME26(__VA_ARGS__))
 
-#define DK_TYPE_NAME28(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME27(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME28(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME27(__VA_ARGS__))
 
-#define DK_TYPE_NAME29(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME28(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME29(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME28(__VA_ARGS__))
 
-#define DK_TYPE_NAME30(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME29(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME30(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME29(__VA_ARGS__))
 
-#define DK_TYPE_NAME31(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME30(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME31(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME30(__VA_ARGS__))
 
-#define DK_TYPE_NAME32(varArray, type, t, ...)					\
-DK_TYPE_NAME_IMPL(varArray, type, t, DK_ARGS_N(__VA_ARGS__))	\
-DK_EXPAND(DK_TYPE_NAME31(varArray, type, __VA_ARGS__))
+#define DK_TYPE_NAME32(t, ...)					\
+DK_TYPE_NAME_IMPL(t, DK_ARGS_N(__VA_ARGS__))	\
+DK_EXPAND(DK_TYPE_NAME31(__VA_ARGS__))
 
 #define DK_ADD_TAB(x)			\
 for (int i = 0; i < x; ++i)		\
-	os << "\t";
+	ss << "\t";
 
 #define DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)							\
 binary = fields::get(t, fields::s_varName[N]);								\
 for (size_t i = 0; i < std::get<1>(binary); ++i) {							\
-		os << ((const char*)std::get<0>(binary))[i];						\
+		ss << ((const char*)std::get<0>(binary))[i];						\
 }
 
-#define DK_ALL_FIELDS_BINARY_DATA0(fields, N)\
-os << "\n";					\
+#define DK_ALL_FIELDS_BINARY_DATA0(fields)\
+ss << "\n";					\
 DK_ADD_TAB(recursionLevel)	\
-os << "\tEnd " << #fields << "\n";
+ss << "\tEnd " << #fields << "\n";
 
 #define DK_ALL_FIELDS_BINARY_DATA1(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, 0)	\
-DK_ALL_FIELDS_BINARY_DATA0(fields, 0)
+DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+DK_ALL_FIELDS_BINARY_DATA0(fields)
 
 #define DK_ALL_FIELDS_BINARY_DATA2(fields, N)	\
 DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
@@ -1147,374 +1065,471 @@ _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, 
 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17,									\
 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
-#define DK_SERIALIZE_FUNC_BEGIN(type)															\
-static std::stringstream& serialize( std::stringstream& os, type& t, int recursionLevel = 0) {	\
+#define DK_SERIALIZE_FUNC_BEGIN																	\
+template<bool completeDisplay = false>															\
+static std::stringstream& serialize( std::stringstream& ss, type& t, int recursionLevel = 0) {	\
 DK_ADD_TAB(recursionLevel)																		\
-os << "Class " << #type << "\n";
+ss << "Class " << typeName() << "\n";
 
-#define DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(type)				\
-std::stringstream& type::serialize(std::stringstream& os) {			\
-return drak::serialization::MetaData<type>::serialize(os, *this, 0);\
+#define DK_SERIALIZE_FUNC_END			\
+DK_ADD_TAB(recursionLevel)				\
+ss << "End Class " << typeName() << "\n";	\
+return ss;								\
+}
+
+#define DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(type)									\
+template<bool completeDisplay>															\
+std::stringstream& type::serialize(std::stringstream& ss) {								\
+return drak::serialization::MetaData<type>::serialize<completeDisplay>(ss, *this, 0);	\
 }
 
 #define DK_EMPTY_SERIALIZE_FUNCTION_IN_SERIALIZED_OBJECT(type) \
-std::stringstream& type::serialize(std::stringstream& os) {};
+std::stringstream& type::serialize(std::stringstream& ss) {};
 
-#define DK_SERIALIZE_ALL(type, N)				\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_ALL(N1, N2, N3, N4)												\
+static constexpr std::array<IFields<type>*, 4> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
+(IFields<type>*)&s_PublicStaticFields, (IFields<type>*)&s_PrivateStaticFields };		\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N2)												\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N4)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateFields<type, N2, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateStaticFields<type, N4, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)			\
-	DK_SERIALIZE_LOOP(PublicFields, N)	\
-DK_ADD_TAB(recursionLevel)				\
-os << "End Class " << #type << "\n";	\
-	return os;							\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS(N)												\
+static constexpr std::array<IFields<type>*, 1> s_fields								\
+{ (IFields<type>*)&s_PublicFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =								\
+PublicFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N)												\
+DK_SERIALIZE_FUNC_BEGIN																\
+	serializeLoopPublicFields<type, N, completeDisplay>(ss, t, recursionLevel);		\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)			\
-	DK_SERIALIZE_LOOP(PrivateFields, N)	\
-DK_ADD_TAB(recursionLevel)				\
-os << "End Class " << #type << "\n";	\
-	return os;							\
-DK_END
+#define DK_SERIALIZE_PRIVATE_FIELDS(N)												\
+static constexpr std::array<constexpr IFields<type>*, 1> s_fields					\
+{ (IFields<type>*)&s_PrivateFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =								\
+PrivateFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N)											\
+DK_SERIALIZE_FUNC_BEGIN																\
+	serializeLoopPrivateFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_STATIC_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_STATIC_PUBLIC_FIELDS(N)											\
+static constexpr std::array<IFields<type>*, 1> s_fields									\
+{ (IFields<type>*)&s_PublicStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_STATIC_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_STATIC_PRIVATE_FIELDS(N)											\
+static constexpr std::array<IFields<type>*, 1> s_fields									\
+{ (IFields<type>*)&s_PrivateStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPrivateStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)			\
-	DK_SERIALIZE_LOOP(PublicFields, N)	\
-	DK_SERIALIZE_LOOP(PrivateFields, N)	\
-DK_ADD_TAB(recursionLevel)				\
-os << "End Class " << #type << "\n";	\
-	return os;							\
-DK_END
+#define DK_SERIALIZE_PUBLIC_PRIVATE_FIELDS(N1, N2)									\
+static constexpr std::array<IFields<type>*, 2> s_fields								\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields };				\
+static constexpr bool s_hasDynamiclyAllocatedMemory =								\
+PublicFields::s_hasDynamiclyAllocatedMemory ||										\
+PrivateFields::s_hasDynamiclyAllocatedMemory; 										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)											\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_STATIC_PUBLIC_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_STATIC_PUBLIC_PRIVATE_FIELDS(N1, N2)								\
+static constexpr std::array<IFields<type>*, 2> s_fields									\
+{ (IFields<type>*)&s_PublicStaticFields, (IFields<type>*)&s_PrivateStaticFields };		\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N1)											\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicStaticFields<type, N1, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2)						\
+static constexpr std::array<IFields<type>*, 2> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PublicStaticFields };				\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS(N1, N2)					\
+static constexpr std::array<IFields<type>*, 2> s_fields									\
+{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PrivateStaticFields };			\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2)					\
+static constexpr std::array<IFields<type>*, 2> s_fields									\
+{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PublicStaticFields };			\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS(N1, N2)					\
+static constexpr std::array<IFields<type>*, 2> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateStaticFields };			\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2, N3)\
+static constexpr std::array<IFields<type>*, 3> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PublicStaticFields,				\
+(IFields<type>*)&s_PrivateStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-for(int i = 0; i < recursionLevel;++i)			\
-	os << "\t";									\
-os << "End Class " << #type << "\n";			\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS(N1, N2, N3)\
+static constexpr std::array<IFields<type>*, 3> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
+(IFields<type>*)&s_PrivateStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N3)												\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N, completeDisplay>(ss, t, recursionLevel);			\
+	serializeLoopPrivateStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateFields<type, N, completeDisplay>(ss, t, recursionLevel);		\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS_AND_PRIVATE_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PublicFields, N)			\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-DK_ADD_TAB(recursionLevel)						\
-	os << "End Class " << #type << "\n";		\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS_AND_PRIVATE_FIELDS(N1, N2, N3)\
+static constexpr std::array<IFields<type>*, 3> s_fields									\
+{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
+(IFields<type>*)&s_PublicStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PublicFields::s_hasDynamiclyAllocatedMemory ||											\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N3)												\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateFields<type, N3, completeDisplay>(ss, t, recursionLevel);		\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(type,  N)\
-DK_SERIALIZE_FUNC_BEGIN(type)					\
-	DK_SERIALIZE_LOOP(PrivateFields, N)			\
-	DK_SERIALIZE_LOOP(PrivateStaticFields, N)	\
-	DK_SERIALIZE_LOOP(PublicStaticFields, N)	\
-DK_ADD_TAB(recursionLevel)						\
-	os << "End Class " << #type << "\n";		\
-	return os;									\
-DK_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2, N3)\
+static constexpr std::array<IFields<type>*, 3> s_fields									\
+{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PublicStaticFields,				\
+(IFields<type>*)&s_PrivateStaticFields };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory =									\
+PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
+PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
+PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
+DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
+DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
+DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
+DK_SERIALIZE_FUNC_BEGIN																	\
+	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_LOOP(fields, argN)												\
-DK_ADD_TAB(recursionLevel)															\
-os << "\t" << #fields << "\n";														\
-if constexpr (fields::s_hasDynamiclyAllocatedMemory) {								\
-DK_EXPAND(DK_CONCAT(DK_SERIALIZE_LOOP_IMPL, argN)(fields))							\
-}																					\
-else {																				\
-	DK_ADD_TAB(recursionLevel)														\
-	os << "\t\t" << #fields << " Size " << fields::s_totalSizeAllVar <<				\
-		" Binary Data ";															\
-	std::tuple<void*, size_t> binary;												\
-	DK_ALL_FIELDS_BINARY_DATA(fields, argN)											\
+#define DK_SERIALIZE_LOOP_FUNC(fields, argN)											\
+template<typename T, int N, bool completeDisplay = false>								\
+static void serializeLoop##fields(std::stringstream& ss, type& t, int recursionLevel) {	\
+DK_ADD_TAB(recursionLevel)																\
+ss << "\t" << #fields << "\n";															\
+if constexpr (!drak::types::IsBaseType_V<T>){											\
+if constexpr (MetaData<T>::fields::s_hasDynamiclyAllocatedMemory || completeDisplay) {	\
+DK_EXPAND(DK_CONCAT(DK_SERIALIZE_LOOP_IMPL, argN)(fields, N - 1))						\
+}																						\
+else {																					\
+DK_ADD_TAB(recursionLevel)																\
+ss << "\t\t" << #fields << " Size " << fields::s_totalSizeAllVar <<						\
+" Binary Data ";																		\
+std::tuple<void*, size_t> binary;														\
+DK_ALL_FIELDS_BINARY_DATA(fields, argN)													\
+}																						\
+}																						\
 }
 
 #define DK_SERIALIZE_LOOP_IMPL0(fields)\
 DK_ADD_TAB(recursionLevel)	\
-os << "\tEnd " << #fields << "\n";
+ss << "\tEnd " << #fields << "\n";
 
-#define DK_SERIALIZE_LOOP_IMPL1(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 0)	\
+#define DK_SERIALIZE_LOOP_IMPL1(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
 DK_SERIALIZE_LOOP_IMPL0(fields)
 
-#define DK_SERIALIZE_LOOP_IMPL2(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 1)	\
-DK_SERIALIZE_LOOP_IMPL1(fields)
+#define DK_SERIALIZE_LOOP_IMPL2(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL1(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL3(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 2)	\
-DK_SERIALIZE_LOOP_IMPL2(fields)
+#define DK_SERIALIZE_LOOP_IMPL3(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL2(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL4(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 3)	\
-DK_SERIALIZE_LOOP_IMPL3(fields)
+#define DK_SERIALIZE_LOOP_IMPL4(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL3(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL5(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 4)	\
-DK_SERIALIZE_LOOP_IMPL4(fields)
+#define DK_SERIALIZE_LOOP_IMPL5(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL4(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL6(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 5)	\
-DK_SERIALIZE_LOOP_IMPL5(fields)
+#define DK_SERIALIZE_LOOP_IMPL6(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL5(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL7(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 6)	\
-DK_SERIALIZE_LOOP_IMPL6(fields)
+#define DK_SERIALIZE_LOOP_IMPL7(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL6(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL8(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 7)	\
-DK_SERIALIZE_LOOP_IMPL7(fields)
+#define DK_SERIALIZE_LOOP_IMPL8(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL7(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL9(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 8)	\
-DK_SERIALIZE_LOOP_IMPL8(fields)
+#define DK_SERIALIZE_LOOP_IMPL9(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL8(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL10(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 9)	\
-DK_SERIALIZE_LOOP_IMPL9(fields)
+#define DK_SERIALIZE_LOOP_IMPL10(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL9(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL11(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 10)	\
-DK_SERIALIZE_LOOP_IMPL10(fields)
+#define DK_SERIALIZE_LOOP_IMPL11(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL10(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL12(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 11)	\
-DK_SERIALIZE_LOOP_IMPL11(fields)
+#define DK_SERIALIZE_LOOP_IMPL12(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL11(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL13(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 12)	\
-DK_SERIALIZE_LOOP_IMPL12(fields)
+#define DK_SERIALIZE_LOOP_IMPL13(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL12(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL14(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 13)	\
-DK_SERIALIZE_LOOP_IMPL13(fields)
+#define DK_SERIALIZE_LOOP_IMPL14(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL13(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL15(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 14)	\
-DK_SERIALIZE_LOOP_IMPL14(fields)
+#define DK_SERIALIZE_LOOP_IMPL15(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL14(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL16(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 15)	\
-DK_SERIALIZE_LOOP_IMPL15(fields)
+#define DK_SERIALIZE_LOOP_IMPL16(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL15(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL17(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 16)	\
-DK_SERIALIZE_LOOP_IMPL16(fields)
+#define DK_SERIALIZE_LOOP_IMPL17(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL16(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL18(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 17)	\
-DK_SERIALIZE_LOOP_IMPL17(fields)
+#define DK_SERIALIZE_LOOP_IMPL18(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL17(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL19(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 18)	\
-DK_SERIALIZE_LOOP_IMPL18(fields)
+#define DK_SERIALIZE_LOOP_IMPL19(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL18(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL20(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 19)	\
-DK_SERIALIZE_LOOP_IMPL19(fields)
+#define DK_SERIALIZE_LOOP_IMPL20(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL19(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL21(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 20)	\
-DK_SERIALIZE_LOOP_IMPL20(fields)
+#define DK_SERIALIZE_LOOP_IMPL21(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL20(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL22(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 21)	\
-DK_SERIALIZE_LOOP_IMPL21(fields)
+#define DK_SERIALIZE_LOOP_IMPL22(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL21(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL23(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 22)	\
-DK_SERIALIZE_LOOP_IMPL22(fields)
+#define DK_SERIALIZE_LOOP_IMPL23(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL22(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL24(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 23)	\
-DK_SERIALIZE_LOOP_IMPL23(fields)
+#define DK_SERIALIZE_LOOP_IMPL24(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL23(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL25(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 24)	\
-DK_SERIALIZE_LOOP_IMPL24(fields)
+#define DK_SERIALIZE_LOOP_IMPL25(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL24(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL26(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 25)	\
-DK_SERIALIZE_LOOP_IMPL25(fields)
+#define DK_SERIALIZE_LOOP_IMPL26(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL25(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL27(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 26)	\
-DK_SERIALIZE_LOOP_IMPL26(fields)
+#define DK_SERIALIZE_LOOP_IMPL27(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL26(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL28(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 27)	\
-DK_SERIALIZE_LOOP_IMPL27(fields)
+#define DK_SERIALIZE_LOOP_IMPL28(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL27(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL29(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 28)	\
-DK_SERIALIZE_LOOP_IMPL28(fields)
+#define DK_SERIALIZE_LOOP_IMPL29(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL28(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL30(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 29)	\
-DK_SERIALIZE_LOOP_IMPL29(fields)
+#define DK_SERIALIZE_LOOP_IMPL30(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL29(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL31(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 30)	\
-DK_SERIALIZE_LOOP_IMPL30(fields)
+#define DK_SERIALIZE_LOOP_IMPL31(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL30(fields, N - 1)
 
-#define DK_SERIALIZE_LOOP_IMPL32(fields)	\
-DK_SERIALIZE_LOOP_IMPL(fields, 31)	\
-DK_SERIALIZE_LOOP_IMPL31(fields)
+#define DK_SERIALIZE_LOOP_IMPL32(fields, N)\
+DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+DK_SERIALIZE_LOOP_IMPL31(fields, N - 1)
 
 
-#define DK_SERIALIZE_LOOP_IMPL(fields, N)																\
-if constexpr (fields::s_isVarBaseType[N]) {																\
-	std::tuple<void*, size_t> binary{ fields::get(t, fields::s_varName[N]) };							\
-	DK_ADD_TAB(recursionLevel)																			\
-	os << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " << fields::s_varName[N]				\
-	<< " Size " << std::get<1>(binary) <<" Binary Data ";												\
-	for (size_t i = 0; i < std::get<1>(binary); ++i) {													\
-			os << ((const char*)std::get<0>(binary))[i];												\
-	}																									\
-	os << "\n";																							\
-}																										\
-else {																									\
-	DK_ADD_TAB(recursionLevel)																			\
-	os << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " <<									\
-	fields::s_varName[N] << ":\n";																		\
-	TYPEOF(t.*(std::get<N>(fields::s_var))) obj{ t.*(std::get<N>(fields::s_var)) };						\
-	MetaData<TYPEOF(obj)>::serialize																	\
-		(os, *(TYPEOF(obj)*)std::get<0>(fields::get(t, fields::s_varName[N])), recursionLevel + 2);		\
-}
+#define DK_SERIALIZE_LOOP_IMPL(fields, N)															\
+if constexpr (drak::types::IsBaseType_V<TYPEOF(t.*(std::get<N>(fields::s_var)))> ||					\
+		std::is_array_v<TYPEOF(t.*(std::get<N>(fields::s_var)))>) {									\
+	 std::tuple<void*, size_t> binary{ fields::get(t, fields::s_varName[N]) };						\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " << fields::s_varName[N]			\
+	<< " Size " << std::get<1>(binary) <<" Binary Data ";											\
+	for (size_t i = 0; i < std::get<1>(binary); ++i) {												\
+			ss << ((const char*)std::get<0>(binary))[i];											\
+	}																								\
+	ss << "\n";																						\
+}																									\
+else {																								\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " <<								\
+	fields::s_varName[N] << ":\n";																	\
+	TYPEOF(t.*(std::get<N>(fields::s_var))) obj{ t.*(std::get<N>(fields::s_var)) };					\
+	MetaData<TYPEOF(obj)>::serialize<completeDisplay>												\
+		(ss, *(TYPEOF(obj)*)std::get<0>(fields::get(t, fields::s_varName[N])), recursionLevel + 2);	\
+}																									\
 
-#define DK_NON_SERIALIZED_OBJECT(type)\
+#define DK_NON_SERIALIZED_OBJECT \
 static constexpr bool s_serialized = false;
 
 #define DK_SERIALIZED_OBJECT(type)						\
 friend drak::serialization::MetaData<type>;				\
 static constexpr bool s_serialized = true;				\
 public:													\
-inline std::stringstream& serialize(std::stringstream& os);
+template<bool completeDisplay = false>					\
+inline std::stringstream& serialize(std::stringstream& ss);
 
-#define DK_METADATA(type)									\
+#define DK_METADATA_BEGIN(ty)								\
 template<>													\
-struct drak::serialization::MetaData<type> {				\
-static constexpr const char* typeName() { return #type; };	\
-static type Create() { return type(); };					\
-static type* CreateNew() { return new type; };
+struct drak::serialization::MetaData<ty> {					\
+using type = ty;											\
+static constexpr const char* typeName() { return #ty; };	\
+static ty create() { return ty(); };						\
+static ty* createNew() { return new ty; };
 
-#define DK_METADATA_FIELDS(fieldName, type, ...)										\
-struct fieldName {																		\
-static constexpr std::array<constexpr char*, DK_ARGS_N(__VA_ARGS__)> s_varName =		\
+#define DK_METADATA_FIELDS(fieldName, ...)												\
+struct fieldName : public drak::serialization::IFields<type> {							\
+DK_GETTER_METADATA_IMPL																	\
+DK_CHECK_FOR_PTR_IMPL(fieldName)														\
+static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_varName =	\
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };								\
-static constexpr std::array<constexpr bool, DK_ARGS_N(__VA_ARGS__)> s_isVarBaseType =	\
-{ DK_REVERSE_VA_ARGS(DK_CHECK_BASE_TYPE(type, __VA_ARGS__)) };							\
 static constexpr auto s_var =															\
-std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(type, __VA_ARGS__)));				\
-static constexpr size_t s_varNb = DK_ARGS_N(__VA_ARGS__);								\
-static constexpr size_t s_totalSizeAllVar = DK_SIZEOF_VA_ARGS(type, __VA_ARGS__);		\
+std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(__VA_ARGS__)));						\
+static constexpr size_t s_varN = DK_ARGS_N(__VA_ARGS__);								\
+static constexpr size_t s_totalSizeAllVar = DK_SIZEOF_VA_ARGS(__VA_ARGS__);				\
 static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-DK_CHECK_FOR_PTR(fieldName, type, __VA_ARGS__);											\
-static std::tuple<void*, size_t> get(type& t, const char* str){							\
-	DK_GETTER_METADATA(s_varName, DK_ARGS_N(__VA_ARGS__))								\
+DK_CHECK_FOR_PTR(__VA_ARGS__);															\
+virtual const char* varName(int idx)override{											\
+	return s_varName[idx];																\
+};																						\
+virtual size_t varN() override {														\
+	return s_varN;																		\
+};																						\
+virtual size_t totalSizeAllVar() override {												\
+	return s_totalSizeAllVar;															\
+};																						\
+virtual bool hasDynamiclyAllocatedMemory() override {									\
+	return s_hasDynamiclyAllocatedMemory;												\
+};																						\
+static std::tuple<void*, size_t> get(type& t, const char* str) {						\
+	DK_GETTER_METADATA(DK_ARGS_N(__VA_ARGS__))											\
 }																						\
-static void set(type& t, const char* str, void* v){										\
+static void set(type& t, const char* str, void* v) {									\
 	DK_SETTER_METADATA(s_varName, DK_ARGS_N(__VA_ARGS__))								\
 }																						\
 static const char* typeNameOf(const char* str){											\
-	DK_TYPE_NAME(s_varName, type, __VA_ARGS__)											\
+	DK_TYPE_NAME(__VA_ARGS__)															\
 }																						\
-};
+};																						\
+static constexpr fieldName s_##fieldName = fieldName();
 
-#define DK_PUBLIC_MEMBERS(type, ...)\
-DK_METADATA_FIELDS(PublicFields, type, __VA_ARGS__)
+#define DK_PUBLIC_FIELDS(...)\
+DK_METADATA_FIELDS(PublicFields, __VA_ARGS__)
 
-#define DK_PRIVATE_MEMBERS(type, ...)\
-DK_METADATA_FIELDS(PrivateFields, type, __VA_ARGS__)
+#define DK_PRIVATE_FIELDS(...)\
+DK_METADATA_FIELDS(PrivateFields, __VA_ARGS__)
 
-#define DK_PUBLIC_STATIC_MEMBERS(type, ...)\
-DK_METADATA_FIELDS(PublicStaticFields, type, __VA_ARGS__)
+#define DK_PUBLIC_STATIC_FIELDS(...)\
+DK_METADATA_FIELDS(PublicStaticFields, __VA_ARGS__)
 
-#define DK_PRIVATE_STATIC_MEMBERS(type, ...)\
-DK_METADATA_FIELDS(PrivateStaticFields, type, __VA_ARGS__)
+#define DK_PRIVATE_STATIC_FIELDS(...)\
+DK_METADATA_FIELDS(PrivateStaticFields, __VA_ARGS__)
 
 #define DK_PUBLIC_METHODE(type, ...)														\
 static constexpr std::array<const char*, DK_ARGS_N(__VA_ARGS__)> m_publicMethodeName =		\
@@ -1542,46 +1557,4 @@ static constexpr std::array<const char*, DK_ARGS_N(__VA_ARGS__)> m_staticPublicM
 static constexpr std::array<const char*, DK_ARGS_N(__VA_ARGS__)> m_staticPrivateMethodeName =	\
 { DK_STRINGIZE_VA_ARGS(__VA_ARGS__) };
 
-#define DK_FAKE_FIELDS_FOR_COMPILER								\
-struct PublicFields {												\
-static constexpr bool s_hasDynamiclyAllocatedMemory = false;		\
-};																	\
-struct PrivateFields {												\
-	static constexpr bool s_hasDynamiclyAllocatedMemory = false;	\
-};																	\
-struct PublicStaticFields {											\
-	static constexpr bool s_hasDynamiclyAllocatedMemory = false;	\
-};																	\
-struct PrivateStaticFields {										\
-	static constexpr bool s_hasDynamiclyAllocatedMemory = false;	\
-};
-
-#define DK_FAKE_METADATA_FOR_COMPILER(type)												\
-template<>																				\
-struct drak::serialization::MetaData<type>{												\
-DK_FAKE_FIELDS_FOR_COMPILER																\
-static std::stringstream& serialize(std::stringstream& ss, type, int) { return ss; };	\
-};																						\
-template<>																				\
-struct drak::serialization::MetaData<type[]> {											\
-DK_FAKE_FIELDS_FOR_COMPILER																\
-static std::stringstream& serialize(std::stringstream& ss, type t[], int) { return ss; };\
-};																						\
-template<size_t X>																		\
-struct drak::serialization::MetaData<type[X]> {											\
-DK_FAKE_FIELDS_FOR_COMPILER																\
-static std::stringstream& serialize(std::stringstream& ss, type t[X], int) { return ss; };\
-};
-
-
-DK_FAKE_METADATA_FOR_COMPILER(bool)
-DK_FAKE_METADATA_FOR_COMPILER(U8)
-DK_FAKE_METADATA_FOR_COMPILER(I8)
-DK_FAKE_METADATA_FOR_COMPILER(U16)
-DK_FAKE_METADATA_FOR_COMPILER(I16)
-DK_FAKE_METADATA_FOR_COMPILER(U32)
-DK_FAKE_METADATA_FOR_COMPILER(I32)
-DK_FAKE_METADATA_FOR_COMPILER(U64)
-DK_FAKE_METADATA_FOR_COMPILER(I64)
-DK_FAKE_METADATA_FOR_COMPILER(F32)
-DK_FAKE_METADATA_FOR_COMPILER(F64)
+#define DK_METADATA_END };
