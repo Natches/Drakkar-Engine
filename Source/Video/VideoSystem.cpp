@@ -1,5 +1,5 @@
 #ifdef WINDOWING_SDL
-#include <Windowing/SDLRenderWindow.hpp>
+#include <Windowing/Window/SDLWindow.hpp>
 #endif
 
 #include <vld.h>
@@ -8,22 +8,20 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
-#include <cstdio>
-
 namespace drak {
 namespace video {
 
-ARenderWindow*	VideoSystem::s_pMainWin	= nullptr;
+AWindow*	VideoSystem::s_pMainWin	= nullptr;
 bool			VideoSystem::s_ready	= false;
 
 
 bool VideoSystem::startup(const VideoSettings& settings) {
 	#ifdef WINDOWING_SDL
-	if (!SDLRenderWindow::InitSDLVideo()) {
+	if (!SDLWindow::InitSDLVideo()) {
 		return false;
 	}
 		
-	s_pMainWin = new SDLRenderWindow(settings.window);
+	s_pMainWin = new SDLWindow(settings.window);
 	#endif
 
 	if (!gl::GLRHI::Init(true)) {
@@ -38,7 +36,7 @@ void VideoSystem::shutdown() {
 	delete s_pMainWin;
 
 	#ifdef WINDOWING_SDL
-	SDLRenderWindow::QuitSDLVideo();
+	SDLWindow::QuitSDLVideo();
 	#endif
 }
 

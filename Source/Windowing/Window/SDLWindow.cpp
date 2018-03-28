@@ -3,13 +3,16 @@
 
 #include <GL/glew.h>
 
-#include <Windowing/SDLRenderWindow.hpp>
+#include <Windowing/Window/SDLWindow.hpp>
+#include <Windowing/Input/Keyboard.hpp>
+
+using namespace drak::events;
 
 namespace drak {
 namespace video {
 
-SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
-:	ARenderWindow(settings) {
+SDLWindow::SDLWindow(const WindowSettings& settings)
+:	AWindow(settings) {
 
 	U32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -31,38 +34,47 @@ SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
 	m_open = true;
 }
 
-SDLRenderWindow::~SDLRenderWindow() {
-	if (m_open) Close();
+SDLWindow::~SDLWindow() {
+	if (m_open) close();
 }
 
-bool SDLRenderWindow::InitSDLVideo() {
+bool SDLWindow::InitSDLVideo() {
 	return SDL_Init(SDL_INIT_VIDEO) == 0;
 }
 
-void SDLRenderWindow::QuitSDLVideo() {
+void SDLWindow::QuitSDLVideo() {
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-void SDLRenderWindow::PollEvents() {
+void SDLWindow::pollEvents() {
 	SDL_PollEvent(m_pEvt);
 	switch (m_pEvt->type) {
 	case SDL_WINDOWEVENT:
 		m_open = m_pEvt->window.event != SDL_WINDOWEVENT_CLOSE;
 		break;
+	case SDL_KEYDOWN:
+	case SDL_KEYUP:
+		//KeyEvent e {
+		//	Keyboard::Key::W,
+		//	SDLK_0
+		//	m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_PRESSED : Keyboard::KEY_RELEASED
+		//};
+
+		break;
 	}
 }
 
-void SDLRenderWindow::Clear() {
+void SDLWindow::clear() {
 	F32 color[] = { 0.f, 0.f, 0.f };
 	glClearBufferfv(GL_COLOR, 0, color);
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void SDLRenderWindow::SwapBuffers() {
+void SDLWindow::swapBuffers() {
 	SDL_GL_SwapWindow(static_cast<SDL_Window*>(m_pWin));
 }
 
-void SDLRenderWindow::Close() {
+void SDLWindow::close() {
 	delete m_pEvt;
 	SDL_DestroyWindow(static_cast<SDL_Window*>(m_pWin));
 }

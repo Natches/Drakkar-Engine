@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windowing/ARenderWindow.hpp>
+#include <Windowing/Window/AWindow.hpp>
 
 // Fwd Declarations
 union SDL_Event;
@@ -9,25 +9,25 @@ namespace drak {
 namespace video {
 
 /*!
-* \class SDLRenderWindow
+* \class SDLWindow
 * \ingroup DrakVideo
-* \brief Inherits ARenderWindow; builds on an SDL_Window
+* \brief Inherits AWindow; builds on an SDL_Window
 *
 */
-class SDLRenderWindow final : public ARenderWindow {
+class SDLWindow final : public AWindow {
 public:
-	SDLRenderWindow(const WindowSettings& settings);
-	virtual ~SDLRenderWindow();
+	SDLWindow(const WindowSettings& settings);
+	virtual ~SDLWindow();
 
 private:
 	static bool InitSDLVideo();
 	static void QuitSDLVideo();
 
 private:
-	void PollEvents()	override;
-	void Clear()		override;
-	void SwapBuffers()	override;
-	void Close()		override;
+	void pollEvents()	override;
+	void clear()		override;
+	void swapBuffers()	override;
+	void close()		override;
 
 private:
 	void*		m_glContext;

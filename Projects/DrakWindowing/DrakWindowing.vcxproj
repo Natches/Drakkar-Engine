@@ -19,13 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Windowing\ARenderWindow.cpp" />
-    <ClCompile Include="..\..\Source\Windowing\SDLRenderWindow.cpp" />
+    <ClCompile Include="..\..\Source\Windowing\Input\Keyboard.cpp" />
+    <ClCompile Include="..\..\Source\Windowing\Window\AWindow.cpp" />
+    <ClCompile Include="..\..\Source\Windowing\Window\SDLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Windowing\ARenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Windowing\SDLRenderWindow.hpp" />
-    <ClInclude Include="..\..\Source\Windowing\WindowSettings.hpp" />
+    <ClInclude Include="..\..\Source\Windowing\Input\Keyboard.hpp" />
+    <ClInclude Include="..\..\Source\Windowing\Window\AWindow.hpp" />
+    <ClInclude Include="..\..\Source\Windowing\Window\SDLWindow.hpp" />
+    <ClInclude Include="..\..\Source\Windowing\Window\WindowSettings.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

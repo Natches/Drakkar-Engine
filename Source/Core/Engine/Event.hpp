@@ -16,12 +16,11 @@ struct Event {
 
 using EventListener = function::GlobalFunction<void, Event*>;
 class IEventDispatcher {
-	DK_NONMOVABLE_NONCOPYABLE(IEventDispatcher)
 public:
 	virtual ~IEventDispatcher() {};
 
-	virtual void addListener(EventType type, EventListener listener) = 0;
-	virtual void removeListener(EventType type, EventListener listener) = 0;
+	virtual void addEventListener(EventType type, EventListener listener) = 0;
+	virtual void removeEventListener(EventType type, EventListener listener) = 0;
 
 protected:
 	virtual void dispatchEvent(Event* e) = 0;

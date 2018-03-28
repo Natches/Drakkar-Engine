@@ -7,7 +7,7 @@ namespace drak {
 namespace video {
 
 // Fwd declaration
-class ARenderWindow;
+class AWindow;
 
 /*!
 * \class VideoSystem
@@ -23,10 +23,10 @@ public:
 	bool startup(const VideoSettings& settings);
 	void shutdown();
 
-	static ARenderWindow* MainWindow() { return s_pMainWin; }
+	static AWindow* MainWindow() { return s_pMainWin; }
 
 private:
-	static ARenderWindow*	s_pMainWin;
+	static AWindow*	s_pMainWin;
 	static bool				s_ready;
 };
 

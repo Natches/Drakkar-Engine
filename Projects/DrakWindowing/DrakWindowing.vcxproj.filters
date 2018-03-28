@@ -13,24 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Window">
+      <UniqueIdentifier>{c33e4755-1f63-4885-9646-4f16fb161d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{4d5f4417-317e-4129-8c13-bd47ca0c2a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window">
+      <UniqueIdentifier>{f665fb82-a4e5-4451-8305-9d5f4e7337f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{37c791da-a7c9-445a-8e56-a027626277d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Windowing\ARenderWindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\Windowing\Input\Keyboard.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Windowing\SDLRenderWindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\Windowing\Window\AWindow.cpp">
+      <Filter>Source Files\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Windowing\Window\SDLWindow.cpp">
+      <Filter>Source Files\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Windowing\ARenderWindow.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Windowing\Window\WindowSettings.hpp">
+      <Filter>Header Files\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Windowing\SDLRenderWindow.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Windowing\Input\Keyboard.hpp">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Windowing\WindowSettings.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Windowing\Window\AWindow.hpp">
+      <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Windowing\Window\SDLWindow.hpp">
+      <Filter>Header Files\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
