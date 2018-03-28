@@ -25,7 +25,9 @@ SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
 		winFlags
 	);
 
-	m_glContext = SDL_GL_CreateContext((SDL_Window*)m_pWin);
+	m_pEvt = new SDL_Event;
+
+	m_glContext = SDL_GL_CreateContext(static_cast<SDL_Window*>(m_pWin));
 	m_open = true;
 }
 
@@ -42,10 +44,10 @@ void SDLRenderWindow::QuitSDLVideo() {
 }
 
 void SDLRenderWindow::PollEvents() {
-	SDL_PollEvent(&m_evt);
-	switch (m_evt.type) {
+	SDL_PollEvent(m_pEvt);
+	switch (m_pEvt->type) {
 	case SDL_WINDOWEVENT:
-		m_open = m_evt.window.event != SDL_WINDOWEVENT_CLOSE;
+		m_open = m_pEvt->window.event != SDL_WINDOWEVENT_CLOSE;
 		break;
 	}
 }
@@ -57,11 +59,12 @@ void SDLRenderWindow::Clear() {
 }
 
 void SDLRenderWindow::SwapBuffers() {
-	SDL_GL_SwapWindow((SDL_Window*)m_pWin);
+	SDL_GL_SwapWindow(static_cast<SDL_Window*>(m_pWin));
 }
 
 void SDLRenderWindow::Close() {
-	SDL_DestroyWindow((SDL_Window*)m_pWin);
+	delete m_pEvt;
+	SDL_DestroyWindow(static_cast<SDL_Window*>(m_pWin));
 }
 
 } // namespace video

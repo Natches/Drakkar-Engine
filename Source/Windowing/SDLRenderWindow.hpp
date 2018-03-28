@@ -1,8 +1,9 @@
 #pragma once
 
-#include "SDL_events.h"
-
 #include <Windowing/ARenderWindow.hpp>
+
+// Fwd Declarations
+union SDL_Event;
 
 namespace drak {
 namespace video {
@@ -30,7 +31,7 @@ private:
 
 private:
 	void*		m_glContext;
-	SDL_Event	m_evt;
+	SDL_Event*	m_pEvt;
 
 friend bool VideoSystem::startup(const VideoSettings& settings);
 friend void VideoSystem::shutdown();
