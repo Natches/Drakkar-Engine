@@ -2,7 +2,7 @@
 
 #include <Video/Graphics/RHI/OpenGL/GLVertexBuffer.hpp>
 
-using namespace drak::video::geom;
+using namespace drak::geom;
 
 namespace drak {
 namespace video {

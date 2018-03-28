@@ -81,9 +81,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Primitives.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>

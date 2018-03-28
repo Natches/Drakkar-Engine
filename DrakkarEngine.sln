@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_ProjectTemplate", "Projects\_ProjectTemplate\_ProjectTemplate.vcxproj", "{DBDA5CAB-690D-44C5-8A99-4BC1C53593BC}"
 EndProject
@@ -21,6 +21,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Projects\Game\Game.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakVideo", "Projects\DrakVideo\DrakVideo.vcxproj", "{4777D9A5-56EA-4560-991A-865DC8E98FDC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2AA57F66-23EF-48B7-A476-12EDEFBE470F} = {2AA57F66-23EF-48B7-A476-12EDEFBE470F}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IniLoader", "Projects\IniLoader\IniLoader.vcxproj", "{9C7C677F-F5A7-4E19-A6AD-DA14A6396ABE}"
 EndProject

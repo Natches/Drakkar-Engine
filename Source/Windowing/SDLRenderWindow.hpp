@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SDL_video.h"
 #include "SDL_events.h"
 
 #include <Windowing/ARenderWindow.hpp>
@@ -14,23 +13,27 @@ namespace video {
 * \brief Inherits ARenderWindow; builds on an SDL_Window
 *
 */
-class SDLRenderWindow : public ARenderWindow {
-protected:
+class SDLRenderWindow final : public ARenderWindow {
+public:
 	SDLRenderWindow(const WindowSettings& settings);
 	virtual ~SDLRenderWindow();
 
-protected:
+private:
+	static bool InitSDLVideo();
+	static void QuitSDLVideo();
+
+private:
 	void PollEvents()	override;
-	void SwapBuffers()	override;
 	void Clear()		override;
+	void SwapBuffers()	override;
 	void Close()		override;
 
-protected:
-	void*		m_pWin;
-	I32			m_resX, m_resY;
+private:
+	void*		m_glContext;
 	SDL_Event	m_evt;
 
-friend class VideoSystem;
+friend bool VideoSystem::startup(const VideoSettings& settings);
+friend void VideoSystem::shutdown();
 };
 
 } // namespace video

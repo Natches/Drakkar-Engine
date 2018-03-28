@@ -4,7 +4,7 @@
 #include <Video/Graphics/RHI/OpenGL/GLVertexAttrib.hpp>
 
 using namespace drak::math;
-using namespace drak::video::geom;
+using namespace drak::geom;
 
 namespace drak {
 namespace video {

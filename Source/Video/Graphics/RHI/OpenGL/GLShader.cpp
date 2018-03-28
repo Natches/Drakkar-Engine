@@ -14,7 +14,8 @@ namespace video {
 namespace gl {
 
 GLShader::~GLShader() {
-	glDeleteProgram(m_glID);
+	if (m_glID)
+		glDeleteProgram(m_glID);
 }
 
 void GLShader::use() const {

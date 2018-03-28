@@ -5,7 +5,6 @@
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
-namespace video {
 namespace geom {
 
 class Mesh {
@@ -28,6 +27,5 @@ protected:
 	std::vector<U16>	m_indices;
 };
 
-} // namespace gl
-} // namespace video
+} // namespace geom
 } // namespace drak

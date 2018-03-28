@@ -5,8 +5,8 @@
 #include <Video/Graphics/OBJLoader.hpp>
 
 using namespace drak::math;
-using namespace drak::video::geom;
-#include <iostream>
+using namespace drak::geom;
+
 namespace drak {
 namespace video {
 

@@ -1,7 +1,6 @@
 #include <Video/Graphics/Geometry/Mesh.hpp>
 
 namespace drak {
-namespace video {
 namespace geom {
 
 Mesh::Mesh() {
@@ -30,5 +29,4 @@ void Mesh::addTriangle(
 }
 
 } // namespace geom
-} // namespace video
 } // namespace drak

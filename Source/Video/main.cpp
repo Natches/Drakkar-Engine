@@ -1,18 +1,19 @@
 #include <vector>
 
 #include <Video/VideoSystem.hpp>
-
 #include <Video/Graphics/OBJLoader.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Camera.hpp>
+
+#include <Windowing/ARenderWindow.hpp>
 #include <Math/Vec2.hpp>
 
 using namespace drak::math;
 using namespace drak::video;
-using namespace drak::video::geom;
+using namespace drak::geom;
 
 void testRun(ARenderWindow* pWin) {
 	OBJLoader loader;
@@ -34,9 +35,10 @@ void testRun(ARenderWindow* pWin) {
 
 	gl::GLTexture tex;
 	tex.loadFromFile("Textures/grid_cell.png");
+	tex.use();
 
 	Camera c;
-	c.view({ 0.f, 10.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	c.view({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	c.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	Mat4f mvp = c.viewPerspective() *
@@ -44,9 +46,7 @@ void testRun(ARenderWindow* pWin) {
 
 	gl::GLRHI::s_gridShader.use();
 	gl::GLRHI::s_gridShader.setUniform("MVP", mvp);
-	gl::GLRHI::s_gridShader.setUniform("resolution", Vec2f{ 64.f, 64.f});
-
-	tex.use();
+	gl::GLRHI::s_gridShader.setUniform("resolution", Vec2f{ 256.f, 256.f});
 	
 	while (pWin->IsOpen()) {
 		pWin->PollEvents();
@@ -62,13 +62,14 @@ void testRun(ARenderWindow* pWin) {
 int main() {
 	WindowSettings	ws = {"DrakVideoTest", 1600, 900};
 	VideoSettings	settings = {ws};
+	VideoSystem		video;
 
-	bool okVideo = VideoSystem::Startup(settings);
+	bool okVideo = video.startup(settings);
 
 	if (okVideo)
 		testRun(VideoSystem::MainWindow());
 
-	VideoSystem::Shutdown();
+	video.shutdown();
 
 	system("pause");
 	return okVideo;

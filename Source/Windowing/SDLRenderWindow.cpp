@@ -1,5 +1,9 @@
+#include "SDL.h"
+#undef main // avoid SDL name conflict
+
 #include <GL/glew.h>
-#include <Video/Windowing/SDLRenderWindow.hpp>
+
+#include <Windowing/SDLRenderWindow.hpp>
 
 namespace drak {
 namespace video {
@@ -21,12 +25,20 @@ SDLRenderWindow::SDLRenderWindow(const WindowSettings& settings)
 		winFlags
 	);
 
-	SDL_GL_CreateContext((SDL_Window*)m_pWin);
+	m_glContext = SDL_GL_CreateContext((SDL_Window*)m_pWin);
 	m_open = true;
 }
 
 SDLRenderWindow::~SDLRenderWindow() {
 	if (m_open) Close();
+}
+
+bool SDLRenderWindow::InitSDLVideo() {
+	return SDL_Init(SDL_INIT_VIDEO) == 0;
+}
+
+void SDLRenderWindow::QuitSDLVideo() {
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
 void SDLRenderWindow::PollEvents() {

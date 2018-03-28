@@ -1,7 +1,4 @@
 #ifdef WINDOWING_SDL
-#include "SDL.h"
-#undef main // avoid SDL name conflict
-
 #include <Windowing/SDLRenderWindow.hpp>
 #endif
 
@@ -11,20 +8,21 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
+#include <cstdio>
+
 namespace drak {
 namespace video {
 
-#pragma region Static Initialization
 ARenderWindow*	VideoSystem::s_pMainWin	= nullptr;
 bool			VideoSystem::s_ready	= false;
-#pragma endregion
 
-#pragma region Startup/Shutdown
-bool VideoSystem::Startup(const VideoSettings& settings) {
+
+bool VideoSystem::startup(const VideoSettings& settings) {
 	#ifdef WINDOWING_SDL
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+	if (!SDLRenderWindow::InitSDLVideo()) {
 		return false;
 	}
+		
 	s_pMainWin = new SDLRenderWindow(settings.window);
 	#endif
 
@@ -33,17 +31,16 @@ bool VideoSystem::Startup(const VideoSettings& settings) {
 	}
 
 	s_ready = true;
-	return true;
+	return s_ready;
 }
 
-void VideoSystem::Shutdown() {
+void VideoSystem::shutdown() {
 	delete s_pMainWin;
 
 	#ifdef WINDOWING_SDL
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	SDLRenderWindow::QuitSDLVideo();
 	#endif
 }
-#pragma endregion
 
 } // namespace video
 } // namespace drak

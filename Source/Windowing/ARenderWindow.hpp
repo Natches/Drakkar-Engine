@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core/Utils/ClassUtils.hpp>
+#include <Video/VideoSystem.hpp>
 #include <Windowing/WindowSettings.hpp>
 
 namespace drak {
@@ -14,7 +16,7 @@ namespace video {
 class ARenderWindow { 
 	DK_NONMOVABLE_NONCOPYABLE(ARenderWindow)
 public:
-	ARenderWindow() = delete;
+	ARenderWindow(const WindowSettings& settings);
 	virtual ~ARenderWindow() = default;
 
 public:
@@ -30,14 +32,11 @@ public:
 	virtual void	Close()			= 0;
 
 protected:
-	ARenderWindow(const WindowSettings& settings);
-
-protected:
 	void*	m_pWin;
 	I32		m_resX, m_resY;
 	bool	m_open;
 
-friend class VideoSystem;
+friend bool VideoSystem::startup(const VideoSettings& settings);
 };
 
 } // namespace video

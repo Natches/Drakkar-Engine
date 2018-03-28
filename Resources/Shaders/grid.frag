@@ -6,7 +6,6 @@ uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
 
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
-uniform vec2		resolution;
 
 in VS_OUT {
 	vec3 pos;
@@ -16,8 +15,7 @@ in VS_OUT {
 
 out vec4 fragColor;
 
-void main()
-{     
-	fragColor = tint;
-    //fragColor = texture(tex, frag.uv);
+void main() {        
+	vec4 texColor = texture(tex, frag.uv);
+    fragColor = texColor * tint;
 }

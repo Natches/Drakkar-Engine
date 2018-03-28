@@ -49,5 +49,5 @@ public:
 
 
 } // namespace gl
-} // namespace gfx
+} // namespace video
 } // namespace drak
