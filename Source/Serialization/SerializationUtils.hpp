@@ -1,5 +1,7 @@
 #pragma once
 
+#define LOG_FILE "Serialization.log"
+
 namespace drak {
 namespace serialization {
 
@@ -9,9 +11,10 @@ struct MetaData {};
 template<typename T>
 struct IFields {
 	virtual const char* varName(int idx) = 0;
-	virtual size_t varN() = 0;
+	virtual int varN() = 0;
 	virtual size_t totalSizeAllVar() = 0;
 	virtual bool hasDynamiclyAllocatedMemory() = 0;
+	virtual std::tuple<void*, size_t> getVar(T& t, const char* str) = 0;
 };
 
 } // namespace serialization
@@ -255,17 +258,21 @@ DK_EXPAND(DK_POINT_MEMBER_BASE30(__VA_ARGS__, &type::t))
 DK_EXPAND(DK_POINT_MEMBER_BASE31(__VA_ARGS__, &type::t))
 
 
-#define DK_GETTER_METADATA_IMPL											\
-template<typename T, int N>												\
-static std::tuple<void*, size_t> getData(type& t) {						\
-if constexpr (!std::is_array_v<T>){										\
-	return std::make_tuple<void*, size_t>								\
-	(&(t.*(std::get<N>(s_var))), sizeof(std::get<N>(s_var)));			\
-}																		\
-else {																	\
-	return std::make_tuple<void*, size_t>								\
-	((void*)(t.*(std::get<N>(s_var))), sizeof(t.*(std::get<N>(s_var))));\
-}																		\
+#define DK_GETTER_METADATA_IMPL															\
+template<typename T, int N>																\
+static std::tuple<void*, size_t> getData(type& t) {										\
+if constexpr (!std::is_array_v<T>){														\
+	return std::make_tuple<void*, size_t>												\
+	(&(t.*(std::get<N>(s_var))), sizeof(std::get<N>(s_var)));							\
+}																						\
+else if constexpr(drak::types::IsBaseType_V<std::remove_all_extents_t<T>>) {			\
+	return std::make_tuple<void*, size_t>												\
+	((void*)(t.*(std::get<N>(s_var))), sizeof(t.*(std::get<N>(s_var))));				\
+}																						\
+else {																					\
+	return std::make_tuple<void*, size_t>												\
+	((void*)(t.*(std::get<N>(s_var))), sizeof(t.*(std::get<N>(s_var))));				\
+}																						\
 }
 
 #define DK_CALL_GETTER( N)							\
@@ -545,7 +552,8 @@ static constexpr bool CheckForPTR() {															\
  if constexpr (drak::types::IsBaseType_V<std::remove_pointer_t<std::remove_all_extents_t<T>>>)	\
 	return std::is_pointer_v<T>;																\
  else																							\
-	return drak::serialization::MetaData<T>::s_hasDynamiclyAllocatedMemory;						\
+	return drak::serialization::MetaData<std::remove_pointer_t<std::remove_all_extents_t<T>>>::	\
+	s_hasDynamiclyAllocatedMemory;																\
 }
 
 #define DK_CHECK_FOR_PTR0
@@ -645,135 +653,149 @@ CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR30(__VA_ARGS__))
 #define DK_CHECK_FOR_PTR32(t, ...)\
 CheckForPTR<TYPEOF(type::t)>() | DK_EXPAND(DK_CHECK_FOR_PTR31(__VA_ARGS__))
 
-#define DK_SIZEOF_VA_ARGS_IMPL(t)\
-sizeof(TYPEOF(type::t))
+#define DK_SIZEOF_SERIALIZED_TYPE_IMPL																\
+template<typename T>																				\
+static constexpr size_t SizeOfSerializedType(){														\
+if constexpr(drak::types::IsBaseType_V<std::remove_all_extents_t<T>>)								\
+return sizeof(T);																					\
+else if constexpr(std::is_array_v<T>)																\
+return MetaData<std::remove_all_extents_t<T>>::s_totalSize * drak::types::SizeOfArray_V<T>;			\
+else if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<T>> && T::s_serialized)		\
+return MetaData<T>::s_totalSize;																	\
+else{																								\
+Logbook::Log(Logbook::EOutput::BOTH, LOG_FILE,														\
+"Cannot get the size of a non serialized object, your object is of type : %s", typeid(T).name());	\
+exit(1);																							\
+return 0;																							\
+}																									\
+}
 
 #define DK_SIZEOF_VA_ARGS0
 #define DK_SIZEOF_VA_ARGS1(t)\
-DK_SIZEOF_VA_ARGS_IMPL(t)	\
+SizeOfSerializedType<TYPEOF(type::t)>();\
 
 #define DK_SIZEOF_VA_ARGS2(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS1(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS3(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS2(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS4(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS3(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS5(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS4(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS6(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS5(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS7(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS6(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS8(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS7(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS9(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS8(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS10(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS9(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS11(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS10(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS12(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS11(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS13(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS12(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS14(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS13(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS15(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS14(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS16(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS15(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS17(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS16(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS18(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS17(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS19(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS18(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS20(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS19(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS21(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS20(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS22(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS21(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS23(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS22(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS24(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS23(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS25(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS24(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS26(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS25(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS27(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS26(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS28(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS27(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS29(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS28(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS30(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS29(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS31(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS30(__VA_ARGS__))
 
 #define DK_SIZEOF_VA_ARGS32(t, ...)\
-DK_SIZEOF_VA_ARGS_IMPL(t) +	\
+SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS31(__VA_ARGS__))
 
 
@@ -914,10 +936,39 @@ DK_EXPAND(DK_TYPE_NAME31(__VA_ARGS__))
 for (int i = 0; i < x; ++i)		\
 	ss << "\t";
 
-#define DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)							\
-binary = fields::get(t, fields::s_varName[N]);								\
+#define DK_ALL_FIELDS_BINARY_DATA_FUNC(fields)							\
+template<typename T, int N>\
+static void AllFieldBinaryData##fields(std::stringstream& ss, type& t) {\
+if constexpr (drak::types::IsBaseType_V<std::remove_all_extents_t<T>>) {\
+std::tuple<void*, size_t> binary = fields::get(t, fields::s_varName[N]);								\
 for (size_t i = 0; i < std::get<1>(binary); ++i) {							\
 		ss << ((const char*)std::get<0>(binary))[i];						\
+}																			\
+}																			\
+else if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<T>> && !std::is_array_v<T>){						\
+std::tuple<void*, size_t> binary;\
+T obj = t.*(std::get<N>(fields::s_var));						\
+for(auto f : MetaData<T>::s_fields) {							\
+		for(int idxVar = 0, varN = f->varN(); idxVar < varN; ++idxVar)	{							\
+			binary = f->getVar(obj, f->varName(idxVar));											\
+			for (size_t i = 0, size = std::get<1>(binary); i < size; ++i)							\
+				ss << ((const char*)std::get<0>(binary))[i];										\
+		}																							\
+	}																								\
+}																									\
+else {\
+std::tuple<void*, size_t> binary;\
+for(size_t idx = 0, arraySize = drak::types::SizeOfArray_V<T>; idx < arraySize; ++idx) {	\
+	std::remove_all_extents_t<T>& obj = (t.*(std::get<N>(fields::s_var)))[idx];\
+	for(auto f : MetaData<std::remove_all_extents_t<T>>::s_fields) {				\
+		for(int idxVar = 0, varN = f->varN(); idxVar < varN; ++idxVar)	{							\
+			binary = f->getVar(obj, f->varName(idxVar));			\
+			for (size_t i = 0, size = std::get<1>(binary); i < size; ++i)							\
+				ss << ((const char*)std::get<0>(binary))[i];										\
+		}																							\
+	}																								\
+}																									\
+}																									\
 }
 
 #define DK_ALL_FIELDS_BINARY_DATA0(fields)\
@@ -926,131 +977,131 @@ DK_ADD_TAB(recursionLevel)	\
 ss << "\tEnd " << #fields << "\n";
 
 #define DK_ALL_FIELDS_BINARY_DATA1(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA0(fields)
 
 #define DK_ALL_FIELDS_BINARY_DATA2(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA1(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA3(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA2(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA4(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA3(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA5(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA4(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA6(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA5(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA7(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA6(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA8(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA7(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA9(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA8(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA10(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA9(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA11(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA10(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA12(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA11(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA13(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA12(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA14(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA13(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA15(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA14(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA16(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA15(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA17(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA16(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA18(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA17(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA19(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA18(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA20(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA19(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA21(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA20(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA22(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA21(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA23(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
  DK_ALL_FIELDS_BINARY_DATA22(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA24(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA23(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA25(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA24(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA26(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA25(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA27(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA26(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA28(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA27(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA29(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA28(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA30(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA29(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA31(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA30(fields, N - 1)
 
 #define DK_ALL_FIELDS_BINARY_DATA32(fields, N)	\
-DK_ALL_FIELDS_BINARY_DATA_IMPL(fields, N)	\
+AllFieldBinaryData##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N>(ss, t);\
 DK_ALL_FIELDS_BINARY_DATA31(fields, N - 1)
 
 #define DK_ARGS_N(...) \
@@ -1067,14 +1118,14 @@ _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, 
 
 #define DK_SERIALIZE_FUNC_BEGIN																	\
 template<bool completeDisplay = false>															\
-static std::stringstream& serialize( std::stringstream& ss, type& t, int recursionLevel = 0) {	\
+static std::stringstream& serialize(std::stringstream& ss, type& t, int recursionLevel = 0) {	\
 DK_ADD_TAB(recursionLevel)																		\
 ss << "Class " << typeName() << "\n";
 
-#define DK_SERIALIZE_FUNC_END			\
-DK_ADD_TAB(recursionLevel)				\
+#define DK_SERIALIZE_FUNC_END				\
+DK_ADD_TAB(recursionLevel)					\
 ss << "End Class " << typeName() << "\n";	\
-return ss;								\
+return ss;									\
 }
 
 #define DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(type)									\
@@ -1086,7 +1137,50 @@ return drak::serialization::MetaData<type>::serialize<completeDisplay>(ss, *this
 #define DK_EMPTY_SERIALIZE_FUNCTION_IN_SERIALIZED_OBJECT(type) \
 std::stringstream& type::serialize(std::stringstream& ss) {};
 
-#define DK_SERIALIZE_ALL(N1, N2, N3, N4)												\
+#define DK_SERIALIZE_1_FIELDS(fields1)												\
+static constexpr std::array<IFields<type>*, 1> s_fields								\
+{ (IFields<type>*)&s_fields1 };														\
+static constexpr bool s_hasDynamiclyAllocatedMemory =								\
+fields1::s_hasDynamiclyAllocatedMemory;												\
+static constexpr size_t s_totalSize =													\
+fields1::s_totalSize;																	\
+DK_SERIALIZE_FUNC_BEGIN																\
+serializeLoopPublicFields<type, fields1::s_varN, completeDisplay>(ss, t, recursionLevel);		\
+DK_SERIALIZE_FUNC_END
+
+#define DK_SERIALIZE_2_FIELDS(fields1, fields2)										\
+static constexpr std::array<IFields<type>*, 2> s_fields								\
+{ (IFields<type>*)&s_fields1, (IFields<type>*)&s_fields2 };				\
+static constexpr bool s_hasDynamiclyAllocatedMemory = \
+fields1::s_hasDynamiclyAllocatedMemory || \
+fields2::s_hasDynamiclyAllocatedMemory; 										\
+static constexpr size_t s_totalSize = \
+fields1::s_totalSize + \
+fields2::s_totalSize;														\
+DK_SERIALIZE_FUNC_BEGIN																\
+serializeLoopPublicFields<type, fields1::s_varN, completeDisplay>(ss, t, recursionLevel);	\
+serializeLoopPrivateFields<type, fields2::s_varN, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
+
+#define DK_SERIALIZE_3_FIELDS(fields1, fields2, fields3)								\
+static constexpr std::array<IFields<type>*, 3> s_fields									\
+{ (IFields<type>*)&s_fields1, (IFields<type>*)&s_fields2, \
+(IFields<type>*)&s_fields3 };												\
+static constexpr bool s_hasDynamiclyAllocatedMemory = \
+fields1::s_hasDynamiclyAllocatedMemory || \
+fields2::s_hasDynamiclyAllocatedMemory || \
+fields3::s_hasDynamiclyAllocatedMemory;										\
+static constexpr size_t s_totalSize = \
+fields1::s_totalSize + \
+fields2::s_totalSize + \
+fields3::s_totalSize;														\
+DK_SERIALIZE_FUNC_BEGIN																	\
+serializeLoopPublicFields<type, fields1::s_varN, completeDisplay>(ss, t, recursionLevel);		\
+serializeLoopPrivateStaticFields<type, fields2::s_varN, completeDisplay>(ss, t, recursionLevel);	\
+serializeLoopPublicStaticFields<type, fields3::s_varN, completeDisplay>(ss, t, recursionLevel);	\
+DK_SERIALIZE_FUNC_END
+
+#define DK_SERIALIZE_ALL																\
 static constexpr std::array<IFields<type>*, 4> s_fields									\
 { (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
 (IFields<type>*)&s_PublicStaticFields, (IFields<type>*)&s_PrivateStaticFields };		\
@@ -1095,202 +1189,59 @@ PublicFields::s_hasDynamiclyAllocatedMemory ||											\
 PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
 PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
 PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N2)												\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N4)											\
+static constexpr size_t s_totalSize =													\
+PublicFields::s_totalSize +																\
+PrivateFields::s_totalSize +															 \
+PublicStaticFields::s_totalSize +														\
+PrivateStaticFields::s_totalSize;														\
 DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPrivateFields<type, N2, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPrivateStaticFields<type, N4, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPublicFields<type, PublicFields::s_varN, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPrivateFields<type, PrivateFields::s_varN, completeDisplay>(ss, t, recursionLevel);		\
+	serializeLoopPublicStaticFields<type, PublicStaticFields::s_varN, completeDisplay>(ss, t, recursionLevel);	\
+	serializeLoopPrivateStaticFields<type, PrivateStaticFields::s_varN, completeDisplay>(ss, t, recursionLevel);	\
 DK_SERIALIZE_FUNC_END
 
-#define DK_SERIALIZE_PUBLIC_FIELDS(N)												\
-static constexpr std::array<IFields<type>*, 1> s_fields								\
-{ (IFields<type>*)&s_PublicFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =								\
-PublicFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N)												\
-DK_SERIALIZE_FUNC_BEGIN																\
-	serializeLoopPublicFields<type, N, completeDisplay>(ss, t, recursionLevel);		\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS													\
+DK_SERIALIZE_1_FIELDS(PublicFields)
 
-#define DK_SERIALIZE_PRIVATE_FIELDS(N)												\
-static constexpr std::array<constexpr IFields<type>*, 1> s_fields					\
-{ (IFields<type>*)&s_PrivateFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =								\
-PrivateFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N)											\
-DK_SERIALIZE_FUNC_BEGIN																\
-	serializeLoopPrivateFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PRIVATE_FIELDS													\
+DK_SERIALIZE_1_FIELDS(PrivateFields)
 
-#define DK_SERIALIZE_STATIC_PUBLIC_FIELDS(N)											\
-static constexpr std::array<IFields<type>*, 1> s_fields									\
-{ (IFields<type>*)&s_PublicStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_STATIC_PUBLIC_FIELDS												\
+DK_SERIALIZE_1_FIELDS(PublicStaticFields)
 
-#define DK_SERIALIZE_STATIC_PRIVATE_FIELDS(N)											\
-static constexpr std::array<IFields<type>*, 1> s_fields									\
-{ (IFields<type>*)&s_PrivateStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPrivateStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_STATIC_PRIVATE_FIELDS												\
+DK_SERIALIZE_1_FIELDS(PrivateStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_PRIVATE_FIELDS(N1, N2)									\
-static constexpr std::array<IFields<type>*, 2> s_fields								\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields };				\
-static constexpr bool s_hasDynamiclyAllocatedMemory =								\
-PublicFields::s_hasDynamiclyAllocatedMemory ||										\
-PrivateFields::s_hasDynamiclyAllocatedMemory; 										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)											\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPrivateFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_PRIVATE_FIELDS											\
+DK_SERIALIZE_2_FIELDS(PublicFields, PrivateFields)
 
-#define DK_SERIALIZE_STATIC_PUBLIC_PRIVATE_FIELDS(N1, N2)								\
-static constexpr std::array<IFields<type>*, 2> s_fields									\
-{ (IFields<type>*)&s_PublicStaticFields, (IFields<type>*)&s_PrivateStaticFields };		\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N1)											\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicStaticFields<type, N1, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_STATIC_PUBLIC_PRIVATE_FIELDS										\
+DK_SERIALIZE_2_FIELDS(PublicStaticFields, PrivateStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2)						\
-static constexpr std::array<IFields<type>*, 2> s_fields									\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PublicStaticFields };				\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicFields::s_hasDynamiclyAllocatedMemory ||											\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS								\
+DK_SERIALIZE_2_FIELDS(PublicFields, PublicStaticFields)
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS(N1, N2)					\
-static constexpr std::array<IFields<type>*, 2> s_fields									\
-{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PrivateStaticFields };			\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS							\
+DK_SERIALIZE_2_FIELDS(PrivateFields, PrivateStaticFields)
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2)					\
-static constexpr std::array<IFields<type>*, 2> s_fields									\
-{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PublicStaticFields };			\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS							\
+DK_SERIALIZE_2_FIELDS(PrivateFields, PublicStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS(N1, N2)					\
-static constexpr std::array<IFields<type>*, 2> s_fields									\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateStaticFields };			\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicFields::s_hasDynamiclyAllocatedMemory ||											\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS							\
+DK_SERIALIZE_2_FIELDS(PublicFields, PrivateStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2, N3)\
-static constexpr std::array<IFields<type>*, 3> s_fields									\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PublicStaticFields,				\
-(IFields<type>*)&s_PrivateStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicFields::s_hasDynamiclyAllocatedMemory ||											\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS	\
+DK_SERIALIZE_3_FIELDS(PublicFields, PublicStaticFields, PrivateStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS(N1, N2, N3)\
-static constexpr std::array<IFields<type>*, 3> s_fields									\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
-(IFields<type>*)&s_PrivateStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicFields::s_hasDynamiclyAllocatedMemory ||											\
-PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N3)												\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N, completeDisplay>(ss, t, recursionLevel);			\
-	serializeLoopPrivateStaticFields<type, N, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPrivateFields<type, N, completeDisplay>(ss, t, recursionLevel);		\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS			\
+DK_SERIALIZE_3_FIELDS(PublicFields, PrivateFields, PrivateStaticFields)
 
-#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS_AND_PRIVATE_FIELDS(N1, N2, N3)\
-static constexpr std::array<IFields<type>*, 3> s_fields									\
-{ (IFields<type>*)&s_PublicFields, (IFields<type>*)&s_PrivateFields,					\
-(IFields<type>*)&s_PublicStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PublicFields::s_hasDynamiclyAllocatedMemory ||											\
-PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PublicFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N2)											\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N3)												\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPublicFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPublicStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPrivateFields<type, N3, completeDisplay>(ss, t, recursionLevel);		\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PUBLIC_FIELDS_AND_PRIVATE_FIELDS			\
+DK_SERIALIZE_3_FIELDS(PublicFields, PublicStaticFields, PrivateFields)
 
-#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS(N1, N2, N3)\
-static constexpr std::array<IFields<type>*, 3> s_fields									\
-{ (IFields<type>*)&s_PrivateFields, (IFields<type>*)&s_PublicStaticFields,				\
-(IFields<type>*)&s_PrivateStaticFields };												\
-static constexpr bool s_hasDynamiclyAllocatedMemory =									\
-PrivateFields::s_hasDynamiclyAllocatedMemory ||											\
-PublicStaticFields::s_hasDynamiclyAllocatedMemory ||									\
-PrivateStaticFields::s_hasDynamiclyAllocatedMemory;										\
-DK_SERIALIZE_LOOP_FUNC(PrivateFields, N1)												\
-DK_SERIALIZE_LOOP_FUNC(PrivateStaticFields, N2)											\
-DK_SERIALIZE_LOOP_FUNC(PublicStaticFields, N3)											\
-DK_SERIALIZE_FUNC_BEGIN																	\
-	serializeLoopPrivateFields<type, N1, completeDisplay>(ss, t, recursionLevel);		\
-	serializeLoopPrivateStaticFields<type, N2, completeDisplay>(ss, t, recursionLevel);	\
-	serializeLoopPublicStaticFields<type, N3, completeDisplay>(ss, t, recursionLevel);	\
-DK_SERIALIZE_FUNC_END
+#define DK_SERIALIZE_PRIVATE_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_STATIC_PUBLIC_FIELDS	\
+DK_SERIALIZE_3_FIELDS(PrivateFields, PrivateStaticFields, PublicStaticFields)
 
 #define DK_SERIALIZE_LOOP_FUNC(fields, argN)											\
 template<typename T, int N, bool completeDisplay = false>								\
@@ -1303,9 +1254,8 @@ DK_EXPAND(DK_CONCAT(DK_SERIALIZE_LOOP_IMPL, argN)(fields, N - 1))						\
 }																						\
 else {																					\
 DK_ADD_TAB(recursionLevel)																\
-ss << "\t\t" << #fields << " Size " << fields::s_totalSizeAllVar <<						\
+ss << "\t\t" << #fields << " Size " << fields::s_totalSize <<							\
 " Binary Data ";																		\
-std::tuple<void*, size_t> binary;														\
 DK_ALL_FIELDS_BINARY_DATA(fields, argN)													\
 }																						\
 }																						\
@@ -1316,137 +1266,140 @@ DK_ADD_TAB(recursionLevel)	\
 ss << "\tEnd " << #fields << "\n";
 
 #define DK_SERIALIZE_LOOP_IMPL1(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL0(fields)
 
 #define DK_SERIALIZE_LOOP_IMPL2(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL1(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL3(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL2(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL4(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL3(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL5(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL4(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL6(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL5(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL7(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL6(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL8(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL7(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL9(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL8(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL10(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL9(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL11(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL10(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL12(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL11(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL13(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL12(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL14(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL13(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL15(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL14(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL16(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL15(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL17(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL16(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL18(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL17(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL19(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL18(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL20(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL19(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL21(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL20(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL22(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL21(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL23(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL22(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL24(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL23(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL25(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL24(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL26(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL25(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL27(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL26(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL28(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL27(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL29(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL28(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL30(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL29(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL31(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL30(fields, N - 1)
 
 #define DK_SERIALIZE_LOOP_IMPL32(fields, N)\
-DK_SERIALIZE_LOOP_IMPL(fields, N)	\
+serializeLoopImpl##fields<TYPEOF(t.*(std::get<N>(fields::s_var))), N, completeDisplay>(ss, t, recursionLevel);\
 DK_SERIALIZE_LOOP_IMPL31(fields, N - 1)
 
 
-#define DK_SERIALIZE_LOOP_IMPL(fields, N)															\
-if constexpr (drak::types::IsBaseType_V<TYPEOF(t.*(std::get<N>(fields::s_var)))> ||					\
-		std::is_array_v<TYPEOF(t.*(std::get<N>(fields::s_var)))>) {									\
+#define DK_SERIALIZE_LOOP_IMPL_FUNC(fields)															\
+template<typename T, int N, bool completeDisplay>													\
+static void serializeLoopImpl##fields(std::stringstream& ss, type& t, int recursionLevel) {			\
+if constexpr (drak::types::IsBaseType_V<T> ||														\
+		(std::is_array_v<T> &&																		\
+		drak::types::IsBaseType_V<T>)) {															\
 	 std::tuple<void*, size_t> binary{ fields::get(t, fields::s_varName[N]) };						\
 	DK_ADD_TAB(recursionLevel)																		\
 	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " << fields::s_varName[N]			\
@@ -1456,14 +1409,26 @@ if constexpr (drak::types::IsBaseType_V<TYPEOF(t.*(std::get<N>(fields::s_var)))>
 	}																								\
 	ss << "\n";																						\
 }																									\
+else if constexpr (!drak::types::IsBaseType_V<T> &&	std::is_array_v<T>){							\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " <<								\
+	fields::s_varName[N] << " :\n";																	\
+for(size_t i = 0, size = drak::types::SizeOfArray_V<T> ; i < size; ++i ) {							\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << "[" << i << "] : \n";															\
+	MetaData<std::remove_all_extents_t<T>>::serialize<completeDisplay>								\
+		(ss, (t.*(std::get<N>(fields::s_var)))[i], recursionLevel + 2);								\
+}																									\
+}																									\
 else {																								\
 	DK_ADD_TAB(recursionLevel)																		\
 	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " <<								\
 	fields::s_varName[N] << ":\n";																	\
-	TYPEOF(t.*(std::get<N>(fields::s_var))) obj{ t.*(std::get<N>(fields::s_var)) };					\
-	MetaData<TYPEOF(obj)>::serialize<completeDisplay>												\
-		(ss, *(TYPEOF(obj)*)std::get<0>(fields::get(t, fields::s_varName[N])), recursionLevel + 2);	\
+	T  obj{ t.*(std::get<N>(fields::s_var)) };														\
+	MetaData<T>::serialize<completeDisplay>															\
+		(ss, *(T*)std::get<0>(fields::get(t, fields::s_varName[N])), recursionLevel + 2);			\
 }																									\
+}
 
 #define DK_NON_SERIALIZED_OBJECT \
 static constexpr bool s_serialized = false;
@@ -1472,6 +1437,7 @@ static constexpr bool s_serialized = false;
 friend drak::serialization::MetaData<type>;				\
 static constexpr bool s_serialized = true;				\
 public:													\
+using MetaData = MetaData<type>;						\
 template<bool completeDisplay = false>					\
 inline std::stringstream& serialize(std::stringstream& ss);
 
@@ -1481,7 +1447,8 @@ struct drak::serialization::MetaData<ty> {					\
 using type = ty;											\
 static constexpr const char* typeName() { return #ty; };	\
 static ty create() { return ty(); };						\
-static ty* createNew() { return new ty; };
+static ty* createNew() { return new ty; };					\
+DK_SIZEOF_SERIALIZED_TYPE_IMPL
 
 #define DK_METADATA_FIELDS(fieldName, ...)												\
 struct fieldName : public drak::serialization::IFields<type> {							\
@@ -1491,22 +1458,25 @@ static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_var
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };								\
 static constexpr auto s_var =															\
 std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(__VA_ARGS__)));						\
-static constexpr size_t s_varN = DK_ARGS_N(__VA_ARGS__);								\
-static constexpr size_t s_totalSizeAllVar = DK_SIZEOF_VA_ARGS(__VA_ARGS__);				\
+static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
+static constexpr size_t s_totalSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);				\
 static constexpr bool s_hasDynamiclyAllocatedMemory =									\
 DK_CHECK_FOR_PTR(__VA_ARGS__);															\
 virtual const char* varName(int idx)override{											\
 	return s_varName[idx];																\
 };																						\
-virtual size_t varN() override {														\
+virtual int varN() override {															\
 	return s_varN;																		\
 };																						\
 virtual size_t totalSizeAllVar() override {												\
-	return s_totalSizeAllVar;															\
+	return s_totalSize;															\
 };																						\
 virtual bool hasDynamiclyAllocatedMemory() override {									\
 	return s_hasDynamiclyAllocatedMemory;												\
 };																						\
+virtual std::tuple<void*, size_t> getVar(type& t, const char* str)override {			\
+	DK_GETTER_METADATA(DK_ARGS_N(__VA_ARGS__))											\
+}																						\
 static std::tuple<void*, size_t> get(type& t, const char* str) {						\
 	DK_GETTER_METADATA(DK_ARGS_N(__VA_ARGS__))											\
 }																						\
@@ -1517,6 +1487,9 @@ static const char* typeNameOf(const char* str){											\
 	DK_TYPE_NAME(__VA_ARGS__)															\
 }																						\
 };																						\
+DK_ALL_FIELDS_BINARY_DATA_FUNC(fieldName)												\
+DK_SERIALIZE_LOOP_IMPL_FUNC(fieldName)													\
+DK_SERIALIZE_LOOP_FUNC(fieldName,  DK_ARGS_N(__VA_ARGS__))								\
 static constexpr fieldName s_##fieldName = fieldName();
 
 #define DK_PUBLIC_FIELDS(...)\
@@ -1558,3 +1531,57 @@ static constexpr std::array<const char*, DK_ARGS_N(__VA_ARGS__)> m_staticPrivate
 { DK_STRINGIZE_VA_ARGS(__VA_ARGS__) };
 
 #define DK_METADATA_END };
+
+
+#define DK_DESERIALIZE_FUNC_BEGIN							\
+static type& deserialize(std::stringstream& ss, type& t) {	\
+DK_CHECK_CLASS
+
+#define DK_DESERIALIZE_FUNC1_BEGIN				\
+static type deserialize(std::stringstream& ss) {\
+DK_CHECK_CLASS
+
+
+
+
+#define DK_CHECK_CLASS															\
+std::string str;																\
+while (str << ss) {																\
+if (str == "Class") {															\
+str << ss;																		\
+if (str == typeName())															\
+break;																			\
+else {																			\
+Logbook::Log(Logbook::EOutput::BOTH,											\
+"Serialization.log",															\
+"Bad type passed to MetaData : %s passed but %s should be passed instead !!",	\
+str, typeName());																\
+exit(1);																		\
+}																				\
+}																				\
+}
+
+#define DK_DESERIALIZE_FUNC_END	\
+return t;						\
+}
+
+#define DK_DESERIALIZE_LOOP_IMPL(fields, N)															\
+if constexpr (drak::types::IsBaseType_V<TYPEOF(t.*(std::get<N>(fields::s_var)))> ||					\
+		std::is_array_v<TYPEOF(t.*(std::get<N>(fields::s_var)))>) {									\
+	 std::tuple<void*, size_t> binary{ fields::get(t, fields::s_varName[N]) };						\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " << fields::s_varName[N]			\
+	<< " Size " << std::get<1>(binary) <<" Binary Data ";											\
+	for (size_t i = 0; i < std::get<1>(binary); ++i) {												\
+			ss << ((const char*)std::get<0>(binary))[i];											\
+	}																								\
+	ss << "\n";																						\
+}																									\
+else {																								\
+	DK_ADD_TAB(recursionLevel)																		\
+	ss << "\t\t" << fields::typeNameOf(fields::s_varName[N]) << " " <<								\
+	fields::s_varName[N] << ":\n";																	\
+	TYPEOF(t.*(std::get<N>(fields::s_var))) obj{ t.*(std::get<N>(fields::s_var)) };					\
+	MetaData<TYPEOF(obj)>::serialize<completeDisplay>												\
+		(ss, *(TYPEOF(obj)*)std::get<0>(fields::get(t, fields::s_varName[N])), recursionLevel + 2);	\
+}

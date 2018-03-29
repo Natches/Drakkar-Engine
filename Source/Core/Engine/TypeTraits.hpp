@@ -58,6 +58,23 @@ struct IsBaseType {
 template<typename T>
 constexpr bool IsBaseType_V = IsBaseType<T>::value;
 
+template<typename T>
+struct SizeOfArray {
+	enum : int {
+		value = 1
+	};
+};
+
+template<typename T, size_t X>
+struct SizeOfArray<T[X]> {
+	enum : int {
+		value = X
+	};
+};
+
+template<typename T>
+constexpr int SizeOfArray_V = SizeOfArray<T>::value;
+
 } //namespace types
 } //namespace drak
 #define NOT_A_TYPE drak::types::noTypes::NoType

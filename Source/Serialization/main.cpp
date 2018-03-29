@@ -20,6 +20,8 @@ DK_IMPORT(drak::types)
 class Ser {
 	DK_SERIALIZED_OBJECT(Ser)
 	int i;
+	int c;
+	int x = 0;
 };
 
 class Test {
@@ -28,27 +30,30 @@ public:
 		inline int foo(int i) { std::cout << i << std::endl; return i; };
 private:
 	Ser serial, ser1;
+	float xizzy;
 public:
 	int instance;
 	int s, g, k, h, l, n,v, x, z, a, e, r, t, u, j, gf , f;
-	int b[26];
+	Ser b[26];
 };
 
 DK_METADATA_BEGIN(Ser)
-DK_PRIVATE_FIELDS(i)
-DK_SERIALIZE_PRIVATE_FIELDS(1)
+DK_PRIVATE_FIELDS(i, c)
+DK_SERIALIZE_PRIVATE_FIELDS
 DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 
 DK_METADATA_BEGIN(Test)
 DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b)
 DK_PRIVATE_FIELDS(serial, ser1)
-DK_SERIALIZE_PUBLIC_PRIVATE_FIELDS(19, 2)
+DK_PRIVATE_STATIC_FIELDS(xizzy)
+DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS
 DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
 
 int main() {
 	Test t;
+	t.s = 1;
 	std::stringstream str("", std::ios::binary | std::ios::out | std::ios::in);
 	t.serialize(str);
 	std::tuple<int, int, int> tu{ 1,2,3 };
