@@ -26,6 +26,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine\Event.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp" />
