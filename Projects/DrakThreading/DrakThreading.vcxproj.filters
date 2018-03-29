@@ -89,32 +89,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\Threading\Function\Function.inl">
-      <Filter>Header Files\Function</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Task\Task.inl">
-      <Filter>Header Files\Task</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Task\TaskSequence.inl">
-      <Filter>Header Files\Task</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Task\DeferredTask.inl">
-      <Filter>Header Files\Task</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Task\DelayedTask.inl">
-      <Filter>Header Files\Task</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Thread\ThreadObject.inl">
-      <Filter>Header Files\Thread</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Thread\ThreadPool.inl">
-      <Filter>Header Files\Thread</Filter>
-    </None>
-    <None Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.inl">
-      <Filter>Header Files\Thread\StealableQueue</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,11 +113,40 @@
     <ClCompile Include="..\..\Source\Threading\Task\RecurentTask.cpp">
       <Filter>Source Files\Task</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Threading\Task\TaskGroup.inl">
-      <Filter>Header Files\Task</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Function\Function.cpp">
       <Filter>Source Files\Function</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Threading\Function\Function.inl">
+      <Filter>Header Files\Function</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\DeferredTask.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\DelayedTask.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\RecurentTask.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\Task.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\TaskGroup.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Task\TaskSequence.inl">
+      <Filter>Header Files\Task</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Thread\ThreadObject.inl">
+      <Filter>Header Files\Thread</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Thread\ThreadPool.inl">
+      <Filter>Header Files\Thread</Filter>
+    </None>
+    <None Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.inl">
+      <Filter>Header Files\Thread\StealableQueue</Filter>
+    </None>
   </ItemGroup>
 </Project>
