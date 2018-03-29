@@ -111,7 +111,7 @@ Key SDLWindow::keyConvert(int sdlKey) const {
 }
 
 void SDLWindow::clear() {
-	F32 color[] = { 1.f, 1.f, 1.f };
+	F32 color[] = { 0.f, 0.f, 0.f };
 	glClearBufferfv(GL_COLOR, 0, color);
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
