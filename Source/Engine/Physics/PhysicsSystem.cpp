@@ -4,7 +4,7 @@
 #include <Engine/Components/Components.h>
 
 
-#define SIM_RATE 1.f/60.f 
+#define SIM_RATE 1.f/120.f 
 
 DK_IMPORT(drak)
 

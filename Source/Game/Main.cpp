@@ -16,7 +16,7 @@ class Player : public AGameObject {
 	Transform* transform;
 	int counter = 0;
 	virtual void Update() override {
-		if (counter <= 20000) {
+		if (counter <= 50000) {
 		}
 		else {
 			Engine::stopGame();
@@ -41,7 +41,7 @@ class MainScene : public IManualSceneBlueprint {
 	// Inherited via IManualSceneBlueprint
 	virtual void build(Scene & scene) override
 	{
-		for (int i = 0; i < 1000; ++i) {
+		for (int i = 0; i < 10; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.addComponentToGameObject<Transform>(p1);
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
@@ -51,7 +51,7 @@ class MainScene : public IManualSceneBlueprint {
 
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));
-			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, 0, 0));
+			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i * 10, 0));
 			rigid->material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
 			rigid->rigidActor->createShape(physx::PxBoxGeometry(0.5, 0.5, 0.5), *rigid->material);
 			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid->rigidActor, 10.f);
