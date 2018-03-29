@@ -17,7 +17,7 @@ void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 		m_glID,
 		sizeof(GLushort) * m_indexCount,
 		pIndices,
-		GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
+		GL_MAP_WRITE_BIT);
 }
 
 } // namespace gl

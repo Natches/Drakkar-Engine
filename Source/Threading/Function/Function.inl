@@ -489,8 +489,8 @@ void MemberFunction<CallerType, void, VArgs...>::operator()(const index<Indices.
 		(m_pCaller->*m_pFunc)
 		(std::get<Indices>(std::forward<std::tuple<VArgs...>>(this->m_args))...);
 	else {
-		Logbook::Log(Logbook::EOutput::BOTH, "crash.log",
-			"FATAL ERROR\n TERMINATION OF PROGRAM\n Cause : MemberFunction Caller was nullptr.");
+	//	Logbook::Log(Logbook::EOutput::BOTH, "crash.log",
+	//		"FATAL ERROR\n TERMINATION OF PROGRAM\n Cause : MemberFunction Caller was nullptr.");
 		exit(1);
 	}
 }

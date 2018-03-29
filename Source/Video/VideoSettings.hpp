@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Windowing/Window/WindowSettings.hpp>
+
 namespace drak {
 namespace video {
 

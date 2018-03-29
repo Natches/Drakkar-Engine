@@ -17,7 +17,7 @@ public:
 	GLObject() = default;
 	virtual ~GLObject() = default;
 
-	DK_GETTER(GLuint, glID, m_glID)
+	DK_GETTER_C(GLuint, glID, m_glID)
 
 protected:
 	GLuint m_glID;

@@ -14,17 +14,16 @@ struct Event {
 	EventType type;
 };
 
-using EventListener = function::GlobalFunction<void, Event*>;
+using EventListener = function::IFunction*;
 class IEventDispatcher {
-	DK_NONMOVABLE_NONCOPYABLE(IEventDispatcher)
 public:
 	virtual ~IEventDispatcher() {};
 
-	virtual void addListener(EventType type, EventListener listener) = 0;
-	virtual void removeListener(EventType type, EventListener listener) = 0;
+	virtual void addEventListener(EventType type, EventListener listener) = 0;
+	virtual void removeEventListener(EventType type, EventListener listener) = 0;
 
 protected:
-	virtual void dispatchEvent(Event* e) = 0;
+	virtual void dispatchEvent(const Event* e) = 0;
 };
 
 } // namespace core

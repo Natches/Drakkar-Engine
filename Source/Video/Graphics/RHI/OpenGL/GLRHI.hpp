@@ -26,10 +26,13 @@ public:
 	static bool Init(bool debug = false);
 	static void GraphicsInfo();
 
-	static void DepthFunc(bool on, EDepthMode mode);
-	static void CullFunc(bool on, EFaceSide side);
+	static void DepthFunc	(bool on, EDepthMode mode);
+	static void CullFunc	(bool on, EFaceSide side);
+	static void BlendFunc	(bool on, EBlendMode srcFactor, EBlendMode dstFactor);
 
 private:
+	static bool LoadShaders();
+
 	static void ErrorHandler(
 		GLenum			source,
 		GLenum			type,
@@ -39,34 +42,12 @@ private:
 		const GLchar*	message,
 		const GLvoid*	userParam);
 
-private:
+public:
 	static GLShader s_defaultShader;
+	static GLShader s_gridShader;
 };
 
-/*
-enum class BlendMode : byte {
-	ZERO,
-	ONE,
-	SRC_COLOR,
-	ONE_MINUS_SRC_COLOR,
-	DST_COLOR,
-	ONE_MINUS_DST_COLOR,
-	SRC_ALPHA,
-	ONE_MINUS_SRC_ALPHA,
-	DST_ALPHA,
-	ONE_MINUS_DST_ALPHA,
-	CONST_COLOR,
-	ONE_MINUS_CONST_COLOR,
-	CONST_ALPHA,
-	ONE_MINUS_CONST_ALPHA,
-	SRC_ALPHA_SATURATE,
-	SRC1_COLOR,
-	ONE_MINUS_SRC_COLOR,
-	ONE_MINUS_SRC_ALPHA
-};
-void BlendFunc(bool on, BlendMode mode);
-*/
 
 } // namespace gl
-} // namespace gfx
+} // namespace video
 } // namespace drak
