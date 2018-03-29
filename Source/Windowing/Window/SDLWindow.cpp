@@ -15,7 +15,7 @@ namespace video {
 SDLWindow::SDLWindow(const WindowSettings& settings)
 :	AWindow(settings) {
 
-	U32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_MAXIMIZED;
+	U32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -52,6 +52,7 @@ void SDLWindow::pollEvents() {
 	switch (m_pEvt->type) {
 	case SDL_WINDOWEVENT:
 		m_open = m_pEvt->window.event != SDL_WINDOWEVENT_CLOSE;
+		if (!m_open) close();
 		break;
 	case SDL_KEYDOWN:
 	case SDL_KEYUP:

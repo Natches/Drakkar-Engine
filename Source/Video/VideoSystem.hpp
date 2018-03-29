@@ -20,14 +20,8 @@ class VideoSystem final {
 public:
 	VideoSystem() = default;
 
-	bool startup(const VideoSettings& settings);
+	bool startup(const VideoSettings& settings, AWindow*& pMainWindow);
 	void shutdown();
-
-	static AWindow* MainWindow() { return s_pMainWin; }
-
-private:
-	static AWindow*	s_pMainWin;
-	static bool				s_ready;
 };
 
 } // namespace video

@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Engine\Components\Components.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.h" />
     <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h" />
     <ClInclude Include="..\..\Source\Engine\Engine.hpp" />

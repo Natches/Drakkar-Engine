@@ -79,12 +79,12 @@ int main() {
 	VideoSettings	settings = {ws};
 	VideoSystem		video;
 
-	bool okVideo = video.startup(settings);
+	bool okVideo;// = video.startup(settings);
 
-	if (okVideo)
-		testRun(VideoSystem::MainWindow());
+	//if (okVideo)
+	//	testRun(VideoSystem::MainWindow());
 
-	video.shutdown();
+	//video.shutdown();
 
 	system("pause");
 	return okVideo;

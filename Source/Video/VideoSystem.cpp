@@ -11,30 +11,22 @@
 namespace drak {
 namespace video {
 
-AWindow*	VideoSystem::s_pMainWin	= nullptr;
-bool		VideoSystem::s_ready	= false;
-
-
-bool VideoSystem::startup(const VideoSettings& settings) {
+bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow) {
 	#ifdef WINDOWING_SDL
 	if (!SDLWindow::InitSDLVideo()) {
 		return false;
 	}
 		
-	s_pMainWin = new SDLWindow(settings.window);
+	pMainWindow = new SDLWindow(settings.window);
 	#endif
 
-	if (!gl::GLRHI::Init(true)) {
+	if (pMainWindow == nullptr || !gl::GLRHI::Init(true)) {
 		return false;
 	}
-
-	s_ready = true;
-	return s_ready;
+	return true;
 }
 
 void VideoSystem::shutdown() {
-	delete s_pMainWin;
-
 	#ifdef WINDOWING_SDL
 	SDLWindow::QuitSDLVideo();
 	#endif

@@ -4,9 +4,11 @@
 #include <Threading/Thread/ThreadPool.hpp>
 #include <Engine/Physics/PhysicsSystem.h>
 #include <Engine/Scene/SceneSystem.h>
+#include <Video/VideoSystem.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;
+
 namespace core {
 
 class Engine final {
@@ -26,9 +28,12 @@ public:
 	DRAK_API PhysicsSystem& getPhysicsSystem();
 private:
 	DRAK_API Engine();
-	time::FrameTimer s_frameTime;
-	PhysicsSystem physicsSystem;
-	SceneSystem sceneSystem;
+	time::FrameTimer	s_frameTime;
+	PhysicsSystem		physicsSystem;
+	SceneSystem			sceneSystem;
+	video::VideoSystem	videoSystem;
+	video::AWindow*		pMainWindow;
+
 	DRAK_API static thread::ThreadPool s_pool;
 	DRAK_API static bool running;
 };

@@ -42,7 +42,7 @@ class MainScene : public IManualSceneBlueprint {
 	virtual void build(Scene & scene) override
 	{
 		for (int i = 0; i < 10; ++i) {
-			Player* p1 = (Player*)scene.addGameObject<Player>();
+			Player* p1 = scene.addGameObject<Player>();
 			scene.addComponentToGameObject<Transform>(p1);
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
 			transform->position = math::Vec3f(0, i*10, 0);
@@ -58,7 +58,7 @@ class MainScene : public IManualSceneBlueprint {
 			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
 		}
 
-		Cube* ground = (Cube*)scene.addGameObject<Cube>();
+		Cube* ground = scene.addGameObject<Cube>();
 		scene.addComponentToGameObject<Transform>(ground);
 		Transform* transform = scene.getComponentByHandle<Transform>(ground->getHandle(ComponentType<Transform>::id));
 		transform->position = math::Vec3f(0, -100, 0);
