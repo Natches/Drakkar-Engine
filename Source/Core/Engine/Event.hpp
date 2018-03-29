@@ -14,7 +14,7 @@ struct Event {
 	EventType type;
 };
 
-using EventListener = function::GlobalFunction<void, const Event*>;
+using EventListener = function::IFunction*;
 class IEventDispatcher {
 public:
 	virtual ~IEventDispatcher() {};

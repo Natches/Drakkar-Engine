@@ -1,6 +1,9 @@
 #include <Video/Graphics/Camera.hpp>
+#include <Windowing/Input/Keyboard.hpp>
+#include <Core/Utils/MacroUtils.hpp>
 
 using namespace drak::math;
+using namespace drak::events;
 
 namespace drak {
 namespace video {
@@ -11,6 +14,18 @@ Camera::Camera()
 
 Camera::~Camera()
 {
+}
+
+void Camera::cameraControl(const Event* pEvt) {
+	auto k = static_cast<const KeyEvent*>(pEvt);
+	DK_SELECT(k->key)
+		DK_CASE(Key::KEY_Q, move({ 0.f,-1.f, 0.f }))
+		DK_CASE(Key::KEY_E, move({ 0.f, 1.f, 0.f }))
+		DK_CASE(Key::KEY_W, move({ 0.f, 0.f, 1.f }))
+		DK_CASE(Key::KEY_A, move({ -1.f, 0.f, 0.f }))
+		DK_CASE(Key::KEY_S, move({ 0.f, 0.f,-1.f }))
+		DK_CASE(Key::KEY_D, move({ 1.f, 0.f, 0.f }))
+	DK_END
 }
 
 #pragma region View Matrix

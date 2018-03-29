@@ -11,6 +11,8 @@ namespace drak {
 namespace events {
 
 enum class Key : U8 {
+	KEY_NONE,
+
 	KEY_0,
 	KEY_1,
 	KEY_2,
@@ -73,6 +75,8 @@ public:
 	void addEventListener		(EventType type, EventListener listener) override;
 	void removeEventListener	(EventType type, EventListener listener) override;
 
+	DK_GETTER_REF_V(KeyEvent, event, m_evt)
+
 protected:
 	void dispatchEvent(const Event* e) override;
 
@@ -80,9 +84,11 @@ private:
 	Keyboard();
 	~Keyboard();
 
-	std::map<EventType, std::list<EventListener>> m_listeners;
+private:
+	std::map<EventType, std::list<EventListener>>	m_listeners;
+	KeyEvent										m_evt;
 
-friend void video::AWindow::handleKeyEvent(const Event* pEvt);
+friend void video::AWindow::handleKeyEvent(const KeyEvent& e);
 };
 
 } // namespace input

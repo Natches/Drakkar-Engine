@@ -12,8 +12,9 @@ AWindow::AWindow(const WindowSettings& settings)
 	m_open(false) {
 }
 
-void AWindow::handleKeyEvent(const Event* pEvt) {
-	Keyboard::Get().dispatchEvent(pEvt);
+void AWindow::handleKeyEvent(const KeyEvent& e) {
+	Keyboard::Get().m_evt = e;
+	Keyboard::Get().dispatchEvent(&Keyboard::Get().m_evt);
 }
 
 } // namespace video

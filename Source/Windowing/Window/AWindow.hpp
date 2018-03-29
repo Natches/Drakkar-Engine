@@ -8,7 +8,7 @@ namespace drak {
 
 //---------------------------------------------------------------------------------------
 // Forward Declarations
-namespace events { struct Event; }
+namespace events { struct KeyEvent; }
 //---------------------------------------------------------------------------------------
 
 namespace video {
@@ -38,7 +38,7 @@ public:
 	virtual void	swapBuffers()	= 0;
 	virtual void	close()			= 0;
 
-	virtual void	handleKeyEvent(const events::Event* pEvt);
+	virtual void	handleKeyEvent(const events::KeyEvent& e);
 
 protected:
 	void*	m_pWin;

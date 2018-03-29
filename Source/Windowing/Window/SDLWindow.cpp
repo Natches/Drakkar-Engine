@@ -15,7 +15,7 @@ namespace video {
 SDLWindow::SDLWindow(const WindowSettings& settings)
 :	AWindow(settings) {
 
-	U32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+	U32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_MAXIMIZED;
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -59,14 +59,13 @@ void SDLWindow::pollEvents() {
 			keyConvert(m_pEvt->key.keysym.sym),
 			m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_PRESSED : Keyboard::KEY_RELEASED
 		};
-		handleKeyEvent(&e);
-		//m_pEvt->type = SDL_FIRSTEVENT;
+		handleKeyEvent(e);
 		break;
 	}
 }
 
 Key SDLWindow::keyConvert(int sdlKey) const {
-	Key k;
+	Key k = Key::KEY_NONE;
 	DK_SELECT(sdlKey)
 		DK_CASE(SDLK_0, k = Key::KEY_0)
 		DK_CASE(SDLK_1, k = Key::KEY_1)
@@ -112,7 +111,7 @@ Key SDLWindow::keyConvert(int sdlKey) const {
 }
 
 void SDLWindow::clear() {
-	F32 color[] = { 0.f, 0.f, 0.f };
+	F32 color[] = { 1.f, 1.f, 1.f };
 	glClearBufferfv(GL_COLOR, 0, color);
 	glClear(GL_DEPTH_BUFFER_BIT);
 }

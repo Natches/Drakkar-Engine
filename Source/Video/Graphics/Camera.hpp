@@ -3,6 +3,7 @@
 #include <Core/Utils/AComponentUtils.hpp>
 #include <Math/Vec3.hpp>
 #include <Math/Matrix4x4.hpp>
+#include <Core/Engine/Event.hpp>
 
 namespace drak {
 namespace video {
@@ -16,12 +17,18 @@ public:
 	const math::Mat4f& perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ);
 	const math::Mat4f& orthographic(F32 width, F32 height, F32 nearZ, F32 farZ);
 
-	inline void move(const math::Vec3f& delta) { m_eye += delta; buildView(); }
+	inline void move(const math::Vec3f& delta) { 
+		m_eye += delta; 
+		m_at += delta;
+		buildView(); 
+	}
 
 	DK_GETTER(F32, aspect, m_aspect)
 	DK_GETTER(math::Mat4f, viewPerspective, buildViewPerspective())
 
+	void cameraControl(const events::Event* pEvt);
 private:
+
 	void buildView();
 	void buildPerspective();
 	void buildOrthographic();
