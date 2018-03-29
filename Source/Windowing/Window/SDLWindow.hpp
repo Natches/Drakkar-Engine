@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windowing/Window/AWindow.hpp>
+#include <Windowing/Input/Keyboard.hpp>
 
 // Fwd Declarations
 union SDL_Event;
@@ -28,6 +29,8 @@ private:
 	void clear()		override;
 	void swapBuffers()	override;
 	void close()		override;
+
+	events::Key keyConvert(int sdlKey) const;
 
 private:
 	void*		m_glContext;

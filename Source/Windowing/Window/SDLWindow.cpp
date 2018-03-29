@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 
+#include <Core/Utils/MacroUtils.hpp>
 #include <Windowing/Window/SDLWindow.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
@@ -54,14 +55,60 @@ void SDLWindow::pollEvents() {
 		break;
 	case SDL_KEYDOWN:
 	case SDL_KEYUP:
-		//KeyEvent e {
-		//	Keyboard::Key::W,
-		//	SDLK_0
-		//	m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_PRESSED : Keyboard::KEY_RELEASED
-		//};
-
+		KeyEvent e {
+			keyConvert(m_pEvt->key.keysym.sym),
+			m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_PRESSED : Keyboard::KEY_RELEASED
+		};
+		handleKeyEvent(&e);
+		//m_pEvt->type = SDL_FIRSTEVENT;
 		break;
 	}
+}
+
+Key SDLWindow::keyConvert(int sdlKey) const {
+	Key k;
+	DK_SELECT(sdlKey)
+		DK_CASE(SDLK_0, k = Key::KEY_0)
+		DK_CASE(SDLK_1, k = Key::KEY_1)
+		DK_CASE(SDLK_2, k = Key::KEY_2)
+		DK_CASE(SDLK_3, k = Key::KEY_3)
+		DK_CASE(SDLK_4, k = Key::KEY_4)
+		DK_CASE(SDLK_5, k = Key::KEY_5)
+		DK_CASE(SDLK_6, k = Key::KEY_6)
+		DK_CASE(SDLK_7, k = Key::KEY_7)
+		DK_CASE(SDLK_8, k = Key::KEY_8)
+		DK_CASE(SDLK_9, k = Key::KEY_9)
+
+		DK_CASE(SDLK_a, k = Key::KEY_A)
+		DK_CASE(SDLK_b, k = Key::KEY_B)
+		DK_CASE(SDLK_c, k = Key::KEY_C)
+		DK_CASE(SDLK_d, k = Key::KEY_D)
+		DK_CASE(SDLK_e, k = Key::KEY_E)
+		DK_CASE(SDLK_f, k = Key::KEY_F)
+		DK_CASE(SDLK_g, k = Key::KEY_G)
+		DK_CASE(SDLK_h, k = Key::KEY_H)
+		DK_CASE(SDLK_i, k = Key::KEY_I)
+		DK_CASE(SDLK_j, k = Key::KEY_J)
+		DK_CASE(SDLK_k, k = Key::KEY_K)
+		DK_CASE(SDLK_l, k = Key::KEY_L)
+		DK_CASE(SDLK_m, k = Key::KEY_M)
+		DK_CASE(SDLK_n, k = Key::KEY_N)
+		DK_CASE(SDLK_o, k = Key::KEY_O)
+		DK_CASE(SDLK_p, k = Key::KEY_P)
+		DK_CASE(SDLK_q, k = Key::KEY_Q)
+		DK_CASE(SDLK_r, k = Key::KEY_R)
+		DK_CASE(SDLK_s, k = Key::KEY_S)
+		DK_CASE(SDLK_t, k = Key::KEY_T)
+		DK_CASE(SDLK_u, k = Key::KEY_U)
+		DK_CASE(SDLK_v, k = Key::KEY_V)
+		DK_CASE(SDLK_w, k = Key::KEY_W)
+		DK_CASE(SDLK_x, k = Key::KEY_X)
+		DK_CASE(SDLK_y, k = Key::KEY_Y)
+		DK_CASE(SDLK_z, k = Key::KEY_Z)
+
+		DK_CASE(SDLK_SPACE, k = Key::KEY_SPACE)
+	DK_END
+	return k;
 }
 
 void SDLWindow::clear() {

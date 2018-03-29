@@ -12,7 +12,7 @@ namespace drak {
 namespace video {
 
 AWindow*	VideoSystem::s_pMainWin	= nullptr;
-bool			VideoSystem::s_ready	= false;
+bool		VideoSystem::s_ready	= false;
 
 
 bool VideoSystem::startup(const VideoSettings& settings) {

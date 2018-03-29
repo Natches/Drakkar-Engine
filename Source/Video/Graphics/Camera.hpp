@@ -16,6 +16,8 @@ public:
 	const math::Mat4f& perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ);
 	const math::Mat4f& orthographic(F32 width, F32 height, F32 nearZ, F32 farZ);
 
+	inline void move(const math::Vec3f& delta) { m_eye += delta; buildView(); }
+
 	DK_GETTER(F32, aspect, m_aspect)
 	DK_GETTER(math::Mat4f, viewPerspective, buildViewPerspective())
 

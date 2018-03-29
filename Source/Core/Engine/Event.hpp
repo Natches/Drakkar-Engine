@@ -14,7 +14,7 @@ struct Event {
 	EventType type;
 };
 
-using EventListener = function::GlobalFunction<void, Event*>;
+using EventListener = function::GlobalFunction<void, const Event*>;
 class IEventDispatcher {
 public:
 	virtual ~IEventDispatcher() {};
@@ -23,7 +23,7 @@ public:
 	virtual void removeEventListener(EventType type, EventListener listener) = 0;
 
 protected:
-	virtual void dispatchEvent(Event* e) = 0;
+	virtual void dispatchEvent(const Event* e) = 0;
 };
 
 } // namespace core

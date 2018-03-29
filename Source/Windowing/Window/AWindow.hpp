@@ -5,6 +5,12 @@
 #include <Windowing/Window/WindowSettings.hpp>
 
 namespace drak {
+
+//---------------------------------------------------------------------------------------
+// Forward Declarations
+namespace events { struct Event; }
+//---------------------------------------------------------------------------------------
+
 namespace video {
 
 /*!
@@ -20,7 +26,7 @@ public:
 	virtual ~AWindow() = default;
 
 public:
-	virtual void*	WindowPointer() const	{ return m_pWin; }
+	virtual void*	windowPointer() const	{ return m_pWin; }
 
 	DK_GETTER(I32,	width,			m_resX)
 	DK_GETTER(I32,	height,			m_resY)
@@ -32,8 +38,7 @@ public:
 	virtual void	swapBuffers()	= 0;
 	virtual void	close()			= 0;
 
-protected:
-	virtual void	keyEvents();
+	virtual void	handleKeyEvent(const events::Event* pEvt);
 
 protected:
 	void*	m_pWin;

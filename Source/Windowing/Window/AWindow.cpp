@@ -1,6 +1,8 @@
 #include <Windowing/Window/AWindow.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
+using namespace drak::events;
+
 namespace drak {
 namespace video {
 
@@ -10,8 +12,8 @@ AWindow::AWindow(const WindowSettings& settings)
 	m_open(false) {
 }
 
-void AWindow::keyEvents() {
-
+void AWindow::handleKeyEvent(const Event* pEvt) {
+	Keyboard::Get().dispatchEvent(pEvt);
 }
 
 } // namespace video
