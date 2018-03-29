@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/Core.hpp>
+#include <cstring>
 /*!
 *	@file
 *	Macros and templated structures used in the component system
@@ -16,6 +17,7 @@ namespace components {
 	struct AComponent
 	{
 		U32 ownerID;
+		U64 idxInMainArray;
 	};
 }
 }
@@ -24,7 +26,8 @@ namespace components {
 namespace drak {					\
 namespace components {				\
 struct name : public AComponent		\
-{	
+{									\
+	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 
 #define DRAK_COMPONENT_END(name)				\

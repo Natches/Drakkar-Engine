@@ -18,11 +18,12 @@ public:
 	DRAK_API void startLoop();
 	DRAK_API static void stopGame();
 	DRAK_API void loadScene(IManualSceneBlueprint& sceneBluePrint);
-	DRAK_API static Engine& GetInstance() {
+	DRAK_API static Engine& Get() {
 		static Engine engine;
 		return engine;
 	}
 	DRAK_API ~Engine();
+	DRAK_API PhysicsSystem& getPhysicsSystem();
 private:
 	DRAK_API Engine();
 	time::FrameTimer s_frameTime;

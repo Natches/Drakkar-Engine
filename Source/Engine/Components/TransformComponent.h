@@ -1,9 +1,10 @@
 #pragma once
 #include <Core/Utils/AComponentUtils.hpp>
-#include <vector>
+#include <Math/Vec3.hpp>
+#include <Math/Vec4.hpp>
 
 DRAK_COMPONENT_START(Transform)
-std::vector<Transform*> children;
-Transform* parent;
-//math::Vec3f pos;
+math::Vec3f position;
+math::Vec3f scale;
+math::Vec4f rotation;
 DRAK_COMPONENT_END(Transform)

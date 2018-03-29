@@ -42,7 +42,7 @@ drak::Scene::~Scene() {
 	}
 }
 
-std::vector<AGameObject*>& drak::Scene::GetGameObjects()
+std::vector<AGameObject*>& drak::Scene::getGameObjects()
 {
 	return m_gameObjects;
 }
