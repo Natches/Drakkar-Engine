@@ -1,25 +1,42 @@
 #pragma once
 #include <Core/Core.hpp>
+#include <cstring>
 /*!
 *	@file
 *	Macros and templated structures used in the component system
 */
 
-template <class c>
-struct  AComponent
-{
-	static const int ID;
-};
+namespace drak {
+namespace components {
+
+	template <class c>
+	struct  ComponentType
+	{
+		static const int ID;
+	};
+	struct AComponent
+	{
+		U32 ownerID;
+		U64 idxInMainArray;
+	};
+}
+}
 
 #define DRAK_COMPONENT_START(name) 	\
-struct name							\
-{											 								
+namespace drak {					\
+namespace components {				\
+struct name : public AComponent		\
+{									\
+	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
+
 
 #define DRAK_COMPONENT_END(name)				\
 };												\
 												\
+}												\
+}												\
 template <>										\
-struct  AComponent<name>				\
+struct  drak::components::ComponentType<drak::components::name>\
 {												\
 	static const U32 id = (U32)__COUNTER__;		\
 };												
