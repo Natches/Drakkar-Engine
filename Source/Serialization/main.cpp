@@ -12,6 +12,7 @@
 #include <sstream>
 #include <type_traits>
 #include <fstream>
+#include <Log/Log.hpp>
 
 DK_IMPORT(drak::function)
 DK_IMPORT(drak::serialization)
@@ -19,22 +20,22 @@ DK_IMPORT(drak::types)
 
 class Ser {
 	DK_SERIALIZED_OBJECT(Ser)
-	int i;
-	int c;
+	int i = 0;
+	int c = 0;
 	int x = 0;
 };
 
 class Test {
 	DK_SERIALIZED_OBJECT(Test)
 public:
-		inline int foo(int i) { std::cout << i << std::endl; return i; };
-private:
+	inline int foo(int i) { std::cout << i << std::endl; return i; };
+public:
 	Ser serial, ser1;
 	float xizzy;
 public:
 	int instance;
-	int s, g, k, h, l, n,v, x, z, a, e, r, t, u, j, gf , f;
-	Ser b[26];
+	int s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f;
+	/*Ser b[26];*/
 };
 
 DK_METADATA_BEGIN(Ser)
@@ -44,7 +45,7 @@ DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b)
+DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f)
 DK_PRIVATE_FIELDS(serial, ser1)
 DK_PRIVATE_STATIC_FIELDS(xizzy)
 DK_SERIALIZE_PUBLIC_FIELDS_AND_STATIC_PRIVATE_FIELDS_AND_PRIVATE_FIELDS
@@ -53,16 +54,23 @@ DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
 
 int main() {
 	Test t;
-	t.s = 1;
+	float z = 55;
+	t.serial.c = 25;
+	t.ser1.c = 25;
+	t.ser1.i = 25;
+	t.gf = 10;
+	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
+	//MetaData<Test>::PrivateFields::set(t, "ser1", &z);
+	//MetaData<Test>::PrivateFields::set(t, "serial", &z);
+	t.s = 1; std::string s;
 	std::stringstream str("", std::ios::binary | std::ios::out | std::ios::in);
 	t.serialize(str);
-	std::tuple<int, int, int> tu{ 1,2,3 };
-	std::ofstream of("serializedData.txt", std::ios::binary | std::ios::out);
+	/*std::ofstream of("serializedData.txt", std::ios::binary | std::ios::out);
 	if (of.is_open()) {
 		of << str.rdbuf();
 		of.close();
-	}
-
+	}*/
+	Test t2 = MetaData<Test>::deserialize(str);
 	system("pause");
 	return 0;
 }
