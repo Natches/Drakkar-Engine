@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 /*!
@@ -26,5 +26,5 @@ private:
 };
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

@@ -19,39 +19,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Video\Graphics\Camera.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\OBJLoader.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Renderer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLObject.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTexture.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTypes.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\RHI\RHIDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderDriver.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLDriver.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Video\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\OBJLoader.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Renderer.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLFrameBuffer.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLIndexBuffer.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLRHI.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLShader.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTexture.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLDriver.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp" />
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
   </ItemGroup>
@@ -208,7 +211,7 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -236,7 +239,7 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

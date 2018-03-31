@@ -2,11 +2,11 @@
 
 #include <vector>
 
-#include <Video/Graphics/RHI/OpenGL/GLVertexBuffer.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLIndexBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLIndexBuffer.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 /*!
@@ -29,5 +29,5 @@ private:
 };
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

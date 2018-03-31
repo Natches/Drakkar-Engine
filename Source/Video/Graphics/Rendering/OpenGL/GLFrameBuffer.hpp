@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 class GLFrameBuffer final : public GLObject {
@@ -16,5 +16,5 @@ public:
 };
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

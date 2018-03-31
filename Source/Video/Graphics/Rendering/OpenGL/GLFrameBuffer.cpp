@@ -1,8 +1,8 @@
 #include <GL/glew.h>
-#include <Video/Graphics/RHI/OpenGL/GLFrameBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLFrameBuffer.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLFrameBuffer::GLFrameBuffer() {

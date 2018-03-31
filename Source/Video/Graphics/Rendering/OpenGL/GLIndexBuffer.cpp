@@ -1,9 +1,9 @@
 #include <GL/glew.h>
 
-#include <Video/Graphics/RHI/OpenGL/GLIndexBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLIndexBuffer.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLIndexBuffer::~GLIndexBuffer() {
@@ -21,5 +21,5 @@ void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 }
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

@@ -3,7 +3,7 @@
 #include <Core/Core.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 using GLbyte        = I8;
@@ -29,5 +29,5 @@ using GLchar		= char;
 using GLvoid		= void;
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

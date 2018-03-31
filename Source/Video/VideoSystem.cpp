@@ -6,7 +6,7 @@
 
 #include <Core/Core.hpp>
 #include <Video/VideoSystem.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLRenderHardware.hpp>
 
 namespace drak {
 namespace video {
@@ -20,9 +20,9 @@ bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow) 
 	pMainWindow = new SDLWindow(settings.window);
 	#endif
 
-	if (pMainWindow == nullptr || !gl::GLRHI::Init(true)) {
-		return false;
-	}
+	//if (pMainWindow == nullptr || !gl::GLRendering::Init(true)) {
+	//	return false;
+	//}
 	return true;
 }
 

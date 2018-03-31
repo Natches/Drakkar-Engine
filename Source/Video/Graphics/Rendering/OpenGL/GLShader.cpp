@@ -3,14 +3,14 @@
 #include <cassert>
 
 #include <GL/glew.h>
-#include <Video/Graphics/RHI/OpenGL/GLShader.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 
 #define INVALID_SHADER (U32)-1
 
 using namespace drak::math;
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLShader::~GLShader() {

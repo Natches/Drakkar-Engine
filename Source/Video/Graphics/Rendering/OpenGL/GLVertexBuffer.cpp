@@ -1,11 +1,11 @@
 #include <GL/glew.h>
 
-#include <Video/Graphics/RHI/OpenGL/GLVertexBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
 
 using namespace drak::geom;
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLVertexBuffer::~GLVertexBuffer() {
@@ -28,5 +28,5 @@ void GLVertexBuffer::create(
 }
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

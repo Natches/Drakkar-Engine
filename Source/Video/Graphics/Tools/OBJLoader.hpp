@@ -3,7 +3,7 @@
 #include <Video/Graphics/Geometry/Mesh.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 
 class OBJLoader final {
 public:
@@ -17,5 +17,5 @@ private:
 	math::Vec3f readVec3(std::ifstream& fs);
 };
 
-} // namespace video
+} // namespace gfx
 } // namespace drak

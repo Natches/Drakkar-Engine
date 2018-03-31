@@ -1,13 +1,12 @@
-#include <cassert>
 #include <GL/glew.h>
 
-#include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLVertexAttrib.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
 
 using namespace drak::geom;
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLVertexArray::~GLVertexArray() {
@@ -40,5 +39,5 @@ void GLVertexArray::draw() {
 }
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

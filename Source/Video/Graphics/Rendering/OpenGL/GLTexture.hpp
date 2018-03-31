@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include <Video/Graphics/RHI/OpenGL/GLTypes.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 class GLTexture final : public GLObject {
@@ -24,5 +24,5 @@ private:
 };
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

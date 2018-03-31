@@ -6,10 +6,10 @@
 #include <Math/Vec2.hpp>
 #include <Math/Vec3.hpp>
 #include <Math/Matrix4x4.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLObject.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 /*!

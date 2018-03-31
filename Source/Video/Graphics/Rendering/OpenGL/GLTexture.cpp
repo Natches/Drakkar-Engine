@@ -5,10 +5,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include <Video/Graphics/RHI/OpenGL/GLTexture.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 GLTexture::GLTexture() {
@@ -52,5 +52,5 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 }
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

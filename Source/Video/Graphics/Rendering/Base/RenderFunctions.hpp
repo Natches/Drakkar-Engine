@@ -3,7 +3,7 @@
 #include <Core/Engine/Types.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 
 enum class EDepthMode : U32 {
 	NEVER,
@@ -14,12 +14,6 @@ enum class EDepthMode : U32 {
 	GEQUAL,
 	NOT_EQUAL,
 	ALWAYS,
-};
-
-enum class EFaceSide : U32 {
-	FRONT,
-	BACK,
-	BOTH
 };
 
 enum class EBlendMode : U32 {
@@ -34,6 +28,17 @@ enum class EBlendMode : U32 {
 	SRC_ALPHA_SATURATE
 };
 
+enum class ECullMode : U32 {
+	FRONT,
+	BACK,
+	BOTH
+};
+
+enum class EWindingOrder : U32 {
+	CLOCKWISE,
+	COUNTERCLOCKWISE
+};
+
 enum class EPrimitiveType : U32 {
 	POINTS,
 	LINES,
@@ -42,8 +47,7 @@ enum class EPrimitiveType : U32 {
 	TRIANGLES,
 	TRIANGLE_STRIP,
 	TRIANGLE_FAN
-	//...
 };
 
-} // namespace video
+} // namespace gfx
 } // namespace drak

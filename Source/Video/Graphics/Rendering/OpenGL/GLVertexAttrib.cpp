@@ -1,13 +1,13 @@
 #include <memory.h>
 #include <GL/glew.h>
 
-#include <Video/Graphics/RHI/OpenGL/GLVertexAttrib.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
 
 using namespace drak::math;
 using namespace drak::geom;
 
 namespace drak {
-namespace video {
+namespace gfx {
 namespace gl {
 
 const GLVertexAttribDesc g_VertexAttribDescArray[] = {
@@ -26,5 +26,5 @@ GLVertexAttribDesc::GLVertexAttribDesc(
 }
 
 } // namespace gl
-} // namespace video
+} // namespace gfx
 } // namespace drak

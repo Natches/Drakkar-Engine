@@ -2,18 +2,18 @@
 #include <sstream>
 #include <map>
 
-#include <Video/Graphics/OBJLoader.hpp>
+#include <Video/Graphics/Tools/OBJLoader.hpp>
 
 using namespace drak::math;
 using namespace drak::geom;
 
 namespace drak {
-namespace video {
+namespace gfx {
 
 //-------------------------------------------------------------------------------------------------
 // Vertex Attribute Formats
-const char*	OBJ_PARSE_VEC2F	= "%f %f\n";
-const char*	OBJ_PARSE_VEC3F	= "%f %f %f\n";
+const char*	OBJ_PARSE_VEC2F = "%f %f\n";
+const char*	OBJ_PARSE_VEC3F = "%f %f %f\n";
 
 // Face Assembly Formats
 const char*	OBJ_PARSE_FACE_IND1 = "%hu %hu %hu\n";
@@ -26,7 +26,7 @@ bool OBJLoader::load(const std::string& objPath, Mesh& outMesh) {
 	std::vector<Vec2f>	uvs;
 	std::vector<Vec3f>	positions, normals;
 
-	std::map<IndexedVertex, U16, IndexComparison> vertexLookup; 
+	std::map<IndexedVertex, U16, IndexComparison> vertexLookup;
 	U16	indexCount = 0u;
 
 	std::ifstream objFile(objPath);
@@ -39,23 +39,23 @@ bool OBJLoader::load(const std::string& objPath, Mesh& outMesh) {
 		if (word == "mtllib") {
 			objFile >> mtlFilePath;
 		}
-		else if (word == "v")	positions.push_back	(readVec3(objFile));
-		else if (word == "vn")	normals.push_back	(readVec3(objFile));
-		else if (word == "vt")	uvs.push_back		(readVec2(objFile));
-		else if (word == "f") {  
+		else if (word == "v")	positions.push_back(readVec3(objFile));
+		else if (word == "vn")	normals.push_back(readVec3(objFile));
+		else if (word == "vt")	uvs.push_back(readVec2(objFile));
+		else if (word == "f") {
 			IndexedVertex iv[3];
 			std::getline(objFile, line);
 			sscanf_s(line.c_str(), OBJ_PARSE_FACE_IND3,
 				&iv[0].pos, &iv[0].uv, &iv[0].normal,
 				&iv[1].pos, &iv[1].uv, &iv[1].normal,
 				&iv[2].pos, &iv[2].uv, &iv[2].normal);
-			
+
 			for (int i = 0; i < 3; ++i) {
 				if (vertexLookup.find(iv[i]) == vertexLookup.end()) {
 					outMesh.addVertex({
-						positions	[iv[i].pos		- 1],
-						normals		[iv[i].normal	- 1],
-						uvs			[iv[i].uv		- 1]});
+						positions[iv[i].pos - 1],
+						normals[iv[i].normal - 1],
+						uvs[iv[i].uv - 1] });
 					vertexLookup[iv[i]] = indexCount++;
 				}
 				outMesh.addIndex(vertexLookup[iv[i]]);
@@ -85,5 +85,5 @@ Vec3f OBJLoader::readVec3(std::ifstream& fs) {
 	return v3;
 }
 
-} // namespace video
+} // namespace gfx
 } // namespace drak

@@ -2,9 +2,9 @@
 
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/OBJLoader.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLTexture.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLRendering.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Camera.hpp>
 
 #include <Video/Graphics/Geometry/Vertex.hpp>
@@ -54,14 +54,14 @@ void testRun(AWindow* pWin) {
 	Mat4f mvp = c.viewPerspective() * Scale<F32>({ 256.f, 1.f, 256.f });
 	#pragma endregion
 
-	gl::GLRHI::s_gridShader.use();
-	gl::GLRHI::s_gridShader.setUniform("MVP", mvp);
-	gl::GLRHI::s_gridShader.setUniform("resolution", Vec2f{ 64.f, 64.f});
-	gl::GLRHI::s_gridShader.setUniform("tint", Vec4f{0.259f, 0.957f, 0.843f, 1.f });
+	gl::GLRendering::s_gridShader.use();
+	gl::GLRendering::s_gridShader.setUniform("MVP", mvp);
+	gl::GLRendering::s_gridShader.setUniform("resolution", Vec2f{ 64.f, 64.f});
+	gl::GLRendering::s_gridShader.setUniform("tint", Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 	
 	while (pWin->isOpen()) {
 		mvp = c.viewPerspective() * Scale<F32>({ 256.f, 1.f, 256.f });
-		gl::GLRHI::s_gridShader.setUniform("MVP", mvp);
+		gl::GLRendering::s_gridShader.setUniform("MVP", mvp);
 
 		pWin->pollEvents();
 		pWin->clear();
@@ -79,7 +79,7 @@ int main() {
 	VideoSettings	settings = {ws};
 	VideoSystem		video;
 
-	bool okVideo;// = video.startup(settings);
+	bool okVideo = true;// = video.startup(settings);
 
 	//if (okVideo)
 	//	testRun(VideoSystem::MainWindow());
