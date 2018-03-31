@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Core.hpp>
-#include <Video/Graphics/Rendering/IRenderHardware.hpp>
+#include <Video/Graphics/Rendering/Base/IGraphicsDriver.hpp>
 
 namespace drak {
 namespace gfx {
@@ -19,14 +19,14 @@ public:
 	RenderSystem() = default;
 	~RenderSystem() = default;
 
-	bool startup();
+	bool startup(IGraphicsDriver* pDriver);
 	void shutdown();
 
 	void startFrame();
 	void showFrame();
 
 private:
-	IRenderHardware* m_pRenderHardware;
+	IGraphicsDriver* m_pDriver;
 };
 
 } // namespace gfx

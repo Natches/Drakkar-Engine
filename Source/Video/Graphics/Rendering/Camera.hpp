@@ -6,7 +6,7 @@
 #include <Core/Engine/Event.hpp>
 
 namespace drak {
-namespace video {
+namespace gfx {
 
 class Camera final {
 public:
@@ -56,5 +56,5 @@ private:
 	F32				m_orthoH;
 };
 
-} // namespace video 
+} // namespace gfx 
 } // namespace drak

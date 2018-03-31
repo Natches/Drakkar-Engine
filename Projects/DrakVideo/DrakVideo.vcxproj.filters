@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Graphics\Rendering\Base">
       <UniqueIdentifier>{0e2aa74e-36d3-4d49-8d5e-48270cd17e27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Common">
+      <UniqueIdentifier>{2a5cd6f2-ac1f-4efd-a6f8-0a287ad95b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Common">
+      <UniqueIdentifier>{83d3039e-a36b-401e-98df-7ff3e9a890da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
@@ -99,12 +105,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderDriver.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
@@ -113,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp">
+      <Filter>Header Files\Graphics\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IGraphicsDriver.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

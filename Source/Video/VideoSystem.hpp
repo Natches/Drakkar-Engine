@@ -3,11 +3,13 @@
 #include <Core/Utils/ClassUtils.hpp>
 #include <Video/VideoSettings.hpp>
 
+namespace drak { 
+namespace video { class AWindow; }
+namespace gfx	{ class IGraphicsDriver; } 
+} // Forward Declarations
+
 namespace drak {
 namespace video {
-
-// Fwd declaration
-class AWindow;
 
 /*!
 * \class VideoSystem
@@ -22,6 +24,11 @@ public:
 
 	bool startup(const VideoSettings& settings, AWindow*& pMainWindow);
 	void shutdown();
+
+	DK_GETTER(gfx::IGraphicsDriver*, graphicsDriver, m_pGfxDriver)
+
+private: 
+	gfx::IGraphicsDriver* m_pGfxDriver;
 };
 
 } // namespace video

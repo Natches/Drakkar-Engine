@@ -1,4 +1,4 @@
-#include <Video/Graphics/Camera.hpp>
+#include <Video/Graphics/Rendering/Camera.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 #include <Core/Utils/MacroUtils.hpp>
 
@@ -6,7 +6,7 @@ using namespace drak::math;
 using namespace drak::events;
 
 namespace drak {
-namespace video {
+namespace gfx {
 
 Camera::Camera()
 {
@@ -139,5 +139,5 @@ void Camera::buildOrthographic() {
 }
 #pragma endregion
 
-} // namespace video
+} // namespace gfx
 } // namespace drak

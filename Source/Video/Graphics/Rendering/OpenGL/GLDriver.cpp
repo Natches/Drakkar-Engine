@@ -40,10 +40,6 @@ void GLDriver::clearDepthValue(F32 depth) {
 	glClearDepthf(depth);
 }
 
-void GLDriver::clearDepthValue(F32 depth) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
 void GLDriver::depthTest(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)

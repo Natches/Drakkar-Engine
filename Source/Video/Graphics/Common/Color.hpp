@@ -9,7 +9,5 @@ namespace gfx {
 using Color3 = math::Vec3f;
 using Color4 = math::Vec4f;
 
-
-
 } // namespace gfx
 } // namespace drak

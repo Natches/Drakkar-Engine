@@ -28,6 +28,7 @@ int Engine::startup() {
 
 	// TODO (Simon): Check for failed startups
 	videoSystem.startup(videoSettings, pMainWindow);
+	renderSystem.startup(videoSystem.graphicsDriver());
 	sceneSystem.Startup();
 	s_pool.startup();
 	physicsSystem.Startup();
@@ -40,6 +41,8 @@ int Engine::shutdown() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
 	sceneSystem.Shutdown();
 	physicsSystem.Shutdown();
+	renderSystem.shutdown();
+	videoSystem.shutdown();
 	
 	Logbook::CloseLogs();
 	s_pool.shutdown();
@@ -59,6 +62,7 @@ void Engine::startLoop() {
 		s_frameTime.update();
 		pMainWindow->pollEvents();
 		pMainWindow->clear();
+		renderSystem.startFrame();
 
 		std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
 		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
@@ -70,6 +74,7 @@ void Engine::startLoop() {
 				&subArray);
 		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
 
+		renderSystem.showFrame();
 		pMainWindow->swapBuffers();
 	}
 	s_frameTime.stop();

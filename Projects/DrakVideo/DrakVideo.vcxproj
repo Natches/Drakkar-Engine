@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderDriver.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IGraphicsDriver.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
@@ -143,7 +143,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -158,8 +158,8 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;vld.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -167,7 +167,7 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -182,8 +182,8 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;vld.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

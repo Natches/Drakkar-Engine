@@ -5,6 +5,7 @@
 #include <Engine/Physics/PhysicsSystem.h>
 #include <Engine/Scene/SceneSystem.h>
 #include <Video/VideoSystem.hpp>
+#include <Video/Graphics/Rendering/RenderSystem.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;
@@ -32,6 +33,7 @@ private:
 	PhysicsSystem		physicsSystem;
 	SceneSystem			sceneSystem;
 	video::VideoSystem	videoSystem;
+	gfx::RenderSystem	renderSystem;
 	video::AWindow*		pMainWindow;
 
 	DRAK_API static thread::ThreadPool s_pool;

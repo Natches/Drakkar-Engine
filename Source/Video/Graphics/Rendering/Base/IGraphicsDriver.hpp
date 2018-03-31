@@ -1,21 +1,21 @@
 #pragma once
 
-#include <Video/Graphics/Rendering/Base/RenderDefinitions.hpp>
+#include <Video/Graphics/Common/Color.hpp>
 #include <Video/Graphics/Rendering/Base/RenderFunctions.hpp>
 
 namespace drak {
 namespace gfx {
 
 /*!
-* \class IRenderDriver
+* \class IGraphicsDriver
 * \ingroup Graphics
 * \brief
 *
 */
-class IRenderDriver {
+class IGraphicsDriver {
 public:
-	IRenderDriver() = default;
-	virtual ~IRenderDriver() = default;
+	IGraphicsDriver() = default;
+	virtual ~IGraphicsDriver() = default;
 
 public:
 	virtual bool init() = 0;
@@ -30,6 +30,10 @@ public:
 	virtual void blendTest(bool on, EBlendMode srcFactor, EBlendMode dstFactor) = 0;
 	virtual void cullTest(bool on, ECullMode mode) = 0;
 	virtual void windingOrder(EWindingOrder order) = 0;
+};
+
+enum EGraphicsDriver {
+	OPENGL
 };
 
 } // namespace gfx

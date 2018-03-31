@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Graphics/Rendering/Base/IRenderDriver.hpp>
+#include <Video/Graphics/Rendering/Base/IGraphicsDriver.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 
 namespace drak {
@@ -8,12 +8,12 @@ namespace gfx {
 namespace gl {
 
 /*!
-* \class GLRenderHardware
+* \class GLDriver
 * \ingroup Graphics
 * \brief
 *
 */
-class GLDriver final : public IRenderDriver {
+class GLDriver final : public IGraphicsDriver {
 	DK_NONMOVABLE_NONCOPYABLE(GLDriver)
 public:
 	GLDriver() = default;

@@ -65,15 +65,15 @@ class Keyboard final : public IEventDispatcher {
 	DK_NONMOVABLE_NONCOPYABLE(Keyboard)
 public:
 	enum : EventType {
-		KEY_PRESSED,
-		KEY_RELEASED
+		KEY_DOWN,
+		KEY_UP
 	};
 
 public:
 	static Keyboard& Get();
 
-	void addEventListener		(EventType type, EventListener listener) override;
-	void removeEventListener	(EventType type, EventListener listener) override;
+	void addEventListener(EventType type, EventListener listener) override;
+	void removeEventListener(EventType type, EventListener listener) override;
 
 	DK_GETTER_REF_V(KeyEvent, event, m_evt)
 
@@ -85,8 +85,8 @@ private:
 	~Keyboard();
 
 private:
-	std::map<EventType, std::list<EventListener>>	m_listeners;
-	KeyEvent										m_evt;
+	std::map<EventType, std::list<EventListener>> m_listeners;
+	KeyEvent m_evt;
 
 friend void video::AWindow::handleKeyEvent(const KeyEvent& e);
 };
