@@ -74,7 +74,7 @@ void Engine::startLoop() {
 				&subArray);
 		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
 
-		renderSystem.showFrame();
+		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
 	}
 	s_frameTime.stop();

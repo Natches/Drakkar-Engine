@@ -4,15 +4,15 @@ namespace drak {
 namespace gfx {
 
 /*!
-* \class RenderTarget
+* \class IRenderTarget
 * \ingroup Graphics
 * \brief
 *
 */
-class RenderTarget {
+class IRenderTarget {
 public:
-	RenderTarget() = default;
-	virtual ~RenderTarget() = default;
+	IRenderTarget() = default;
+	virtual ~IRenderTarget() = default;
 };
 
 } // namespace gfx

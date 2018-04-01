@@ -1,9 +1,8 @@
 #pragma once
 
-#include <GL/glew.h>
-
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <GL/glew.h>
 
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 
@@ -19,20 +18,23 @@ GLTexture::~GLTexture() {
 	glDeleteTextures(1, &m_glID);
 }
 
-void GLTexture::use() const {
+void GLTexture::bind() const {
 	glBindTextureUnit(0, m_glID);
 }
 
-bool GLTexture::loadFromFile(const std::string& filename) {
+bool GLTexture::loadFromFile(const char* filename, bool verticalFlip) {
+	stbi_set_flip_vertically_on_load(verticalFlip);
+
 	I32 dimX, dimY, channels;
+	U8* img = stbi_load(filename, &dimX, &dimY, &channels, 0);
 
-	stbi_set_flip_vertically_on_load(true);
-	U8* image = stbi_load(filename.c_str(), &dimX, &dimY, &channels, STBI_rgb_alpha);
+	GLenum format	= channels == 3 ? GL_RGB : GL_RGBA;
+	GLenum formatSz	= format == GL_RGB ? GL_RGB8 : GL_RGBA8;
 
-	if (image) {
+	if (img) {
 		glCreateTextures		(GL_TEXTURE_2D, 1, &m_glID);
-		glTextureStorage2D		(m_glID, 8, GL_RGBA8, dimX, dimY);
-		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, GL_RGBA, GL_UNSIGNED_BYTE, image);
+		glTextureStorage2D		(m_glID, 8, format, dimX, dimY);
+		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, formatSz, GL_UNSIGNED_BYTE, img);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -40,11 +42,7 @@ bool GLTexture::loadFromFile(const std::string& filename) {
 		glTextureParameteri		(m_glID, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
 		glGenerateTextureMipmap	(m_glID);
 
-		// ... texture arrays
-		// ... parameter flexibility
-		// ... mipmap generation
-
-		stbi_image_free(image);
+		stbi_image_free(img);
 
 		return true;
 	}

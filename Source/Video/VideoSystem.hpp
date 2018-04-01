@@ -5,7 +5,7 @@
 
 namespace drak { 
 namespace video { class AWindow; }
-namespace gfx	{ class IGraphicsDriver; } 
+namespace gfx	{ class IRenderer; } 
 } // Forward Declarations
 
 namespace drak {
@@ -25,10 +25,10 @@ public:
 	bool startup(const VideoSettings& settings, AWindow*& pMainWindow);
 	void shutdown();
 
-	DK_GETTER(gfx::IGraphicsDriver*, graphicsDriver, m_pGfxDriver)
+	DK_GETTER(gfx::IRenderer*, renderer, m_pRenderer)
 
 private: 
-	gfx::IGraphicsDriver* m_pGfxDriver;
+	gfx::IRenderer* m_pRenderer;
 };
 
 } // namespace video

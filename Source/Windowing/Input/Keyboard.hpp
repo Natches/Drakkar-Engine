@@ -51,6 +51,11 @@ enum class Key : U8 {
 	KEY_Y,
 	KEY_Z,
 
+	KEY_UP,
+	KEY_DOWN,
+	KEY_LEFT,
+	KEY_RIGHT,
+
 	KEY_SPACE
 };
 

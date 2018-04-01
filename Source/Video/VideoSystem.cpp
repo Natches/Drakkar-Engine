@@ -6,7 +6,7 @@
 
 #include <Core/Core.hpp>
 #include <Video/VideoSystem.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLDriver.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
 
 namespace drak {
 namespace video {
@@ -19,9 +19,9 @@ bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow) 
 	#endif
 
 	if (pMainWindow) {
-		if (settings.gfxDriver == gfx::EGraphicsDriver::OPENGL)
-			m_pGfxDriver = new gfx::gl::GLDriver;
-		return m_pGfxDriver->init();
+		if (settings.gfxDriver == gfx::ERenderer::OPENGL)
+			m_pRenderer = new gfx::gl::GLRenderer;
+		return m_pRenderer->init();
 	}
 	return true;
 }

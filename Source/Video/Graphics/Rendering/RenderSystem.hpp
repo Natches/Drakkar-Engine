@@ -1,7 +1,11 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <Core/Core.hpp>
-#include <Video/Graphics/Rendering/Base/IGraphicsDriver.hpp>
+#include <Video/Graphics/Rendering/Base/IRenderer.hpp>
+#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
+#include <Video/Graphics/Rendering/Base/IShader.hpp>
 
 namespace drak {
 namespace gfx {
@@ -19,14 +23,19 @@ public:
 	RenderSystem() = default;
 	~RenderSystem() = default;
 
-	bool startup(IGraphicsDriver* pDriver);
+	bool startup(IRenderer* pRenderer);
 	void shutdown();
 
 	void startFrame();
-	void showFrame();
+	void endFrame();
 
 private:
-	IGraphicsDriver* m_pDriver;
+	IRenderer*		m_pRenderer;
+	IColorBuffer*	m_pColorBuffer;
+	ShaderMap		m_shaderMap;
+
+	// Opaque objects
+	// Transparent objects
 };
 
 } // namespace gfx

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Video/Graphics/Rendering/Base/IGraphicsDriver.hpp>
+#include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 
 namespace drak {
@@ -8,20 +8,23 @@ namespace gfx {
 namespace gl {
 
 /*!
-* \class GLDriver
+* \class GLRenderer
 * \ingroup Graphics
 * \brief
 *
 */
-class GLDriver final : public IGraphicsDriver {
-	DK_NONMOVABLE_NONCOPYABLE(GLDriver)
+class GLRenderer final : public IRenderer {
+	DK_NONMOVABLE_NONCOPYABLE(GLRenderer)
 public:
-	GLDriver() = default;
-	~GLDriver() = default;
+	GLRenderer() = default;
+	~GLRenderer() = default;
 
 public:
 	bool init() override;
 	void info() override;
+
+	bool loadShaders(ShaderMap& shaderMap) override;
+	void useShader(const std::string& shaderName) override;
 
 	void clear() override;
 	void clearColorValue(const Color3& color) override;
@@ -36,6 +39,9 @@ public:
 
 	void cullTest(bool on, ECullMode mode = ECullMode::BACK) override;
 	void windingOrder(EWindingOrder order) override;
+
+	//void bindFrameBuffer() override;
+	virtual void useWindowFrameBuffer() override;
 
 private:
 	static void errorCallback(

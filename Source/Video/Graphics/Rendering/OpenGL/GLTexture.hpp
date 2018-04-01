@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-
-#include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 
 namespace drak {
@@ -14,13 +11,8 @@ public:
 	GLTexture();
 	~GLTexture();
 
-	void use() const;
-
-	//bool loadFromData(const std::string& vertCode, 
-	bool loadFromFile(const std::string& filename);
-
-private:
-
+	void bind() const;
+	bool loadFromFile(const char* filename, bool verticalFlip = true);
 };
 
 } // namespace gl
