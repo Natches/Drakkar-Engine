@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <immintrin.h>
 
 namespace drak {
 namespace types {
@@ -54,7 +55,9 @@ struct IsBaseType {
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, const bool> ||
 		std::is_same_v<T, const U8> || std::is_same_v<T, const  I8> || std::is_same_v<T, const U16> ||
 		std::is_same_v<T, const I16> || std::is_same_v<T, const U32> || std::is_same_v<T, const I32> ||
-		std::is_same_v<T, const U64> || std::is_same_v<T, const I64> || std::is_same_v<T, const F32> || std::is_same_v<T, const F64>
+		std::is_same_v<T, const U64> || std::is_same_v<T, const I64> || std::is_same_v<T, const F32> ||
+		std::is_same_v<T, const F64> || std::is_same_v<T, __m64> || std::is_same_v<T, __m128> ||
+		std::is_same_v<T, __m256>
 	};
 };
 
