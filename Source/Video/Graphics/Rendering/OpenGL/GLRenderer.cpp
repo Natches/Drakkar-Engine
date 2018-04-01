@@ -1,6 +1,11 @@
 #include <GL/glew.h>
 
 #include <Core/Core.hpp>
+
+#include <Video/Graphics/Tools/OBJLoader.hpp>
+#include <Video/Graphics/Geometry/Mesh.hpp>
+
+#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
 
@@ -17,26 +22,51 @@ bool GLRenderer::init() {
 	if (glewInit() == GLEW_OK) {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
 		glDebugMessageCallback((GLDEBUGPROC)errorCallback, 0);
-
-		depthTest(true /* read option from .ini*/);
-		blendTest(true /* read option from .ini*/);
-		cullTest(true  /* read option from .ini*/);
 	}
 	return false;
 }
 
-bool GLRenderer::loadShaders(ShaderMap& shaderMap) {
+bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 	GLShader* pGridShader = new GLShader;
-	if (pGridShader->loadFromFile("Shaders/grid.vert", "Shaders/grid.vert")) {
-		shaderMap["gridShader"] = pGridShader;
+	if (pGridShader->loadFromFile(dir + "grid.vert", dir + "grid.frag"))
+		outMap["GridShader"] = pGridShader;
+	else {
+		delete pGridShader;
+		return false;
+	}
+
+	GLShader* pFrameShader = new GLShader;
+	if (pFrameShader->loadFromFile(dir + "FrameDraw.vert", dir + "FrameDraw.frag"))
+		outMap["FrameDraw"] = pFrameShader;
+	else {
+		delete pFrameShader;
+		return false;
+	}
+	
+	return true;
+}
+
+bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
+	OBJLoader loader;
+	geom::Mesh mesh;
+
+	if (loader.load(dir + "quad.obj", mesh)) {
+		const std::vector<geom::Vertex>& verts = mesh.vertices();
+		const std::vector<U16>& indices = mesh.indices();
+
+		GLVertexBuffer vbo;
+		vbo.create(verts.data(), (U32)verts.size());
+
+		GLIndexBuffer ibo;
+		ibo.create(indices.data(), (I32)indices.size());
+
+		GLVertexArray* pVao = new GLVertexArray;
+		pVao->create(vbo, ibo);
+
+		outArr.push_back(pVao);
 		return true;
 	}
-	delete pGridShader;
 	return false;
-}
-
-void GLRenderer::useShader(const std::string& shaderName) {
-	
 }
 
 void GLRenderer::clear() {
@@ -87,7 +117,7 @@ void GLRenderer::windingOrder(EWindingOrder order) {
 	glFrontFace(order == EWindingOrder::CLOCKWISE ? GL_CW : GL_CCW);
 }
 
-void GLRenderer::useWindowFrameBuffer() {
+void GLRenderer::bindWindowFrameBuffer() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

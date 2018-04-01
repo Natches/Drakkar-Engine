@@ -66,7 +66,7 @@ void testRun(AWindow* pWin) {
 		pWin->pollEvents();
 		pWin->clear();
 
-		vao.draw();
+		vao.render();
 
 		pWin->swapBuffers();
 	}

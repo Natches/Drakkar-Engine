@@ -12,7 +12,7 @@ namespace gl {
 
 /*!
 * \class GLShader
-* \ingroup DrakVideo
+* \ingroup Graphics
 * \brief
 *
 */

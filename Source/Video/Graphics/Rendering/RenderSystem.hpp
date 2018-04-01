@@ -30,12 +30,18 @@ public:
 	void endFrame();
 
 private:
+	bool loadResources(const std::string& dir);
+
+	void opaquePass();
+	void transparentPass();
+
+private:
+	ShaderMap		m_shaderMap;
+	RenderArray		m_opaqueArr;
+	RenderArray		m_transpArr;
+	
 	IRenderer*		m_pRenderer;
 	IColorBuffer*	m_pColorBuffer;
-	ShaderMap		m_shaderMap;
-
-	// Opaque objects
-	// Transparent objects
 };
 
 } // namespace gfx

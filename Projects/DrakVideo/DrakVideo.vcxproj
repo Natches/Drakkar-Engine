@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IColorBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp" />

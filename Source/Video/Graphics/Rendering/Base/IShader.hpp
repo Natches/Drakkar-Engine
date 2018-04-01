@@ -10,7 +10,7 @@ namespace gfx {
 
 /*!
 * \class IShader
-* \ingroup DrakVideo
+* \ingroup Graphics
 * \brief
 *
 */

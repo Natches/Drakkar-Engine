@@ -32,7 +32,7 @@ void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) 
 	glVertexArrayElementBuffer(m_glID, m_iboID);
 }
 
-void GLVertexArray::draw() {
+void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboID);
 	glDrawElements(GL_TRIANGLES, m_vertCount, GL_UNSIGNED_SHORT, 0);

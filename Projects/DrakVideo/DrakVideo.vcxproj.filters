@@ -126,6 +126,9 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\main.cpp">
