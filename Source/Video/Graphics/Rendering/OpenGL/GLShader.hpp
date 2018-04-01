@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
@@ -16,9 +17,9 @@ namespace gl {
 *
 */
 class GLShader final : public GLObject, public IShader {
-	using UniformMap = std::unordered_map<const std::string&, I32>;
+	using UniformMap = std::unordered_map<std::string, GLint>;
 public:
-	GLShader() = default;
+	GLShader();
 	~GLShader();
 
 	void use() const override;
@@ -41,8 +42,8 @@ public:
 
 private:
 	bool readFileText(const std::string& filename, std::vector<char>& text);
-	bool compileProgram(const std::string& vertCode, const std::string& fragCode);
-	bool compileShader(U32 shaderID, const std::string& code);
+	bool compileProgram(const char* vertCode, const char* fragCode);
+	bool compileShader(GLuint shaderID, const char* code);
 
 private:
 	UniformMap	m_uniMap;

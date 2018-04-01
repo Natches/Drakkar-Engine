@@ -24,11 +24,11 @@ int Engine::startup() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
 	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
-	video::VideoSettings	videoSettings	= { winSettings };
+	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
 	// TODO (Simon): Check for failed startups
 	videoSystem.startup(videoSettings, pMainWindow);
-	renderSystem.startup(videoSystem.graphicsDriver());
+	renderSystem.startup(videoSystem.renderer());
 	sceneSystem.Startup();
 	s_pool.startup();
 	physicsSystem.Startup();

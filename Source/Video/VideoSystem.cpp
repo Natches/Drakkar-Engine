@@ -19,7 +19,7 @@ bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow) 
 	#endif
 
 	if (pMainWindow) {
-		if (settings.gfxDriver == gfx::ERenderer::OPENGL)
+		if (settings.renderer == gfx::ERenderer::OPENGL)
 			m_pRenderer = new gfx::gl::GLRenderer;
 		return m_pRenderer->init();
 	}

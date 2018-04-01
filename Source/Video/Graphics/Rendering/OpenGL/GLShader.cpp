@@ -5,13 +5,17 @@
 #include <GL/glew.h>
 #include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 
-#define INVALID_SHADER (U32)-1
+#define INVALID_SHADER (GLuint)-1
 
 using namespace drak::math;
 
 namespace drak {
 namespace gfx {
 namespace gl {
+
+GLShader::GLShader() {
+	m_glID = INVALID_SHADER;
+}
 
 GLShader::~GLShader() {
 	if (m_glID)
@@ -60,12 +64,12 @@ bool GLShader::compileProgram(const char* vertCode, const char* fragCode)
 	glDeleteShader(vsID);
 	glDeleteShader(fsID);
 
-	int linked;
+	I32 linked;
 	glGetProgramiv(m_glID, GL_LINK_STATUS, &linked);
 	if (linked == GL_FALSE) {
-		GLint maxLength = 0;
+		I32 maxLength = 0;
 		glGetProgramiv(m_glID, GL_INFO_LOG_LENGTH, &maxLength);
-		std::vector<GLchar> errorLog(maxLength);
+		std::vector<char> errorLog(maxLength);
 		glGetProgramInfoLog(m_glID, maxLength, nullptr, errorLog.data());
 		glDeleteProgram(m_glID);
 
@@ -77,16 +81,16 @@ bool GLShader::compileProgram(const char* vertCode, const char* fragCode)
 }
 
 bool GLShader::compileShader(GLuint shaderID, const char* GLShaderCode) {
-	GLint compiled = 0;
+	I32 compiled = 0;
 
 	glShaderSource(shaderID, 1, &GLShaderCode, nullptr);
 	glCompileShader(shaderID);
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiled);
 
 	if (compiled == GL_FALSE) {
-		GLint maxLength = 0;
+		I32 maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
-		std::vector<GLchar> errorLog(maxLength);
+		std::vector<char> errorLog(maxLength);
 		glGetShaderInfoLog(shaderID, maxLength, nullptr, errorLog.data());
 		glDeleteShader(shaderID);
 
@@ -116,19 +120,19 @@ bool GLShader::readFileText(const std::string& filename, std::vector<char>& text
 	}
 }
 
-void GLShader::setUniform(const std::string& name, GLfloat value) {
+void GLShader::setUniform(const std::string& name, F32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1f(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, GLint value) {
+void GLShader::setUniform(const std::string& name, I32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1i(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, GLuint value) {
+void GLShader::setUniform(const std::string& name, U32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1ui(m_glID, m_uniMap[name], value);

@@ -5,7 +5,7 @@ namespace gfx {
 
 bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer = pRenderer;
-	return true;
+	return m_pRenderer->loadShaders(m_shaderMap);
 }
 
 void RenderSystem::shutdown() {

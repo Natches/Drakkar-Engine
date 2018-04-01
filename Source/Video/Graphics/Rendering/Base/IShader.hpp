@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include <Math/Vec2.hpp>
 #include <Math/Vec3.hpp>
 #include <Math/Matrix4x4.hpp>
@@ -40,7 +38,7 @@ public:
 	virtual void setUniform(const std::string& name, const math::Mat4f& matrix) = 0;
 };
 
-using ShaderMap = std::unordered_map<const std::string&, IShader*>;
+using ShaderMap = std::unordered_map<std::string, IShader*>;
 
 } // namespace gfx
 } // namespace drak

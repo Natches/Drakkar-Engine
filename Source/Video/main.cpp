@@ -40,7 +40,7 @@ void testRun(AWindow* pWin) {
 
 	gl::GLTexture tex;
 	tex.loadFromFile("Textures/grid_cell.png");
-	tex.use();
+	tex.bind();
 	#pragma endregion
 
 	#pragma region [TEST] Camera
