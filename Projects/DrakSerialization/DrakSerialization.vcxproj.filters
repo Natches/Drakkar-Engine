@@ -23,5 +23,8 @@
     <ClInclude Include="..\..\Source\Serialization\SerializationUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Serialization\Serializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

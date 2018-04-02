@@ -10,6 +10,14 @@
 #define DK_CASE(cond, line)		case cond: line; break;
 #define DK_END					}
 
+#define DK_ENUM(name, type, ...) enum name : type { \
+	__VA_ARGS__										\
+};
+
+#define DK_ENUM_CLASS(name, type, ...) enum class name : type { \
+	__VA_ARGS__										\
+};
+
 #define DK_IMPORT(name) using namespace name;
 #define DK_USE(usingType, type) using usingType = type;
 #define TYPEOF(x) std::remove_reference_t<decltype(x)>

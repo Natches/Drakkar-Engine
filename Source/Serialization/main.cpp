@@ -36,6 +36,7 @@ public:
 	int instance;
 	int s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f;
 	Ser b[26];
+	Ser* fi;
 };
 
 DK_METADATA_BEGIN(Ser)
@@ -47,7 +48,7 @@ DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 DK_METADATA_BEGIN(Test)
 DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b)
 DK_PRIVATE_FIELDS(serial, ser1)
-DK_PRIVATE_STATIC_FIELDS(xizzy)
+DK_PRIVATE_STATIC_FIELDS(xizzy, fi)
 DK_SERIALIZE_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELDS
 DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
@@ -61,6 +62,7 @@ int main() {
 	t.gf = 10;
 	for (int i = 0; i < SizeOfArray_V<TYPEOF(Test::b)>; ++i)
 		t.b[i].c = i;
+	t.fi = new Ser{12,586,0};
 	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
 	//MetaData<Test>::PrivateFields::set(t, "ser1", &z);
 	//MetaData<Test>::PrivateFields::set(t, "serial", &z);
@@ -68,11 +70,14 @@ int main() {
 	std::stringstream str("", std::ios::binary | std::ios::out | std::ios::in);
 	t.serialize(str);
 /*
-	std::ofstream of("serializedData.txt", std::ios::binary | std::ios::out);
+	std::ofstream of("serializedData2.txt", std::ios::binary | std::ios::out);
 	if (of.is_open()) {
 		of << str.rdbuf();
 		of.close();
 	}*/
+	std::string st;
+	st.size();
+	st.
 	Test t2 = MetaData<Test>::deserialize(str);
 	system("pause");
 	return 0;
