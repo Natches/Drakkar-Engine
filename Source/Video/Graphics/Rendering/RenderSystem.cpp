@@ -57,7 +57,7 @@ void RenderSystem::endFrame() {
 	m_pRenderer->clear();
 
 	m_pRenderer->depthTest(false);
-	m_shaderMap["FrameDraw"]->use();
+	//m_shaderMap["FrameDraw"]->use();
 
 	// TODO (Simon): abstract the GL code shown below (E Z P Z)
 	// glBindVertexArray(quadVAO);
