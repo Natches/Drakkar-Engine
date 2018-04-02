@@ -23,14 +23,27 @@ struct IFields {
 
 template<typename T>
 inline static constexpr size_t SizeOfSerializedType() {
-	if constexpr(drak::types::IsBaseType_V<std::remove_pointer_t<std::remove_all_extents_t<T>>>)
-		return sizeof(std::remove_pointer_t<T>);
+	if constexpr(drak::types::IsBaseType_V<std::remove_all_extents_t<T>> ||
+		drak::types::IsBaseType_V<T> )
+		return sizeof(T);
+	else if constexpr (drak::types::IsBaseType_V<std::remove_pointer_t<T>>)
+		return sizeof(std::remove_pointer_t<T>) + 1;
 	else if constexpr(std::is_array_v<T>)
 		return MetaData<std::remove_all_extents_t<T>>::s_totalSize * drak::types::SizeOfArray_V<T>;
 	else if constexpr (std::is_pointer_v<T>)
-		return MetaData<std::remove_pointer_t<T>>::s_totalSize;
+		return MetaData<std::remove_pointer_t<T>>::s_totalSize + 1;
+	else if constexpr (std::is_same_v<T, std::string>)
+		return 0;
 	else
 		return MetaData<T>::s_totalSize;
+}
+
+template<typename T>
+inline static size_t SizeOfDynamiclyAllocatedType(const T& t) {
+	if constexpr (std::is_same_v<T, std::string>)
+		return t.size() + sizeof(size_t);
+	else
+		return 0;
 }
 
 } // namespace serialization
@@ -672,6 +685,133 @@ DK_EXPAND(DK_SIZEOF_VA_ARGS30(__VA_ARGS__))
 drak::serialization::SizeOfSerializedType<TYPEOF(type::t)>()	 +\
 DK_EXPAND(DK_SIZEOF_VA_ARGS31(__VA_ARGS__))
 
+#define DK_DYNAMIC_SIZE0
+#define DK_DYNAMIC_SIZE1(ty)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty);\
+
+#define DK_DYNAMIC_SIZE2(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE1(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE3(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE2(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE4(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE3(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE5(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE4(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE6(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE5(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE7(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE6(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE8(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE7(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE9(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE8(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE10(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE9(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE11(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE10(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE12(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE11(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE13(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE12(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE14(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE13(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE15(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE14(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE16(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE15(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE17(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE16(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE18(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE17(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE19(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE18(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE20(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE19(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE21(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE20(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE22(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE21(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE23(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE22(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE24(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE23(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE25(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE24(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE26(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE25(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE27(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE26(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE28(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE27(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE29(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE28(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE30(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE29(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE31(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE30(__VA_ARGS__))
+
+#define DK_DYNAMIC_SIZE32(ty, ...)\
+drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t.ty)	 +\
+DK_EXPAND(DK_DYNAMIC_SIZE31(__VA_ARGS__))
 
 #define DK_TYPE_NAME_IMPL(t)\
 if (!strcmp(str, #t))	\
@@ -838,6 +978,9 @@ static constexpr std::array<constexpr const char*, 1> s_fieldName									\
 { DK_STRINGIZE(s_##fields1) };												\
 static constexpr size_t s_totalSize =													\
 fields1::s_totalSize;																	\
+static size_t ComputeTotalSize(type& t) {\
+return fields1::ComputeTotalSize(t);	\
+}\
 static void SetAllBinaryData(type& t, const char* data){															\
 fields1::SetEveryData(t, data);																\
 }																						\
@@ -873,6 +1016,10 @@ static constexpr std::array<constexpr const char*, 2> s_fieldName									\
 static constexpr size_t s_totalSize = \
 fields1::s_totalSize + \
 fields2::s_totalSize;														\
+static size_t ComputeTotalSize(type& t) {\
+return fields1::ComputeTotalSize(t) + \
+fields2::ComputeTotalSize(t);	\
+}\
 static void SetAllBinaryData(type& t, const char* data){															\
 fields1::SetEveryData(t, data);																\
 fields2::SetEveryData(t, data + fields1::s_totalSize);									\
@@ -918,6 +1065,11 @@ static constexpr size_t s_totalSize = \
 fields1::s_totalSize + \
 fields2::s_totalSize + \
 fields3::s_totalSize;														\
+static size_t ComputeTotalSize(type& t) {\
+return fields1::ComputeTotalSize(t) + \
+fields2::ComputeTotalSize(t) + \
+fields3::ComputeTotalSize(t);	\
+}\
 static void SetAllBinaryData(type& t, const char* data){															\
 fields1::SetEveryData(t, data);																\
 fields2::SetEveryData(t, data + fields1::s_totalSize);									\
@@ -972,6 +1124,12 @@ PublicFields::s_totalSize +																\
 PrivateFields::s_totalSize +															 \
 PublicStaticFields::s_totalSize +														\
 PrivateStaticFields::s_totalSize;														\
+static size_t ComputeTotalSize(type& t) {\
+return PublicFields::ComputeTotalSize(t) + \
+PrivateFields::ComputeTotalSize(t) + \
+PublicStaticFields::ComputeTotalSize(t) + \
+PrivateStaticFields::ComputeTotalSize(t);	\
+}\
 static void SetAllBinaryData(type& t, const char* data){															\
 PublicFields::SetEveryData(t, data);																\
 PrivateFields::SetEveryData(t, data + PublicFields::s_totalSize);									\
@@ -1223,27 +1381,52 @@ static ty* createNew() { return new ty; };					\
 struct fieldName : public drak::serialization::IFields<type> {							\
 private:																						\
 template<typename T>																				\
-static void SetData(T& t, const char* c_str, size_t offset) 	{										\
-	if constexpr (drak::types::IsBaseType_V<T>)														\
-		memcpy(&(t), c_str + offset, drak::serialization::SizeOfSerializedType<T>());									\
-	else if constexpr (drak::types::IsBaseType_V<std::remove_all_extents_t<T>> && std::is_array_v<T>)					\
-		memcpy((t), c_str + offset, drak::serialization::SizeOfSerializedType<T>());									\
+static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
+	if constexpr (drak::types::IsBaseType_V<T>){														\
+		memcpy(&(t), c_str + offset, drak::serialization::SizeOfSerializedType<T>());				\
+		return drak::serialization::SizeOfSerializedType<T>();									\
+	}			\
+	else if constexpr (drak::types::IsBaseType_V<std::remove_all_extents_t<T>> && std::is_array_v<T>)	{				\
+		memcpy((t), c_str + offset, drak::serialization::SizeOfSerializedType<T>());				\
+		return drak::serialization::SizeOfSerializedType<T>();			\
+	}							\
 	else if constexpr(drak::types::IsBaseType_V<std::remove_pointer_t<T>> && std::is_pointer_v<T>){						\
-		t = new std::remove_pointer_t<T>();																									\
-		memcpy(t, c_str + offset, drak::serialization::SizeOfSerializedType<T>());										\
-	}																													\
+		char isAllocated = *(char*)(c_str + offset); \
+		if(isAllocated){				\
+			t = new std::remove_pointer_t<T>();																									\
+			memcpy(t, c_str + offset, drak::serialization::SizeOfSerializedType<T>());										\
+		}			\
+		else		\
+			t = nullptr;		\
+		return drak::serialization::SizeOfSerializedType<T>(); \
+	}																								\
 	else if constexpr (std::is_same_v<T, std::string>) {															\
-		t.copy(c_str + offset, )																										\
+		size_t size = *(size_t*)(c_str + offset);\
+		t.insert(0, c_str + offset + sizeof(size_t), size );			\
+		return size + sizeof(size_t);			\
 	}																														\
-	else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T>)															\
-		MetaData<T>::SetAllBinaryData(t, c_str + offset);											\
-	else if constexpr(std::is_array_v<T>)																							\
-		for(int i = 0, size = drak::types::SizeOfArray_V<T>; i < size; ++i)	\
+	else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T> && !drak::types::IsBaseType_V<T>)	{\
+		MetaData<T>::SetAllBinaryData(t, c_str + offset);		\
+		return MetaData<T>::ComputeTotalSize(t);		\
+	}			\
+	else if constexpr(std::is_array_v<T> && !drak::types::IsBaseType_V<T>) {		\
+		size_t currentSize = 0; \
+		for(int i = 0, size = drak::types::SizeOfArray_V<T>; i < size;currentSize += MetaData<std::remove_all_extents_t<T>>::ComputeTotalSize(t[i]), ++i)	\
 			MetaData<std::remove_all_extents_t<T>>::SetAllBinaryData(t[i],\
-c_str + (offset + (i * drak::serialization::SizeOfSerializedType<std::remove_all_extents_t<T>>())));		\
-	else if constexpr(std::is_pointer_v<T>) {																									\
-		t = new std::remove_pointer_t<T>();																	\
-		MetaData<std::remove_pointer_t<T>>::SetAllBinaryData(*t, c_str + offset);							\
+		c_str + (offset + currentSize));		\
+		return currentSize;		\
+	}			\
+	else if constexpr(std::is_pointer_v<T> && !drak::types::IsBaseType_V<T>) {		\
+		char isAllocated = *(char*)(c_str + offset); \
+		if (isAllocated) {	\
+			t = new std::remove_pointer_t<T>();			\
+				MetaData<std::remove_pointer_t<T>>::SetAllBinaryData(*t, c_str + offset + 1);							\
+			return MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t) + 1;		\
+		}			\
+		else {				\
+			t = nullptr;				\
+			return 1;		\
+		}				\
 	}																										\
 }																								\
 template<typename T>																	\
@@ -1251,30 +1434,80 @@ static std::tuple<void*, size_t> GetData(T& t) {										\
 if constexpr (drak::types::IsBaseType_V<T>){											\
 	return std::make_tuple<void*, size_t>((void*)&(t), sizeof(T));								\
 }																						\
-else if constexpr(drak::types::IsBaseType_V<std::remove_pointer_t<std::remove_all_extents_t<T>>>) {\
+else if constexpr(drak::types::IsBaseType_V<std::remove_all_extents_t<T>>) {\
 return std::make_tuple<void*, size_t>((void*)(t), sizeof(std::remove_pointer_t<T>));												\
 }																									\
-else if constexpr(std::is_same_v<T, std::string>)													\
-	return std::make_tuple<void*, size_t>((void*)t.data(), t.size());										\
-else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T>) {									\
+else if constexpr (drak::types::IsBaseType_V<std::remove_pointer_t<T>>){\
+char* data = new char[sizeof(T) + 1], size;								\
+if (size = (bool)t) {															\
+	memcpy(data, &size, 1);												\
+	memcpy(data + 1, &t, sizeof(t));									\
+}																		\
+else																	\
+memset(data, 0, sizeof(T) + 1);											\
+return std::make_tuple(data, sizeof(T) + 1);							\
+}																		\
+else if constexpr(std::is_same_v<T, std::string>){	\
+	size_t size = t.size();									\
+	t.insert(0, (const char*)&size, sizeof(size_t));					\
+	return std::make_tuple<void*, size_t>((void*)t.c_str(), t.size());	\
+}																		\
+/*else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&*/					\
+/*drak::types::IsBaseType_V<drak::types::VectorType_T<T>>)/ {	*/										\
+	/*size_t size = t.size();	*/																		\
+	/*char* data = new char[t.size() * sizeof(drak::types::VectorType_T<T>) + sizeof(size_t)];*/		\
+	/*memcpy(data, &size, sizeof(size_t));*/															\
+	/*memcpy(data + sizeof(size_t), (char*)t.data(), t.size() * sizeof(drak::types::VectorType_T<T>));*/\
+	/*return std::make_tuple(data, t.size() * sizeof(drak::types::VectorType_T<T>) + sizeof(size_t));*/	\
+/*}*/																										\
+/*else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&*/					\
+/*drak::types::IsBaseType_V<std::remove_pointer_t<drak::types::VectorType_T<T>>> &&	*/				\
+/*std::is_pointer_v<drak::types::VectorType_T<T>>) {*/											\
+	/*size_t size = t.size();*/																			\
+	/*char* data = new char[t.size() * (sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>) + 1) + sizeof(size_t)];	*/	\
+	/*memcpy(data, &size, sizeof(size_t));*/\
+	/*char* temp = data + sizeof(size_t);*/ \
+	/*for(int i = 0; i < size; ++i) {*/				\
+		/*if(t[i]) {*/								\
+		/*memcpy(temp, (char*)*(t.data() + i),*/	\
+			/*sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>));*/\
+		/*memcpy(temp, (char*)*(t.data() + i),*/	\
+			/*sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>));*/\
+		/*}*/			\
+		/*temp += sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>> + 1;*/	\
+	/*}*/																			\
+	/*return std::make_tuple(data, t.size() * (sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>) + 1) + sizeof(size_t));*/	\
+/*}*/																											\
+else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T> && !drak::types::IsBaseType_V<T>) {							\
 	return std::make_tuple<void*, size_t>((void*)std::get<0>(MetaData<T>::GetAllBinaryData(t)),	\
-	drak::serialization::SizeOfSerializedType<T>());		\
+	MetaData<T>::ComputeTotalSize(t));		\
 }																						\
-else if constexpr(std::is_array_v<T>){																					\
-	char* c_str = new char[drak::serialization::SizeOfSerializedType<T>()], *temp;	\
-	for(int i = 0, size = SizeOfArray_V<T>; i < size; ++i)	{							\
+else if constexpr(std::is_array_v<T> && !drak::types::IsBaseType_V<T>){																					\
+	size_t totalArraySize = 0;					\
+	for (auto& x : t)							\
+		totalArraySize += MetaData<std::remove_all_extents_t<T>>::ComputeTotalSize(x);\
+	char* c_str = new char[totalArraySize], *temp;	\
+	for(int i = 0, size = SizeOfArray_V<T>, currentSize = 0; i < size; currentSize += (int)MetaData<std::remove_all_extents_t<T>>::ComputeTotalSize(t[i]), ++i)	{							\
 		temp = std::get<0>(MetaData<std::remove_all_extents_t<T>>::GetAllBinaryData(t[i]));\
-		memcpy((c_str + (i *  drak::serialization::SizeOfSerializedType<std::remove_all_extents_t<T>>())),	\
-temp, drak::serialization::SizeOfSerializedType<std::remove_all_extents_t<T>>());\
+		memcpy(c_str + (currentSize),	\
+			temp, MetaData<std::remove_all_extents_t<T>>::ComputeTotalSize(t[i]));\
 		delete[] temp;																	\
 }																						\
-return std::make_tuple(c_str, drak::serialization::SizeOfSerializedType<T>());		\
+return std::make_tuple(c_str, totalArraySize);		\
 }																						\
-else if constexpr(std::is_pointer_v<T>){															\
-	char* c_str = new char[drak::serialization::SizeOfSerializedType<T>()];	\
-	memcpy(c_str, std::get<0>(MetaData<std::remove_pointer_t<T>>::GetAllBinaryData(*t)),		\
-drak::serialization::SizeOfSerializedType<T>());\
-return std::make_tuple(c_str, drak::serialization::SizeOfSerializedType<T>());			\
+else if constexpr(std::is_pointer_v<T> && !drak::types::IsBaseType_V<T>){													\
+if((bool)t) {			\
+char* data = new char[MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t) + 1], size = 1;	\
+memcpy(data, &size, 1);		\
+memcpy(data + 1, std::get<0>(MetaData<std::remove_pointer_t<T>>::GetAllBinaryData(*t)), \
+MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t)); \
+return std::make_tuple(data, MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t) + 1);			\
+}					\
+else {				\
+	char* data = new char[1]; \
+	memset(data, 0, 1);		\
+	return std::make_tuple(data, 1);		\
+}											\
 }																						\
 }																						\
 public:																					\
@@ -1283,7 +1516,10 @@ static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_var
 static constexpr auto s_var =															\
 std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(__VA_ARGS__)));						\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
-static constexpr size_t s_totalSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);					\
+static constexpr size_t s_totalSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);						\
+static size_t ComputeTotalSize(type& t) {												\
+	return s_totalSize + DK_EXPAND(DK_CONCAT(DK_DYNAMIC_SIZE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__));\
+};																						\
 virtual const char* varName(int idx)override{											\
 	return s_varName[idx];																\
 };																						\
@@ -1362,10 +1598,10 @@ ss << "\tEnd"#fieldName << "\n";														\
 }																						\
 else {																					\
 DK_ADD_TAB(recursionLevel)																\
-ss << "\t\t"#fieldName << " Size " << s_totalSize <<									\
+ss << "\t\t"#fieldName << " Size " << ComputeTotalSize(t) <<									\
 " Binary ";																				\
 char* data = BinaryData(t);																\
-for(int i = 0, size = s_totalSize; i < size; ++i)										\
+for(int i = 0, size = (int)ComputeTotalSize(t); i < size; ++i)										\
 ss << data[i];																			\
 delete[] data;																			\
 ss << "\n";																				\
@@ -1453,154 +1689,163 @@ while (ss >> str) {												\
 }
 
 #define DK_SET_EVERY_DATA_FUNC(...)	\
+DK_SET_EVERY_DATA_IMPL_FUNC				\
 static void SetEveryData(type& t, const char* c_str) {	\
-	DK_EXPAND(DK_CONCAT(DK_SET_EVERY_DATA, DK_ARGS_N(__VA_ARGS__))(0, __VA_ARGS__))	\
+	size_t offset = 0;										\
+DK_EXPAND(DK_CONCAT(DK_SET_EVERY_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 
+#define DK_SET_EVERY_DATA_IMPL_FUNC \
+template<typename T>\
+static void SetEveryDataImpl(T& t, const char* c_str, size_t& offset) {\
+	offset += SetData<T>(t, c_str, offset); \
+}
 #define DK_SET_EVERY_DATA0
-#define DK_SET_EVERY_DATA1(offset, ty)			\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);
+#define DK_SET_EVERY_DATA1(ty)			\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);
 
-#define DK_SET_EVERY_DATA2(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA1(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA2(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA1(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA3(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA2(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA3(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA2(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA4(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA3(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA4(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA3(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA5(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA4(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA5(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA4(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA6(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA5(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA6(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA5(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA7(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA6(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA7(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA6(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA8(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA7(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA8(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA7(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA9(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA8(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA9(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA8(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA10(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA9(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA10(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA9(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA11(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA10(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA11(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA10(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA12(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA11(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA12(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA11(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA13(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA12(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA13(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA12(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA14(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA13(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA14(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA13(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA15(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA14(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA15(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA14(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA16(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA15(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA16(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA15(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA17(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA16(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA17(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA16(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA18(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA17(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA18(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA17(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA19(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA18(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA19(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA18(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA20(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA19(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA20(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA19(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA21(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA20(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA21(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA20(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA22(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA21(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA22(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA21(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA23(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA22(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA23(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA22(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA24(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA23(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA24(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA23(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA25(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA24(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA25(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA24(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA26(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA25(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA26(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA25(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA27(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA26(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA27(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA26(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA28(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA27(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA28(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA27(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA29(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA28(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA29(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA28(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA30(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA29(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA30(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA29(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA31(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA30(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA31(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA30(__VA_ARGS__))
 
-#define DK_SET_EVERY_DATA32(offset, ty, ...)	\
-SetData<TYPEOF(t.ty)>(t.ty, c_str, offset);		\
-DK_EXPAND(DK_SET_EVERY_DATA31(offset +  drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>(), __VA_ARGS__))
+#define DK_SET_EVERY_DATA32(ty, ...)	\
+SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
+DK_EXPAND(DK_SET_EVERY_DATA31(__VA_ARGS__))
 
 #define DK_FIELD_BINARY_FUNC(...)													\
 static char* BinaryData(type& t) {											\
-	char* data = new char[s_totalSize], *data2;							\
+	char* data = new char[ComputeTotalSize(t)], *data2;							\
 	int offset = 0;																	\
+	std::tuple<void*, size_t> binary;											\
 DK_EXPAND(DK_CONCAT(DK_FIELD_BINARY_IMPL, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
-	return data;																	\
+return data;																	\
 }
 
 #define DK_FIELD_BINARY_IMPL(ty)								\
-data2 = (char*)std::get<0>(GetData<TYPEOF(t.ty)>(t.ty));				\
-memcpy((void*)(data + offset), data2, drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>()); \
-if constexpr ((std::is_array_v<TYPEOF(t.ty)> &&								\
-!drak::types::IsBaseType_V<std::remove_all_extents_t<TYPEOF(t.ty)>>) ||	\
-!drak::types::IsBaseType_V<std::remove_all_extents_t<TYPEOF(t.ty)>>)\
+binary = GetData<TYPEOF(t.ty)>((t.ty));				\
+data2 = (char*)std::get<0>(binary);				\
+std::cout.write(data2, std::get<1>(binary)); \
+memcpy((void*)(data + offset), data2, std::get<1>(binary)); \
+if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<TYPEOF(t.ty)>> &&	\
+!std::is_same_v<TYPEOF(t.ty), std::string>)\
 	delete[] data2;												\
-offset += (int)drak::serialization::SizeOfSerializedType<TYPEOF(t.ty)>();
+offset += (int)std::get<1>(binary);
 
 #define DK_FIELD_BINARY_IMPL0
 

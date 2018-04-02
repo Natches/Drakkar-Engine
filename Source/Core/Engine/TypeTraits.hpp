@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <vector>
 #include <immintrin.h>
 
 namespace drak {
@@ -63,6 +64,19 @@ struct IsBaseType {
 
 template<typename T>
 constexpr bool IsBaseType_V = IsBaseType<T>::value;
+
+template<typename T>
+struct VectorType {
+	using type = void;
+};
+
+template<typename T>
+struct VectorType<std::vector<T>> {
+	using type = typename T;
+};
+
+template<typename T>
+using VectorType_T = typename VectorType<T>::type;
 
 template<typename T>
 struct SizeOfArray {
