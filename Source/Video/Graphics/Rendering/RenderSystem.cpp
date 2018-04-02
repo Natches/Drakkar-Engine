@@ -20,8 +20,7 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/",  m_opaqueArr) &&
-			m_pRenderer->loadRenderables(dir + "Models/",  m_transpArr));
+			m_pRenderer->loadRenderables(dir + "Models/",  m_opaqueArr));
 }
 
 void RenderSystem::startFrame() {
@@ -49,7 +48,6 @@ void RenderSystem::transparentPass() {
 	//	 for each shader
 	//		for each material (...)
 
-
 	for (auto pTransp : m_transpArr)
 		pTransp->render();
 }
@@ -57,14 +55,14 @@ void RenderSystem::transparentPass() {
 void RenderSystem::endFrame() {
 	m_pRenderer->bindWindowFrameBuffer();
 	m_pRenderer->clear();
-	m_pRenderer->depthTest(false);
-	m_shaderMap["GridShader"]->use();
 
+	m_pRenderer->depthTest(false);
+	m_shaderMap["FrameDraw"]->use();
+
+	// TODO (Simon): abstract the GL code shown below (E Z P Z)
 	// glBindVertexArray(quadVAO);
 	// glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 	// glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	// draw frame to window-sized quad
 }
 
 

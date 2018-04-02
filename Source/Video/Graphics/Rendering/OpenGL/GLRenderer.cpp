@@ -2,8 +2,8 @@
 
 #include <Core/Core.hpp>
 
-#include <Video/Graphics/Tools/OBJLoader.hpp>
 #include <Video/Graphics/Geometry/Mesh.hpp>
+#include <Video/Graphics/Tools/ModelLoader.hpp>
 
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
@@ -47,7 +47,15 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 }
 
 bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
-	OBJLoader loader;
+	tools::ModelLoader loader;
+	geom::Mesh mesh;
+
+	if (loader.loadFromFile(dir + "quad.obj")) {
+
+		return true;
+	}
+
+	/*OBJLoader loader;
 	geom::Mesh mesh;
 
 	if (loader.load(dir + "quad.obj", mesh)) {
@@ -65,7 +73,7 @@ bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
 
 		outArr.push_back(pVao);
 		return true;
-	}
+	}*/
 	return false;
 }
 

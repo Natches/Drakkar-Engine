@@ -40,7 +40,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
@@ -57,7 +57,7 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp" />
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
   </ItemGroup>
@@ -146,7 +146,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -158,11 +158,13 @@
       <Command>xcopy /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
 xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" </Command>
+xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+ </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -170,7 +172,7 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;RENDERING_GL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -182,11 +184,13 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
       <Command>xcopy /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
 xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" </Command>
+xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+ </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -196,7 +200,7 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -210,11 +214,12 @@ xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\
     <PostBuildEvent>
       <Command>xcopy /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
 xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
+xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -224,7 +229,7 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -238,11 +243,12 @@ xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(Sol
     <PostBuildEvent>
       <Command>xcopy /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
 xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
+xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

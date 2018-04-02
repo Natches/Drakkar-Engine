@@ -12,8 +12,14 @@ public:
 	GLColorBuffer() = default;
 	~GLColorBuffer() = default;
 
-	void attach() override;
+	void bind() override;
 	void create(I32 dimX, I32 dimY) override;
+
+private:
+	// TODO (Simon):
+	//		- Texture retrieval (at least composite frame)
+	//		- Member GLTexture (one for each attachment)
+	GLuint m_texID; 
 };
 
 } // namespace gl

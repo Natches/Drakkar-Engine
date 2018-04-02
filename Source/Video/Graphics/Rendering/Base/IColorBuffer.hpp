@@ -15,7 +15,7 @@ public:
 	virtual ~IColorBuffer() = default;
 
 public:
-	virtual void attach() = 0;
+	virtual void bind() = 0;
 	virtual void create(I32 dimX, I32 dimY) = 0;
 };
 
