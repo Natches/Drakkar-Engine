@@ -9,6 +9,8 @@
 using namespace drak;
 using namespace core;
 using namespace components;
+using namespace events;
+using namespace function;
 DK_IMPORT(drak::math)
 
 class Player : public AGameObject {
@@ -26,7 +28,18 @@ class Player : public AGameObject {
 
 	virtual void Start() override {
 		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
+		//MemberFunction<Player, void, const Event*> 
+		//	func(this, &Player::cameraControl, &Keyboard::Get().event());
+		//Keyboard::Get().addEventListener(events::Keyboard::KEY_DOWN, &func);
 	}
+
+	//void Player::cameraControl(const Event* pEvt) {
+	//	auto k = static_cast<const KeyEvent*>(pEvt);
+	//	DK_SELECT(k->key)
+	//		DK_CASE(Key::KEY_Q, printf("Hello\n"))
+	//	DK_END
+	//}
+
 };
 
 class Cube : public AGameObject {
@@ -51,6 +64,10 @@ class MainScene : public IManualSceneBlueprint {
 			transform->position = math::Vec3f(0, i*10, 0);
 			transform->rotation = math::Vec4f(0, 0, 0, 0);
 			transform->scale = math::Vec3f(1, 1, 1);
+
+			//scene.addComponentToGameObject<Model>(p1);
+			//Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
+			//model->albedo = gfx::Color3(1, 0, 0);
 
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));

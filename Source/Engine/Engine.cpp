@@ -61,8 +61,6 @@ void Engine::startLoop() {
 	while (pMainWindow->isOpen()) {
 		s_frameTime.update();
 		pMainWindow->pollEvents();
-		pMainWindow->clear();
-		renderSystem.startFrame();
 
 		std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
 		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
@@ -74,6 +72,12 @@ void Engine::startLoop() {
 				&subArray);
 		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
 
+		pMainWindow->clear();
+		renderSystem.startFrame();
+		/*
+		renderSystem.update(sceneSystem.scene->getComponentContainerByType<components::Model>(),
+			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id))
+		*/
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
 	}
