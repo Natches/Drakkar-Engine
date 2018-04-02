@@ -12,6 +12,11 @@ namespace physx {
 	//class PxCudaContextManager;
 }
 
+class SimulationEvent;
+//class ContactReport : physx::
+
+
+
 namespace drak {
 	namespace components {
 		struct RigidBody;
@@ -20,6 +25,7 @@ namespace drak {
 	namespace core {
 		class Engine;
 	}
+
 
 	class PhysicsSystem
 	{
@@ -34,6 +40,7 @@ namespace drak {
 		bool Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms);
 		bool Startup();
 		void Shutdown();
+		SimulationEvent*			m_pSimulationEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;
@@ -45,5 +52,3 @@ namespace drak {
 		F64 AccumulatedTime;
 	};
 }
-
-
