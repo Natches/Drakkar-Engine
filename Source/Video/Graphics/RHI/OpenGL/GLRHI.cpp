@@ -17,6 +17,7 @@ namespace gl {
 #pragma region Static Initialization
 bool		GLRHI::s_ready = false;
 GLShader	GLRHI::s_defaultShader;
+GLShader	GLRHI::s_gridShader;
 #pragma endregion
 
 bool GLRHI::Init(bool debug) {
@@ -28,14 +29,29 @@ bool GLRHI::Init(bool debug) {
 			glDebugMessageCallback((GLDEBUGPROC)ErrorHandler, 0);
 		}
 
-		if (!s_defaultShader.loadFromFile("default.vs", "default.fs"))
-			return false;
+		LoadShaders();
 		s_defaultShader.use();
 
 		DepthFunc(true, EDepthMode::LESS);
 		CullFunc(true, EFaceSide::BACK);
+		BlendFunc(true, EBlendMode::SRC_ALPHA, EBlendMode::ONE_MINUS_SRC_ALPHA);
+
+		// ... winding order
+		// ... polygon mode
+
+		DK_GL_TOGGLE(true, GL_LINE_SMOOTH)
 	}
 	s_ready = true;
+	return true;
+}
+
+bool GLRHI::LoadShaders() {
+	if (!s_defaultShader.loadFromFile("Shaders/default.vert", "Shaders/default.frag"))
+		return false;
+
+	if (!s_gridShader.loadFromFile("Shaders/grid.vert", "Shaders/grid.frag"))
+		return false;
+
 	return true;
 }
 
@@ -65,11 +81,14 @@ void GLRHI::ErrorHandler(
 void GLRHI::DepthFunc(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
 	DK_SELECT(mode)
+		DK_CASE(EDepthMode::NEVER,		glDepthFunc(GL_NEVER))
 		DK_CASE(EDepthMode::LESS,		glDepthFunc(GL_LESS))
-		DK_CASE(EDepthMode::LEQUAL,		glDepthFunc(GL_LEQUAL))
 		DK_CASE(EDepthMode::EQUAL,		glDepthFunc(GL_EQUAL))
-		DK_CASE(EDepthMode::GEQUAL,		glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::LEQUAL,		glDepthFunc(GL_LEQUAL))
 		DK_CASE(EDepthMode::GREATER,	glDepthFunc(GL_GREATER))
+		DK_CASE(EDepthMode::NOT_EQUAL,	glDepthFunc(GL_NOTEQUAL))
+		DK_CASE(EDepthMode::GEQUAL,		glDepthFunc(GL_GEQUAL))
+		DK_CASE(EDepthMode::ALWAYS,		glDepthFunc(GL_ALWAYS))
 	DK_END
 }
 
@@ -80,6 +99,11 @@ void GLRHI::CullFunc(bool on, EFaceSide side) {
 		DK_CASE(EFaceSide::BACK,	glCullFace(GL_BACK))
 		DK_CASE(EFaceSide::BOTH,	glCullFace(GL_FRONT_AND_BACK))
 	DK_END
+}
+
+void GLRHI::BlendFunc(bool on, EBlendMode srcFactor, EBlendMode dstFactor) {
+	DK_GL_TOGGLE(on, GL_BLEND)
+	glBlendFunc((GLenum)srcFactor, (GLenum)dstFactor);
 }
 
 } // namespace gl

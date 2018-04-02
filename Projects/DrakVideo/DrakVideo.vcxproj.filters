@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Windowing">
-      <UniqueIdentifier>{03d9f454-accf-42fe-8402-2ed7a7e65647}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Windowing">
-      <UniqueIdentifier>{1a70ff73-d154-4468-ac65-7960ff0be786}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{b3be7c19-7809-40bb-bf66-038ec7c337e7}</UniqueIdentifier>
     </Filter>
@@ -66,15 +60,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTypes.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Windowing\ARenderWindow.hpp">
-      <Filter>Header Files\Windowing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Windowing\SDLRenderWindow.hpp">
-      <Filter>Header Files\Windowing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Windowing\WindowSettings.hpp">
-      <Filter>Header Files\Windowing</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,13 +81,16 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Primitives.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp">
       <Filter>Header Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.hpp">
+      <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Camera.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTexture.hpp">
       <Filter>Header Files\Graphics\RHI\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
@@ -121,12 +109,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexArray.cpp">
       <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Windowing\SDLRenderWindow.cpp">
-      <Filter>Source Files\Windowing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Windowing\ARenderWindow.cpp">
-      <Filter>Source Files\Windowing</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <Filter>Source Files</Filter>
@@ -150,6 +132,12 @@
       <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLVertexAttrib.cpp">
+      <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\RHI\OpenGL\GLTexture.cpp">
       <Filter>Source Files\Graphics\RHI\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>

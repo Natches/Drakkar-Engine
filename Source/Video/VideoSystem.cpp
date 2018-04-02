@@ -1,8 +1,5 @@
 #ifdef WINDOWING_SDL
-#include "SDL.h"
-#undef main // avoid SDL name conflict
-
-#include <Video/Windowing/SDLRenderWindow.hpp>
+#include <Windowing/Window/SDLWindow.hpp>
 #endif
 
 #include <vld.h>
@@ -11,44 +8,37 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
 
-//DK_LOG_CATEGORY_DEFINE(VideoSystemLog)
-//DK_LOG_CATEGORY_DECLARE(VideoSystemLog, ELoggerVerbosity::DEBUG)
-
 namespace drak {
 namespace video {
 
-#pragma region Static Initialization
-ARenderWindow*	VideoSystem::s_pMainWin	= nullptr;
-bool			VideoSystem::s_ready	= false;
-#pragma endregion
+AWindow*	VideoSystem::s_pMainWin	= nullptr;
+bool		VideoSystem::s_ready	= false;
 
-#pragma region Startup/Shutdown
-bool VideoSystem::Startup(const VideoSettings& settings) {
+
+bool VideoSystem::startup(const VideoSettings& settings) {
 	#ifdef WINDOWING_SDL
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		//DK_LOG(VideoSystemLog, ELoggerVerbosity::DEBUG, "SDL error: %s\n", SDL_GetError())
+	if (!SDLWindow::InitSDLVideo()) {
 		return false;
 	}
-	s_pMainWin = new SDLRenderWindow(settings.window);
+		
+	s_pMainWin = new SDLWindow(settings.window);
 	#endif
 
-	if (!gl::GLRHI::Init(true)) { // TODO (Simon): refactor to call abstract RHI Init()
-		//DK_LOG(VideoSystemLog, ELoggerVerbosity::DEBUG, "Failed to init GLRHI\n")
+	if (!gl::GLRHI::Init(true)) {
 		return false;
 	}
 
 	s_ready = true;
-	return true;
+	return s_ready;
 }
 
-void VideoSystem::Shutdown() {
+void VideoSystem::shutdown() {
 	delete s_pMainWin;
 
 	#ifdef WINDOWING_SDL
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	SDLWindow::QuitSDLVideo();
 	#endif
 }
-#pragma endregion
 
 } // namespace video
 } // namespace drak

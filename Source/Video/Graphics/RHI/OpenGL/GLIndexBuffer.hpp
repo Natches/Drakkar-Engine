@@ -19,7 +19,7 @@ public:
 
 	void create(const GLushort* pIndices, GLsizei indexCount);
 
-	DK_GETTER(GLushort, indexCount, m_indexCount)
+	DK_GETTER_C(GLushort, indexCount, m_indexCount)
 
 private:
 	GLsizei m_indexCount;

@@ -1,10 +1,13 @@
 #pragma once
 
-#include <Video/Windowing/ARenderWindow.hpp>
+#include <Core/Utils/ClassUtils.hpp>
 #include <Video/VideoSettings.hpp>
 
 namespace drak {
 namespace video {
+
+// Fwd declaration
+class AWindow;
 
 /*!
 * \class VideoSystem
@@ -13,18 +16,17 @@ namespace video {
 *
 */
 class VideoSystem final {
+	DK_NONMOVABLE_NONCOPYABLE(VideoSystem)
 public:
-	VideoSystem()	= delete;
-	~VideoSystem()	= delete;
+	VideoSystem() = default;
 
-public:
-	static bool	Startup(const VideoSettings& settings);
-	static void	Shutdown();
+	bool startup(const VideoSettings& settings);
+	void shutdown();
 
-	static ARenderWindow* MainWindow() { return s_pMainWin; }
+	static AWindow* MainWindow() { return s_pMainWin; }
 
 private:
-	static ARenderWindow*	s_pMainWin;
+	static AWindow*	s_pMainWin;
 	static bool				s_ready;
 };
 

@@ -5,21 +5,36 @@
 namespace drak {
 namespace video {
 
-enum class EDepthMode : U8 {
+enum class EDepthMode : U32 {
+	NEVER,
 	LESS,
-	LEQUAL,
 	EQUAL,
+	LEQUAL,
+	GREATER,
 	GEQUAL,
-	GREATER
+	NOT_EQUAL,
+	ALWAYS,
 };
 
-enum class EFaceSide : U8 {
+enum class EFaceSide : U32 {
 	FRONT,
 	BACK,
 	BOTH
 };
 
-enum class EPrimitiveType : U8 {
+enum class EBlendMode : U32 {
+	SRC_COLOR = 0x0300,
+	ONE_MINUS_SRC_COLOR,
+	SRC_ALPHA,
+	ONE_MINUS_SRC_ALPHA,
+	DST_ALPHA,
+	ONE_MINUS_DST_ALPHA,
+	DST_COLOR,
+	ONE_MINUS_DST_COLOR,
+	SRC_ALPHA_SATURATE
+};
+
+enum class EPrimitiveType : U32 {
 	POINTS,
 	LINES,
 	LINE_LOOP,

@@ -26,7 +26,8 @@ DK_NOMOVE_OP(T)
 DK_NOMOVE_NOCOPY_CTOR(T)			 \
 DK_NOMOVE_NOCOPY_OP(T)
 
-#define DK_GETTER(T, name, var)	T name() const { return var; }
+#define DK_GETTER(T, name, var)	T name() { return var; }
+#define DK_GETTER_C(T, name, var) const T name() const { return var; }
 #define DK_GETTER_REF_C(T, name, var) const T& name() const	{ return var; }
 #define DK_GETTER_REF_V(T, name, var) T& name()	{ return var; }
 

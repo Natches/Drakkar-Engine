@@ -4,7 +4,7 @@
 #include <Video/Graphics/RHI/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/RHI/OpenGL/GLVertexAttrib.hpp>
 
-using namespace drak::video::geom;
+using namespace drak::geom;
 
 namespace drak {
 namespace video {
@@ -25,8 +25,8 @@ void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) 
 			g_VertexAttribDescArray[i].type,
 			g_VertexAttribDescArray[i].normalized,
 			g_VertexAttribDescArray[i].offset);
-		glEnableVertexArrayAttrib(m_glID, i);
 		glVertexArrayAttribBinding(m_glID, i, vbo.bindIndex());
+		glEnableVertexArrayAttrib(m_glID, i);
 	}
 	m_vertCount = ibo.indexCount();
 	m_iboID = ibo.glID();

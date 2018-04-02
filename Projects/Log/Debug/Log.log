@@ -1,2 +1,6 @@
 ﻿  Log.cpp
+<<<<<<< HEAD
   Log.vcxproj -> D:\Documents\Projects\Drakkar-Engine\Binaries\Debug\Win32\Log.lib
+=======
+  Log.vcxproj -> C:\Users\s.gleizes\Documents\Projects\DrakkarEngine\Binaries\Debug\Win32\Log.lib
+>>>>>>> dev

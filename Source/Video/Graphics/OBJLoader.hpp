@@ -15,11 +15,6 @@ public:
 private:
 	math::Vec2f readVec2(std::ifstream& fs);
 	math::Vec3f readVec3(std::ifstream& fs);
-
-private:
-	static const char* OBJ_PARSE_VEC2F;
-	static const char* OBJ_PARSE_VEC3F;
-	static const char* OBJ_PARSE_TRI;
 };
 
 } // namespace video

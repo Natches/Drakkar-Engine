@@ -23,7 +23,7 @@ public:
 		const GLuint vertCount,
 		const GLuint bindIndex = 0u);
 
-	DK_GETTER(GLuint, bindIndex, m_bindIndex)
+	DK_GETTER_C(GLuint, bindIndex, m_bindIndex)
 
 private:
 	GLuint	m_bindIndex;

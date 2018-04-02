@@ -5,14 +5,22 @@
 #include <Video/Graphics/OBJLoader.hpp>
 
 using namespace drak::math;
-using namespace drak::video::geom;
+using namespace drak::geom;
 
 namespace drak {
 namespace video {
 
-const char*	OBJLoader::OBJ_PARSE_VEC2F	= "%f %f\n";
-const char*	OBJLoader::OBJ_PARSE_VEC3F	= "%f %f %f\n";
-const char*	OBJLoader::OBJ_PARSE_TRI	= "%hu/%hu/%hu %hu/%hu/%hu %hu/%hu/%hu\n";
+//-------------------------------------------------------------------------------------------------
+// Vertex Attribute Formats
+const char*	OBJ_PARSE_VEC2F	= "%f %f\n";
+const char*	OBJ_PARSE_VEC3F	= "%f %f %f\n";
+
+// Face Assembly Formats
+const char*	OBJ_PARSE_FACE_IND1 = "%hu %hu %hu\n";
+const char*	OBJ_PARSE_FACE_IND2 = "%hu/%hu %hu/%hu %hu/%hu\n";
+const char*	OBJ_PARSE_FACE_IND3 = "%hu/%hu/%hu %hu/%hu/%hu %hu/%hu/%hu\n";
+//-------------------------------------------------------------------------------------------------
+
 
 bool OBJLoader::load(const std::string& objPath, Mesh& outMesh) {
 	std::vector<Vec2f>	uvs;
@@ -31,17 +39,17 @@ bool OBJLoader::load(const std::string& objPath, Mesh& outMesh) {
 		if (word == "mtllib") {
 			objFile >> mtlFilePath;
 		}
-		else if (word == "v")	positions.push_back(readVec3(objFile));
-		else if (word == "vn")	normals.push_back(readVec3(objFile));
-		else if (word == "vt")	uvs.push_back(readVec2(objFile));
+		else if (word == "v")	positions.push_back	(readVec3(objFile));
+		else if (word == "vn")	normals.push_back	(readVec3(objFile));
+		else if (word == "vt")	uvs.push_back		(readVec2(objFile));
 		else if (word == "f") {  
 			IndexedVertex iv[3];
 			std::getline(objFile, line);
-			sscanf_s(line.c_str(), OBJ_PARSE_TRI,
+			sscanf_s(line.c_str(), OBJ_PARSE_FACE_IND3,
 				&iv[0].pos, &iv[0].uv, &iv[0].normal,
 				&iv[1].pos, &iv[1].uv, &iv[1].normal,
 				&iv[2].pos, &iv[2].uv, &iv[2].normal);
-
+			
 			for (int i = 0; i < 3; ++i) {
 				if (vertexLookup.find(iv[i]) == vertexLookup.end()) {
 					outMesh.addVertex({
@@ -66,6 +74,7 @@ Vec2f OBJLoader::readVec2(std::ifstream& fs) {
 	sscanf_s(line.c_str(), OBJ_PARSE_VEC2F, &v2.x, &v2.y);
 	return v2;
 }
+
 
 Vec3f OBJLoader::readVec3(std::ifstream& fs) {
 	Vec3f v3;

@@ -4,7 +4,6 @@
 #include <Math/Vec2.hpp>
 
 namespace drak {
-namespace video {
 namespace geom {
 
 enum VertexAttrib : U32 {
@@ -26,6 +25,10 @@ struct Vertex {
 	math::Vec2f uv;
 };
 
+//...........................
+// TODO (Simon): Vertex hash
+// ..........................
+
 struct IndexedVertex {
 	U16 pos;
 	U16 normal;
@@ -39,5 +42,4 @@ struct IndexComparison {
 };
 
 } // namespace geom
-} // namespace video
 } // namespace drak
