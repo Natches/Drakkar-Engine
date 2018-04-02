@@ -2,7 +2,7 @@
 #include <PxPhysicsAPI.h>
 #include <Core/Utils/MacroUtils.hpp>
 #include <Engine/Components/Components.h>
-
+#include <Engine/Physics/SimulationEvent.h>
 
 #define SIM_RATE 1.f/120.f 
 
@@ -12,6 +12,8 @@ DK_IMPORT(drak)
 #define PVD_HOST "127.0.0.1"
 #endif
 
+using namespace physx;
+
 PhysicsSystem::PhysicsSystem() {
 }
 
@@ -19,11 +21,14 @@ PhysicsSystem::PhysicsSystem() {
 PhysicsSystem::~PhysicsSystem() {
 }
 
+
+
 bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	physx::PxSceneDesc desc(*m_cScale);
 	desc.filterShader = physx::PxDefaultSimulationFilterShader;
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
-
+	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
+	desc.simulationEventCallback = m_pSimulationEvent;
 	/*if (m_pCUDAContextManager) {
 		desc.gpuDispatcher = m_pCUDAContextManager->getGpuDispatcher();
 		desc.flags |= physx::PxSceneFlag::eENABLE_GPU_DYNAMICS;
