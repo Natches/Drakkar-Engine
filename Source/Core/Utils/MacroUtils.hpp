@@ -6,6 +6,11 @@
 #define DK_CONCAT(x, y) DK_CONCATIMPL(x, y)
 #define DK_EXPAND(...) __VA_ARGS__
 
+#define DK_ENUM(name, t, ...)		\
+	enum class name : t	{			\
+	DK_PASTE_VA_ARGS(__VA_ARGS__)	\
+	};
+
 #define DK_SELECT(query)		switch(query) {
 #define DK_CASE(cond, line)		case cond: line; break;
 #define DK_END					}

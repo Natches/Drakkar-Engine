@@ -3,7 +3,6 @@
 using namespace drak::math;
 
 namespace drak {
-namespace video {
 namespace geom {
 
 Vertex::Vertex(
@@ -14,5 +13,4 @@ Vertex::Vertex(
 }
 
 } // namespace geom
-} // namespace video
 } // namespace drak

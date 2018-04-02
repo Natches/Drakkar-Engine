@@ -22,14 +22,8 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{912da90a-a633-4813-9fc8-e270fbf6dbf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{59df907f-c80f-4891-af5e-fab36c26d684}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{3c959af2-7dcd-4d1a-ae38-66005dd354ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Scene">
-      <UniqueIdentifier>{559ca1a4-6bdf-4eaa-a3c0-7c1ab458480f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ServiceLocator">
       <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
@@ -47,9 +41,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Components\AComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h">
       <Filter>Header Files\Components</Filter>
@@ -87,11 +78,11 @@
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Event.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Components\AComponent.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
