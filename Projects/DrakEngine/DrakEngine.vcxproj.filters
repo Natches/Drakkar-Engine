@@ -68,6 +68,9 @@
     <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>

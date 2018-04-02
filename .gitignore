@@ -13,9 +13,7 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
 [Rr]eleases/
 x86/
 bld/
@@ -307,8 +305,7 @@ __pycache__/
 /Projects/LogTest/LogTest.vcxproj.filters
 /Source/LogTest/Main.cpp
 /Projects/DrakMath/My Advisor Results - DrakMath
-/Projects/DrakMath/My Amplifier Results - DrakMath
-Projects/_ProjectTemplate/My Advisor Results - _ProjectTemplate/
+/Projects/DrakMath/My Amplifier Results - DrakMathProjects/_ProjectTemplate/My Advisor Results - _ProjectTemplate/
 
 Projects/Game/EngineLog
 

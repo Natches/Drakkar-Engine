@@ -2,39 +2,31 @@
 #include <Windowing/Window/SDLWindow.hpp>
 #endif
 
-#include <vld.h>
+//#include <vld.h>
 
 #include <Core/Core.hpp>
 #include <Video/VideoSystem.hpp>
-#include <Video/Graphics/RHI/OpenGL/GLRHI.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
 
 namespace drak {
 namespace video {
 
-AWindow*	VideoSystem::s_pMainWin	= nullptr;
-bool		VideoSystem::s_ready	= false;
-
-
-bool VideoSystem::startup(const VideoSettings& settings) {
+bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow) {
 	#ifdef WINDOWING_SDL
-	if (!SDLWindow::InitSDLVideo()) {
+	if (!SDLWindow::InitSDLVideo()) 
 		return false;
-	}
-		
-	s_pMainWin = new SDLWindow(settings.window);
+	pMainWindow = new SDLWindow(settings.window);
 	#endif
 
-	if (!gl::GLRHI::Init(true)) {
-		return false;
+	if (pMainWindow) {
+		if (settings.renderer == gfx::ERenderer::OPENGL)
+			m_pRenderer = new gfx::gl::GLRenderer;
+		return m_pRenderer->init();
 	}
-
-	s_ready = true;
-	return s_ready;
+	return true;
 }
 
 void VideoSystem::shutdown() {
-	delete s_pMainWin;
-
 	#ifdef WINDOWING_SDL
 	SDLWindow::QuitSDLVideo();
 	#endif

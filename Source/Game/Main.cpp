@@ -60,7 +60,7 @@ class MainScene : public IManualSceneBlueprint {
 			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
 		}
 
-		Cube* ground = (Cube*)scene.addGameObject<Cube>();
+		Cube* ground = scene.addGameObject<Cube>();
 		scene.addComponentToGameObject<Transform>(ground);
 		Transform* transform = scene.getComponentByHandle<Transform>(ground->getHandle(ComponentType<Transform>::id));
 		transform->position = math::Vec3f(0, -100, 0);

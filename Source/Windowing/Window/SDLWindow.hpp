@@ -36,7 +36,7 @@ private:
 	void*		m_glContext;
 	SDL_Event*	m_pEvt;
 
-friend bool VideoSystem::startup(const VideoSettings& settings);
+friend bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow);
 friend void VideoSystem::shutdown();
 };
 

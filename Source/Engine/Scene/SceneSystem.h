@@ -41,11 +41,11 @@ public:
 		gameObject->setHandleIDPair(components::ComponentType<T>::id, (int)((std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>())->size() - 1);
 	}
 	template <typename T>
-	AGameObject* addGameObject() {
+	T* addGameObject() {
 		m_gameObjects.push_back(new T());
 		m_gameObjects[m_gameObjects.size() - 1]->myScene = this;
 		m_gameObjects[m_gameObjects.size() - 1]->id = (U32)m_gameObjects.size() - 1;
-		return m_gameObjects[m_gameObjects.size() - 1];
+		return static_cast<T*>(m_gameObjects[m_gameObjects.size() - 1]);
 	}
 	template <typename T>
 	T* getComponentByHandle(int handle) {
