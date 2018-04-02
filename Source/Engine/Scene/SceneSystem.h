@@ -13,6 +13,7 @@ namespace drak {
 namespace core {
 	class Engine;
 }
+
 class Scene {
 	std::vector<AGameObject*> m_gameObjects;
 	template <I32 n>
@@ -55,6 +56,8 @@ public:
 	std::vector<T>* getComponentContainerByType() {
 		return (std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>();
 	}
+
+
 
 	template <typename T>
 	std::vector<T> getFilteredComponentSubArray(U64 sieveFlag) {

@@ -69,7 +69,7 @@ void Engine::startLoop() {
 			gameObjects[i]->Update();
 		}
 		std::vector<components::Transform> subArray = sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id);
-		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, s_frameTime.deltaTime(),
+		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, 1.f/60.f,
 				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
 				&subArray);
 		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);

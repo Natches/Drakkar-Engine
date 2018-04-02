@@ -16,7 +16,7 @@ class Player : public AGameObject {
 	Transform* transform;
 	int counter = 0;
 	virtual void Update() override {
-		if (counter <= 50000) {
+		if (counter <= 1000) {
 		}
 		else {
 			Engine::stopGame();
@@ -41,8 +41,11 @@ class MainScene : public IManualSceneBlueprint {
 	// Inherited via IManualSceneBlueprint
 	virtual void build(Scene & scene) override
 	{
-		for (int i = 0; i < 10; ++i) {
-			Player* p1 = scene.addGameObject<Player>();
+		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
+		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(0.5, 0.5, 0.5), *mat);
+
+		for (int i = 0; i < 1; ++i) {
+			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.addComponentToGameObject<Transform>(p1);
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
 			transform->position = math::Vec3f(0, i*10, 0);
@@ -52,8 +55,7 @@ class MainScene : public IManualSceneBlueprint {
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));
 			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i * 10, 0));
-			rigid->material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
-			rigid->rigidActor->createShape(physx::PxBoxGeometry(0.5, 0.5, 0.5), *rigid->material);
+			rigid->rigidActor->attachShape(*cube);
 			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid->rigidActor, 10.f);
 			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
 		}

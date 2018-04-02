@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\Source\Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\Physics\SimulationEvent.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.h">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
