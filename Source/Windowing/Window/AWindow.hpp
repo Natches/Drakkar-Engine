@@ -45,7 +45,7 @@ protected:
 	I32		m_resX, m_resY;
 	bool	m_open;
 
-friend bool VideoSystem::startup(const VideoSettings& settings);
+friend bool VideoSystem::startup(const VideoSettings& settings, AWindow*& pMainWindow);
 };
 
 } // namespace video

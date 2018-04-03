@@ -3,11 +3,13 @@
 #include <Core/Utils/ClassUtils.hpp>
 #include <Video/VideoSettings.hpp>
 
+namespace drak { 
+namespace video { class AWindow; }
+namespace gfx	{ class IRenderer; } 
+} // Forward Declarations
+
 namespace drak {
 namespace video {
-
-// Fwd declaration
-class AWindow;
 
 /*!
 * \class VideoSystem
@@ -20,14 +22,13 @@ class VideoSystem final {
 public:
 	VideoSystem() = default;
 
-	bool startup(const VideoSettings& settings);
+	bool startup(const VideoSettings& settings, AWindow*& pMainWindow);
 	void shutdown();
 
-	static AWindow* MainWindow() { return s_pMainWin; }
+	DK_GETTER(gfx::IRenderer*, renderer, m_pRenderer)
 
-private:
-	static AWindow*	s_pMainWin;
-	static bool				s_ready;
+private: 
+	gfx::IRenderer* m_pRenderer;
 };
 
 } // namespace video

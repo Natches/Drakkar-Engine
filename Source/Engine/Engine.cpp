@@ -1,6 +1,6 @@
 #include <Engine/Engine.hpp>
 #include <Core/Components/AGameObject.h>
-
+#include <Windowing/Window/AWindow.hpp>
 
 namespace drak {
 namespace core {
@@ -23,34 +23,47 @@ PhysicsSystem& Engine::getPhysicsSystem()
 int Engine::startup() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
-	Get().sceneSystem.Startup();
-	Get().s_frameTime.start();
+	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
+
+	// TODO (Simon): Check for failed startups
+	videoSystem.startup(videoSettings, pMainWindow);
+	renderSystem.startup(videoSystem.renderer());
+	sceneSystem.Startup();
 	s_pool.startup();
-	Get().physicsSystem.Startup();
-	Get().physicsSystem.InitPxScene(&Get().sceneSystem.scene->m_pPhysXScene);
+	physicsSystem.Startup();
+	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
+
 	return 0;
 }
 
 int Engine::shutdown() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-	Get().sceneSystem.Shutdown();
-	Get().physicsSystem.Shutdown();
-	Get().s_frameTime.stop();
+	sceneSystem.Shutdown();
+	physicsSystem.Shutdown();
+	renderSystem.shutdown();
+	videoSystem.shutdown();
+	
 	Logbook::CloseLogs();
 	s_pool.shutdown();
+
 	return 0;
 }
 
 void Engine::startLoop() {
+	s_frameTime.start();
+
 	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
 	for (unsigned int i = 0; i < gameObjects.size(); ++i) {
-		gameObjects[0]->Start();
+		gameObjects[i]->Start();
 	}
-	unsigned long long frames = 0;
-	float runtime = 0;
-	while (running) {
-		frames++;
+	
+	while (pMainWindow->isOpen()) {
 		s_frameTime.update();
+		pMainWindow->pollEvents();
+		pMainWindow->clear();
+		renderSystem.startFrame();
+
 		std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
 		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
 			gameObjects[i]->Update();
@@ -60,10 +73,11 @@ void Engine::startLoop() {
 				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
 				&subArray);
 		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
-		if(frames>0)
-			runtime += s_frameTime.deltaTime();
+
+		renderSystem.endFrame();
+		pMainWindow->swapBuffers();
 	}
-	printf("Average FPS %f\n", 1.f / (runtime / (frames-0)));
+	s_frameTime.stop();
 }
 
 void Engine::stopGame() {
