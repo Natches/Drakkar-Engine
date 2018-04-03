@@ -20,6 +20,7 @@ class Scene {
 	inline void* getComponentContainerByID();
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(RigidBody)
+	COMPONENT_CONTAINER(Model)
 public:
 
 

@@ -128,7 +128,7 @@
       </AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(SolutionDir)Binaries\DrakVideo\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Log.lib;DrakCore.lib;PhysX3DEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PxFoundationDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x86.lib;PxPvdSDKDEBUG_x86.lib;PxTaskDEBUG_x86.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>Log.lib;DrakCore.lib;DrakThreading.lib;DrakVideo.lib;PhysX3DEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PxFoundationDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x86.lib;PxPvdSDKDEBUG_x86.lib;PxTaskDEBUG_x86.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;DrakWindowing.lib;DrakCore.lib;DrakThreading.lib;DrakVideo.lib;PhysX3DEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PxFoundationDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x86.lib;PxPvdSDKDEBUG_x86.lib;PxTaskDEBUG_x86.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,7 +143,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(SolutionDir)Binaries\DrakVideo\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Log.lib;DrakCore.lib;PhysX3DEBUG_x64.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelDynamicsDEBUG.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PxFoundationDEBUG_x64.lib;PxTaskDEBUG_x64.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>Log.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;DrakWindowing.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -161,7 +161,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(SolutionDir)Binaries\DrakVideo\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Log.lib;DrakCore.lib;LowLevel.lib;LowLevelAABB.lib;LowLevelDynamics.lib;PhysX3_x86.lib;PhysX3Common_x86.lib;PxFoundation_x86.lib;PxTask_x86.lib;SceneQuery.lib;SimulationController.lib;PhysX3Extensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>Log.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3_x86.lib;PhysX3Common_x86.lib;PxFoundation_x86.lib;PhysX3Extensions.lib;PhysX3Cooking_x86.lib;PxPvdSDK_x86.lib;PxTask_x86.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;DrakWindowing.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3_x86.lib;PhysX3Common_x86.lib;PxFoundation_x86.lib;PhysX3Extensions.lib;PhysX3Cooking_x86.lib;PxPvdSDK_x86.lib;PxTask_x86.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -179,7 +179,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(SolutionDir)Binaries\DrakVideo\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Log.lib;DrakCore.lib;LowLevel.lib;LowLevelAABB.lib;LowLevelDynamics.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PxFoundation_x64.lib;PxTask_x64.lib;SceneQuery.lib;SimulationController.lib;PhysX3Extensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>Log.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PxFoundation_x64.lib;PhysX3Extensions.lib;PhysX3Cooking_x64.lib;PxPvdSDK_x64.lib;PxTask_x64.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib</AdditionalDependencies>
+      <AdditionalDependencies>Log.lib;DrakWindowing.lib;DrakThreading.lib;DrakCore.lib;DrakVideo.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PxFoundation_x64.lib;PhysX3Extensions.lib;PhysX3Cooking_x64.lib;PxPvdSDK_x64.lib;PxTask_x64.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

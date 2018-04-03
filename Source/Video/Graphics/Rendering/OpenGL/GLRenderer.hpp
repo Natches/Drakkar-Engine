@@ -24,7 +24,7 @@ public:
 	void info() override;
 
 	bool loadShaders(const std::string& dir, ShaderMap& outMap) override;
-	bool loadRenderables(const std::string& dir, RenderArray& outArr) override;
+	bool loadRenderables(const std::string& dir, IRenderable*& rdr) override;
 
 	void clear() override;
 	void clearColorValue(const Color3& color) override;
