@@ -9,6 +9,7 @@
 #include <tuple>
 #include <string>
 #include <sstream>
+#include <vector>
 
 namespace drak {
 namespace serialization {
@@ -1444,70 +1445,22 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
 		char isAllocated = *(c_str + offset); \
 		if(isAllocated){				\
 			t = new std::remove_pointer_t<T>();																									\
-			memcpy(t, c_str + offset, drak::serialization::SizeOfSerializedType<T>());										\
-		}			\
-		else		\
-			t = nullptr;		\
-		return drak::serialization::SizeOfSerializedType<T>(); \
+			memcpy(t, c_str + offset + 1, sizeof(std::remove_pointer_t<T>));										\
+			return drak::serialization::SizeOfSerializedType<T>();												\
+		}																					\
+		else{																							\
+			t = nullptr;																		\
+			return 1;																\
+		}																									\
 	}																								\
-	else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-	drak::types::IsBaseType_V<drak::types::VectorType_T<T>>) {											\
+	else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>>) {				\
 		size_t size = *(size_t*)(c_str + offset);														\
 		const char* temp = c_str + offset + sizeof(size_t);													\
 		t.reserve(size);																				\
 		for(int i = 0; i < size; ++i) {																	\
-			t.emplace_back(*(drak::types::VectorType_T<T>*)temp);										\
-			temp += sizeof(drak::types::VectorType_T<T>);												\
-		}																								\
-		return temp - (c_str + offset);																	\
-	}																									\
-	else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-	drak::types::IsBaseType_V<std::remove_pointer_t<drak::types::VectorType_T<T>>> &&					\
-	std::is_pointer_v<drak::types::VectorType_T<T>>) {													\
-		size_t size = *(size_t*)(c_str + offset);														\
-		const char* temp = c_str + offset + sizeof(size_t);													\
-		t.reserve(size);																				\
-		for(int i = 0; i < size; ++i) {																	\
-			if(*temp) {																						\
-				drak::types::VectorType_T<T> ptr = new std::remove_pointer_t<drak::types::VectorType_T<T>>;\
-				memcpy(ptr, temp+1, sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>));			\
-				t.emplace_back(ptr);																		\
-				temp += sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>) + 1;					\
-			}																								\
-			else {																							\
-				temp += 1;																					\
-				t.emplace_back(nullptr);																\
-			}																							\
-		}																								\
-		return temp - (c_str + offset);																	\
-	}																									\
-	else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-	!drak::types::IsBaseType_V<drak::types::VectorType_T<T>> &&													\
-	!std::is_pointer_v<drak::types::VectorType_T<T>>) {											\
-		size_t size = *(size_t*)(c_str + offset);														\
-		const char* temp = c_str + offset + sizeof(size_t);													\
-		t.reserve(size);																				\
-		for(int i = 0; i < size; ++i) {																	\
-			t.emplace_back(MetaData<drak::types::VectorType_T<T>>::Create(temp));						\
-			temp += MetaData<drak::types::VectorType_T<T>>::ComputeTotalSize(t[i]);						\
-		}																								\
-		return temp - (c_str + offset);																	\
-	}																									\
-	else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-	!drak::types::IsBaseType_V<std::remove_pointer_t<drak::types::VectorType_T<T>>> &&					\
-	std::is_pointer_v<drak::types::VectorType_T<T>>) {													\
-		size_t size = *(size_t*)(c_str + offset);														\
-		const char* temp = c_str + offset + sizeof(size_t);													\
-		t.reserve(size);																				\
-		for(int i = 0; i < size; ++i) {																	\
-			if(*temp) {																						\
-				t.emplace_back(MetaData<std::remove_pointer_t<drak::types::VectorType_T<T>>>::CreateNew(temp + 1));					\
-				temp += MetaData<std::remove_pointer_t<drak::types::VectorType_T<T>>>::ComputeTotalSize(*(t[i])) + 1;					\
-			}																								\
-			else {																							\
-				temp += 1;																					\
-				t.emplace_back(nullptr);																\
-			}																							\
+			drak::types::VectorType_T<T> data;															\
+			temp += SetData<drak::types::VectorType_T<T>>(data, temp, 0);								\
+			t.emplace_back(data);																		\
 		}																								\
 		return temp - (c_str + offset);																	\
 	}																									\
@@ -1552,46 +1505,38 @@ else if constexpr (drak::types::IsBaseType_V<std::remove_pointer_t<T>>){\
 char* data = new char[sizeof(T) + 1], size;								\
 if (size = (bool)t) {															\
 	memcpy(data, &size, 1);												\
-	memcpy(data + 1, &t, sizeof(t));									\
+	memcpy(data + 1, t, sizeof(t));										\
+	return std::make_tuple(data, sizeof(T) + 1);						\
 }																		\
-else																	\
-memset(data, 0, sizeof(T) + 1);											\
-return std::make_tuple(data, sizeof(T) + 1);							\
+else{																	\
+	memset(data, 0, 1);													\
+	return std::make_tuple(data, 1);									\
+}																			\
 }																		\
 else if constexpr(std::is_same_v<T, std::string>){	\
 	size_t size = t.size();									\
 	t.insert(0, (const char*)&size, sizeof(size_t));					\
 	return std::make_tuple<void*, size_t>((void*)t.c_str(), t.size());	\
 }																		\
-else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-drak::types::IsBaseType_V<drak::types::VectorType_T<T>>) {											\
-	size_t size = t.size();																			\
-	char* data = new char[t.size() * sizeof(drak::types::VectorType_T<T>) + sizeof(size_t)];		\
-	memcpy(data, &size, sizeof(size_t));															\
-	memcpy(data + sizeof(size_t), (char*)t.data(), t.size() * sizeof(drak::types::VectorType_T<T>));\
-	return std::make_tuple(data, t.size() * sizeof(drak::types::VectorType_T<T>) + sizeof(size_t));	\
-}																										\
-else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-drak::types::IsBaseType_V<std::remove_pointer_t<drak::types::VectorType_T<T>>> &&					\
-std::is_pointer_v<drak::types::VectorType_T<T>>) {											\
-	size_t size = t.size();																			\
-	char* data = new char[t.size() * (sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>) + 1) + sizeof(size_t)];		\
-	memcpy(data, &size, sizeof(size_t));\
-	char* temp = data + sizeof(size_t); \
-	U8 isAllocated = 0;					\
-	for(int i = 0; i < size; ++i) {				\
-		if(isAllocated = (bool)t[i]) {								\
-			memcpy(temp, &isAllocated, 1);\
-			memcpy(temp + 1, (char*)*(t.data() + i),	\
-				sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>));\
-			temp += sizeof(std::remove_pointer_t<drak::types::VectorType_T<T>>) + 1;	\
-		}																			\
-		else {																		\
-			memcpy(temp, &isAllocated, 1);											\
-			temp += 1;																\
-		}																			\
-	}																				\
-	return std::make_tuple(data, temp - data);										\
+else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>>) {												\
+	size_t size = t.size(), size2 = 0;																										\
+	std::vector<std::tuple<void*, size_t>> data;																				\
+	data.reserve(t.size());																										\
+	for(auto& x : t) {																											\
+		data.emplace_back(GetData<TYPEOF(x)>(x));																				\
+		size2 += std::get<1>(data.back());																						\
+	}																															\
+	char* binarydata = new char[size2 + sizeof(size_t)];																				\
+	memcpy(binarydata, &size, sizeof(size_t));																						\
+	char* temp = binarydata + sizeof(size_t);																						\
+	for(auto& x : data) {																										\
+		memcpy(temp, std::get<0>(x), std::get<1>(x));																			\
+		temp += std::get<1>(x);																									\
+		if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<drak::types::VectorType_T<T>>> &&	\
+			!std::is_same_v<drak::types::VectorType_T<T>, std::string>)\
+		delete[] std::get<0>(x);																					\
+	}																													\
+	return std::make_tuple(binarydata, temp - binarydata);										\
 }																											\
 else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T> && !drak::types::IsBaseType_V<T> &&	\
 !std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>>) {							\
@@ -1626,53 +1571,6 @@ else {				\
 	return std::make_tuple(data, 1);		\
 }											\
 }																						\
-else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-!drak::types::IsBaseType_V<drak::types::VectorType_T<T>> &&											\
-!std::is_pointer_v<drak::types::VectorType_T<T>>) {											\
-	size_t size = t.size(), size2 = 0;																\
-	for(auto& x : t) {																				\
-		size2 += MetaData<drak::types::VectorType_T<T>>::ComputeTotalSize(x);						\
-	}																								\
-	char* data = new char[size2 + sizeof(size_t)], *temp;											\
-	memcpy(data, &size, sizeof(size_t));															\
-	temp = data + sizeof(size_t);																	\
-	std::tuple<char*, size_t> binary;																\
-	for(auto& x : t) {																				\
-		binary = MetaData<drak::types::VectorType_T<T>>::GetAllBinaryData(x);						\
-		memcpy(temp, std::get<0>(binary), std::get<1>(binary));										\
-		temp += std::get<1>(binary);																\
-	}																								\
-	return std::make_tuple(data, temp - data);														\
-}																										\
-else if constexpr (std::is_same_v<T, std::vector<drak::types::VectorType_T<T>>> &&					\
-!drak::types::IsBaseType_V<std::remove_pointer_t<drak::types::VectorType_T<T>>> &&					\
-std::is_pointer_v<drak::types::VectorType_T<T>>) {											\
-	size_t size = t.size(), size2 = 0;																\
-	for(auto x : t) {																				\
-		if(x)																						\
-			size2 += MetaData<std::remove_pointer_t<drak::types::VectorType_T<T>>>::ComputeTotalSize(*x) + 1;\
-		else                                                                                        \
-			size2 += 1;																				\
-	}																								\
-	char* data = new char[size2 + sizeof(size_t)], *temp;									\
-	memcpy(data, &size, sizeof(size_t));\
-	temp = data + sizeof(size_t); \
-	U8 isAllocated = 0;					\
-	std::tuple<char*, size_t> binary;																\
-	for(int i = 0; i < size; ++i) {				\
-		if(isAllocated = (bool)t[i]) {								\
-			memcpy(temp, &isAllocated, 1);\
-			binary = MetaData<std::remove_pointer_t<drak::types::VectorType_T<T>>>::GetAllBinaryData(*(t[i]));\
-			memcpy(temp + 1, std::get<0>(binary), std::get<1>(binary));\
-			temp += std::get<1>(binary) + 1;										\
-		}																			\
-		else {																		\
-			memcpy(temp, &isAllocated, 1);											\
-			temp += 1;																\
-		}																			\
-	}																				\
-	return std::make_tuple(data, temp - data);										\
-}																											\
 }																						\
 public:																					\
 static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_varName =	\

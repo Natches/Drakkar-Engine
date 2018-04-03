@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Serialization/SerializationUtils.hpp>
-#include <vector>
 
 namespace drak {
 namespace serialization {

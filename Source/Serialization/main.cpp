@@ -13,6 +13,7 @@
 #include <type_traits>
 #include <fstream>
 #include <Log/Log.hpp>
+#include <Math/Matrix4x4.hpp>
 
 DK_IMPORT(drak::function)
 DK_IMPORT(drak::serialization)
@@ -35,6 +36,7 @@ public:
 public:
 	int instance;
 	int s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f;
+	drak::math::Mat4f mat;
 	Ser b[26];
 	std::string str;
 	Ser* pt;
@@ -43,6 +45,7 @@ public:
 	std::vector<Ser> vec3;
 	std::vector<Ser*> vec4;
 };
+
 
 DK_METADATA_BEGIN(Ser)
 DK_PRIVATE_FIELDS(i, c)
@@ -53,7 +56,7 @@ DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 DK_METADATA_BEGIN(Test)
 DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4)
 DK_PRIVATE_FIELDS(serial, ser1, pt, vec2)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
+DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3, mat)
 DK_SERIALIZE_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELDS
 DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
@@ -76,6 +79,7 @@ int main() {
 	t.vec2[5] = nullptr;
 	t.str = "";
 	t.pt = new Ser{ 12,536,0 };
+	t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );
 	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
 	//MetaData<Test>::PrivateFields::set(t, "ser1", &z);
 	//MetaData<Test>::PrivateFields::set(t, "serial", &z);
@@ -88,6 +92,5 @@ int main() {
 		of.close();
 	}*/
 	Test t2 = MetaData<Test>::deserialize(str);
-	system("pause");
 	return 0;
 }
