@@ -73,10 +73,10 @@ void Engine::startLoop() {
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		/*
-		renderSystem.update(sceneSystem.scene->getComponentContainerByType<components::Model>(),
-			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id))
-		*/
+		
+		renderSystem.forwardRender(sceneSystem.scene->getComponentContainerByType<components::Model>(),
+			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id));
+		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
 	}

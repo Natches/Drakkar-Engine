@@ -63,7 +63,7 @@ class MainScene : public IManualSceneBlueprint {
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
 			transform->position = math::Vec3f(0, i*10, 0);
 			transform->rotation = math::Vec4f(0, 0, 0, 0);
-			transform->scale = math::Vec3f(1, 1, 1);
+			transform->scale = math::Vec3f(5, 5, 5);
 
 			scene.addComponentToGameObject<Model>(p1);
 			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));

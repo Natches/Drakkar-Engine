@@ -3,7 +3,7 @@
 #include <Core/Core.hpp>
 
 #include <Video/Graphics/Geometry/Mesh.hpp>
-#include <Video/Graphics/Tools/ModelLoader.hpp>
+#include <Video/Graphics/Tools/OBJLoader.hpp>
 
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
@@ -22,6 +22,10 @@ bool GLRenderer::init() {
 	if (glewInit() == GLEW_OK) {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
 		glDebugMessageCallback((GLDEBUGPROC)errorCallback, 0);
+
+		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
+
+		return true;
 	}
 	return false;
 }
@@ -32,6 +36,14 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		outMap["GridShader"] = pGridShader;
 	else {
 		delete pGridShader;
+		return false;
+	}
+
+	GLShader* pDefaultShader = new GLShader;
+	if (pDefaultShader->loadFromFile(dir + "default.vert", dir + "default.frag"))
+		outMap["DefaultShader"] = pDefaultShader;
+	else {
+		delete pDefaultShader;
 		return false;
 	}
 
@@ -47,24 +59,15 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 }
 
 bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
-	tools::ModelLoader loader;
+	tools::OBJLoader loader;
+
 	geom::Mesh mesh;
-
-	if (loader.loadFromFile(dir + "quad.obj")) {
-
-		return true;
-	}
-
-	/*OBJLoader loader;
-	geom::Mesh mesh;
-
-	if (loader.load(dir + "quad.obj", mesh)) {
+	if (loader.load(dir, mesh)) {
 		const std::vector<geom::Vertex>& verts = mesh.vertices();
-		const std::vector<U16>& indices = mesh.indices();
-
 		GLVertexBuffer vbo;
 		vbo.create(verts.data(), (U32)verts.size());
 
+		const std::vector<U16>& indices = mesh.indices();
 		GLIndexBuffer ibo;
 		ibo.create(indices.data(), (I32)indices.size());
 
@@ -73,7 +76,7 @@ bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
 
 		outArr.push_back(pVao);
 		return true;
-	}*/
+	}
 	return false;
 }
 
