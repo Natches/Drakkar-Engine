@@ -3,6 +3,7 @@
 #include <Core/Components/AGameObject.h>
 #include <Engine/Components/Components.h>
 #include <Engine/Scene/SceneSystem.h>
+#include <Engine/Physics/SimulationEvent.h>
 #include <Math/Matrix4x4.hpp>
 #include <PxPhysicsAPI.h>
 
@@ -14,9 +15,6 @@ using namespace function;
 DK_IMPORT(drak::math)
 
 class Player : public AGameObject {
-
-	Transform* transform;
-	RigidBody* r;
 	int counter = 0;
 	virtual void Update() override {
 		if (counter <= 1000) {
@@ -28,10 +26,19 @@ class Player : public AGameObject {
 	}
 
 	virtual void Start() override {
-		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
+		MemberFunction<Player, void, const Event*>
+			func(this, &Player::OnCollision);
+		Engine::Get().getPhysicsSystem().AddCollisionCallback(
+			*myScene->getComponentByHandle<RigidBody>(getHandle(ComponentType<RigidBody>::id)),
+			PhysicsEventDispatcher::COLLISION_IN,
+			&func);
 		//MemberFunction<Player, void, const Event*> 
 		//	func(this, &Player::cameraControl, &Keyboard::Get().event());
 		//Keyboard::Get().addEventListener(events::Keyboard::KEY_DOWN, &func);
+	}
+
+	void Player::OnCollision(const Event* pEvent) {
+		myScene->getComponentByHandle<Model>(getHandle(ComponentType<Model>::id))->albedo.b = 1;
 	}
 
 	//void Player::cameraControl(const Event* pEvt) {

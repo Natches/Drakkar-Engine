@@ -14,6 +14,11 @@ DK_IMPORT(drak)
 
 using namespace physx;
 
+void drak::PhysicsSystem::AddCollisionCallback(components::RigidBody & rb, events::EventType type, events::EventListener listener)
+{
+	m_pPhysicsEvent->AddEventListener(rb, type, listener);
+}
+
 PhysicsSystem::PhysicsSystem() {
 }
 
@@ -28,9 +33,9 @@ bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	desc.filterShader = physx::PxDefaultSimulationFilterShader;
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
-	desc.simulationEventCallback = m_pSimulationEvent;
 
 	*pxScene = m_pPhysics->createScene(desc);
+	(*pxScene)->setSimulationEventCallback(m_pPhysicsEvent);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
 	return false;
 }
@@ -47,6 +52,7 @@ bool drak::PhysicsSystem::Update(physx::PxScene* scene, F64 deltaTime, std::vect
 	}
 	if (simulated)
 	{
+
 		for (I32 i = 0, size = (*rigidBodies).size(); i < size; ++i)
 		{
 			(*transforms)[i].position.x = (*rigidBodies)[i].rigidActor->getGlobalPose().p.x;
@@ -85,7 +91,7 @@ bool PhysicsSystem::Startup() {
 	if (!m_pPhysics)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log", "Failed to create PhysX physics.\n");
 
-	m_pSimulationEvent = new events::SimulationEvent;
+	m_pPhysicsEvent = new events::PhysicsEvents;
 	return true;
 }
 
@@ -108,6 +114,6 @@ void PhysicsSystem::Shutdown() {
 		m_pFoundation->release();
 		m_pFoundation = NULL;
 	}
-	delete m_pSimulationEvent;
+	delete m_pPhysicsEvent;
 
 }

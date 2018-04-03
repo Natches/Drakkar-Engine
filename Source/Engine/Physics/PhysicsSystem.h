@@ -26,9 +26,8 @@ namespace drak {
 		class Engine;
 	}
 	namespace events {
-		class SimulationEvent;
+		class PhysicsEvents;
 	}
-
 
 	class PhysicsSystem
 	{
@@ -36,7 +35,7 @@ namespace drak {
 		friend core::Engine;
 	public:
 		physx::PxPhysics* getPhysics() {return m_pPhysics; }
-		void AddCollisionCallback();
+		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
@@ -44,7 +43,7 @@ namespace drak {
 		bool Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms);
 		bool Startup();
 		void Shutdown();
-		events::SimulationEvent*	m_pSimulationEvent;
+		events::PhysicsEvents*		m_pPhysicsEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;

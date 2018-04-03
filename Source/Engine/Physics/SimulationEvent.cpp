@@ -1,69 +1,50 @@
 #include "SimulationEvent.h"
 #include <PxPhysicsAPI.h>
+#include <Engine/Components/RigidBodyComponent.h>
 
 using namespace physx;
 using namespace drak;
 using namespace events;
 
-SimulationEvent::SimulationEvent()
-{
+PhysicsEvents::PhysicsEvents() {
 }
 
 
-SimulationEvent::~SimulationEvent()
-{
+PhysicsEvents::~PhysicsEvents() {
 }
 
-void drak::events::SimulationEvent::AddCollisionEvent(const char* name)
+void drak::events::PhysicsEvents::AddEventListener(components::RigidBody& rb, EventType type, EventListener listener)
 {
-	m_collisionEventDispatchers.insert({ name, CollisionEventDispatcher() });
+	m_collisionEventDispatchers.insert({rb.rigidActor->getName(), PhysicsEventDispatcher()});
+	m_collisionEventDispatchers[rb.rigidActor->getName()].addEventListener(type, listener);
 }
 
-void drak::events::SimulationEvent::AddEventListener(const char* name, EventListener listener)
-{
-	//m_collisionEventDispatchers[name].addEventListener(listener);
+void drak::events::PhysicsEventDispatcher::dispatchEvent(const Event * e) {
+	DefaultEventDispatcher::dispatchEvent(e);
 }
 
-void drak::events::SimulationEvent::RemoveEventListener(const char* name, EventListener listener)
-{
+void PhysicsEvents::onConstraintBreak(PxConstraintInfo * constraints, PxU32 count) {
 }
 
-void SimulationEvent::onConstraintBreak(PxConstraintInfo * constraints, PxU32 count)
-{
+void PhysicsEvents::onWake(PxActor ** actors, PxU32 count) {
 }
 
-void SimulationEvent::onWake(PxActor ** actors, PxU32 count)
-{
+void PhysicsEvents::onSleep(PxActor ** actors, PxU32 count) {
 }
 
-void SimulationEvent::onSleep(PxActor ** actors, PxU32 count)
-{
-}
-
-void SimulationEvent::onContact(const PxContactPairHeader & pairHeader, const PxContactPair * pairs, PxU32 nbPairs)
-{
-	if (!pairHeader.flags.isSet(physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_0) && !pairHeader.flags.isSet(physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_1)) {
-		//m_collisionEventDispatchers[pairHeader.actors[0]->getName()];
+void PhysicsEvents::onContact(const PxContactPairHeader & pairHeader, const PxContactPair * pairs, PxU32 nbPairs) {
+	if (!pairHeader.flags.isSet(physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_0) &&
+		!pairHeader.flags.isSet(physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_1)) {
+		CollisionEvent e;
+		e.type = PhysicsEventDispatcher::COLLISION_IN;
+		m_collisionEventDispatchers[pairHeader.actors[0]->getName()].dispatchEvent(&e);
+		m_collisionEventDispatchers[pairHeader.actors[1]->getName()].dispatchEvent(&e);
 	}
 }
 
-void SimulationEvent::onTrigger(PxTriggerPair * pairs, PxU32 count)
-{
+void PhysicsEvents::onTrigger(PxTriggerPair * pairs, PxU32 count) {
 
 }
 
-void SimulationEvent::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTransform * poseBuffer, const PxU32 count)
-{
-}
-
-void drak::events::CollisionEventDispatcher::addEventListener(EventType type, EventListener listener)
-{
-}
-
-void drak::events::CollisionEventDispatcher::removeEventListener(EventType type, EventListener listener)
-{
-}
-
-void drak::events::CollisionEventDispatcher::dispatchEvent(const Event * e)
-{
+void PhysicsEvents::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTransform * poseBuffer, const PxU32 count) {
 }

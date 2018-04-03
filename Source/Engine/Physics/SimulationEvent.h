@@ -5,37 +5,43 @@
 #include <unordered_map>
 
 namespace drak {
-	namespace events {
 
-		class CollisionEventDispatcher: public IEventDispatcher {
-		public:
+namespace components {
+	class RigidBody;
+}
 
+namespace events {
+struct CollisionEvent : public Event {
 
-			// Inherited via IEventDispatcher
-			virtual void addEventListener(EventType type, EventListener listener) override;
+};
 
-			virtual void removeEventListener(EventType type, EventListener listener) override;
+class PhysicsEventDispatcher : public DefaultEventDispatcher {
+public:
+	enum : EventType {
+		COLLISION_IN,
+		COLLISION_OUT,
+		COLLISION_STAY
+	};
 
-			virtual void dispatchEvent(const Event * e) override;
+protected:
+	void dispatchEvent(const Event* e) override;
 
-		};
+	friend class PhysicsEvents;
+};
 
-		class SimulationEvent : public physx::PxSimulationEventCallback
-		{
-			std::unordered_map<const char *, CollisionEventDispatcher> m_collisionEventDispatchers;
-		public:
-			SimulationEvent();
-			~SimulationEvent();
-			void AddCollisionEvent(const char* name);
-			void AddEventListener(const char* name, EventListener listener);
-			void RemoveEventListener(const char* name, EventListener listener);
-			// Inherited via PxSimulationEventCallback
-			virtual void onConstraintBreak(physx::PxConstraintInfo * constraints, physx::PxU32 count) override;
-			virtual void onWake(physx::PxActor ** actors, physx::PxU32 count) override;
-			virtual void onSleep(physx::PxActor ** actors, physx::PxU32 count) override;
-			virtual void onContact(const physx::PxContactPairHeader & pairHeader, const physx::PxContactPair * pairs, physx::PxU32 nbPairs) override;
-			virtual void onTrigger(physx::PxTriggerPair * pairs, physx::PxU32 count) override;
-			virtual void onAdvance(const physx::PxRigidBody * const * bodyBuffer, const physx::PxTransform * poseBuffer, const physx::PxU32 count) override;
-		};
-	}
+class PhysicsEvents : public physx::PxSimulationEventCallback {
+	std::unordered_map<const char *, PhysicsEventDispatcher> m_collisionEventDispatchers;
+public:
+	PhysicsEvents();
+	~PhysicsEvents();
+	void AddEventListener(components::RigidBody& rb, EventType type,  EventListener listener);
+	void onConstraintBreak(physx::PxConstraintInfo * constraints, physx::PxU32 count) override;
+	void onWake(physx::PxActor ** actors, physx::PxU32 count) override;
+	void onSleep(physx::PxActor ** actors, physx::PxU32 count) override;
+	void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair * pairs, physx::PxU32 nbPairs) override;
+	void onTrigger(physx::PxTriggerPair * pairs, physx::PxU32 count) override;
+	void onAdvance(const physx::PxRigidBody * const * bodyBuffer, const physx::PxTransform * poseBuffer, const physx::PxU32 count) override;
+};
+
+}
 }
