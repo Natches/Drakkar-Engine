@@ -46,7 +46,7 @@ Matrix4x4<T, order> Translate(const Vec3<T>& v) {
 }
 
 template<typename T, Ordering order>
-Matrix4x4<T, order>& Translate(Matrix4x4<T, order> & m,
+Matrix4x4<T, order>& Translate(Matrix4x4<T, order>& m,
 	const Vec3<T>& v) {
 	return m *= Translate<T, order>(v);
 }
