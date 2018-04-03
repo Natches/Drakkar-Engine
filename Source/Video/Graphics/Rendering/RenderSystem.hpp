@@ -49,6 +49,8 @@ private:
 	RenderArray		m_transpArr;
 
 	IRenderable*	m_pUnitCube;
+	IRenderable*	m_pGrid;
+	U32				m_gridTex;
 	
 	IRenderer*		m_pRenderer;
 	IColorBuffer*	m_pColorBuffer;
