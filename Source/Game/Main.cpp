@@ -14,6 +14,7 @@ DK_IMPORT(drak::math)
 class Player : public AGameObject {
 
 	Transform* transform;
+	RigidBody* r;
 	int counter = 0;
 	virtual void Update() override {
 		if (counter <= 1000) {
@@ -26,6 +27,7 @@ class Player : public AGameObject {
 
 	virtual void Start() override {
 		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
+		r = myScene->getComponentByHandle<RigidBody>(getHandle(ComponentType<RigidBody>::id));
 	}
 };
 
