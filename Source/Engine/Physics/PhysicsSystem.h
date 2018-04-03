@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Core.hpp>
 #include <vector>
+#include <unordered_map>
 
 namespace physx {
 	class PxScene;
@@ -12,10 +13,9 @@ namespace physx {
 	//class PxCudaContextManager;
 }
 
-class SimulationEvent;
+
+
 //class ContactReport : physx::
-
-
 
 namespace drak {
 	namespace components {
@@ -25,6 +25,9 @@ namespace drak {
 	namespace core {
 		class Engine;
 	}
+	namespace events {
+		class SimulationEvent;
+	}
 
 
 	class PhysicsSystem
@@ -33,6 +36,7 @@ namespace drak {
 		friend core::Engine;
 	public:
 		physx::PxPhysics* getPhysics() {return m_pPhysics; }
+		void AddCollisionCallback();
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
@@ -40,7 +44,7 @@ namespace drak {
 		bool Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms);
 		bool Startup();
 		void Shutdown();
-		SimulationEvent*			m_pSimulationEvent;
+		events::SimulationEvent*	m_pSimulationEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;

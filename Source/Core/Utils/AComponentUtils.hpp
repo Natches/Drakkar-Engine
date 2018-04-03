@@ -22,11 +22,11 @@ namespace components {
 }
 }
 
-#define DRAK_COMPONENT_START(name) 	\
-namespace drak {					\
-namespace components {				\
-struct name : public AComponent		\
-{									\
+#define DRAK_COMPONENT_START(name, ...) 		\
+namespace drak {								\
+namespace components {							\
+struct name : public AComponent, __VA_ARGS__	\
+{												\
 	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 

@@ -58,6 +58,7 @@ class MainScene : public IManualSceneBlueprint {
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));
 			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i * 10, 0));
 			rigid->rigidActor->attachShape(*cube);
+			rigid->rigidActor->setName("1");
 			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid->rigidActor, 10.f);
 			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
 		}

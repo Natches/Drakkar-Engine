@@ -29,11 +29,6 @@ bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
 	desc.simulationEventCallback = m_pSimulationEvent;
-	/*if (m_pCUDAContextManager) {
-		desc.gpuDispatcher = m_pCUDAContextManager->getGpuDispatcher();
-		desc.flags |= physx::PxSceneFlag::eENABLE_GPU_DYNAMICS;
-		desc.broadPhaseType = physx::PxBroadPhaseType::eGPU;
-	}*/
 
 	*pxScene = m_pPhysics->createScene(desc);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
@@ -62,6 +57,7 @@ bool drak::PhysicsSystem::Update(physx::PxScene* scene, F64 deltaTime, std::vect
 			(*transforms)[i].rotation.y = (*rigidBodies)[i].rigidActor->getGlobalPose().q.y;
 			(*transforms)[i].rotation.z = (*rigidBodies)[i].rigidActor->getGlobalPose().q.z;
 			(*transforms)[i].rotation.w = (*rigidBodies)[i].rigidActor->getGlobalPose().q.w;
+
 		}
 	}
 	return true;
@@ -78,17 +74,6 @@ bool PhysicsSystem::Startup() {
 	bool recordMemoryAllocations = false;
 	m_cScale = new physx::PxTolerancesScale();
 
-	/*physx::PxCudaContextManagerDesc cudaContextManagerDesc;
-
-	m_pCUDAContextManager = PxCreateCudaContextManager(*m_pFoundation, cudaContextManagerDesc);
-	if (m_pCUDAContextManager)
-	{
-		if (!m_pCUDAContextManager->contextIsValid())
-		{
-			m_pCUDAContextManager->release();
-			m_pCUDAContextManager = NULL;
-		}
-	}*/
 #ifdef USE_PVD
 	m_pPvd = PxCreatePvd(*m_pFoundation);
 	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
@@ -100,7 +85,7 @@ bool PhysicsSystem::Startup() {
 	if (!m_pPhysics)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log", "Failed to create PhysX physics.\n");
 
-
+	m_pSimulationEvent = new events::SimulationEvent;
 	return true;
 }
 
@@ -123,5 +108,6 @@ void PhysicsSystem::Shutdown() {
 		m_pFoundation->release();
 		m_pFoundation = NULL;
 	}
+	delete m_pSimulationEvent;
 
 }
