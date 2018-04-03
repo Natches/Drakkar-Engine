@@ -26,7 +26,7 @@ bool RenderSystem::loadResources(const std::string& dir) {
 void RenderSystem::startFrame() {
 	m_pRenderer->clear();
 
-	//opaquePass();
+	opaquePass();
 	transparentPass();
 }
 

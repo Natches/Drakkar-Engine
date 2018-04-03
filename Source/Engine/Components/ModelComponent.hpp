@@ -9,6 +9,6 @@ namespace drak {
 }
 
 DRAK_COMPONENT_START(Model)
-gfx::IRenderable* p_model;
+gfx::IRenderable* pModel;
 gfx::Color3 albedo;
 DRAK_COMPONENT_END(Model)

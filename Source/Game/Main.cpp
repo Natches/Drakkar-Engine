@@ -65,9 +65,10 @@ class MainScene : public IManualSceneBlueprint {
 			transform->rotation = math::Vec4f(0, 0, 0, 0);
 			transform->scale = math::Vec3f(1, 1, 1);
 
-			//scene.addComponentToGameObject<Model>(p1);
-			//Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
-			//model->albedo = gfx::Color3(1, 0, 0);
+			scene.addComponentToGameObject<Model>(p1);
+			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
+			//model->pModel = 
+			model->albedo = gfx::Color3(1, 0, 0);
 
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));

@@ -54,18 +54,17 @@ void Engine::startLoop() {
 	s_frameTime.start();
 
 	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
-	for (unsigned int i = 0; i < gameObjects.size(); ++i) {
-		gameObjects[i]->Start();
-	}
+	for (auto g : gameObjects)
+		g->Start();
 	
 	while (pMainWindow->isOpen()) {
 		s_frameTime.update();
 		pMainWindow->pollEvents();
 
-		std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
-		for (unsigned int i = 0; i < gameObjects.size(); ++i) {
-			gameObjects[i]->Update();
-		}
+		gameObjects = sceneSystem.scene->getGameObjects();
+		for (auto g : gameObjects)
+			g->Update();
+
 		std::vector<components::Transform> subArray = sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id);
 		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, 1.f/60.f,
 				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
