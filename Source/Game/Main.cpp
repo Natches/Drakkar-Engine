@@ -67,7 +67,6 @@ class MainScene : public IManualSceneBlueprint {
 
 			scene.addComponentToGameObject<Model>(p1);
 			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
-			//model->pModel = 
 			model->albedo = gfx::Color3(1, 0, 0);
 
 			scene.addComponentToGameObject<RigidBody>(p1);

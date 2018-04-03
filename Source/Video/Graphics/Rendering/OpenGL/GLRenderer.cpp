@@ -58,7 +58,7 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 	return true;
 }
 
-bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
+bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 	tools::OBJLoader loader;
 
 	geom::Mesh mesh;
@@ -74,7 +74,7 @@ bool GLRenderer::loadRenderables(const std::string& dir, RenderArray& outArr) {
 		GLVertexArray* pVao = new GLVertexArray;
 		pVao->create(vbo, ibo);
 
-		outArr.push_back(pVao);
+		rdr = pVao;
 		return true;
 	}
 	return false;
@@ -145,7 +145,7 @@ void GLRenderer::errorCallback(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	fprintf(stderr, "%s\n", message);
+	//fprintf(stderr, "%s\n", message);
 }
 #pragma endregion
 

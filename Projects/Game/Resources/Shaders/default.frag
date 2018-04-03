@@ -2,7 +2,7 @@
 
 layout(binding = 0)
 uniform sampler2D 	tex;
-uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
+uniform vec3 		albedo 		= {1.f, 1.f, 1.f};
 
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
@@ -18,6 +18,6 @@ out vec4 fragColor;
 
 void main()
 {     
-	fragColor = tint;
+	fragColor = vec4(albedo, 1.f);
     //fragColor = texture(tex, frag.uv);
 }

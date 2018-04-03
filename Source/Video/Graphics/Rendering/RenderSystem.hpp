@@ -47,6 +47,8 @@ private:
 	ShaderMap		m_shaderMap;
 	RenderArray		m_opaqueArr;
 	RenderArray		m_transpArr;
+
+	IRenderable*	m_pUnitCube;
 	
 	IRenderer*		m_pRenderer;
 	IColorBuffer*	m_pColorBuffer;

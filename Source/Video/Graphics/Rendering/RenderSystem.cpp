@@ -6,12 +6,13 @@ namespace gfx {
 
 bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer = pRenderer;
+	m_pRenderer->info();
 
-	m_pRenderer->depthTest(true /* + read option from .ini */);
-	m_pRenderer->blendTest(true /* + read option from .ini */);
-	m_pRenderer->cullTest(true  /* + read option from .ini */);
+	m_pRenderer->depthTest(true);
+	m_pRenderer->blendTest(true);
+	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 10.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.view({ 0.f, 10.f, -10.f }, { 0.f, -5.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	return loadResources("Resources/");
@@ -24,8 +25,7 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.obj",  m_opaqueArr) &&
-			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_transpArr));
+			m_pRenderer->loadRenderables(dir + "Models/cube.obj",  m_pUnitCube));
 }
 
 void RenderSystem::forwardRender(
@@ -45,7 +45,7 @@ void RenderSystem::forwardRender(
 		m_shaderMap["DefaultShader"]->setUniform("albedo", (*models)[i].albedo);
 		
 		// (*models)[i].pModel->render();
-		m_opaqueArr[0]->render();
+		m_pUnitCube->render();
 	}
 }
 
