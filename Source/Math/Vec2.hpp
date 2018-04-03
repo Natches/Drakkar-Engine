@@ -1,6 +1,7 @@
 #pragma once
 
 #include<Math/MathUtils.hpp>
+#include <Serialization/SerializationUtils.hpp>
 #include<ostream>
 
 namespace drak {
@@ -182,3 +183,38 @@ using Vec2f    = typename Vec2<F32>;
 } //namespace maths
 } //namespace drak
 #include<Math/Vec2.inl>
+
+DK_METADATA_BEGIN(drak::math::Vec2c)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2sc)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2s)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2us)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2i)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2u)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2f)
+DK_PUBLIC_FIELDS(m_vec)
+DK_SERIALIZE_PUBLIC_FIELDS
+DK_METADATA_END

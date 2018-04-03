@@ -130,7 +130,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
@@ -155,7 +155,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -183,7 +183,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
@@ -216,7 +216,7 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
