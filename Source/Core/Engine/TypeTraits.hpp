@@ -58,7 +58,8 @@ struct IsBaseType {
 		std::is_same_v<T, const I16> || std::is_same_v<T, const U32> || std::is_same_v<T, const I32> ||
 		std::is_same_v<T, const U64> || std::is_same_v<T, const I64> || std::is_same_v<T, const F32> ||
 		std::is_same_v<T, const F64> || std::is_same_v<T, __m64> || std::is_same_v<T, __m128> ||
-		std::is_same_v<T, __m256>
+		std::is_same_v<T, __m256> ||  std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
 	};
 };
 

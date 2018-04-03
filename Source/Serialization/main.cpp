@@ -38,6 +38,10 @@ public:
 	Ser b[26];
 	std::string str;
 	Ser* pt;
+	std::vector<int> vec;
+	std::vector<double*> vec2;
+	std::vector<Ser> vec3;
+	std::vector<Ser*> vec4;
 };
 
 DK_METADATA_BEGIN(Ser)
@@ -47,9 +51,9 @@ DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b)
-DK_PRIVATE_FIELDS(serial, ser1, pt)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str)
+DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4)
+DK_PRIVATE_FIELDS(serial, ser1, pt, vec2)
+DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
 DK_SERIALIZE_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELDS
 DK_METADATA_END
 DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
@@ -61,8 +65,15 @@ int main() {
 	t.ser1.c = 25;
 	t.ser1.i = 25;
 	t.gf = 10;
-	for (int i = 0; i < SizeOfArray_V<TYPEOF(Test::b)>; ++i)
+	for (int i = 0; i < SizeOfArray_V<TYPEOF(Test::b)>; ++i) {
 		t.b[i].c = i;
+		t.vec.emplace_back(i);
+		t.vec2.emplace_back(new double(i));
+		t.vec3.emplace_back(t.b[i]);
+		t.vec4.emplace_back(new Ser(t.b[i]));
+	}
+	delete t.vec2[5];
+	t.vec2[5] = nullptr;
 	t.str = "";
 	t.pt = new Ser{ 12,536,0 };
 	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
