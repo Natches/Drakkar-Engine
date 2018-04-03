@@ -1,7 +1,6 @@
 #pragma once
 
 #include<Core/Core.hpp>
-#include<immintrin.h>
 #include <limits>
 
 namespace SIMDUtils {

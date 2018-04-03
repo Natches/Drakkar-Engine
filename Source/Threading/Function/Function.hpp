@@ -277,7 +277,7 @@ protected:
 
 template<class CallerType>
 class MemberFunction<CallerType, void, void>
-	: public IFunction {
+	: public IMemberFunction<CallerType> {
 public:
 	MemberFunction() = default;
 	MemberFunction(CallerType* caller, void(CallerType::*func)());
