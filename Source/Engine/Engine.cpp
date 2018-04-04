@@ -23,7 +23,7 @@ PhysicsSystem& Engine::getPhysicsSystem()
 int Engine::startup() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
-	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
+	video::WindowSettings	winSettings		= { "Drakkar Engine", 1600, 900 };
 	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
 	// TODO (Simon): Check for failed startups

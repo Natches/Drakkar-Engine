@@ -102,12 +102,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp">
       <Filter>Header Files\Graphics\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.hpp">
-      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IColorBuffer.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.hpp">
       <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
     </ClInclude>
@@ -128,6 +122,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +167,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp">
       <Filter>Source Files\Graphics\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.cpp">
-      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp">
       <Filter>Source Files\Graphics\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <Engine/Components/Components.h>
 #include <Video/Graphics/Rendering/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
-#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
+#include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 
@@ -53,7 +53,7 @@ private:
 	gl::GLTexture	m_gridTex;
 	
 	IRenderer*		m_pRenderer;
-	IColorBuffer*	m_pColorBuffer;
+	IFrameBuffer*	m_pFrame;
 };
 
 } // namespace gfx

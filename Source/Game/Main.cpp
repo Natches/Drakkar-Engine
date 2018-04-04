@@ -28,17 +28,7 @@ class Player : public AGameObject {
 
 	virtual void Start() override {
 		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
-		//MemberFunction<Player, void, const Event*> 
-		//	func(this, &Player::cameraControl, &Keyboard::Get().event());
-		//Keyboard::Get().addEventListener(events::Keyboard::KEY_DOWN, &func);
 	}
-
-	//void Player::cameraControl(const Event* pEvt) {
-	//	auto k = static_cast<const KeyEvent*>(pEvt);
-	//	DK_SELECT(k->key)
-	//		DK_CASE(Key::KEY_Q, printf("Hello\n"))
-	//	DK_END
-	//}
 
 };
 
