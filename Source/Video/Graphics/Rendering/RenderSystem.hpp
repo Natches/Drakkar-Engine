@@ -29,8 +29,8 @@ public:
 	void shutdown();
 
 	void forwardRender(
-		std::vector<components::Model>* models, 
-		std::vector<components::Transform>* xforms);
+		std::vector<components::Model>& models, 
+		std::vector<components::Transform>& xforms);
 
 	void startFrame();
 	void endFrame();

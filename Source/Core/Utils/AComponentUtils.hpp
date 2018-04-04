@@ -17,7 +17,8 @@ namespace components {
 	struct AComponent
 	{
 		U32 ownerID;
-		U64 idxInMainArray;
+		U64 idx;
+		U64 transformHandle;
 	};
 }
 }

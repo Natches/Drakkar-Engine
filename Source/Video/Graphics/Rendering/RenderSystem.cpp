@@ -36,23 +36,25 @@ bool RenderSystem::loadResources(const std::string& dir) {
 }
 
 void RenderSystem::forwardRender(
-	std::vector<components::Model>* models,
-	std::vector<components::Transform>* xforms) {
+	std::vector<components::Model>& models,
+	std::vector<components::Transform>& xforms) {
 
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->setUniform("viewPrsp", m_mainCam.viewPerspective());
 
-	for (size_t i = 0, n = models->size(); i < n; ++i) {
-		math::Mat4f modelMx =
-			math::Translate((*xforms)[i].position) *
-			math::Rotation((*xforms)[i].rotation) *
-			math::Scale((*xforms)[i].scale);
+	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
+		U32 flag = 1 << components::ComponentType<components::Model>::id;
+		if ((xforms[i].m_componentFlags & flag) == flag) {
+			math::Mat4f modelMx =
+				math::Translate(xforms[i].position) *
+				math::Rotation(xforms[i].rotation) *
+				math::Scale(xforms[i].scale);
+			m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
+			m_shaderMap["DefaultShader"]->setUniform("albedo", models[xforms[i].m_handlesToComponents[components::ComponentType<components::Model>::id]].albedo);
 
-		m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
-		m_shaderMap["DefaultShader"]->setUniform("albedo", (*models)[i].albedo);
-		
-		// (*models)[i].pModel->render();
-		m_pUnitCube->render();
+			m_pUnitCube->render();
+		}
+
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()

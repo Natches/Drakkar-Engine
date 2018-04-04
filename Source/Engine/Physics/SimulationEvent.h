@@ -3,6 +3,7 @@
 #include <Core/Engine/Event.hpp>
 #include <vector>
 #include <unordered_map>
+#include <string.h>
 
 namespace drak {
 
@@ -30,11 +31,11 @@ protected:
 };
 
 class PhysicsEvents : public physx::PxSimulationEventCallback {
-	std::unordered_map<const char *, PhysicsEventDispatcher> m_collisionEventDispatchers;
+	std::unordered_map<std::string, PhysicsEventDispatcher> m_collisionEventDispatchers;
 public:
 	PhysicsEvents();
 	~PhysicsEvents();
-	void AddEventListener(components::RigidBody& rb, EventType type,  EventListener listener);
+	void AddEventListener(components::RigidBody* rb, EventType type,  EventListener listener);
 	void onConstraintBreak(physx::PxConstraintInfo * constraints, physx::PxU32 count) override;
 	void onWake(physx::PxActor ** actors, physx::PxU32 count) override;
 	void onSleep(physx::PxActor ** actors, physx::PxU32 count) override;

@@ -5,6 +5,7 @@
 #include <Engine/Scene/SceneSystemUtils.hpp>
 #include <list>
 #include <vector>
+#include <map>
 namespace physx{
 	class PxScene;
 }
@@ -15,16 +16,31 @@ namespace core {
 }
 
 class Scene {
-	std::vector<AGameObject*> m_gameObjects;
+public:
+	template <I32 n>
+	inline void setComponentContainerDirtyByID(bool value);
+private:
+
 	template <I32 n>
 	inline void* getComponentContainerByID();
+	template <I32 n>																																\
+	inline void* getknownSubArraysByID();
+	template <I32 n>
+	inline bool getComponentContainerDirtyByID();
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(RigidBody)
 	COMPONENT_CONTAINER(Model)
+	void setComponentFlag(U64* componentFlags, int id, bool value) {
+		*componentFlags = value ? *componentFlags | (1LL << id) : *componentFlags ^ (1LL << id);
+	}
+	bool getComponentFlag(U64* componentFlags, int id) {
+		return *componentFlags & (1LL << id);
+	}
+	void setHandleIDPair(std::map<U64, U64>* componentHandles, int id, int handle) {
+		componentHandles->insert(std::make_pair(id, handle));
+	}
 public:
-
-
-
+	std::vector<AGameObject*> m_gameObjects;
 	Scene();
 	~Scene();
 
@@ -32,20 +48,30 @@ public:
 
 	template <typename T>
 	void addComponentToGameObject(AGameObject* gameObject) {
-		if (gameObject->getComponentFlag(components::ComponentType<T>::id))
+		components::Transform* goTransform = getComponentByHandle<components::Transform>(gameObject->transformIDX);
+		if (getComponentFlag(&goTransform->m_componentFlags, components::ComponentType<T>::id))
 			return;
-		gameObject->setComponentFlag(components::ComponentType<T>::id, true);
+		setComponentFlag(
+			&goTransform->m_componentFlags,
+			components::ComponentType<T>::id,
+			true);
 		std::vector<T>* v = ((std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>());
 		v->push_back(T());
-		static_cast<components::AComponent*>(&((*v)[v->size() - 1]))->ownerID = gameObject->id;
-		static_cast<components::AComponent*>(&((*v)[v->size() - 1]))->idxInMainArray = v->size() - 1;
-		gameObject->setHandleIDPair(components::ComponentType<T>::id, (int)((std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>())->size() - 1);
+		static_cast<components::AComponent*>(&(*v)[v->size() - 1])->idx = v->size() - 1;
+		static_cast<components::AComponent*>(&(*v)[v->size() - 1])->transformHandle = goTransform->idx;
+		setHandleIDPair(&goTransform->m_handlesToComponents, components::ComponentType<T>::id, v->size() - 1);
 	}
+
 	template <typename T>
 	T* addGameObject() {
 		m_gameObjects.push_back(new T());
 		m_gameObjects[m_gameObjects.size() - 1]->myScene = this;
 		m_gameObjects[m_gameObjects.size() - 1]->id = (U32)m_gameObjects.size() - 1;
+		TransformComponentContainer.push_back(components::Transform());
+		TransformComponentContainer[TransformComponentContainer.size() - 1].transformHandle = TransformComponentContainer.size() - 1;
+		setComponentFlag(&TransformComponentContainer[TransformComponentContainer.size() - 1].m_componentFlags, components::ComponentType<components::Transform>::id, true);
+		setHandleIDPair(&TransformComponentContainer[TransformComponentContainer.size() - 1].m_handlesToComponents, components::ComponentType<components::Transform>::id, TransformComponentContainer.size() - 1);
+		m_gameObjects[m_gameObjects.size() - 1]->transformIDX = TransformComponentContainer.size() - 1;
 		return static_cast<T*>(m_gameObjects[m_gameObjects.size() - 1]);
 	}
 	template <typename T>
@@ -58,31 +84,38 @@ public:
 		return (std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>();
 	}
 
-
-
 	template <typename T>
-	std::vector<T> getFilteredComponentSubArray(U64 sieveFlag) {
-		std::vector<T> subVector;
+	std::vector<T>* getFilteredComponentSubArray(U64 sieveFlag) {
+		std::map<U64, std::vector<T>>* subArrays = static_cast<std::map<U64, std::vector<T>>*>(getknownSubArraysByID<components::ComponentType<T>::id>());
+		auto search = subArrays->find(sieveFlag);
+		if (search != subArrays->end()) {
+			if (getComponentContainerDirtyByID<components::ComponentType<T>::id>()) {
+				subArrays->clear();
+			}
+			else {
+				return &(*subArrays)[sieveFlag];
+			}
+		}
+		setComponentContainerDirtyByID<components::ComponentType<T>::id>(false);
+		subArrays->insert({ sieveFlag, std::vector<T>() });
 		std::vector<T>* vector = getComponentContainerByType<T>();
 		for (unsigned int i = 0; i < vector->size(); ++i) {
 			//Only push back if game object has the flag at least
-			if ((m_gameObjects[static_cast<components::AComponent*>(&((*vector)[i]))->ownerID]->m_componentFlags & sieveFlag) == sieveFlag) {
-				subVector.push_back((*vector)[i]);
+			if ((m_gameObjects[static_cast<components::AComponent*>(&(*vector)[i])->ownerID]->m_componentFlags & sieveFlag) == sieveFlag) {
+				(*subArrays)[sieveFlag].push_back((*vector)[i]);
 			}
 		}
-		return subVector;
+		return &(*subArrays)[sieveFlag];
 	}
 
 	template <typename T>
-	void stampSubArrayIntoMainArray(std::vector<T> subArray) {
+	void stampSubArrayIntoMainArray(std::vector<T>* subArray) {
 		std::vector<T>* vector = getComponentContainerByType<T>();
-		for (int i = 0; i < subArray.size(); ++i)
+		for (int i = 0; i < subArray->size(); ++i)
 		{
-			(*vector)[static_cast<components::AComponent*>(&subArray[i])->idxInMainArray] = subArray[i];
+			(*vector)[static_cast<components::AComponent*>(&(*subArray)[i])->idxInMainArray] = (*subArray)[i];
 		}
 	}
-
-
 
 
 	DRAK_API std::vector<AGameObject*>& getGameObjects();

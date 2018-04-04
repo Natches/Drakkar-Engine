@@ -18,6 +18,7 @@ namespace physx {
 //class ContactReport : physx::
 
 namespace drak {
+	class Scene;
 	namespace components {
 		struct RigidBody;
 		struct Transform;
@@ -35,12 +36,12 @@ namespace drak {
 		friend core::Engine;
 	public:
 		physx::PxPhysics* getPhysics() {return m_pPhysics; }
-		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
+		DRAK_API void AddCollisionCallback(components::RigidBody* rb, events::EventType type, events::EventListener listener);
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
 		bool InitPxScene(physx::PxScene** pxScene);
-		bool Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms);
+		bool Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
 		bool Startup();
 		void Shutdown();
 		events::PhysicsEvents*		m_pPhysicsEvent;

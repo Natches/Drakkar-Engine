@@ -65,17 +65,16 @@ void Engine::startLoop() {
 		for (auto g : gameObjects)
 			g->Update();
 
-		std::vector<components::Transform> subArray = sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id);
-		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, s_frameTime.deltaTime(),
-				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
-				&subArray);
-		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
+		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
+				*sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
+				*sceneSystem.scene->getComponentContainerByType<components::Transform>());
+
+		//sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(1 << components::ComponentType<components::RigidBody>::id));
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		
-		renderSystem.forwardRender(sceneSystem.scene->getComponentContainerByType<components::Model>(),
-			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id));
+		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<components::Model>(),
+			*sceneSystem.scene->getComponentContainerByType<components::Transform>());
 		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();

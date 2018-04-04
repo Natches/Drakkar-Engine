@@ -3,6 +3,7 @@
 #include <Core/Utils/MacroUtils.hpp>
 #include <Engine/Components/Components.h>
 #include <Engine/Physics/SimulationEvent.h>
+#include <Engine/Scene/SceneSystem.h>
 
 #define SIM_RATE 1.f/120.f 
 
@@ -14,7 +15,9 @@ DK_IMPORT(drak)
 
 using namespace physx;
 
-void drak::PhysicsSystem::AddCollisionCallback(components::RigidBody & rb, events::EventType type, events::EventListener listener)
+void drak::PhysicsSystem::AddCollisionCallback(components::RigidBody* rb,
+	events::EventType type, 
+	events::EventListener listener)
 {
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
 }
@@ -26,44 +29,79 @@ PhysicsSystem::PhysicsSystem() {
 PhysicsSystem::~PhysicsSystem() {
 }
 
+PxFilterFlags DrakFilterShader(
+	PxFilterObjectAttributes attributes0,
+	PxFilterData filterData0,
+	PxFilterObjectAttributes attributes1,
+	PxFilterData filterData1,
+	PxPairFlags& pairFlags,
+	const void* constantBlock,
+	PxU32 constantBlockSize){
 
+	/*if (PxFilterObjectIsTrigger(attributes0) && PxFilterObjectIsTrigger(attributes1)) {
+		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
+		return PxFilterFlag::eCALLBACK;
+	}*/
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+	pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS;
+	pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+	pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+	pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+	pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+
+	return PxFilterFlag::eDEFAULT;
+	/*pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS & PxPairFlag::eNOTIFY_THRESHOLD_FORCE_FOUND &
+		PxPairFlag::eNOTIFY_THRESHOLD_FORCE_LOST & PxPairFlag::eNOTIFY_THRESHOLD_FORCE_PERSISTS &
+		PxPairFlag::eNOTIFY_TOUCH_FOUND & PxPairFlag::eNOTIFY_TOUCH_LOST & PxPairFlag::eNOTIFY_TOUCH_PERSISTS;*/
+}
 
 bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	physx::PxSceneDesc desc(*m_cScale);
-	desc.filterShader = physx::PxDefaultSimulationFilterShader;
+
+	desc.filterShader = DrakFilterShader;
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
-
 	*pxScene = m_pPhysics->createScene(desc);
 	(*pxScene)->setSimulationEventCallback(m_pPhysicsEvent);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
 	return false;
 }
 
-bool drak::PhysicsSystem::Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms) {
+bool drak::PhysicsSystem::Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms) {
 	AccumulatedTime += deltaTime;
 	bool simulated = false;
+	/*for (I32 i = 0, size = (*rigidBodies).size(); i < size; ++i)
+	{
+		components::Transform t = (*transforms)[i];
+		if (t.dirty) {
+			PxTransform pxt(t.position.x, t.position.y, t.position.z);
+			if (pxt.isValid())
+				(*rigidBodies)[i].rigidActor->setGlobalPose(pxt);
+		}
+	}*/
 	while (AccumulatedTime >= SIM_RATE)
 	{
-		scene->simulate(SIM_RATE);
-		scene->fetchResults(true);
+		scene.m_pPhysXScene->simulate(SIM_RATE);
+		scene.m_pPhysXScene->fetchResults(true);
 		simulated = true;
 		AccumulatedTime -= SIM_RATE;
 	}
 	if (simulated)
 	{
+		U32 flag = 1 << components::ComponentType<components::RigidBody>::id;
+		for (I32 i = 0, size = transforms.size(); i < size; ++i)
+		{ 
+			if ((transforms[i].m_componentFlags & flag) == flag) {
 
-		for (I32 i = 0, size = (*rigidBodies).size(); i < size; ++i)
-		{
-			(*transforms)[i].position.x = (*rigidBodies)[i].rigidActor->getGlobalPose().p.x;
-			(*transforms)[i].position.y = (*rigidBodies)[i].rigidActor->getGlobalPose().p.y;
-			(*transforms)[i].position.z = (*rigidBodies)[i].rigidActor->getGlobalPose().p.z;
+				transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.x;
+				transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.y;
+				transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.z;
 
-			(*transforms)[i].rotation.x = (*rigidBodies)[i].rigidActor->getGlobalPose().q.x;
-			(*transforms)[i].rotation.y = (*rigidBodies)[i].rigidActor->getGlobalPose().q.y;
-			(*transforms)[i].rotation.z = (*rigidBodies)[i].rigidActor->getGlobalPose().q.z;
-			(*transforms)[i].rotation.w = (*rigidBodies)[i].rigidActor->getGlobalPose().q.w;
-
+				transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.x;
+				transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.y;
+				transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.z;
+				transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.w;
+			}
 		}
 	}
 	return true;
