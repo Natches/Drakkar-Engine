@@ -11,13 +11,13 @@ out VS_OUT {
 	vec3 pos;
 	vec3 normal;
 	vec2 uv;
-} vert;
+} frag;
 
 void main()
 {
-	vert.pos = pos;
-	vert.normal = normal;
-	vert.uv = uv * resolution;
+	frag.pos = pos;
+	frag.normal = normal;
+	frag.uv = uv * resolution;
 	
-	gl_Position = MVP * vec4(vert.pos, 1.0f);
+	gl_Position = MVP * vec4(pos, 1.0f);
 }

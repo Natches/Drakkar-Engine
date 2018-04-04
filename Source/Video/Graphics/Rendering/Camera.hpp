@@ -19,6 +19,7 @@ public:
 
 	DK_GETTER(F32, aspect, m_aspect)
 	DK_GETTER(math::Mat4f, viewPerspective, buildViewPerspective())
+	DK_GETTER_REF_C(math::Vec3f, eye, m_eye)
 
 	void move(const math::Vec3f& delta);
 private:

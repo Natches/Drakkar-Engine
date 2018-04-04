@@ -57,7 +57,7 @@ class MainScene : public IManualSceneBlueprint {
 		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
 		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(0.5, 0.5, 0.5), *mat);
 
-		for (int i = 0; i < 1; ++i) {
+		for (int i = 0; i < 255; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.addComponentToGameObject<Transform>(p1);
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
@@ -67,7 +67,8 @@ class MainScene : public IManualSceneBlueprint {
 
 			scene.addComponentToGameObject<Model>(p1);
 			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
-			model->albedo = gfx::Color3(1, 0, 0);
+			model->albedo = gfx::Color3(i / 255.f, 1.f - (i / 255.f), 0.f);
+			model->albedo.z = (model->albedo.x + model->albedo.y) * 0.5f;
 
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));

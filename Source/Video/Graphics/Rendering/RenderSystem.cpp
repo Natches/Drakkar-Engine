@@ -29,7 +29,8 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.obj",  m_pUnitCube));
+			m_pRenderer->loadRenderables(dir + "Models/cube.obj", m_pUnitCube) &&
+			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_pGrid));
 }
 
 void RenderSystem::forwardRender(
@@ -55,6 +56,7 @@ void RenderSystem::forwardRender(
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
 		* math::Scale<F32>({ 256.f, 1.f, 256.f });
+
 	m_shaderMap["GridShader"]->use();
 	m_gridTex.bind();
 	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex.glID());
