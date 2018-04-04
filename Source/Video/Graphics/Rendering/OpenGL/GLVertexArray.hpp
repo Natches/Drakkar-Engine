@@ -12,7 +12,7 @@ namespace gl {
 
 /*!
 * \class GLVertexArray
-* \ingroup DrakVideo
+* \ingroup Graphics
 * \brief
 *
 */

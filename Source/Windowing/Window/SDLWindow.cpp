@@ -58,7 +58,7 @@ void SDLWindow::pollEvents() {
 	case SDL_KEYUP:
 		KeyEvent e {
 			keyConvert(m_pEvt->key.keysym.sym),
-			m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_DOWN : Keyboard::KEY_UP
+			m_pEvt->key.type == SDL_KEYDOWN ? KeyEvent::KEY_DOWN : KeyEvent::KEY_UP
 		};
 		handleKeyEvent(e);
 		break;

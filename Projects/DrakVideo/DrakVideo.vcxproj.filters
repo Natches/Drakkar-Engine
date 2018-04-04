@@ -46,9 +46,6 @@
     <Filter Include="Header Files\Graphics\Rendering\Base">
       <UniqueIdentifier>{3cf4ca45-3e40-4069-9b1c-71f38fc209ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Rendering\Base">
-      <UniqueIdentifier>{0e2aa74e-36d3-4d49-8d5e-48270cd17e27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics\Common">
       <UniqueIdentifier>{2a5cd6f2-ac1f-4efd-a6f8-0a287ad95b05}</UniqueIdentifier>
     </Filter>
@@ -99,9 +96,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
@@ -131,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

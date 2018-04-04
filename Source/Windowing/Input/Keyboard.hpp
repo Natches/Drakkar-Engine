@@ -60,6 +60,11 @@ enum class Key : U8 {
 };
 
 struct KeyEvent : public Event {
+	enum : EventType {
+		KEY_DOWN,
+		KEY_UP
+	};
+
 	KeyEvent() = default;
 	KeyEvent(Key k, EventType t);
 
@@ -68,12 +73,6 @@ struct KeyEvent : public Event {
 
 class Keyboard final : public IEventDispatcher {
 	DK_NONMOVABLE_NONCOPYABLE(Keyboard)
-public:
-	enum : EventType {
-		KEY_DOWN,
-		KEY_UP
-	};
-
 public:
 	static Keyboard& Get();
 

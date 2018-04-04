@@ -12,8 +12,12 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 10.f, -10.f }, { 0.f, -5.f, 0.f }, { 0.f, 1.f, 0.f });
+	float y = 0.f;
+	float z = -50.f;
+	m_mainCam.view({ 0.f, y, z }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
+
+	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 
 	return loadResources("Resources/");
 }
@@ -47,6 +51,18 @@ void RenderSystem::forwardRender(
 		// (*models)[i].pModel->render();
 		m_pUnitCube->render();
 	}
+
+	math::Mat4f mvp = m_mainCam.viewPerspective()
+		* math::Translate<F32>({0.f, -100.f, 0.f})
+		* math::Scale<F32>({ 256.f, 1.f, 256.f });
+	m_shaderMap["GridShader"]->use();
+	m_gridTex.bind();
+	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex.glID());
+	m_shaderMap["GridShader"]->setUniform("MVP", mvp);
+	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 64.f, 64.f});
+	m_shaderMap["GridShader"]->setUniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
+
+	m_pGrid->render();
 }
 
 void RenderSystem::startFrame() {
