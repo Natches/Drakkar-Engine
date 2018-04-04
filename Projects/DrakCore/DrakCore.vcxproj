@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\FileUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />

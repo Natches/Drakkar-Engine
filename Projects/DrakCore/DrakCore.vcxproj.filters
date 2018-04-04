@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Timer">
       <UniqueIdentifier>{e639913c-7184-41ce-b905-5981f5eae6f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{3ab9e3a4-010c-444f-905b-3dd28771935f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
@@ -81,6 +84,9 @@
     <ClInclude Include="..\..\Source\Core\Engine\Event.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\FileUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
@@ -91,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp">
       <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
