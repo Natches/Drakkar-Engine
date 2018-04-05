@@ -129,6 +129,9 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelLoader.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
+      <Filter>Header Files\Graphics\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\main.cpp">
@@ -174,6 +177,9 @@
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelLoader.cpp">
+      <Filter>Source Files\Graphics\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp">
       <Filter>Source Files\Graphics\Tools</Filter>
     </ClCompile>
   </ItemGroup>

@@ -28,8 +28,8 @@ bool ModelLoader::loadFromFile(const std::string& filepath) {
 		aiProcess_GenNormals);
 
 	if (pScene) {
-		std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
-		std::cout << "# materials: " << pScene->mNumMaterials << "\n";
+		// std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
+		// std::cout << "# materials: " << pScene->mNumMaterials << "\n";
 		
 		return true;
 	}
