@@ -6,7 +6,7 @@ namespace drak {
 namespace serialization {
 
 template<class T>
-void Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
+drak::core::E_Error Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
 	if (file.is_open()) {
@@ -18,46 +18,49 @@ void Serializer::SerializeToFile(const T& t, const char* path, const char* filen
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
+		return drak::core::E_Error::NO_ERROR;
 	}
+	return drak::core::E_Error::NO_ERROR;
 }
 
 template<class T>
-void Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
+drak::core::E_Error Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
 	if (file.is_open()) {
 		FileDescriptor desc;
 		std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
 		for (int i = 0, size = (int)t.size(); i < size; ++i) {
-			desc.m_descriptor[{ MetaData<T>::typeName(), i}] = (int)binary.str().size();
+			desc.m_descriptor[{ MetaData<T>::typeName(), i}] = (int)binary.tellp();
 			MetaData<T>::serialize(binary, t[i]);
 		}
 		desc.writeToFile(file);
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
+		return drak::core::E_Error::NO_ERROR;
 	}
+	return drak::core::E_Error::NO_ERROR;
 }
 
 template<class T, class ...VArgs>
-void Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
+drak::core::E_Error Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
 	if (file.is_open()) {
 		FileDescriptor desc;
 		std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
-		desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] = 0;
-		MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::serialize(binary, t);
-		if constexpr (static_cast<bool>(sizeof...(VArgs)))
-			SerializeToFile(file, binary, std::forward<VArgs>(args)...);
+		SerializeToFile(file, binary, std::forward<VArgs>(args)...);
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
+		return drak::core::E_Error::NO_ERROR;
 	}
+	return drak::core::E_Error::NO_ERROR;
 }
 
 template<class T>
-void Serializer::AddObjectToFile(const T& t, const char* path) {
+drak::core::E_Error Serializer::AddObjectToFile(const T& t, const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -70,18 +73,20 @@ void Serializer::AddObjectToFile(const T& t, const char* path) {
 				if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName() && x.first.second > max)
 					max = x.first.second;
 			}
-			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.str().size();
+			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.tellp();
 			MetaData<T>::serialize(binary, t);
 			desc.writeToFile(file);
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
+			return drak::core::E_Error::NO_ERROR;
 		}
 	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T>
-void Serializer::AddObjectToFile(const std::vector<T>& t, const char* path) {
+drak::core::E_Error Serializer::AddObjectToFile(const std::vector<T>& t, const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -95,19 +100,21 @@ void Serializer::AddObjectToFile(const std::vector<T>& t, const char* path) {
 					if (x2.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName() && x2.first.second > max)
 						max = x2.first.second;
 				}
-				desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.str().size();
+				desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.tellp();
 				MetaData<T>::serialize(binary, x);
 			}
 			desc.writeToFile(file);
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
+			return drak::core::E_Error::NO_ERROR;
 		}
 	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T, class ...VArgs>
-void Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& ...args) {
+drak::core::E_Error Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -115,21 +122,19 @@ void Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& ...args) 
 			desc.loadFromFile(file);
 			std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
 			binary << file.rdbuf();
-			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.str().size();
-			MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::serialize(binary, t);
-			if constexpr (static_cast<bool>(sizeof...(VArgs)))
-				SerializeToFile(file, binary, desc, std::forward<VArgs>(args)...);
+			SerializeToFile(file, binary, desc, t, std::forward<VArgs>(args)...);
 			desc.writeToFile(file);
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
 		}
+		return drak::core::E_Error::NO_ERROR;
 	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T>
 std::tuple<T, drak::core::E_Error> Serializer::LoadFromFile(const char* path) {
-	DK_IMPORT(drak::core)
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
 		if (file.is_open()) {
@@ -137,37 +142,132 @@ std::tuple<T, drak::core::E_Error> Serializer::LoadFromFile(const char* path) {
 			desc.loadFromFile(file);
 			if (desc.m_descriptor.find({ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }) !=
 				desc.m_descriptor.end()) {
-				file.seekg(std::ios::beg, 0);
 				file.seekg(desc.m_descriptor
-					[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos);
-				std::stringstream sstr;
-				sstr << file.rdbuf();
+					[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos, std::ios::beg);
+				std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
+				binary << file.rdbuf();
+				file.close();
 				if constexpr (!std::is_pointer_v<T>)
 					return std::make_tuple
-					(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(sstr),
+					(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(binary),
 						E_Error::NO_ERROR);
 			}
-			return std::make_tuple(T(), E_Error::CLASS_NOT_FOUND);
+			file.close();
+			return std::make_tuple(T(), drak::core::E_Error::CLASS_NOT_FOUND);
 		}
 	}
-	return std::make_tuple(T(), E_Error::FILE_NOT_FOUND);
+	return std::make_tuple(T(), drak::core::E_Error::FILE_NOT_FOUND);
 }
 
 template<class T>
 drak::core::E_Error Serializer::LoadFromFile(const char* path, T& t) {
+	if (drak::io::FileExists(path)) {
+		std::fstream file(path, std::ios::in | std::ios::binary);
+		if (file.is_open()) {
+			FileDescriptor desc;
+			desc.loadFromFile(file);
+			if (desc.m_descriptor.find({ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }) !=
+				desc.m_descriptor.end()) {
+				file.seekg(desc.m_descriptor
+					[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos, std::ios::beg);
+				std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
+				binary << file.rdbuf();
+				file.close();
+				MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(binary, t);
+				return drak::core::E_Error::NO_ERROR;
+			}
+			file.close();
+			return drak::core::E_Error::CLASS_NOT_FOUND;
+		}
+	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T>
 drak::core::E_Error Serializer::LoadEveryFromFile(const char* path, std::vector<T>& t) {
+	if (drak::io::FileExists(path)) {
+		std::fstream file(path, std::ios::in | std::ios::binary);
+		if (file.is_open()) {
+			FileDescriptor desc;
+			desc.loadFromFile(file);
+			int occurence = 0;
+			for (auto& x : desc.m_descriptor) {
+				if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName())
+					++occurence;
+			}
+			if (occurence) {
+				file.seekg(desc.m_descriptor
+					[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos, std::ios::beg);
+				std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
+				binary << file.rdbuf();
+				file.close();
+				for (int i = 0; i < occurence; ++i) {
+					binary.seekg(desc.m_descriptor
+						[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), i }], std::ios::beg);
+					t.emplace_back(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(binary));
+				}
+				return drak::core::E_Error::NO_ERROR;
+			}
+			file.close();
+			return drak::core::E_Error::CLASS_NOT_FOUND;
+		}
+	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T>
 std::tuple<std::vector<T>, drak::core::E_Error> Serializer::LoadEveryFromFile(const char* path) {
-	return std::vector<T>();
+	if (drak::io::FileExists(path)) {
+		std::fstream file(path, std::ios::in | std::ios::binary);
+		if (file.is_open()) {
+			FileDescriptor desc;
+			desc.loadFromFile(file);
+			int occurence = 0;
+			for (auto& x : desc.m_descriptor) {
+				if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName())
+					++occurence;
+			}
+			if (occurence) {
+				std::vector<T> res;
+				res.reserve(occurence);
+				file.seekg(desc.m_descriptor
+					[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos, std::ios::beg);
+				std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
+				binary << file.rdbuf();
+				file.close();
+				for (int i = 0; i < occurence; ++i) {
+					binary.seekg(desc.m_descriptor
+						[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), i }], std::ios::beg);
+					res.emplace_back(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(binary));
+				}
+				return std::make_tuple(res, drak::core::E_Error::NO_ERROR);
+			}
+			file.close();
+			return std::make_tuple(std::vector<T>(), drak::core::E_Error::CLASS_NOT_FOUND);
+		}
+	}
+	return std::make_tuple(std::vector<T>(), drak::core::E_Error::FILE_NOT_FOUND);
 }
 
 template<class T, class ...VArgs>
 drak::core::E_Error Serializer::LoadFromFile(const char* path, T& t, VArgs&& ...args) {
+	if (drak::io::FileExists(path)) {
+		std::fstream file(path, std::ios::in | std::ios::binary);
+		if (file.is_open()) {
+			FileDescriptor desc;
+			desc.loadFromFile(file);
+			std::map<std::string, int> occurence;
+			Occurence(occurence, t, std::forward<VArgs>(args)...);
+			file.seekg(desc.m_descriptor
+				[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 0 }] + desc.m_endPos, std::ios::beg);
+			std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
+			binary << file.rdbuf();
+			file.close();
+			LoadFromFile(binary, desc, occurence, t, std::forward<VArgs>(args)...);
+			return drak::core::E_Error::NO_ERROR;
+		}
+	}
+	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
 template<class T, class ...VArgs>
@@ -178,10 +278,30 @@ void Serializer::SerializeToFile(std::fstream& file, std::stringstream& sstr,
 		if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName() && x.first.second > max)
 			max = x.first.second;
 	}
-	desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.str().size();
+	desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), max + 1 }] = (int)binary.tellp();
 	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::serialize(binary, t);
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
 		SerializeToFile(file, sstr, desc, std::forward<VArgs>(args)...);
+}
+
+template<class T, class ...VArgs>
+void Serializer::LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
+	std::map<std::string, int>& occurence, T& t, VArgs&& ...args) {
+	sstr.seekg(desc.m_descriptor
+		[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName(), 
+		occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName()] }], std::ios::beg);
+	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::deserialize(sstr, t);
+	++occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName()];
+	if constexpr (static_cast<bool>(sizeof...(VArgs)))
+		SerializeToFile(sstr, desc, occurence, std::forward<VArgs>(args)...);
+
+}
+
+template<class T, class ...VArgs>
+void Serializer::Occurence(std::map<std::string, int>& occurence, const T& t, VArgs&& ...args) {
+	occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::typeName()] = 0;
+	if constexpr (static_cast<bool>(sizeof...(VArgs)))
+		Occurence(occurence, std::forward<VArgs>(args)...);
 }
 
 } // namespace serialization

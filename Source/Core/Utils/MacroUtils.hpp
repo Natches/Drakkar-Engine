@@ -20,7 +20,7 @@
 	__VA_ARGS__										\
 };
 
-#define DK_IMPORT(name) using namespace name;
+#define DK_USE_NAMESPACE(name) using namespace name;
 #define DK_USE(usingType, type) using usingType = type;
 #define TYPEOF(x) std::remove_cv_t<std::remove_reference_t<decltype(x)>>
 #define REMOVE_ALL_TYPE_MODIFIER(T) \

@@ -5,7 +5,7 @@ namespace drak {
 namespace serialization {
 
 void Serializer::FileDescriptor::writeToFile(std::fstream& file) {
-	file.seekp(0);
+	file.seekp(0, std::ios::beg);
 	int size = (int)m_descriptor.size();
 	m_endPos = sizeof(int) * 2;
 	for (auto& x : m_descriptor)
@@ -20,7 +20,7 @@ void Serializer::FileDescriptor::writeToFile(std::fstream& file) {
 }
 
 void Serializer::FileDescriptor::loadFromFile(std::fstream& file) {
-	file.seekg(std::ios::beg, 0);
+	file.seekg(0, std::ios::beg);
 	int size;
 	file.read((char*)&m_endPos, sizeof(int));
 	file.read((char*)&size, sizeof(int));
@@ -28,7 +28,7 @@ void Serializer::FileDescriptor::loadFromFile(std::fstream& file) {
 		std::string str;
 		int instanceN, position;
 		file >> str;
-		file.seekg(std::ios::cur, 1);
+		file.seekg(1, std::ios::cur);
 		file.read((char*)&(instanceN), sizeof(int));
 		file.read((char*)&(position), sizeof(int));
 		m_descriptor[{str, instanceN}] = position;
@@ -36,7 +36,7 @@ void Serializer::FileDescriptor::loadFromFile(std::fstream& file) {
 }
 
 void Serializer::FileDescriptor::seekToBeginingOfClass(std::fstream& file) {
-	file.seekg(std::ios::beg, m_endPos);
+	file.seekg(m_endPos, std::ios::beg);
 }
 
 } // namespace serialization

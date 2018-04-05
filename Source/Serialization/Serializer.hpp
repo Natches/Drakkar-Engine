@@ -9,22 +9,22 @@ namespace serialization {
 
 struct Serializer {
 	template<class T>
-	static void SerializeToFile(const T& t, const char* path, const char* filename);
+	static drak::core::E_Error SerializeToFile(const T& t, const char* path, const char* filename);
 
 	template<class T>
-	static void SerializeToFile(const std::vector<T>& t, const char* path, const char* filename);
+	static drak::core::E_Error SerializeToFile(const std::vector<T>& t, const char* path, const char* filename);
 
 	template<class T, class...VArgs>
-	static void SerializeToFile(const char* path, const char* filename, const T& t, VArgs&&...args);
+	static drak::core::E_Error SerializeToFile(const char* path, const char* filename, const T& t, VArgs&&...args);
 
 	template<class T>
-	static void AddObjectToFile(const T& t, const char* path);
+	static drak::core::E_Error AddObjectToFile(const T& t, const char* path);
 
 	template<class T>
-	static void AddObjectToFile(const std::vector<T>& t, const char* path);
+	static drak::core::E_Error AddObjectToFile(const std::vector<T>& t, const char* path);
 
 	template<class T, class...VArgs>
-	static void AddObjectToFile(const char* path, const T& t, VArgs&&...args);
+	static drak::core::E_Error AddObjectToFile(const char* path, const T& t, VArgs&&...args);
 
 	template<class T>
 	static std::tuple<T, drak::core::E_Error> LoadFromFile(const char* path);
@@ -51,8 +51,18 @@ private:
 	};
 
 	template<class T, class...VArgs>
-	static void SerializeToFile(std::fstream& file, std::stringstream& sstr, FileDescriptor& desc, const T& t, VArgs&&...args);
-	static void SerializeToFile(std::fstream& file, std::stringstream& sstr, FileDescriptor& desc) {};
+	static void SerializeToFile(std::fstream& file, std::stringstream& sstr,
+		FileDescriptor& desc, const T& t, VArgs&&...args);
+	static void SerializeToFile(std::fstream& file, std::stringstream& sstr,
+		FileDescriptor& desc) {};
+	template<class T, class...VArgs>
+	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
+		std::map<std::string, int>& occurence,  T& t, VArgs&&...args);
+	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
+		std::map<std::string, int>& occurence) {};
+	template<class T, class...VArgs>
+	static void Occurence(std::map<std::string, int>& occurence, const T& t, VArgs&&...args);
+	static void Occurence(std::map<std::string, int>& occurence) {};
 };
 
 } // namespace serialization

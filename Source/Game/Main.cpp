@@ -9,7 +9,7 @@
 using namespace drak;
 using namespace core;
 using namespace components;
-DK_IMPORT(drak::math)
+DK_USE_NAMESPACE(drak::math)
 
 class Player : public AGameObject {
 
@@ -66,7 +66,7 @@ class MainScene : public IManualSceneBlueprint {
 		transform->position = math::Vec3f(0, -100, 0);
 		transform->rotation = math::Vec4f(0, 0, 0, 0);
 		transform->scale = math::Vec3f(10, 1, 10);
-		
+
 		scene.addComponentToGameObject<RigidBody>(ground);
 		RigidBody* rigid = scene.getComponentByHandle<RigidBody>(ground->getHandle(ComponentType<RigidBody>::id));
 		rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidStatic(physx::PxTransform(transform->position.x, transform->position.y, transform->position.z));

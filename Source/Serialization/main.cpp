@@ -15,9 +15,9 @@
 #include <Log/Log.hpp>
 #include <Math/Matrix4x4.hpp>
 
-DK_IMPORT(drak::function)
-DK_IMPORT(drak::serialization)
-DK_IMPORT(drak::types)
+DK_USE_NAMESPACE(drak::function)
+DK_USE_NAMESPACE(drak::serialization)
+DK_USE_NAMESPACE(drak::types)
 
 class Ser {
 	DK_SERIALIZED_OBJECT(Ser)
@@ -62,6 +62,10 @@ DK_METADATA_END
 
 int main() {
 	Test t;
+	Test t2;
+	t2.serial.c = 25;
+	t2.ser1.c = 25;
+	t2.ser1.i = 25;
 	float z = 55;
 	t.serial.c = 25;
 	t.ser1.c = 25;
@@ -87,8 +91,9 @@ int main() {
 	for (int i = 0; i < 30; ++i) {
 		vd.emplace_back(t);
 	}
-	Serializer::SerializeToFile<Test>(vd, "./", "SerializedDataOfTest.txt");
-	Serializer::AddObjectToFile<Test>(vd, "./SerializedDataOfTest.txt");
-	auto[a,b] = Serializer::LoadFromFile<Test>("./SerializedDataOfTest.txt");
+	Serializer::SerializeToFile<Test>(t, "./", "SerializedDataOfTest.txt");
+	Serializer::AddObjectToFile<Ser>(t.ser1, "./SerializedDataOfTest.txt");
+	Serializer::AddObjectToFile<Test>(t2, "./SerializedDataOfTest.txt");
+	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");
 	return 0;
 }
