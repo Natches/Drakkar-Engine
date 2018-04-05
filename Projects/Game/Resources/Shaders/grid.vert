@@ -8,15 +8,11 @@ uniform mat4 	MVP;
 uniform vec2	resolution;
 
 out VS_OUT {
-	vec3 pos;
-	vec3 normal;
 	vec2 uv;
 } frag;
 
 void main()
 {
-	frag.pos = pos;
-	frag.normal = normal;
 	frag.uv = uv * resolution;
 	
 	gl_Position = MVP * vec4(pos, 1.0f);

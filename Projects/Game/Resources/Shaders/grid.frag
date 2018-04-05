@@ -7,11 +7,7 @@ uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
 
-uniform vec2		resolution;
-
 in VS_OUT {
-	vec3 pos;
-	vec3 normal;
 	vec2 uv;
 } frag;
 

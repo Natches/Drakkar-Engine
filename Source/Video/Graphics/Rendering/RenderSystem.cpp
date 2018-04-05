@@ -1,5 +1,4 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 
 namespace drak {
 namespace gfx {
@@ -12,9 +11,7 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	float y = 0.f;
-	float z = -50.f;
-	m_mainCam.view({ 0.f, y, z }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.view({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
@@ -29,8 +26,8 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.obj", m_pUnitCube) &&
-			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_pGrid));
+			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_pGrid) &&
+			m_pRenderer->loadRenderables(dir + "Models/cube.obj", m_pUnitCube));
 }
 
 void RenderSystem::forwardRender(
@@ -55,13 +52,13 @@ void RenderSystem::forwardRender(
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
-		* math::Scale<F32>({ 256.f, 1.f, 256.f });
+		* math::Scale<F32>({ 512.f, 1.f, 512.f });
 
 	m_shaderMap["GridShader"]->use();
 	m_gridTex.bind();
 	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex.glID());
 	m_shaderMap["GridShader"]->setUniform("MVP", mvp);
-	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 64.f, 64.f});
+	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 512.f, 512.f });
 	m_shaderMap["GridShader"]->setUniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 
 	m_pGrid->render();

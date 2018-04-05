@@ -47,22 +47,21 @@ class MainScene : public IManualSceneBlueprint {
 		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
 		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(0.5, 0.5, 0.5), *mat);
 
-		for (int i = 0; i < 255; ++i) {
+		for (int i = 0; i < 64; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.addComponentToGameObject<Transform>(p1);
 			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
-			transform->position = math::Vec3f(0, i*10, 0);
+			transform->position = math::Vec3f(0, i, 0);
 			transform->rotation = math::Vec4f(0, 0, 0, 0);
-			transform->scale = math::Vec3f(5, 5, 5);
+			transform->scale = math::Vec3f(1, 1, 1);
 
 			scene.addComponentToGameObject<Model>(p1);
 			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
-			model->albedo = gfx::Color3(i / 255.f, 1.f - (i / 255.f), 0.f);
-			model->albedo.z = (model->albedo.x + model->albedo.y) * 0.5f;
+			model->albedo = gfx::Color3(1.f, 0.5f, 0.135f);
 
 			scene.addComponentToGameObject<RigidBody>(p1);
 			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));
-			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i * 10, 0));
+			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i, 0));
 			rigid->rigidActor->attachShape(*cube);
 			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid->rigidActor, 10.f);
 			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
@@ -73,7 +72,7 @@ class MainScene : public IManualSceneBlueprint {
 		Transform* transform = scene.getComponentByHandle<Transform>(ground->getHandle(ComponentType<Transform>::id));
 		transform->position = math::Vec3f(0, -100, 0);
 		transform->rotation = math::Vec4f(0, 0, 0, 0);
-		transform->scale = math::Vec3f(10, 1, 10);
+		transform->scale = math::Vec3f(128, 5, 128);
 		
 		scene.addComponentToGameObject<RigidBody>(ground);
 		RigidBody* rigid = scene.getComponentByHandle<RigidBody>(ground->getHandle(ComponentType<RigidBody>::id));
