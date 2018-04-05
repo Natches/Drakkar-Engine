@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include <Core/Core.hpp>
-#include <Engine/Components/Components.h>
+#include <Engine/Components/Components.hpp>
 #include <Video/Graphics/Rendering/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
@@ -29,8 +29,8 @@ public:
 	void shutdown();
 
 	void forwardRender(
-		std::vector<components::Model>* models, 
-		std::vector<components::Transform>* xforms);
+		std::vector<components::Model>& models, 
+		std::vector<components::Transform>& xforms);
 
 	void startFrame();
 	void endFrame();

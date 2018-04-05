@@ -17,16 +17,17 @@ namespace components {
 	struct AComponent
 	{
 		U32 ownerID;
-		U64 idxInMainArray;
+		U64 idx;
+		U64 transformHandle;
 	};
 }
 }
 
-#define DRAK_COMPONENT_START(name) 	\
-namespace drak {					\
-namespace components {				\
-struct name : public AComponent		\
-{									\
+#define DRAK_COMPONENT_START(name, ...) 		\
+namespace drak {								\
+namespace components {							\
+struct name : public AComponent, __VA_ARGS__	\
+{												\
 	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 

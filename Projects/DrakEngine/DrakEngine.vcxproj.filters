@@ -47,32 +47,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.h">
-      <Filter>Header Files\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Scene\SceneSystemUtils.hpp">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Components\Components.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.h">
+    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.hpp">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.hpp">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.hpp">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.hpp">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.hpp">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Components\Components.hpp">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

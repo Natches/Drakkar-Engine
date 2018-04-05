@@ -37,13 +37,13 @@
     <Filter Include="Source Files\Timer">
       <UniqueIdentifier>{e639913c-7184-41ce-b905-5981f5eae6f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{07ff0b39-aecc-4eb2-8937-1ced435f34e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Components\AGameObject.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h">
       <Filter>Header Files\Engine</Filter>
@@ -81,6 +81,9 @@
     <ClInclude Include="..\..\Source\Core\Engine\Event.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Components\AGameObject.hpp">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp">
       <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Engine\Event.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

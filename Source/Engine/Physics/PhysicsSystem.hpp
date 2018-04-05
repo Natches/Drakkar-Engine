@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Core.hpp>
 #include <vector>
+#include <unordered_map>
 
 namespace physx {
 	class PxScene;
@@ -12,12 +13,12 @@ namespace physx {
 	//class PxCudaContextManager;
 }
 
-class SimulationEvent;
+
+
 //class ContactReport : physx::
 
-
-
 namespace drak {
+	class Scene;
 	namespace components {
 		struct RigidBody;
 		struct Transform;
@@ -25,7 +26,9 @@ namespace drak {
 	namespace core {
 		class Engine;
 	}
-
+	namespace events {
+		class PhysicsEvents;
+	}
 
 	class PhysicsSystem
 	{
@@ -33,14 +36,15 @@ namespace drak {
 		friend core::Engine;
 	public:
 		physx::PxPhysics* getPhysics() {return m_pPhysics; }
+		DRAK_API void AddCollisionCallback(components::RigidBody* rb, events::EventType type, events::EventListener listener);
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
 		bool InitPxScene(physx::PxScene** pxScene);
-		bool Update(physx::PxScene* scene, F64 deltaTime, std::vector<components::RigidBody>* rigidBodies, std::vector<components::Transform>* transforms);
+		bool Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
 		bool Startup();
 		void Shutdown();
-		SimulationEvent*			m_pSimulationEvent;
+		events::PhysicsEvents*		m_pPhysicsEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;

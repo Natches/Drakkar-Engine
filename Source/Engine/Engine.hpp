@@ -2,8 +2,8 @@
 #include <Core/Core.hpp>
 #include <Core/Timer/FrameTimer.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
-#include <Engine/Physics/PhysicsSystem.h>
-#include <Engine/Scene/SceneSystem.h>
+#include <Engine/Physics/PhysicsSystem.hpp>
+#include <Engine/Scene/SceneSystem.hpp>
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 

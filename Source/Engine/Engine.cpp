@@ -1,6 +1,8 @@
 #include <Engine/Engine.hpp>
-#include <Core/Components/AGameObject.h>
+#include <Core/Components/AGameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
+
+using namespace drak::components;
 
 namespace drak {
 namespace core {
@@ -65,17 +67,14 @@ void Engine::startLoop() {
 		for (auto g : gameObjects)
 			g->Update();
 
-		std::vector<components::Transform> subArray = sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id);
-		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, s_frameTime.deltaTime(),
-				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
-				&subArray);
-		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
+		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
+				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
+				*sceneSystem.scene->getComponentContainerByType<Transform>());
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		
-		renderSystem.forwardRender(sceneSystem.scene->getComponentContainerByType<components::Model>(),
-			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id));
+		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
+			*sceneSystem.scene->getComponentContainerByType<Transform>());
 		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();

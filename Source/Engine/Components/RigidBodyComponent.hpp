@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/Utils/AComponentUtils.hpp>
+#include <Core/Engine/Event.hpp>
 namespace physx {
 	class PxRigidActor;
 	class PxMaterial;

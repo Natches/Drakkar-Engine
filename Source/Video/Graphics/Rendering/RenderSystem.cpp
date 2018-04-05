@@ -1,5 +1,6 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 
+
 using namespace drak::components;
 
 namespace drak {
@@ -33,11 +34,11 @@ bool RenderSystem::loadResources(const std::string& dir) {
 }
 
 void RenderSystem::forwardRender(
-	std::vector<components::Model>* models,
-	std::vector<components::Transform>* xforms) {
+	std::vector<Model>& models,
+	std::vector<Transform>& xforms) {
 
 	m_shaderMap["DefaultShader"]->use();
-	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
+	m_shaderMap["DefaultShader"]->setUniform("viewPrsp", m_mainCam.viewPerspective());
 	U32 flag = 1 << ComponentType<Model>::id;
 	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
 		if ((xforms[i].m_componentFlags & flag) == flag) {
@@ -45,32 +46,23 @@ void RenderSystem::forwardRender(
 				math::Translate(xforms[i].position) *
 				math::Rotation(xforms[i].rotation) *
 				math::Scale(xforms[i].scale);
-			m_shaderMap["DefaultShader"]->uniform("model", modelMx);
-			m_shaderMap["DefaultShader"]->uniform("albedo", models[xforms[i].m_handlesToComponents[ComponentType<Model>::id]].albedo);
+			m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
+			m_shaderMap["DefaultShader"]->setUniform("albedo", models[xforms[i].m_handlesToComponents[ComponentType<Model>::id]].albedo);
 
-	for (size_t i = 0, n = models->size(); i < n; ++i) {
-		math::Mat4f modelMx =
-			math::Translate((*xforms)[i].position) *
-			math::Rotation((*xforms)[i].rotation) *
-			math::Scale((*xforms)[i].scale);
-
-		m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
-		m_shaderMap["DefaultShader"]->setUniform("albedo", (*models)[i].albedo);
-		
-		// (*models)[i].pModel->render();
-		m_pUnitCube->render();
+			m_pUnitCube->render();
+		}
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
 		* math::Scale<F32>({ 512.f, 1.f, 512.f });
-
 	m_shaderMap["GridShader"]->use();
+
 	m_gridTex.bind();
-	m_shaderMap["GridShader"]->uniform("tex", 0);
-	m_shaderMap["GridShader"]->uniform("MVP", mvp);
-	m_shaderMap["GridShader"]->uniform("resolution", math::Vec2f{ 256.f, 256.f });
-	m_shaderMap["GridShader"]->uniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
+	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex.glID());
+	m_shaderMap["GridShader"]->setUniform("MVP", mvp);
+	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 512.f, 512.f });
+	m_shaderMap["GridShader"]->setUniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 	m_pGrid->render();
 }
 
