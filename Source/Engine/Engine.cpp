@@ -1,5 +1,5 @@
 #include <Engine/Engine.hpp>
-#include <Core/Components/AGameObject.h>
+#include <Core/Components/AGameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 
 namespace drak {
@@ -68,8 +68,6 @@ void Engine::startLoop() {
 		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
 				*sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
 				*sceneSystem.scene->getComponentContainerByType<components::Transform>());
-
-		//sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(1 << components::ComponentType<components::RigidBody>::id));
 
 		pMainWindow->clear();
 		renderSystem.startFrame();

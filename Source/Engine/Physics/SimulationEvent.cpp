@@ -1,6 +1,6 @@
-#include "SimulationEvent.h"
+#include "SimulationEvent.hpp"
 #include <PxPhysicsAPI.h>
-#include <Engine/Components/RigidBodyComponent.h>
+#include <Engine/Components/RigidBodyComponent.hpp>
 
 using namespace physx;
 using namespace drak;

@@ -25,14 +25,14 @@
     <ClCompile Include="..\..\Source\Engine\Scene\SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Engine\Components\Components.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\Components.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />
-    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.h" />
-    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Engine.hpp" />
-    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.h" />
-    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.h" />
-    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.h" />
+    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.hpp" />
     <ClInclude Include="..\..\Source\Engine\Scene\SceneSystemUtils.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

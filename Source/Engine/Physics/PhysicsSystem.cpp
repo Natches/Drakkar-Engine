@@ -1,9 +1,9 @@
-#include <Engine/Physics/PhysicsSystem.h>
+#include <Engine/Physics/PhysicsSystem.hpp>
 #include <PxPhysicsAPI.h>
 #include <Core/Utils/MacroUtils.hpp>
-#include <Engine/Components/Components.h>
-#include <Engine/Physics/SimulationEvent.h>
-#include <Engine/Scene/SceneSystem.h>
+#include <Engine/Components/Components.hpp>
+#include <Engine/Physics/SimulationEvent.hpp>
+#include <Engine/Scene/SceneSystem.hpp>
 
 #define SIM_RATE 1.f/120.f 
 
@@ -128,7 +128,6 @@ bool PhysicsSystem::Startup() {
 #endif
 	if (!m_pPhysics)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log", "Failed to create PhysX physics.\n");
-
 	m_pPhysicsEvent = new events::PhysicsEvents;
 	return true;
 }

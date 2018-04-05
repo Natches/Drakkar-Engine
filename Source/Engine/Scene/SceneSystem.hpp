@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <Core/Components/AGameObject.h>
-#include <Engine/Components/Components.h>
+#include <Core/Components/AGameObject.hpp>
+#include <Engine/Components/Components.hpp>
 #include <Engine/Scene/SceneSystemUtils.hpp>
 #include <list>
 #include <vector>
@@ -16,17 +16,8 @@ namespace core {
 }
 
 class Scene {
-public:
-	template <I32 n>
-	inline void setComponentContainerDirtyByID(bool value);
-private:
-
 	template <I32 n>
 	inline void* getComponentContainerByID();
-	template <I32 n>																																\
-	inline void* getknownSubArraysByID();
-	template <I32 n>
-	inline bool getComponentContainerDirtyByID();
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(RigidBody)
 	COMPONENT_CONTAINER(Model)

@@ -13,8 +13,8 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 0.f, -30.f }, { 0.f, -30.f, 0.f }, { 0.f, 1.f, 0.f });
-	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
+	m_mainCam.view({ 0.f, 10.f, -10.f }, { 0.f, 10.f, 0.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.perspective(90.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	gl::GLTexture tex;
 	tex.loadFromFile("Resources/Textures/grid_cell.png");
@@ -41,25 +41,24 @@ void RenderSystem::forwardRender(
 
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->setUniform("viewPrsp", m_mainCam.viewPerspective());
-
+	U32 flag = 1 << components::ComponentType<components::Model>::id;
 	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
-		U32 flag = 1 << components::ComponentType<components::Model>::id;
 		if ((xforms[i].m_componentFlags & flag) == flag) {
 			math::Mat4f modelMx =
 				math::Translate(xforms[i].position) *
 				math::Rotation(xforms[i].rotation) *
 				math::Scale(xforms[i].scale);
 			m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
+			math::Vec3f abd = models[xforms[i].m_handlesToComponents[components::ComponentType<components::Model>::id]].albedo;
 			m_shaderMap["DefaultShader"]->setUniform("albedo", models[xforms[i].m_handlesToComponents[components::ComponentType<components::Model>::id]].albedo);
 
 			m_pUnitCube->render();
 		}
-
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
-		* math::Scale<F32>({ 256.f, 1.f, 256.f });
+		* math::Scale<F32>({ 1000.f, 5.f, 1000.f });
 	m_shaderMap["GridShader"]->use();
 	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex);
 	m_shaderMap["GridShader"]->setUniform("MVP", mvp);
