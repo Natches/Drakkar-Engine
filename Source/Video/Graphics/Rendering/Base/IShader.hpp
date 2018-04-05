@@ -3,7 +3,6 @@
 #include <Math/Vec2.hpp>
 #include <Math/Vec3.hpp>
 #include <Math/Matrix4x4.hpp>
-#include <Core/Engine/Types.hpp>
 
 namespace drak {
 namespace gfx {

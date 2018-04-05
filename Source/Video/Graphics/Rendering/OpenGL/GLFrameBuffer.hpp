@@ -1,16 +1,16 @@
 #pragma once
 
 #include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
-#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
+#include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 
 namespace drak {
 namespace gfx {
 namespace gl {
 
-class GLColorBuffer final : public GLObject, public IColorBuffer {
+class GLFrameBuffer final : public GLObject, public IFrameBuffer {
 public:
-	GLColorBuffer() = default;
-	~GLColorBuffer() = default;
+	GLFrameBuffer() = default;
+	~GLFrameBuffer() = default;
 
 	void bind() override;
 	void create(I32 dimX, I32 dimY) override;
@@ -19,7 +19,7 @@ private:
 	// TODO (Simon):
 	//		- Texture retrieval (at least composite frame)
 	//		- Member GLTexture (one for each attachment)
-	GLuint m_texID; 
+	GLuint m_texColor; 
 };
 
 } // namespace gl

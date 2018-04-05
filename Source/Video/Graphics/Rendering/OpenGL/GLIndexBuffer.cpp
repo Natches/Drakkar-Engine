@@ -20,6 +20,11 @@ void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 		GL_MAP_WRITE_BIT);
 }
 
+void GLIndexBuffer::drawElements(GLenum primType) {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_glID);
+	glDrawElements(primType, m_indexCount, GL_UNSIGNED_SHORT, 0);
+}
+
 } // namespace gl
 } // namespace gfx
 } // namespace drak

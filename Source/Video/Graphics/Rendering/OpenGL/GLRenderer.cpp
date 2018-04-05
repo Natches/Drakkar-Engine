@@ -9,6 +9,8 @@
 #include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
 
+using namespace drak::geom;
+
 namespace drak {
 namespace gfx {
 namespace gl {
@@ -63,18 +65,16 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 
 	geom::Mesh mesh;
 	if (loader.load(dir, mesh)) {
-		const std::vector<geom::Vertex>& verts = mesh.vertices();
-		GLVertexBuffer vbo;
-		vbo.create(verts.data(), (U32)verts.size());
+		GLVertexBuffer* pVBO = new GLVertexBuffer;
+		pVBO->create(mesh.vertices().data(), (U32)mesh.vertices().size());
 
-		const std::vector<U16>& indices = mesh.indices();
-		GLIndexBuffer ibo;
-		ibo.create(indices.data(), (I32)indices.size());
+		GLIndexBuffer*  pIBO = new GLIndexBuffer;
+		pIBO->create(mesh.indices().data(), (I32)mesh.indices().size());
 
-		GLVertexArray* pVao = new GLVertexArray;
-		pVao->create(vbo, ibo);
+		GLVertexArray*  pVAO = new GLVertexArray;
+		pVAO->create(pVBO, pIBO);
+		rdr = pVAO;
 
-		rdr = pVao;
 		return true;
 	}
 	return false;
@@ -145,7 +145,7 @@ void GLRenderer::errorCallback(
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	//fprintf(stderr, "%s\n", message);
+	fprintf(stderr, "%s\n", message);
 }
 #pragma endregion
 

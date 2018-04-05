@@ -18,6 +18,7 @@ public:
 	~GLIndexBuffer();
 
 	void create(const GLushort* pIndices, GLsizei indexCount);
+	void drawElements(GLenum primType);
 
 	DK_GETTER_C(GLushort, indexCount, m_indexCount)
 

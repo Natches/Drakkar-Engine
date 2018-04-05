@@ -4,15 +4,15 @@ namespace drak {
 namespace gfx {
 
 /*!
-* \class IColorBuffer
+* \class IFrameBuffer
 * \ingroup Graphics
 * \brief
 *
 */
-class IColorBuffer {
+class IFrameBuffer {
 public:
-	IColorBuffer() = default;
-	virtual ~IColorBuffer() = default;
+	IFrameBuffer() = default;
+	virtual ~IFrameBuffer() = default;
 
 public:
 	virtual void bind() = 0;

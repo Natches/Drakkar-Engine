@@ -6,8 +6,9 @@
 #include <Engine/Components/Components.hpp>
 #include <Video/Graphics/Rendering/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
-#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
+#include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 
 namespace drak {
 namespace gfx {
@@ -18,8 +19,7 @@ namespace gfx {
 * \brief
 *
 */
-class RenderSystem final
-{
+class RenderSystem final {
 	DK_NONMOVABLE_NONCOPYABLE(RenderSystem)
 public:
 	RenderSystem() = default;
@@ -50,10 +50,10 @@ private:
 
 	IRenderable*	m_pUnitCube;
 	IRenderable*	m_pGrid;
-	U32				m_gridTex;
+	gl::GLTexture	m_gridTex;
 	
 	IRenderer*		m_pRenderer;
-	IColorBuffer*	m_pColorBuffer;
+	IFrameBuffer*	m_pFrame;
 };
 
 } // namespace gfx

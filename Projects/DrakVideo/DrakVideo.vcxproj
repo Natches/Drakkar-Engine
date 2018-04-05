@@ -22,14 +22,14 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IColorBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.hpp" />
@@ -49,7 +49,7 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.cpp" />
@@ -60,7 +60,12 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
-    <ClCompile Include="..\..\Source\Video\main.cpp" />
+    <ClCompile Include="..\..\Source\Video\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

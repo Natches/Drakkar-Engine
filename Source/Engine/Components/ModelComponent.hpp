@@ -1,11 +1,12 @@
 #pragma once
+
 #include <Core/Utils/AComponentUtils.hpp>
 #include <Video/Graphics/Common/Color.hpp>
 
 namespace drak {
-	namespace gfx {
-		class IRenderable;
-	}
+namespace gfx {
+class IRenderable;
+}
 }
 
 DRAK_COMPONENT_START(Model)
