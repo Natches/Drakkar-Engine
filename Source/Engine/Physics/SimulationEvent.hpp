@@ -31,7 +31,7 @@ protected:
 };
 
 class PhysicsEvents : public physx::PxSimulationEventCallback {
-	std::unordered_map<std::string, PhysicsEventDispatcher> m_collisionEventDispatchers;
+	std::unordered_map<U32, PhysicsEventDispatcher> m_collisionEventDispatchers;
 public:
 	PhysicsEvents();
 	~PhysicsEvents();

@@ -64,10 +64,11 @@ void Engine::startLoop() {
 		pMainWindow->pollEvents();
 
 		gameObjects = sceneSystem.scene->getGameObjects();
-		for (auto g : gameObjects)
-			g->Update();
+		for (int i = 0, size = gameObjects.size(); i < size; ++i)
+			gameObjects[i]->Update();
 
-		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
+		if(physicsSystem.advance(*sceneSystem.scene, s_frameTime.deltaTime()))
+			physicsSystem.updateComponents(*sceneSystem.scene, 
 				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
 				*sceneSystem.scene->getComponentContainerByType<Transform>());
 

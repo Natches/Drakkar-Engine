@@ -5,7 +5,7 @@
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Scene/SceneSystem.hpp>
 
-#define SIM_RATE 1.f/120.f 
+#define SIM_RATE 1.f/30.f 
 
 DK_IMPORT(drak)
 
@@ -62,49 +62,55 @@ bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	desc.filterShader = DrakFilterShader;
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
+	desc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
 	*pxScene = m_pPhysics->createScene(desc);
 	(*pxScene)->setSimulationEventCallback(m_pPhysicsEvent);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
 	return false;
 }
 
-bool drak::PhysicsSystem::Update(Scene& scene, F64 deltaTime, std::vector<RigidBody>& rigidBodies, std::vector<Transform>& transforms) {
-	AccumulatedTime += deltaTime;
-	bool simulated = false;
-	/*for (I32 i = 0, size = (*rigidBodies).size(); i < size; ++i)
+void drak::PhysicsSystem::updateComponents(Scene& scene, std::vector<RigidBody>& rigidBodies, std::vector<Transform>& transforms) {
+	scene.m_pPhysXScene->fetchResults(true);
+	/*U32 flag = 1 << components::ComponentType<RigidBody>::id;
+	for (I32 i = 0, size = transforms.size(); i < size; ++i)
 	{
-		components::Transform t = (*transforms)[i];
-		if (t.dirty) {
-			PxTransform pxt(t.position.x, t.position.y, t.position.z);
-			if (pxt.isValid())
-				(*rigidBodies)[i].rigidActor->setGlobalPose(pxt);
+		if ((transforms[i].m_componentFlags & flag) == flag) {
+			transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.x;
+			transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.y;
+			transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.z;
+
+			transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.x;
+			transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.y;
+			transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.z;
+			transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.w;
 		}
 	}*/
-	while (AccumulatedTime >= SIM_RATE)
-	{
-		scene.m_pPhysXScene->simulate(SIM_RATE);
-		scene.m_pPhysXScene->fetchResults(true);
-		simulated = true;
-		AccumulatedTime -= SIM_RATE;
-	}
-	if (simulated)
-	{
-		U32 flag = 1 << components::ComponentType<RigidBody>::id;
-		for (I32 i = 0, size = transforms.size(); i < size; ++i)
-		{ 
-			if ((transforms[i].m_componentFlags & flag) == flag) {
+	PxU32 nbActiveActors;
+	PxActor** activeActors = scene.m_pPhysXScene->getActiveActors(nbActiveActors);
+	for (I32 i = 0; i < nbActiveActors; ++i) {
+		Transform& t = transforms[((AGameObject*)activeActors[i]->userData)->transformIDX];
+		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
+		PxTransform actorTransform = actor.getGlobalPose();
+		t.position.x = actorTransform.p.x;
+		t.position.y = actorTransform.p.y;
+		t.position.z = actorTransform.p.z;
 
-				transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.x;
-				transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.y;
-				transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.z;
-
-				transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.x;
-				transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.y;
-				transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.z;
-				transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.w;
-			}
-		}
+		t.rotation.x = actorTransform.q.x;
+		t.rotation.y = actorTransform.q.y;
+		t.rotation.z = actorTransform.q.z;
+		t.rotation.w = actorTransform.q.w;
 	}
+}
+
+bool drak::PhysicsSystem::advance(Scene & scene, F64 deltaTime)
+{
+	AccumulatedTime += deltaTime;
+	if (AccumulatedTime > SIM_RATE * 3)
+		AccumulatedTime = SIM_RATE;
+	if (AccumulatedTime < SIM_RATE)
+		return false;
+	AccumulatedTime -= SIM_RATE;
+	scene.m_pPhysXScene->simulate(SIM_RATE);
 	return true;
 }
 

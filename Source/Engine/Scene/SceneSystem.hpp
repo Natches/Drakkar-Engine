@@ -39,18 +39,18 @@ public:
 
 	template <typename T>
 	void addComponentToGameObject(AGameObject* gameObject) {
-		components::Transform* goTransform = getComponentByHandle<components::Transform>(gameObject->transformIDX);
-		if (getComponentFlag(&goTransform->m_componentFlags, components::ComponentType<T>::id))
+		components::Transform& goTransform = getComponentByHandle<components::Transform>(gameObject->transformIDX);
+		if (getComponentFlag(&goTransform.m_componentFlags, components::ComponentType<T>::id))
 			return;
 		setComponentFlag(
-			&goTransform->m_componentFlags,
+			&goTransform.m_componentFlags,
 			components::ComponentType<T>::id,
 			true);
 		std::vector<T>* v = ((std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>());
 		v->push_back(T());
 		static_cast<components::AComponent*>(&(*v)[v->size() - 1])->idx = v->size() - 1;
-		static_cast<components::AComponent*>(&(*v)[v->size() - 1])->transformHandle = goTransform->idx;
-		setHandleIDPair(&goTransform->m_handlesToComponents, components::ComponentType<T>::id, v->size() - 1);
+		static_cast<components::AComponent*>(&(*v)[v->size() - 1])->transformHandle = goTransform.idx;
+		setHandleIDPair(&goTransform.m_handlesToComponents, components::ComponentType<T>::id, v->size() - 1);
 	}
 
 	template <typename T>
@@ -66,8 +66,8 @@ public:
 		return static_cast<T*>(m_gameObjects[m_gameObjects.size() - 1]);
 	}
 	template <typename T>
-	T* getComponentByHandle(int handle) {
-		return &(*((std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>()))[handle];
+	T& getComponentByHandle(int handle) {
+		return (*(std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>())[handle];
 	}
 
 	template <typename T>

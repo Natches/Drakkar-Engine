@@ -1,6 +1,7 @@
 #include "SimulationEvent.hpp"
 #include <PxPhysicsAPI.h>
 #include <Engine/Components/RigidBodyComponent.hpp>
+#include <Core/Components/AGameObject.hpp>
 
 using namespace physx;
 using namespace drak;
@@ -15,8 +16,8 @@ PhysicsEvents::~PhysicsEvents() {
 
 void drak::events::PhysicsEvents::AddEventListener(components::RigidBody* rb, EventType type, EventListener listener)
 {
-	m_collisionEventDispatchers.insert({ *(std::string*)rb->rigidActor->userData, PhysicsEventDispatcher() });
-	m_collisionEventDispatchers[*(std::string*)rb->rigidActor->userData].addEventListener(type, listener);
+	m_collisionEventDispatchers.insert({ ((AGameObject*)rb->rigidActor->userData)->id, PhysicsEventDispatcher() });
+	m_collisionEventDispatchers[((AGameObject*)rb->rigidActor->userData)->id].addEventListener(type, listener);
 }
 
 void drak::events::PhysicsEventDispatcher::dispatchEvent(const Event * e) {
@@ -41,16 +42,22 @@ void PhysicsEvents::onContact(const PxContactPairHeader & pairHeader, const PxCo
 	stay.type = PhysicsEventDispatcher::COLLISION_STAY;
 
 	if (pairs->flags.isSet(PxContactPairFlag::eACTOR_PAIR_HAS_FIRST_TOUCH)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&in);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&in);
+		if(m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[0]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[0]->userData)->id].dispatchEvent(&in);
+		if (m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[1]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[1]->userData)->id].dispatchEvent(&in);
 	}
 	else if(pairs->flags.isSet(PxContactPairFlag::eACTOR_PAIR_LOST_TOUCH)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&out);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&out);
+		if (m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[0]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[0]->userData)->id].dispatchEvent(&out);
+		if (m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[1]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[1]->userData)->id].dispatchEvent(&out);
 	}
 	else if (pairHeader.pairs->events.isSet(PxPairFlag::eNOTIFY_TOUCH_PERSISTS)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&stay);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&stay);
+		if (m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[0]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[0]->userData)->id].dispatchEvent(&stay);
+		if (m_collisionEventDispatchers.find(((AGameObject*)pairHeader.actors[1]->userData)->id) != m_collisionEventDispatchers.end())
+			m_collisionEventDispatchers[((AGameObject*)pairHeader.actors[1]->userData)->id].dispatchEvent(&stay);
 	}
 }
 

@@ -41,7 +41,8 @@ namespace drak {
 		PhysicsSystem();
 		~PhysicsSystem();
 		bool InitPxScene(physx::PxScene** pxScene);
-		bool Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
+		void updateComponents(Scene& scene, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
+		bool advance(Scene& scene, F64 deltaTime);
 		bool Startup();
 		void Shutdown();
 		events::PhysicsEvents*		m_pPhysicsEvent;
