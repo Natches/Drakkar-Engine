@@ -75,40 +75,6 @@ public:
 		return (std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>();
 	}
 
-	template <typename T>
-	std::vector<T>* getFilteredComponentSubArray(U64 sieveFlag) {
-		std::map<U64, std::vector<T>>* subArrays = static_cast<std::map<U64, std::vector<T>>*>(getknownSubArraysByID<components::ComponentType<T>::id>());
-		auto search = subArrays->find(sieveFlag);
-		if (search != subArrays->end()) {
-			if (getComponentContainerDirtyByID<components::ComponentType<T>::id>()) {
-				subArrays->clear();
-			}
-			else {
-				return &(*subArrays)[sieveFlag];
-			}
-		}
-		setComponentContainerDirtyByID<components::ComponentType<T>::id>(false);
-		subArrays->insert({ sieveFlag, std::vector<T>() });
-		std::vector<T>* vector = getComponentContainerByType<T>();
-		for (unsigned int i = 0; i < vector->size(); ++i) {
-			//Only push back if game object has the flag at least
-			if ((m_gameObjects[static_cast<components::AComponent*>(&(*vector)[i])->ownerID]->m_componentFlags & sieveFlag) == sieveFlag) {
-				(*subArrays)[sieveFlag].push_back((*vector)[i]);
-			}
-		}
-		return &(*subArrays)[sieveFlag];
-	}
-
-	template <typename T>
-	void stampSubArrayIntoMainArray(std::vector<T>* subArray) {
-		std::vector<T>* vector = getComponentContainerByType<T>();
-		for (int i = 0; i < subArray->size(); ++i)
-		{
-			(*vector)[static_cast<components::AComponent*>(&(*subArray)[i])->idxInMainArray] = (*subArray)[i];
-		}
-	}
-
-
 	DRAK_API std::vector<AGameObject*>& getGameObjects();
 
 };
