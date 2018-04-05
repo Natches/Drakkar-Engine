@@ -120,46 +120,46 @@ bool GLShader::readFileText(const std::string& filename, std::vector<char>& text
 	}
 }
 
-void GLShader::setUniform(const std::string& name, F32 value) {
+void GLShader::uniform(const std::string& name, F32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1f(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, I32 value) {
+void GLShader::uniform(const std::string& name, I32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1i(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, U32 value) {
+void GLShader::uniform(const std::string& name, U32 value) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
 	glProgramUniform1ui(m_glID, m_uniMap[name], value);
 }
 
-void GLShader::setUniform(const std::string& name, const math::Vec2f& v2) {
+void GLShader::uniform(const std::string& name, const math::Vec2f& v2) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
-	glProgramUniform2fv(m_glID, m_uniMap[name], 1u, &v2.x);
+	glProgramUniform2fv(m_glID, m_uniMap[name], 1, &v2.x);
 }
 
-void GLShader::setUniform(const std::string& name, const math::Vec3f& v3) {
+void GLShader::uniform(const std::string& name, const math::Vec3f& v3) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
-	glProgramUniform3fv(m_glID, m_uniMap[name], 1u, &v3.x);
+	glProgramUniform3fv(m_glID, m_uniMap[name], 1, &v3.x);
 }
 
-void GLShader::setUniform(const std::string& name, const math::Vec4f& v4) {
+void GLShader::uniform(const std::string& name, const math::Vec4f& v4) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
-	glProgramUniform4fv(m_glID, m_uniMap[name], 1u, &v4.x);
+	glProgramUniform4fv(m_glID, m_uniMap[name], 1, &v4.x);
 }
 
-void GLShader::setUniform(const std::string& name, const math::Mat4f& matrix) {
+void GLShader::uniform(const std::string& name, const math::Mat4f& matrix) {
 	if (m_uniMap.find(name) == m_uniMap.end())
 		m_uniMap[name] = glGetUniformLocation(m_glID, name.c_str());
-	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1u, GL_TRUE, matrix.m_mat);
+	glProgramUniformMatrix4fv(m_glID, m_uniMap[name], 1, GL_TRUE, matrix.m_mat);
 }
 
 } // namespace gl
