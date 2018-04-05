@@ -1,10 +1,7 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
-<<<<<<<
-#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
-=======
 
->>>>>>>
 
+using namespace drak::components;
 
 namespace drak {
 namespace gfx {
@@ -17,24 +14,11 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-<<<<<<<
-	m_mainCam.view({ 0.f, 10.f, -10.f }, { 0.f, 10.f, 0.f }, { 0.f, 1.f, 0.f });
-	m_mainCam.perspective(90.f, 16.f / 9.f, 0.1f, 1000.f);
-=======
 	m_mainCam.view({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
->>>>>>>
 
-<<<<<<<
-	gl::GLTexture tex;
-	tex.loadFromFile("Resources/Textures/grid_cell.png");
-	tex.bind();
-	m_gridTex = tex.glID();
-
-=======
 	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 
->>>>>>>
 	return loadResources("Resources/");
 }
 
@@ -50,12 +34,12 @@ bool RenderSystem::loadResources(const std::string& dir) {
 }
 
 void RenderSystem::forwardRender(
-	std::vector<components::Model>& models,
-	std::vector<components::Transform>& xforms) {
+	std::vector<Model>& models,
+	std::vector<Transform>& xforms) {
 
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->setUniform("viewPrsp", m_mainCam.viewPerspective());
-	U32 flag = 1 << components::ComponentType<components::Model>::id;
+	U32 flag = 1 << ComponentType<Model>::id;
 	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
 		if ((xforms[i].m_componentFlags & flag) == flag) {
 			math::Mat4f modelMx =
@@ -63,8 +47,7 @@ void RenderSystem::forwardRender(
 				math::Rotation(xforms[i].rotation) *
 				math::Scale(xforms[i].scale);
 			m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
-			math::Vec3f abd = models[xforms[i].m_handlesToComponents[components::ComponentType<components::Model>::id]].albedo;
-			m_shaderMap["DefaultShader"]->setUniform("albedo", models[xforms[i].m_handlesToComponents[components::ComponentType<components::Model>::id]].albedo);
+			m_shaderMap["DefaultShader"]->setUniform("albedo", models[xforms[i].m_handlesToComponents[ComponentType<Model>::id]].albedo);
 
 			m_pUnitCube->render();
 		}
@@ -81,7 +64,6 @@ void RenderSystem::forwardRender(
 	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 512.f, 512.f });
 	m_shaderMap["GridShader"]->setUniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 	m_pGrid->render();
-
 }
 
 void RenderSystem::startFrame() {

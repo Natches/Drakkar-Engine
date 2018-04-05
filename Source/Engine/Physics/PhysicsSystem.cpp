@@ -14,8 +14,9 @@ DK_IMPORT(drak)
 #endif
 
 using namespace physx;
+using namespace drak::components;
 
-void drak::PhysicsSystem::AddCollisionCallback(components::RigidBody* rb,
+void drak::PhysicsSystem::AddCollisionCallback(RigidBody* rb,
 	events::EventType type, 
 	events::EventListener listener)
 {
@@ -67,7 +68,7 @@ bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	return false;
 }
 
-bool drak::PhysicsSystem::Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms) {
+bool drak::PhysicsSystem::Update(Scene& scene, F64 deltaTime, std::vector<RigidBody>& rigidBodies, std::vector<Transform>& transforms) {
 	AccumulatedTime += deltaTime;
 	bool simulated = false;
 	/*for (I32 i = 0, size = (*rigidBodies).size(); i < size; ++i)
@@ -88,19 +89,19 @@ bool drak::PhysicsSystem::Update(Scene& scene, F64 deltaTime, std::vector<compon
 	}
 	if (simulated)
 	{
-		U32 flag = 1 << components::ComponentType<components::RigidBody>::id;
+		U32 flag = 1 << components::ComponentType<RigidBody>::id;
 		for (I32 i = 0, size = transforms.size(); i < size; ++i)
 		{ 
 			if ((transforms[i].m_componentFlags & flag) == flag) {
 
-				transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.x;
-				transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.y;
-				transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().p.z;
+				transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.x;
+				transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.y;
+				transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.z;
 
-				transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.x;
-				transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.y;
-				transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.z;
-				transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[components::ComponentType<components::RigidBody>::id]].rigidActor->getGlobalPose().q.w;
+				transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.x;
+				transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.y;
+				transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.z;
+				transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.w;
 			}
 		}
 	}

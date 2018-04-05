@@ -2,6 +2,8 @@
 #include <Core/Components/AGameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 
+using namespace drak::components;
+
 namespace drak {
 namespace core {
 thread::ThreadPool core::Engine::s_pool;
@@ -66,13 +68,13 @@ void Engine::startLoop() {
 			g->Update();
 
 		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
-				*sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
-				*sceneSystem.scene->getComponentContainerByType<components::Transform>());
+				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
+				*sceneSystem.scene->getComponentContainerByType<Transform>());
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<components::Model>(),
-			*sceneSystem.scene->getComponentContainerByType<components::Transform>());
+		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
+			*sceneSystem.scene->getComponentContainerByType<Transform>());
 		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
