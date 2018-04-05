@@ -18,6 +18,9 @@
     <ClCompile Include="..\..\Source\Serialization\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Serialization\Serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Serialization\SerializationUtils.hpp">

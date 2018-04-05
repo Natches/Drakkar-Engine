@@ -16,7 +16,7 @@ struct Vec4 {
 	static constexpr bool isIntegral = std::is_integral_v<T>;
 	using SIMDStruct = typename SIMDUtils::BestSIMDType<T, 4>;
 	using SIMDType = typename SIMDStruct::SIMDType;
-
+	DK_SERIALIZED_OBJECT(Vec4<T>)
 public:
 	Vec4();
 	Vec4(T* arr);

@@ -52,7 +52,6 @@ DK_METADATA_BEGIN(Ser)
 DK_PRIVATE_FIELDS(i, c)
 DK_SERIALIZE_PRIVATE_FIELDS
 DK_METADATA_END
-DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Ser)
 
 DK_METADATA_BEGIN(Test)
 DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
@@ -60,7 +59,6 @@ DK_PRIVATE_FIELDS(serial, ser1, pt, vec2, vecstr)
 DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3, mat)
 DK_SERIALIZE_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELDS
 DK_METADATA_END
-DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(Test)
 
 int main() {
 	Test t;
@@ -84,16 +82,13 @@ int main() {
 	t.pt = new Ser{ 12,536,0 };
 	t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );
 	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
-	//MetaData<Test>::PrivateFields::set(t, "ser1", &z);
-	//MetaData<Test>::PrivateFields::set(t, "serial", &z);
-	t.s = 1; std::string s;
-	std::stringstream str("", std::ios::binary | std::ios::out | std::ios::in);
-	t.serialize(str);
-	Serializer::SerializeToFile("./", "SerializaedDataOfTest.txt", t, t, t, t, t, t );
-	/*std::ofstream of("serializedData2.txt", std::ios::binary | std::ios::out);
-	if (of.is_open()) {
-		of << str.rdbuf();
-		of.close();
-	}*/
+	t.s = 1;
+	std::vector<Test> vd;
+	for (int i = 0; i < 30; ++i) {
+		vd.emplace_back(t);
+	}
+	Serializer::SerializeToFile<Test>(vd, "./", "SerializedDataOfTest.txt");
+	Serializer::AddObjectToFile<Test>(vd, "./SerializedDataOfTest.txt");
+	auto[a,b] = Serializer::LoadFromFile<Test>("./SerializedDataOfTest.txt");
 	return 0;
 }

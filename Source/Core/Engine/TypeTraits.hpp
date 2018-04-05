@@ -68,7 +68,7 @@ constexpr bool IsBaseType_V = IsBaseType<T>::value;
 
 template<typename T>
 struct VectorType {
-	using type = void;
+	using type = typename T;
 };
 
 template<typename T>

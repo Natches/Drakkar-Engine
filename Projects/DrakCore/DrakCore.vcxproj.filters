@@ -87,6 +87,12 @@
     <ClInclude Include="..\..\Source\Core\Utils\FileUtils.hpp">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\VA_ArgsUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">

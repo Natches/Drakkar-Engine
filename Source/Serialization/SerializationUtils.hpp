@@ -3,6 +3,7 @@
 #define LOG_FILE "Serialization.log"
 
 #include <Core/Utils/MacroUtils.hpp>
+#include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Core/Engine/Types.hpp>
 #include <Core/Engine/TypeTraits.hpp>
 #include <array>
@@ -13,6 +14,8 @@
 
 namespace drak {
 namespace serialization {
+
+DK_ENUM_CLASS(E_OutputFileType, U8, BINARY, JSON, INI)
 
 template<typename T>
 struct MetaData {};
@@ -37,7 +40,7 @@ static constexpr size_t SizeOfSerializedType() {
 		return MetaData<std::remove_all_extents_t<T>>::s_totalSize * drak::types::SizeOfArray_V<T>;
 	else if constexpr (std::is_pointer_v<T>)
 		return MetaData<std::remove_pointer_t<T>>::s_totalSize + 1;
-	else if constexpr (std::is_same_v<T, std::string> || !std::is_same_v<void, drak::types::VectorType_T<T>>)
+	else if constexpr (std::is_same_v<T, std::string> || !std::is_same_v<T, drak::types::VectorType_T<T>>)
 		return 0;
 	else
 		return MetaData<T>::s_totalSize;
@@ -47,7 +50,7 @@ template<typename T>
 static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 	if constexpr (std::is_same_v<T, std::string>)
 		return t.size() + sizeof(size_t);
-	else if constexpr (!std::is_same_v<void, drak::types::VectorType_T<T>>) {
+	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {
 		size_t size = sizeof(size_t);
 		for (auto& x : t) {
 			size += SizeOfSerializedType<drak::types::VectorType_T<T>>() +
@@ -965,7 +968,7 @@ for (int i = 0; i < x; ++i)		\
 
 #define DK_SERIALIZE_FUNC_BEGIN																	\
 template<bool completeDisplay = false>															\
-static std::stringstream& serialize(std::stringstream& ss, type& t, int recursionLevel = 0) {	\
+static std::stringstream& serialize(std::stringstream& ss, const type& t, int recursionLevel = 0) {	\
 DK_ADD_TAB(recursionLevel)																		\
 ss << "Class " << typeName() << "\n";
 
@@ -975,15 +978,6 @@ ss << "EndClass" << typeName() << "\n";	\
 return ss;									\
 }
 
-#define DK_SERIALIZE_FUNC_IN_SERIALIZED_OBJECT(type)									\
-template<bool completeDisplay>															\
-std::stringstream& type::serialize(std::stringstream& ss) {								\
-return drak::serialization::MetaData<type>::serialize<completeDisplay>(ss, *this, 0);	\
-}
-
-#define DK_EMPTY_SERIALIZE_FUNCTION_IN_SERIALIZED_OBJECT(type) \
-std::stringstream& type::serialize(std::stringstream& ss) {};
-
 #define DK_SERIALIZE_1_FIELDS(fields1)												\
 static constexpr std::array<IFields<type>*, 1> s_fields								\
 { (IFields<type>*)&s_##fields1 };														\
@@ -991,19 +985,19 @@ static constexpr std::array<constexpr const char*, 1> s_fieldName									\
 { DK_STRINGIZE(s_##fields1) };												\
 static constexpr size_t s_totalSize =													\
 fields1::s_totalSize;																	\
-static size_t ComputeTotalSize(type& t) {\
+static size_t ComputeTotalSize(const type& t) {\
 return fields1::ComputeTotalSize(t);	\
 }\
 static void SetAllBinaryData(type& t, const char* data){															\
 fields1::SetEveryData(t, data);																\
 }																						\
-static std::tuple<char*, size_t> GetAllBinaryData(type& t){										\
+static std::tuple<char*, size_t> GetAllBinaryData(const type& t){										\
 size_t size1 = ComputeTotalSize(t);														\
 char* data = new char[size1];										\
 memcpy(data, fields1::BinaryData(t), fields1::ComputeTotalSize(t));																\
 return std::make_tuple(data, size1);																\
 }																									\
-static std::tuple<void*, size_t> get(type& t, const char* name){									\
+static std::tuple<void*, size_t> get(const type& t, const char* name){									\
 std::tuple<void*, size_t> res;																	\
 if ((res = fields1::get(t, name)) != std::tuple<void*, size_t>(nullptr, 0))				\
 return res;																						\
@@ -1040,7 +1034,7 @@ static constexpr std::array<constexpr const char*, 2> s_fieldName									\
 static constexpr size_t s_totalSize = \
 fields1::s_totalSize + \
 fields2::s_totalSize;														\
-static size_t ComputeTotalSize(type& t) {\
+static size_t ComputeTotalSize(const type& t) {\
 return fields1::ComputeTotalSize(t) + \
 fields2::ComputeTotalSize(t);	\
 }\
@@ -1048,14 +1042,14 @@ static void SetAllBinaryData(type& t, const char* data){															\
 fields1::SetEveryData(t, data);																\
 fields2::SetEveryData(t, data + fields1::ComputeTotalSize(t));									\
 }																						\
-static std::tuple<char*, size_t> GetAllBinaryData(type& t){										\
+static std::tuple<char*, size_t> GetAllBinaryData(const type& t){										\
 size_t size1 = ComputeTotalSize(t), size2 = fields1::ComputeTotalSize(t);														\
 char* data = new char[size1];										\
 memcpy(data, fields1::BinaryData(t), size2);																\
 memcpy(data + size2, fields2::BinaryData(t), fields2::ComputeTotalSize(t)) ;									\
 return std::make_tuple(data, size1);																\
 }																									\
-static std::tuple<void*, size_t> get(type& t, const char* name){									\
+static std::tuple<void*, size_t> get(const type& t, const char* name){									\
 std::tuple<void*, size_t> res;																	\
 if ((res = fields1::get(t, name)) != std::tuple<void*, size_t>(nullptr, 0))				\
 return res;																						\
@@ -1100,7 +1094,7 @@ static constexpr size_t s_totalSize = \
 fields1::s_totalSize + \
 fields2::s_totalSize + \
 fields3::s_totalSize;														\
-static size_t ComputeTotalSize(type& t) {\
+static size_t ComputeTotalSize(const type& t) {\
 return fields1::ComputeTotalSize(t) + \
 fields2::ComputeTotalSize(t) + \
 fields3::ComputeTotalSize(t);	\
@@ -1110,7 +1104,7 @@ fields1::SetEveryData(t, data);																\
 fields2::SetEveryData(t, data + fields1::ComputeTotalSize(t));									\
 fields3::SetEveryData(t, data + fields1::ComputeTotalSize(t) + fields2::ComputeTotalSize(t));	\
 }																									\
-static std::tuple<char*, size_t> GetAllBinaryData(type& t){										\
+static std::tuple<char*, size_t> GetAllBinaryData(const type& t){										\
 size_t size1 = ComputeTotalSize(t), size2 = fields1::ComputeTotalSize(t),				\
 size3 = fields2::ComputeTotalSize(t);														\
 char* data = new char[size1];										\
@@ -1120,7 +1114,7 @@ memcpy(data + size2 + size3,																\
 fields3::BinaryData(t), fields3::ComputeTotalSize(t));	\
 return std::make_tuple(data, size1);																\
 }																									\
-static std::tuple<void*, size_t> get(type& t, const char* name){									\
+static std::tuple<void*, size_t> get(const type& t, const char* name){									\
 std::tuple<void*, size_t> res;																	\
 if ((res = fields1::get(t, name)) != std::tuple<void*, size_t>(nullptr, 0))				\
 return res;																						\
@@ -1171,7 +1165,7 @@ PublicFields::s_totalSize +																\
 PrivateFields::s_totalSize +															 \
 PublicStaticFields::s_totalSize +														\
 PrivateStaticFields::s_totalSize;														\
-static size_t ComputeTotalSize(type& t) {\
+static size_t ComputeTotalSize(const type& t) {\
 return PublicFields::ComputeTotalSize(t) + \
 PrivateFields::ComputeTotalSize(t) + \
 PublicStaticFields::ComputeTotalSize(t) + \
@@ -1184,7 +1178,7 @@ PublicStaticFields::SetEveryData(t, data + PublicFields::ComputeTotalSize(t) +  
 PrivateStaticFields::SetEveryData(t, data + PublicFields::ComputeTotalSize(t) +								\
 PrivateFields::ComputeTotalSize(t) + PublicStaticFields::ComputeTotalSize(t));									\
 }																									\
-static std::tuple<char*, size_t> GetAllBinaryData(type& t){										\
+static std::tuple<char*, size_t> GetAllBinaryData(const type& t){										\
 size_t size1 = ComputeTotalSize(t), size2 = PublicFields::ComputeTotalSize(t),				\
 size3 = PrivateFields::ComputeTotalSize(t), size4 = PublicStaticFields::ComputeTotalSize(t);														\
 char* data = new char[ComputeTotalSize(t)];										\
@@ -1194,7 +1188,7 @@ memcpy(data + size2 + size3, PublicStaticFields::BinaryData(t), size4);	\
 memcpy(data + size2 + size3 + size4, PrivateStaticFields::BinaryData(t),  PrivateStaticFields::ComputeTotalSize(t));	\
 return std::make_tuple(data, size1);																\
 }																									\
-static std::tuple<void*, size_t> get(type& t, const char* name){									\
+static std::tuple<void*, size_t> get(const type& t, const char* name){									\
 std::tuple<void*, size_t> res;																	\
 if ((res = PublicFields::get(t, name)) != std::tuple<void*, size_t>(nullptr, 0))				\
 return res;																						\
@@ -1422,9 +1416,19 @@ static constexpr bool s_serialized = false;
 friend drak::serialization::MetaData<type>;				\
 static constexpr bool s_serialized = true;				\
 public:													\
-using MetaData = MetaData<type>;						\
-template<bool completeDisplay = false>					\
-inline std::stringstream& serialize(std::stringstream& ss);
+using MetaData = drak::serialization::MetaData<type>;	\
+template<bool completeDisplay = false>															\
+std::stringstream& serialize(std::stringstream& ss) {								\
+return MetaData::serialize<completeDisplay>(ss, *this, 0);	\
+}																							\
+template<bool completeDisplay = false>															\
+std::stringstream serialize() {																			\
+return MetaData::serialize<completeDisplay>(std::stringstream(), *this, 0);	\
+}																										\
+template<typename T = void>																					\
+std::tuple<const char*, size_t> serialize() {														\
+return MetaData::GetAllBinaryData(*this);	\
+}
 
 #define DK_METADATA_BEGIN(ty)								\
 template<>													\
@@ -1459,7 +1463,7 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
 			return 1;																\
 		}																									\
 	}																								\
-	else if constexpr (!std::is_same_v<void, drak::types::VectorType_T<T>>) {				\
+	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {				\
 		size_t size = *(size_t*)(c_str + offset);														\
 		const char* temp = c_str + offset + sizeof(size_t);													\
 		t.reserve(size);																				\
@@ -1471,9 +1475,9 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
 		return temp - (c_str + offset);																	\
 	}																									\
 	else if constexpr (std::is_same_v<T, std::string>) {															\
-		size_t size = *(size_t*)(c_str + offset);\
+		size_t size = *(size_t*)(c_str + offset);						\
 		t.insert(0, c_str + offset + sizeof(size_t), size );			\
-		return size + sizeof(size_t);			\
+		return size + sizeof(size_t);									\
 	}																														\
 	else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T> && !drak::types::IsBaseType_V<T>)	{\
 		MetaData<T>::SetAllBinaryData(t, c_str + offset);		\
@@ -1490,7 +1494,7 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
 		char isAllocated = *(char*)(c_str + offset); \
 		if (isAllocated) {	\
 			t = new std::remove_pointer_t<T>();			\
-				MetaData<std::remove_pointer_t<T>>::SetAllBinaryData(*t, c_str + offset + 1);							\
+			MetaData<std::remove_pointer_t<T>>::SetAllBinaryData(*t, c_str + offset + 1);							\
 			return MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t) + 1;		\
 		}			\
 		else {				\
@@ -1500,7 +1504,7 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{										\
 	}																										\
 }																								\
 template<typename T>																	\
-static std::tuple<void*, size_t> GetData(T& t) {										\
+static std::tuple<void*, size_t> GetData(const T& t) {										\
 if constexpr (drak::types::IsBaseType_V<T>){											\
 	return std::make_tuple<void*, size_t>((void*)&(t), sizeof(T));								\
 }																						\
@@ -1519,12 +1523,15 @@ else{																	\
 	return std::make_tuple(data, 1);									\
 }																			\
 }																		\
-else if constexpr(std::is_same_v<T, std::string>){	\
-	size_t size = t.size();									\
-	t.insert(0, (const char*)&size, sizeof(size_t));					\
-	return std::make_tuple<void*, size_t>((void*)t.c_str(), t.size());	\
+else if constexpr(std::is_same_v<T, std::string>){							\
+	size_t size = t.size();													\
+	std::string temp = t;													\
+	temp.insert(0, (const char*)&size, sizeof(size_t));						\
+	char* c_ptr = new char[temp.size()];									\
+	memcpy(c_ptr, temp.c_str(), temp.size());							\
+	return std::make_tuple<void*, size_t>((void*)c_ptr, temp.size());	\
 }																		\
-else if constexpr (!std::is_same_v<void, drak::types::VectorType_T<T>>) {												\
+else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {												\
 	size_t size = t.size(), size2 = 0;																										\
 	std::vector<std::tuple<void*, size_t>> data;																				\
 	data.reserve(t.size());																										\
@@ -1538,14 +1545,13 @@ else if constexpr (!std::is_same_v<void, drak::types::VectorType_T<T>>) {							
 	for(auto& x : data) {																										\
 		memcpy(temp, std::get<0>(x), std::get<1>(x));																			\
 		temp += std::get<1>(x);																									\
-		if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<drak::types::VectorType_T<T>>> &&	\
-			!std::is_same_v<drak::types::VectorType_T<T>, std::string>)\
+		if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<drak::types::VectorType_T<T>>>)\
 		delete[] std::get<0>(x);																					\
 	}																													\
 	return std::make_tuple(binarydata, temp - binarydata);										\
 }																											\
 else if constexpr(!std::is_array_v<T> && !std::is_pointer_v<T> && !drak::types::IsBaseType_V<T> &&	\
-std::is_same_v<void, drak::types::VectorType_T<T>>) {							\
+std::is_same_v<T, drak::types::VectorType_T<T>>) {							\
 	return std::make_tuple<void*, size_t>((void*)std::get<0>(MetaData<T>::GetAllBinaryData(t)),	\
 	MetaData<T>::ComputeTotalSize(t));		\
 }																						\
@@ -1563,7 +1569,7 @@ else if constexpr(std::is_array_v<T> && !drak::types::IsBaseType_V<T>){									
 return std::make_tuple(c_str, totalArraySize);		\
 }																						\
 else if constexpr(std::is_pointer_v<T> && !drak::types::IsBaseType_V<T> &&			\
-std::is_same_v<void, drak::types::VectorType_T<T>>){													\
+std::is_same_v<T, drak::types::VectorType_T<T>>){													\
 if((bool)t) {			\
 char* data = new char[MetaData<std::remove_pointer_t<T>>::ComputeTotalSize(*t) + 1], size = 1;	\
 memcpy(data, &size, 1);		\
@@ -1585,7 +1591,7 @@ static constexpr auto s_var =															\
 std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(__VA_ARGS__)));						\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 static constexpr size_t s_totalSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);						\
-static size_t ComputeTotalSize(type& t) {												\
+static size_t ComputeTotalSize(const type& t) {												\
 	return s_totalSize + DK_EXPAND(DK_CONCAT(DK_DYNAMIC_SIZE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__));\
 };																						\
 virtual const char* varName(int idx)override{											\
@@ -1604,7 +1610,7 @@ virtual bool setVar(type& t, const char* name, void* data) override {					\
 	DK_EXPAND(DK_CONCAT(DK_SET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 	return false;																		\
 }																						\
-static std::tuple<void*, size_t> get(type& t, const char* str) {						\
+static std::tuple<void*, size_t> get(const type& t, const char* str) {						\
 	DK_EXPAND(DK_CONCAT(DK_GET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 }																						\
 static size_t SizeOf(const char* str) {													\
@@ -1623,7 +1629,7 @@ DK_DESERIALIZE_LOOP_IMPL(fieldName)														\
 return t;																				\
 }																						\
 template<typename T, bool completeDisplay>															\
-static void serialize(T& t, std::stringstream& ss, int recursionLevel) {							\
+static void serialize(const T& t, std::stringstream& ss, int recursionLevel) {							\
 if constexpr (drak::types::IsBaseType_V<T> ||														\
 		(std::is_array_v<T> &&																		\
 		drak::types::IsBaseType_V<T>)) {															\
@@ -1656,7 +1662,7 @@ else {																								\
 }																									\
 }																									\
 template<bool completeDisplay>															\
-static std::stringstream& serialize(type& t, std::stringstream& ss, int recursionLevel){\
+static std::stringstream& serialize(const type& t, std::stringstream& ss, int recursionLevel){\
 DK_ADD_TAB(recursionLevel)																\
 ss << "\t"#fieldName << "\n";															\
 if constexpr (completeDisplay) {														\
@@ -1695,7 +1701,16 @@ DK_METADATA_FIELDS(PublicStaticFields, __VA_ARGS__)
 #define DK_PRIVATE_STATIC_FIELDS(...)\
 DK_METADATA_FIELDS(PrivateStaticFields, __VA_ARGS__)
 
-#define DK_METADATA_END };
+#define DK_METADATA_END																			\
+static bool AreEqual(const type& t1, const type& t2) {														\
+std::tuple<char*, size_t> binary1 = GetAllBinaryData(t1), binary2 = GetAllBinaryData(t2);		\
+bool res = std::get<1>(GetAllBinaryData(t1)) == std::get<1>(GetAllBinaryData(t2)) &&			\
+!strcmp(std::get<0>(GetAllBinaryData(t1)), std::get<0>(GetAllBinaryData(t2)));					\
+delete[] std::get<0>(GetAllBinaryData(t1));														\
+delete[] std::get<0>(GetAllBinaryData(t2));														\
+return res;																						\
+}																								\
+};
 
 #define DK_DESERIALIZE_FUNC_BEGIN1				\
 static type& deserialize(type& t, std::stringstream& ss) {\
@@ -1897,7 +1912,7 @@ SetEveryDataImpl<TYPEOF(t.ty)>(t.ty, c_str, offset);	\
 DK_EXPAND(DK_SET_EVERY_DATA31(__VA_ARGS__))
 
 #define DK_FIELD_BINARY_FUNC(...)													\
-static char* BinaryData(type& t) {											\
+static char* BinaryData(const type& t) {											\
 	char* data = new char[ComputeTotalSize(t)], *data2;							\
 	int offset = 0;																	\
 	std::tuple<void*, size_t> binary;											\
@@ -1908,9 +1923,8 @@ return data;																	\
 #define DK_FIELD_BINARY_IMPL(ty)								\
 binary = GetData<TYPEOF(t.ty)>((t.ty));				\
 data2 = (char*)std::get<0>(binary);				\
-memcpy((void*)(data + offset), data2, std::get<1>(binary)); \
-if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<TYPEOF(t.ty)>> &&	\
-!std::is_same_v<TYPEOF(t.ty), std::string>)\
+memcpy((data + offset), data2, std::get<1>(binary)); \
+if constexpr (!drak::types::IsBaseType_V<std::remove_all_extents_t<TYPEOF(t.ty)>>)\
 	delete[] data2;												\
 offset += (int)std::get<1>(binary);
 

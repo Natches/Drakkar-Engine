@@ -15,6 +15,7 @@ template<typename T, Ordering order = Ordering::ROW_MAJOR>
 struct Matrix4x4 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA order>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,
@@ -75,6 +76,7 @@ template<typename T>
 struct Matrix4x4<T, Ordering::COLUMN_MAJOR> {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA Ordering::COLUMN_MAJOR>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,

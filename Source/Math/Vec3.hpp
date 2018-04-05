@@ -15,6 +15,7 @@ struct Vec3 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 	static constexpr bool isIntegral = std::is_integral_v<T>;
+	DK_SERIALIZED_OBJECT(Vec3<T>)
 public:
 	Vec3();
 	Vec3(const T X, const T Y, const T Z);

@@ -12,6 +12,7 @@ struct Vec2 {
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 
 	static constexpr bool isIntegral = std::is_integral_v<T>;
+	DK_SERIALIZED_OBJECT(Vec2<T>)
 public:
 	Vec2();
 
@@ -88,7 +89,6 @@ public:
 	static Vec2<T> Up();
 	static Vec2<T> Right();
 };
-
 template<typename T>
 Vec2<T> operator+(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>

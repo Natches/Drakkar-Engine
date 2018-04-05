@@ -27,6 +27,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine\Error.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Event.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\VA_ArgsUtils.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
