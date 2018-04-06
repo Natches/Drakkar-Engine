@@ -63,6 +63,7 @@ bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
 	desc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
+	
 	*pxScene = m_pPhysics->createScene(desc);
 	(*pxScene)->setSimulationEventCallback(m_pPhysicsEvent);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
@@ -87,6 +88,7 @@ void drak::PhysicsSystem::updateComponents(Scene& scene, std::vector<RigidBody>&
 	}*/
 	PxU32 nbActiveActors;
 	PxActor** activeActors = scene.m_pPhysXScene->getActiveActors(nbActiveActors);
+	printf("%i\n", nbActiveActors);
 	for (I32 i = 0; i < nbActiveActors; ++i) {
 		Transform& t = transforms[((AGameObject*)activeActors[i]->userData)->transformIDX];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];

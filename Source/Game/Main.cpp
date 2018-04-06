@@ -79,14 +79,14 @@ class MainScene : public IManualSceneBlueprint {
 	virtual void build(Scene & scene) override
 	{
 		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0);
-		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(2.5, 2.5, 2.5), *mat);
-		int numOfCubes = 1000;
+		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(5, 5, 5), *mat);
+		int numOfCubes = 10000;
 		for (int i = 0; i < numOfCubes; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			Transform& t = scene.getComponentByHandle<Transform>(p1->transformIDX);
-			t.position = math::Vec3f(0, i*10, 0);
+			t.position = math::Vec3f(0, i*15, 0);
 			t.rotation = math::Vec4f(0, 0, 0, 0);
-			t.scale = math::Vec3f(5, 5, 5);
+			t.scale = math::Vec3f(10, 10, 10);
 
 			scene.addComponentToGameObject<Model>(p1);
 			Model& model = scene.getComponentByHandle<Model>(t.m_handlesToComponents[ComponentType<Model>::id]);
@@ -101,23 +101,23 @@ class MainScene : public IManualSceneBlueprint {
 				t.position.y,
 				t.position.z));
 			rigid.rigidActor->attachShape(*cube);
-			((physx::PxRigidDynamic*)rigid.rigidActor)->setSolverIterationCounts(3, 1);
+			((physx::PxRigidDynamic*)rigid.rigidActor)->setSleepThreshold(0.010);
 			rigid.rigidActor->userData = p1;
-			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid.rigidActor, 50.f);
+			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid.rigidActor, 10.f);
 			scene.m_pPhysXScene->addActor(*rigid.rigidActor);
 		}
 
 		Cube* ground = scene.addGameObject<Cube>();
 		Transform& t = scene.getComponentByHandle<Transform>(ground->transformIDX);
-		t.position = math::Vec3f(0, -100, 0);
+		t.position = math::Vec3f(0, -200, 0);
 		t.rotation = math::Vec4f(0, 0, 0, 0);
-		t.scale = math::Vec3f(1000, 5, 1000);
+		t.scale = math::Vec3f(3000, 100, 3000);
 		
 		scene.addComponentToGameObject<RigidBody>(ground);
 		RigidBody& rigid = scene.getComponentByHandle<RigidBody>(t.m_handlesToComponents[ComponentType<RigidBody>::id]);
 		rigid.rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidStatic(
 			physx::PxTransform(t.position.x, t.position.y, t.position.z));
-		rigid.material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
+		rigid.material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0);
 		rigid.rigidActor->createShape(physx::PxBoxGeometry(t.scale.x / 2.f,
 			t.scale.y / 2.f, t.scale.z / 2.f), *rigid.material);
 		rigid.rigidActor->userData = ground;
