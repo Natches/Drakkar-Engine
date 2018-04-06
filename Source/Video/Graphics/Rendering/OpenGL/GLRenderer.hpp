@@ -40,7 +40,7 @@ public:
 	virtual void bindWindowFrameBuffer() override;
 
 private:
-	static void errorCallback(
+	static void debugLog(
 		GLenum			source,
 		GLenum			type,
 		GLuint			id,

@@ -35,7 +35,7 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 
 void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
-	m_pIBO->drawElements(GL_TRIANGLES);
+	m_pIBO->drawElements();
 }
 
 } // namespace gl
