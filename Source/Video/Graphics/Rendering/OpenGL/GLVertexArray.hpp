@@ -25,6 +25,7 @@ public:
 private:
 	GLVertexBuffer* m_pVBO;
 	GLIndexBuffer*	m_pIBO;
+	bool			m_instanced;
 };
 
 } // namespace gl

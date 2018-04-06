@@ -34,7 +34,7 @@ public:
 	virtual void clearColorValue(const Color4& color) = 0;
 	virtual void clearDepthValue(F32 depth) = 0;
 
-	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LESS) = 0;
+	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LEQUAL) = 0;
 
 	virtual void blendTest(bool on, 
 		EBlendMode srcFactor = EBlendMode::SRC_ALPHA,

@@ -148,7 +148,7 @@ void GLRenderer::debugLog(
 	const GLchar*	message,
 	const GLvoid*	userParam) {
 
-	std::string errLvl;
+	std::string errLvl = "Unknown";
 	if		(severity == GL_DEBUG_SEVERITY_HIGH)		errLvl	= "High";
 	else if (severity == GL_DEBUG_SEVERITY_MEDIUM)		errLvl	= "Medium";
 	else if (severity == GL_DEBUG_SEVERITY_LOW)			errLvl	= "Low";
@@ -167,15 +167,16 @@ void GLRenderer::debugLog(
 	else if (type == GL_DEBUG_TYPE_PORTABILITY)			errType = "Portability";
 	else if (type == GL_DEBUG_TYPE_PERFORMANCE)			errType = "Performance";
 
-	fprintf(stderr,
-		"======== GLRenderer Log ========"
+	fprintf(stderr, "%s\n", message);
+	/*fprintf(stderr,
+		"======== GLRenderer Log ========\n"
 		"| Level.... %s\n"
 		"| Source... %s\n"
 		"| Type..... %s\n"
-		"================================",
+		"================================\n",
 		errLvl.c_str(), 
 		errSrc.c_str(), 
-		errType.c_str());
+		errType.c_str());*/
 }
 #pragma endregion
 

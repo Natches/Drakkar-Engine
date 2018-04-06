@@ -17,7 +17,7 @@ enum class EDepthMode : U32 {
 };
 
 enum class EBlendMode : U32 {
-	SRC_COLOR = 0x0300,
+	SRC_COLOR,
 	ONE_MINUS_SRC_COLOR,
 	SRC_ALPHA,
 	ONE_MINUS_SRC_ALPHA,

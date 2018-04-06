@@ -35,7 +35,10 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 
 void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
-	m_pIBO->drawElements();
+	if (m_instanced)
+		m_pIBO->drawElements();
+	else
+		m_pIBO->drawElementsInstanced();
 }
 
 } // namespace gl
