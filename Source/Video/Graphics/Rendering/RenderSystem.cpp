@@ -29,8 +29,8 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_pGrid) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.obj", m_pUnitCube));
+			m_pRenderer->loadRenderables(dir + "Models/quad.dkobj", m_pGrid) &&
+			m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
 }
 
 void RenderSystem::forwardRender(
