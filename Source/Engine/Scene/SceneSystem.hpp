@@ -3,6 +3,8 @@
 #include <Core/Components/AGameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/SceneSystemUtils.hpp>
+#include <Math/Vec3.hpp>
+#include <Math/Vec4.hpp>
 #include <list>
 #include <vector>
 #include <map>
@@ -73,6 +75,21 @@ public:
 	template <typename T>
 	std::vector<T>* getComponentContainerByType() {
 		return (std::vector<T>*)getComponentContainerByID<components::ComponentType<T>::id>();
+	}
+
+	void modifyTransformPos(components::Transform& target, math::Vec3f newPos) {
+		target.position = newPos;
+		target.dirty = true;
+	}
+
+	void modifyTransformRot(components::Transform& target, math::Vec3f newRot) {
+		target.rotation = newRot;
+		target.dirty = true;
+	}
+
+	void modifyTransformScale(components::Transform& target, math::Vec3f newScale) {
+		target.scale = newScale;
+		target.dirty = true;
 	}
 
 	DRAK_API std::vector<AGameObject*>& getGameObjects();

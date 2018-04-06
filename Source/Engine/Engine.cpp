@@ -31,10 +31,10 @@ int Engine::startup() {
 	// TODO (Simon): Check for failed startups
 	videoSystem.startup(videoSettings, pMainWindow);
 	renderSystem.startup(videoSystem.renderer());
+	physicsSystem.Startup();
 	sceneSystem.Startup();
 	s_pool.startup();
-	physicsSystem.Startup();
-	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
+	physicsSystem.InitPxScene(sceneSystem.scene);
 
 	return 0;
 }
@@ -67,14 +67,17 @@ void Engine::startLoop() {
 		for (int i = 0, size = gameObjects.size(); i < size; ++i)
 			gameObjects[i]->Update();
 
-		if(physicsSystem.advance(*sceneSystem.scene, s_frameTime.deltaTime()))
-			physicsSystem.updateComponents(*sceneSystem.scene, 
-				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
-				*sceneSystem.scene->getComponentContainerByType<Transform>());
+		if(physicsSystem.advance(
+			s_frameTime.deltaTime(), 
+			*sceneSystem.scene->getComponentContainerByType<Transform>(), 
+			*sceneSystem.scene->getComponentContainerByType<RigidBody>()))
+				physicsSystem.updateComponents(
+					*sceneSystem.scene->getComponentContainerByType<Transform>());
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
+		renderSystem.forwardRender(
+			*sceneSystem.scene->getComponentContainerByType<Model>(),
 			*sceneSystem.scene->getComponentContainerByType<Transform>());
 		
 		renderSystem.endFrame();

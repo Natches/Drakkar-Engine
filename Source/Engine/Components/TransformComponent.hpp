@@ -10,6 +10,7 @@ math::Vec3f scale;
 math::Vec4f rotation;
 U64 m_componentFlags = 0;
 std::map<U64, U64> m_handlesToComponents;
+bool dirty = false;
 DRAK_COMPONENT_END(Transform)
 
 //DK_METADATA_BEGIN(drak::components::Transform)

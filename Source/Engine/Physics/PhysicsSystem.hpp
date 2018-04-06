@@ -2,6 +2,7 @@
 #include <Core/Core.hpp>
 #include <vector>
 #include <unordered_map>
+#include <Math/Vec3.hpp>
 
 namespace physx {
 	class PxScene;
@@ -40,19 +41,22 @@ namespace drak {
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
-		bool InitPxScene(physx::PxScene** pxScene);
-		void updateComponents(Scene& scene, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
-		bool advance(Scene& scene, F64 deltaTime);
+		bool InitPxScene(Scene* scene);
+		void updateComponents(std::vector<components::Transform>& transforms);
+		bool advance(F64 deltaTime, std::vector<components::Transform>& transforms, std::vector<components::RigidBody>& rigidBodies);
 		bool Startup();
 		void Shutdown();
+		void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
+		void applyForce(components::RigidBody& target, math::Vec3f& force);
+		void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
 		events::PhysicsEvents*		m_pPhysicsEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;
-		//physx::PxCudaContextManager* m_pCUDAContextManager;
 		physx::PxTolerancesScale*	m_cScale;
 #ifdef USE_PVD
 		physx::PxPvd*				m_pPvd;
+		Scene* m_GameScene;
 #endif // DEBUG
 		F64 AccumulatedTime;
 	};

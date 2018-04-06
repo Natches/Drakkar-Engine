@@ -56,38 +56,24 @@ PxFilterFlags DrakFilterShader(
 		PxPairFlag::eNOTIFY_TOUCH_FOUND & PxPairFlag::eNOTIFY_TOUCH_LOST & PxPairFlag::eNOTIFY_TOUCH_PERSISTS;*/
 }
 
-bool drak::PhysicsSystem::InitPxScene(physx::PxScene ** pxScene) {
+bool drak::PhysicsSystem::InitPxScene(Scene* scene) {
 	physx::PxSceneDesc desc(*m_cScale);
-
+	m_GameScene = scene;
 	desc.filterShader = DrakFilterShader;
 	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
 	desc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
-	
+	PxScene** pxScene= &m_GameScene->m_pPhysXScene;
 	*pxScene = m_pPhysics->createScene(desc);
 	(*pxScene)->setSimulationEventCallback(m_pPhysicsEvent);
 	(*pxScene)->setGravity(physx::PxVec3(0, -9.8f, 0));
 	return false;
 }
 
-void drak::PhysicsSystem::updateComponents(Scene& scene, std::vector<RigidBody>& rigidBodies, std::vector<Transform>& transforms) {
-	scene.m_pPhysXScene->fetchResults(true);
-	/*U32 flag = 1 << components::ComponentType<RigidBody>::id;
-	for (I32 i = 0, size = transforms.size(); i < size; ++i)
-	{
-		if ((transforms[i].m_componentFlags & flag) == flag) {
-			transforms[i].position.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.x;
-			transforms[i].position.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.y;
-			transforms[i].position.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().p.z;
-
-			transforms[i].rotation.x = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.x;
-			transforms[i].rotation.y = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.y;
-			transforms[i].rotation.z = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.z;
-			transforms[i].rotation.w = rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->getGlobalPose().q.w;
-		}
-	}*/
+void drak::PhysicsSystem::updateComponents(std::vector<Transform>& transforms) {
+	m_GameScene->m_pPhysXScene->fetchResults(true);
 	PxU32 nbActiveActors;
-	PxActor** activeActors = scene.m_pPhysXScene->getActiveActors(nbActiveActors);
+	PxActor** activeActors = m_GameScene->m_pPhysXScene->getActiveActors(nbActiveActors);
 	printf("%i\n", nbActiveActors);
 	for (I32 i = 0; i < nbActiveActors; ++i) {
 		Transform& t = transforms[((AGameObject*)activeActors[i]->userData)->transformIDX];
@@ -104,15 +90,29 @@ void drak::PhysicsSystem::updateComponents(Scene& scene, std::vector<RigidBody>&
 	}
 }
 
-bool drak::PhysicsSystem::advance(Scene & scene, F64 deltaTime)
+bool drak::PhysicsSystem::advance(F64 deltaTime, std::vector<Transform>& transforms, std::vector<components::RigidBody>& rigidBodies)
 {
 	AccumulatedTime += deltaTime;
 	if (AccumulatedTime > SIM_RATE * 3)
-		AccumulatedTime = SIM_RATE;
+		AccumulatedTime = 0;
 	if (AccumulatedTime < SIM_RATE)
 		return false;
 	AccumulatedTime -= SIM_RATE;
-	scene.m_pPhysXScene->simulate(SIM_RATE);
+	U64 hasRigidBodyFlag = 1 << ComponentType<RigidBody>::id;
+	for (int i = 0; i < transforms.size(); ++i) {
+		if (transforms[i].dirty) {
+			if ((transforms[i].m_componentFlags & hasRigidBodyFlag) == hasRigidBodyFlag) {
+				transforms[i].dirty = false;
+				PxTransform trans(
+					transforms[i].position.x,
+					transforms[i].position.y,
+					transforms[i].position.z,
+					PxQuat(transforms[i].rotation.x, transforms[i].rotation.y, transforms[i].rotation.z, transforms[i].rotation.w));
+				rigidBodies[transforms[i].m_handlesToComponents[ComponentType<RigidBody>::id]].rigidActor->setGlobalPose(trans);
+			}
+		}
+	}
+	m_GameScene->m_pPhysXScene->simulate(SIM_RATE);
 	return true;
 }
 
@@ -162,4 +162,16 @@ void PhysicsSystem::Shutdown() {
 	}
 	delete m_pPhysicsEvent;
 
+}
+
+void drak::PhysicsSystem::applyImpulse(components::RigidBody & target, math::Vec3f & impulse) {
+	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(impulse.x, impulse.y, impulse.z), PxForceMode::eIMPULSE);
+}
+
+void drak::PhysicsSystem::applyForce(components::RigidBody & target, math::Vec3f & force) {
+	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(force.x, force.y, force.z), PxForceMode::eFORCE);
+}
+
+void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::Vec3f & newVelocity) {
+	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
 }
