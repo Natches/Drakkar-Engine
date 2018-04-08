@@ -85,7 +85,7 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 void GLRenderer::clear() { 
 	// TODO (Simon): enumerate API-agnostic
 	// buffer flags in RenderDefinitions.hpp
-
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 }
 
@@ -123,6 +123,10 @@ void GLRenderer::cullTest(bool on, ECullMode mode) {
 
 void GLRenderer::windingOrder(EWindingOrder order) { 
 	glFrontFace(order == EWindingOrder::CLOCKWISE ? GL_CW : GL_CCW);
+}
+
+void GLRenderer::multisampling(bool on) {
+	DK_GL_TOGGLE(on, GL_MULTISAMPLE)
 }
 
 void GLRenderer::bindWindowFrameBuffer() {

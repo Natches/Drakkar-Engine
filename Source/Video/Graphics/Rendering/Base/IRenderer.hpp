@@ -42,6 +42,8 @@ public:
 
 	virtual void cullTest(bool on, ECullMode mode = ECullMode::BACK) = 0;
 	virtual void windingOrder(EWindingOrder order) = 0;
+
+	virtual void multisampling(bool on) = 0;
 };
 
 enum ERenderer {

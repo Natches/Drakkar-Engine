@@ -19,6 +19,8 @@ SDLWindow::SDLWindow(const WindowSettings& settings)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8); // read from file
 
 	m_pWin = SDL_CreateWindow(
 		settings.title,
@@ -63,6 +65,7 @@ void SDLWindow::pollEvents() {
 		handleKeyEvent(e);
 		break;
 	}
+	m_pEvt->type = SDL_FIRSTEVENT;
 }
 
 Key SDLWindow::keyConvert(int sdlKey) const {

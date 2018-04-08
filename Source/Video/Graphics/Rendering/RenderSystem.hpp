@@ -44,6 +44,9 @@ private:
 	void transparentPass();
 
 private:
+	void onKeyUp(const events::Event* pEvt);
+
+private:
 	Camera			m_mainCam;
 
 	ShaderMap		m_shaderMap;

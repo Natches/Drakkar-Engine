@@ -1,12 +1,19 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Windowing/Input/Keyboard.hpp>
 
-
+using namespace drak::events;
+using namespace drak::function;
 using namespace drak::components;
 
 namespace drak {
 namespace gfx {
 
 bool RenderSystem::startup(IRenderer* pRenderer) {
+	Keyboard::Get().addEventListener(
+		KeyEvent::KEY_UP,
+		new MemberFunction<RenderSystem, void, const Event*>
+		(this, &RenderSystem::onKeyUp, &Keyboard::Get().event()));
+
 	m_pRenderer = pRenderer;
 	m_pRenderer->info();
 
@@ -37,6 +44,8 @@ bool RenderSystem::loadResources(const std::string& dir) {
 void RenderSystem::forwardRender(
 	std::vector<Model>& models,
 	std::vector<Transform>& xforms) {
+
+	m_pRenderer->cullTest(true);
 
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
@@ -76,6 +85,8 @@ void RenderSystem::forwardRender(
 	}*/
 	
 
+	m_pRenderer->cullTest(false);
+	
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
 		* math::Scale<F32>({ 2048.f, 1.f, 2048.f });
@@ -126,10 +137,19 @@ void RenderSystem::endFrame() {
 	m_pRenderer->depthTest(false);
 	m_shaderMap["FrameDraw"]->use();*/
 
-	// TODO (Simon): abstract the GL code shown below (E Z P Z)
+	// TODO (Simon): abstract the GL code shown below
 	// glBindVertexArray(quadVAO);
 	// glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
 	// glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void RenderSystem::onKeyUp(const events::Event* pEvt) {
+	static bool toggle = false;
+
+	auto k = static_cast<const KeyEvent*>(pEvt);
+	DK_SELECT(k->key)
+		DK_CASE(Key::KEY_0, m_pRenderer->multisampling(toggle); toggle = !toggle)
+	DK_END
 }
 
 

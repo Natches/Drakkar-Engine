@@ -35,6 +35,8 @@ public:
 	void blendTest(bool on, EBlendMode srcFactor,EBlendMode dstFactor) override;
 	void cullTest(bool on, ECullMode mode) override;
 	void windingOrder(EWindingOrder order) override;
+	
+	void multisampling(bool on) override;
 
 	//void bindFrameBuffer() override;
 	virtual void bindWindowFrameBuffer() override;
