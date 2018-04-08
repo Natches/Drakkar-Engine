@@ -2,6 +2,7 @@
 
 #include<Math/MathUtils.hpp>
 #include<Math/SIMDUtils.hpp>
+#include<Math/Vec4.hpp>
 #include<ostream>
 
 namespace drak {
@@ -29,6 +30,7 @@ public:
 	Vec8(Vec4<T>&& v1, Vec4<T>&& v2);
 	~Vec8() = default;
 	Vec8(const SIMDType& ss);
+	static Vec8<T> broadcast(const Vec4<T>& v);
 
 public:
 	bool operator==(const Vec8<T>& v) const;
@@ -84,11 +86,11 @@ public:
 	Vec4<T> abcd();
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[8];
 		struct { T x, y, z, w, a, b, c, d; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
 };
 
 template<typename T>
@@ -145,7 +147,12 @@ template<typename T>
 auto Dot(const Vec8<T>& v1, const Vec8<T>& v2);
 
 template<typename T>
-auto TwiceDot(const Vec8<T>& v1, const Vec8<T>& v2);
+Vec4<T> FourDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1);
+
+template<typename T>
+Vec8<T> EightDot(const Vec8<T>& row1, const Vec8<T>& row2,
+	const Vec8<T>& col1, const Vec8<T>& col2);
 
 template<typename T>
 Vec8<T> Min(const Vec8<T>& v1, const Vec8<T>& v2);
@@ -156,18 +163,49 @@ Vec8<T> Max(const Vec8<T>& v1, const Vec8<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec8<T>& v);
 
-using Vec8c = typename Vec8<U8>;
+using Vec8c  = typename Vec8<U8>;
 using Vec8sc = typename Vec8<I8>;
-using Vec8s = typename Vec8<I16>;
+using Vec8s  = typename Vec8<I16>;
 using Vec8us = typename Vec8<U16>;
-using Vec8i = typename Vec8<I32>;
-using Vec8ui = typename Vec8<U32>;
-using Vec8lli = typename Vec8<I64>;
-using Vec8ulli = typename Vec8<U64>;
-using Vec8f = typename Vec8<F32>;
-using Vec8d = typename Vec8<F64>;
+using Vec8i  = typename Vec8<I32>;
+using Vec8u  = typename Vec8<U32>;
+using Vec8f  = typename Vec8<F32>;
 
 } //namespace maths
 } //namespace drak
 #include<Math/Vec8.inl>
 
+//DK_METADATA_BEGIN(drak::math::Vec8c)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8sc)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8s)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8us)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8i)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8u)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec8f)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END

@@ -2,16 +2,12 @@
 
 #include <Math/MathUtils.hpp>
 #include <Math/SIMDUtils.hpp>
+#include <Math/Vec2.hpp>
+#include <Math/Vec3.hpp>
 #include<ostream>
 
 namespace drak {
 namespace math {
-
-template<typename T>
-struct Vec2;
-
-template<typename T>
-struct Vec3;
 
 template<typename T>
 struct Vec4 {
@@ -52,12 +48,13 @@ public:
 
 	F32 magnitude() const;
 
+/*
 	template<Axis ax, AngleUnit au = AngleUnit::DEGREE>
 	F32 rotation() const;
 
 	template<AngleUnit au = AngleUnit::DEGREE>
 	Vec4<T> rotation() const;
-	//TODO : Quat<F32> rotation() const;
+	//TODO : Quat<F32> rotation() const;*/
 
 	Vec4<T>& operator  =(const Vec4<T>& v);
 	Vec4<T>& operator  =(Vec4<T>&& v);
@@ -103,6 +100,13 @@ public:
 	Vec4<F32> floor();
 	Vec4<F32> round();
 
+	Vec2<T> xy();
+	Vec2<T> zw();
+	Vec2<T> yz();
+	Vec2<T> yx();
+	Vec2<T> wz();
+	Vec2<T> zy();
+
 	Vec3<T> xyz();
 	Vec3<T> zyx();
 	Vec3<T> yzx();
@@ -128,12 +132,18 @@ private:
 	F32 computeAngleZ();*/
 
 public:
-	union {
+	union alignas(SIMDStruct::alignement) {
 		T m_vec[4];
 		struct { T x, y, z, w; };
 		struct { T r, g, b, a; };
 		SIMDType m_simdVec;
-	}alignas(SIMDStruct::alignement);
+	};
+
+public:
+	static Vec4<T> Null();
+	static Vec4<T> Up();
+	static Vec4<T> Right();
+	static Vec4<T> Forward();
 };
 
 template<typename T>
@@ -235,17 +245,49 @@ bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec4<T>& v);
 
-using Vec4c = typename Vec4<U8>;
+using Vec4c  = typename Vec4<U8>;
 using Vec4sc = typename Vec4<I8>;
-using Vec4s = typename Vec4<I16>;
+using Vec4s  = typename Vec4<I16>;
 using Vec4us = typename Vec4<U16>;
-using Vec4i = typename Vec4<I32>;
-using Vec4ui = typename Vec4<U32>;
-using Vec4lli = typename Vec4<I64>;
-using Vec4ulli = typename Vec4<U64>;
-using Vec4f = typename Vec4<F32>;
-using Vec4d = typename Vec4<F64>;
+using Vec4i  = typename Vec4<I32>;
+using Vec4u  = typename Vec4<U32>;
+using Vec4f  = typename Vec4<F32>;
 
 } //namespace maths
 } //namespace drak
 #include<Math/Vec4.inl>
+
+//DK_METADATA_BEGIN(drak::math::Vec4c)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4sc)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4s)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4us)
+//DK_PUBLIC_FIELDS(m_vec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4i)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4u)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END
+//
+//DK_METADATA_BEGIN(drak::math::Vec4f)
+//DK_PUBLIC_FIELDS(m_simdVec)
+//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_METADATA_END

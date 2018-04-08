@@ -1,5 +1,6 @@
 #include<cassert>
 #include<Math/Vec3.hpp>
+#include<Math/Vec4.hpp>
 
 namespace drak {
 namespace math {
@@ -13,6 +14,16 @@ Vec3<T>::Vec3() : m_vec{ static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)
 
 template<typename T>
 Vec3<T>::Vec3(const T X, const T Y, const T Z) : m_vec{ X, Y, Z } {
+}
+
+template<typename T>
+Vec3<T>::Vec3(const Vec4<T>& v) {
+	memcpy(m_vec, v.m_vec, sizeof(m_vec));
+}
+
+template<typename T>
+Vec3<T>::Vec3(Vec4<T>&& v) {
+	memcpy(m_vec, std::forward<Vec3<T>>(v).m_vec, sizeof(m_vec));
 }
 
 template<typename T>
@@ -119,18 +130,21 @@ Vec3<T> Vec3<T>::rotation() const {
 	return Vec3<T>(rotation<Axis::X, au>(), rotation<Axis::Y, au>(), rotation<Axis::Z, au>());
 }
 
-template<>
-Vec3<F32> Vec3<F32>::ceil() {
+template<typename T>
+Vec3<F32> Vec3<T>::ceil() {
+	static_assert(!Vec3<T>::isIntegral, "Use only ceil with floating point type !!");
 	return Vec3<F32>(std::ceil(x), std::ceil(y), std::ceil(z));
 }
 
-template<>
-Vec3<F32> Vec3<F32>::floor() {
+template<typename T>
+Vec3<F32> Vec3<T>::floor() {
+	static_assert(!Vec3<T>::isIntegral, "Use only floor with floating point type !!");
 	return Vec3<F32>(std::floor(x), std::floor(y), std::floor(z));
 }
 
-template<>
-Vec3<F32> Vec3<F32>::round() {
+template<typename T>
+Vec3<F32> Vec3<T>::round() {
+	static_assert(!Vec3<T>::isIntegral, "Use only round with floating point type !!");
 	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
 }
 
@@ -219,6 +233,26 @@ F32 Vec3<T>::computeAngleZ() {
 	else if (y < static_cast<T>(0))
 			return -std::acos<F32>(x / magnitude());
 	return 0.f;
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Null() {
+	return Vec3<T>();
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Up() {
+	return Vec3<T>(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0));
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Right() {
+	return Vec3<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::Forward() {
+	return Vec3<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
 }
 
 template<typename T>
@@ -399,7 +433,7 @@ Vec3<T> Vec3<T>::conjugate() const {
 template<typename T>
 Vec3<T> Vec3<T>::normalize() const {
 	F32 size = magnitude();
-	assert(IsNotEqual_V(size, static_cast<T>(0)))
+	// assert(IsNotEqual_V(size, static_cast<T>(0)));
 	if (IsNotEqual_V(size, static_cast<T>(0)))
 		return *this / size;
 	return Vec3<T>(x, y, z);
@@ -420,7 +454,8 @@ Vec3<T> Vec3<T>::rotate(const Vec3<T>& euler) const {
 	static_assert(false, "Not implemented !!");
 	return Vec3<T>();
 	//TODO rotation with quat return Vec3<T>();
-}*/
+}
+*/
 
 template<typename T>
 template<typename U>

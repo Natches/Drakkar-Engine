@@ -43,7 +43,7 @@ Vec4<T>::Vec4(const T X, const T Y, const T Z, const T W) {
 template<typename T>
 Vec4<T>::Vec4(const Vec4<T>& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = v.m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -51,7 +51,7 @@ Vec4<T>::Vec4(const Vec4<T>& v) {
 template<typename T>
 Vec4<T>::Vec4(Vec4<T>&& v) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		m_simdVec = SIMDStruct::load(v.m_vec);
+		m_simdVec = std::forward<Vec4<T>>(v).m_simdVec;
 	else
 		memcpy(m_vec, v.m_vec, sizeof(m_vec));
 }
@@ -536,8 +536,9 @@ Vec4<T> Vec4<T>::normalize() const {
 	}
 }
 
-template<>
-Vec4<F32> Vec4<F32>::ceil() {
+template<typename T>
+Vec4<F32> Vec4<T>::ceil() {
+	static_assert(!Vec4<T>::isIntegral, "Use only ceil with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec4<F32>(SIMDStruct::ceil(m_simdVec));
 	else {
@@ -546,8 +547,9 @@ Vec4<F32> Vec4<F32>::ceil() {
 	}
 }
 
-template<>
-Vec4<F32> Vec4<F32>::floor() {
+template<typename T>
+Vec4<F32> Vec4<T>::floor() {
+	static_assert(!Vec4<T>::isIntegral, "Use only floor with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec4<F32>(SIMDStruct::floor(m_simdVec));
 	else {
@@ -555,13 +557,44 @@ Vec4<F32> Vec4<F32>::floor() {
 	}
 }
 
-template<>
-Vec4<F32> Vec4<F32>::round() {
+template<typename T>
+Vec4<F32> Vec4<T>::round() {
+	static_assert(!Vec4<T>::isIntegral, "Use only round with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec4<F32>(SIMDStruct::round(m_simdVec));
 	else {
 		Vec4<F32>(std::round(x), std::round(y), std::round(z), std::round(w));
 	}
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::xy() {
+	return Vec2<T>(x, y);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zw() {
+	return Vec2<T>(z, w);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yz() {
+	return Vec2<T>(y, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::yx() {
+	return Vec2<T>(y, x);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::wz() {
+	return Vec2<T>(w, z);
+}
+
+template<typename T>
+Vec2<T> Vec4<T>::zy() {
+	return Vec2<T>(z, y);
 }
 
 template<typename T>
@@ -637,6 +670,26 @@ Vec4<T> Vec4<T>::gbra() {
 template<typename T>
 Vec4<T> Vec4<T>::brga() {
 	return Vec4<T>(b, r, g, a);
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Null() {
+	return Vec4<T>();
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Up() {
+	return Vec4<T>(Vec3<T>::Up(), static_cast<T>(1));
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Right() {
+	return Vec4<T>(Vec3<T>::Right(), static_cast<T>(1));
+}
+
+template<typename T>
+Vec4<T> Vec4<T>::Forward() {
+	return Vec4<T>(Vec3<T>::Forward(), static_cast<T>(1));
 }
 
 template<typename T>
