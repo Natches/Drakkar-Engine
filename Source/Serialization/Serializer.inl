@@ -13,7 +13,7 @@ drak::core::E_Error Serializer::SerializeToFile(const T& t, const char* path, co
 		FileDescriptor desc;
 		desc.m_descriptor[{ MetaData<T>::TypeName(), 0 }] = 0;
 		std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
-		MetaData<T>::serialize(binary, t);
+		MetaData<T>::Serialize(binary, t);
 		desc.writeToFile(file);
 		file << binary.rdbuf();
 		file.flush();
@@ -32,7 +32,7 @@ drak::core::E_Error Serializer::SerializeToFile(const std::vector<T>& t, const c
 		std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
 		for (int i = 0, size = (int)t.size(); i < size; ++i) {
 			desc.m_descriptor[{ MetaData<T>::TypeName(), i}] = (int)binary.tellp();
-			MetaData<T>::serialize(binary, t[i]);
+			MetaData<T>::Serialize(binary, t[i]);
 		}
 		desc.writeToFile(file);
 		file << binary.rdbuf();
@@ -74,7 +74,7 @@ drak::core::E_Error Serializer::AddObjectToFile(const T& t, const char* path) {
 					max = x.first.second;
 			}
 			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), max + 1 }] = (int)binary.tellp();
-			MetaData<T>::serialize(binary, t);
+			MetaData<T>::Serialize(binary, t);
 			desc.writeToFile(file);
 			file << binary.rdbuf();
 			file.flush();
@@ -101,7 +101,7 @@ drak::core::E_Error Serializer::AddObjectToFile(const std::vector<T>& t, const c
 						max = x2.first.second;
 				}
 				desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), max + 1 }] = (int)binary.tellp();
-				MetaData<T>::serialize(binary, x);
+				MetaData<T>::Serialize(binary, x);
 			}
 			desc.writeToFile(file);
 			file << binary.rdbuf();
@@ -279,7 +279,7 @@ void Serializer::SerializeToFile(std::fstream& file, std::stringstream& sstr,
 			max = x.first.second;
 	}
 	desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), max + 1 }] = (int)binary.tellp();
-	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::serialize(binary, t);
+	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Serialize(binary, t);
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
 		SerializeToFile(file, sstr, desc, std::forward<VArgs>(args)...);
 }

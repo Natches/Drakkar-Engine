@@ -12,7 +12,7 @@
 namespace drak {
 namespace serialization {
 
-DK_ENUM_CLASS(E_OutputFileType, U8, BINARY, JSON, INI)
+DK_ENUM_CLASS(EExtension, U8, BINARY, JSON, INI)
 
 template<typename T>
 struct MetaData {};
@@ -56,6 +56,42 @@ static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 	}
 	else
 		return 0;
+}
+
+template<typename T>
+static std::string ValueToString(const T& value) {
+	if constexpr(drak::types::IsBaseType_V<T>)
+		return std::to_string(value);
+}
+
+template<typename T>
+static void StringToValue(const char* c_str, T& t) {
+	if constexpr(std::is_same_v<T, bool>) {
+		if (!strcmp(c_str, "true") || !strcmp(c_str, "True") || !strcmp(c_str, "1"))
+			t = true;
+		else
+			t = false;
+	}
+	else if constexpr (std::is_same_v<T, std::string> ||
+		std::is_same_v<std::remove_cv_t<T>, char*>) {
+		t = T(c_str);
+	}
+	else if constexpr (std::is_same_v<T, U16>)
+		t = T(std::stoul(c_str));
+	else if constexpr (std::is_same_v<T, I16>)
+		t = T(std::stoi(c_str));
+	else if constexpr (std::is_same_v<T, U32>)
+		t = T(std::stoul(c_str));
+	else if constexpr (std::is_same_v<T, I32>)
+		t = T(std::stoi(c_str));
+	else if constexpr (std::is_same_v<T, U64>)
+		t = T(std::stoull(c_str));
+	else if constexpr (std::is_same_v<T, I64>)
+		t = T(std::stoll(c_str));
+	else if constexpr (std::is_same_v<T, F32>)
+		t = T(std::stof(c_str));
+	else if constexpr (std::is_same_v<T, F64>)
+		t = T(std::stod(c_str));
 }
 
 } // namespace serialization
@@ -113,6 +149,8 @@ DK_EXPAND(DK_GET_SIZE_BY_NAME(__VA_ARGS__))												\
 DK_EXPAND(DK_GET_TYPENAME_BY_NAME(__VA_ARGS__))											\
 DK_EXPAND(DK_SET_EVERY_DATA_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_FIELD_BINARY_FUNC(__VA_ARGS__))											\
+DK_EXPAND(DK_FIELD_TO_JSON_FUNC(__VA_ARGS__))											\
+DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\
 	return s_varName[idx];																\
@@ -129,58 +167,6 @@ virtual std::tuple<void*, size_t> getVar(type& t, const char* str)override {			\
 virtual bool setVar(type& t, const char* name, void* data) override {					\
 	DK_EXPAND(DK_CONCAT(DK_SET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 	return false;																		\
-}																						\
-static type& deserialize(std::stringstream& ss, type& t) {								\
-SetFieldBinary(t, ss.str().c_str());														\
-return t;																				\
-}																						\
-template<typename T, bool completeDisplay>															\
-static void serialize(const T& t, std::stringstream& ss, int recursionLevel) {							\
-if constexpr (drak::types::IsBaseType_V<T> ||														\
-		(std::is_array_v<T> &&																		\
-		drak::types::IsBaseType_V<T>)) {															\
-	DK_ADD_TAB(recursionLevel)																		\
-	ss << " Size " << sizeof(t) <<" Binary ";														\
-	const char* data;																				\
-	if constexpr (std::is_array_v<T>)																\
-		data = (const char*)t;																		\
-	else																							\
-		data = (const char*)&t																		\
-	for (size_t i = 0; i < sizeof(t); ++i) {														\
-			ss << (data)[i];																		\
-	}																								\
-	ss << "\n";																						\
-}																									\
-else if constexpr (!drak::types::IsBaseType_V<T> &&	std::is_array_v<T>){							\
-	DK_ADD_TAB(recursionLevel)																		\
-	ss <<" :\n";																					\
-for(size_t i = 0, size = drak::types::SizeOfArray_V<T> ; i < size; ++i ) {							\
-	DK_ADD_TAB(recursionLevel)																		\
-	ss << "\t\t" << "[" << i << "] : \n";															\
-	MetaData<std::remove_all_extents_t<T>>::serialize<completeDisplay>								\
-		(ss, ty[i], recursionLevel + 2);															\
-}																									\
-}																									\
-else {																								\
-	DK_ADD_TAB(recursionLevel)																		\
-	ss << ":\n";																					\
-	MetaData<T>::serialize<completeDisplay>(ss, t, recursionLevel + 2);								\
-}																									\
-}																									\
-template<bool completeDisplay>															\
-static std::stringstream& serialize(const type& t, std::stringstream& ss, int recursionLevel){\
-if constexpr (completeDisplay) {														\
-DK_EXPAND(DK_CONCAT(DK_SERIALIZE_IMPL,  DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))			\
-DK_ADD_TAB(recursionLevel)																\
-ss << "\tEnd"#fieldName << "\n";														\
-}																						\
-else {																					\
-char* data = BinaryData(t);																\
-for(int i = 0, size = (int)ComputeTotalSize(t); i < size; ++i)							\
-	ss << data[i];																		\
-delete[] data;																			\
-}																						\
-return ss;																				\
 }																						\
 };																						\
 public :																				\

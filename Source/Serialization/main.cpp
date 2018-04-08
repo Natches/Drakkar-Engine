@@ -92,11 +92,17 @@ int main() {
 	for (int i = 0; i < 30; ++i) {
 		vd.emplace_back(t);
 	}
-	std::cout << MetaData<Test>::ComputeTotalSize(t) << std::endl;
-	t2 = MetaData<Test>::Deserialize(std::get<0>(MetaData<Test>::GetBinary(t)));
+	std::stringstream sstr;
+	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);
+	MetaData<drak::math::Mat4f>::Serialize<drak::serialization::EExtension::JSON>(sstr, t.mat);
+	std::ofstream of("testJSON.json");
+	of << sstr.rdbuf();
+	of.close();
+	/*std::cout << MetaData<Ser>::s_staticSize * drak::types::SizeOfArray_V<TYPEOF(t.b)> << std::endl;
+	t2 = MetaData<Test>::Create(std::get<0>(MetaData<Test>::GetBinary(t)));
 	Serializer::SerializeToFile<Test>(t, "./", "SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Ser>(t.ser1, "./SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Test>(t2, "./SerializedDataOfTest.txt");
-	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");
+	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");*/
 	return 0;
 }

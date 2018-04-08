@@ -180,10 +180,10 @@ DK_EXPAND(DK_POINT_MEMBER_IMPL31(__VA_ARGS__, &type::t))
 
 #define DK_SIZEOF_TYPE_IMPL(ty)															\
 if(!strcmp(str, #ty)) {																	\
-	if(drak::serialization::SizeOfSerializedType<TYPEOF(type::ty)>())					\
+	if constexpr (drak::serialization::SizeOfSerializedType<TYPEOF(type::ty)>())		\
 		return drak::serialization::SizeOfSerializedType<TYPEOF(type::ty)>();			\
 	else																				\
-		return drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t->ty);	\
+		return drak::serialization::SizeOfDynamiclyAllocatedType<TYPEOF(type::ty)>(t->ty);\
 }
 
 #define DK_SIZEOF_TYPE0 return 0;
