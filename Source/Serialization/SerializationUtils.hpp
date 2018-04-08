@@ -3,6 +3,7 @@
 #define LOG_FILE "Serialization.log"
 
 #include <Core/Utils/VA_ArgsUtils.hpp>
+#include <Log/Log.hpp>
 #include <array>
 #include <tuple>
 #include <string>
@@ -27,6 +28,12 @@ struct BaseType {																				\
 	static std::string ToJSON(const T& t, int indent) {											\
 		return std::string("\"") + ValueToString<T>(t) + "\"";									\
 	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		sstr >> str;																			\
+		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		StringToValue<T>(str.c_str(), t);														\
+	}																							\
 };																								\
 template<typename Type, size_t N>																\
 struct BaseType<Type[N]> {																		\
@@ -50,8 +57,18 @@ struct BaseType<Type[N]> {																		\
 		indent -= 1;																			\
 		for(int i = 0; i < indent; ++i)															\
 			str += '\t';																		\
-		str += "]\n";																			\
+		str += "]";																				\
 		return str;																				\
+	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		while (str != std::string("["))sstr >> str;												\
+		for(size_t i = 0; i < N; ++i) {															\
+			sstr >> str;																		\
+			str.erase(std::remove(str.begin(), str.end(), '"'), str.end());						\
+			StringToValue<Type>(str.c_str(), t[i]);												\
+		}																						\
+		sstr >> str;																			\
 	}																							\
 };																								\
 template<typename Type>																			\
@@ -87,6 +104,13 @@ struct BaseType<Type*> {																		\
 		else																					\
 			return std::string("\"null\"");														\
 	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		sstr >> str;																			\
+		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
+		StringToValue<T>(str.c_str(), t);														\
+	}																							\
 };																								\
 template<typename T>																			\
 struct ComplexType {																			\
@@ -99,7 +123,12 @@ struct ComplexType {																			\
 			MetaData<T>::ComputeTotalSize(t));													\
 	}																							\
 	static std::string ToJSON(const T& t, int indent) {											\
-		return MetaData<T>::ToJSON(t, indent + 1);												\
+		return MetaData<T>::ToJSON(t, indent);													\
+	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		while (str != "{" && str != "[")sstr >> str;											\
+		MetaData<T>::SetFromJSON(t, sstr);														\
 	}																							\
 };																								\
 template<typename Type, size_t N>																\
@@ -142,6 +171,14 @@ struct ComplexType<Type[N]> {																	\
 		str += "]";																				\
 		return str;																				\
 	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		while (str != "{" && str != "[")sstr >> str;											\
+		for(size_t i = 0; i < N; ++i) {															\
+			MetaData<Type>::SetFromJSON(t[i], sstr);											\
+		}																						\
+		sstr >> str;																			\
+	}																							\
 };																								\
 template<typename Type>																			\
 struct ComplexType<Type*> {																		\
@@ -175,9 +212,22 @@ struct ComplexType<Type*> {																		\
 	}																							\
 	static std::string ToJSON(const T& t, int indent) {											\
 		if(t)																					\
-			return MetaData<Type>::ToJSON(*t, indent + 1);										\
+			return MetaData<Type>::ToJSON(*t, indent);											\
 		else																					\
 			return std::string("\"null\"");														\
+	}																							\
+	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
+		std::string str;																		\
+		sstr >> str;																			\
+		if(str != "\"null\"" && str != "\"nill\"" &&											\
+			str != "\"null\"," && str != "\"nill\",")	{										\
+			while (str != "{" && str != "[")sstr >> str;										\
+			sstr.seekg(-(int)str.size(), std::ios::cur);										\
+			t = new Type();																		\
+			MetaData<Type>::SetFromJSON(*t, sstr);												\
+		}																						\
+		else																					\
+			t = nullptr;																		\
 	}																							\
 };
 
@@ -194,10 +244,36 @@ static size_t SetVector(T& t, const char* c_str, size_t offset) {								\
 	}																							\
 	return temp - (c_str + offset);																\
 }																								\
+template<typename T>																			\
+static std::stringstream& FromJSONToVector(T& t, std::stringstream& sstr) {						\
+	std::string str;																			\
+	sstr >> str;																				\
+	while (str != "]" && str != "],") {															\
+		drak::types::VectorType_T<T> data;														\
+		SetFromJSON<drak::types::VectorType_T<T>>(data, sstr);									\
+		t.emplace_back(data);																	\
+		sstr >> str;																			\
+		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+	}																							\
+	sstr >> str;																				\
+	return sstr;																				\
+}																								\
 static size_t SetString(std::string& t, const char* c_str, size_t offset) {						\
 	size_t size = *(size_t*)(c_str + offset);													\
 	t.insert(0, c_str + offset + sizeof(size_t), size);											\
 	return size + sizeof(size_t);																\
+}																								\
+static std::stringstream& FromJSONToString(std::string& t, std::stringstream& sstr) {			\
+	sstr >> t;																					\
+	t.erase(std::remove(t.begin(), t.end(), '"'), t.end());										\
+	t.erase(std::remove(t.begin(), t.end(), ','), t.end());										\
+	return sstr;																				\
+}																								\
+template<typename T, typename U>																\
+static void JSONToIntrin(T& t, std::stringstream& sstr) {										\
+	U arr[sizeof(T) / 4] = {};																	\
+	BaseType<U[sizeof(T) / 4]>::SetFromJSON(arr, sstr);											\
+	memcpy(&t, arr, sizeof(T));																	\
 }																								\
 template<typename T>																			\
 static size_t SetData(T& t, const char* c_str, size_t offset) 	{								\
@@ -212,6 +288,29 @@ static size_t SetData(T& t, const char* c_str, size_t offset) 	{								\
 	}																							\
 	else if constexpr(!drak::types::IsBaseType_V<T>) {											\
 		return ComplexType<T>::SetData(t, c_str, offset);										\
+	}																							\
+}																								\
+template<typename T>																			\
+static void SetFromJSON(T& t, std::stringstream& sstr) {										\
+	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_T<T>) {			\
+		BaseType<T>::SetFromJSON(t, sstr);														\
+	}																							\
+	else if constexpr (drak::types::IsIntrinType_T<T>) {										\
+		if constexpr (std::is_same_v<T, __m64> ||												\
+			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)								\
+			JSONToIntrin<T, F32>(t, sstr);														\
+		else if constexpr (std::is_same_v<T, __m128i> ||										\
+			std::is_same_v<T, __m256i>)															\
+			JSONToIntrin<T, I32>(t, sstr);														\
+	}																							\
+	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {						\
+		FromJSONToVector<T>(t, sstr);															\
+	}																							\
+	else if constexpr (std::is_same_v<T, std::string>) {										\
+		FromJSONToString(t, sstr);																\
+	}																							\
+	else if constexpr(!drak::types::IsBaseType_V<T>) {											\
+		ComplexType<T>::SetFromJSON(t, sstr);													\
 	}																							\
 }
 
@@ -273,14 +372,14 @@ static std::string IntrinToJSON(const T& t, int indent) {					\
 	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {					\
 		for (int i2 = 0; i2 < indent; ++i2)									\
 			str += '\t';													\
-		str += BaseType<U>::ToJSON(*((U*)(&t) + i), indent + 1);			\
+		str += BaseType<U>::ToJSON(*((U*)(&t) + i), indent);				\
 		str += ",\n";														\
 	}																		\
 	str.erase(str.end() - 2);												\
 	indent -= 1;															\
 	for (int i = 0; i < indent; ++i)										\
 		str += '\t';														\
-	str += "]\n";															\
+	str += "]";																\
 	return str;																\
 }																			\
 template<typename T>														\
@@ -331,12 +430,9 @@ static std::stringstream& SerializeToBinary(const type& t, std::stringstream& ss
 	delete[] data;																				\
 	return ss;																					\
 }																								\
-static std::stringstream& SerializeToJson(const type& t, std::stringstream& ss) {				\
+static std::stringstream& SerializeToJSON(const type& t, std::stringstream& ss) {				\
 	ss << ToJSON(t, 1);																			\
 	return ss;																					\
-}																								\
-static type& DeserializeJSON(type& t, std::stringstream& ss) {									\
-																								\
 }																								\
 template<EExtension ext>																		\
 static std::stringstream& Serialize(const type& t, std::stringstream& ss) {						\
@@ -345,7 +441,7 @@ static std::stringstream& Serialize(const type& t, std::stringstream& ss) {					
 			return SerializeToBinary(t, ss);													\
 			break;																				\
 		case EExtension::JSON :																	\
-			return SerializeToJson(t, ss);														\
+			return SerializeToJSON(t, ss);														\
 			break;																				\
 		case EExtension::INI :																	\
 			/*return SerializeToIni(t, ss);	*/													\
@@ -373,10 +469,24 @@ switch (ext) {																					\
 	}																							\
 }																								\
 
+#define DK_JSON_TO_FIELD_FUNC(...)													\
+static type& DeserializeJSON(type& t, std::stringstream& sstr) {					\
+	std::string name;																\
+	sstr >> name;																	\
+	while (name != "}" && name != "},") {											\
+		name.erase(std::remove(name.begin(), name.end(), '"'), name.end());			\
+		name.erase(std::remove(name.begin(), name.end(), ':'), name.end());			\
+		DK_EXPAND(DK_CONCAT(DK_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
+		sstr >> name;																\
+	}																				\
+	return t;																		\
+}
+
 #define DK_METADATA_FIELD_SERIALIZATION(...)	\
 DK_METADATA_SET_FIELD_BINARY(__VA_ARGS__)		\
 DK_METADATA_GET_FIELD_BINARY(__VA_ARGS__)		\
 DK_METADATA_FIELD_TO_JSON(__VA_ARGS__)			\
+DK_METADATA_JSON_TO_FIELD(__VA_ARGS__)			\
 DK_METADATA_SERIALIZE_FIELDS(__VA_ARGS__)
 
 #define DK_METADATA_FIELD_TO_JSON(...)													\
@@ -388,6 +498,16 @@ for(int i = 0; i < indent - 1; ++i)														\
 		str += '\t';																	\
 str += '}';																				\
 return str;																				\
+}
+
+#define DK_METADATA_JSON_TO_FIELD(...)													\
+static type& SetFromJSON(type& t, std::stringstream& sstr) {							\
+std::string name;																		\
+while (name != "}" && name != "},") {													\
+sstr >> name;																			\
+DK_EXPAND(DK_CONCAT(DK_METADATA_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
+}																						\
+return t;																				\
 }
 
 #define DK_METADATA_SET_FIELD_BINARY(...)				\
@@ -735,7 +855,14 @@ DK_EXPAND(DK_FIELD_BINARY_IMPL31(__VA_ARGS__))
 #define DK_FIELD_TO_JSON_FUNC(...)													\
 static std::string ToJSON(const type& t, int indent) {								\
 std::string str;																	\
+for(int i = 0; i < indent; ++i)														\
+		str += '\t';																\
+(str  += FieldName) += ": {\n";														\
+indent += 1;																		\
 DK_EXPAND(DK_CONCAT(DK_FIELD_TO_JSON, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))			\
+for(int i = 0; i < indent - 1; ++i)													\
+		str += '\t';																\
+str += "}\n";																		\
 return str;																			\
 }
 
@@ -878,18 +1005,16 @@ DK_FIELD_TO_JSON_IMPL(t)	\
 DK_EXPAND(DK_FIELD_TO_JSON31(__VA_ARGS__))
 
 #define DK_JSON_TO_FIELD_IMPL(ty)					\
-for(int i = 0; i < indent; ++i)						\
-		str += '\t';								\
-str += "\""#ty"\": ";								\
-str += GetJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + ",\n";	\
+if(name == std::string(#ty))						\
+	SetFromJSON(t.ty, sstr);						\
+else
 
-#define DK_JSON_TO_FIELD0
+#define DK_JSON_TO_FIELD0	\
+Logbook::Log(Logbook::EOutput::CONSOLE, nullptr, (name + "is not a variable of this Class !!\n").c_str());
 
-#define DK_JSON_TO_FIELD1(ty)				\
-for(int i = 0; i < indent; ++i)				\
-		str += '\t';						\
-str += "\""#ty"\": ";						\
-str += GetJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + '\n';
+#define DK_JSON_TO_FIELD1(t)				\
+DK_JSON_TO_FIELD_IMPL(t)					\
+DK_JSON_TO_FIELD0
 
 #define DK_JSON_TO_FIELD2(t, ...)\
 DK_JSON_TO_FIELD_IMPL(t)	\
@@ -1414,6 +1539,141 @@ DK_EXPAND(DK_METADATA_FIELD_TO_JSON30(__VA_ARGS__))
 #define DK_METADATA_FIELD_TO_JSON32(fields, ...)\
 DK_METADATA_FIELD_TO_JSON_IMPL(fields)	\
 DK_EXPAND(DK_METADATA_FIELD_TO_JSON31(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD_IMPL(fields)		\
+if(name == std::string(fields::FieldName) + ':') {	\
+sstr >> name;										\
+fields::DeserializeJSON(t, sstr);					\
+}
+
+#define DK_METADATA_JSON_TO_FIELD0
+
+#define DK_METADATA_JSON_TO_FIELD1(fields)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)
+
+#define DK_METADATA_JSON_TO_FIELD2(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD1(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD3(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD2(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD4(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD3(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD5(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD4(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD6(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD5(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD7(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD6(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD8(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD7(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD9(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD8(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD10(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD9(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD11(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD10(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD12(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD11(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD13(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD12(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD14(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD13(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD15(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD14(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD16(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD15(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD17(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD16(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD18(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD17(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD19(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD18(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD20(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD19(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD21(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD20(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD22(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD21(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD23(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD22(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD24(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD23(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD25(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD24(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD26(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD25(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD27(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD26(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD28(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD27(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD29(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD28(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD30(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD29(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD31(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD30(__VA_ARGS__))
+
+#define DK_METADATA_JSON_TO_FIELD32(fields, ...)\
+DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_JSON_TO_FIELD31(__VA_ARGS__))
 
 #define DK_METADATA_SERIALIZE_FIELD_IMPL(fields)	\
 fields::Serialize<OutType>(t, ss);

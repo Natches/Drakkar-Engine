@@ -72,8 +72,7 @@ static void StringToValue(const char* c_str, T& t) {
 		else
 			t = false;
 	}
-	else if constexpr (std::is_same_v<T, std::string> ||
-		std::is_same_v<std::remove_cv_t<T>, char*>) {
+	else if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, char>) {
 		t = T(c_str);
 	}
 	else if constexpr (std::is_same_v<T, U16>)
@@ -92,6 +91,32 @@ static void StringToValue(const char* c_str, T& t) {
 		t = T(std::stof(c_str));
 	else if constexpr (std::is_same_v<T, F64>)
 		t = T(std::stod(c_str));
+	else if constexpr (std::is_pointer_v<T>) {
+		if (!strcmp(c_str, "null") || !strcmp(c_str, "nill"))
+			t = nullptr;
+		else {
+			if constexpr (std::is_same_v<T, std::string*> ||
+				std::is_same_v<std::remove_cv_t<T>, char*>) {
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(c_str);
+			}
+			else if constexpr (std::is_same_v<T, U16*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoul(c_str));
+			else if constexpr (std::is_same_v<T, I16*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoi(c_str));
+			else if constexpr (std::is_same_v<T, U32*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoul(c_str));
+			else if constexpr (std::is_same_v<T, I32*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoi(c_str));
+			else if constexpr (std::is_same_v<T, U64*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoull(c_str));
+			else if constexpr (std::is_same_v<T, I64*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stoll(c_str));
+			else if constexpr (std::is_same_v<T, F32*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stof(c_str));
+			else if constexpr (std::is_same_v<T, F64*>)
+				t = new REMOVE_ALL_TYPE_MODIFIER(T)(std::stod(c_str));
+		}
+	}
 }
 
 } // namespace serialization
@@ -139,6 +164,7 @@ DK_DATA_STRUCT()																		\
 DK_SET_DATA()																			\
 DK_GET_DATA()																			\
 public:																					\
+static constexpr char* FieldName{ #fieldName };											\
 DK_EXPAND(DK_NAME_ARRAY(__VA_ARGS__))													\
 DK_EXPAND(DK_MEMBER_TUPLE(__VA_ARGS__))													\
 DK_EXPAND(DK_STATIC_SIZE(__VA_ARGS__))													\
@@ -150,6 +176,7 @@ DK_EXPAND(DK_GET_TYPENAME_BY_NAME(__VA_ARGS__))											\
 DK_EXPAND(DK_SET_EVERY_DATA_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_FIELD_BINARY_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_FIELD_TO_JSON_FUNC(__VA_ARGS__))											\
+DK_EXPAND(DK_JSON_TO_FIELD_FUNC(__VA_ARGS__))											\
 DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\
