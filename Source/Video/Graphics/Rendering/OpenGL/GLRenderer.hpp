@@ -27,8 +27,8 @@ public:
 	bool loadRenderables(const std::string& dir, IRenderable*& rdr) override;
 
 	void clear() override;
-	void clearColorValue(const Color3& color) override;
-	void clearColorValue(const Color4& color) override;
+	void clearColorValue(const Color3& k) override;
+	void clearColorValue(const Color4& k) override;
 	void clearDepthValue(F32 depth) override;
 
 	void depthTest(bool on, EDepthMode mode) override;

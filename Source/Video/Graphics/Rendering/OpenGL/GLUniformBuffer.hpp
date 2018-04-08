@@ -23,6 +23,7 @@ public:
 
 private:
 	U64	bytes;
+
 };
 
 } // namespace gl

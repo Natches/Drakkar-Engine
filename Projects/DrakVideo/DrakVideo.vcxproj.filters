@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp">
       <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

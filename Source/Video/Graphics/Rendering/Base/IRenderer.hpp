@@ -3,7 +3,7 @@
 #include <Video/Graphics/Common/Color.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>
-#include <Video/Graphics/Rendering/Base/RenderFunctions.hpp>
+#include <Video/Graphics/Rendering/Base/RenderDefinitions.hpp>
 
 namespace drak {
 namespace gfx {
@@ -30,8 +30,8 @@ public:
 	virtual void bindWindowFrameBuffer() = 0;
 
 	virtual void clear() = 0;
-	virtual void clearColorValue(const Color3& color) = 0;
-	virtual void clearColorValue(const Color4& color) = 0;
+	virtual void clearColorValue(const Color3& k) = 0;
+	virtual void clearColorValue(const Color4& k) = 0;
 	virtual void clearDepthValue(F32 depth) = 0;
 
 	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LEQUAL) = 0;

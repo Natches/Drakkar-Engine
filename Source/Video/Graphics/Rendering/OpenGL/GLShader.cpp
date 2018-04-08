@@ -3,9 +3,8 @@
 #include <cassert>
 
 #include <GL/glew.h>
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 
-#define INVALID_SHADER (GLuint)-1
+#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 
 using namespace drak::math;
 
@@ -13,17 +12,17 @@ namespace drak {
 namespace gfx {
 namespace gl {
 
-GLShader::GLShader() {
-	m_glID = INVALID_SHADER;
+GLShader::~GLShader() {
+	destroyProgram();
 }
 
-GLShader::~GLShader() {
-	if (m_glID)
+void GLShader::destroyProgram() {
+	if (m_glID != GL_INVALID)
 		glDeleteProgram(m_glID);
 }
 
 void GLShader::use() const {
-	assert(m_glID != INVALID_SHADER);
+	assert(m_glID != GL_INVALID);
 	glUseProgram(m_glID);
 }
 
@@ -31,91 +30,107 @@ bool GLShader::loadFromData(const std::string& vertCode, const std::string& frag
 	return compileProgram(vertCode.c_str(), fragCode.c_str());
 }
 
-bool GLShader::loadFromFile(const std::string& vertFilename, const std::string& fragFilename) {
-	std::vector<char> vertCode;
-	if (!readFileText(vertFilename, vertCode))
+bool GLShader::loadFromFile(const std::string& vertPath, const std::string& fragPath) {
+	std::vector<GLchar> vertCode;
+	if (!readFileText(vertPath, vertCode)) 
 		return false;
 
-	std::vector<char> fragCode;
-	if (!readFileText(fragFilename, fragCode))
+	std::vector<GLchar> fragCode;
+	if (!readFileText(fragPath, fragCode)) 
 		return false;
 
 	return compileProgram(vertCode.data(), fragCode.data());
 }
 
-bool GLShader::compileProgram(const char* vertCode, const char* fragCode)
-{
+bool GLShader::compileProgram(const GLchar* vertCode, const GLchar* fragCode) {
 	if (vertCode == nullptr || fragCode == nullptr)
 		return false;
 
-	m_glID = glCreateProgram();
+	// don't overwrite m_glID unless 'new' program links well (see func. end)
+	GLuint progID = glCreateProgram(); 
 
-	GLuint vsID = glCreateShader(GL_VERTEX_SHADER);
-	if (!compileShader(vsID, vertCode))
+	GLuint vertID = glCreateShader(GL_VERTEX_SHADER);
+	if (!compileShader(vertID, vertCode)) 
 		return false;
 
-	GLuint fsID = glCreateShader(GL_FRAGMENT_SHADER);
-	if (!compileShader(fsID, fragCode))
+	GLuint fragID = glCreateShader(GL_FRAGMENT_SHADER);
+	if (!compileShader(fragID, fragCode)) 
 		return false;
 
-	glAttachShader(m_glID, vsID);
-	glAttachShader(m_glID, fsID);
-	glLinkProgram(m_glID);
-	glDeleteShader(vsID);
-	glDeleteShader(fsID);
+	glAttachShader	(progID, vertID);
+	glAttachShader	(progID, fragID);
+	glLinkProgram	(progID);
+	glDeleteShader	(vertID);
+	glDeleteShader	(progID);
 
-	I32 linked;
-	glGetProgramiv(m_glID, GL_LINK_STATUS, &linked);
+	if (checkLink(progID)) {
+		// successful load/reload -> replace 'old' program
+		destroyProgram();
+		m_glID = progID;
+		return true;
+	}
+
+	// failed load/reload -> keep 'old' program
+	glDeleteProgram(progID);
+	return false;
+}
+
+bool GLShader::compileShader(GLuint shaderID, const GLchar* code) {
+	glShaderSource(shaderID, 1, &code, nullptr);
+	glCompileShader(shaderID);
+
+	if (checkCompile(shaderID))
+		return true;
+	
+	glDeleteShader(shaderID);
+	return true;
+}
+
+bool GLShader::checkLink(GLuint progID) {
+	GLint linked;
+	glGetProgramiv(progID, GL_LINK_STATUS, &linked);
+
 	if (linked == GL_FALSE) {
-		I32 maxLength = 0;
+		GLint maxLength = 0;
 		glGetProgramiv(m_glID, GL_INFO_LOG_LENGTH, &maxLength);
-		std::vector<char> errorLog(maxLength);
+		std::vector<GLchar> errorLog(maxLength);
 		glGetProgramInfoLog(m_glID, maxLength, nullptr, errorLog.data());
-		glDeleteProgram(m_glID);
-
-		std::cout << errorLog.data() << std::endl;
-		system("pause");
+		std::cout << errorLog.data() << '\n';
 		return false;
 	}
 	return true;
 }
 
-bool GLShader::compileShader(GLuint shaderID, const char* GLShaderCode) {
-	I32 compiled = 0;
-
-	glShaderSource(shaderID, 1, &GLShaderCode, nullptr);
-	glCompileShader(shaderID);
+bool GLShader::checkCompile(GLuint shaderID) {
+	GLint compiled = 0;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiled);
 
 	if (compiled == GL_FALSE) {
-		I32 maxLength = 0;
+		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
-		std::vector<char> errorLog(maxLength);
+		std::vector<GLchar> errorLog(maxLength);
 		glGetShaderInfoLog(shaderID, maxLength, nullptr, errorLog.data());
-		glDeleteShader(shaderID);
-
-		std::cout << errorLog.data() << std::endl;
-		system("pause");
+		std::cout << errorLog.data() << '\n';
 		return false;
 	}
 	return true;
 }
 
-bool GLShader::readFileText(const std::string& filename, std::vector<char>& text) {
+bool GLShader::readFileText(const std::string& filename, std::vector<GLchar>& outText) {
 	std::ifstream file(filename.c_str());
 	if (file) {
 		file.seekg(0, std::ios_base::end);
 		std::streamsize size = file.tellg();
 		if (size > 0) {
 			file.seekg(0, std::ios_base::beg);
-			text.resize(static_cast<std::size_t>(size));
-			file.read(&text[0], size);
+			outText.resize(static_cast<std::size_t>(size));
+			file.read(&outText[0], size);
 		}
-		text.push_back('\0');
+		outText.push_back('\0');
 		return true;
 	}
 	else {
-		std::cout << ("ERROR: Couldn't read " + filename).c_str() << std::endl;
+		std::cout << ("ERROR: Couldn't read " + filename).c_str() << '\n';
 		return false;
 	}
 }

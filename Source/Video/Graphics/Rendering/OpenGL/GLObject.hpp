@@ -14,7 +14,7 @@ namespace gl {
 */
 class GLObject {
 public:
-	GLObject() = default;
+	GLObject() : m_glID(GL_INVALID) {}
 	virtual ~GLObject() = default;
 
 	DK_GETTER_C(GLuint, glID, m_glID)

@@ -10,12 +10,17 @@ namespace gfx {
 namespace gl {
 
 GLVertexArray::~GLVertexArray() {
-	glDeleteVertexArrays(1, &m_glID);
+	if (m_glID != GL_INVALID)
+		glDeleteVertexArrays(1, &m_glID);
 }
 
 void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
+	if (pVBO == nullptr)
+		return;
+
 	m_pVBO = pVBO;
 	m_pIBO = pIBO;
+	m_prim = GL_TRIANGLES;
 
 	glCreateVertexArrays(1, &m_glID);
 	glVertexArrayVertexBuffer(m_glID, m_pVBO->bindIndex(), m_pVBO->glID(), 0, sizeof(Vertex));
@@ -30,15 +35,19 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 		glVertexArrayAttribBinding(m_glID, i, m_pVBO->bindIndex());
 		glEnableVertexArrayAttrib(m_glID, i);
 	}
-	glVertexArrayElementBuffer(m_glID, m_pIBO->glID());
+
+	if (m_pIBO)
+		glVertexArrayElementBuffer(m_glID, m_pIBO->glID());
 }
 
 void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
-	if (m_instanced)
-		m_pIBO->drawElements();
+	if (m_pIBO) {
+		if (m_instanced) m_pIBO->drawElementsInstanced(m_prim);
+		else			 m_pIBO->drawElements(m_prim);
+	}
 	else
-		m_pIBO->drawElementsInstanced();
+		glDrawArrays(m_prim, 0, m_vertexCount);
 }
 
 } // namespace gl

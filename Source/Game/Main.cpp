@@ -13,7 +13,7 @@ using namespace core;
 using namespace components;
 using namespace events;
 using namespace function;
-DK_IMPORT(drak::math)
+using namespace math;
 
 class Player : public AGameObject {
 	virtual void Update() override {
@@ -80,7 +80,7 @@ class MainScene : public IManualSceneBlueprint {
 	{
 		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
 		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(2.5, 2.5, 2.5), *mat);
-		int numOfCubes = 1000;
+		int numOfCubes = 1024;
 		for (int i = 0; i < numOfCubes; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.getComponentByHandle<Transform>(p1->transformIDX)->position = math::Vec3f(0, i*10, 0);

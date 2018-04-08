@@ -22,10 +22,14 @@ public:
 	void create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO);
 	void render() override;
 
+	bool			m_instanced = false;;
 private:
 	GLVertexBuffer* m_pVBO;
 	GLIndexBuffer*	m_pIBO;
-	bool			m_instanced;
+	
+	U32				m_vertexCount;
+	GLenum			m_prim;
+
 };
 
 } // namespace gl

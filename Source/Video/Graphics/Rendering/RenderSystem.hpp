@@ -8,7 +8,9 @@
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
+
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
 namespace gfx {
@@ -50,7 +52,10 @@ private:
 
 	IRenderable*	m_pUnitCube;
 	IRenderable*	m_pGrid;
+
+	// Tests
 	gl::GLTexture	m_gridTex;
+	gl::GLUniformBuffer	m_modelUBO;
 	
 	IRenderer*		m_pRenderer;
 	IFrameBuffer*	m_pFrame;

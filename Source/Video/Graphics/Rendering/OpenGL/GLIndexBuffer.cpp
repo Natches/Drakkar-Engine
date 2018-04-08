@@ -7,11 +7,13 @@ namespace gfx {
 namespace gl {
 
 GLIndexBuffer::~GLIndexBuffer() {
-	glDeleteBuffers(1, &m_glID);
+	if (m_glID != GL_INVALID)
+		glDeleteBuffers(1, &m_glID);
 }
 
 void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 	m_indexCount = indexCount;
+
 	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
 		m_glID,
@@ -20,14 +22,14 @@ void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 		GL_MAP_WRITE_BIT);
 }
 
-void GLIndexBuffer::drawElements() {
+void GLIndexBuffer::drawElements(GLenum prim) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_glID);
-	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(prim, m_indexCount, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void GLIndexBuffer::drawElementsInstanced() {
+void GLIndexBuffer::drawElementsInstanced(GLenum prim) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_glID);
-	glDrawElementsInstanced(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, 0, 1);
+	glDrawElementsInstanced(prim, m_indexCount, GL_UNSIGNED_SHORT, nullptr, 1024);
 }
 
 } // namespace gl

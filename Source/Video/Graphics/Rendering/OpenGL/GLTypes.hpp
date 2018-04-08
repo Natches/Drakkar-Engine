@@ -2,9 +2,7 @@
 
 #include <Core/Core.hpp>
 
-namespace drak {
-namespace gfx {
-namespace gl {
+#define GL_INVALID (GLuint)-1
 
 using GLbyte        = I8;
 using GLshort       = I16;
@@ -27,7 +25,3 @@ using GLclampd		= F64;
 
 using GLchar		= char;
 using GLvoid		= void;
-
-} // namespace gl
-} // namespace gfx
-} // namespace drak

@@ -7,10 +7,10 @@ uniform vec3 		albedo 		= {1.f, 1.f, 1.f};
 uniform float 		nearZ 		= 0.1f; 
 uniform float 		farZ  		= 100.f; 
 
-uniform vec3		lightPos	= {1.f, -1.f, 1.f};
+uniform vec3		lightPos	= {-1.f, 1.f, -1.f};
 uniform vec3		lightColor	= {1.f, 1.f, 1.f};
 
-uniform vec3		ambient		= {0.15f, 0.15f, 0.15f};
+uniform vec3		ambient		= {0.18f, 0.18f, 0.18f};
 
 in VS_OUT {
 	vec3 pos;

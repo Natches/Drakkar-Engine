@@ -6,6 +6,11 @@ namespace drak {
 namespace gfx {
 namespace gl {
 
+GLFrameBuffer::~GLFrameBuffer() {
+	if (m_glID != GL_INVALID)
+		glDeleteFramebuffers(1, &m_glID);
+}
+
 void GLFrameBuffer::bind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_glID);
 }
