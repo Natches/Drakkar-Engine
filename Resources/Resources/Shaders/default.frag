@@ -9,7 +9,6 @@ uniform float 		farZ  		= 100.f;
 
 uniform vec3		lightPos	= {-1.f, 1.f, -1.f};
 uniform vec3		lightColor	= {1.f, 1.f, 1.f};
-
 uniform vec3		ambient		= {0.18f, 0.18f, 0.18f};
 
 in VS_OUT {

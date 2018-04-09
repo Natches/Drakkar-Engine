@@ -3,6 +3,7 @@
 #include <Windowing/Window/AWindow.hpp>
 
 using namespace drak::components;
+using namespace drak::time;
 
 namespace drak {
 namespace core {
@@ -71,13 +72,17 @@ void Engine::startLoop() {
 				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
 				*sceneSystem.scene->getComponentContainerByType<Transform>());
 
+		F32 t0 = s_frameTime.duration();
 		pMainWindow->clear();
 		renderSystem.startFrame();
 		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
 			*sceneSystem.scene->getComponentContainerByType<Transform>());
-		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
+		F32 t1 = s_frameTime.duration() - t0;
+
+		std::cout << "RenderSystem time: " << t1 * (F32)ATimer::TimeDuration::MILLISECONDS << " ms\n";
+		//Logbook::Log(Logbook::EOutput::CONSOLE, "Rendering: ", "%.6f ms\n", renderTime);
 	}
 	s_frameTime.stop();
 }
