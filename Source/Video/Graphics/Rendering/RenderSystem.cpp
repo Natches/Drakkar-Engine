@@ -54,9 +54,10 @@ void RenderSystem::forwardRender(
 	m_shaderMap["DefaultShader"]->uniform("albedo", {1.f, 0.f, 0.f});
 
 	
-	U32 flag = 1 << ComponentType<Model>::id;
+	U32 flag = 1u << ComponentType<Model>::id;
+	std::vector<math::Mat4f> modelBatch;
 	for (size_t B = 0u, n = xforms.size(); B < n; B += BATCH_SIZE) {
-		std::vector<math::Mat4f> modelBatch;
+		modelBatch.reserve(BATCH_SIZE);
 		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
 			if ((xforms[b].m_componentFlags & flag) == flag) {
 				math::Mat4f model =
@@ -70,6 +71,7 @@ void RenderSystem::forwardRender(
 		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());
 		m_modelUBO.bind();
 		m_pUnitCube->render();
+		modelBatch.clear();
 	}
 	
 	
