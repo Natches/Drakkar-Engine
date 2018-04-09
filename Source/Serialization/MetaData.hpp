@@ -177,6 +177,8 @@ DK_EXPAND(DK_SET_EVERY_DATA_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_FIELD_BINARY_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_FIELD_TO_JSON_FUNC(__VA_ARGS__))											\
 DK_EXPAND(DK_JSON_TO_FIELD_FUNC(__VA_ARGS__))											\
+DK_EXPAND(DK_FIELD_TO_INI_FUNC(__VA_ARGS__))											\
+DK_EXPAND(DK_INI_TO_FIELD_FUNC(__VA_ARGS__))											\
 DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\

@@ -34,6 +34,14 @@ struct BaseType {																				\
 		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
 		StringToValue<T>(str.c_str(), t);														\
 	}																							\
+	static std::string ToINI(const T& t) {														\
+		return ValueToString<T>(t);																\
+	}																							\
+	static void SetFromINI(T& t, std::stringstream& sstr) {										\
+		std::string str;																		\
+		sstr >> str;																			\
+		StringToValue<T>(str.c_str(), t);														\
+	}																							\
 };																								\
 template<typename Type, size_t N>																\
 struct BaseType<Type[N]> {																		\
@@ -66,6 +74,26 @@ struct BaseType<Type[N]> {																		\
 		for(size_t i = 0; i < N; ++i) {															\
 			sstr >> str;																		\
 			str.erase(std::remove(str.begin(), str.end(), '"'), str.end());						\
+			StringToValue<Type>(str.c_str(), t[i]);												\
+		}																						\
+		sstr >> str;																			\
+	}																							\
+	static std::string ToINI(const T& t) {														\
+		std::string str("{ ");																	\
+		for(size_t i = 0; i < N; ++i){															\
+			str += BaseType<Type>::ToINI(t[i]);													\
+			str += ", ";																		\
+		}																						\
+		str.erase(str.end() - 2);																\
+		str += " }";																			\
+		return str;																				\
+	}																							\
+	static void SetFromINI(T& t, std::stringstream& sstr) {										\
+		std::string str;																		\
+		sstr >> str;																			\
+		for(size_t i = 0; i < N; ++i) {															\
+			sstr >> str;																		\
+			str.erase(std::remove(str.begin(), str.end(), ','), str.end());						\
 			StringToValue<Type>(str.c_str(), t[i]);												\
 		}																						\
 		sstr >> str;																			\
@@ -109,6 +137,17 @@ struct BaseType<Type*> {																		\
 		sstr >> str;																			\
 		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
 		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
+		StringToValue<T>(str.c_str(), t);														\
+	}																							\
+	static std::string ToINI(const T& t) {														\
+		if(t)																					\
+			return ValueToString<Type>(*t);														\
+		else																					\
+			return std::string("null");															\
+	}																							\
+	static void SetFromINI(T& t, std::stringstream& sstr) {										\
+		std::string str;																		\
+		sstr >> str;																			\
 		StringToValue<T>(str.c_str(), t);														\
 	}																							\
 };																								\
@@ -275,6 +314,12 @@ static void JSONToIntrin(T& t, std::stringstream& sstr) {										\
 	BaseType<U[sizeof(T) / 4]>::SetFromJSON(arr, sstr);											\
 	memcpy(&t, arr, sizeof(T));																	\
 }																								\
+template<typename T, typename U>																\
+static void INIToIntrin(T& t, std::stringstream& sstr) {										\
+	U arr[sizeof(T) / 4] = {};																	\
+	BaseType<U[sizeof(T) / 4]>::SetFromINI(arr, sstr);											\
+	memcpy(&t, arr, sizeof(T));																	\
+}																								\
 template<typename T>																			\
 static size_t SetData(T& t, const char* c_str, size_t offset) 	{								\
 	if constexpr (drak::types::IsBaseType_V<T>) {												\
@@ -311,6 +356,23 @@ static void SetFromJSON(T& t, std::stringstream& sstr) {										\
 	}																							\
 	else if constexpr(!drak::types::IsBaseType_V<T>) {											\
 		ComplexType<T>::SetFromJSON(t, sstr);													\
+	}																							\
+}																								\
+template<typename T>																			\
+static void SetFromINI(T& t, std::stringstream& sstr) {										\
+	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_T<T>) {			\
+		BaseType<T>::SetFromINI(t, sstr);														\
+	}																							\
+	else if constexpr (drak::types::IsIntrinType_T<T>) {										\
+		if constexpr (std::is_same_v<T, __m64> ||												\
+			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)								\
+			INIToIntrin<T, F32>(t, sstr);														\
+		else if constexpr (std::is_same_v<T, __m128i> ||										\
+			std::is_same_v<T, __m256i>)															\
+			INIToIntrin<T, I32>(t, sstr);														\
+	}																							\
+	else if constexpr (std::is_same_v<T, std::string>) {										\
+		sstr >> t;																				\
 	}																							\
 }
 
@@ -382,6 +444,17 @@ static std::string IntrinToJSON(const T& t, int indent) {					\
 	str += "]";																\
 	return str;																\
 }																			\
+template<typename T, typename U>											\
+static std::string IntrinToINI(const T& t) {								\
+	std::string str("{ ");													\
+	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {					\
+		str += BaseType<U>::ToINI(*((U*)(&t) + i));							\
+		str += ", ";														\
+	}																		\
+	str.erase(str.end() - 2);												\
+	str += " }\n";															\
+	return str;																\
+}																			\
 template<typename T>														\
 static std::tuple<void*, size_t> GetData(const T& t) {						\
 	if constexpr (drak::types::IsBaseType_V<T>) {							\
@@ -420,6 +493,26 @@ static std::string GetJSON(const T& t, int indent) {						\
 	else if constexpr(!drak::types::IsBaseType_V<T>) {						\
 		return ComplexType<T>::ToJSON(t, indent);							\
 	}																		\
+}																			\
+template<typename T>														\
+static std::string GetINI(const T& t) {										\
+	if constexpr (drak::types::IsBaseType_V<T> &&							\
+		!drak::types::IsIntrinType_T<T>) {									\
+		return BaseType<T>::ToINI(t);										\
+	}																		\
+	else if constexpr (drak::types::IsIntrinType_T<T>) {					\
+		if constexpr (std::is_same_v<T, __m64> ||							\
+			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)			\
+			return IntrinToINI<T, F32>(t);									\
+		else if constexpr (std::is_same_v<T, __m128i> ||					\
+			std::is_same_v<T, __m256i>)										\
+			return IntrinToINI<T, I32>(t);									\
+	}																		\
+	else if constexpr(std::is_same_v<T, std::string>) {						\
+		return t;															\
+	}																		\
+	else																	\
+		return "";															\
 }
 
 #define DK_FIELD_SERIALIZATION																	\
@@ -434,6 +527,10 @@ static std::stringstream& SerializeToJSON(const type& t, std::stringstream& ss) 
 	ss << ToJSON(t, 1);																			\
 	return ss;																					\
 }																								\
+static std::stringstream& SerializeToINI(const type& t, std::stringstream& ss) {				\
+	ss << ToINI(t);																				\
+	return ss;																					\
+}																								\
 template<EExtension ext>																		\
 static std::stringstream& Serialize(const type& t, std::stringstream& ss) {						\
 	switch (ext) {																				\
@@ -444,7 +541,7 @@ static std::stringstream& Serialize(const type& t, std::stringstream& ss) {					
 			return SerializeToJSON(t, ss);														\
 			break;																				\
 		case EExtension::INI :																	\
-			/*return SerializeToIni(t, ss);	*/													\
+			return SerializeToINI(t, ss);														\
 			break;																				\
 		default:																				\
 			return ss;																			\
@@ -461,7 +558,7 @@ switch (ext) {																					\
 			return DeserializeJSON(t, ss);														\
 			break;																				\
 		case EExtension::INI :																	\
-			/*return SerializeToIni(t, ss);	*/													\
+			return DeserializeINI(t, ss);														\
 			break;																				\
 		default:																				\
 			return ss;																			\
@@ -482,11 +579,31 @@ static type& DeserializeJSON(type& t, std::stringstream& sstr) {					\
 	return t;																		\
 }
 
+#define DK_INI_TO_FIELD_FUNC(...)													\
+static type& DeserializeINI(type& t, std::stringstream& sstr) {						\
+	std::string str;																\
+	sstr >> str;																	\
+	while (str[0] != ';' && !sstr.eof()) {											\
+		std::string name;															\
+		int postEqual = 0;															\
+		for(; str[postEqual] != '=' ; ++postEqual)									\
+			name += str[postEqual];													\
+		++postEqual;																\
+		DK_EXPAND(DK_CONCAT(DK_INI_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
+		sstr >> str;																\
+	}																				\
+	if(!sstr.eof())																	\
+		sstr.seekg(-(int)str.size(), std::ios::cur);								\
+	return t;																		\
+}
+
 #define DK_METADATA_FIELD_SERIALIZATION(...)	\
 DK_METADATA_SET_FIELD_BINARY(__VA_ARGS__)		\
 DK_METADATA_GET_FIELD_BINARY(__VA_ARGS__)		\
 DK_METADATA_FIELD_TO_JSON(__VA_ARGS__)			\
 DK_METADATA_JSON_TO_FIELD(__VA_ARGS__)			\
+DK_METADATA_FIELD_TO_INI(__VA_ARGS__)			\
+DK_METADATA_INI_TO_FIELD(__VA_ARGS__)			\
 DK_METADATA_SERIALIZE_FIELDS(__VA_ARGS__)
 
 #define DK_METADATA_FIELD_TO_JSON(...)													\
@@ -510,6 +627,26 @@ DK_EXPAND(DK_CONCAT(DK_METADATA_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS
 return t;																				\
 }
 
+#define DK_METADATA_FIELD_TO_INI(...)													\
+static std::string ToINI(const type& t) {												\
+std::string str;																		\
+((str += '[') += TypeName()) += "]\n";													\
+DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_TO_INI, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))		\
+return str;																				\
+}
+
+#define DK_METADATA_INI_TO_FIELD(...)													\
+static type& SetFromINI(type& t, std::stringstream& sstr) {								\
+std::string name;																		\
+sstr >> name;																			\
+sstr >> name;																			\
+while (name[0] != '[' && !sstr.eof()) {													\
+DK_EXPAND(DK_CONCAT(DK_METADATA_INI_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))		\
+sstr >> name;																			\
+}																						\
+return t;																				\
+}
+
 #define DK_METADATA_SET_FIELD_BINARY(...)				\
 static void SetBinary(type& t, const char* data) {		\
 	DK_EXPAND(DK_CONCAT(DK_METADATA_SET_FIELD_BINARY, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
@@ -526,15 +663,16 @@ static std::tuple<char*, size_t> GetBinary(const type& t) {									\
 #define DK_METADATA_SERIALIZE_FIELDS(...)															\
 template<EExtension OutType>																		\
 static std::stringstream& Serialize(std::stringstream& ss, const type& t, int indent = 0) {			\
-if constexpr(OutType != EExtension::JSON) {														\
+if constexpr(OutType == EExtension::BINARY) {														\
 	DK_EXPAND(DK_CONCAT(DK_METADATA_SERIALIZE_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))			\
 }																									\
-else																								\
+else if constexpr (OutType == EExtension::JSON)														\
 	ss << ToJSON(t, 1);																				\
+else if constexpr (OutType == EExtension::INI)														\
+	ss << ToINI(t);																					\
 return ss;																							\
 }																									\
-DK_DESERIALIZE_FUNC1																				\
-DK_DESERIALIZE_FUNC2
+DK_DESERIALIZE_FUNC
 
 #define DK_SERIALIZED_OBJECT(type)												\
 friend drak::serialization::MetaData<type>;										\
@@ -550,14 +688,12 @@ std::stringstream Serialize() {													\
 return MetaData::Serialize<OutType>(std::stringstream(), *this, 0);				\
 }
 
-#define DK_DESERIALIZE_FUNC1							\
+#define DK_DESERIALIZE_FUNC								\
 static type& Deserialize(type& t, const char* c_str) {	\
 SetBinary(t, c_str);									\
-DK_DESERIALIZE_FUNC_END
-
-#define DK_DESERIALIZE_FUNC2					\
-static type Deserialize(const char* c_str) {	\
-type t = Create(c_str);							\
+DK_DESERIALIZE_FUNC_END									\
+static type Deserialize(const char* c_str) {			\
+type t = Create(c_str);									\
 DK_DESERIALIZE_FUNC_END
 
 
@@ -1140,6 +1276,292 @@ DK_EXPAND(DK_JSON_TO_FIELD30(__VA_ARGS__))
 DK_JSON_TO_FIELD_IMPL(t)	\
 DK_EXPAND(DK_JSON_TO_FIELD31(__VA_ARGS__))
 
+#define DK_FIELD_TO_INI_FUNC(...)													\
+static std::string ToINI(const type& t) {											\
+std::string str;																	\
+((str  += ";") += FieldName) += '\n';												\
+bool atLeastOne = false;															\
+DK_EXPAND(DK_CONCAT(DK_FIELD_TO_INI, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))			\
+return str;																			\
+}
+
+#define DK_FIELD_TO_INI_IMPL(ty)										\
+if constexpr (drak::types::IsBaseType_V<TYPEOF(t.ty)> ||				\
+std::is_same_v<TYPEOF(t.ty), std::string>){								\
+	atLeastOne = true;													\
+	str += #ty"=";														\
+	str += GetINI<TYPEOF(t.ty)>(t.ty) + "\n";							\
+}
+#define DK_FIELD_TO_INI0	\
+if(!atLeastOne)				\
+	return "";
+
+#define DK_FIELD_TO_INI1(t)				\
+DK_FIELD_TO_INI_IMPL(t)					\
+DK_FIELD_TO_INI0
+
+#define DK_FIELD_TO_INI2(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI1(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI3(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI2(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI4(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI3(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI5(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI4(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI6(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI5(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI7(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI6(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI8(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI7(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI9(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI8(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI10(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI9(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI11(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI10(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI12(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI11(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI13(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI12(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI14(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI13(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI15(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI14(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI16(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI15(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI17(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI16(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI18(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI17(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI19(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI18(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI20(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI19(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI21(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI20(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI22(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI21(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI23(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI22(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI24(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI23(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI25(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI24(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI26(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI25(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI27(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI26(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI28(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI27(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI29(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI28(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI30(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI29(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI31(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI30(__VA_ARGS__))
+
+#define DK_FIELD_TO_INI32(t, ...)\
+DK_FIELD_TO_INI_IMPL(t)	\
+DK_EXPAND(DK_FIELD_TO_INI31(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD_IMPL(ty)								\
+if(name == std::string(#ty)){									\
+	sstr.seekg(-((int)(str.size()) - postEqual), std::ios::cur);\
+	SetFromINI(t.ty, sstr);										\
+}																\
+else
+
+#define DK_INI_TO_FIELD0	\
+Logbook::Log(Logbook::EOutput::CONSOLE, nullptr, (name + "is not a variable of this Class !!\n").c_str());
+
+#define DK_INI_TO_FIELD1(t)				\
+DK_INI_TO_FIELD_IMPL(t)					\
+DK_INI_TO_FIELD0
+
+#define DK_INI_TO_FIELD2(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD1(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD3(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD2(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD4(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD3(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD5(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD4(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD6(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD5(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD7(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD6(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD8(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD7(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD9(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD8(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD10(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD9(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD11(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD10(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD12(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD11(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD13(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD12(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD14(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD13(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD15(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD14(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD16(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD15(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD17(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD16(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD18(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD17(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD19(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD18(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD20(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD19(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD21(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD20(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD22(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD21(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD23(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD22(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD24(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD23(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD25(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD24(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD26(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD25(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD27(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD26(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD28(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD27(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD29(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD28(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD30(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD29(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD31(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD30(__VA_ARGS__))
+
+#define DK_INI_TO_FIELD32(t, ...)\
+DK_INI_TO_FIELD_IMPL(t)	\
+DK_EXPAND(DK_INI_TO_FIELD31(__VA_ARGS__))
+
 
 #define DK_METADATA_SET_FIELD_BINARY_IMPL(fields)	\
 fields::SetFieldBinary(t, data);					\
@@ -1541,7 +1963,7 @@ DK_METADATA_FIELD_TO_JSON_IMPL(fields)	\
 DK_EXPAND(DK_METADATA_FIELD_TO_JSON31(__VA_ARGS__))
 
 #define DK_METADATA_JSON_TO_FIELD_IMPL(fields)		\
-if(name == std::string(fields::FieldName) + ':') {	\
+if(name == std::string(#fields":")) {				\
 sstr >> name;										\
 fields::DeserializeJSON(t, sstr);					\
 }
@@ -1674,6 +2096,271 @@ DK_EXPAND(DK_METADATA_JSON_TO_FIELD30(__VA_ARGS__))
 #define DK_METADATA_JSON_TO_FIELD32(fields, ...)\
 DK_METADATA_JSON_TO_FIELD_IMPL(fields)	\
 DK_EXPAND(DK_METADATA_JSON_TO_FIELD31(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+str += fields::ToINI(t);
+
+#define DK_METADATA_FIELD_TO_INI0
+
+#define DK_METADATA_FIELD_TO_INI1(fields)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)
+
+#define DK_METADATA_FIELD_TO_INI2(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI1(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI3(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI2(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI4(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI3(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI5(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI4(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI6(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI5(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI7(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI6(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI8(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI7(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI9(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI8(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI10(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI9(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI11(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI10(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI12(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI11(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI13(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI12(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI14(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI13(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI15(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI14(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI16(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI15(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI17(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI16(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI18(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI17(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI19(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI18(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI20(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI19(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI21(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI20(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI22(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI21(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI23(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI22(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI24(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI23(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI25(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI24(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI26(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI25(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI27(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI26(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI28(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI27(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI29(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI28(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI30(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI29(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI31(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI30(__VA_ARGS__))
+
+#define DK_METADATA_FIELD_TO_INI32(fields, ...)\
+DK_METADATA_FIELD_TO_INI_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_FIELD_TO_INI31(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+if(name == std::string(";"#fields))				\
+fields::DeserializeINI(t, sstr);
+
+#define DK_METADATA_INI_TO_FIELD0
+
+#define DK_METADATA_INI_TO_FIELD1(fields)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)
+
+#define DK_METADATA_INI_TO_FIELD2(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD1(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD3(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD2(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD4(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD3(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD5(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD4(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD6(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD5(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD7(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD6(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD8(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD7(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD9(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD8(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD10(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD9(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD11(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD10(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD12(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD11(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD13(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD12(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD14(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD13(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD15(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD14(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD16(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD15(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD17(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD16(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD18(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD17(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD19(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD18(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD20(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD19(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD21(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD20(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD22(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD21(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD23(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD22(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD24(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD23(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD25(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD24(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD26(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD25(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD27(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD26(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD28(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD27(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD29(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD28(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD30(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD29(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD31(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD30(__VA_ARGS__))
+
+#define DK_METADATA_INI_TO_FIELD32(fields, ...)\
+DK_METADATA_INI_TO_FIELD_IMPL(fields)	\
+DK_EXPAND(DK_METADATA_INI_TO_FIELD31(__VA_ARGS__))
 
 #define DK_METADATA_SERIALIZE_FIELD_IMPL(fields)	\
 fields::Serialize<OutType>(t, ss);

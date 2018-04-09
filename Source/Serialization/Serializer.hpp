@@ -1,44 +1,44 @@
 #pragma once
 
 #include <Core/Engine/Error.hpp>
-#include <Serialization/SerializationUtils.hpp>
+#include <Serialization/MetaData.hpp>
 #include <map>
 
 namespace drak {
 namespace serialization {
 
 struct Serializer {
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error SerializeToFile(const T& t, const char* path, const char* filename);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error SerializeToFile(const std::vector<T>& t, const char* path, const char* filename);
 
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static drak::core::E_Error SerializeToFile(const char* path, const char* filename, const T& t, VArgs&&...args);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error AddObjectToFile(const T& t, const char* path);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error AddObjectToFile(const std::vector<T>& t, const char* path);
 
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static drak::core::E_Error AddObjectToFile(const char* path, const T& t, VArgs&&...args);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static std::tuple<T, drak::core::E_Error> LoadFromFile(const char* path);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error LoadFromFile(const char* path, T& t);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static drak::core::E_Error LoadEveryFromFile(const char* path, std::vector<T>& t);
 
-	template<class T>
+	template<class T, EExtension ext>
 	static std::tuple<std::vector<T>, drak::core::E_Error> LoadEveryFromFile(const char* path);
 
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static drak::core::E_Error LoadFromFile(const char* path, T& t, VArgs&&...args);
 
 private:

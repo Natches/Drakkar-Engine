@@ -5,7 +5,7 @@
 namespace drak {
 namespace serialization {
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
@@ -23,7 +23,7 @@ drak::core::E_Error Serializer::SerializeToFile(const T& t, const char* path, co
 	return drak::core::E_Error::NO_ERROR;
 }
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
@@ -43,7 +43,7 @@ drak::core::E_Error Serializer::SerializeToFile(const std::vector<T>& t, const c
 	return drak::core::E_Error::NO_ERROR;
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 drak::core::E_Error Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
 	drak::io::CreateDirectory(path);
 	std::fstream file(std::string(path) + filename, std::ios::out | std::ios::binary);
@@ -59,7 +59,7 @@ drak::core::E_Error Serializer::SerializeToFile(const char* path, const char* fi
 	return drak::core::E_Error::NO_ERROR;
 }
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::AddObjectToFile(const T& t, const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
@@ -85,7 +85,7 @@ drak::core::E_Error Serializer::AddObjectToFile(const T& t, const char* path) {
 	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::AddObjectToFile(const std::vector<T>& t, const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
@@ -113,7 +113,7 @@ drak::core::E_Error Serializer::AddObjectToFile(const std::vector<T>& t, const c
 	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 drak::core::E_Error Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
@@ -133,7 +133,7 @@ drak::core::E_Error Serializer::AddObjectToFile(const char* path, const T& t, VA
 	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
-template<class T>
+template<class T, EExtension ext>
 std::tuple<T, drak::core::E_Error> Serializer::LoadFromFile(const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
@@ -159,7 +159,7 @@ std::tuple<T, drak::core::E_Error> Serializer::LoadFromFile(const char* path) {
 	return std::make_tuple(T(), drak::core::E_Error::FILE_NOT_FOUND);
 }
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::LoadFromFile(const char* path, T& t) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
@@ -183,7 +183,7 @@ drak::core::E_Error Serializer::LoadFromFile(const char* path, T& t) {
 	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
-template<class T>
+template<class T, EExtension ext>
 drak::core::E_Error Serializer::LoadEveryFromFile(const char* path, std::vector<T>& t) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
@@ -215,7 +215,7 @@ drak::core::E_Error Serializer::LoadEveryFromFile(const char* path, std::vector<
 	return drak::core::E_Error::FILE_NOT_FOUND;
 }
 
-template<class T>
+template<class T, EExtension ext>
 std::tuple<std::vector<T>, drak::core::E_Error> Serializer::LoadEveryFromFile(const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
@@ -249,7 +249,7 @@ std::tuple<std::vector<T>, drak::core::E_Error> Serializer::LoadEveryFromFile(co
 	return std::make_tuple(std::vector<T>(), drak::core::E_Error::FILE_NOT_FOUND);
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 drak::core::E_Error Serializer::LoadFromFile(const char* path, T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);

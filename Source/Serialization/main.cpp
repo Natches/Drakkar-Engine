@@ -38,7 +38,7 @@ public:
 	int instance;
 	int s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f;
 	drak::math::Mat4f mat;
-	Ser b[26];
+	int b[26];
 	std::string str;
 	Ser* pt;
 	std::vector<int> vec;
@@ -55,9 +55,9 @@ DK_PRIVATE_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
-DK_PRIVATE_FIELDS(serial, ser1, pt, vec2, vecstr, mat)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
+DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b/*, vec4, vecstr2*/)
+DK_PRIVATE_FIELDS(serial, ser1, pt, mat/*, vec2, vecstr, mat*/)
+DK_PRIVATE_STATIC_FIELDS(xizzy, str/*, vec, vec3*/)
 DK_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -73,11 +73,9 @@ int main() {
 	t.ser1.i = 25;
 	t.gf = 10;
 	for (int i = 0; i < SizeOfArray_V<TYPEOF(Test::b)>; ++i) {
-		t.b[i].c = i;
+		t.b[i] = i;
 		t.vec.emplace_back(i);
 		t.vec2.emplace_back(new double(i));
-		t.vec3.emplace_back(t.b[i]);
-		t.vec4.emplace_back(new Ser(t.b[i]));
 		t.vecstr.emplace_back(std::to_string(i));
 		t.vecstr2.emplace_back(t.vec);
 	}
@@ -94,10 +92,11 @@ int main() {
 	}
 	std::stringstream sstr;
 	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);
-	MetaData<Test>::Serialize<drak::serialization::EExtension::JSON>(sstr, t);
+	MetaData<Test>::Serialize<drak::serialization::EExtension::INI>(sstr, t);
 	Test res;
-	MetaData<Test>::SetFromJSON(res, sstr);
-	/*std::ofstream of("testJSON.json");
+	MetaData<Test>::SetFromINI(res, sstr);
+/*
+	std::ofstream of("testINI.ini");
 	of << sstr.rdbuf();
 	of.close();*/
 	/*std::cout << MetaData<Ser>::s_staticSize * drak::types::SizeOfArray_V<TYPEOF(t.b)> << std::endl;
