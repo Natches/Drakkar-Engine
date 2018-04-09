@@ -26,7 +26,7 @@ class Player : public AGameObject {
 
 	virtual void Start() override {
 		RigidBody* rb = myScene->getComponentByHandle<RigidBody>(myScene->getComponentByHandle<Transform>(transformIDX)->m_handlesToComponents[ComponentType<RigidBody>::id]);
-		Engine::Get().getPhysicsSystem().AddCollisionCallback(
+		/*Engine::Get().getPhysicsSystem().AddCollisionCallback(
 			rb,
 			PhysicsEventDispatcher::COLLISION_IN,
 			new MemberFunction<Player, void, const Event*>
@@ -40,7 +40,7 @@ class Player : public AGameObject {
 			rb,
 			PhysicsEventDispatcher::COLLISION_STAY,
 			new MemberFunction<Player, void, const Event*>
-			(this, &Player::OnCollisionStay));
+			(this, &Player::OnCollisionStay));*/
 	}
 
 	void Player::OnCollisionEnter(const Event* pEvent) {
@@ -80,7 +80,7 @@ class MainScene : public IManualSceneBlueprint {
 	{
 		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
 		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(2.5, 2.5, 2.5), *mat);
-		int numOfCubes = 1024;
+		int numOfCubes = 10240;
 		for (int i = 0; i < numOfCubes; ++i) {
 			Player* p1 = (Player*)scene.addGameObject<Player>();
 			scene.getComponentByHandle<Transform>(p1->transformIDX)->position = math::Vec3f(0, i*10, 0);

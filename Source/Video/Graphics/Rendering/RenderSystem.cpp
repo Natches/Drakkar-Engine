@@ -1,6 +1,8 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
+#define BATCH_SIZE 1024u
+
 using namespace drak::events;
 using namespace drak::function;
 using namespace drak::components;
@@ -51,21 +53,25 @@ void RenderSystem::forwardRender(
 	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
 	m_shaderMap["DefaultShader"]->uniform("albedo", {1.f, 0.f, 0.f});
 
-	std::vector<math::Mat4f> uboModels;
+	
 	U32 flag = 1 << ComponentType<Model>::id;
-	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
-		if ((xforms[i].m_componentFlags & flag) == flag) {
-			math::Mat4f model =
-				math::Translate(xforms[i].position) *
-				math::Rotation(xforms[i].rotation) *
-				math::Scale(xforms[i].scale);
+	for (size_t B = 0u, n = xforms.size(); B < n; B += BATCH_SIZE) {
+		std::vector<math::Mat4f> modelBatch;
+		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
+			if ((xforms[b].m_componentFlags & flag) == flag) {
+				math::Mat4f model =
+					math::Translate(xforms[b].position) *
+					math::Rotation(xforms[b].rotation) *
+					math::Scale(xforms[b].scale);
 
-			uboModels.push_back(model);
+				modelBatch.push_back(model);
+			}
 		}
+		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());
+		m_modelUBO.bind();
+		m_pUnitCube->render();
 	}
-	m_modelUBO.write(0, 1024 * sizeof(math::Mat4f), uboModels.data());
-	m_modelUBO.bind();
-	m_pUnitCube->render();
+	
 	
 
 	/*m_shaderMap["DefaultShader"]->use();
