@@ -6,22 +6,35 @@
 namespace drak {
 namespace io {
 
-bool FileExists(const char* path) {
-	return !_access(path, 0);
+core::EError FileExists(const char* path) {
+	if (!(_access_s(path, 0)))
+		return core::EError::NO_ERROR;
+	else if (errno == ENOENT)
+		return core::EError::FILE_NOT_FOUND;
+
 }
 
-bool DirectoryExists(const char* path) {
-	return !_access(path, 0);
+core::EError DirectoryExists(const char* path) {
+	if (!(_access_s(path, 0)))
+		return core::EError::NO_ERROR;
+	else if (errno == ENOENT)
+		return core::EError::DIRECTORY_NOT_FOUND;
 }
 
-bool CreateDirectory(const char* path) {
-	return !_mkdir(path);
+core::EError CreateDirectory(const char* path) {
+	if (!(_mkdir(path)))
+		return core::EError::NO_ERROR;
+	else if (errno == EEXIST)
+		return core::EError::DIRECTORY_ALREADY_EXIST;
+	else if (errno == ENOENT)
+		return core::EError::DIRECTORY_NOT_CREATED;
 }
 
-bool CreateDirectoryIfDoesntExist(const char* path) {
-	if (!DirectoryExists(path))
+core::EError CreateDirectoryIfDoesntExist(const char* path) {
+	core::EError err;
+	if ((err = DirectoryExists(path)) == core::EError::NO_ERROR)
 		return CreateDirectory(path);
-	return true;
+	return err;
 }
 
 } // namespace io

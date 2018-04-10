@@ -55,18 +55,14 @@ DK_PRIVATE_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b/*, vec4, vecstr2*/)
-DK_PRIVATE_FIELDS(serial, ser1, pt, mat/*, vec2, vecstr, mat*/)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str/*, vec, vec3*/)
+DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
+DK_PRIVATE_FIELDS(serial, ser1, pt, mat, vec2, vecstr, mat)
+DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
 DK_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 int main() {
 	Test t;
-	Test t2;
-	t2.serial.c = 25;
-	t2.ser1.c = 25;
-	t2.ser1.i = 25;
 	float z = 55;
 	t.serial.c = 25;
 	t.ser1.c = 25;
@@ -92,11 +88,9 @@ int main() {
 	}
 	std::stringstream sstr;
 	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);
-	MetaData<Test>::Serialize<drak::serialization::EExtension::INI>(sstr, t);
-	Test res;
-	MetaData<Test>::SetFromINI(res, sstr);
-/*
-	std::ofstream of("testINI.ini");
+	Serializer::SerializeToFile<EExtension::BINARY, Test>(t, "./", "Test");
+	Test t2 = std::get<0>(Serializer::LoadFromFile<EExtension::BINARY, Test>("./Test"));
+	/*std::ofstream of("testJSON.json");
 	of << sstr.rdbuf();
 	of.close();*/
 	/*std::cout << MetaData<Ser>::s_staticSize * drak::types::SizeOfArray_V<TYPEOF(t.b)> << std::endl;
@@ -105,5 +99,5 @@ int main() {
 	Serializer::AddObjectToFile<Ser>(t.ser1, "./SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Test>(t2, "./SerializedDataOfTest.txt");
 	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");*/
-	return 0;
+  	return 0;
 }

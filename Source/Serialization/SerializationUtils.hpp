@@ -166,7 +166,6 @@ struct ComplexType {																			\
 	}																							\
 	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
 		std::string str;																		\
-		while (str != "{" && str != "[")sstr >> str;											\
 		MetaData<T>::SetFromJSON(t, sstr);														\
 	}																							\
 };																								\
@@ -212,7 +211,6 @@ struct ComplexType<Type[N]> {																	\
 	}																							\
 	static void SetFromJSON(T& t, std::stringstream& sstr) {									\
 		std::string str;																		\
-		while (str != "{" && str != "[")sstr >> str;											\
 		for(size_t i = 0; i < N; ++i) {															\
 			MetaData<Type>::SetFromJSON(t[i], sstr);											\
 		}																						\
@@ -260,7 +258,6 @@ struct ComplexType<Type*> {																		\
 		sstr >> str;																			\
 		if(str != "\"null\"" && str != "\"nill\"" &&											\
 			str != "\"null\"," && str != "\"nill\",")	{										\
-			while (str != "{" && str != "[")sstr >> str;										\
 			sstr.seekg(-(int)str.size(), std::ios::cur);										\
 			t = new Type();																		\
 			MetaData<Type>::SetFromJSON(*t, sstr);												\
@@ -287,14 +284,14 @@ template<typename T>																			\
 static std::stringstream& FromJSONToVector(T& t, std::stringstream& sstr) {						\
 	std::string str;																			\
 	sstr >> str;																				\
+	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
+		sstr.seekg(-(int)str.size(), std::ios::cur);											\
 		drak::types::VectorType_T<T> data;														\
 		SetFromJSON<drak::types::VectorType_T<T>>(data, sstr);									\
 		t.emplace_back(data);																	\
 		sstr >> str;																			\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
 	}																							\
-	sstr >> str;																				\
 	return sstr;																				\
 }																								\
 static size_t SetString(std::string& t, const char* c_str, size_t offset) {						\
@@ -421,7 +418,8 @@ static std::string VectorToJSON(const T& t, int indent)	{					\
 		str += GetJSON<VecType>(x, indent + 1);								\
 		str += ",\n";														\
 	}																		\
-	str.erase(str.end() - 2);												\
+	if(t.size())															\
+		str.erase(str.end() - 2);											\
 	indent -= 1;															\
 	for(int i = 0; i < indent; ++i)											\
 		str += '\t';														\
@@ -549,16 +547,16 @@ static std::stringstream& Serialize(const type& t, std::stringstream& ss) {					
 	}																							\
 }																								\
 template<EExtension ext>																		\
-static type& Deserialize(std::stringstream& ss, type& t) {										\
+static type& Deserialize(std::stringstream& sstr, type& t) {									\
 switch (ext) {																					\
 		case EExtension::BINARY :																\
-			return SetFieldBinary(t, ss.str().c_str());											\
+			return SetFieldBinary(t, sstr.str().c_str());										\
 			break;																				\
 		case EExtension::JSON :																	\
-			return DeserializeJSON(t, ss);														\
+			return DeserializeJSON(t, sstr);													\
 			break;																				\
 		case EExtension::INI :																	\
-			return DeserializeINI(t, ss);														\
+			return DeserializeINI(t, sstr);														\
 			break;																				\
 		default:																				\
 			return ss;																			\
@@ -620,10 +618,18 @@ return str;																				\
 #define DK_METADATA_JSON_TO_FIELD(...)													\
 static type& SetFromJSON(type& t, std::stringstream& sstr) {							\
 std::string name;																		\
+sstr >> name;																			\
+if(name == std::string(TypeName()) + ":"){												\
 while (name != "}" && name != "},") {													\
 sstr >> name;																			\
 DK_EXPAND(DK_CONCAT(DK_METADATA_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }																						\
+}																						\
+else																					\
+	std::cout << name << ", " << TypeName() << std::endl;								\
+	/*Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,*/								\
+		/*"Object Name is not the one expected, receive %s instead of %s !!",*/			\
+		/*name.c_str(), TypeName());*/													\
 return t;																				\
 }
 
@@ -639,11 +645,18 @@ return str;																				\
 static type& SetFromINI(type& t, std::stringstream& sstr) {								\
 std::string name;																		\
 sstr >> name;																			\
+if(name == (std::string("[") + TypeName()) + "]"){										\
 sstr >> name;																			\
 while (name[0] != '[' && !sstr.eof()) {													\
 DK_EXPAND(DK_CONCAT(DK_METADATA_INI_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))		\
 sstr >> name;																			\
 }																						\
+}																						\
+else																					\
+	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,									\
+		"Object Name is not the one expected, receive %s instead of %s !!",				\
+		name.c_str(), name.size(), ((std::string("[") + TypeName()) + "]").c_str(),		\
+		strlen(TypeName()) + 2);														\
 return t;																				\
 }
 
@@ -694,7 +707,30 @@ SetBinary(t, c_str);									\
 DK_DESERIALIZE_FUNC_END									\
 static type Deserialize(const char* c_str) {			\
 type t = Create(c_str);									\
-DK_DESERIALIZE_FUNC_END
+DK_DESERIALIZE_FUNC_END									\
+template<EExtension ext>										\
+static type& Deserialize(type& t, std::stringstream& sstr) {	\
+	switch (ext) {												\
+		case EExtension::BINARY :								\
+			SetBinary(t, sstr.str().c_str());					\
+			break;												\
+		case EExtension::JSON :									\
+			SetFromJSON(t, sstr);								\
+			break;												\
+		case EExtension::INI :									\
+			SetFromINI(t, sstr);								\
+			break;												\
+		default:												\
+			return t;											\
+			break;												\
+	}															\
+	return t;													\
+}																\
+template<EExtension ext>										\
+static type	Deserialize(std::stringstream& sstr) {				\
+	type t;														\
+	return Deserialize<ext>(t, sstr);							\
+}																\
 
 
 #define DK_DESERIALIZE_FUNC_END	\
