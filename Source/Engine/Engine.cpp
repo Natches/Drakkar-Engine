@@ -75,8 +75,7 @@ void Engine::startLoop() {
 		F32 t0 = s_frameTime.duration();
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
-			*sceneSystem.scene->getComponentContainerByType<Transform>());
+		// render scene
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
 		F32 t1 = s_frameTime.duration() - t0;
