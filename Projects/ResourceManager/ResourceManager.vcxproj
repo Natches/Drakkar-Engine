@@ -19,16 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\OBJParser.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\AResourceManager.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\OBJParser.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.hpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\AResource.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\AResourceManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
