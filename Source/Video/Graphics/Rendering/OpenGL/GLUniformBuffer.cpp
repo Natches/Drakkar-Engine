@@ -7,10 +7,10 @@ namespace gfx {
 namespace gl {
 
 GLUniformBuffer::~GLUniformBuffer() {
-	if (m_glID != GL_INVALID) {
+	/*if (m_glID != GL_INVALID) {
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		glDeleteBuffers(1, &m_glID);
-	}
+	}*/
 }
 
 void GLUniformBuffer::create(U64 bytes, void* pData) {

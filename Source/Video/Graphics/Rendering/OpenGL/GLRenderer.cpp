@@ -1,15 +1,6 @@
 #include <GL/glew.h>
 
-#include <Core/Core.hpp>
-
-#include <Video/Graphics/Geometry/Mesh.hpp>
-#include <Video/Graphics/Tools/OBJLoader.hpp>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
-
-using namespace drak::geom;
 
 namespace drak {
 namespace gfx {
@@ -24,59 +15,6 @@ bool GLRenderer::init() {
 	if (glewInit() == GLEW_OK) {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
 		glDebugMessageCallback((GLDEBUGPROC)debugLog, 0);
-
-		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
-
-		return true;
-	}
-	return false;
-}
-
-bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
-	GLShader* pGridShader = new GLShader;
-	if (pGridShader->loadFromFile(dir + "grid.vert", dir + "grid.frag"))
-		outMap["GridShader"] = pGridShader;
-	else {
-		delete pGridShader;
-		return false;
-	}
-
-	GLShader* pDefaultShader = new GLShader;
-	if (pDefaultShader->loadFromFile(dir + "default.vert", dir + "default.frag"))
-		outMap["DefaultShader"] = pDefaultShader;
-	else {
-		delete pDefaultShader;
-		return false;
-	}
-
-	GLShader* pFrameShader = new GLShader;
-	if (pFrameShader->loadFromFile(dir + "frame_draw.vert", dir + "frame_draw.frag"))
-		outMap["FrameDraw"] = pFrameShader;
-	else {
-		delete pFrameShader;
-		return false;
-	}
-	
-	return true;
-}
-
-bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
-	tools::OBJLoader loader;
-
-	geom::Mesh mesh;
-	if (loader.load(dir, mesh)) {
-		GLVertexBuffer* pVBO = new GLVertexBuffer;
-		pVBO->create(mesh.vertices().data(), (U32)mesh.vertices().size());
-
-		GLIndexBuffer*  pIBO = new GLIndexBuffer;
-		pIBO->create(mesh.indices().data(), (I32)mesh.indices().size());
-
-		GLVertexArray*  pVAO = new GLVertexArray;
-		pVAO->create(pVBO, pIBO);
-		if (dir == "Resources/Models/cube.dkobj")
-			pVAO->m_instanced = true;
-		rdr = pVAO;
-
 		return true;
 	}
 	return false;
@@ -85,7 +23,7 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 void GLRenderer::clear() { 
 	// TODO (Simon): enumerate API-agnostic
 	// buffer flags in RenderDefinitions.hpp
-
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 }
 
@@ -123,6 +61,10 @@ void GLRenderer::cullTest(bool on, ECullMode mode) {
 
 void GLRenderer::windingOrder(EWindingOrder order) { 
 	glFrontFace(order == EWindingOrder::CLOCKWISE ? GL_CW : GL_CCW);
+}
+
+void GLRenderer::multisampling(bool on) {
+	DK_GL_TOGGLE(on, GL_MULTISAMPLE)
 }
 
 void GLRenderer::bindWindowFrameBuffer() {

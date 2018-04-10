@@ -23,9 +23,6 @@ public:
 	virtual bool init() = 0;
 	virtual void info() = 0;
 
-	virtual bool loadShaders(const std::string& dir, ShaderMap& outMap) = 0;
-	virtual bool loadRenderables(const std::string& dir, IRenderable*& rdr) = 0;
-
 	//virtual void bindFrameBuffer() = 0;
 	virtual void bindWindowFrameBuffer() = 0;
 
@@ -42,6 +39,8 @@ public:
 
 	virtual void cullTest(bool on, ECullMode mode = ECullMode::BACK) = 0;
 	virtual void windingOrder(EWindingOrder order) = 0;
+
+	virtual void multisampling(bool on) = 0;
 };
 
 enum ERenderer {
