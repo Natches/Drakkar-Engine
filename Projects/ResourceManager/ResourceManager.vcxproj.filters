@@ -18,18 +18,27 @@
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\Resource.hpp">
+    <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp">
+    <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\Resource.cpp">
+    <ClCompile Include="..\..\Source\ResourceManager\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\ResourceManager.cpp">
+    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

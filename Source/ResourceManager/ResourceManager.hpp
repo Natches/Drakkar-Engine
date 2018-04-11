@@ -4,21 +4,28 @@
 #include <unordered_map>
 
 #include <Video/Graphics/Geometry/Mesh.hpp>
-#include <ResourceManager/Resource.hpp>
 
 namespace drak {
 
-using MeshPtr		= std::shared_ptr<geom::Mesh>;
-using MeshMap		= std::unordered_map<std::string, MeshPtr>;
-
+template<class R>
 class ResourceManager {
 public:
-	virtual ~ResourceManager();
+	virtual ~ResourceManager() = default;
 
-
+	using ResourcePtr = std::shared_ptr<R>;
+	virtual ResourcePtr preloadResource(const std::string& filename);
+	virtual ResourcePtr loadResource(const std::string& filename);
 
 protected:
-	MeshMap	m_meshes;
+	virtual ResourcePtr loadImpl(const std::string& filename) = 0;
+
+protected:
+	friend void ResourceSystem::startup();
+	ResourceManager() = default;
+
+protected:
+	using ResourceMap = std::unordered_map<std::string, ResourcePtr>;
+	ResourceMap m_resources;
 };
 
 } // namespace drak

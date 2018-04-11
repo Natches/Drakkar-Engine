@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />

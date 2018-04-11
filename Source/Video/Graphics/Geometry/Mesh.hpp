@@ -2,13 +2,12 @@
 
 #include <vector>
 
-#include <ResourceManager/Resource.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
 namespace geom {
 
-class Mesh : public Resource {
+class Mesh {
 public:
 	Mesh();
 	virtual ~Mesh();

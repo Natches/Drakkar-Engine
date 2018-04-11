@@ -5,13 +5,11 @@
 
 namespace drak {
 
-using MeshPtr = std::shared_ptr<geom::Mesh>;
-
-class MeshManager : public ResourceManager {
-public:
-	MeshPtr createResource(const std::string& filename) override;
-	MeshPtr loadResource(const std::string& filename) override;
-
+class MeshManager : public ResourceManager<geom::Mesh> {
+protected:
+	ResourcePtr loadImpl(const std::string& filename) override;
 };
+
+using MeshPtr = MeshManager::ResourcePtr;
 
 } // namespace drak
