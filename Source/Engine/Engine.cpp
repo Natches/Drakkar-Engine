@@ -22,6 +22,10 @@ PhysicsSystem& Engine::getPhysicsSystem()
 	return physicsSystem;
 }
 
+DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
+	return s_frameTime;
+}
+
 int Engine::startup() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
@@ -32,16 +36,14 @@ int Engine::startup() {
 	videoSystem.startup(videoSettings, pMainWindow);
 	renderSystem.startup(videoSystem.renderer());
 	physicsSystem.Startup();
-	sceneSystem.Startup();
+	levelSystem.startup();
 	s_pool.startup();
-	physicsSystem.InitPxScene(sceneSystem.scene);
-
 	return 0;
 }
 
 int Engine::shutdown() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-	sceneSystem.Shutdown();
+	levelSystem.shutdown();
 	physicsSystem.Shutdown();
 	renderSystem.shutdown();
 	videoSystem.shutdown();
@@ -55,30 +57,24 @@ int Engine::shutdown() {
 void Engine::startLoop() {
 	s_frameTime.start();
 
-	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
+	std::vector<AGameObject*>& gameObjects = levelSystem.getGameObjects();
 	for (auto g : gameObjects)
-		g->Start();
+		g->start();
 	
 	while (pMainWindow->isOpen()) {
 		s_frameTime.update();
 		pMainWindow->pollEvents();
 
-		gameObjects = sceneSystem.scene->getGameObjects();
-		for (int i = 0, size = gameObjects.size(); i < size; ++i)
-			gameObjects[i]->Update();
+		gameObjects = levelSystem.getGameObjects();
+		for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
+			gameObjects[i]->update();
 
-		if(physicsSystem.advance(
-			s_frameTime.deltaTime(), 
-			*sceneSystem.scene->getComponentContainerByType<Transform>(), 
-			*sceneSystem.scene->getComponentContainerByType<RigidBody>()))
-				physicsSystem.updateComponents(
-					*sceneSystem.scene->getComponentContainerByType<Transform>());
+		if(physicsSystem.advance(s_frameTime.deltaTime(), levelSystem))
+				physicsSystem.updateComponents(levelSystem);
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		renderSystem.forwardRender(
-			*sceneSystem.scene->getComponentContainerByType<Model>(),
-			*sceneSystem.scene->getComponentContainerByType<Transform>());
+		renderSystem.forwardRender(levelSystem.getScene());
 		
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
@@ -86,12 +82,12 @@ void Engine::startLoop() {
 	s_frameTime.stop();
 }
 
-void Engine::stopGame() {
+void Engine::StopGame() {
 	Engine::running = false;
 }
 
 void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
-	sceneSystem.loadScene(sceneBlueprint);
+	levelSystem.loadScene(sceneBlueprint);
 }
 
 

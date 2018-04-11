@@ -2,9 +2,10 @@
 #include <Engine/Engine.hpp>
 #include <Core/Components/AGameObject.hpp>
 #include <Engine/Components/Components.hpp>
-#include <Engine/Scene/SceneSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Math/Matrix4x4.hpp>
+#include <Windowing/Input/Keyboard.hpp>
 #include <PxPhysicsAPI.h>
 #include <string>
 
@@ -13,117 +14,197 @@ using namespace core;
 using namespace components;
 using namespace events;
 using namespace function;
-DK_IMPORT(drak::math)
+using namespace math;
 
-class Player : public AGameObject {
-	virtual void Update() override {
-		Transform& trans = myScene->getComponentByHandle<Transform>(transformIDX);
-		Model& model = myScene->getComponentByHandle<Model>(trans.m_handlesToComponents[ComponentType<Model>::id]);
-		model.albedo.r = trans.position.x/100.f+0.1;
-		model.albedo.g = trans.position.y/100.f+0.1;
-		model.albedo.b = trans.position.z/100.f+0.1;
+class Floor : public AGameObject {
+	// Inherited via AGameObject
+	virtual void update() override
+	{
+	}
+	virtual void start() override
+	{
+		name = "Floor";
+	}
+};
+
+class Cube : public AGameObject {
+public:
+	bool hitByPlayer = false;
+private:
+	virtual void update() override {
 	}
 
-	virtual void Start() override {
-		/*RigidBody& rb = myScene->getComponentByHandle<RigidBody>(myScene->getComponentByHandle<Transform>(transformIDX).m_handlesToComponents[ComponentType<RigidBody>::id]);
+	virtual void start() override {
+		name = "Cube";
+		RigidBody& rb = *getComponent<RigidBody>();
 		Engine::Get().getPhysicsSystem().AddCollisionCallback(
-			&rb,
+			rb,
 			PhysicsEventDispatcher::COLLISION_IN,
-			new MemberFunction<Player, void, const Event*>
-			(this, &Player::OnCollisionEnter));
-		Engine::Get().getPhysicsSystem().AddCollisionCallback(
-			&rb,
-			PhysicsEventDispatcher::COLLISION_OUT,
-			new MemberFunction<Player, void, const Event*>
-			(this, &Player::OnCollisionExit));
-		Engine::Get().getPhysicsSystem().AddCollisionCallback(
-			&rb,
-			PhysicsEventDispatcher::COLLISION_STAY,
-			new MemberFunction<Player, void, const Event*>
-			(this, &Player::OnCollisionStay));*/
+			new MemberFunction<Cube, void, const Event*>
+			(this, &Cube::OnCollisionEnter));
 	}
 
-	void Player::OnCollisionEnter(const Event* pEvent) {
-		Model& model = myScene->getComponentByHandle<Model>(myScene->getComponentByHandle<Transform>(transformIDX).m_handlesToComponents[ComponentType<Model>::id]);
-		model.albedo.r = 1.0f;
-		model.albedo.g = 0.0f;
-		model.albedo.b = 0.f;
+	void Cube::OnCollisionEnter(const Event* pEvent) {
+		if (!pEvent)
+			return;
+		const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
+		switch (e->type) {
+		case PhysicsEventDispatcher::COLLISION_IN:
+			if (getLevel()->getGameObjects()[e->otherGameObjectIDX]->getName() == "Player") {
+				Model& model = *getComponent<Model>();
+				model.albedo.r = 1.0f;
+				model.albedo.g = 1.0f;
+				model.albedo.b = 0.0f;
+			}
+			break;
+		}
 	}
 
-	void Player::OnCollisionExit(const Event* pEvent) {
-		//Model* model = myScene->getComponentByHandle<Model>(myScene->getComponentByHandle<Transform>(transformIDX)->m_handlesToComponents[ComponentType<Model>::id]);
-		//model->albedo.r = 0.5f;
-		//model->albedo.g = 0.1f*(F32)id;
-		//model->albedo.b = 0.f;
+	void Cube::OnCollisionExit(const Event* pEvent) {
 	}
 
-	void Player::OnCollisionStay(const Event* pEvent) {
-		//Model* model = myScene->getComponentByHandle<Model>(myScene->getComponentByHandle<Transform>(transformIDX)->m_handlesToComponents[ComponentType<Model>::id]);
-		//model->albedo.r = 0.1f*(F32)id;;
-		//model->albedo.g = 0.5f;
-		//model->albedo.b = 0.5f;
+	void Cube::OnCollisionStay(const Event* pEvent) {
 	}
 
 };
 
-class Cube : public AGameObject {
-	virtual void Update() override {
+class Player : public AGameObject {
+	// Inherited via AGameObject
+	float speed = 50.f;
+	int score = 0;
+	virtual void update() override
+	{
 	}
 
-	virtual void Start() override {
+	virtual void start() override
+	{
+		name = "Player";
+		Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, 
+			new MemberFunction<Player, void, const Event*>(this, &Player::KeyPress, &Keyboard::Get().event()));
+
+		RigidBody& rb = *getComponent<RigidBody>();
+		Engine::Get().getPhysicsSystem().AddCollisionCallback(
+			rb,
+			PhysicsEventDispatcher::COLLISION_IN,
+			new MemberFunction<Player, void, const Event*>
+				(this, &Player::OnCollisionEnter));
+	}
+
+	void Player::OnCollisionEnter(const Event* pEvent) {
+		if (!pEvent)
+			return;
+		const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
+		switch (e->type) {
+		case PhysicsEventDispatcher::COLLISION_IN:
+			AGameObject* obj = getLevel()->getGameObjects()[e->otherGameObjectIDX];
+			if (obj->getName() == "Cube") {
+				++score;
+				Model& m = *getComponent<Model>();
+				m.albedo.g -= 0.1f;
+				m.albedo.b -= 0.1f;
+			}
+			break;
+		}
+	}
+
+	void Player::KeyPress(const Event* pEvent) {
+		if(!pEvent)
+			return;
+		const KeyEvent* ke = static_cast<const KeyEvent*>(pEvent);
+		Transform& trans = *getComponent<Transform>();
+		switch (ke->key)
+		{
+		case Key::KEY_UP:
+			Engine::Get().getPhysicsSystem().move(
+				*getComponent<RigidBody>(),
+					trans.position + Vec3f(0, 0, -speed * DeltaTime),
+					trans.rotation);
+			break;
+		case Key::KEY_DOWN:
+			Engine::Get().getPhysicsSystem().move(
+				*getComponent<RigidBody>(), 
+					trans.position + Vec3f(0, 0, speed * DeltaTime),
+					trans.rotation);
+			break;
+		case Key::KEY_LEFT:
+			Engine::Get().getPhysicsSystem().move(
+				*getComponent<RigidBody>(),
+					trans.position + Vec3f(-speed * DeltaTime, 0, 0),
+					trans.rotation);
+			break;
+		case Key::KEY_RIGHT:
+			Engine::Get().getPhysicsSystem().move(
+				*getComponent<RigidBody>(),
+					trans.position + Vec3f(speed * DeltaTime, 0, 0),
+					trans.rotation);
+			break;
+		default:
+			break;
+		}
 	}
 };
 
 class MainScene : public IManualSceneBlueprint {
 	// Inherited via IManualSceneBlueprint
-	virtual void build(Scene & scene) override
+	virtual void build(LevelSystem& level) override
 	{
-		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0);
-		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(5, 5, 5), *mat);
-		int numOfCubes = 1000;
+		int numOfCubes = 20;
 		for (int i = 0; i < numOfCubes; ++i) {
-			Player* p1 = (Player*)scene.addGameObject<Player>();
-			Transform& t = scene.getComponentByHandle<Transform>(p1->transformIDX);
-			t.position = math::Vec3f(0, i*15, 0);
-			t.rotation = math::Vec4f(0, 0, 0, 0);
+			Cube& aCube = level.addGameObject<Cube>();
+			Transform& t = *aCube.getComponent<Transform>();
+			t.position = math::Vec3f(0, i*15.f, 0);
 			t.scale = math::Vec3f(10, 10, 10);
 
-			scene.addComponentToGameObject<Model>(p1);
-			Model& model = scene.getComponentByHandle<Model>(t.m_handlesToComponents[ComponentType<Model>::id]);
-			model.albedo.r = 1.f;
+			Model& model = aCube.addComponent<Model>();
+			model.albedo.r = 0.f;
 			model.albedo.g = 1.f;
-			model.albedo.b = 1.f;
+			model.albedo.b = 0.f;
 
-			scene.addComponentToGameObject<RigidBody>(p1);
-			RigidBody& rigid = scene.getComponentByHandle<RigidBody>(t.m_handlesToComponents[ComponentType<RigidBody>::id]);
-			rigid.rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(
-				t.position.x,
-				t.position.y,
-				t.position.z));
-			rigid.rigidActor->attachShape(*cube);
-			((physx::PxRigidDynamic*)rigid.rigidActor)->setSleepThreshold(0.010);
-			rigid.rigidActor->userData = p1;
-			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid.rigidActor, 10.f);
-			scene.m_pPhysXScene->addActor(*rigid.rigidActor);
+			RigidBody& rigid = aCube.addComponent<RigidBody>();
+			rigid.mass = 1.f;
+			BoxCollider& boxCollider = aCube.addComponent<BoxCollider>();
+			boxCollider.width = 10;
+			boxCollider.height = 10;
+			boxCollider.depth = 10;
+			boxCollider.material = PhysicsMaterial{0.5f, 0.5f, 0.5f};
+			
+			Engine::Get().getPhysicsSystem().InitRigidBody(rigid, level);
 		}
 
-		Cube* ground = scene.addGameObject<Cube>();
-		Transform& t = scene.getComponentByHandle<Transform>(ground->transformIDX);
-		t.position = math::Vec3f(0, -350, 0);
-		t.rotation = math::Vec4f(0, 0, 0, 0);
-		t.scale = math::Vec3f(3000, 100, 3000);
-		
-		scene.addComponentToGameObject<RigidBody>(ground);
-		RigidBody& rigid = scene.getComponentByHandle<RigidBody>(t.m_handlesToComponents[ComponentType<RigidBody>::id]);
-		rigid.rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidStatic(
-			physx::PxTransform(t.position.x, t.position.y, t.position.z));
-		rigid.material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0);
-		rigid.rigidActor->createShape(physx::PxBoxGeometry(t.scale.x / 2.f,
-			t.scale.y / 2.f, t.scale.z / 2.f), *rigid.material);
-		rigid.rigidActor->userData = ground;
+		//GROUND
+		Floor& ground = level.addGameObject<Floor>();
+		Transform& groundT = *ground.getComponent<Transform>();
+		groundT.position = math::Vec3f(0, -50, 0);
+		groundT.scale = math::Vec3f(3000, 100, 3000);
+		RigidBody& rigid = ground.addComponent<RigidBody>();
+		rigid.mass = 1.f;
+		rigid.isStatic = true;
+		BoxCollider& boxCollider = ground.addComponent<BoxCollider>();
+		boxCollider.width = 3000;
+		boxCollider.height = 100;
+		boxCollider.depth = 3000;
+		boxCollider.material = PhysicsMaterial{ 0.5f, 0.5f, 0.f };
+		Engine::Get().getPhysicsSystem().InitRigidBody(rigid, level);
 
-		scene.m_pPhysXScene->addActor(*rigid.rigidActor);
+		//PLAYER
+		Player& player = level.addGameObject<Player>();
+		Transform& playerT = *player.getComponent<Transform>();
+		playerT.position = math::Vec3f(30, 10, 0);
+		playerT.scale = math::Vec3f(10, 10, 10);
+		Model& playerModel = player.addComponent<Model>();
+		playerModel.albedo.r = 1.f;
+		playerModel.albedo.g = 1.f;
+		playerModel.albedo.b = 1.f;
 
+		RigidBody& playerRigid = player.addComponent<RigidBody>();
+		playerRigid.mass = 5.f;
+		playerRigid.isKinematic = true;
+		BoxCollider& playerBoxCollider = player.addComponent<BoxCollider>();
+		playerBoxCollider.width = 10;
+		playerBoxCollider.height = 10;
+		playerBoxCollider.depth = 10;
+		playerBoxCollider.material = PhysicsMaterial{ 0.5f, 0.5f, 0.5f };
+		Engine::Get().getPhysicsSystem().InitRigidBody(playerRigid, level);
 	}
 };
 

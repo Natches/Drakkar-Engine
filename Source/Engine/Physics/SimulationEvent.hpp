@@ -8,12 +8,12 @@
 namespace drak {
 
 namespace components {
-	class RigidBody;
+	struct RigidBody;
 }
 
 namespace events {
 struct CollisionEvent : public Event {
-
+	U64 otherGameObjectIDX;
 };
 
 class PhysicsEventDispatcher : public DefaultEventDispatcher {
@@ -31,11 +31,11 @@ protected:
 };
 
 class PhysicsEvents : public physx::PxSimulationEventCallback {
-	std::unordered_map<U32, PhysicsEventDispatcher> m_collisionEventDispatchers;
+	std::unordered_map<U64, PhysicsEventDispatcher> m_collisionEventDispatchers;
 public:
 	PhysicsEvents();
 	~PhysicsEvents();
-	void AddEventListener(components::RigidBody* rb, EventType type,  EventListener listener);
+	void AddEventListener(components::RigidBody& rb, EventType type,  EventListener listener);
 	void onConstraintBreak(physx::PxConstraintInfo * constraints, physx::PxU32 count) override;
 	void onWake(physx::PxActor ** actors, physx::PxU32 count) override;
 	void onSleep(physx::PxActor ** actors, physx::PxU32 count) override;

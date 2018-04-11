@@ -19,7 +19,7 @@ namespace physx {
 //class ContactReport : physx::
 
 namespace drak {
-	class Scene;
+	class LevelSystem;
 	namespace components {
 		struct RigidBody;
 		struct Transform;
@@ -36,27 +36,29 @@ namespace drak {
 		DK_NONMOVABLE_NONCOPYABLE(PhysicsSystem)
 		friend core::Engine;
 	public:
-		physx::PxPhysics* getPhysics() {return m_pPhysics; }
-		DRAK_API void AddCollisionCallback(components::RigidBody* rb, events::EventType type, events::EventListener listener);
+		physx::PxPhysics* getPhysics() { return m_pPhysics; }
+		DRAK_API void InitRigidBody(components::RigidBody & rb, LevelSystem& level);
+		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
+		DRAK_API void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
+		DRAK_API void applyForce(components::RigidBody& target, math::Vec3f& force);
+		DRAK_API void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
+		DRAK_API void move(components::RigidBody& target, math::Vec3f& newPos, math::Vec4f& newRot);
+
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
-		bool InitPxScene(Scene* scene);
-		void updateComponents(std::vector<components::Transform>& transforms);
-		bool advance(F64 deltaTime, std::vector<components::Transform>& transforms, std::vector<components::RigidBody>& rigidBodies);
+		void updateComponents(LevelSystem& levelSystem);
+		bool advance(F64 deltaTime, LevelSystem& levelSystem);
 		bool Startup();
 		void Shutdown();
-		void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
-		void applyForce(components::RigidBody& target, math::Vec3f& force);
-		void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
 		events::PhysicsEvents*		m_pPhysicsEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;
 		physx::PxTolerancesScale*	m_cScale;
+		physx::PxScene*				m_pPhysicsScene;
 #ifdef USE_PVD
 		physx::PxPvd*				m_pPvd;
-		Scene* m_GameScene;
 #endif // DEBUG
 		F64 AccumulatedTime;
 	};

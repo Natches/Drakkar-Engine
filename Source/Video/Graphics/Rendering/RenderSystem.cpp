@@ -1,5 +1,5 @@
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
-
+#include <Engine/Scene/LevelSystem.hpp>
 
 using namespace drak::components;
 
@@ -14,7 +14,7 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 0.f, -10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.view({ 0.f, 300.f, -100.f }, { 0.f, 0.f, -90.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
@@ -33,28 +33,25 @@ bool RenderSystem::loadResources(const std::string& dir) {
 			m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
 }
 
-void RenderSystem::forwardRender(
-	std::vector<Model>& models,
-	std::vector<Transform>& xforms) {
+void RenderSystem::forwardRender(Scene& scene) {
 
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
 	U32 flag = 1 << ComponentType<Model>::id;
-	for (size_t i = 0, n = xforms.size(); i < n; ++i) {
-		if ((xforms[i].m_componentFlags & flag) == flag) {
-			math::Mat4f modelMx =
-				math::Translate(xforms[i].position) *
-				math::Rotation(xforms[i].rotation) *
-				math::Scale(xforms[i].scale);
-			m_shaderMap["DefaultShader"]->uniform("model", modelMx);
-			m_shaderMap["DefaultShader"]->uniform("albedo", models[xforms[i].m_handlesToComponents[ComponentType<Model>::id]].albedo);
+	for (size_t i = 0, n = scene.models.size(); i < n; ++i) {
+		Transform& t = Component_B_from_A(scene.gameObjects, scene.models[i], Transform, scene.transforms);
+		math::Mat4f modelMx =
+			math::Translate(t.position) *
+			math::Rotation(t.rotation) *
+			math::Scale(t.scale);
+		m_shaderMap["DefaultShader"]->uniform("model", modelMx);
+		m_shaderMap["DefaultShader"]->uniform("albedo", scene.models[i].albedo);
 
-			m_pUnitCube->render();
-		}
+		m_pUnitCube->render();
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
-		* math::Translate<F32>({0.f, -300.f, 0.f})
+		* math::Translate<F32>({0.f, 0.f, 0.f})
 		* math::Scale<F32>({ 3000.f, 1.f, 3000.f });
 	m_shaderMap["GridShader"]->use();
 

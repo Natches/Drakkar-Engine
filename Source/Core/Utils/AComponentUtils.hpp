@@ -16,9 +16,13 @@ namespace components {
 	};
 	struct AComponent
 	{
-		U32 ownerID;
+		bool errorReturn;
 		U64 idx;
-		U64 transformHandle;
+		U64 GameObjectIDX;
+	};
+
+	//Plural component interface
+	struct IPlural {
 	};
 }
 }
@@ -28,7 +32,7 @@ namespace drak {								\
 namespace components {							\
 struct name : public AComponent, __VA_ARGS__	\
 {												\
-	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
+	//void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 
 #define DRAK_COMPONENT_END(name)				\
