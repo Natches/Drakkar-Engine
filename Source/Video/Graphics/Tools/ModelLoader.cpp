@@ -1,4 +1,4 @@
-#include <iostream> // !!! TODO (Simon): replace with Log
+#include <iostream> // TODO (Simon): replace with Log
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
