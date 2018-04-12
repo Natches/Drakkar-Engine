@@ -55,15 +55,16 @@ DK_PRIVATE_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
+DK_PUBLIC_FIELDS(instance, str, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
 DK_PRIVATE_FIELDS(serial, ser1, pt, mat, vec2, vecstr)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
+DK_PRIVATE_STATIC_FIELDS(xizzy, vec, vec3)
 DK_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 int main() {
 	Test t;
 	float z = 55;
+	t.instance = 25;
 	t.serial.c = 25;
 	t.ser1.c = 25;
 	t.ser1.i = 25;
@@ -79,7 +80,7 @@ int main() {
 	t.vec2[5] = nullptr;
 	t.str = "lalalal";
 	t.pt = nullptr;
-/*	t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );*/
+	/*t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );*/
 	MetaData<Test>::set(t, "xizzy", std::string((char*)&z, sizeof(float)));
 	t.s = 1;
 	std::vector<Test> vd;

@@ -117,7 +117,7 @@ struct BaseType<Type*> {																		\
 		if (static_cast<bool>(t)) {																\
 			std::string str;																	\
 			str.reserve(sizeof(Type) + 1);														\
-			str.append('\x1', sizeof(char));													\
+			str.append(static_cast<char>(1), sizeof(char));										\
 			str.append((const char*)t, sizeof(Type));											\
 			return str;																			\
 		}																						\
@@ -233,7 +233,7 @@ struct ComplexType<Type*> {																		\
 		if(static_cast<bool>(t)) {																\
 			std::string str;																	\
 			str.reserve(MetaData::ComputeTotalSize(*t) + 1);									\
-			str.append('\x1', 1);																\
+			str.append(static_cast<char>(1), sizeof(char));										\
 			std::stringstream sstr;																\
 			str.append(MetaData::Serialize<EExtension::BINARY>(*t, sstr).str());				\
 			return str;																			\
@@ -293,7 +293,7 @@ static std::stringstream& DeserializeJSONToVector(T& t, std::stringstream& sstr)
 static void DeserializeBinaryToString(std::string& t, std::stringstream& sstr) {				\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
-	t.append(sstr.str().c_str(), size);															\
+	t.insert(0, sstr.str().c_str() + sstr.tellg(), size);										\
 	sstr.seekg(size, std::ios::cur);															\
 }																								\
 static std::stringstream& DeserializeJSONToString(std::string& t, std::stringstream& sstr) {	\
