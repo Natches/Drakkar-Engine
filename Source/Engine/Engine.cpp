@@ -6,8 +6,6 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 
-#include <Serialization/SerializationUtils.hpp>
-
 
 
 using namespace drak::components;
@@ -47,22 +45,6 @@ DRAK_API LevelSystem & Engine::currentLevel()
 }
 
 int Engine::startup() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
