@@ -11,7 +11,7 @@ using namespace core;
 using namespace components;
 using namespace events;
 using namespace function;
-DK_IMPORT(drak::math)
+using namespace math;
 
 class Player : public AGameObject {
 
@@ -28,7 +28,7 @@ class Player : public AGameObject {
 
 	virtual void Start() override {
 		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
-		//MemberFunction<Player, void, const Event*> 
+		//MemberFunction<Player, void, const Event*>
 		//	func(this, &Player::cameraControl, &Keyboard::Get().event());
 		//Keyboard::Get().addEventListener(events::Keyboard::KEY_DOWN, &func);
 	}
@@ -84,7 +84,7 @@ class MainScene : public IManualSceneBlueprint {
 		transform->position = math::Vec3f(0, -100, 0);
 		transform->rotation = math::Vec4f(0, 0, 0, 0);
 		transform->scale = math::Vec3f(100, 5, 100);
-		
+
 		scene.addComponentToGameObject<RigidBody>(ground);
 		RigidBody* rigid = scene.getComponentByHandle<RigidBody>(ground->getHandle(ComponentType<RigidBody>::id));
 		rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidStatic(physx::PxTransform(transform->position.x, transform->position.y, transform->position.z));
