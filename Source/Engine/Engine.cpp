@@ -82,8 +82,11 @@ void Engine::startLoop() {
 	s_frameTime.start();
 
 	std::vector<AGameObject*>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (auto g : gameObjects)
+	for (auto g : gameObjects) {
+		m_pPhysicsSystem->InitRigidBody(*g->getComponent<RigidBody>(), *m_pLevelSystem);
 		g->start();
+	}
+
 	
 	while (m_pMainWindow->isOpen()) {
 		s_frameTime.update();
