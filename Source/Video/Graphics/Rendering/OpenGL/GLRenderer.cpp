@@ -41,6 +41,14 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		return false;
 	}
 
+	GLShader* pInstanceShader = new GLShader;
+	if (pInstanceShader->loadFromFile(dir + "instanced.vert", dir + "default.frag"))
+		outMap["InstanceShader"] = pInstanceShader;
+	else {
+		delete pInstanceShader;
+		return false;
+	}
+
 	GLShader* pDefaultShader = new GLShader;
 	if (pDefaultShader->loadFromFile(dir + "default.vert", dir + "default.frag"))
 		outMap["DefaultShader"] = pDefaultShader;
@@ -49,14 +57,6 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		return false;
 	}
 
-	GLShader* pFrameShader = new GLShader;
-	if (pFrameShader->loadFromFile(dir + "frame_draw.vert", dir + "frame_draw.frag"))
-		outMap["FrameDraw"] = pFrameShader;
-	else {
-		delete pFrameShader;
-		return false;
-	}
-	
 	return true;
 }
 

@@ -34,6 +34,8 @@ public:
 		std::vector<components::Model>& models, 
 		std::vector<components::Transform>& xforms);
 
+	void renderGrid();
+
 	void startFrame();
 	void endFrame();
 
@@ -53,15 +55,16 @@ private:
 	RenderArray		m_opaqueArr;
 	RenderArray		m_transpArr;
 
-	IRenderable*	m_pUnitCube;
 	IRenderable*	m_pGrid;
 
-	// Tests
-	gl::GLTexture	m_gridTex;
-	gl::GLUniformBuffer	m_modelUBO;
-	
 	IRenderer*		m_pRenderer;
 	IFrameBuffer*	m_pFrame;
+
+	// Tests
+	IRenderable*		 m_pUnitCube;
+	IRenderable*		 m_pDragon;
+	gl::GLTexture		 m_gridTex;
+	gl::GLUniformBuffer	 m_modelUBO;
 };
 
 } // namespace gfx
