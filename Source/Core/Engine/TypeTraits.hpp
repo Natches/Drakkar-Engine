@@ -1,6 +1,8 @@
 #pragma once
 
 #include <type_traits>
+#include <vector>
+#include <immintrin.h>
 
 namespace drak {
 namespace types {
@@ -44,6 +46,146 @@ constexpr bool IsLargerThan_V = IsLargerThan<T1, T2>::value;
 namespace noTypes {
 class NoType {};
 }
+
+template<typename T>
+struct IsBaseType {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+struct IsBaseType<T*> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+struct IsBaseType<T[]> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T, size_t N>
+struct IsBaseType<T[N]> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+struct IsBaseType<const T> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+struct IsBaseType<const T*> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+struct IsBaseType<const T[]> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T, size_t N>
+struct IsBaseType<const T[N]> {
+	enum : bool {
+		value = std::is_same_v<T, bool> || std::is_same_v<T, U8> || std::is_same_v<T, I8> ||
+		std::is_same_v<T, U16> || std::is_same_v<T, I16> || std::is_same_v<T, U32> ||
+		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
+		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
+		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
+		std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+constexpr bool IsBaseType_V = IsBaseType<T>::value;
+
+template<typename T>
+struct IsIntrinType {
+	enum : bool {
+		value =  std::is_same_v<T, __m128> || std::is_same_v<T, __m256> ||
+		std::is_same_v<T, __m128i> || std::is_same_v<T, __m256i>
+	};
+};
+
+template<typename T>
+constexpr bool IsIntrinType_T = IsIntrinType<T>::value;
+
+template<typename T>
+struct VectorType {
+	using type = typename T;
+};
+
+template<typename T>
+struct VectorType<std::vector<T>> {
+	using type = typename T;
+};
+
+template<typename T>
+using VectorType_T = typename VectorType<T>::type;
+
+template<typename T>
+struct SizeOfArray {
+	enum : int {
+		value = 1
+	};
+};
+
+template<typename T, size_t X>
+struct SizeOfArray<T[X]> {
+	enum : int {
+		value = X
+	};
+};
+
+template<typename T>
+constexpr int SizeOfArray_V = SizeOfArray<T>::value;
 
 } //namespace types
 } //namespace drak

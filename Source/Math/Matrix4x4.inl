@@ -10,28 +10,51 @@ Matrix4x4<T, order>::Matrix4x4() {
 	memset(m_mat, 0, sizeof(m_mat));
 }
 
+template<typename T>
+MATRIX_COLUMN_MAJOR(T)::Matrix4x4() {
+	memset(m_mat, 0, sizeof(m_mat));
+}
+
 template<typename T, Ordering order>
 bool Matrix4x4<T, order>::isOrthogonal() const {
-	return isIdentity(*this * transpose());
+	return (*this * transpose()).isIdentity();
+}
+
+template<typename T>
+bool MATRIX_COLUMN_MAJOR(T)::isOrthogonal() const {
+	return (*this * transpose()).isIdentity();
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order> Scale(const Vec3<T>& v) {
-	return Identity() * v;
+	return Matrix4x4<T, order>(v.x, 0.f, 0.f, 0.f, 0.f, v.y, 0.f, 0.f,
+		0.f, 0.f, v.z, 0.f, 0.f, 0.f, 0.f, 1.f);
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v) {
-	m.a *= v.x;
-	m.f *= v.y;
-	m.k *= v.z;
-	return m;
+	return m *= Scale<T, order>(v);
+}
+
+template<typename T, Ordering order>
+Matrix4x4<T, order> Translate(const Vec3<T>& v) {
+	Matrix4x4<T, order> res { Identity<T, order>() };
+	res.a03 = v.x;
+	res.a13 = v.y;
+	res.a23 = v.z;
+	return res;
+}
+
+template<typename T, Ordering order>
+Matrix4x4<T, order>& Translate(Matrix4x4<T, order>& m,
+	const Vec3<T>& v) {
+	return m *= Translate<T, order>(v);
 }
 
 template<typename T, Ordering order>
 Matrix4x4<T, order> Identity() {
 	Matrix4x4<T, order> temp;
-	temp.a = temp.f = temp.k = temp.p = static_cast<T>(1);
+	temp.a00 = temp.a11 = temp.a22 = temp.a33 = static_cast<T>(1);
 	return temp;
 }
 
@@ -54,10 +77,10 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationX(F32 angleX) {
 	if constexpr(unit == AngleUnit::DEGREE) 
 		angleX *= ToRadF;
-	Matrix4x4<F32, order> temp;
-	temp.j = sin(angleX);
-	temp.g = -(temp.j);
-	temp.f =  temp.k = cos(angleX);
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
+	temp.a21 = sin(angleX);
+	temp.a12 = -(temp.a21);
+	temp.a11 =  temp.a22 = cos(angleX);
 	return temp;
 }
 
@@ -65,10 +88,10 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationY(F32 angleY) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleY *= ToRadF;
-	Matrix4x4<F32, order> temp;
-	temp.c = sin(angleY);
-	temp.i = -(temp.c);
-	temp.a = temp.k = cos(angleX);
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
+	temp.a02 = sin(angleY);
+	temp.a20 = -(temp.a02);
+	temp.a00 = temp.a22 = cos(angleY);
 	return temp;
 }
 
@@ -76,19 +99,19 @@ template<Ordering order, AngleUnit unit>
 Matrix4x4<F32, order> RotationZ(F32 angleZ) {
 	if constexpr(unit == AngleUnit::DEGREE)
 		angleZ *= ToRadF;
-	Matrix4x4<F32, order> temp;
-	temp.e = sin(angleX);
-	temp.b = -(temp.e);
-	temp.a = temp.f = cos(angleX);
+	Matrix4x4<F32, order> temp{ Identity<F32, order>() };
+	temp.a10 = sin(angleZ);
+	temp.a01 = -(temp.a10);
+	temp.a00 = temp.a11 = cos(angleZ);
 	return temp;
 }
 
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v) {
-	return o << " | " << v.a << " | " << v.b << " | " << v.c << " | " << v.d << "\n"
-		" | " << v.e << " | " << v.f << " | " << v.g << " | " << v.h << "\n"
-		" | " << v.i << " | " << v.j << " | " << v.k << " | " << v.l << "\n"
-		" | " << v.m << " | " << v.n << " | " << v.o << " | " << v.p << " | ";
+	return o << " | " << v.a00 << " | " << v.a01 << " | " << v.a02 << " | " << v.a03 << "\n"
+		" | " << v.a10 << " | " << v.a11 << " | " << v.a12 << " | " << v.a13 << "\n"
+		" | " << v.a20 << " | " << v.a21 << " | " << v.a22 << " | " << v.a23 << "\n"
+		" | " << v.a30 << " | " << v.a31 << " | " << v.a32 << " | " << v.a33 << " | ";
 }
 
 template<typename T>
@@ -340,19 +363,6 @@ Vec3<T>& operator*=(const Matrix4x4<T>& m, Vec3<T>& v) {
 	return (v = FourDot(m.m_row12, m.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
 
-template<typename T>
-Matrix4x4<T> Translate(const Vec3<T>& v) {
-	Matrix4x4<T> res{ Identity() };
-	res.m_row4 = { v, static_cast<T>(1) };
-	return Identity();
-}
-
-template<typename T>
-Matrix4x4<T>& Translate(Matrix4x4<T>& m, const Vec3<T>& v) {
-	m.m_row4 += { v };
-	return m;
-}
-
 #pragma endregion RowOrdered
 
 #pragma region ColumnOrdered
@@ -398,8 +408,8 @@ MATRIX_COLUMN_MAJOR(T)::Matrix4x4(const MATRIX_COLUMN_MAJOR(T)& m)
 
 template<typename T>
 MATRIX_COLUMN_MAJOR(T)::Matrix4x4(MATRIX_COLUMN_MAJOR(T)&& m)
-	: m_col12(std::forward<Matrix4x4<T>>(m).m_col12),
-	m_col34(std::forward<Matrix4x4<T>>(m).m_col34) {
+	: m_col12(std::forward<Vec8<T>>(m.m_col12)),
+	m_col34(std::forward<Vec8<T>>(m.m_col34)) {
 }
 
 template<typename T>
@@ -464,10 +474,7 @@ bool MATRIX_COLUMN_MAJOR(T)::operator<=(const MATRIX_COLUMN_MAJOR(T)& m) const {
 
 template<typename T>
 bool MATRIX_COLUMN_MAJOR(T)::isIdentity() const {
-	return m_col12 == { static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), static_cast<T>(0) } &&
-		m_col34 == { static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), static_cast<T>(0),
-		static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1) };
+	return (*this == Identity<T, Ordering::COLUMN_MAJOR>());
 }
 
 template<typename T>
@@ -589,21 +596,6 @@ Vec3<T>& operator*=(const MATRIX_COLUMN_MAJOR(T)& m, Vec3<T>& v) {
 	Matrix4x4<T>& trps = m.transpose();
 	return (v = FourDot(trps.m_row12, trps.m_row34, Vec8<T>::broadcast({ v, 1.f })));
 }
-
-template<typename T>
-MATRIX_COLUMN_MAJOR(T) Translate(const Vec3<T>& v) {
-	MATRIX_COLUMN_MAJOR(T) res{ Identity() };
-	res.m_col4 = { v, static_cast<T>(1) };
-	return Identity();
-}
-
-template<typename T>
-MATRIX_COLUMN_MAJOR(T)& Translate(MATRIX_COLUMN_MAJOR(T)& m,
-	const Vec3<T>& v) {
-	m.m_col4 += { v };
-	return m;
-}
-
 
 #pragma endregion ColumnOrdered
 

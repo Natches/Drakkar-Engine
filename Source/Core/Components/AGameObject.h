@@ -2,28 +2,25 @@
 #include <Core/Core.hpp>
 #include <map>
 
-struct ComponentIDHandlePair
-{
-	int id;
-	int handle;
-};
-
+namespace drak {
+class Scene;
 class AGameObject
 {
 public:
-	AGameObject();
-	~AGameObject();
+	AGameObject() = default;
+	~AGameObject() = default;
+
 	void setComponentFlag(int id, bool value);
 	bool getComponentFlag(int id);
 	void setHandleIDPair(int id, int handle);
-	int getHandle(int id);
-protected:
+	inline int getHandle(int id) { return m_handlesToComponents[id]; }
+
+	virtual void Update() = 0;
+	virtual void Start() = 0;
+
 	U64 m_componentFlags;
-	std::map<int, int> m_handlesToComponents;
+	std::map<U32, U32> m_handlesToComponents;
+	drak::Scene* myScene;
+	U32 id;
 };
-
-class DebugCube : public AGameObject
-{
-
-};
-
+}

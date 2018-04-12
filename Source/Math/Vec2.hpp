@@ -1,6 +1,7 @@
 #pragma once
 
 #include<Math/MathUtils.hpp>
+#include <Serialization/MetaData.hpp>
 #include<ostream>
 
 namespace drak {
@@ -11,6 +12,7 @@ struct Vec2 {
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 
 	static constexpr bool isIntegral = std::is_integral_v<T>;
+	DK_SERIALIZED_OBJECT(Vec2<T>)
 public:
 	Vec2();
 
@@ -81,8 +83,12 @@ public:
 		T m_vec[2];
 		struct { T x, y; };
 	};
-};
 
+public:
+	static Vec2<T> Null();
+	static Vec2<T> Up();
+	static Vec2<T> Right();
+};
 template<typename T>
 Vec2<T> operator+(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
@@ -168,15 +174,47 @@ std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
 
 using Vec2c    = typename Vec2<U8>;
 using Vec2sc   = typename Vec2<I8>;
-using Vec2s   = typename Vec2<I16>;
-using Vec2us  = typename Vec2<U16>;
+using Vec2s    = typename Vec2<I16>;
+using Vec2us   = typename Vec2<U16>;
 using Vec2i    = typename Vec2<I32>;
-using Vec2ui   = typename Vec2<U32>;
-using Vec2lli  = typename Vec2<I64>;
-using Vec2ulli = typename Vec2<U64>;
+using Vec2u    = typename Vec2<U32>;
 using Vec2f    = typename Vec2<F32>;
-using Vec2d    = typename Vec2<F64>;
 
 } //namespace maths
 } //namespace drak
 #include<Math/Vec2.inl>
+
+DK_METADATA_BEGIN(drak::math::Vec2c)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2sc)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2s)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2us)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2i)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2u)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2f)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

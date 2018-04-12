@@ -32,7 +32,7 @@
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.h">
+    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

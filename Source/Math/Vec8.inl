@@ -539,8 +539,9 @@ Vec8<T> Vec8<T>::broadcast(const Vec4<T>& v) {
 	}
 }
 
-template<>
-Vec8<F32> Vec8<F32>::ceil() {
+template<typename T>
+Vec8<F32> Vec8<T>::ceil() {
+	static_assert(!Vec8<T>::isIntegral, "Use only ceil with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec8<F32>(SIMDStruct::ceil(m_simdVec));
 	else {
@@ -549,8 +550,9 @@ Vec8<F32> Vec8<F32>::ceil() {
 	}
 }
 
-template<>
-Vec8<F32> Vec8<F32>::floor() {
+template<typename T>
+Vec8<F32> Vec8<T>::floor() {
+	static_assert(!Vec8<T>::isIntegral, "Use only floor with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec8<F32>(SIMDStruct::floor(m_simdVec));
 	else {
@@ -561,8 +563,9 @@ Vec8<F32> Vec8<F32>::floor() {
 	}
 }
 
-template<>
-Vec8<F32> Vec8<F32>::round() {
+template<typename T>
+Vec8<F32> Vec8<T>::round() {
+	static_assert(!Vec8<T>::isIntegral, "Use only round with floating point type !!");
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
 		return Vec8<F32>(SIMDStruct::round(m_simdVec));
 	else {

@@ -15,6 +15,7 @@ template<typename T, Ordering order = Ordering::ROW_MAJOR>
 struct Matrix4x4 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA order>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,
@@ -64,7 +65,8 @@ public:
 		T m_mat[16];
 		struct { Vec8<T> m_row12, m_row34; };
 		struct { Vec4<T> m_row1, m_row2, m_row3, m_row4; };
-		struct { T a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p; };
+		struct { T a00, a01, a02, a03, a10, a11, a12, a13, a20, a21, a22,
+			a23, a30, a31, a32, a33; };
 	};
 };
 #pragma endregion RowOrdered
@@ -74,6 +76,7 @@ template<typename T>
 struct Matrix4x4<T, Ordering::COLUMN_MAJOR> {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA Ordering::COLUMN_MAJOR>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,
@@ -123,7 +126,8 @@ public:
 		T m_mat[16];
 		struct { Vec8<T> m_col12, m_col34; };
 		struct { Vec4<T> m_col1, m_col2, m_col3, m_col4; };
-		struct { T a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p; };
+		struct { T a00, a01, a02, a03, a10, a11, a12, a13, a20, a21, a22,
+			a23, a30, a31, a32, a33; };
 	};
 };
 #pragma endregion ColumnOrdered
@@ -169,10 +173,10 @@ Matrix4x4<T, order> Scale(const Vec3<T>& v);
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order> Translate(const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Scale(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
-template<typename T, Ordering order>
+template<typename T, Ordering order = Ordering::ROW_MAJOR>
 Matrix4x4<T, order>& Translate(Matrix4x4<T, order>& m, const Vec3<T>& v);
 
 template<typename T, Ordering order = Ordering::ROW_MAJOR>
@@ -193,16 +197,92 @@ Matrix4x4<F32, order> RotationZ(F32 angleZ);
 template<typename T, Ordering order>
 std::ostream& operator<<(std::ostream& o, const Matrix4x4<T, order>& v);
 
-using Mat4x4c    = typename Matrix4x4<U8>;
-using Mat4x4sc   = typename Matrix4x4<I8>;
-using Mat4x4s    = typename Matrix4x4<I16>;
-using Mat4x4us   = typename Matrix4x4<U16>;
-using Mat4x4i    = typename Matrix4x4<I32>;
-using Mat4x4ui   = typename Matrix4x4<U32>;
-using Mat4x4lli  = typename Matrix4x4<I64>;
-using Mat4x4ulli = typename Matrix4x4<U64>;
-using Mat4x4f    = typename Matrix4x4<F32>;
-using Mat4x4d    = typename Matrix4x4<F64>;
+using Mat4c    = typename Matrix4x4<U8>;
+using Mat4sc   = typename Matrix4x4<I8>;
+using Mat4s    = typename Matrix4x4<I16>;
+using Mat4us   = typename Matrix4x4<U16>;
+using Mat4i    = typename Matrix4x4<I32>;
+using Mat4u    = typename Matrix4x4<U32>;
+using Mat4f    = typename Matrix4x4<F32>;
+
+using Mat4CMc = typename MATRIX_COLUMN_MAJOR(U8);
+using Mat4CMsc = typename MATRIX_COLUMN_MAJOR(I8);
+using Mat4CMs = typename MATRIX_COLUMN_MAJOR(I16);
+using Mat4CMus = typename MATRIX_COLUMN_MAJOR(U16);
+using Mat4CMi = typename MATRIX_COLUMN_MAJOR(I32);
+using Mat4CMu = typename MATRIX_COLUMN_MAJOR(U32);
+using Mat4CMf = typename MATRIX_COLUMN_MAJOR(F32);
 } //namespace math
 } //namespace drak
 #include<Math/Matrix4x4.inl>
+
+
+DK_METADATA_BEGIN(drak::math::Mat4c)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4sc)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4s)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4us)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4i)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4u)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4f)
+DK_PUBLIC_FIELDS(m_row12, m_row34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMc)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMsc)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMs)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMus)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMi)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMu)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Mat4CMf)
+DK_PUBLIC_FIELDS(m_col12, m_col34)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

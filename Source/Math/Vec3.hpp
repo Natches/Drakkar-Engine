@@ -15,6 +15,7 @@ struct Vec3 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 	static constexpr bool isIntegral = std::is_integral_v<T>;
+	DK_SERIALIZED_OBJECT(Vec3<T>)
 public:
 	Vec3();
 	Vec3(const T X, const T Y, const T Z);
@@ -115,6 +116,12 @@ public:
 		struct { T x, y, z; };
 		struct { T r, g, b; };
 	};
+
+public:
+	static Vec3<T> Null();
+	static Vec3<T> Up();
+	static Vec3<T> Right();
+	static Vec3<T> Forward();
 };
 
 template<typename T>
@@ -208,17 +215,49 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
 
-using Vec3c = typename Vec3<U8>;
+using Vec3c  = typename Vec3<U8>;
 using Vec3sc = typename Vec3<I8>;
-using Vec3s = typename Vec3<I16>;
+using Vec3s  = typename Vec3<I16>;
 using Vec3us = typename Vec3<U16>;
-using Vec3i = typename Vec3<I32>;
-using Vec3ui = typename Vec3<U32>;
-using Vec3lli = typename Vec3<I64>;
-using Vec3ulli = typename Vec3<U64>;
-using Vec3f = typename Vec3<F32>;
-using Vec3d = typename Vec3<F64>;
+using Vec3i  = typename Vec3<I32>;
+using Vec3u  = typename Vec3<U32>;
+using Vec3f  = typename Vec3<F32>;
 
 } //namespace maths
 } //namespace drak
 #include<Math/Vec3.inl>
+
+DK_METADATA_BEGIN(drak::math::Vec3c)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3sc)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3s)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3us)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3i)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3u)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec3f)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
