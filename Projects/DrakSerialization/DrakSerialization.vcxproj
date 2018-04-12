@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Serialization\MetaData.hpp" />
+    <ClInclude Include="..\..\Source\Serialization\MetaDataUtils.hpp" />
     <ClInclude Include="..\..\Source\Serialization\ReflectionUtils.hpp" />
     <ClInclude Include="..\..\Source\Serialization\SerializationUtils.hpp" />
     <ClInclude Include="..\..\Source\Serialization\Serializer.hpp" />

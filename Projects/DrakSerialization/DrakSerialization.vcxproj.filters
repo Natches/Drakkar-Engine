@@ -35,6 +35,9 @@
     <ClInclude Include="..\..\Source\Serialization\MetaData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Serialization\MetaDataUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Serialization\Serializer.inl">
