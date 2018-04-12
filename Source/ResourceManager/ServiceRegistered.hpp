@@ -2,6 +2,6 @@
 
 #include <ResourceManager/MeshManager.hpp>
 
-DK_IMPORT(drak::io)
+DK_USE_NAMESPACE(drak::io)
 
 DK_REGISTER_SERVICES(ResourceManager, 1, MeshManager)

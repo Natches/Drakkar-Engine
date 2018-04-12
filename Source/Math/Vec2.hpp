@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Math/MathUtils.hpp>
-#include <Serialization/SerializationUtils.hpp>
+#include <Serialization/MetaData.hpp>
 #include<ostream>
 
 namespace drak {
@@ -12,6 +12,7 @@ struct Vec2 {
 		"\"T\" must be a scalar Type and not a 64 bits data type");
 
 	static constexpr bool isIntegral = std::is_integral_v<T>;
+	DK_SERIALIZED_OBJECT(Vec2<T>)
 public:
 	Vec2();
 
@@ -88,7 +89,6 @@ public:
 	static Vec2<T> Up();
 	static Vec2<T> Right();
 };
-
 template<typename T>
 Vec2<T> operator+(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
@@ -184,37 +184,37 @@ using Vec2f    = typename Vec2<F32>;
 } //namespace drak
 #include<Math/Vec2.inl>
 
-//DK_METADATA_BEGIN(drak::math::Vec2c)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2sc)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2s)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2us)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2i)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2u)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2f)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_SERIALIZE_PUBLIC_FIELDS
-//DK_METADATA_END
+DK_METADATA_BEGIN(drak::math::Vec2c)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2sc)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2s)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2us)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2i)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2u)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2f)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

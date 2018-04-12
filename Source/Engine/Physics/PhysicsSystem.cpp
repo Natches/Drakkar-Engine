@@ -7,7 +7,7 @@
 
 #define SIM_RATE 1.f/30.f 
 
-DK_IMPORT(drak)
+DK_USE_NAMESPACE(drak)
 
 #ifdef USE_PVD
 #define PVD_HOST "127.0.0.1"
@@ -192,7 +192,7 @@ bool PhysicsSystem::Startup() {
 	m_pFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, *gDefaultAllocatorCallback, *gDefaultErrorCallback);
 	if (!m_pFoundation)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log","Failed to create PhysX foundation.\n");
-	
+
 	bool recordMemoryAllocations = false;
 	m_cScale = new physx::PxTolerancesScale();
 

@@ -49,6 +49,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakEngine", "Projects\Drak
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakSerialization", "Projects\DrakSerialization\DrakSerialization.vcxproj", "{CA4B903D-A2BB-4EB1-922B-50C7A83B07C4}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC} = {FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}
 		{CCCCA1BE-A5A1-4F1A-9EEF-9E62F2CC0434} = {CCCCA1BE-A5A1-4F1A-9EEF-9E62F2CC0434}
 	EndProjectSection
 EndProject
