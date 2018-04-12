@@ -6,7 +6,7 @@
 
 #include <tuple>
 
-#include <Serialization/SerializationUtils.hpp>
+#include <Serialization/MetaDataUtils.hpp>
 #include <Serialization/ReflectionUtils.hpp>
 
 namespace drak {
@@ -22,8 +22,8 @@ struct IFields {
 	virtual const char* varName(int idx) = 0;
 	virtual int varN() = 0;
 	virtual size_t totalSizeAllVar() = 0;
-	virtual std::tuple<void*, size_t> getVar(T& t, const char* name) = 0;
-	virtual bool setVar(T& t, const char* name, void* data) = 0;
+	virtual std::string getVar(T& t, const char* name) = 0;
+	virtual bool setVar(T& t, const char* name, const std::string& data) = 0;
 };
 
 template<typename T>
@@ -122,20 +122,6 @@ static void StringToValue(const char* c_str, T& t) {
 } // namespace serialization
 } // namespace drak
 
-#define FACTORY_PATTERN										\
-static type Create() { return type(); };					\
-static type* CreateNew() { return new type(); };			\
-static type Create(const char* c_str) {						\
-	type t;													\
-	SetBinary(t, c_str);									\
-	return t;												\
-}															\
-static type* CreateNew(const char* c_str) {					\
-	type* t = new type;										\
-	SetBinary(*t, c_str);									\
-	return t;												\
-}
-
 #define DK_METADATA_BEGIN(ty)								\
 template<>													\
 struct drak::serialization::MetaData<ty> {					\
@@ -143,14 +129,9 @@ using type = ty;											\
 static constexpr const char* TypeName() { return #ty; };
 
 #define DK_METADATA_END																			\
-FACTORY_PATTERN																					\
+DK_METADATA_FACTORY_PATTERN																		\
 static bool AreEqual(const type& t1, const type& t2) {											\
-std::tuple<char*, size_t> binary1 = GetBinary(t1), binary2 = GetBinary(t2);						\
-bool res = std::get<1>(GetBinary(t1)) == std::get<1>(GetBinary(t2)) &&							\
-!strcmp(std::get<0>(GetBinary(t1)), std::get<0>(GetBinary(t2)));								\
-delete[] std::get<0>(GetBinary(t1));															\
-delete[] std::get<0>(GetBinary(t2));															\
-return res;																						\
+return SerializeToBinary(t1) == SerializeToBinary(t2);											\
 }																								\
 static bool AreNotEqual(const type& t1, const type& t2) {										\
 return !AreEqual(t1, t2);																		\
@@ -163,6 +144,12 @@ private:																				\
 DK_DATA_STRUCT()																		\
 DK_SET_DATA()																			\
 DK_GET_DATA()																			\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_BINARY_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_DESERIALIZE_BINARY_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_JSON_FUNC(__VA_ARGS__))									\
+DK_EXPAND(DK_DESERIALIZE_JSON_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI_FUNC(__VA_ARGS__))									\
+DK_EXPAND(DK_DESERIALIZE_INI_TO_FIELD_FUNC(__VA_ARGS__))								\
 public:																					\
 static constexpr char* FieldName{ #fieldName };											\
 DK_EXPAND(DK_NAME_ARRAY(__VA_ARGS__))													\
@@ -173,12 +160,6 @@ DK_EXPAND(DK_GET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_SET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_GET_SIZE_BY_NAME(__VA_ARGS__))												\
 DK_EXPAND(DK_GET_TYPENAME_BY_NAME(__VA_ARGS__))											\
-DK_EXPAND(DK_SET_EVERY_DATA_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_BINARY_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_TO_JSON_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_JSON_TO_FIELD_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_TO_INI_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_INI_TO_FIELD_FUNC(__VA_ARGS__))											\
 DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\
@@ -190,10 +171,10 @@ virtual int varN() override {															\
 virtual size_t totalSizeAllVar() override {												\
 	return s_staticSize;																\
 };																						\
-virtual std::tuple<void*, size_t> getVar(type& t, const char* str)override {			\
+virtual std::string getVar(type& t, const char* str)override {							\
 	DK_EXPAND(DK_CONCAT(DK_GET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 }																						\
-virtual bool setVar(type& t, const char* name, void* data) override {					\
+virtual bool setVar(type& t, const char* name, const std::string& data) override {		\
 	DK_EXPAND(DK_CONCAT(DK_SET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 	return false;																		\
 }																						\

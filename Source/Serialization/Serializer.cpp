@@ -1,5 +1,6 @@
 #include <Serialization/Serializer.hpp>
 #include <fstream>
+#include <iostream>
 
 namespace drak {
 namespace serialization {

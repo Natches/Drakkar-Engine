@@ -55,15 +55,16 @@ DK_PRIVATE_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
-DK_PRIVATE_FIELDS(serial, ser1, pt, mat, vec2, vecstr, mat)
-DK_PRIVATE_STATIC_FIELDS(xizzy, str, vec, vec3)
+DK_PUBLIC_FIELDS(instance, str, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
+DK_PRIVATE_FIELDS(serial, ser1, pt, mat, vec2, vecstr)
+DK_PRIVATE_STATIC_FIELDS(xizzy, vec, vec3)
 DK_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 int main() {
 	Test t;
 	float z = 55;
+	t.instance = 25;
 	t.serial.c = 25;
 	t.ser1.c = 25;
 	t.ser1.i = 25;
@@ -79,26 +80,26 @@ int main() {
 	t.vec2[5] = nullptr;
 	t.str = "lalalal";
 	t.pt = nullptr;
-	t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );
-	MetaData<Test>::PrivateStaticFields::set(t, "xizzy", &z);
+	/*t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );*/
+	MetaData<Test>::set(t, "xizzy", std::string((char*)&z, sizeof(float)));
 	t.s = 1;
 	std::vector<Test> vd;
 	for (int i = 0; i < 30; ++i) {
 		vd.emplace_back(t);
 	}
 	std::stringstream sstr;
-	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);
+/*	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);*/
 	Serializer::SerializeToFile<EExtension::BINARY, Test>(t, "./", "Test");
 	Test t2;
-	Serializer::LoadFromFile<EExtension::BINARY, Test>(t2, "./Test");
+	Serializer::LoadFile<EExtension::BINARY, Test>(t2, "./Test");
 	/*std::ofstream of("testJSON.json");
 	of << sstr.rdbuf();
 	of.close();*/
 	/*std::cout << MetaData<Ser>::s_staticSize * drak::types::SizeOfArray_V<TYPEOF(t.b)> << std::endl;
-	t2 = MetaData<Test>::Create(std::get<0>(MetaData<Test>::GetBinary(t)));
+	t2 = MetaData<Test>::Create(std::get<0>(MetaData<Test>::SerializeToBinary(t)));
 	Serializer::SerializeToFile<Test>(t, "./", "SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Ser>(t.ser1, "./SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Test>(t2, "./SerializedDataOfTest.txt");
-	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");*/
+	auto[a,b] = Serializer::LoadEveryFile<Test>("./SerializedDataOfTest.txt");*/
   	return 0;
 }

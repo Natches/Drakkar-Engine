@@ -24,12 +24,12 @@ static size_t ComputeTotalSize(const type& t) {															\
 };
 
 #define DK_GET_BY_NAME(...)													\
-static std::tuple<void*, size_t> get(const type& t, const char* str) {		\
+static std::string get(const type& t, const char* str) {					\
 	DK_EXPAND(DK_CONCAT(DK_GET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 
 #define DK_SET_BY_NAME(...)													\
-static bool set(type& t, const char* name, void* data) {					\
+static bool set(type& t, const char* name, const std::string& data) {		\
 	DK_EXPAND(DK_CONCAT(DK_SET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 	return false;															\
 }
@@ -45,13 +45,13 @@ static const char* typeNameOf(const char* str){								\
 }
 
 #define DK_METADATA_GET_BY_NAME(...)													\
-static std::tuple<void*, size_t> get(const type& t, const char* name){					\
-	std::tuple<void*, size_t> res;														\
+static std::string get(const type& t, const char* name){								\
+	std::string res;																	\
 	DK_EXPAND(DK_CONCAT(DK_METADATA_GET_BY_NAME, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 
 #define DK_METADATA_SET_BY_NAME(...)															\
-static bool set(type& t, const char* name, void* data){											\
+static bool set(type& t, const char* name, const std::string& data){							\
 	return DK_EXPAND(DK_CONCAT(DK_METADATA_SET_BY_NAME, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 
@@ -61,11 +61,11 @@ DK_METADATA_FIELD_NAME_ARRAY(__VA_ARGS__)				\
 DK_METADATA_FIELD_STATIC_SIZE(__VA_ARGS__)				\
 DK_METADATA_FIELD_TOTAL_SIZE(__VA_ARGS__)
 
-#define DK_METADATA_FIELD_ARRAY(...)															\
-static constexpr std::array<IFields<type>*, DK_ARGS_N(__VA_ARGS__)> s_fields =					\
+#define DK_METADATA_FIELD_ARRAY(...)													\
+static constexpr std::array<IFields<type>*, DK_ARGS_N(__VA_ARGS__)> s_fields =			\
 { DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_ARRAY, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__)) };	\
 
-#define DK_METADATA_FIELD_NAME_ARRAY(...)							\
+#define DK_METADATA_FIELD_NAME_ARRAY(...)												\
 static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_fieldName	\
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };
 
@@ -705,9 +705,9 @@ DK_EXPAND(DK_TYPE_NAME31(__VA_ARGS__))
 
 #define DK_GET_DATA_IMPL(ty)	\
 if (!strcmp(str, #ty))			\
-return GetData<TYPEOF(t.ty)>(t.ty);
+return SerializeToBinary<TYPEOF(t.ty)>(t.ty);
 
-#define DK_GET_DATA0 return std::make_tuple<void*, size_t>(nullptr, 0);
+#define DK_GET_DATA0 return std::string("");
 #define DK_GET_DATA1(ty)\
 DK_GET_DATA_IMPL(ty)	\
 DK_GET_DATA0
@@ -836,10 +836,11 @@ DK_EXPAND(DK_GET_DATA30(__VA_ARGS__))
 DK_GET_DATA_IMPL(ty)	\
 DK_EXPAND(DK_GET_DATA31(__VA_ARGS__))
 
-#define DK_SET_DATA_IMPL(ty) \
-if (!strcmp(name, #ty)) {	\
-SetData<TYPEOF(t.ty)>(t.ty, (const char*)data, 0);	\
-return true;								\
+#define DK_SET_DATA_IMPL(ty)									\
+if (!strcmp(name, #ty)) {										\
+std::stringstream sstr(data);									\
+DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);					\
+return true;													\
 }
 
 #define DK_SET_DATA0(...)
@@ -970,8 +971,8 @@ DK_EXPAND(DK_SET_DATA30(__VA_ARGS__))
 DK_SET_DATA_IMPL(ty)	\
 DK_EXPAND(DK_SET_DATA31(__VA_ARGS__))
 
-#define DK_METADATA_GET_BY_NAME_IMPL(fields)								\
-if ((res = fields::get(t, name)) != std::tuple<void*, size_t>(nullptr, 0))	\
+#define DK_METADATA_GET_BY_NAME_IMPL(fields)			\
+if ((res = fields::get(t, name)) != std::string(""))	\
 	return res;
 
 #define DK_METADATA_GET_BY_NAME0 return res;
