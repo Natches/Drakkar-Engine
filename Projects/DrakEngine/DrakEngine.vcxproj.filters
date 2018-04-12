@@ -77,5 +77,8 @@
     <ClInclude Include="..\..\Source\Engine\Components\PhysicsComponents.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\CreateDerivative.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

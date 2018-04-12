@@ -103,15 +103,20 @@ public:
 	}
 
 	template <typename T>
-	T& addGameObject() {
-		m_gameObjects.push_back(new T());
+	T* addGameObject() {
+		try {
+			m_gameObjects.push_back(new T());
+		}
+		catch (std::bad_array_new_length &e) {
+			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
+		}
 		AGameObject& gameObject = *m_gameObjects[m_gameObjects.size() - 1];
 		gameObject.setIdx((U32)m_gameObjects.size() - 1);
 		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
 		addComponentToGameObject<components::Transform>(gameObject);
-		return *static_cast<T*>(&gameObject);
+		return static_cast<T*>(&gameObject);
 	}
 
 	Scene getScene() {

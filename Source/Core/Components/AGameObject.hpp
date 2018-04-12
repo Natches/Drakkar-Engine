@@ -23,8 +23,8 @@ public:
 	~AGameObject() = default;
 	//inline int getHandle(int id) { return m_handlesToComponents[id]; }
 
-	virtual void update() = 0;
-	virtual void start() = 0;
+	virtual void update() { ; }
+	virtual void start() { ; }
 
 	template <typename T>
 	T* getComponent(U32 n = 0) {
@@ -80,29 +80,26 @@ public:
 			return m_handlesToComponents[id];
 		return -1;
 	}
-
 	inline U32 getIdx() {
 		return idx;
 	}
-
 	inline void setIdx(U32 idx) {
 		this->idx = idx;
 	}
-
 	inline void setLevel(LevelSystem* level) {
 		this->level = level;
 	}
-
 	inline LevelSystem* getLevel() {
 		return level;
 	}
-	
 	inline bool isRoot() {
 		return m_isRoot;
 	}
-
 	std::string& getName() {
 		return name;
+	}
+	inline U64 getDTID() {
+		return derivedTypeID;
 	}
 
 	void makeRoot();
@@ -110,6 +107,7 @@ public:
 	void setParent(AGameObject& parent);
 protected:
 	std::string name;
+	U64 derivedTypeID;
 private:
 	std::unordered_map<U64, U64> m_handlesToComponents;
 	U64 m_componentFlags = 0;

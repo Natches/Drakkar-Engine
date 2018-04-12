@@ -34,7 +34,6 @@ bool RenderSystem::loadResources(const std::string& dir) {
 }
 
 void RenderSystem::forwardRender(Scene& scene) {
-
 	m_shaderMap["DefaultShader"]->use();
 	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
 	U32 flag = 1 << ComponentType<Model>::id;

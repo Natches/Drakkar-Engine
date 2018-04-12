@@ -3,10 +3,11 @@
 #include <Core/Components/AGameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Math/Matrix4x4.hpp>
 #include <Windowing/Input/Keyboard.hpp>
-#include <PxPhysicsAPI.h>
+#include <Engine\CreateDerivative.hpp>
 #include <string>
 
 using namespace drak;
@@ -18,24 +19,31 @@ using namespace math;
 
 class Floor : public AGameObject {
 	// Inherited via AGameObject
+public:
+	Floor() {
+		derivedTypeID = 1;
+		name = "Floor";
+	}
 	virtual void update() override
 	{
 	}
 	virtual void start() override
 	{
-		name = "Floor";
 	}
 };
 
 class Cube : public AGameObject {
 public:
+	Cube() {
+		derivedTypeID = 0;
+		name = "Cube";
+	}
+
 	bool hitByPlayer = false;
-private:
 	virtual void update() override {
 	}
 
 	virtual void start() override {
-		name = "Cube";
 		RigidBody& rb = *getComponent<RigidBody>();
 		Engine::Get().getPhysicsSystem().AddCollisionCallback(
 			rb,
@@ -69,6 +77,12 @@ private:
 };
 
 class Player : public AGameObject {
+public:
+	Player() {
+		derivedTypeID = 2;
+		name = "Player";
+	}
+
 	// Inherited via AGameObject
 	float speed = 50.f;
 	int score = 0;
@@ -78,7 +92,6 @@ class Player : public AGameObject {
 
 	virtual void start() override
 	{
-		name = "Player";
 		Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, 
 			new MemberFunction<Player, void, const Event*>(this, &Player::KeyPress, &Keyboard::Get().event()));
 
@@ -144,74 +157,11 @@ class Player : public AGameObject {
 	}
 };
 
-class MainScene : public IManualSceneBlueprint {
-	// Inherited via IManualSceneBlueprint
-	virtual void build(LevelSystem& level) override
-	{
-		int numOfCubes = 20;
-		for (int i = 0; i < numOfCubes; ++i) {
-			Cube& aCube = level.addGameObject<Cube>();
-			Transform& t = *aCube.getComponent<Transform>();
-			t.position = math::Vec3f(0, i*15.f, 0);
-			t.scale = math::Vec3f(10, 10, 10);
-
-			Model& model = aCube.addComponent<Model>();
-			model.albedo.r = 0.f;
-			model.albedo.g = 1.f;
-			model.albedo.b = 0.f;
-
-			RigidBody& rigid = aCube.addComponent<RigidBody>();
-			rigid.mass = 1.f;
-			BoxCollider& boxCollider = aCube.addComponent<BoxCollider>();
-			boxCollider.width = 10;
-			boxCollider.height = 10;
-			boxCollider.depth = 10;
-			boxCollider.material = PhysicsMaterial{0.5f, 0.5f, 0.5f};
-			
-			Engine::Get().getPhysicsSystem().InitRigidBody(rigid, level);
-		}
-
-		//GROUND
-		Floor& ground = level.addGameObject<Floor>();
-		Transform& groundT = *ground.getComponent<Transform>();
-		groundT.position = math::Vec3f(0, -50, 0);
-		groundT.scale = math::Vec3f(3000, 100, 3000);
-		RigidBody& rigid = ground.addComponent<RigidBody>();
-		rigid.mass = 1.f;
-		rigid.isStatic = true;
-		BoxCollider& boxCollider = ground.addComponent<BoxCollider>();
-		boxCollider.width = 3000;
-		boxCollider.height = 100;
-		boxCollider.depth = 3000;
-		boxCollider.material = PhysicsMaterial{ 0.5f, 0.5f, 0.f };
-		Engine::Get().getPhysicsSystem().InitRigidBody(rigid, level);
-
-		//PLAYER
-		Player& player = level.addGameObject<Player>();
-		Transform& playerT = *player.getComponent<Transform>();
-		playerT.position = math::Vec3f(30, 10, 0);
-		playerT.scale = math::Vec3f(10, 10, 10);
-		Model& playerModel = player.addComponent<Model>();
-		playerModel.albedo.r = 1.f;
-		playerModel.albedo.g = 1.f;
-		playerModel.albedo.b = 1.f;
-
-		RigidBody& playerRigid = player.addComponent<RigidBody>();
-		playerRigid.mass = 5.f;
-		playerRigid.isKinematic = true;
-		BoxCollider& playerBoxCollider = player.addComponent<BoxCollider>();
-		playerBoxCollider.width = 10;
-		playerBoxCollider.height = 10;
-		playerBoxCollider.depth = 10;
-		playerBoxCollider.material = PhysicsMaterial{ 0.5f, 0.5f, 0.5f };
-		Engine::Get().getPhysicsSystem().InitRigidBody(playerRigid, level);
-	}
-};
-
 int main(int argc, char** argv) {
 	Engine::Get().startup();
-	MainScene scene;
-	Engine::Get().loadScene(scene);
+	Engine::Get().createAll<Cube>();
+	Engine::Get().createAll<Floor>();
+	Engine::Get().createAll<Player>();
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }

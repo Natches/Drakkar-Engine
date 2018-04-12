@@ -2,14 +2,22 @@
 #include <Core/Core.hpp>
 #include <Core/Timer/FrameTimer.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
-#include <Engine/Physics/PhysicsSystem.hpp>
-#include <Engine/Scene/LevelSystem.hpp>
-#include <Video/VideoSystem.hpp>
-#include <Video/Graphics/Rendering/RenderSystem.hpp>
+//#include <Engine/Physics/PhysicsSystem.hpp>
+//#include <Engine/Scene/LevelSystem.hpp>
+//#include <Video/VideoSystem.hpp>
+//#include <Video/Graphics/Rendering/RenderSystem.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;
-
+class PhysicsSystem;
+class LevelSystem;
+namespace gfx {
+	class RenderSystem;
+}
+namespace video {
+	class VideoSystem;
+	class AWindow;
+}
 namespace core {
 
 class Engine final {
@@ -28,16 +36,18 @@ public:
 	DRAK_API ~Engine();
 	DRAK_API PhysicsSystem& getPhysicsSystem();
 	DRAK_API time::FrameTimer& GetFrameTimer();
-	inline LevelSystem& currentLevel() { return levelSystem; }
+	DRAK_API LevelSystem& currentLevel();
 	inline time::FrameTimer& getFrameTimer() { return s_frameTime; }
+	template <typename T>
+	void createAll();
 private:
 	DRAK_API Engine();
 	time::FrameTimer	s_frameTime;
-	PhysicsSystem		physicsSystem;
-	LevelSystem			levelSystem;
-	video::VideoSystem	videoSystem;
-	gfx::RenderSystem	renderSystem;
-	video::AWindow*		pMainWindow;
+	PhysicsSystem*		m_pPhysicsSystem;
+	LevelSystem*		m_pLevelSystem;
+	video::VideoSystem*	m_pVideoSystem;
+	gfx::RenderSystem*	m_pRenderSystem;
+	video::AWindow*		m_pMainWindow;
 
 	DRAK_API static thread::ThreadPool s_pool;
 	DRAK_API static bool running;
