@@ -29,62 +29,61 @@ DK_METADATA_DESERIALIZE_INI_TO_FIELD(__VA_ARGS__)		\
 public:													\
 DK_METADATA_SERIALIZE_FIELDS(__VA_ARGS__)
 
-#define DK_METADATA_SERIALIZE_FIELD_TO_JSON(...)													\
-static std::string SerializeToJSON(const type& t, int indent) {							\
-std::stringstream sstr;																				\
-std::string str(TypeName());															\
-str += ": {\n";																			\
+#define DK_METADATA_SERIALIZE_FIELD_TO_JSON(...)												\
+static std::string SerializeToJSON(const type& t, int indent) {									\
+std::stringstream sstr;																			\
+std::string str(TypeName());																	\
+str += ": {\n";																					\
 DK_EXPAND(DK_CONCAT(DK_METADATA_SERIALIZE_FIELD_TO_JSON, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
-for(int i = 0; i < indent - 1; ++i)														\
-		str += '\t';																	\
-str += '}';																				\
-return str;																				\
+for(int i = 0; i < indent - 1; ++i)																\
+		str += '\t';																			\
+str += '}';																						\
+return str;																						\
 }
 
 #define DK_METADATA_DESERIALIZE_JSON_TO_FIELD(...)													\
-static type& DeserializeJSON(type& t, std::stringstream& sstr) {					\
-std::string name;																		\
-sstr >> name;																			\
-if(name == std::string(TypeName()) + ":"){												\
-while (name != "}" && name != "},") {													\
-sstr >> name;																			\
+static type& DeserializeJSON(type& t, std::stringstream& sstr) {									\
+std::string name;																					\
+sstr >> name;																						\
+if(name == std::string(TypeName()) + ":"){															\
+while (name != "}" && name != "},") {																\
+sstr >> name;																						\
 DK_EXPAND(DK_CONCAT(DK_METADATA_DESERIALIZE_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
-}																						\
-}																						\
-else																					\
-	std::cout << name << ", " << TypeName() << std::endl;								\
-	/*Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,*/								\
-		/*"Object Name is not the one expected, receive %s instead of %s !!",*/			\
-		/*name.c_str(), TypeName());*/													\
-return t;																				\
+}																									\
+}																									\
+else																								\
+	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,*/												\
+		"Object Name is not the one expected, receive %s instead of %s !!",							\
+		name.c_str(), TypeName());*/																\
+return t;																							\
 }
 
 #define DK_METADATA_SERIALIZE_FIELD_TO_INI(...)													\
-static std::string SerializeToINI(const type& t) {										\
-std::string str;																		\
-((str += '[') += TypeName()) += "]\n";													\
-std::stringstream sstr;																				\
-DK_EXPAND(DK_CONCAT(DK_METADATA_SERIALIZE_FIELD_TO_INI, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))		\
-return str;																				\
+static std::string SerializeToINI(const type& t) {												\
+std::string str;																				\
+((str += '[') += TypeName()) += "]\n";															\
+std::stringstream sstr;																			\
+DK_EXPAND(DK_CONCAT(DK_METADATA_SERIALIZE_FIELD_TO_INI, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
+return str;																						\
 }
 
-#define DK_METADATA_DESERIALIZE_INI_TO_FIELD(...)													\
-static type& DeserializeINI(type& t, std::stringstream& sstr) {						\
-std::string name;																		\
-sstr >> name;																			\
-if(name == (std::string("[") + TypeName()) + "]"){										\
-sstr >> name;																			\
-while (name[0] != '[' && !sstr.eof()) {													\
-DK_EXPAND(DK_CONCAT(DK_METADATA_DESERIALIZE_INI_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))		\
-sstr >> name;																			\
-}																						\
-}																						\
-else																					\
-	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,									\
-		"Object Name is not the one expected, receive %s instead of %s !!",				\
-		name.c_str(), name.size(), ((std::string("[") + TypeName()) + "]").c_str(),		\
-		strlen(TypeName()) + 2);														\
-return t;																				\
+#define DK_METADATA_DESERIALIZE_INI_TO_FIELD(...)												\
+static type& DeserializeINI(type& t, std::stringstream& sstr) {									\
+std::string name;																				\
+sstr >> name;																					\
+if(name == (std::string("[") + TypeName()) + "]"){												\
+sstr >> name;																					\
+while (name[0] != '[' && !sstr.eof()) {															\
+DK_EXPAND(DK_CONCAT(DK_METADATA_DESERIALIZE_INI_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
+sstr >> name;																					\
+}																								\
+}																								\
+else																							\
+	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,											\
+		"Object Name is not the one expected, receive %s instead of %s !!",						\
+		name.c_str(), name.size(), ((std::string("[") + TypeName()) + "]").c_str(),				\
+		strlen(TypeName()) + 2);																\
+return t;																						\
 }
 
 #define DK_METADATA_DESERIALIZE_BINARY_TO_FIELD(...)													\

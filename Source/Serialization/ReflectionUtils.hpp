@@ -61,11 +61,11 @@ DK_METADATA_FIELD_NAME_ARRAY(__VA_ARGS__)				\
 DK_METADATA_FIELD_STATIC_SIZE(__VA_ARGS__)				\
 DK_METADATA_FIELD_TOTAL_SIZE(__VA_ARGS__)
 
-#define DK_METADATA_FIELD_ARRAY(...)															\
-static constexpr std::array<IFields<type>*, DK_ARGS_N(__VA_ARGS__)> s_fields =					\
+#define DK_METADATA_FIELD_ARRAY(...)													\
+static constexpr std::array<IFields<type>*, DK_ARGS_N(__VA_ARGS__)> s_fields =			\
 { DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_ARRAY, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__)) };	\
 
-#define DK_METADATA_FIELD_NAME_ARRAY(...)							\
+#define DK_METADATA_FIELD_NAME_ARRAY(...)												\
 static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_fieldName	\
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };
 
