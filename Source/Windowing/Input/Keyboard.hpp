@@ -74,9 +74,9 @@ struct KeyEvent : public Event {
 class Keyboard final : public IEventDispatcher {
 	DK_NONMOVABLE_NONCOPYABLE(Keyboard)
 public:
-	static Keyboard& Get();
+	DRAK_API static Keyboard& Get();
 
-	void addEventListener(EventType type, EventListener listener) override;
+	DRAK_API void addEventListener(EventType type, EventListener listener) override;
 	void removeEventListener(EventType type, EventListener listener) override;
 
 	DK_GETTER_REF_V(KeyEvent, event, m_evt)

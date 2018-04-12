@@ -23,10 +23,12 @@
     <ClCompile Include="..\..\Source\Core\Engine\Event.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Components\AGameObject.hpp" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
+    <ClInclude Include="..\..\Source\Core\Engine\Error.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Event.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp" />
@@ -35,9 +37,11 @@
     <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\FileUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utils\VA_ArgsUtils.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -183,9 +187,9 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -216,10 +220,10 @@
       <Parallelization>false</Parallelization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;DRAK_EXPORT;LOG2</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>

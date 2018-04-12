@@ -1,6 +1,12 @@
 #include <Engine/Engine.hpp>
 #include <Core/Components/AGameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
+#include <Engine/Physics/PhysicsSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+#include <Video/VideoSystem.hpp>
+#include <Video/Graphics/Rendering/RenderSystem.hpp>
+
+
 
 using namespace drak::components;
 using namespace drak::time;
@@ -11,41 +17,61 @@ thread::ThreadPool core::Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {
+	m_pVideoSystem = new video::VideoSystem();
+	m_pRenderSystem = new gfx::RenderSystem();
+	m_pPhysicsSystem = new PhysicsSystem;
+	m_pLevelSystem = new LevelSystem;
 
 }
 
 Engine::~Engine() {
-
+	delete m_pVideoSystem;
+	delete m_pRenderSystem;
+	delete m_pPhysicsSystem;
+	delete m_pLevelSystem;
 }
 
 PhysicsSystem& Engine::getPhysicsSystem()
 {
-	return physicsSystem;
+	return *m_pPhysicsSystem;
+}
+
+DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
+	return s_frameTime;
+}
+
+DRAK_API LevelSystem & Engine::currentLevel()
+{
+		return *m_pLevelSystem;
 }
 
 int Engine::startup() {
+
+
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
 	video::WindowSettings	winSettings		= { "Drakkar Engine", 1600, 900 };
 	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
 	// TODO (Simon): Check for failed startups
-	videoSystem.startup(videoSettings, pMainWindow);
-	renderSystem.startup(videoSystem.renderer());
-	sceneSystem.Startup();
+	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
+	
+	m_pRenderSystem->startup(m_pVideoSystem->renderer());
+	
+	m_pPhysicsSystem->Startup();
+	
+	m_pLevelSystem->startup();
+	
 	s_pool.startup();
-	physicsSystem.Startup();
-	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
-
 	return 0;
 }
 
 int Engine::shutdown() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-	sceneSystem.Shutdown();
-	physicsSystem.Shutdown();
-	renderSystem.shutdown();
-	videoSystem.shutdown();
+	m_pLevelSystem->shutdown();
+	m_pPhysicsSystem->Shutdown();
+	m_pRenderSystem->shutdown();
+	m_pVideoSystem->shutdown();
 	
 	Logbook::CloseLogs();
 	s_pool.shutdown();
@@ -56,43 +82,37 @@ int Engine::shutdown() {
 void Engine::startLoop() {
 	s_frameTime.start();
 
-	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
+	std::vector<AGameObject*>& gameObjects = m_pLevelSystem->getGameObjects();
 	for (auto g : gameObjects)
-		g->Start();
+		g->start();
 	
-	while (pMainWindow->isOpen()) {
+	while (m_pMainWindow->isOpen()) {
 		s_frameTime.update();
-		pMainWindow->pollEvents();
+		m_pMainWindow->pollEvents();
 
-		gameObjects = sceneSystem.scene->getGameObjects();
-		for (auto g : gameObjects)
-			g->Update();
+		gameObjects = m_pLevelSystem->getGameObjects();
+		for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
+			gameObjects[i]->update();
 
-		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
-				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
-				*sceneSystem.scene->getComponentContainerByType<Transform>());
+		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
+			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
-		F32 t0 = s_frameTime.duration();
-		pMainWindow->clear();
-		renderSystem.startFrame();
-		renderSystem.forwardRender(*sceneSystem.scene->getComponentContainerByType<Model>(),
-			*sceneSystem.scene->getComponentContainerByType<Transform>());
-		renderSystem.endFrame();
-		pMainWindow->swapBuffers();
-		F32 t1 = s_frameTime.duration() - t0;
-
-		std::cout << "RenderSystem time: " << t1 * (F32)ATimer::TimeDuration::MILLISECONDS << " ms\n";
-		//Logbook::Log(Logbook::EOutput::CONSOLE, "Rendering: ", "%.6f ms\n", renderTime);
+		m_pMainWindow->clear();
+		m_pRenderSystem->startFrame();
+		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+		
+		m_pRenderSystem->endFrame();
+		m_pMainWindow->swapBuffers();
 	}
 	s_frameTime.stop();
 }
 
-void Engine::stopGame() {
+void Engine::StopGame() {
 	Engine::running = false;
 }
 
 void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
-	sceneSystem.loadScene(sceneBlueprint);
+	m_pLevelSystem->loadScene(sceneBlueprint);
 }
 
 

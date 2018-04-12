@@ -1,6 +1,7 @@
 #include "SimulationEvent.hpp"
 #include <PxPhysicsAPI.h>
-#include <Engine/Components/RigidBodyComponent.hpp>
+#include <Engine/Components/PhysicsComponents.hpp>
+#include <Core/Components/AGameObject.hpp>
 
 using namespace physx;
 using namespace drak;
@@ -13,10 +14,9 @@ PhysicsEvents::PhysicsEvents() {
 PhysicsEvents::~PhysicsEvents() {
 }
 
-void drak::events::PhysicsEvents::AddEventListener(components::RigidBody* rb, EventType type, EventListener listener)
-{
-	m_collisionEventDispatchers.insert({ *(std::string*)rb->rigidActor->userData, PhysicsEventDispatcher() });
-	m_collisionEventDispatchers[*(std::string*)rb->rigidActor->userData].addEventListener(type, listener);
+void drak::events::PhysicsEvents::AddEventListener(components::RigidBody& rb, EventType type, EventListener listener) {
+	m_collisionEventDispatchers.insert({ rb.GameObjectIDX, PhysicsEventDispatcher() });
+	m_collisionEventDispatchers[rb.GameObjectIDX].addEventListener(type, listener);
 }
 
 void drak::events::PhysicsEventDispatcher::dispatchEvent(const Event * e) {
@@ -33,24 +33,47 @@ void PhysicsEvents::onSleep(PxActor ** actors, PxU32 count) {
 }
 
 void PhysicsEvents::onContact(const PxContactPairHeader & pairHeader, const PxContactPair * pairs, PxU32 nbPairs) {
-	CollisionEvent in;
-	in.type = PhysicsEventDispatcher::COLLISION_IN;
-	CollisionEvent out;
-	out.type = PhysicsEventDispatcher::COLLISION_OUT;
-	CollisionEvent stay;
-	stay.type = PhysicsEventDispatcher::COLLISION_STAY;
-
 	if (pairs->flags.isSet(PxContactPairFlag::eACTOR_PAIR_HAS_FIRST_TOUCH)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&in);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&in);
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[0]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent in;
+			in.type = PhysicsEventDispatcher::COLLISION_IN;
+			in.otherGameObjectIDX = (*(U64*)pairHeader.actors[1]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[0]->userData)].dispatchEvent(&in);
+		}
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[1]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent in;
+			in.type = PhysicsEventDispatcher::COLLISION_IN;
+			in.otherGameObjectIDX = (*(U64*)pairHeader.actors[0]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[1]->userData)].dispatchEvent(&in);
+		}
 	}
 	else if(pairs->flags.isSet(PxContactPairFlag::eACTOR_PAIR_LOST_TOUCH)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&out);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&out);
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[0]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent out;
+			out.type = PhysicsEventDispatcher::COLLISION_OUT;
+			out.otherGameObjectIDX = (*(U64*)pairHeader.actors[1]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[0]->userData)].dispatchEvent(&out);
+		}
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[1]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent out;
+			out.type = PhysicsEventDispatcher::COLLISION_OUT;
+			out.otherGameObjectIDX = (*(U64*)pairHeader.actors[0]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[1]->userData)].dispatchEvent(&out);
+		}
 	}
 	else if (pairHeader.pairs->events.isSet(PxPairFlag::eNOTIFY_TOUCH_PERSISTS)) {
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[0]->userData)].dispatchEvent(&stay);
-		m_collisionEventDispatchers[*((std::string*)pairHeader.actors[1]->userData)].dispatchEvent(&stay);
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[0]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent stay;
+			stay.type = PhysicsEventDispatcher::COLLISION_STAY;
+			stay.otherGameObjectIDX = (*(U64*)pairHeader.actors[1]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[0]->userData)].dispatchEvent(&stay);
+		}
+		if (m_collisionEventDispatchers.find((*(U64*)pairHeader.actors[1]->userData)) != m_collisionEventDispatchers.end()) {
+			CollisionEvent stay;
+			stay.type = PhysicsEventDispatcher::COLLISION_STAY;
+			stay.otherGameObjectIDX = (*(U64*)pairHeader.actors[0]->userData);
+			m_collisionEventDispatchers[(*(U64*)pairHeader.actors[1]->userData)].dispatchEvent(&stay);
+		}
 	}
 }
 

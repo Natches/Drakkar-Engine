@@ -2,6 +2,7 @@
 #include <Core/Core.hpp>
 #include <vector>
 #include <unordered_map>
+#include <Math/Vec3.hpp>
 
 namespace physx {
 	class PxScene;
@@ -18,7 +19,7 @@ namespace physx {
 //class ContactReport : physx::
 
 namespace drak {
-	class Scene;
+	class LevelSystem;
 	namespace components {
 		struct RigidBody;
 		struct Transform;
@@ -35,21 +36,27 @@ namespace drak {
 		DK_NONMOVABLE_NONCOPYABLE(PhysicsSystem)
 		friend core::Engine;
 	public:
-		physx::PxPhysics* getPhysics() {return m_pPhysics; }
-		DRAK_API void AddCollisionCallback(components::RigidBody* rb, events::EventType type, events::EventListener listener);
+		physx::PxPhysics* getPhysics() { return m_pPhysics; }
+		DRAK_API void InitRigidBody(components::RigidBody & rb, LevelSystem& level);
+		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
+		DRAK_API void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
+		DRAK_API void applyForce(components::RigidBody& target, math::Vec3f& force);
+		DRAK_API void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
+		DRAK_API void move(components::RigidBody& target, math::Vec3f& newPos, math::Vec4f& newRot);
+
 	private:
 		PhysicsSystem();
 		~PhysicsSystem();
-		bool InitPxScene(physx::PxScene** pxScene);
-		bool Update(Scene& scene, F64 deltaTime, std::vector<components::RigidBody>& rigidBodies, std::vector<components::Transform>& transforms);
+		void updateComponents(LevelSystem& levelSystem);
+		bool advance(F64 deltaTime, LevelSystem& levelSystem);
 		bool Startup();
 		void Shutdown();
 		events::PhysicsEvents*		m_pPhysicsEvent;
 		physx::PxFoundation*		m_pFoundation;
 		physx::PxPhysics*			m_pPhysics;
 		physx::PxCooking*			m_pCooking;
-		//physx::PxCudaContextManager* m_pCUDAContextManager;
 		physx::PxTolerancesScale*	m_cScale;
+		physx::PxScene*				m_pPhysicsScene;
 #ifdef USE_PVD
 		physx::PxPvd*				m_pPvd;
 #endif // DEBUG

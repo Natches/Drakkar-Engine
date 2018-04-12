@@ -15,6 +15,7 @@ template<typename T, Ordering order = Ordering::ROW_MAJOR>
 struct Matrix4x4 {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA order>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,
@@ -75,6 +76,7 @@ template<typename T>
 struct Matrix4x4<T, Ordering::COLUMN_MAJOR> {
 	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
 		"\"T\" must be a scalar Type and not a 64 bits data type");
+	DK_SERIALIZED_OBJECT(Matrix4x4<T COMA Ordering::COLUMN_MAJOR>)
 public:
 	Matrix4x4();
 	Matrix4x4(const T f1, const T f2, const T f3, const T f4,
@@ -214,72 +216,73 @@ using Mat4CMf = typename MATRIX_COLUMN_MAJOR(F32);
 } //namespace drak
 #include<Math/Matrix4x4.inl>
 
+
 //DK_METADATA_BEGIN(drak::math::Mat4c)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4sc)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4s)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4us)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4i)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4u)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4f)
 //DK_PUBLIC_FIELDS(m_row12, m_row34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMc)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMsc)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMs)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMus)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMi)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMu)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END
 //
 //DK_METADATA_BEGIN(drak::math::Mat4CMf)
 //DK_PUBLIC_FIELDS(m_col12, m_col34)
-//DK_SERIALIZE_PUBLIC_FIELDS
+//DK_PUBLIC_FIELD_COMPLEMENT
 //DK_METADATA_END

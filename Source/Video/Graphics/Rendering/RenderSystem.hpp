@@ -13,6 +13,9 @@
 #include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
+
+	struct Scene;
+
 namespace gfx {
 
 /*!
@@ -30,9 +33,7 @@ public:
 	bool startup(IRenderer* pRenderer);
 	void shutdown();
 
-	void forwardRender(
-		std::vector<components::Model>& models, 
-		std::vector<components::Transform>& xforms);
+	void forwardRender(Scene& scene);
 
 	void renderGrid();
 

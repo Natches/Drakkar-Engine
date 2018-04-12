@@ -9,11 +9,11 @@
 #include <Math/Vec3.hpp>
 #include <random>
 
-DK_IMPORT(drak::time)
-DK_IMPORT(drak::thread)
-DK_IMPORT(drak::thread::task)
-DK_IMPORT(drak::function)
-DK_IMPORT(drak::math)
+DK_USE_NAMESPACE(drak::time)
+DK_USE_NAMESPACE(drak::thread)
+DK_USE_NAMESPACE(drak::thread::task)
+DK_USE_NAMESPACE(drak::function)
+DK_USE_NAMESPACE(drak::math)
 
 static std::random_device rd;
 //static std::atomic<int> i;
