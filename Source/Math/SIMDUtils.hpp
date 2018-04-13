@@ -110,6 +110,10 @@ struct BestSIMDType<T, 4, 32, false, true> {
 	static SIMDType round(const SIMDType& m) {
 		return _mm_round_ps(m, _MM_ROUND_NEAREST);
 	}
+
+	static SIMDType sqrt(const SIMDType& m) {
+		return _mm_sqrt_ps(m);
+	}
 };
 
 template<typename T>
@@ -166,7 +170,6 @@ struct BestSIMDType<T, 4, 32, true, false> {
 		return _mm_mullo_epi32(m, _mm_set1_epi32(i));
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
-#ifndef __INTEL_COMPILER
 		__m128 temp1, temp2;
 		BestSIMDType<F32, 4>::set(temp1,
 			static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
@@ -178,10 +181,6 @@ struct BestSIMDType<T, 4, 32, true, false> {
 			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
 
 		return res;
-#else
-		return _mm_div_epi32(m, _mm_set1_epi32(i));
-#endif // !__INTEL_COMPILER
-
 	}
 
 	static SIMDType rShift(const SIMDType& m, const T i) {
@@ -213,7 +212,6 @@ struct BestSIMDType<T, 4, 32, true, false> {
 		return _mm_mullo_epi32(m1, m2);
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
-#ifndef __INTEL_COMPILER
 		__m128 temp1, temp2;
 		BestSIMDType<F32, 4>::set(temp1,
 			static_cast<F32>(m1.m128i_i32[0]), static_cast<F32>(m1.m128i_i32[1]),
@@ -226,9 +224,6 @@ struct BestSIMDType<T, 4, 32, true, false> {
 		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
 			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
 		return res;
-#else
-		return _mm_div_epi32(m1, m2);
-#endif
 	}
 
 	static SIMDType rShift(const SIMDType& m1, const SIMDType& m2) {
@@ -835,6 +830,10 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	}
 	static SIMDType round(const SIMDType& m) {
 		return _mm256_round_ps(m, _MM_ROUND_NEAREST);
+	}
+
+	static SIMDType sqrt(const SIMDType& m) {
+		return _mm256_sqrt_ps(m);
 	}
 };
 

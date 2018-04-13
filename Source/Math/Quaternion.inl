@@ -2,6 +2,7 @@
 
 namespace drak {
 namespace math {
+
 template<typename T>
 Quaternion<T>::Quaternion() : m_scalar(0), m_vecPart(0) {
 }
@@ -123,12 +124,12 @@ Quaternion& Quaternion<T>::operator/=(const T f) {
 template<typename T>
 Matrix4x4<T> Quaternion<T>::matrix() const {
 	Quaternion<T> normalized = normalize();
-	Vec8<T> vec = { { m_vecPart, m_vecPart.x }, { m_vecPart, m_vecPart.x } } *
-	{ { m_vecPart, m_vecPart.y }, { w, w, w, m_vecPart.z } };
-	T vYZ = m_vecPart.y * m_vecPart.z;
-	return Matrix4x4<T>( 1 - 2 * (vec.y + vec.z), 2 * (vec.w + vec.c), 2 * (vec.d - vec.b), 0, 
-						 2 * (vec.w - vec.c), 1 - 2 * (vec.x + vec.z), 2 * (vYZ + vec.a), 0,
-						 2 * (vec.d + vec.b), 2 * (vYZ - vec.a), 1 - 2 * (vec.x + vec.y), 0,
+	Vec8<T> vec = ( { { m_vecPart, m_vecPart.x }, { m_vecPart, m_vecPart.x } } *
+	{ { m_vecPart, m_vecPart.y }, { w, w, w, m_vecPart.z } } ) * 2;
+	T vYZ = 2 * (m_vecPart.y * m_vecPart.z);
+	return Matrix4x4<T>( 1 - (vec.y + vec.z), (vec.w + vec.c), (vec.d - vec.b), 0, 
+						 (vec.w - vec.c), 1 - (vec.x + vec.z), (vYZ + vec.a), 0,
+						 (vec.d + vec.b), (vYZ - vec.a), 1 - (vec.x + vec.y), 0,
 						 0, 0, 0, 1);
 }
 
@@ -142,6 +143,91 @@ template<typename T>
 template<typename U>
 Quaternion<U> Quaternion<T>::cast() {
 	return Quaternion<U>(static_cast<U>(m_scalar), m_vecPart.cast<U>());
+}
+
+template<typename T>
+Quaternion<T> operator+(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } + { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+Quaternion<T> operator-(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } - { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+Quaternion<T> operator*(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return Quaternion<T>(qa.m_scalar * qb.m_scalar - Dot(qa.m_vecPart, qb.m_vecPart),
+		(qb.m_scalar * qa.m_vecPart) + (qa.m_scalar * qb.m_vecPart) +
+		Cross(qa.m_vecPart, qb.m_vecPart));
+}
+
+template<typename T>
+Quaternion<T>& operator+=(Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return qa = qa + qb;
+}
+
+template<typename T>
+Quaternion<T>& operator-=(Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return qa = qa - qb;
+}
+
+template<typename T>
+Quaternion<T>& operator*=(Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return qa = qa * qb;
+}
+
+template<typename T>
+Quaternion<T>& operator=(Quaternion<T>& qa, const Quaternion<T>& qb) {
+	new (&qa) Quaternion<T>(qb);
+}
+
+template<typename T>
+Quaternion<T>& operator=(Quaternion<T>& qa, Quaternion<T>&& qb) {
+	new (&qa) Quaternion<T>(std::move(qb));
+}
+
+template<typename T>
+bool operator==(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } == { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+bool operator!=(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } != { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+bool operator<(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } > { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+bool operator<=(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } >= { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+bool operator>(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } < { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+bool operator>=(const Quaternion<T>& qa, const Quaternion<T>& qb) {
+	return { qa.m_vecPart, qa.m_scalar } <= { qb.m_vecPart, qb.m_scalar };
+}
+
+template<typename T>
+Vec3<T> Rotate(const Quaternion<T>& q, const Vec3& v) {
+	return (Quaternion<T>(-Dot(q.m_vecPart, v), (q.m_scalar * v) +
+		Cross(qa.m_vecPart, v))* q.inverse()).m_vecPart;
+}
+
+template<typename T>
+Vec4<T> Rotate(const Quaternion<T>& q, const Vec4& v) {
+	Vec3<T> temp = v.xyz();
+	return (Quaternion<T>(-Dot(q.m_vecPart, temp), (q.m_scalar * temp) +
+		Cross(qa.m_vecPart, temp))* q.inverse()).m_vecPart;
 }
 
 } // namespace math

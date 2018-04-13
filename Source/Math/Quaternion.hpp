@@ -58,9 +58,6 @@ template<typename T>
 Quaternion<T> operator*(const Quaternion<T>& qa, const Quaternion<T>& qb);
 
 template<typename T>
-Quaternion<T> operator/(const Quaternion<T>& qa, const Quaternion<T>& qb);
-
-template<typename T>
 Quaternion<T>& operator+=(Quaternion<T>& qa, const Quaternion<T>& qb);
 
 template<typename T>
@@ -68,9 +65,6 @@ Quaternion<T>& operator-=(Quaternion<T>& qa, const Quaternion<T>& qb);
 
 template<typename T>
 Quaternion<T>& operator*=(Quaternion<T>& qa, const Quaternion<T>& qb);
-
-template<typename T>
-Quaternion<T>& operator/=(Quaternion<T>& qa, const Quaternion<T>& qb);
 
 template<typename T>
 Quaternion<T>& operator=(Quaternion<T>& qa, const Quaternion<T>& qb);
