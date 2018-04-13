@@ -9,8 +9,10 @@ namespace geom {
 
 class Mesh {
 public:
-	Mesh();
+	Mesh(const std::string& filename = "");
 	virtual ~Mesh();
+
+	bool load();
 
 	void addVertex(const Vertex& v);
 	void addIndex(U16 i);
@@ -25,6 +27,8 @@ public:
 protected:
 	std::vector<Vertex> m_vertices;
 	std::vector<U16>	m_indices;
+
+	std::string			m_filename;
 };
 
 } // namespace geom

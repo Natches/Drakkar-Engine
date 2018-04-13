@@ -10,8 +10,7 @@ public:
 	void startup();
 	void shutdown();
 
-	MeshPtr		loadMesh(const std::string& filename);
-	TexturePtr	loadTexture(const std::string& filename);
+	MeshPtr	loadMesh(const std::string& filename);
 	
 private:
 	MeshManager*	m_pMeshManager;

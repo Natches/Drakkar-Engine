@@ -4,11 +4,14 @@
 
 using namespace drak::components;
 using namespace drak::time;
+using namespace drak::thread;
+using namespace drak::video;
+using namespace drak::gfx;
 
 namespace drak {
 namespace core {
-thread::ThreadPool core::Engine::s_pool;
-bool Engine::running = true;
+ThreadPool Engine::s_pool;
+bool Engine::s_running = true;
 
 Engine::Engine() {
 
@@ -20,32 +23,32 @@ Engine::~Engine() {
 
 PhysicsSystem& Engine::getPhysicsSystem()
 {
-	return physicsSystem;
+	return m_physicsSystem;
 }
 
 int Engine::startup() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
-	//Init systems
-	video::WindowSettings	winSettings		= { "Drakkar Engine", 1600, 900 };
-	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
-	// TODO (Simon): Check for failed startups
-	videoSystem.startup(videoSettings, pMainWindow);
-	renderSystem.startup(videoSystem.renderer());
-	sceneSystem.Startup();
+	WindowSettings	winSettings		= { "Drakkar Engine", 1600, 900 };
+	VideoSettings	videoSettings	= { winSettings, ERenderer::OPENGL };
+
+	m_videoSystem.startup(videoSettings, m_pMainWindow);
+	m_renderSystem.startup(m_videoSystem.renderer());
+	m_resourceSystem.startup();
+	m_sceneSystem.Startup();
 	s_pool.startup();
-	physicsSystem.Startup();
-	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
+	m_physicsSystem.Startup();
+	m_physicsSystem.InitPxScene(&m_sceneSystem.scene->m_pPhysXScene);
 
 	return 0;
 }
 
 int Engine::shutdown() {
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-	sceneSystem.Shutdown();
-	physicsSystem.Shutdown();
-	renderSystem.shutdown();
-	videoSystem.shutdown();
+	m_sceneSystem.Shutdown();
+	m_physicsSystem.Shutdown();
+	m_renderSystem.shutdown();
+	m_videoSystem.shutdown();
 	
 	Logbook::CloseLogs();
 	s_pool.shutdown();
@@ -56,28 +59,28 @@ int Engine::shutdown() {
 void Engine::startLoop() {
 	s_frameTime.start();
 
-	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
+	std::vector<AGameObject*>& gameObjects = m_sceneSystem.scene->getGameObjects();
 	for (auto g : gameObjects)
 		g->Start();
 	
-	while (pMainWindow->isOpen()) {
+	while (m_pMainWindow->isOpen()) {
 		s_frameTime.update();
-		pMainWindow->pollEvents();
+		m_pMainWindow->pollEvents();
 
-		gameObjects = sceneSystem.scene->getGameObjects();
+		gameObjects = m_sceneSystem.scene->getGameObjects();
 		for (auto g : gameObjects)
 			g->Update();
 
-		physicsSystem.Update(*sceneSystem.scene, s_frameTime.deltaTime(),
-				*sceneSystem.scene->getComponentContainerByType<RigidBody>(),
-				*sceneSystem.scene->getComponentContainerByType<Transform>());
+		m_physicsSystem.Update(*m_sceneSystem.scene, s_frameTime.deltaTime(),
+				*m_sceneSystem.scene->getComponentContainerByType<RigidBody>(),
+				*m_sceneSystem.scene->getComponentContainerByType<Transform>());
 
 		F32 t0 = s_frameTime.duration();
-		pMainWindow->clear();
-		renderSystem.startFrame();
+		m_pMainWindow->clear();
+		m_renderSystem.startFrame();
 		// render scene
-		renderSystem.endFrame();
-		pMainWindow->swapBuffers();
+		m_renderSystem.endFrame();
+		m_pMainWindow->swapBuffers();
 		F32 t1 = s_frameTime.duration() - t0;
 
 		std::cout << "RenderSystem time: " << t1 * (F32)ATimer::TimeDuration::MILLISECONDS << " ms\n";
@@ -87,11 +90,11 @@ void Engine::startLoop() {
 }
 
 void Engine::stopGame() {
-	Engine::running = false;
+	Engine::s_running = false;
 }
 
 void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
-	sceneSystem.loadScene(sceneBlueprint);
+	m_sceneSystem.loadScene(sceneBlueprint);
 }
 
 

@@ -2,10 +2,12 @@
 #include <Core/Core.hpp>
 #include <Core/Timer/FrameTimer.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
-#include <Engine/Physics/PhysicsSystem.hpp>
-#include <Engine/Scene/SceneSystem.hpp>
+
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <ResourceManager/ResourceSystem.hpp>
+#include <Engine/Scene/SceneSystem.hpp>
+#include <Engine/Physics/PhysicsSystem.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;
@@ -30,14 +32,16 @@ public:
 private:
 	DRAK_API Engine();
 	time::FrameTimer	s_frameTime;
-	PhysicsSystem		physicsSystem;
-	SceneSystem			sceneSystem;
-	video::VideoSystem	videoSystem;
-	gfx::RenderSystem	renderSystem;
-	video::AWindow*		pMainWindow;
+	video::VideoSystem	m_videoSystem;
+	gfx::RenderSystem	m_renderSystem;
+	ResourceSystem		m_resourceSystem;
+
+	SceneSystem			m_sceneSystem;
+	PhysicsSystem		m_physicsSystem;
+	video::AWindow*		m_pMainWindow;
 
 	DRAK_API static thread::ThreadPool s_pool;
-	DRAK_API static bool running;
+	DRAK_API static bool s_running;
 };
 
 } // namespace core

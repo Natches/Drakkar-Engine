@@ -111,9 +111,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelLoader.hpp">
-      <Filter>Header Files\Graphics\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
     </ClInclude>
@@ -134,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelImporter.hpp">
+      <Filter>Header Files\Graphics\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +176,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelLoader.cpp">
-      <Filter>Source Files\Graphics\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp">
       <Filter>Source Files\Graphics\Tools</Filter>
     </ClCompile>
@@ -187,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelImporter.cpp">
+      <Filter>Source Files\Graphics\Tools</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

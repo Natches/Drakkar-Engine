@@ -5,11 +5,9 @@
 
 namespace drak {
 
-class TextureManager : public ResourceManager<gfx::Texture> {
+class TextureManager {
 public:
-	ResourcePtr loadImpl(const std::string& filename) override;
+	
 };
-
-using TexturePtr = TextureManager::ResourcePtr;
 
 } // namespace drak

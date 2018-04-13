@@ -5,16 +5,16 @@ namespace gfx {
 namespace tools {
 
 /*!
-* \class ModelLoader
+* \class ModelImporter
 * \ingroup Tools
 * \brief
 */
-class ModelLoader final {
+class ModelImporter final {
 public:
-	ModelLoader();
-	~ModelLoader();
+	ModelImporter();
+	~ModelImporter();
 
-	bool loadFromFile(const std::string& filepath);
+	bool importFromFile(const std::string& filename);
 };
 
 } // namespace tools

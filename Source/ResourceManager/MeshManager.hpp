@@ -1,15 +1,26 @@
 #pragma once
 
-#include <ResourceManager/ResourceManager.hpp>
+#include <memory>
+#include <unordered_map>
+
 #include <Video/Graphics/Geometry/Mesh.hpp>
 
 namespace drak {
 
-class MeshManager : public ResourceManager<geom::Mesh> {
-protected:
-	ResourcePtr loadImpl(const std::string& filename) override;
-};
+using MeshPtr = std::shared_ptr<geom::Mesh>;
+using MeshMap = std::unordered_map<const std::string&, MeshPtr>;
 
-using MeshPtr = MeshManager::ResourcePtr;
+class MeshManager {
+public:
+	MeshPtr preloadMesh(const std::string& filename);
+	MeshPtr loadMesh(const std::string& filename);
+
+protected:
+	friend class ResourceSystem;
+	MeshManager() = default;
+
+protected:
+	MeshMap m_meshes;
+};
 
 } // namespace drak

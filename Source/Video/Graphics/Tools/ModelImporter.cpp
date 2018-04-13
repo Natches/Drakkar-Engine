@@ -4,32 +4,32 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <Video/Graphics/Tools/ModelLoader.hpp>
+#include <Video/Graphics/Tools/ModelImporter.hpp>
 
 namespace drak {
 namespace gfx {
 namespace tools {
 
-ModelLoader::ModelLoader() {
+ModelImporter::ModelImporter() {
 
 }
 
-ModelLoader::~ModelLoader() {
+ModelImporter::~ModelImporter() {
 
 }
 
-bool ModelLoader::loadFromFile(const std::string& filepath) {
+bool ModelImporter::importFromFile(const std::string& filename) {
 	Assimp::Importer importer;
 	const aiScene* pScene = importer.ReadFile(
-		filepath,
+		filename,
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_Triangulate |
 		aiProcess_SortByPType |
 		aiProcess_GenNormals);
 
 	if (pScene) {
-		// std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
-		// std::cout << "# materials: " << pScene->mNumMaterials << "\n";
+		std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
+		std::cout << "# materials: " << pScene->mNumMaterials << "\n";
 		
 		return true;
 	}

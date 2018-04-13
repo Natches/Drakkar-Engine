@@ -1,14 +1,23 @@
 #include <Video/Graphics/Geometry/Mesh.hpp>
+#include <Video/Graphics/Tools/ModelImporter.hpp>
+
+using namespace drak::gfx::tools;
 
 namespace drak {
 namespace geom {
 
-Mesh::Mesh() {
+Mesh::Mesh(const std::string& filename = "")
+:	m_filename(filename) {
 
 }
 
 Mesh::~Mesh() {
 
+}
+
+bool Mesh::load() {
+	ModelImporter mdlImp;
+	return mdlImp.importFromFile(m_filename);
 }
 
 void Mesh::addVertex(const Vertex& v) {

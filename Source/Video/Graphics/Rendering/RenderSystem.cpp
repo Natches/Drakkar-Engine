@@ -1,3 +1,5 @@
+#include <iostream> // TODO (Simon): replace with Log
+
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
@@ -8,6 +10,8 @@ namespace drak {
 namespace gfx {
 
 bool RenderSystem::startup(IRenderer* pRenderer) {
+	std::cout << "ResourceSystem startup" << std::endl;
+
 	Keyboard::Get().addEventListener(
 		KeyEvent::KEY_UP,
 		new MemberFunction<RenderSystem, void, const Event*>
@@ -24,7 +28,7 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 }
 
 void RenderSystem::shutdown() {
-	
+	std::cout << "ResourceSystem shutdown" << std::endl;
 }
 
 void RenderSystem::render() {
