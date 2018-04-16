@@ -15,6 +15,9 @@
 #include <Log/Log.hpp>
 #include <Math/Matrix4x4.hpp>
 #include <Serialization/MetaData.hpp>
+#include <vector>
+#include <map>
+#include <typeinfo>
 
 DK_USE_NAMESPACE(drak::function)
 DK_USE_NAMESPACE(drak::serialization)
@@ -47,6 +50,8 @@ public:
 	std::vector<Ser*> vec4;
 	std::vector<std::string> vecstr;
 	std::vector<std::vector<int>> vecstr2;
+	std::map<int, std::string> maped;
+	std::unordered_map<int, std::string> unmaped;
 };
 
 DK_METADATA_BEGIN(Ser)
@@ -55,9 +60,9 @@ DK_PRIVATE_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(Test)
-DK_PUBLIC_FIELDS(instance, str, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
+DK_PUBLIC_FIELDS(instance, unmaped, str, s, g, k, h, l, n, v, x, z, a, e, r, t, u, j, gf, f, b, vec4, vecstr2)
 DK_PRIVATE_FIELDS(serial, ser1, pt, mat, vec2, vecstr)
-DK_PRIVATE_STATIC_FIELDS(xizzy, vec, vec3)
+DK_PRIVATE_STATIC_FIELDS(xizzy, maped, vec)
 DK_PUBLIC_AND_PRIVATE_AND_PRIVATE_STATIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -75,6 +80,9 @@ int main() {
 		t.vec2.emplace_back(new double(i));
 		t.vecstr.emplace_back(std::to_string(i));
 		t.vecstr2.emplace_back(t.vec);
+		t.maped[i] = std::to_string(i);
+		t.unmaped.insert({i, std::to_string(i)});
+		t.unmaped.insert({ i, std::to_string(i + 26) });
 	}
 	delete t.vec2[5];
 	t.vec2[5] = nullptr;
