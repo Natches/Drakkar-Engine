@@ -1,6 +1,4 @@
-#include <Video/Graphics/Rendering/RenderSystem.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
-
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace gfx {
@@ -50,7 +48,7 @@ void RenderSystem::forwardRender(
 
 		m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
 		m_shaderMap["DefaultShader"]->setUniform("albedo", (*models)[i].albedo);
-		
+
 		// (*models)[i].pModel->render();
 		m_pUnitCube->render();
 	}
@@ -78,7 +76,7 @@ void RenderSystem::opaquePass() {
 	// for each pass (color, depth ...)
 	//	 for each shader
 	//		for each material (textures, uniforms ...)
-	//	
+	//
 
 	// m_pRenderer->depthTest(true);
 	// m_shaderMap["DefaultShader"]->use();

@@ -1,4 +1,4 @@
-#include <Windowing/Input/Keyboard.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace events {
@@ -34,7 +34,7 @@ void Keyboard::dispatchEvent(const Event* e) {
 			l->invoke();
 }
 
-KeyEvent::KeyEvent(Key k, EventType t) 
+KeyEvent::KeyEvent(Key k, EventType t)
 :	key(k) {
 	type = t;
 }

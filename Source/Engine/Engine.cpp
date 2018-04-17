@@ -1,10 +1,9 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/AGameObject.h>
-#include <Windowing/Window/AWindow.hpp>
 
 namespace drak {
 namespace core {
-thread::ThreadPool core::Engine::s_pool;
+thread::ThreadPool Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {
@@ -43,7 +42,7 @@ int Engine::shutdown() {
 	physicsSystem.Shutdown();
 	renderSystem.shutdown();
 	videoSystem.shutdown();
-	
+
 	Logbook::CloseLogs();
 	s_pool.shutdown();
 
@@ -56,7 +55,7 @@ void Engine::startLoop() {
 	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
 	for (auto g : gameObjects)
 		g->Start();
-	
+
 	while (pMainWindow->isOpen()) {
 		s_frameTime.update();
 		pMainWindow->pollEvents();
@@ -73,10 +72,10 @@ void Engine::startLoop() {
 
 		pMainWindow->clear();
 		renderSystem.startFrame();
-		
+
 		renderSystem.forwardRender(sceneSystem.scene->getComponentContainerByType<components::Model>(),
 			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id));
-		
+
 		renderSystem.endFrame();
 		pMainWindow->swapBuffers();
 	}

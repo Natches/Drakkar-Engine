@@ -1,7 +1,4 @@
-#include <Core/Utils/FileUtils.hpp>
-#include <fstream>
-#include <io.h>
-#include <direct.h>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace io {

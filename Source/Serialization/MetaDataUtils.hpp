@@ -52,9 +52,9 @@ DK_EXPAND(DK_CONCAT(DK_METADATA_DESERIALIZE_JSON_TO_FIELD, DK_ARGS_N(__VA_ARGS__
 }																									\
 }																									\
 else																								\
-	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,*/												\
+	Logbook::Log(Logbook::EOutput::CONSOLE, nullptr,												\
 		"Object Name is not the one expected, receive %s instead of %s !!",							\
-		name.c_str(), TypeName());*/																\
+		name.c_str(), TypeName());																	\
 return t;																							\
 }
 

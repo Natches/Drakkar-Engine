@@ -1,7 +1,6 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/PhysicsSystem.h>
 #include <PxPhysicsAPI.h>
-#include <Core/Utils/MacroUtils.hpp>
-#include <Engine/Components/Components.h>
 #include <Engine/Physics/SimulationEvent.h>
 
 #define SIM_RATE 1.f/120.f

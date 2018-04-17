@@ -1,13 +1,4 @@
-#include <GL/glew.h>
-
-#include <Core/Core.hpp>
-
-#include <Video/Graphics/Geometry/Mesh.hpp>
-#include <Video/Graphics/Tools/OBJLoader.hpp>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace gfx {
@@ -54,7 +45,7 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		delete pFrameShader;
 		return false;
 	}
-	
+
 	return true;
 }
 

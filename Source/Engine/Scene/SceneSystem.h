@@ -76,9 +76,9 @@ public:
 	template <typename T>
 	void stampSubArrayIntoMainArray(std::vector<T> subArray) {
 		std::vector<T>* vector = getComponentContainerByType<T>();
-		for (int i = 0; i < subArray.size(); ++i)
+		for (int i = 0; i < (int)subArray.size(); ++i)
 		{
-			(*vector)[static_cast<components::AComponent*>(&subArray[i])->idxInMainArray] = subArray[i];
+			(*vector)[(const U32)static_cast<components::AComponent*>(&subArray[i])->idxInMainArray] = subArray[i];
 		}
 	}
 
@@ -101,7 +101,7 @@ class SceneSystem {
 	friend core::Engine;
 private:
 	~SceneSystem();
-	SceneSystem(); 
+	SceneSystem();
 	void loadScene(const char* name);
 	void loadScene(IManualSceneBlueprint& sceneBluePrint);
 	bool Startup();
