@@ -4,9 +4,7 @@
 
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Log/Log.hpp>
-#include <string>
 #include <sstream>
-#include <vector>
 
 #define DK_ADD_TAB(x)			\
 for (int i = 0; i < x; ++i)		\
@@ -255,7 +253,7 @@ struct ComplexType<Type*> {																		\
 		sstr >> str;																			\
 		if(str != "\"null\"" && str != "\"nill\"" &&											\
 			str != "\"null\"," && str != "\"nill\",")	{										\
-			sstr.seekg(-(int)str.size(), std::ios::cur);										\
+			sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);						\
 			t = new Type();																		\
 			MetaData::Deserialize<EExtension::JSON>(*t, sstr);									\
 		}																						\
@@ -282,7 +280,7 @@ static void DeserializeJSONToVector(std::vector<T>& t, std::stringstream& sstr) 
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);							\
 		T data;																					\
 		DeserializeJSON(data, sstr);															\
 		t.emplace_back(data);																	\
@@ -293,8 +291,8 @@ static void DeserializeBinaryToString(std::string& t, std::stringstream& sstr) {
 	t.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
-	t.insert(0, sstr.str().c_str() + sstr.tellg(), size);										\
-	sstr.seekg(size, std::ios::cur);															\
+	t.insert(0, sstr.str().c_str() + (int)sstr.tellg(), size);									\
+	sstr.seekg(std::streamoff(size), std::ios::cur);											\
 }																								\
 static std::stringstream& DeserializeJSONToString(std::string& t, std::stringstream& sstr) {	\
 	sstr >> t;																					\
@@ -357,7 +355,7 @@ static void DeserializeJSONToMap(std::map<T, U>& m, std::stringstream& sstr) {		
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
 		DeserializeJSONToPair(p, sstr);															\
 		m.insert(p);																			\
 		sstr >> str;																			\
@@ -371,7 +369,7 @@ static void DeserializeJSONToUnorderedMap														\
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
 		DeserializeJSONToPair(p, sstr);															\
 		um.insert(p);																			\
 		sstr >> str;																			\
@@ -478,7 +476,7 @@ static std::string SerializeVectorToJSON(const T& t, int indent) {				\
 template<typename T, typename U>												\
 static std::string SerializeIntrinToJSON(const T& t, int indent) {				\
 	std::string str("[\n");														\
-	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {						\
+	for (int i = 0, size = (int)sizeof(T) / 4; i < size; ++i) {					\
 		for (int i2 = 0; i2 < indent; ++i2)										\
 			str += '\t';														\
 		str += BaseType<U>::SerializeToJSON(*((U*)(&t) + i), indent);			\
@@ -494,7 +492,7 @@ static std::string SerializeIntrinToJSON(const T& t, int indent) {				\
 template<typename T, typename U>												\
 static std::string SerializeIntrinToINI(const T& t) {							\
 	std::string str("{ ");														\
-	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {						\
+	for (int i = 0, size = (int)sizeof(T) / 4; i < size; ++i) {					\
 		str += BaseType<U>::SerializeToINI(*((U*)(&t) + i));					\
 		str += ", ";															\
 	}																			\
@@ -717,7 +715,7 @@ static type& DeserializeINI(type& t, std::stringstream& sstr) {									\
 		sstr >> str;																			\
 	}																							\
 	if(!sstr.eof())																				\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
 	return t;																					\
 }
 
@@ -1456,11 +1454,11 @@ DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI30(__VA_ARGS__))
 DK_SERIALIZE_FIELD_TO_INI_IMPL(t)	\
 DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI31(__VA_ARGS__))
 
-#define DK_DESERIALIZE_INI_TO_FIELD_IMPL(ty)								\
-if(name == std::string(#ty)){									\
-	sstr.seekg(-((int)(str.size()) - postEqual), std::ios::cur);\
-	DeserializeINI(t.ty, sstr);										\
-}																\
+#define DK_DESERIALIZE_INI_TO_FIELD_IMPL(ty)										\
+if(name == std::string(#ty)){														\
+	sstr.seekg(std::streamoff(-((int)(str.size()) - postEqual)), std::ios::cur);	\
+	DeserializeINI(t.ty, sstr);														\
+}																					\
 else
 
 #define DK_DESERIALIZE_INI_TO_FIELD0	\

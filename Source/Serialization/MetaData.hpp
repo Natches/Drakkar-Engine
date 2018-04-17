@@ -4,6 +4,8 @@
 #include <Core/Engine/TypeTraits.hpp>
 #include <Core/Utils/MacroUtils.hpp>
 
+#include <string>
+#include <array>
 #include <tuple>
 
 #include <Serialization/MetaDataUtils.hpp>

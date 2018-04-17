@@ -1,5 +1,4 @@
-#include <Threading/Timer/Timer.hpp>
-#include <Threading/Thread/TimeThread.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace thread {

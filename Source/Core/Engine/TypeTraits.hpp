@@ -2,22 +2,9 @@
 
 #include <type_traits>
 #include <immintrin.h>
-/*
 #include <vector>
 #include <map>
 #include <unordered_map>
-*/
-
-namespace std {
-template<class T, class Alloc>
-class vector;
-template<class T, class U, class Comp, class Alloc>
-class map;
-template<class T, class U, class Hash, class Pred, class Alloc>
-class unordered_map;
-template<class T, class U>
-struct pair;
-} //namespace std
 
 namespace drak {
 namespace types {

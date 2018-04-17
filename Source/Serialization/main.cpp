@@ -1,23 +1,10 @@
+#include "pch.hpp"
 #include <iostream>
 #include <Core/Utils/MacroUtils.hpp>
 #include <Core/Core.hpp>
 #include <Threading/Function/Function.hpp>
-#include <Serialization/Serializer.hpp>
-#include <array>
-#include <tuple>
-#include <map>
-#include <variant>
-#include <optional>
-#include <any>
-#include <sstream>
-#include <type_traits>
-#include <fstream>
 #include <Log/Log.hpp>
 #include <Math/Matrix4x4.hpp>
-#include <Serialization/MetaData.hpp>
-#include <vector>
-#include <map>
-#include <typeinfo>
 
 DK_USE_NAMESPACE(drak::function)
 DK_USE_NAMESPACE(drak::serialization)
@@ -86,7 +73,6 @@ int main() {
 	}
 	delete t.vec2[5];
 	t.vec2[5] = nullptr;
-	t.str = "lalalal";
 	t.pt = nullptr;
 	/*t.mat = drak::math::Mat4f( 1,2,5,2,2,18,5,5,5,5,8,6,3,69,9,1 );*/
 	MetaData<Test>::set(t, "xizzy", std::string((char*)&z, sizeof(float)));
