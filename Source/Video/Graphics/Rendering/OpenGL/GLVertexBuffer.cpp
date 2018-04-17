@@ -1,6 +1,4 @@
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::geom;
 
@@ -21,7 +19,7 @@ void GLVertexBuffer::create(
 
 	glCreateBuffers(1, &m_glID);
 	glNamedBufferStorage(
-		m_glID, 
+		m_glID,
 		vertCount * sizeof(Vertex),
 		pVerts,
 		GL_MAP_WRITE_BIT);

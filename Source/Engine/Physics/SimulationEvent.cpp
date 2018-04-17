@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include "SimulationEvent.h"
 
 using namespace physx;

@@ -1,7 +1,4 @@
-#include <memory.h>
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::math;
 using namespace drak::geom;

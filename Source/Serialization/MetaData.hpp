@@ -4,6 +4,8 @@
 #include <Core/Engine/TypeTraits.hpp>
 #include <Core/Utils/MacroUtils.hpp>
 
+#include <string>
+#include <array>
 #include <tuple>
 
 #include <Serialization/MetaDataUtils.hpp>
@@ -28,15 +30,17 @@ struct IFields {
 
 template<typename T>
 static constexpr size_t SizeOfSerializedType() {
-	if constexpr(drak::types::IsBaseType_V<T> && !std::is_pointer_v<T>)
+	using namespace drak::types;
+	if constexpr(IsBaseType_V<T> && !std::is_pointer_v<T>)
 		return sizeof(T);
-	else if constexpr (drak::types::IsBaseType_V<T> && std::is_pointer_v<T>)
+	else if constexpr (IsBaseType_V<T> && std::is_pointer_v<T>)
 		return sizeof(std::remove_pointer_t<T>) + 1;
 	else if constexpr(std::is_array_v<T>)
-		return MetaData<std::remove_all_extents_t<T>>::s_staticSize * drak::types::SizeOfArray_V<T>;
+		return MetaData<std::remove_all_extents_t<T>>::s_staticSize * SizeOfArray_V<T>;
 	else if constexpr (std::is_pointer_v<T>)
 		return MetaData<std::remove_pointer_t<T>>::s_staticSize + 1;
-	else if constexpr (std::is_same_v<T, std::string> || !std::is_same_v<T, drak::types::VectorType_T<T>>)
+	else if constexpr (std::is_same_v<T, std::string> || IsVector_V<T> ||
+		IsMap_V<T> || IsUnorderedMap_V<T> || IsPair_V<T>)
 		return 0;
 	else
 		return MetaData<T>::s_staticSize;
@@ -44,14 +48,33 @@ static constexpr size_t SizeOfSerializedType() {
 
 template<typename T>
 static size_t SizeOfDynamiclyAllocatedType(const T& t) {
+	using namespace drak::types;
 	if constexpr (std::is_same_v<T, std::string>)
 		return t.size() + sizeof(size_t);
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {
+	else if constexpr (IsVector_V<T>) {
 		size_t size = sizeof(size_t);
 		for (auto& x : t) {
-			size += SizeOfSerializedType<drak::types::VectorType_T<T>>() +
-				SizeOfDynamiclyAllocatedType<drak::types::VectorType_T<T>>(x);
+			size += SizeOfSerializedType<VectorType_T<T>>() +
+				SizeOfDynamiclyAllocatedType<VectorType_T<T>>(x);
 		}
+		return size;
+	}
+	else if constexpr (IsPair_V<T>) {
+		return  SizeOfSerializedType<REMOVE_ALL_TYPE_MODIFIER(PairType_T1<T>)>() +
+			SizeOfDynamiclyAllocatedType<REMOVE_ALL_TYPE_MODIFIER(PairType_T1<T>)>(t.first) +
+			SizeOfSerializedType<PairType_T2<T>>() +
+			SizeOfDynamiclyAllocatedType<PairType_T2<T>>(t.second);
+	}
+	else if constexpr (IsMap_V<T>) {
+		size_t size = sizeof(size_t);
+		for (auto& x : t)
+			size += SizeOfDynamiclyAllocatedType(x);
+		return size;
+	}
+	else if constexpr (IsUnorderedMap_V<T>) {
+		size_t size = sizeof(size_t);
+		for (auto& x : t)
+			size += SizeOfDynamiclyAllocatedType(x);
 		return size;
 	}
 	else

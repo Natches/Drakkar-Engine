@@ -1,9 +1,5 @@
-#include <Core/Core.hpp>
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/AGameObject.h>
-#include <Engine/Components/Components.h>
-#include <Engine/Scene/SceneSystem.h>
-#include <Math/Matrix4x4.hpp>
 #include <PxPhysicsAPI.h>
 
 using namespace drak;

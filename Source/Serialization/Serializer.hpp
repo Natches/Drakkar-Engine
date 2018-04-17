@@ -2,7 +2,6 @@
 
 #include <Core/Engine/Error.hpp>
 #include <Serialization/MetaData.hpp>
-#include <map>
 
 namespace drak {
 namespace serialization {

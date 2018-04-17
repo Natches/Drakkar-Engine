@@ -27,7 +27,7 @@ public:
 
 private:
 	FunctionType m_func;
-	FunctionType::RetType m_return;
+	typename FunctionType::RetType m_return;
 };
 
 } // namespace task

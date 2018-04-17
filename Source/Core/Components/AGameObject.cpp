@@ -1,4 +1,5 @@
-#include <Core/Components/AGameObject.h>
+#include <PrecompiledHeader/pch.hpp>
+
 void drak::AGameObject::setComponentFlag(int id, bool value) {
 	m_componentFlags = value ? m_componentFlags | (1LL << id) : m_componentFlags ^ (1LL << id);
 }

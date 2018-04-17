@@ -6,7 +6,8 @@ namespace thread {
 namespace task {
 
 DelayedTask::DelayedTask(ATask* pTask, const F32 delay,
-	const DelayType delayType) : m_pTask(pTask), m_delay(delay), m_delayType(delayType) {
+	const DelayType delayType) 
+	: m_pTask(pTask), m_delay(delay), m_delayType(delayType) {
 	m_executed.store(false, std::memory_order_release);
 }
 
@@ -37,7 +38,7 @@ void DelayedTask::execute() {
 }
 
 F32 DelayedTask::delay() const {
-	return delay;
+	return m_delay;
 }
 
 void DelayedTask::delay(const F32 newDelay) {

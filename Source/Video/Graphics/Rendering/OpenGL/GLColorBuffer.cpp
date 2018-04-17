@@ -1,6 +1,4 @@
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLColorBuffer.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace gfx {
@@ -11,7 +9,7 @@ void GLColorBuffer::bind() {
 }
 
 void GLColorBuffer::create(I32 dimX, I32 dimY) {
-	// TODO (Simon): 
+	// TODO (Simon):
 	//		- Replace texture code block with DSA equivalent
 	//		- Affect a member GLTexture
 	//		- Add more attachments (at least depth)
