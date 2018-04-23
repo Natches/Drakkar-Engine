@@ -5,6 +5,7 @@
 #include <Core/Utils/MacroUtils.hpp>
 
 #include <tuple>
+#include <array>
 
 #include <Serialization/MetaDataUtils.hpp>
 #include <Serialization/ReflectionUtils.hpp>

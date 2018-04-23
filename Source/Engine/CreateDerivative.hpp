@@ -1,12 +1,14 @@
 #include <Engine/Engine.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
+#include <Serialization\Serializer.hpp>
 namespace drak {
 namespace core {
 template <typename T>
 void Engine::createAll() {
 	T* t = new T();
 	AGameObject* g = static_cast<AGameObject*>(t);
+
 	if (g->getDTID() == 0) {
 		// for each cube in file ie : Game object with same DTID
 		//TEMP CODE
@@ -42,7 +44,7 @@ void Engine::createAll() {
 		}
 	}
 	if (g->getDTID() == 1) {
-		// for each cube in file ie : Game object with same DTID
+		// for each floor in file ie : Game object with same DTID
 		//TEMP CODE
 		for (int i = 0; i < 1; ++i) {
 			AGameObject* newIstance = m_pLevelSystem->addGameObject<T>();
@@ -51,14 +53,14 @@ void Engine::createAll() {
 			for (int j = 0; j < 4; ++j) {
 				if (id[j] == ComponentType<Transform>::id) {
 					Transform& trans = newIstance->addComponent<Transform>();
-					trans.position = math::Vec3f(0, -150, 0);
+					trans.position = math::Vec3f(0, -200, 0);
 					trans.scale = math::Vec3f(10, 10, 10);
 					//set serialized variables of trans
 				}
 				if (id[j] == ComponentType<RigidBody>::id) {
 					RigidBody& rb = newIstance->addComponent<RigidBody>();
 					rb.mass = 1.f;
-					rb.isStatic = true;
+					rb.isKinematic = true;
 				}
 				if (id[j] == ComponentType<Model>::id) {
 					Model& model = newIstance->addComponent<Model>();

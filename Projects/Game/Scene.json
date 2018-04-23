@@ -1,0 +1,8687 @@
+drak::LevelSystem: {
+PublicFields: {
+	"RigidBodyComponentContainer": [
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1.000000",
+				"isStatic": "0",
+				"isKinematic": "1"
+			}
+		}
+	],
+	"TransformComponentContainer": [
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"105.275955",
+							"-91.614891",
+							"-37.891243"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.614630",
+							"0.423833",
+							"-0.618640",
+							"0.244704"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"195.510986",
+							"-93.896774",
+							"99.634796"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.311742",
+							"-0.038299",
+							"-0.233368",
+							"0.920266"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-100.174728",
+							"-66.721039",
+							"-25.047817"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.867098",
+							"0.042739",
+							"0.076216",
+							"0.490414"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-76.106567",
+							"-93.439743",
+							"2.051199"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.336612",
+							"-0.197833",
+							"0.875001",
+							"-0.286230"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"66.159660",
+							"-92.420166",
+							"87.189804"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.341432",
+							"-0.699683",
+							"0.605860",
+							"0.163715"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-22.241253",
+							"-85.989471",
+							"-80.825470"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.277605",
+							"0.216046",
+							"-0.791188",
+							"0.500280"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-52.555191",
+							"-78.312576",
+							"1.590877"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.309322",
+							"0.163389",
+							"-0.936233",
+							"-0.033040"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"13.979390",
+							"-60.882767",
+							"83.223389"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.079475",
+							"0.066136",
+							"-0.182422",
+							"0.977769"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"52.047100",
+							"-91.299263",
+							"22.091028"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.007746",
+							"-0.266515",
+							"0.408003",
+							"-0.873180"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"45.697704",
+							"-76.551178",
+							"-27.926115"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.885810",
+							"-0.065270",
+							"-0.386028",
+							"0.249123"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-65.100945",
+							"-92.603859",
+							"-30.835064"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.061920",
+							"0.761070",
+							"0.466076",
+							"0.446891"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-22.974392",
+							"-83.108063",
+							"34.192028"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.388991",
+							"-0.131450",
+							"0.237626",
+							"-0.880307"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"12.828951",
+							"-92.462990",
+							"61.828144"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.259036",
+							"-0.940997",
+							"0.206837",
+							"0.068139"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-39.448036",
+							"-65.723732",
+							"-14.635266"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.735433",
+							"0.344389",
+							"-0.447512",
+							"-0.374522"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"27.449562",
+							"-84.369415",
+							"-55.643219"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.626739",
+							"-0.184426",
+							"0.458798",
+							"-0.602237"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"36.708229",
+							"-96.282394",
+							"4.100745"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.705283",
+							"0.000245",
+							"-0.202518",
+							"0.679384"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"16.460779",
+							"-85.851105",
+							"49.652988"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.573963",
+							"-0.368864",
+							"-0.636708",
+							"-0.359317"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-16.613684",
+							"-90.745331",
+							"4.136883"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.033482",
+							"-0.179299",
+							"0.542492",
+							"0.820020"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-27.454660",
+							"-75.888741",
+							"-10.212698"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.552652",
+							"0.229228",
+							"0.667543",
+							"0.443189"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"15.122859",
+							"-94.084999",
+							"-35.299858"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.709822",
+							"0.298822",
+							"0.522132",
+							"0.366384"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"12.858331",
+							"-84.981567",
+							"20.127514"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.734072",
+							"-0.238886",
+							"-0.610050",
+							"-0.178634"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-2.632078",
+							"-94.816879",
+							"7.384790"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.571787",
+							"-0.207726",
+							"0.536000",
+							"0.585331"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-2.045901",
+							"-98.518456",
+							"-10.865057"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"-0.835057",
+							"0.193226",
+							"0.083751",
+							"0.508261"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-1.136799",
+							"-92.134979",
+							"-4.676874"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.153428",
+							"0.047426",
+							"0.045867",
+							"0.985955"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-0.541321",
+							"-85.117981",
+							"0.002195"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.050165",
+							"0.020303",
+							"-0.199916",
+							"0.978317"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.442813",
+							"-76.030090",
+							"0.408691"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.021116",
+							"-0.026178",
+							"-0.086394",
+							"0.995693"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-66.299339",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-51.299355",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-36.299362",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-21.299337",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-6.299343",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"8.700659",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"23.700665",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"38.700645",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"53.700630",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"68.700645",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"83.700645",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"98.700768",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"113.700706",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"128.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"143.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"158.700775",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"173.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"188.700653",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"203.700729",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"218.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"233.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"248.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"263.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"278.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"293.700653",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"308.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"323.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"338.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"353.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"368.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"383.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"398.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"413.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"428.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"443.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"458.700714",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"473.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"488.700775",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"503.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"518.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"533.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"548.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"563.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"578.700867",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"593.700867",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"608.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"623.700623",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"638.700623",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"653.700623",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"668.700623",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"683.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"698.700806",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"713.700928",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"728.700867",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"743.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"758.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"773.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"788.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"803.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"818.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"833.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"848.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"863.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"878.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"893.700806",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"908.700867",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"923.700989",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"938.700928",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"953.700867",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"968.700806",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"983.700745",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"998.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1013.700623",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1028.700684",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-151.559082",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		}
+	],
+	"ModelComponentContainer": [
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		}
+	],
+	"BoxColliderComponentContainer": [
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "3000",
+				"height": "100",
+				"depth": "3000"
+			}
+		}
+	],
+	"m_rootIdxs": [
+		"0",
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"7",
+		"8",
+		"9",
+		"10",
+		"11",
+		"12",
+		"13",
+		"14",
+		"15",
+		"16",
+		"17",
+		"18",
+		"19",
+		"20",
+		"21",
+		"22",
+		"23",
+		"24",
+		"25",
+		"26",
+		"27",
+		"28",
+		"29",
+		"30",
+		"31",
+		"32",
+		"33",
+		"34",
+		"35",
+		"36",
+		"37",
+		"38",
+		"39",
+		"40",
+		"41",
+		"42",
+		"43",
+		"44",
+		"45",
+		"46",
+		"47",
+		"48",
+		"49",
+		"50",
+		"51",
+		"52",
+		"53",
+		"54",
+		"55",
+		"56",
+		"57",
+		"58",
+		"59",
+		"60",
+		"61",
+		"62",
+		"63",
+		"64",
+		"65",
+		"66",
+		"67",
+		"68",
+		"69",
+		"70",
+		"71",
+		"72",
+		"73",
+		"74",
+		"75",
+		"76",
+		"77",
+		"78",
+		"79",
+		"80",
+		"81",
+		"82",
+		"83",
+		"84",
+		"85",
+		"86",
+		"87",
+		"88",
+		"89",
+		"90",
+		"91",
+		"92",
+		"93",
+		"94",
+		"95",
+		"96",
+		"97",
+		"98",
+		"99",
+		"100"
+	]
+}
+}

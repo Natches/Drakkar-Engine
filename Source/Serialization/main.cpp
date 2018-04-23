@@ -90,8 +90,7 @@ int main() {
 	std::stringstream sstr;
 /*	drak::math::Mat4i m(1,2,5,3,6,8,9,5,2,3,6,4,9,3,6,7);*/
 	Serializer::SerializeToFile<EExtension::BINARY, Test>(t, "./", "Test");
-	Test t2;
-	Serializer::LoadFile<EExtension::BINARY, Test>(t2, "./Test");
+
 	/*std::ofstream of("testJSON.json");
 	of << sstr.rdbuf();
 	of.close();*/

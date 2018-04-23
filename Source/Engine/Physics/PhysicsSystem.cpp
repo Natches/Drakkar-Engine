@@ -259,7 +259,7 @@ void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::V
 	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
 }
 
-void drak::PhysicsSystem::move(components::RigidBody & target, math::Vec3f& newPos, math::Vec4f& newRot) {
+void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Vec4f& newRot) {
 	if (target.rigidActor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
 		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags() == PxRigidBodyFlag::eKINEMATIC) {
 			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));

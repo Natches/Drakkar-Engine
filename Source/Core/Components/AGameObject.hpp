@@ -1,5 +1,6 @@
 #pragma once
 #include <Core/Core.hpp>
+#include <Serialization\MetaData.hpp>
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -18,6 +19,7 @@ struct PAC {
 
 class AGameObject
 {
+DK_SERIALIZED_OBJECT(AGameObject)
 public:
 	AGameObject() = default;
 	~AGameObject() = default;
@@ -31,11 +33,8 @@ public:
 		if (getComponentFlag(components::ComponentType<T>::id)) {
 			if (!std::is_base_of<components::IPlural, T>::value)
 				return &level->getComponentByHandle<T>(m_handlesToComponents[components::ComponentType<T>::id]);
-			else {
-				std::unordered_map<U64, U64>::local_iterator it = m_handlesToComponents.begin(m_handlesToComponents.bucket(components::ComponentType<T>::id));
-				std::advance(it,n);
-				return &level->getComponentByHandle<T>((*it).second);
-			}
+			else
+				return nullptr;
 		}
 		return nullptr;
 	}
@@ -48,7 +47,8 @@ public:
 			pac.componentIDXs = new U64[pac.count];
 			std::unordered_map<U64, U64>::local_iterator it = m_handlesToComponents.begin(m_handlesToComponents.bucket(components::ComponentType<T>::id));
 			for (U32 i = 0; i < pac.count; ++i, std::advance(it, 1)) {
-				pac.componentIDXs[i] = (*it).second;
+				if(it->first == components::ComponentType<T>::id)
+					pac.componentIDXs[i] = it->second;
 			}
 			return pac;
 		}
@@ -57,13 +57,18 @@ public:
 	template <typename T>
 	T& addComponent() {
 		if (!std::is_base_of<components::IPlural, T>::value) {
-			if (!getComponentFlag(components::ComponentType<T>::id))
+			if (!getComponentFlag(components::ComponentType<T>::id)) {
+				componentCount++;
 				return level->addComponentToGameObject<T>(*this);
+			}
 			else
 				return *getComponent<T>();
 		}
-		else
+		else {
+			componentCount++;
 			return level->addComponentToGameObject<T>(*this);
+		}
+
 	}
 
 	void setComponentFlag(I64 id, bool value) {
@@ -101,10 +106,15 @@ public:
 	inline U64 getDTID() {
 		return derivedTypeID;
 	}
+	std::unordered_map<U64, U64>& getComponentHandles() {
+		return m_handlesToComponents;
+	}
+
 
 	void makeRoot();
 	void setParent(U32 parentIDX);
 	void setParent(AGameObject& parent);
+	U64 componentCount;
 protected:
 	std::string name;
 	U64 derivedTypeID;
@@ -123,4 +133,8 @@ private:
 };
 }
 
+DK_METADATA_BEGIN(drak::AGameObject)
+DK_PUBLIC_FIELDS(derivedTypeID, componentCount)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
 #define Component_B_from_A(gameObjectArray, AComponent, BComponentType, BComponentArray) BComponentArray##[##gameObjectArray##[##AComponent##.GameObjectIDX]->getComponentIDX(ComponentType<##BComponentType##>::id)]

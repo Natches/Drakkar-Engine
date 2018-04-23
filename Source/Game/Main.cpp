@@ -27,6 +27,9 @@ public:
 	}
 	virtual void update() override
 	{
+		RigidBody& rb = *getComponent<RigidBody>();
+		Transform& tr = *getComponent<Transform>();
+		Engine::Get().getPhysicsSystem().goTo(rb, Vec3f(0,10,0) * DeltaTime + tr.position);
 	}
 	virtual void start() override
 	{
@@ -129,25 +132,25 @@ public:
 		switch (ke->key)
 		{
 		case Key::KEY_UP:
-			Engine::Get().getPhysicsSystem().move(
+			Engine::Get().getPhysicsSystem().goTo(
 				*getComponent<RigidBody>(),
 					trans.position + Vec3f(0, 0, -speed * DeltaTime),
 					trans.rotation);
 			break;
 		case Key::KEY_DOWN:
-			Engine::Get().getPhysicsSystem().move(
+			Engine::Get().getPhysicsSystem().goTo(
 				*getComponent<RigidBody>(), 
 					trans.position + Vec3f(0, 0, speed * DeltaTime),
 					trans.rotation);
 			break;
 		case Key::KEY_LEFT:
-			Engine::Get().getPhysicsSystem().move(
+			Engine::Get().getPhysicsSystem().goTo(
 				*getComponent<RigidBody>(),
 					trans.position + Vec3f(-speed * DeltaTime, 0, 0),
 					trans.rotation);
 			break;
 		case Key::KEY_RIGHT:
-			Engine::Get().getPhysicsSystem().move(
+			Engine::Get().getPhysicsSystem().goTo(
 				*getComponent<RigidBody>(),
 					trans.position + Vec3f(speed * DeltaTime, 0, 0),
 					trans.rotation);

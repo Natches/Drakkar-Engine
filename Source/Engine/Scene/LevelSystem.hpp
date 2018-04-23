@@ -3,6 +3,7 @@
 #include <Core/Components/AGameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
+#include <Serialization\Serializer.hpp>
 #include <Math/Vec3.hpp>
 #include <Math/Vec4.hpp>
 #include <list>
@@ -38,6 +39,7 @@ struct Scene {
 };
 
 class LevelSystem {
+	DK_SERIALIZED_OBJECT(LevelSystem)
 	friend core::Engine;
 	friend void drak::AGameObject::makeRoot();
 	friend void drak::AGameObject::setParent(U32 pIdx);
@@ -75,7 +77,7 @@ public:
 	LevelSystem();
 	~LevelSystem();
 
-	physx::PxScene* m_pPhysXScene;
+	void SerializeLevel();
 
 	std::vector<AGameObject*>& getGameObjects() {
 		return m_gameObjects;
@@ -124,3 +126,8 @@ public:
 	}
 };
 } //core
+
+DK_METADATA_BEGIN(drak::LevelSystem)
+DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_rootIdxs)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
