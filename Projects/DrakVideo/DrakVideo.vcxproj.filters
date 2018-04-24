@@ -135,6 +135,9 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelImporter.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\Model.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\main.cpp">

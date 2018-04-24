@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ResourceManager/ModelManager.hpp>
 #include <ResourceManager/MeshManager.hpp>
 #include <ResourceManager/TextureManager.hpp>
 
@@ -13,6 +14,7 @@ public:
 	MeshPtr	loadMesh(const std::string& filename);
 	
 private:
+	ModelManager*	m_pModelManager;
 	MeshManager*	m_pMeshManager;
 	TextureManager*	m_pTextureManager;
 };

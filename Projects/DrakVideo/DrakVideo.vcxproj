@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\Model.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelImporter.hpp" />
