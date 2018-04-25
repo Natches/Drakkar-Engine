@@ -30,7 +30,6 @@ bool ModelImporter::importFromFile(const std::string& filename) {
 	if (pScene) {
 		std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
 		std::cout << "# materials: " << pScene->mNumMaterials << "\n";
-		
 		return true;
 	}
 
