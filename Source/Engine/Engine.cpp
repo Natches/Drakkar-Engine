@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
 #include <Core/Components/AGameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
@@ -12,7 +13,7 @@ using namespace drak::components;
 
 namespace drak {
 namespace core {
-thread::ThreadPool core::Engine::s_pool;
+thread::ThreadPool Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {
@@ -49,6 +50,8 @@ int Engine::startup() {
 
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
+	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 	video::WindowSettings	winSettings		= { "Drakkar Engine", 1600, 900 };
 	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 

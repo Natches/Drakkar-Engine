@@ -1,9 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cassert>
-
-#include <GL/glew.h>
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 #define INVALID_SHADER (GLuint)-1
 

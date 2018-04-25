@@ -1,7 +1,4 @@
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::geom;
 
@@ -21,7 +18,7 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 	glVertexArrayVertexBuffer(m_glID, m_pVBO->bindIndex(), m_pVBO->glID(), 0, sizeof(Vertex));
 	for (U32 i = VERT_ATTR_POS; i < VERT_ATTR_COUNT; ++i) {
 		glVertexArrayAttribFormat(
-			m_glID, 
+			m_glID,
 			i,
 			g_VertexAttribDescArray[i].size,
 			g_VertexAttribDescArray[i].type,

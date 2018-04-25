@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <PrecompiledHeader/pch.hpp>
 
 #include <Core/Core.hpp>
 
@@ -56,7 +56,7 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		delete pFrameShader;
 		return false;
 	}
-	
+
 	return true;
 }
 

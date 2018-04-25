@@ -1,6 +1,4 @@
-#include <Threading/Thread/ThreadPool.hpp>
-#include <Threading/Task/RecurentTask.hpp>
-#include <Threading/Task/Task.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace thread {

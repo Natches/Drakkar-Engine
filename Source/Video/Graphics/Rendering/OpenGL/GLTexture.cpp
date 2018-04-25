@@ -1,10 +1,6 @@
-#pragma once
-
+#include <PrecompiledHeader/pch.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 
 namespace drak {
 namespace gfx {

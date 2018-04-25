@@ -1,7 +1,4 @@
-#include <thread>
-#include <Threading/Task/ATask.hpp>
-#include <Threading/Thread/ThreadObject.hpp>
-#include <Threading/Thread/ThreadPool.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace std::chrono_literals;
 

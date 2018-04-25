@@ -1,11 +1,10 @@
+#include <PrecompiledHeader/pch.hpp>
 #include "SDL.h"
 #undef main // avoid SDL name conflict
 
-#include <GL/glew.h>
-
-#include <Core/Utils/MacroUtils.hpp>
 #include <Windowing/Window/SDLWindow.hpp>
-#include <Windowing/Input/Keyboard.hpp>
+
+#include <GL/glew.h>
 
 using namespace drak::events;
 

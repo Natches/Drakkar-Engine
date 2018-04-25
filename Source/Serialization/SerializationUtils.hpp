@@ -4,9 +4,7 @@
 
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Log/Log.hpp>
-#include <string>
 #include <sstream>
-#include <vector>
 
 #define DK_ADD_TAB(x)			\
 for (int i = 0; i < x; ++i)		\
@@ -151,34 +149,34 @@ struct BaseType<Type*> {																		\
 };																								\
 template<typename T>																			\
 struct ComplexType {																			\
+	using MetaData = MetaData<T>;																\
 	static void DeserializeBinary(T& t, std::stringstream& sstr) {								\
-		MetaData<T>::Deserialize<EExtension::BINARY>(t, sstr);									\
+		MetaData::Deserialize<EExtension::BINARY>(t, sstr);										\
 	}																							\
 	static std::string SerializeToBinary(const T& t) {											\
 		std::string str;																		\
-		str.reserve(MetaData<T>::ComputeTotalSize(t));											\
+		str.reserve(MetaData::ComputeTotalSize(t));												\
 		std::stringstream sstr;																	\
-		str.append(MetaData<T>::Serialize<EExtension::BINARY>(t, sstr).str());					\
+		str.append(MetaData::Serialize<EExtension::BINARY>(t, sstr).str());						\
 		return str;																				\
 	}																							\
 	static std::string SerializeToJSON(const T& t, int indent) {								\
 		std::stringstream sstr;																	\
-		return MetaData<T>::Serialize<EExtension::JSON>(t, sstr, indent).str();					\
+		return MetaData::Serialize<EExtension::JSON>(t, sstr, indent).str();					\
 	}																							\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
-		MetaData<T>::Deserialize<EExtension::JSON>(t, sstr);									\
+		MetaData::Deserialize<EExtension::JSON>(t, sstr);										\
 	}																							\
 };																								\
 template<typename Type, size_t N>																\
 struct ComplexType<Type[N]> {																	\
 	using T = Type[N];																			\
+	using MetaData = MetaData<Type>;															\
 	static void DeserializeBinary(T& t, std::stringstream& sstr) {								\
-		using MetaData = MetaData<Type>;														\
 		for(int i = 0, size = drak::types::SizeOfArray_V<T>; i < size; ++i)						\
 			MetaData::Deserialize<EExtension::BINARY>(t[i], sstr);								\
 	}																							\
 	static std::string SerializeToBinary(const T& t) {											\
-		using MetaData = MetaData<Type>;														\
 		std::string str;																		\
 		size_t totalArraySize = 0;																\
 		for (auto& x : t)																		\
@@ -196,7 +194,7 @@ struct ComplexType<Type[N]> {																	\
 			for(int i2 = 0; i2 < indent; ++i2)													\
 				str += '\t';																	\
 			std::stringstream sstr;																\
-			str += MetaData<Type>::Serialize<EExtension::JSON>									\
+			str += MetaData::Serialize<EExtension::JSON>										\
 				(t[i], sstr, indent + 1);														\
 			str += ",\n";																		\
 		}																						\
@@ -210,7 +208,7 @@ struct ComplexType<Type[N]> {																	\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
 		std::string str;																		\
 		for(size_t i = 0; i < N; ++i) {															\
-			MetaData<Type>::Deserialize<EExtension::JSON>(t[i], sstr);							\
+			MetaData::Deserialize<EExtension::JSON>(t[i], sstr);								\
 		}																						\
 		sstr >> str;																			\
 	}																							\
@@ -218,18 +216,18 @@ struct ComplexType<Type[N]> {																	\
 template<typename Type>																			\
 struct ComplexType<Type*> {																		\
 	using T = Type*;																			\
+	using MetaData = MetaData<Type>;															\
 	static void DeserializeBinary(T& t, std::stringstream& sstr) {								\
 		char isAllocated;																		\
 		sstr.read(&isAllocated, sizeof(char));													\
 		if (isAllocated) {																		\
 			t = new Type();																		\
-			MetaData<Type>::Deserialize<EExtension::BINARY>(*t, sstr);							\
+			MetaData::Deserialize<EExtension::BINARY>(*t, sstr);								\
 		}																						\
 		else																					\
 			t = nullptr;																		\
 	}																							\
 	static std::string SerializeToBinary(const T& t) {											\
-		using MetaData = MetaData<Type>;														\
 		if(static_cast<bool>(t)) {																\
 			std::string str;																	\
 			str.reserve(MetaData::ComputeTotalSize(*t) + 1);									\
@@ -244,7 +242,7 @@ struct ComplexType<Type*> {																		\
 	static std::string SerializeToJSON(const T& t, int indent) {								\
 		if(static_cast<bool>(t)) {																\
 		std::stringstream sstr;																	\
-			return MetaData<Type>::Serialize<EExtension::JSON>									\
+			return MetaData::Serialize<EExtension::JSON>										\
 				(*t, sstr, indent).str();														\
 		}																						\
 		else																					\
@@ -255,9 +253,9 @@ struct ComplexType<Type*> {																		\
 		sstr >> str;																			\
 		if(str != "\"null\"" && str != "\"nill\"" &&											\
 			str != "\"null\"," && str != "\"nill\",")	{										\
-			sstr.seekg(-(int)str.size(), std::ios::cur);										\
+			sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);						\
 			t = new Type();																		\
-			MetaData<Type>::Deserialize<EExtension::JSON>(*t, sstr);							\
+			MetaData::Deserialize<EExtension::JSON>(*t, sstr);									\
 		}																						\
 		else																					\
 			t = nullptr;																		\
@@ -266,35 +264,35 @@ struct ComplexType<Type*> {																		\
 
 #define DK_SET_DATA()																			\
 template<typename T>																			\
-static void DeserializeBinaryToVector(T& t, std::stringstream& sstr) {							\
+static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr) {				\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
 	t.reserve(size);																			\
 	for(int i = 0; i < size; ++i) {																\
-		drak::types::VectorType_T<T> data;														\
-		DeserializeBinary<drak::types::VectorType_T<T>>(data, sstr);							\
+		T data;																					\
+		DeserializeBinary(data, sstr);															\
 		t.emplace_back(data);																	\
 	}																							\
 }																								\
 template<typename T>																			\
-static std::stringstream& DeserializeJSONToVector(T& t, std::stringstream& sstr) {				\
+static void DeserializeJSONToVector(std::vector<T>& t, std::stringstream& sstr) {				\
 	std::string str;																			\
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
-		drak::types::VectorType_T<T> data;														\
-		DeserializeJSON<drak::types::VectorType_T<T>>(data, sstr);								\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);							\
+		T data;																					\
+		DeserializeJSON(data, sstr);															\
 		t.emplace_back(data);																	\
 		sstr >> str;																			\
 	}																							\
-	return sstr;																				\
 }																								\
 static void DeserializeBinaryToString(std::string& t, std::stringstream& sstr) {				\
+	t.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
-	t.insert(0, sstr.str().c_str() + sstr.tellg(), size);										\
-	sstr.seekg(size, std::ios::cur);															\
+	t.insert(0, sstr.str().c_str() + (int)sstr.tellg(), size);									\
+	sstr.seekg(std::streamoff(size), std::ios::cur);											\
 }																								\
 static std::stringstream& DeserializeJSONToString(std::string& t, std::stringstream& sstr) {	\
 	sstr >> t;																					\
@@ -315,26 +313,90 @@ static void DeserializeINIToIntrin(T& t, std::stringstream& sstr) {								\
 	memcpy(&t, arr, sizeof(T));																	\
 }																								\
 template<typename T>																			\
-static void DeserializeBinary(T& t, std::stringstream& sstr) {									\
-	if constexpr (drak::types::IsBaseType_V<T>) {												\
-		BaseType<T>::DeserializeBinary(t, sstr);												\
+static void DeserializeBinaryToPair(T& p, std::stringstream& sstr) {							\
+	DeserializeBinary(p.first, sstr);															\
+	DeserializeBinary(p.second, sstr);															\
+}																								\
+template<typename T, typename U>																\
+static void DeserializeBinaryToMap(std::map<T, U>& m, std::stringstream& sstr) {				\
+	size_t size;																				\
+	sstr.read((char*)&size, sizeof(size_t));													\
+	std::pair<T, U> p;																			\
+	for(size_t i = 0; i < size; ++i) {															\
+		DeserializeBinaryToPair(p, sstr);														\
+		m.insert(p);																			\
 	}																							\
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {						\
-		DeserializeBinaryToVector<T>(t, sstr);													\
-	}																							\
-	else if constexpr (std::is_same_v<T, std::string>) {										\
-		DeserializeBinaryToString(t, sstr);														\
-	}																							\
-	else if constexpr(!drak::types::IsBaseType_V<T>) {											\
-		ComplexType<T>::DeserializeBinary(t, sstr);												\
+}																								\
+template<typename T, typename U>																\
+static void DeserializeBinaryToUnorderedMap														\
+	(std::unordered_map<T, U>& um, std::stringstream& sstr) {									\
+	size_t size;																				\
+	sstr.read((char*)&size, sizeof(size_t));													\
+	std::pair<T, U> p;																			\
+	for(size_t i = 0; i < size; ++i) {															\
+		DeserializeBinaryToPair(p, sstr);														\
+		um.insert(p);																			\
 	}																							\
 }																								\
 template<typename T>																			\
-static void DeserializeJSON(T& t, std::stringstream& sstr) {									\
-	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_T<T>) {			\
-		BaseType<T>::DeserializeJSON(t, sstr);													\
+static void DeserializeJSONToPair(T& p, std::stringstream& sstr) {								\
+	std::string str;																			\
+	while (str != "{") sstr >> str;																\
+	while (str != "}" && str != "},") {															\
+		DeserializeJSON(p.first, sstr);															\
+		DeserializeJSON(p.second, sstr);														\
+		sstr >> str;																			\
 	}																							\
-	else if constexpr (drak::types::IsIntrinType_T<T>) {										\
+}																								\
+template<typename T, typename U>																\
+static void DeserializeJSONToMap(std::map<T, U>& m, std::stringstream& sstr) {					\
+	std::string str;																			\
+	std::pair<T, U> p;																			\
+	sstr >> str;																				\
+	sstr >> str;																				\
+	while (str != "]" && str != "],") {															\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
+		DeserializeJSONToPair(p, sstr);															\
+		m.insert(p);																			\
+		sstr >> str;																			\
+	}																							\
+}																								\
+template<typename T, typename U>																\
+static void DeserializeJSONToUnorderedMap														\
+	(std::unordered_map<T, U>& um, std::stringstream& sstr) {									\
+	std::string str;																			\
+	std::pair<T, U> p;																			\
+	sstr >> str;																				\
+	sstr >> str;																				\
+	while (str != "]" && str != "],") {															\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
+		DeserializeJSONToPair(p, sstr);															\
+		um.insert(p);																			\
+		sstr >> str;																			\
+	}																							\
+}																								\
+template<typename T>																			\
+static void DeserializeBinary(T& t, std::stringstream& sstr) {									\
+	if constexpr (drak::types::IsBaseType_V<T>)													\
+		BaseType<T>::DeserializeBinary(t, sstr);												\
+	else if constexpr (drak::types::IsVector_V<T>)												\
+		DeserializeBinaryToVector(t, sstr);														\
+	else if constexpr (std::is_same_v<T, std::string>)											\
+		DeserializeBinaryToString(t, sstr);														\
+	else if constexpr (drak::types::IsMap_V<T>)													\
+		DeserializeBinaryToMap(t, sstr);														\
+	else if constexpr (drak::types::IsUnorderedMap_V<T>)										\
+		DeserializeBinaryToUnorderedMap(t, sstr);												\
+	else if constexpr (drak::types::IsPair_V<T>)												\
+		DeserializeBinaryToPair(t, sstr);														\
+	else if constexpr(!drak::types::IsBaseType_V<T>)											\
+		ComplexType<T>::DeserializeBinary(t, sstr);												\
+}																								\
+template<typename T>																			\
+static void DeserializeJSON(T& t, std::stringstream& sstr) {									\
+	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_V<T>)				\
+		BaseType<T>::DeserializeJSON(t, sstr);													\
+	else if constexpr (drak::types::IsIntrinType_V<T>) {										\
 		if constexpr (std::is_same_v<T, __m64> ||												\
 			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)								\
 			DeserializeJSONToIntrin<T, F32>(t, sstr);											\
@@ -342,22 +404,25 @@ static void DeserializeJSON(T& t, std::stringstream& sstr) {									\
 			std::is_same_v<T, __m256i>)															\
 			DeserializeJSONToIntrin<T, I32>(t, sstr);											\
 	}																							\
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {						\
-		DeserializeJSONToVector<T>(t, sstr);													\
-	}																							\
-	else if constexpr (std::is_same_v<T, std::string>) {										\
+	else if constexpr (drak::types::IsVector_V<T>)												\
+		DeserializeJSONToVector(t, sstr);														\
+	else if constexpr (std::is_same_v<T, std::string>)											\
 		DeserializeJSONToString(t, sstr);														\
-	}																							\
-	else if constexpr(!drak::types::IsBaseType_V<T>) {											\
+	else if constexpr (drak::types::IsMap_V<T>)													\
+		DeserializeJSONToMap(t, sstr);															\
+	else if constexpr (drak::types::IsUnorderedMap_V<T>)										\
+		DeserializeJSONToUnorderedMap(t, sstr);													\
+	else if constexpr (drak::types::IsPair_V<T>)												\
+		DeserializeJSONToPair(t, sstr);															\
+	else if constexpr(!drak::types::IsBaseType_V<T>)											\
 		ComplexType<T>::DeserializeJSON(t, sstr);												\
-	}																							\
 }																								\
 template<typename T>																			\
 static void DeserializeINI(T& t, std::stringstream& sstr) {										\
-	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_T<T>) {			\
+	if constexpr (drak::types::IsBaseType_V<T> && !drak::types::IsIntrinType_V<T>) {			\
 		BaseType<T>::DeserializeINI(t, sstr);													\
 	}																							\
-	else if constexpr (drak::types::IsIntrinType_T<T>) {										\
+	else if constexpr (drak::types::IsIntrinType_V<T>) {										\
 		if constexpr (std::is_same_v<T, __m64> ||												\
 			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)								\
 			DeserializeINIToIntrin<T, F32>(t, sstr);											\
@@ -382,7 +447,6 @@ static std::string SerializeStringToJSON(const std::string& s) {				\
 }																				\
 template<typename T>															\
 static std::string SerializeVectorToBinary(const T& t) {						\
-	using VecType = drak::types::VectorType_T<T>;								\
 	size_t size = t.size(), size2 = 0;											\
 	std::string data;															\
 	data.reserve(t.size() + sizeof(size_t));									\
@@ -392,14 +456,13 @@ static std::string SerializeVectorToBinary(const T& t) {						\
 	return data;																\
 }																				\
 template<typename T>															\
-static std::string SerializeVectorToJSON(const T& t, int indent)	{			\
-	using VecType = drak::types::VectorType_T<T>;								\
+static std::string SerializeVectorToJSON(const T& t, int indent) {				\
 	std::string str("[\n");														\
 	str.reserve(SizeOfDynamiclyAllocatedType<T>(t));							\
 	for(auto& x : t) {															\
 		for (int i = 0; i < indent; ++i)										\
 			str += '\t';														\
-		str += SerializeToJSON<VecType>(x, indent + 1);							\
+		str += SerializeToJSON(x, indent + 1);									\
 		str += ",\n";															\
 	}																			\
 	if(t.size())																\
@@ -413,7 +476,7 @@ static std::string SerializeVectorToJSON(const T& t, int indent)	{			\
 template<typename T, typename U>												\
 static std::string SerializeIntrinToJSON(const T& t, int indent) {				\
 	std::string str("[\n");														\
-	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {						\
+	for (int i = 0, size = (int)sizeof(T) / 4; i < size; ++i) {					\
 		for (int i2 = 0; i2 < indent; ++i2)										\
 			str += '\t';														\
 		str += BaseType<U>::SerializeToJSON(*((U*)(&t) + i), indent);			\
@@ -429,7 +492,7 @@ static std::string SerializeIntrinToJSON(const T& t, int indent) {				\
 template<typename T, typename U>												\
 static std::string SerializeIntrinToINI(const T& t) {							\
 	std::string str("{ ");														\
-	for (int i = 0, size = sizeof(T) / 4; i < size; ++i) {						\
+	for (int i = 0, size = (int)sizeof(T) / 4; i < size; ++i) {					\
 		str += BaseType<U>::SerializeToINI(*((U*)(&t) + i));					\
 		str += ", ";															\
 	}																			\
@@ -438,27 +501,102 @@ static std::string SerializeIntrinToINI(const T& t) {							\
 	return str;																	\
 }																				\
 template<typename T>															\
+static std::string SerializePairToBinary(const T& p) {							\
+	std::string str;															\
+	str.append(SerializeToBinary(p.first));										\
+	str.append(SerializeToBinary(p.second));									\
+	return str;																	\
+}																				\
+template<typename T>															\
+static std::string SerializeMapToBinary(const T& m) {							\
+	std::string str;															\
+	size_t size = m.size();														\
+	str.append((char*)&size, sizeof(size_t));									\
+	for(auto& pair : m)															\
+		str.append(SerializePairToBinary(pair));								\
+	return str;																	\
+}																				\
+template<typename T>															\
+static std::string SerializeUnorderedMapToBinary								\
+	(const T& m) {																\
+	std::string str;															\
+	size_t size = m.size();														\
+	str.append((char*)&size, sizeof(size_t));									\
+	for(auto& pair : m)															\
+		str.append(SerializePairToBinary(pair));								\
+	return str;																	\
+}																				\
+template<typename T>															\
+static std::string SerializePairToJSON(const T& p, int indent) {				\
+	std::string str(typeid(T).name());											\
+	str.append(": {\n");														\
+	for (int i = 0; i < indent; ++i)											\
+		str += '\t';															\
+	str.append(SerializeToJSON(p.first, indent));								\
+	str.append(",\n");															\
+	for (int i = 0; i < indent; ++i)											\
+		str += '\t';															\
+	str.append(SerializeToJSON(p.second, indent));								\
+	str.append("\n");															\
+	for (int i = 0; i < indent - 1; ++i)										\
+		str += '\t';															\
+	str.append("}");															\
+	return str;																	\
+}																				\
+template<typename T>															\
+static std::string SerializeMapToJSON(const T& m, int indent) {					\
+	std::string str("[\n");														\
+	for(auto& pair : m)	{														\
+		for (int i = 0; i < indent; ++i)										\
+		str += '\t';															\
+		str.append(SerializePairToJSON(pair, indent + 1));						\
+		str.append(",\n");														\
+	}																			\
+	str.erase(str.end() - 2);													\
+	for (int i = 0; i < indent - 1; ++i)										\
+		str += '\t';															\
+	str.append("]");															\
+	return str;																	\
+}																				\
+template<typename T>															\
+static std::string SerializeUnorderedMapToJSON									\
+	(const T& m, int indent) {													\
+	std::string str("[\n");														\
+	for(auto& pair : m)	{														\
+		for (int i = 0; i < indent; ++i)										\
+		str += '\t';															\
+		str.append(SerializePairToJSON(pair, indent + 1));						\
+		str.append(",\n");														\
+	}																			\
+	str.erase(str.end() - 2);													\
+	for (int i = 0; i < indent - 1; ++i)										\
+		str += '\t';															\
+	str.append("]");															\
+	return str;																	\
+}																				\
+template<typename T>															\
 static std::string SerializeToBinary(const T& t) {								\
-	if constexpr (drak::types::IsBaseType_V<T>) {								\
+	if constexpr (drak::types::IsBaseType_V<T>)									\
 		return BaseType<T>::SerializeToBinary(t);								\
-	}																			\
-	else if constexpr(std::is_same_v<T, std::string>) {							\
+	else if constexpr(std::is_same_v<T, std::string>)							\
 		return SerializeStringToBinary(t);										\
-	}																			\
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {		\
-		return SerializeVectorToBinary<T>(t);									\
-	}																			\
-	else if constexpr(!drak::types::IsBaseType_V<T>) {							\
+	else if constexpr (drak::types::IsVector_V<T>)								\
+		return SerializeVectorToBinary(t);										\
+	else if constexpr (drak::types::IsMap_V<T>)									\
+		return SerializeMapToBinary(t);											\
+	else if constexpr (drak::types::IsUnorderedMap_V<T>)						\
+		return SerializeUnorderedMapToBinary(t);								\
+	else if constexpr (drak::types::IsPair_V<T>)								\
+		return SerializePairToBinary(t);										\
+	else if constexpr(!drak::types::IsBaseType_V<T>)							\
 		return ComplexType<T>::SerializeToBinary(t);							\
-	}																			\
 }																				\
 template<typename T>															\
 static std::string SerializeToJSON(const T& t, int indent) {					\
 	if constexpr (drak::types::IsBaseType_V<T> &&								\
-		!drak::types::IsIntrinType_T<T>) {										\
+		!drak::types::IsIntrinType_V<T>)										\
 		return BaseType<T>::SerializeToJSON(t, indent);							\
-	}																			\
-	else if constexpr (drak::types::IsIntrinType_T<T>) {						\
+	else if constexpr (drak::types::IsIntrinType_V<T>) {						\
 		if constexpr (std::is_same_v<T, __m64> ||								\
 			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)				\
 			return SerializeIntrinToJSON<T, F32>(t, indent);					\
@@ -466,23 +604,26 @@ static std::string SerializeToJSON(const T& t, int indent) {					\
 			std::is_same_v<T, __m256i>)											\
 			return SerializeIntrinToJSON<T, I32>(t, indent);					\
 	}																			\
-	else if constexpr(std::is_same_v<T, std::string>) {							\
+	else if constexpr(std::is_same_v<T, std::string>)							\
 		return SerializeStringToJSON(t);										\
-	}																			\
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {		\
-		return SerializeVectorToJSON<T>(t, indent);								\
-	}																			\
-	else if constexpr(!drak::types::IsBaseType_V<T>) {							\
+	else if constexpr (drak::types::IsVector_V<T>)								\
+		return SerializeVectorToJSON(t, indent);								\
+	else if constexpr (drak::types::IsMap_V<T>)									\
+		return SerializeMapToJSON(t, indent);									\
+	else if constexpr (drak::types::IsUnorderedMap_V<T>)						\
+		return SerializeUnorderedMapToJSON(t, indent);							\
+	else if constexpr (drak::types::IsPair_V<T>)								\
+		return SerializePairToJSON(t, indent);									\
+	else if constexpr(!drak::types::IsBaseType_V<T>)							\
 		return ComplexType<T>::SerializeToJSON(t, indent);						\
-	}																			\
 }																				\
 template<typename T>															\
 static std::string SerializeToINI(const T& t) {									\
 	if constexpr (drak::types::IsBaseType_V<T> &&								\
-		!drak::types::IsIntrinType_T<T>) {										\
+		!drak::types::IsIntrinType_V<T>) {										\
 		return BaseType<T>::SerializeToINI(t);									\
 	}																			\
-	else if constexpr (drak::types::IsIntrinType_T<T>) {						\
+	else if constexpr (drak::types::IsIntrinType_V<T>) {						\
 		if constexpr (std::is_same_v<T, __m64> ||								\
 			std::is_same_v<T, __m128> || std::is_same_v<T, __m256>)				\
 			return SerializeIntrinToINI<T, F32>(t);								\
@@ -574,7 +715,7 @@ static type& DeserializeINI(type& t, std::stringstream& sstr) {									\
 		sstr >> str;																			\
 	}																							\
 	if(!sstr.eof())																				\
-		sstr.seekg(-(int)str.size(), std::ios::cur);											\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
 	return t;																					\
 }
 
@@ -1313,11 +1454,11 @@ DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI30(__VA_ARGS__))
 DK_SERIALIZE_FIELD_TO_INI_IMPL(t)	\
 DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI31(__VA_ARGS__))
 
-#define DK_DESERIALIZE_INI_TO_FIELD_IMPL(ty)								\
-if(name == std::string(#ty)){									\
-	sstr.seekg(-((int)(str.size()) - postEqual), std::ios::cur);\
-	DeserializeINI(t.ty, sstr);										\
-}																\
+#define DK_DESERIALIZE_INI_TO_FIELD_IMPL(ty)										\
+if(name == std::string(#ty)){														\
+	sstr.seekg(std::streamoff(-((int)(str.size()) - postEqual)), std::ios::cur);	\
+	DeserializeINI(t.ty, sstr);														\
+}																					\
 else
 
 #define DK_DESERIALIZE_INI_TO_FIELD0	\

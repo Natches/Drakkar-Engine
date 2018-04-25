@@ -1,6 +1,4 @@
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLIndexBuffer.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace gfx {

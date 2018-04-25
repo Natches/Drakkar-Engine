@@ -1,6 +1,4 @@
-#include <Video/Graphics/Rendering/Camera.hpp>
-#include <Windowing/Input/Keyboard.hpp>
-#include <Core/Utils/MacroUtils.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::math;
 using namespace drak::events;
@@ -41,8 +39,8 @@ void Camera::onKeyDown(const Event* pEvt) {
 
 #pragma region View Matrix
 const Mat4f& Camera::view(
-	const math::Vec3f& eye, 
-	const math::Vec3f& at, 
+	const math::Vec3f& eye,
+	const math::Vec3f& at,
 	const math::Vec3f& up) {
 
 	m_eye	= eye;
@@ -62,17 +60,17 @@ void Camera::buildView() {
 		xc.x,
 		xc.y,
 		xc.z,
-		Dot(-m_eye, xc),   
-		yc.x,			   
-		yc.y,			  
-		yc.z,		
+		Dot(-m_eye, xc),
+		yc.x,
+		yc.y,
+		yc.z,
 		Dot(-m_eye, yc),
-		zc.x,			   
-		zc.y,		
+		zc.x,
+		zc.y,
 		zc.z,
 		Dot(-m_eye, zc),
-		0.f,		   
-		0.f, 
+		0.f,
+		0.f,
 		0.f,
 		1.f
 	);
@@ -97,19 +95,19 @@ void Camera::buildPerspective() {
 
 	m_prsp = Mat4f(
 		inv_tan / m_aspect,
-		0.f,		
-		0.f,									
 		0.f,
-		0.f,					
+		0.f,
+		0.f,
+		0.f,
 		inv_tan,
-		0.f,									
 		0.f,
-		0.f,					
-		0.f,		
+		0.f,
+		0.f,
+		0.f,
 		m_inv_fsubn * (m_farZ + m_nearZ),
 		m_inv_fsubn * (m_farZ * m_nearZ) * 2.f,
-		0.f,					
-		0.f,		
+		0.f,
+		0.f,
 		-1.f,
 		0.f
 	);
@@ -130,7 +128,7 @@ const Mat4f& Camera::orthographic(F32 width, F32 height, F32 nearZ, F32 farZ) {
 
 void Camera::buildOrthographic() {
 	m_ortho = Mat4f(
-		1.f / m_orthoR,	
+		1.f / m_orthoR,
 		0.f,
 		0.f,
 		0.f,
@@ -140,7 +138,7 @@ void Camera::buildOrthographic() {
 		0.f,
 		0.f,
 		0.f,
-		m_inv_fsubn * 2.f, 
+		m_inv_fsubn * 2.f,
 		0.f,
 		0.f,
 		0.f,

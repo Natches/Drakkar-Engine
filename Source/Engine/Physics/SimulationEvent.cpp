@@ -1,7 +1,4 @@
-#include "SimulationEvent.hpp"
-#include <PxPhysicsAPI.h>
-#include <Engine/Components/PhysicsComponents.hpp>
-#include <Core/Components/AGameObject.hpp>
+#include "SimulationEvent.h"
 
 using namespace physx;
 using namespace drak;
@@ -83,3 +80,8 @@ void PhysicsEvents::onTrigger(PxTriggerPair * pairs, PxU32 count) {
 
 void PhysicsEvents::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTransform * poseBuffer, const PxU32 count) {
 }
+#include <PrecompiledHeader/pch.hpp>
+#include "SimulationEvent.hpp"
+#include <PxPhysicsAPI.h>
+#include <Engine/Components/PhysicsComponents.hpp>
+#include <Core/Components/AGameObject.hpp>

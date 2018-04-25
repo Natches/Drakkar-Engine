@@ -1,10 +1,8 @@
-#include <iostream> // !!! TODO (Simon): replace with Log
-
+#include <PrecompiledHeader/pch.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <Video/Graphics/Tools/ModelLoader.hpp>
 
 namespace drak {
 namespace gfx {
@@ -30,7 +28,7 @@ bool ModelLoader::loadFromFile(const std::string& filepath) {
 	if (pScene) {
 		// std::cout << "# meshes: " << pScene->mNumMeshes << "\n";
 		// std::cout << "# materials: " << pScene->mNumMaterials << "\n";
-		
+
 		return true;
 	}
 
