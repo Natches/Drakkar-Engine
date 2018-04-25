@@ -68,6 +68,8 @@ public:
 	Vec2<T> normalize() const;
 	Vec2<T> rotate(const F32 angle) const;
 	Vec2<T> perpendicularVector() const;
+	Vec2<T> abs();
+	Vec2<T> sign();
 
 	template<typename U>
 	Vec2<U> cast() const;
@@ -75,6 +77,7 @@ public:
 	Vec2<F32> ceil();
 	Vec2<F32> floor();
 	Vec2<F32> round();
+	Vec2<F32> sqrt();
 
 	Vec2<T> yx();
 

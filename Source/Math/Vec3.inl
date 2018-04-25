@@ -131,21 +131,46 @@ Vec3<T> Vec3<T>::rotation() const {
 }
 
 template<typename T>
+Vec3<T> Vec3<T>::abs() const {
+	return Vec3<T>(std::abs(x), std::abs(y), std::abs(z));
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::sign() const {
+	if constexpr(std::is_signed_v<T>) {
+		U32 xTemp = (*reinterpret_cast<U32*>(&static_cast<F32>(x)) & (1 << 31)) | (1 << 30);
+		U32 yTemp = (*reinterpret_cast<U32*>(&static_cast<F32>(y)) & (1 << 31)) | (1 << 30);
+		U32 zTemp = (*reinterpret_cast<U32*>(&static_cast<F32>(z)) & (1 << 31)) | (1 << 30);
+		return Vec3<T>(static_cast<T>(*reinterpret_cast<F32*>(&xTemp) * 0.5f),
+			static_cast<T>(*reinterpret_cast<F32*>(&yTemp) * 0.5f), 
+			static_cast<T>(*reinterpret_cast<F32*>(&zTemp) * 0.5f));
+	}
+	else
+		return static_cast<T>(1);
+}
+
+template<typename T>
 Vec3<F32> Vec3<T>::ceil() {
-	static_assert(!Vec3<T>::isIntegral, "Use only ceil with floating point type !!");
+	static_assert(!Vec3<T>::isIntegral, "Use only 'ceil()' with floating point type !!");
 	return Vec3<F32>(std::ceil(x), std::ceil(y), std::ceil(z));
 }
 
 template<typename T>
 Vec3<F32> Vec3<T>::floor() {
-	static_assert(!Vec3<T>::isIntegral, "Use only floor with floating point type !!");
+	static_assert(!Vec3<T>::isIntegral, "Use only 'floor()' with floating point type !!");
 	return Vec3<F32>(std::floor(x), std::floor(y), std::floor(z));
 }
 
 template<typename T>
 Vec3<F32> Vec3<T>::round() {
-	static_assert(!Vec3<T>::isIntegral, "Use only round with floating point type !!");
+	static_assert(!Vec3<T>::isIntegral, "Use only 'round()' with floating point type !!");
 	return Vec3<F32>(std::round(x), std::round(y), std::round(z));
+}
+
+template<typename T>
+Vec3<F32> Vec3<T>::sqrt() const {
+	static_assert(!Vec3<T>::isIntegral, "Use only 'sqrt()' with floating point type !!");
+	return Vec3<F32>(std::sqrt(x), std::sqrt(y), std::sqrt(z));
 }
 
 template<typename T>

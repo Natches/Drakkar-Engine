@@ -33,6 +33,8 @@ public:
 	Vec4(Vec3<T>&& v);
 	Vec4(const Vec3<T>& v, T W);
 	Vec4(Vec3<T>&& v, T W);
+	Vec4(T W, const Vec3<T>& v);
+	Vec4(T W, Vec3<T>&& v);
 	~Vec4() = default;
 
 public:
@@ -85,6 +87,8 @@ public:
 
 	Vec4<T> conjugate() const;
 	Vec4<T> normalize() const;
+	Vec4<T> abs()		const;
+	Vec4<T> sign()		const;
 
 	/*template<Axis ax>
 	Vec4<T> rotate(const F32 angle) const;
@@ -96,35 +100,31 @@ public:
 	template<typename U>
 	Vec4<U> cast() const;
 
-	Vec4<F32> ceil();
-	Vec4<F32> floor();
-	Vec4<F32> round();
+	Vec4<F32> ceil()	const;
+	Vec4<F32> floor()	const;
+	Vec4<F32> round()	const;
+	Vec4<F32> sqrt()	const;
 
-	Vec2<T> xy();
-	Vec2<T> zw();
-	Vec2<T> yz();
-	Vec2<T> yx();
-	Vec2<T> wz();
-	Vec2<T> zy();
+	Vec2<T> yz() const;
+	Vec2<T> yx() const;
+	Vec2<T> wz() const;
+	Vec2<T> zy() const;
 
-	Vec3<T> xyz();
-	Vec3<T> zyx();
-	Vec3<T> yzx();
-	Vec3<T> zxy();
+	Vec3<T> zyx() const;
+	Vec3<T> yzx() const;
+	Vec3<T> zxy() const;
 
-	Vec3<T> rgb();
-	Vec3<T> bgr();
-	Vec3<T> gbr();
-	Vec3<T> brg();
+	Vec3<T> bgr() const;
+	Vec3<T> gbr() const;
+	Vec3<T> brg() const;
 
-	Vec3<T> wyz();
-	Vec3<T> zyw();
-	Vec3<T> yzw();
-	Vec3<T> zwy();
+	Vec3<T> wyz() const;
+	Vec3<T> zyw() const;
+	Vec3<T> zwy() const;
 
-	Vec4<T> bgra();
-	Vec4<T> gbra();
-	Vec4<T> brga();
+	Vec4<T> bgra() const;
+	Vec4<T> gbra() const;
+	Vec4<T> brga() const;
 
 private:
 	/*F32 computeAngleX();
@@ -136,6 +136,12 @@ public:
 		T m_vec[4];
 		struct { T x, y, z, w; };
 		struct { T r, g, b, a; };
+		struct { Vec3<T> xyz; };
+		struct { Vec3<T> rgb; };
+		struct { Vec2<T> xy, zw; };
+		struct { Vec2<T> rg, ba; };
+		struct { T padding1; Vec3<T> yzw; };
+		struct { T padding2; Vec3<T> gba; };
 		SIMDType m_simdVec;
 	};
 

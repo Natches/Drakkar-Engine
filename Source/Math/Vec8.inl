@@ -18,7 +18,7 @@ Vec8<T>::Vec8() {
 template<typename T>
 Vec8<T>::Vec8(T* arr) {
 	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>) {
-		if constexpr (alignof(T*) == SIMDType::alignement)
+		if constexpr (alignof(T*) == SIMDStruct::alignement)
 			m_simdVec = SIMDStruct::load(arr);
 		else
 			m_simdVec = SIMDStruct::loadu(arr);
@@ -531,49 +531,60 @@ Vec8<T> Vec8<T>::normalize() const {
 }
 
 template<typename T>
+Vec8<T> Vec8<T>::abs() const {
+	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
+		return Vec8<T>(SIMDStruct::abs(m_simdVec));
+	else
+		Vec8<T>(std::abs(x), std::abs(y), std::abs(z), std::abs(w),
+			std::abs(a), std::abs(b), std::abs(c), std::abs(d));
+}
+
+template<typename T>
+Vec8<T> Vec8<T>::sign() const {
+	if constexpr(std::is_signed_v<T>) {
+		if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE> && !std::is_same_v<T, I8>)
+			return SIMDStruct::sign(m_simdVec);
+		else {
+			return Vec8<T>(x >= 0 ? 1 : -1, y >= 0 ? 1 : -1,
+				z >= 0 ? 1 : -1, w >= 0 ? 1 : -1,
+				a >= 0 ? 1 : -1, b >= 0 ? 1 : -1,
+				c >= 0 ? 1 : -1, d >= 0 ? 1 : -1);
+		}
+	}
+	else
+		return Vec8<T>(1, 1, 1, 1, 1, 1, 1, 1);
+}
+
+template<typename T>
 Vec8<T> Vec8<T>::broadcast(const Vec4<T>& v) {
 	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return { Vec8<T>::SIMDStruct::broadcast(v.m_simdVec) };
-	else {
+	else
 		return { v, v };
-	}
 }
 
 template<typename T>
 Vec8<F32> Vec8<T>::ceil() {
-	static_assert(!Vec8<T>::isIntegral, "Use only ceil with floating point type !!");
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec8<F32>(SIMDStruct::ceil(m_simdVec));
-	else {
-		Vec8<F32>(std::ceil(x), std::ceil(y),
-			std::ceil(z), std::ceil(w), std::ceil(a), std::ceil(b), std::ceil(c), std::ceil(d));
-	}
+	static_assert(!Vec8<T>::isIntegral, "Use only 'ceil()' with floating point type !!");
+	return Vec8<F32>(SIMDStruct::ceil(m_simdVec));
 }
 
 template<typename T>
 Vec8<F32> Vec8<T>::floor() {
-	static_assert(!Vec8<T>::isIntegral, "Use only floor with floating point type !!");
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec8<F32>(SIMDStruct::floor(m_simdVec));
-	else {
-		Vec8<F32>(std::floor(x), std::floor(y),
-			std::floor(z), std::floor(w),
-			std::floor(a), std::floor(b),
-			std::floor(c),std::floor(d));
-	}
+	static_assert(!Vec8<T>::isIntegral, "Use only 'floor()' with floating point type !!");
+	return SIMDStruct::floor(m_simdVec);
 }
 
 template<typename T>
 Vec8<F32> Vec8<T>::round() {
-	static_assert(!Vec8<T>::isIntegral, "Use only round with floating point type !!");
-	if constexpr (!std::is_same_v<SIMDType, NOT_A_TYPE>)
-		return Vec8<F32>(SIMDStruct::round(m_simdVec));
-	else {
-		Vec8<F32>(std::round(x), std::round(y),
-			std::round(z), std::round(w),
-			std::round(a), std::round(b),
-			std::round(c), std::round(d));
-	}
+	static_assert(!Vec8<T>::isIntegral, "Use only 'round()' with floating point type !!");
+	return SIMDStruct::round(m_simdVec);
+}
+
+template<typename T>
+Vec8<F32> Vec8<T>::sqrt() {
+	static_assert(!Vec8<T>::isIntegral, "Use only 'sqrt()' with floating point type !!");
+	return SIMDStruct::sqrt(m_simdVec);
 }
 
 template<typename T>

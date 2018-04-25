@@ -12,8 +12,10 @@ constexpr I32 BestSIMDType<T, 4, 32, false, true>::alignement;
 template<typename T>
 constexpr I32 BestSIMDType<T, 4, 32, true, false>::alignement;
 
+#if defined(_M_IX86)
 template<typename T>
 constexpr I32 BestSIMDType<T, 4, 16, true, false>::alignement;
+#endif
 
 template<typename T>
 constexpr I32 BestSIMDType<T, 8, 16, true, false>::alignement;

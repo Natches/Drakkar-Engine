@@ -40,6 +40,7 @@
 #include <Math/Vec4.hpp>
 #include <Math/Vec8.hpp>
 #include <Math/Matrix4x4.hpp>
+#include <Math/Quaternion.hpp>
 
 #include <Engine/Components/Components.h>
 #include <Engine/Components/TransformComponent.h>

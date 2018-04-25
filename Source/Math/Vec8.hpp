@@ -74,6 +74,8 @@ public:
 
 	Vec8<T> conjugate() const;
 	Vec8<T> normalize() const;
+	Vec8<T> abs()		const;
+	Vec8<T> sign()		const;
 
 	template<typename U>
 	Vec8<U> cast() const;
@@ -81,9 +83,11 @@ public:
 	Vec8<F32> ceil();
 	Vec8<F32> floor();
 	Vec8<F32> round();
+	Vec8<F32> sqrt();
 
 	Vec4<T> xyzw();
 	Vec4<T> abcd();
+
 
 public:
 	union alignas(SIMDStruct::alignement) {

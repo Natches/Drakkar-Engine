@@ -249,21 +249,44 @@ Vec2<T> Vec2<T>::perpendicularVector() const {
 }
 
 template<typename T>
+Vec2<T> Vec2<T>::abs() {
+	return Vec2<T>(std::abs(x), std::abs(y));
+}
+
+template<typename T>
+Vec2<T> Vec2<T>::sign() {
+	if constexpr(std::is_signed_v<T>) {
+		U32 xTemp = (*reinterpret_cast<U32*>(&static_cast<F32>(x)) & (1 << 31)) | (1 << 30);
+		U32 yTemp = (*reinterpret_cast<U32*>(&static_cast<F32>(y)) & (1 << 31)) | (1 << 30);
+		return Vec2<T>(static_cast<T>(*reinterpret_cast<F32*>(&xTemp) * 0.5f),
+			static_cast<T>(*reinterpret_cast<F32*>(&yTemp) * 0.5f));
+	}
+	else
+		return static_cast<T>(1);
+}
+
+template<typename T>
 Vec2<F32> Vec2<T>::ceil() {
-	static_assert(!Vec2<T>::isIntegral, "Use only ceil with floating point type !!");
+	static_assert(!Vec2<T>::isIntegral, "Use only 'ceil()' with floating point type !!");
 	return Vec2<F32>(std::ceil(x), std::ceil(y));
 }
 
 template<typename T>
 Vec2<F32> Vec2<T>::floor() {
-	static_assert(!Vec2<T>::isIntegral, "Use only floor with floating point type !!");
+	static_assert(!Vec2<T>::isIntegral, "Use only 'floor()' with floating point type !!");
 	return Vec2<F32>(std::floor(x), std::floor(y));
 }
 
 template<typename T>
 Vec2<F32> Vec2<T>::round() {
-	static_assert(!Vec2<T>::isIntegral, "Use only round with floating point type !!");
+	static_assert(!Vec2<T>::isIntegral, "Use only 'round()' with floating point type !!");
 	return Vec2<F32>(std::round(x), std::round(y));
+}
+
+template<typename T>
+Vec2<F32> Vec2<T>::sqrt() {
+	static_assert(!Vec2<T>::isIntegral, "Use only 'sqrt()' with floating point type !!");
+	return Vec2<F32>(std::sqrt(x), std::sqrt(y));
 }
 
 template<typename T>

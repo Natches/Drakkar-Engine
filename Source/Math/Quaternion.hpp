@@ -5,96 +5,100 @@
 namespace drak {
 namespace math {
 
-template<typename T>
-class Quaternion<T> {
-	static_assert(std::is_scalar_v<T> && (sizeof(T) * 8 < 64),
-		"\"T\" must be a scalar signed Type and not a 64 bits Data Type");
+class Quaternion {
 public:
-	Quaternion();
-	explicit Quaternion(const Vec4<T>& v);
-	explicit Quaternion(const T scalar, const Vec3<T>& v);
-	explicit Quaternion(Vec4<T>&& v);
-	explicit Quaternion(const T scalar, Vec3<T>&& v);
-	explicit Quaternion(const Vec3<T>& euler);
-	Quaternion(const Quaternion& q);
-	Quaternion(Quaternion&& q);
-	~Quaternion() = default;
+	inline Quaternion();
+	inline explicit Quaternion(const Vec4f& v);
+	inline explicit Quaternion(Vec4f&& v);
+	inline Quaternion(const F32 scalar, const Vec3f& v);
+	inline Quaternion(const F32 scalar, Vec3f&& v);
+	template<AngleUnit au = AngleUnit::DEGREE>
+	Quaternion(const Vec3f& euler);
+	template<AngleUnit au = AngleUnit::DEGREE>
+	Quaternion(Vec3f&& euler);
+	inline Quaternion(const Mat4f& mat);
+	inline Quaternion(Mat4f&& mat);
+	template<AngleUnit au = AngleUnit::DEGREE>
+	Quaternion(const Vec3f& axis, F32 Angle);
+	template<AngleUnit au = AngleUnit::DEGREE>
+	Quaternion(Vec3f&& axis, F32 Angle);
+	inline Quaternion(const Quaternion& q);
+	inline Quaternion(Quaternion&& q);
+	inline ~Quaternion() = default;
 
-	T scalar() const;
-	Vec3<T> vector() const;
+	inline Quaternion conjugate()  const;
+	inline float      magnitude()  const;
+	inline Quaternion inverse()    const;
+	inline Quaternion normalize()	const;
 
-	Quaternion conjugate()  const;
-	float      magnitude()  const;
-	Quaternion inverse()    const;
-	Quaternion normalize()	const;
+	inline Quaternion	operator+	(const F32 f)	const;
+	inline Quaternion&	operator+=	(const F32 f);
+	inline Quaternion	operator-	(const F32 f)	const;
+	inline Quaternion&	operator-=	(const F32 f);
+	inline Quaternion	operator*	(const F32 f)	const;
+	inline Quaternion&	operator*=	(const F32 f);
+	inline Quaternion	operator/	(const F32 f)	const;
+	inline Quaternion&	operator/=	(const F32 f);
 
-	Quaternion		operator+	(const T f)	const;
-	Quaternion&		operator+=	(const T f);
-	Quaternion		operator-	(const T f)	const;
-	Quaternion&		operator-=	(const T f);
-	Quaternion		operator*	(const T f)	const;
-	Quaternion&		operator*=	(const T f);
-	Quaternion		operator/	(const T f)	const;
-	Quaternion&		operator/=	(const T f);
+	inline Quaternion& operator=(const Quaternion& qb);
+	inline Quaternion& operator=(Quaternion&& qb);
 
-	Matrix4x4<T> matrix() const;
-	Vec3<T> euler() const;
+	inline Mat4f matrix() const;
+	inline Vec3f euler() const;
 
-	template<typename U>
-	Quaternion<U> cast();
+public:
+	union {
+		struct {
+			F32 m_scalar;
+			Vec3f m_vecPart;
+		};
+		Vec4f quat;
+	};
 
 private:
-	Vec3<T> m_vecPart;
-	T m_scalar;
+	template<AngleUnit au = AngleUnit::DEGREE, typename U>
+	void fromEuler(U&& u);
+	template<typename U>
+	void fromMatrix(U&& u);
+	template<AngleUnit au = AngleUnit::DEGREE, typename U>
+	void fromAxisAndAngle(U&& u, F32 Angle);
 };
 
-template<typename T>
-Quaternion<T> operator+(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion operator+(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T> operator-(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion operator-(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T> operator*(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion operator*(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T>& operator+=(Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion& operator+=(Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T>& operator-=(Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion& operator-=(Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T>& operator*=(Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Quaternion& operator*=(Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T>& operator=(Quaternion<T>& qa, const Quaternion<T>& qb);
+inline bool operator==(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-Quaternion<T>& operator=(Quaternion<T>& qa, Quaternion<T>&& qb);
+inline bool operator!=(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-bool operator==(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline bool operator<(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-bool operator!=(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline bool operator<=(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-bool operator<(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline bool operator>(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-bool operator<=(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline bool operator>=(const Quaternion& qa, const Quaternion& qb);
 
-template<typename T>
-bool operator>(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Vec3f Rotate(const Quaternion& q, const Vec3f& v);
 
-template<typename T>
-bool operator>=(const Quaternion<T>& qa, const Quaternion<T>& qb);
+inline Vec4f Rotate(const Quaternion& q, const Vec4f& v);
 
-template<typename T>
-Vec3<T> Rotate(const Quaternion<T>& q, const Vec3& v);
-
-template<typename T>
-Vec4<T> Rotate(const Quaternion<T>& q, const Vec4& v);
+inline std::ostream& operator<<(std::ostream& o, const Quaternion& v);
 
 } // namespace math
 } // namespace drak
+#include <Math/Quaternion.inl>
+
+DK_METADATA_BEGIN(drak::math::Quaternion)
+DK_PUBLIC_FIELDS(quat)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

@@ -34,11 +34,11 @@ struct BestSIMDType<T, 4, 32, false, true> {
 	}
 
 	static bool isGreaterThan(const SIMDType& m1, const SIMDType& m2) {
-		return !isAllZeros(_mm_castps_si128(_mm_cmpgt_ps(m1, m2)));
+		return !isAllZeros(_mm_cmpgt_ps(m1, m2));
 	}
 
 	static bool isGreaterOrEqThan(const SIMDType& m1, const SIMDType& m2) {
-		return !isAllZeros(_mm_castps_si128(_mm_cmpge_ps(m1, m2)));
+		return !isAllZeros(_mm_cmpge_ps(m1, m2));
 	}
 	static bool isAllZeros(const SIMDType& m) {
 		return _mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(m));
@@ -113,6 +113,14 @@ struct BestSIMDType<T, 4, 32, false, true> {
 
 	static SIMDType sqrt(const SIMDType& m) {
 		return _mm_sqrt_ps(m);
+	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm_andnot_ps(_mm_set1_ps(-0.f), m);
+	}
+
+	static SIMDType sign(const SIMDType& m) {
+		return _mm_or_ps(_mm_and_ps(_mm_set1_ps(-0.f), m), _mm_set1_ps(1.f));
 	}
 };
 
@@ -262,6 +270,18 @@ struct BestSIMDType<T, 4, 32, true, false> {
 	static SIMDType min(const SIMDType& m1, const SIMDType& m2) {
 		return _mm_min_epi32(m1, m2);
 	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm_abs_epi32(m);
+	}
+
+	static SIMDType sign(const SIMDType& m) {
+		__m128 temp = _mm_setr_ps(static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
+			static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]));
+		temp = _mm_or_ps(_mm_and_ps(_mm_set1_ps(-0.f), temp), _mm_set1_ps(1.f));
+		return _mm_setr_epi32(static_cast<I32>(temp.m128_f32[0]), static_cast<I32>(temp.m128_f32[1]),
+			static_cast<I32>(temp.m128_f32[2]), static_cast<I32>(temp.m128_f32[3]));
+	}
 };
 
 #if defined(_M_IX86) || defined(__INTEL_COMPILER)
@@ -316,7 +336,7 @@ struct BestSIMDType<T, 4, 16, true, false> {
 		return _mm_sub_pi16(m, _mm_set1_pi16(i));
 	}
 	static SIMDType mul(const SIMDType& m, const T i) {
-		return _mm_mullo_pi16(m, _mm_set1_pi16(i));;
+		return _mm_mullo_pi16(m, _mm_set1_pi16(i));
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 		static_assert(false, "No division allowed on \"I8\\I16\\__m64\" Data Type!!");
@@ -390,6 +410,10 @@ struct BestSIMDType<T, 4, 16, true, false> {
 
 	static SIMDType min(const SIMDType& m1, const SIMDType& m2) {
 		return _mm_min_pi16(m1, m2);
+	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm_abs_pi16(m);
 	}
 };
 #endif
@@ -537,6 +561,22 @@ struct BestSIMDType<T, 8, 16, true, false> {
 		m4 = _mm_set_epi16(m2.m128i_i16[7], m2.m128i_i16[3], m1.m128i_i16[7], m1.m128i_i16[3],
 			m2.m128i_i16[6], m2.m128i_i16[2], m1.m128i_i16[6], m1.m128i_i16[2]);
 	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm_abs_epi16(m);
+	}
+
+	static SIMDType sign(const SIMDType& m) {
+		__m256 temp = _mm256_setr_ps(static_cast<F32>(m.m128i_i16[0]), static_cast<F32>(m.m128i_i16[1]),
+			static_cast<F32>(m.m128i_i16[2]), static_cast<F32>(m.m128i_i16[3]),
+			static_cast<F32>(m.m128i_i16[4]), static_cast<F32>(m.m128i_i16[5]),
+			static_cast<F32>(m.m128i_i16[6]), static_cast<F32>(m.m128i_i16[7]));
+		temp = _mm256_or_ps(_mm256_and_ps(_mm256_set1_ps(-0.f), temp), _mm256_set1_ps(1.f));
+		return _mm_setr_epi16(static_cast<I16>(temp.m256_f32[0]), static_cast<I16>(temp.m256_f32[1]),
+			static_cast<I16>(temp.m256_f32[2]), static_cast<I16>(temp.m256_f32[3]),
+			static_cast<I16>(temp.m256_f32[4]), static_cast<I16>(temp.m256_f32[5]),
+			static_cast<I16>(temp.m256_f32[6]), static_cast<I16>(temp.m256_f32[7]));
+	}
 };
 
 template<typename T>
@@ -551,7 +591,7 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		m = _mm256_set1_epi32(i);
 	}
 	static void set(SIMDType& m, const __m128i& m1, const __m128i& m2) {
-		m = _mm256_set_m128i(m1, m2);
+		m = _mm256_setr_m128i(m1, m2);
 	}
 
 	static SIMDType load(T const* arr) {
@@ -705,6 +745,22 @@ struct BestSIMDType<T, 8, 32, true, false> {
 		m3 = _mm256_permutevar8x32_epi32(temp, _mm256_set_epi32(7, 6, 3, 2, 5, 4, 1, 0));
 		m4 = _mm256_permutevar8x32_epi32(m4, _mm256_set_epi32(3, 2, 5, 4, 1, 0, 7, 6));
 	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm256_abs_epi32(m);
+	}
+
+	static SIMDType sign(const SIMDType& m) {
+		__m256 temp = _mm256_setr_ps(static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
+			static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]),
+			static_cast<F32>(m.m128i_i32[4]), static_cast<F32>(m.m128i_i32[5]),
+			static_cast<F32>(m.m128i_i32[6]), static_cast<F32>(m.m128i_i32[7]));
+		temp = _mm256_or_ps(_mm256_and_ps(_mm256_set1_ps(-0.f), temp), _mm256_set1_ps(1.f));
+		return _mm_setr_epi16(static_cast<I32>(temp.m256_f32[0]), static_cast<I32>(temp.m256_f32[1]),
+			static_cast<I32>(temp.m256_f32[2]), static_cast<I32>(temp.m256_f32[3]),
+			static_cast<I32>(temp.m256_f32[4]), static_cast<I32>(temp.m256_f32[5]),
+			static_cast<I32>(temp.m256_f32[6]), static_cast<I32>(temp.m256_f32[7]));
+	}
 };
 
 template<typename T>
@@ -721,7 +777,7 @@ struct BestSIMDType<T, 8, 32, false, true> {
 	}
 
 	static void set(SIMDType& m, const __m128& m1, const __m128& m2) {
-		m = _mm256_set_m128(m1, m2);
+		m = _mm256_setr_m128(m1, m2);
 	}
 
 	static SIMDType load(T const* arr) {
@@ -834,6 +890,14 @@ struct BestSIMDType<T, 8, 32, false, true> {
 
 	static SIMDType sqrt(const SIMDType& m) {
 		return _mm256_sqrt_ps(m);
+	}
+
+	static SIMDType abs(const SIMDType& m) {
+		return _mm256_andnot_ps(_mm256_set1_ps(-0.f, m));
+	}
+
+	static SIMDType sign(const SIMDType& m) {
+		return _mm256_or_ps(_mm256_and_ps(_mm256_set1_ps(-0.f), m), _mm256_set1_ps(1.f));
 	}
 };
 

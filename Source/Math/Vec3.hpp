@@ -82,6 +82,8 @@ public:
 	Vec3<T> rotate(const Vec3<T>& euler) const;*/
 	//Todo template<Axis ax>
 	//Todo Vec3<T> rotate(const Vec3<T>& euler) const;
+	Vec3<T> abs() const;
+	Vec3<T> sign() const;
 
 	template<typename U>
 	Vec3<U> cast() const;
@@ -89,6 +91,7 @@ public:
 	Vec3<F32> ceil();
 	Vec3<F32> floor();
 	Vec3<F32> round();
+	Vec3<F32> sqrt() const;
 
 	Vec2<T> xy();
 	Vec2<T> yz();
