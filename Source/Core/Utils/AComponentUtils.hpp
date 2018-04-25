@@ -12,17 +12,14 @@ namespace components {
 	template <class c>
 	struct  ComponentType
 	{
-		static const int ID;
+		static const U32 ID;
 	};
+
 	struct AComponent
 	{
 		bool errorReturn;
 		U64 idx;
-		U64 GameObjectIDX;
-	};
-
-	//Plural component interface
-	struct IPlural {
+		U64 GameObjectID;
 	};
 }
 }

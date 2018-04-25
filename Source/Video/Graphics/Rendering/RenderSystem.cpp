@@ -38,7 +38,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
 	U32 flag = 1 << ComponentType<Model>::id;
 	for (size_t i = 0, n = scene.models.size(); i < n; ++i) {
-		Transform& t = Component_B_from_A(scene.gameObjects, scene.models[i], Transform, scene.transforms);
+		Transform& t = scene.gameObjects[scene.models[i].GameObjectID]->getComponent<Transform>();
 		math::Mat4f modelMx =
 			math::Translate(t.position) *
 			math::Rotation(t.rotation) *

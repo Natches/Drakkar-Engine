@@ -40,7 +40,7 @@ void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 
 bool LevelSystem::startup() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
-	drak::serialization::Serializer::LoadFile<EExtension::JSON, LevelSystem>(*this, "Scene");
+	//drak::serialization::Serializer::LoadFile<EExtension::JSON, LevelSystem>(*this, "Scene");
 	return true;
 }
 

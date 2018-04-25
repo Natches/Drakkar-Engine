@@ -16,20 +16,19 @@ DK_USE_NAMESPACE(drak)
 using namespace physx;
 using namespace drak::components;
 
-void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, LevelSystem& level)
+void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level)
 {
-	Transform& t = Component_B_from_A(level.getGameObjects(), rb, Transform, level.getComponentContainerByType<Transform>());
 	if (rb.isStatic) {
 		rb.rigidActor = m_pPhysics->createRigidStatic(
 			physx::PxTransform(
-				t.position.x,
-				t.position.y,
-				t.position.z,
+				trans.position.x,
+				trans.position.y,
+				trans.position.z,
 				PxQuat(
-					t.rotation.x,
-					t.rotation.y,
-					t.rotation.z,
-					t.rotation.w
+					trans.rotation.x,
+					trans.rotation.y,
+					trans.rotation.z,
+					trans.rotation.w
 				)
 			)
 		);
@@ -37,14 +36,14 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, LevelSystem&
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
-				t.position.x,
-				t.position.y,
-				t.position.z,
+				trans.position.x,
+				trans.position.y,
+				trans.position.z,
 				PxQuat(
-					t.rotation.x,
-					t.rotation.y,
-					t.rotation.z,
-					t.rotation.w
+					trans.rotation.x,
+					trans.rotation.y,
+					trans.rotation.z,
+					trans.rotation.w
 				)
 			)
 		);
@@ -54,43 +53,38 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, LevelSystem&
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 
-	std::vector<BoxCollider>& allBoxColliders = level.getComponentContainerByType<BoxCollider>();
-
-	PAC gameObjectBoxColliders = level.getGameObjects()[rb.GameObjectIDX]->getComponents<BoxCollider>();
-
-	for (U32 i = 0; i < gameObjectBoxColliders.count; ++i) {
-		BoxCollider& collider = allBoxColliders[gameObjectBoxColliders.componentIDXs[i]];
-		physx::PxMaterial* mat = m_pPhysics->createMaterial(
-			collider.material.staticFriction, 
-			collider.material.dynamicFriction, 
-			collider.material.restitution
-		);
-		physx::PxShape* box = m_pPhysics->createShape(
-			PxBoxGeometry(
-				collider.width/2.f, 
-				collider.height/2.f, 
-				collider.depth/2.f
-			), 
-			*mat, 
-			true
-		);
-		box->setLocalPose(
-			PxTransform(
-				collider.localPosition.x, 
-				collider.localPosition.y, 
-				collider.localPosition.z, 
-				PxQuat(
-					collider.localRotation.x, 
-					collider.localRotation.y, 
-					collider.localRotation.z, 
-					collider.localRotation.w
-				)
+	BoxCollider& boxColldier = level.getGameObjects()[rb.GameObjectID]->getComponent<BoxCollider>();
+	physx::PxMaterial* mat = m_pPhysics->createMaterial(
+		boxColldier.material.staticFriction,
+		boxColldier.material.dynamicFriction,
+		boxColldier.material.restitution
+	);
+	physx::PxShape* box = m_pPhysics->createShape(
+		PxBoxGeometry(
+			boxColldier.width / 2.f,
+			boxColldier.height / 2.f,
+			boxColldier.depth / 2.f
+		),
+		*mat,
+		true
+	);
+	box->setLocalPose(
+		PxTransform(
+			boxColldier.localPosition.x,
+			boxColldier.localPosition.y,
+			boxColldier.localPosition.z,
+			PxQuat(
+				boxColldier.localRotation.x,
+				boxColldier.localRotation.y,
+				boxColldier.localRotation.z,
+				boxColldier.localRotation.w
 			)
-		);
-		rb.rigidActor->attachShape(*box);
-	}
+		)
+	);
+	rb.rigidActor->attachShape(*box);
+
 	U64* goIDX = new U64;
-	*goIDX = rb.GameObjectIDX;
+	*goIDX = rb.GameObjectID;
 	rb.rigidActor->userData = goIDX;
 	m_pPhysicsScene->addActor(*rb.rigidActor);
 	return;
@@ -143,7 +137,7 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
 	std::vector<AGameObject*>& gameObjects = levelSystem.getGameObjects();
 	for (U32 i = 0; i < nbActiveActors; ++i) {
-		Transform& t = transforms[gameObjects[*(U64*)activeActors[i]->userData]->getComponentIDX(ComponentType<Transform>::id)];
+		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)]->getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
 		t.position.x = actorTransform.p.x;
@@ -169,7 +163,7 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 	std::vector<AGameObject*>& gameObjects = levelSystem.getGameObjects();
 	for (int i = 0; i < transforms.size(); ++i) {
 		if (transforms[i].dirty) {
-			AGameObject& gameObject = *gameObjects[transforms[i].GameObjectIDX];
+			AGameObject& gameObject = *gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].dirty = false;
 				PxTransform trans(

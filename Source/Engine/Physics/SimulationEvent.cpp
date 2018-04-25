@@ -15,8 +15,8 @@ PhysicsEvents::~PhysicsEvents() {
 }
 
 void drak::events::PhysicsEvents::AddEventListener(components::RigidBody& rb, EventType type, EventListener listener) {
-	m_collisionEventDispatchers.insert({ rb.GameObjectIDX, PhysicsEventDispatcher() });
-	m_collisionEventDispatchers[rb.GameObjectIDX].addEventListener(type, listener);
+	m_collisionEventDispatchers.insert({ rb.GameObjectID, PhysicsEventDispatcher() });
+	m_collisionEventDispatchers[rb.GameObjectID].addEventListener(type, listener);
 }
 
 void drak::events::PhysicsEventDispatcher::dispatchEvent(const Event * e) {

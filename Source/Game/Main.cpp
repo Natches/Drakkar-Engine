@@ -27,8 +27,8 @@ public:
 	}
 	virtual void update() override
 	{
-		RigidBody& rb = *getComponent<RigidBody>();
-		Transform& tr = *getComponent<Transform>();
+		RigidBody& rb = getComponent<RigidBody>();
+		Transform& tr = getComponent<Transform>();
 		Engine::Get().getPhysicsSystem().goTo(rb, Vec3f(0,10,0) * DeltaTime + tr.position);
 	}
 	virtual void start() override
@@ -48,7 +48,7 @@ public:
 	}
 
 	virtual void start() override {
-		RigidBody& rb = *getComponent<RigidBody>();
+		RigidBody& rb = getComponent<RigidBody>();
 		Engine::Get().getPhysicsSystem().AddCollisionCallback(
 			rb,
 			PhysicsEventDispatcher::COLLISION_IN,
@@ -63,7 +63,7 @@ public:
 		switch (e->type) {
 		case PhysicsEventDispatcher::COLLISION_IN:
 			if (getLevel()->getGameObjects()[e->otherGameObjectIDX]->getName() == "Player") {
-				Model& model = *getComponent<Model>();
+				Model& model = getComponent<Model>();
 				model.albedo.r = 1.0f;
 				model.albedo.g = 1.0f;
 				model.albedo.b = 0.0f;
@@ -99,7 +99,7 @@ public:
 		Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, 
 			new MemberFunction<Player, void, const Event*>(this, &Player::KeyPress, &Keyboard::Get().event()));
 
-		RigidBody& rb = *getComponent<RigidBody>();
+		RigidBody& rb = getComponent<RigidBody>();
 		Engine::Get().getPhysicsSystem().AddCollisionCallback(
 			rb,
 			PhysicsEventDispatcher::COLLISION_IN,
@@ -116,7 +116,7 @@ public:
 			AGameObject* obj = getLevel()->getGameObjects()[e->otherGameObjectIDX];
 			if (obj->getName() == "Cube") {
 				++score;
-				Model& m = *getComponent<Model>();
+				Model& m = getComponent<Model>();
 				m.albedo.g -= 0.1f;
 				m.albedo.b -= 0.1f;
 			}
@@ -128,30 +128,30 @@ public:
 		if(!pEvent)
 			return;
 		const KeyEvent* ke = static_cast<const KeyEvent*>(pEvent);
-		Transform& trans = *getComponent<Transform>();
+		Transform& trans = getComponent<Transform>();
 		switch (ke->key)
 		{
 		case Key::KEY_UP:
 			Engine::Get().getPhysicsSystem().goTo(
-				*getComponent<RigidBody>(),
+					getComponent<RigidBody>(),
 					trans.position + Vec3f(0, 0, -speed * DeltaTime),
 					trans.rotation);
 			break;
 		case Key::KEY_DOWN:
 			Engine::Get().getPhysicsSystem().goTo(
-				*getComponent<RigidBody>(), 
+				getComponent<RigidBody>(), 
 					trans.position + Vec3f(0, 0, speed * DeltaTime),
 					trans.rotation);
 			break;
 		case Key::KEY_LEFT:
 			Engine::Get().getPhysicsSystem().goTo(
-				*getComponent<RigidBody>(),
+				getComponent<RigidBody>(),
 					trans.position + Vec3f(-speed * DeltaTime, 0, 0),
 					trans.rotation);
 			break;
 		case Key::KEY_RIGHT:
 			Engine::Get().getPhysicsSystem().goTo(
-				*getComponent<RigidBody>(),
+				getComponent<RigidBody>(),
 					trans.position + Vec3f(speed * DeltaTime, 0, 0),
 					trans.rotation);
 			break;

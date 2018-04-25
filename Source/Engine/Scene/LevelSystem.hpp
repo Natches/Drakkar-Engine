@@ -99,7 +99,7 @@ public:
 		__getComponentContainer(T).push_back(T());
 		T& component = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
 		static_cast<components::AComponent*>(&component)->idx = __getComponentContainer(T).size() - 1;
-		static_cast<components::AComponent*>(&component)->GameObjectIDX = gameObject.getIdx();
+		static_cast<components::AComponent*>(&component)->GameObjectID = gameObject.getIdx();
 		gameObject.setHandleIDPair(components::ComponentType<T>::id, __getComponentContainer(T).size() - 1);
 		return component;
 	}
@@ -113,7 +113,7 @@ public:
 			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
 		}
 		AGameObject& gameObject = *m_gameObjects[m_gameObjects.size() - 1];
-		gameObject.setIdx((U32)m_gameObjects.size() - 1);
+		gameObject.setIdx(m_gameObjects.size() - 1);
 		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects

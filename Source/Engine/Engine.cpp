@@ -82,9 +82,9 @@ void Engine::startLoop() {
 	s_frameTime.start();
 
 	std::vector<AGameObject*>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (auto g : gameObjects) {
-		m_pPhysicsSystem->InitRigidBody(*g->getComponent<RigidBody>(), *m_pLevelSystem);
-		g->start();
+	for (U32 i = 0; i < gameObjects.size(); ++i ) {
+		m_pPhysicsSystem->InitRigidBody(gameObjects[i]->getComponent<RigidBody>(), gameObjects[i]->getComponent<Transform>(), *m_pLevelSystem);
+		gameObjects[i]->start();
 	}
 
 	
