@@ -27,8 +27,10 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
@@ -38,13 +40,10 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\Model.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelImporter.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
@@ -59,11 +58,9 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelImporter.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

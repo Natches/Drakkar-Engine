@@ -13,7 +13,7 @@ MeshPtr MeshManager::preloadMesh(const std::string& filename) {
 
 MeshPtr MeshManager::loadMesh(const std::string& filename) {
 	auto meshLoc = preloadMesh(filename);
-	meshLoc->load();
+	// meshLoc->load();
 	return meshLoc;
 }
 

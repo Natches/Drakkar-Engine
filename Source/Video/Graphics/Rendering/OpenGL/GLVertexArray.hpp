@@ -22,7 +22,7 @@ public:
 	void create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO);
 	void render() override;
 
-	bool			m_instanced = false;;
+	bool			m_instanced = false;
 private:
 	GLVertexBuffer* m_pVBO;
 	GLIndexBuffer*	m_pIBO;

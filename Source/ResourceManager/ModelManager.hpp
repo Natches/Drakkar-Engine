@@ -24,7 +24,6 @@ private:
 	ModelMap			m_models;
 	MeshManager*		m_pMeshManager;
 	MaterialManager*	m_pMaterialManager;
-
 };
 
 } // namespace drak
