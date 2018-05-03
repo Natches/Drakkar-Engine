@@ -91,7 +91,7 @@ Quaternion Quaternion::operator+(const F32 f) const {
 }
 
 Quaternion& Quaternion::operator+=(const F32 f) {
-	*this = *this + f;
+	return *this = *this + f;
 }
 
 Quaternion Quaternion::operator-(const F32 f) const {
@@ -99,7 +99,7 @@ Quaternion Quaternion::operator-(const F32 f) const {
 }
 
 Quaternion& Quaternion::operator-=(const F32 f) {
-	*this = *this - f;
+	return *this = *this - f;
 }
 
 Quaternion Quaternion::operator*(const F32 f) const {
@@ -107,7 +107,7 @@ Quaternion Quaternion::operator*(const F32 f) const {
 }
 
 Quaternion& Quaternion::operator*=(const F32 f) {
-	*this = *this * f;
+	return *this = *this * f;
 }
 
 Quaternion Quaternion::operator/(const F32 f) const {
@@ -115,33 +115,46 @@ Quaternion Quaternion::operator/(const F32 f) const {
 }
 
 Quaternion& Quaternion::operator/=(const F32 f) {
-	*this = *this / f;
+	return *this = *this / f;
 }
 
 Mat4f Quaternion::matrix() {
 	normalize();
-	Vec8<F32> vec = ( Vec8<F32>(Vec4f(m_vecPart, m_vecPart.x),
+	Vec8f vec = ( Vec8f(Vec4f(m_vecPart, m_vecPart.x),
 		Vec4f(m_vecPart, m_vecPart.x)) *
-		Vec8<F32>(Vec4f(m_vecPart, m_vecPart.y),
-			Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.z)))* 2;
-	F32 vYZ = 2 * (m_vecPart.y * m_vecPart.z);
-	return Mat4f( 1 - (vec.y + vec.z), (vec.w - vec.c), (vec.d + vec.b), 0,
-						(vec.w + vec.c), 1 - (vec.x + vec.z), (vYZ - vec.a), 0,
-						(vec.d - vec.b), (vYZ + vec.a), 1 - (vec.x + vec.y), 0,
+		Vec8f(Vec4f(m_vecPart, m_vecPart.y),
+			Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.z)));
+	F32 vYZ = (m_vecPart.y * m_vecPart.z);
+	return Mat4f( 0.5f - (vec.y + vec.z), (vec.w - vec.c), (vec.d + vec.b), 0,
+						(vec.w + vec.c), 0.5f - (vec.x + vec.z), (vYZ - vec.a), 0,
+						(vec.d - vec.b), (vYZ + vec.a), 0.5f - (vec.x + vec.y), 0,
 						 0, 0, 0, 1);
 }
 
 Vec3f Quaternion::euler() const {
-	Vec8<F32> vec = (Vec8<F32>(Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.y),
-		Vec4f(m_vecPart, m_vecPart.x)) * Vec8<F32>(Vec4f(m_vecPart, m_vecPart.z),
+	Vec8f vec = (Vec8f(Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.y), 
+		Vec4f(m_vecPart, m_vecPart.x)) * Vec8f(Vec4f(m_vecPart, m_vecPart.z),
 			Vec4f(m_vecPart.y, m_vecPart.y, m_vecPart.x, m_vecPart.x)));
 	F32 pitch = std::clamp(-2 * (vec.c - vec.y), -1.0f, 1.0f);
 	return Vec3f(IsEqual_V(pitch, -1.f) ?
 		atan2f(m_vecPart.x, m_scalar) : IsEqual_V(pitch, 1.f) ?
 		atan2f(m_vecPart.x, m_scalar) :
-		atan2f(vec.x + vec.w, 0.5f - (vec.b + vec.d)),
+		atan2f((vec.x + vec.w), 0.5f - (vec.b + vec.d)),
 		asinf(pitch),
-		IsEqual_V(fabs(pitch), 1.f) ? 0.f : atan2f((vec.z + vec.a), 0.5f - (vec.b + (m_vecPart.z * m_vecPart.z))));
+		IsEqual_V(fabs(pitch), 1.f) ? 0.f :
+		atan2f((vec.z + vec.a), 0.5f - (vec.b + (m_vecPart.z * m_vecPart.z)))) * ToDegF;
+}
+
+inline Vec4f Quaternion::forward() {
+	return Rotate(*this, Vec4f::Forward());
+}
+
+inline Vec4f Quaternion::right() {
+	return Rotate(*this, Vec4f::Right());
+}
+
+inline Vec4f Quaternion::up() {
+	return Rotate(*this, Vec4f::Up());
 }
 
 template<typename U>
