@@ -3,7 +3,6 @@
 
 namespace drak {
 namespace core {
-thread::ThreadPool Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {
@@ -29,7 +28,7 @@ int Engine::startup() {
 	videoSystem.startup(videoSettings, pMainWindow);
 	renderSystem.startup(videoSystem.renderer());
 	sceneSystem.Startup();
-	s_pool.startup();
+	m_pool.startup();
 	physicsSystem.Startup();
 	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
 
@@ -44,7 +43,7 @@ int Engine::shutdown() {
 	videoSystem.shutdown();
 
 	Logbook::CloseLogs();
-	s_pool.shutdown();
+	m_pool.shutdown();
 
 	return 0;
 }

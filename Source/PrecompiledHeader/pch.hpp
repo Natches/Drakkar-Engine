@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <ostream>
 #include <type_traits>
 #include <ctime>
 #include <cmath>
@@ -33,6 +34,7 @@
 #include <Serialization/MetaData.hpp>
 #include <Serialization/Serializer.hpp>
 
+#include <Math/Quaternion.hpp>
 #include <Math/MathUtils.hpp>
 #include <Math/SIMDUtils.hpp>
 #include <Math/Vec2.hpp>
@@ -40,7 +42,6 @@
 #include <Math/Vec4.hpp>
 #include <Math/Vec8.hpp>
 #include <Math/Matrix4x4.hpp>
-#include <Math/Quaternion.hpp>
 
 #include <Engine/Components/Components.h>
 #include <Engine/Components/TransformComponent.h>
@@ -60,6 +61,7 @@
 #include <Threading/Thread/TimeThread.hpp>
 
 #include <Threading/Timer/Timer.hpp>
+#include <Threading/Timer/BenchmarkTimer.hpp>
 
 #include <Threading/Task/ATask.hpp>
 #include <Threading/Task/Task.hpp>

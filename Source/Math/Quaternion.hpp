@@ -1,35 +1,37 @@
 #pragma once
 
+#ifndef QUAT
+#define QUAT
+#endif // !QUAT
+
 #include <Math/Matrix4x4.hpp>
 
 namespace drak {
 namespace math {
 
-class Quaternion {
+struct Quaternion {
 public:
 	inline Quaternion();
-	inline explicit Quaternion(const Vec4f& v);
-	inline explicit Quaternion(Vec4f&& v);
+	inline Quaternion(const Vec4f& v);
+	inline Quaternion(Vec4f&& v);
 	inline Quaternion(const F32 scalar, const Vec3f& v);
 	inline Quaternion(const F32 scalar, Vec3f&& v);
-	template<AngleUnit au = AngleUnit::DEGREE>
-	Quaternion(const Vec3f& euler);
-	template<AngleUnit au = AngleUnit::DEGREE>
-	Quaternion(Vec3f&& euler);
+	inline Quaternion(const Vec3f& euler);
+	inline Quaternion(Vec3f&& euler);
 	inline Quaternion(const Mat4f& mat);
 	inline Quaternion(Mat4f&& mat);
-	template<AngleUnit au = AngleUnit::DEGREE>
-	Quaternion(const Vec3f& axis, F32 Angle);
-	template<AngleUnit au = AngleUnit::DEGREE>
-	Quaternion(Vec3f&& axis, F32 Angle);
+	inline Quaternion(Axis axis, F32 Angle);
+	inline Quaternion(const Vec3f& axis, F32 Angle);
+	inline Quaternion(Vec3f&& axis, F32 Angle);
 	inline Quaternion(const Quaternion& q);
 	inline Quaternion(Quaternion&& q);
 	inline ~Quaternion() = default;
 
-	inline Quaternion conjugate()  const;
-	inline float      magnitude()  const;
-	inline Quaternion inverse()    const;
-	inline Quaternion normalize()	const;
+	inline Quaternion& conjugate();
+	inline Quaternion& inverse();
+	inline Quaternion& normalize();
+
+	inline float magnitude() const;
 
 	inline Quaternion	operator+	(const F32 f)	const;
 	inline Quaternion&	operator+=	(const F32 f);
@@ -43,7 +45,7 @@ public:
 	inline Quaternion& operator=(const Quaternion& qb);
 	inline Quaternion& operator=(Quaternion&& qb);
 
-	inline Mat4f matrix() const;
+	inline Mat4f matrix();
 	inline Vec3f euler() const;
 
 public:
@@ -56,11 +58,11 @@ public:
 	};
 
 private:
-	template<AngleUnit au = AngleUnit::DEGREE, typename U>
+	template<typename U>
 	void fromEuler(U&& u);
 	template<typename U>
 	void fromMatrix(U&& u);
-	template<AngleUnit au = AngleUnit::DEGREE, typename U>
+	template<typename U>
 	void fromAxisAndAngle(U&& u, F32 Angle);
 };
 
@@ -88,11 +90,21 @@ inline bool operator>(const Quaternion& qa, const Quaternion& qb);
 
 inline bool operator>=(const Quaternion& qa, const Quaternion& qb);
 
+inline Quaternion Conjugate(const Quaternion& q);
+
+inline Quaternion Inverse(const Quaternion& q);
+
+inline Quaternion Normalize(const Quaternion& q);
+
+inline Mat4f Matrix(const Quaternion& q);
+
 inline Vec3f Rotate(const Quaternion& q, const Vec3f& v);
 
 inline Vec4f Rotate(const Quaternion& q, const Vec4f& v);
 
 inline std::ostream& operator<<(std::ostream& o, const Quaternion& v);
+
+using Quat = Quaternion;
 
 } // namespace math
 } // namespace drak

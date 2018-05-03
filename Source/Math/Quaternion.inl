@@ -15,29 +15,35 @@ Quaternion::Quaternion(const F32 scalar, const Vec3f& v)
 
 Quaternion::Quaternion(Vec4f&& v) 
 	: quat(std::move(v)) {
-	v = Vec4f::Null();
 }
 
 Quaternion::Quaternion(const F32 scalar, Vec3f&& v) 
 	: m_scalar(scalar), m_vecPart(std::move(v)) {
 }
 
-template<AngleUnit au>
 Quaternion::Quaternion(const Vec3f& euler) {
-	fromEuler<au>(euler);
+	fromEuler(euler);
 }
 
-template<AngleUnit au>
 Quaternion::Quaternion(Vec3f&& euler) {
-	fromEuler<au>(std::move(euler));
+	fromEuler(std::move(euler));
 }
 
-template<AngleUnit au>
+Quaternion::Quaternion(Axis axis, F32 Angle)
+	: m_scalar(0), m_vecPart(0) {
+	Angle *= ToRadF * 0.5f;
+	m_scalar = cos(Angle);
+	DK_SELECT(axis)
+		DK_CASE(Axis::X, m_vecPart.x = sin(Angle))
+		DK_CASE(Axis::Y, m_vecPart.y = sin(Angle))
+		DK_CASE(Axis::Z, m_vecPart.z = sin(Angle))
+	DK_END
+}
+
 Quaternion::Quaternion(const Vec3f& axis, F32 Angle) {
 	fromAxisAndAngle(axis, Angle);
 }
 
-template<AngleUnit au>
 Quaternion::Quaternion(Vec3f&& axis, F32 Angle) {
 	fromAxisAndAngle(std::move(axis), Angle);
 }
@@ -59,28 +65,29 @@ Quaternion::Quaternion(Quaternion&& q)
 	q.quat = Vec4f::Null();
 }
 
-Quaternion Quaternion::conjugate() const {
-	return quat.conjugate();
+Quaternion& Quaternion::conjugate() {
+	m_vecPart.negate();
+	return *this;
 }
 
 float Quaternion::magnitude() const {
 	return quat.magnitude();
 }
 
-Quaternion Quaternion::inverse() const {
+Quaternion& Quaternion::inverse() {
 	float magn = magnitude();
 	if (IsEqual_V<float>(magn, 1.f))
 		return conjugate();
 	else
-		return conjugate() / (magn * magn);
+		return conjugate() /= (magn * magn);
 }
 
-Quaternion Quaternion::normalize() const {
-	return *this / magnitude();
+Quaternion& Quaternion::normalize() {
+	return *this /= magnitude();
 }
 
 Quaternion Quaternion::operator+(const F32 f) const {
-	return quat + f;
+	return Quaternion(quat + f);
 }
 
 Quaternion& Quaternion::operator+=(const F32 f) {
@@ -88,7 +95,7 @@ Quaternion& Quaternion::operator+=(const F32 f) {
 }
 
 Quaternion Quaternion::operator-(const F32 f) const {
-	return quat - f;
+	return Quaternion(quat - f);
 }
 
 Quaternion& Quaternion::operator-=(const F32 f) {
@@ -96,7 +103,7 @@ Quaternion& Quaternion::operator-=(const F32 f) {
 }
 
 Quaternion Quaternion::operator*(const F32 f) const {
-	return quat * f;
+	return Quaternion(quat * f);
 }
 
 Quaternion& Quaternion::operator*=(const F32 f) {
@@ -104,20 +111,20 @@ Quaternion& Quaternion::operator*=(const F32 f) {
 }
 
 Quaternion Quaternion::operator/(const F32 f) const {
-	return quat / f;
+	return Quaternion(quat / f);
 }
 
 Quaternion& Quaternion::operator/=(const F32 f) {
 	*this = *this / f;
 }
 
-Mat4f Quaternion::matrix() const {
-	Quaternion normalized = normalize();
-	Vec8<F32> vec = ( Vec8<F32>(Vec4f(normalized.m_vecPart, normalized.m_vecPart.x),
-		Vec4f(normalized.m_vecPart, normalized.m_vecPart.x)) *
-		Vec8<F32>(Vec4f(normalized.m_vecPart, normalized.m_vecPart.y),
-			Vec4f(normalized.m_scalar, normalized.m_scalar, normalized.m_scalar, normalized.m_vecPart.z)))* 2;
-	F32 vYZ = 2 * (normalized.m_vecPart.y * normalized.m_vecPart.z);
+Mat4f Quaternion::matrix() {
+	normalize();
+	Vec8<F32> vec = ( Vec8<F32>(Vec4f(m_vecPart, m_vecPart.x),
+		Vec4f(m_vecPart, m_vecPart.x)) *
+		Vec8<F32>(Vec4f(m_vecPart, m_vecPart.y),
+			Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.z)))* 2;
+	F32 vYZ = 2 * (m_vecPart.y * m_vecPart.z);
 	return Mat4f( 1 - (vec.y + vec.z), (vec.w - vec.c), (vec.d + vec.b), 0,
 						(vec.w + vec.c), 1 - (vec.x + vec.z), (vYZ - vec.a), 0,
 						(vec.d - vec.b), (vYZ + vec.a), 1 - (vec.x + vec.y), 0,
@@ -137,13 +144,9 @@ Vec3f Quaternion::euler() const {
 		IsEqual_V(fabs(pitch), 1.f) ? 0.f : atan2f((vec.z + vec.a), 0.5f - (vec.b + (m_vecPart.z * m_vecPart.z))));
 }
 
-template<AngleUnit au, typename U>
+template<typename U>
 void Quaternion::fromEuler(U&& u) {
-	Vec3f theta;
-	if constexpr(au == AngleUnit::DEGREE)
-		theta = { (std::forward<U>(u) * (ToRadF * 0.5f)) };
-	else
-		theta = { (std::forward<U>(u) * 0.5f) };
+	Vec3f theta = { (std::forward<U>(u) * (ToRadF * 0.5f)) };
 	Vec3f cosV{ cos(theta.x), cos(theta.y), cos(theta.z) };
 	Vec3f sinV{ sin(theta.x), sin(theta.y), sin(theta.z) };
 
@@ -164,29 +167,25 @@ void Quaternion::fromMatrix(U&& u) {
 	Vec3f signV = Vec3f(std::forward<U>(u).a21 - std::forward<U>(u).a12,
 		std::forward<U>(u).a02 - std::forward<U>(u).a20,
 		std::forward<U>(u).a10 - std::forward<U>(u).a01).sign();
-	v = v.sqrt();
+	v.sqrt();
 	v = (v.cast<F32>() * 0.5f).cast<F32>();
 	quat = v * Vec4f(1.0f, signV);
 }
 
-template<AngleUnit au, typename U>
-inline void Quaternion::fromAxisAndAngle(U&& u, F32 Angle) {
-	if constexpr (au == AngleUnit::DEGREE)
-		Angle *= ToRadF * 0.5f;
-	else
-		Angle *= 0.5f;
-	
+template<typename U>
+void Quaternion::fromAxisAndAngle(U&& u, F32 Angle) {
+	Angle *= ToRadF * 0.5f;
 	m_scalar = cos(Angle);
 	m_vecPart = std::forward<U>(u) * sin(Angle);
 }
 
 Quaternion operator+(const Quaternion& qa, const Quaternion& qb) {
-	return qa.quat + qb.quat;
+	return Quaternion(qa.quat + qb.quat);
 }
 
 
 Quaternion operator-(const Quaternion& qa, const Quaternion& qb) {
-	return qa.quat - qb.quat;
+	return Quaternion(qa.quat - qb.quat);
 }
 
 Quaternion operator*(const Quaternion& qa, const Quaternion& qb) {
@@ -241,16 +240,162 @@ bool operator>=(const Quaternion& qa, const Quaternion& qb) {
 	return qa.quat <= qb.quat;
 }
 
+Quaternion Conjugate(const Quaternion& q) {
+	return Quaternion(q).conjugate();
+}
+
+Quaternion Inverse(const Quaternion& q) {
+	return Quaternion(q).inverse();
+}
+
+Quaternion Normalize(const Quaternion& q) {
+	return Quaternion(q).normalize();
+}
+
+Mat4f Matrix(const Quaternion & q) {
+	return Quaternion(q).matrix();
+}
+
 Vec3f Rotate(const Quaternion& q, const Vec3f& v) {
 	return (Quaternion(-Dot(q.m_vecPart, v), (v * q.m_scalar) +
-		Cross(q.m_vecPart, v))* q.inverse()).m_vecPart;
+		Cross(q.m_vecPart, v)) * Inverse(q)).m_vecPart;
 }
 
 Vec4f Rotate(const Quaternion& q, const Vec4f& v) {
-	Vec3f temp = v.xyz;
-	return (Quaternion(-Dot(q.m_vecPart, temp), (temp * q.m_scalar) +
-		Cross(q.m_vecPart, temp))* q.inverse()).m_vecPart;
+	return (Quaternion(-Dot(q.m_vecPart, v.xyz), (v.xyz * q.m_scalar) +
+		Cross(q.m_vecPart, v.xyz)) * Inverse(q)).m_vecPart;
 }
+
+Vec3f Rotate(const Vec3f& v, const Vec3f& axis, const F32 angle) {
+	return Rotate(Quaternion(axis, angle), v);
+}
+
+Vec3f Rotate(const Vec3f& v, const Vec3f& euler) {
+	return Rotate(Quaternion(euler), v);
+}
+
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler) {
+	return point + Rotate(Quaternion(euler), Direction(point, v));
+}
+
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler, const F32 distance) {
+	return point + (Rotate(Quaternion(euler), Direction(point, v).normalize()) * distance);
+}
+
+template<Axis ax>
+Vec3f Rotate(const Vec3f& v, const F32 angle) {
+	return Rotate(Quaternion(ax, angle), v);
+}
+
+template<Axis ax>
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle) {
+	return point + Rotate(Quaternion(ax, angle), Direction(point, v));
+}
+
+template<Axis ax>
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle, const F32 distance) {
+	return point + (Rotate(Quaternion(ax, angle), Direction(point, v).normalize()) * distance);
+}
+
+template<typename T>
+template<Axis ax>
+Vec3<F32>& Vec3<T>::rotate(const F32 angle) {
+	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(ax, angle), *this);
+	return *this;
+}
+
+template<typename T>
+Vec3<F32>& Vec3<T>::rotate(const Vec3<F32>& axis, const F32 angle) {
+	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(v, angle), *this);
+	return *this;
+}
+
+template<typename T>
+Vec3<F32>& Vec3<T>::rotate(const Vec3<F32>& euler) {
+	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(euler), *this);
+	return *this;
+}
+
+template<typename T>
+Vec3<F32>& Vec3<T>::rotateAround(const Vec3<F32>& point, const F32 angle) {
+	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
+	return (*this = (point + Direction(point, *this).rotate(angle)));
+}
+
+template<typename T>
+Vec3<F32>& Vec3<T>::rotateAround(const Vec3<F32>& point, const F32 angle, const F32 distance) {
+	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
+	return (*this = (point + (Direction(point, *this).normalize() * distance).rotate(angle)));
+}
+
+template<typename T>
+template<Axis ax>
+Vec4<F32>& Vec4<T>::rotate(const F32 angle) {
+	static_assert(!Vec4<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(ax, angle), *this);
+	return *this;
+}
+
+template<typename T>
+Vec4<F32>& Vec4<T>::rotate(const Vec3<F32>& axis, const F32 angle) {
+	static_assert(!Vec4<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(v, angle), *this);
+	return *this;
+}
+
+template<typename T>
+Vec4<F32>& Vec4<T>::rotate(const Vec3<F32>& euler) {
+	static_assert(!Vec4<T>::isIntegral, DK_MATH_ERROR2(T));
+	*this = Rotate(Quaternion(euler), *this);
+	return *this;
+}
+
+template<typename T>
+Vec4<F32>& Vec4<T>::rotateAround(const Vec4<F32>& point, const F32 angle) {
+	static_assert(!Vec4<T>::isIntegral, DK_MATH_ERROR2(T));
+	return (*this = (point + Direction(point, *this).rotate(angle)));
+}
+
+template<typename T>
+Vec4<F32>& Vec4<T>::rotateAround(const Vec4<F32>& point, const F32 angle, const F32 distance) {
+	static_assert(!Vec4<T>::isIntegral, DK_MATH_ERROR2(T));
+	return (*this = (point + Direction(point, *this).rotate(angle)));
+}
+
+template<Axis ax>
+Vec4f Rotate(const Vec4f& v, const F32 angle) {
+	return Rotate(Quaternion(ax, angle), v);
+}
+
+template<Axis ax>
+Vec4f RotateAround(const Vec4f& v, const Vec4f& point, const F32 angle) {
+	return point + Rotate(Quaternion(ax, angle), Direction(point, v));
+}
+
+template<Axis ax>
+Vec4f RotateAround(const Vec4f& v, const Vec4f& point, const F32 angle, const F32 distance) {
+	return point + (Rotate(Quaternion(ax, angle), Direction(point, v).normalize()) * distance);
+}
+
+Vec4f Rotate(const Vec4f& v, const Vec3f& axis, const F32 angle) {
+	return Rotate(Quaternion(axis, angle), v);
+}
+
+Vec4f Rotate(const Vec4f& v, const Vec3f& euler) {
+	return Rotate(Quaternion(euler), v);
+}
+
+Vec4f RotateAround(const Vec4f& v, const Vec4f& point, const Vec3f& euler) {
+	return point + Rotate(Quaternion(euler), Direction(point, v));
+}
+
+Vec4f RotateAround(const Vec4f& v, const Vec4f& point, const Vec3f& euler, const F32 distance) {
+	return point + (Rotate(Quaternion(euler), Direction(point, v).normalize()) * distance);
+}
+
 
 std::ostream& operator<<(std::ostream& o, const Quaternion& v) {
 	o << "[" << v.m_scalar << ", " << v.m_vecPart << "]\n";
