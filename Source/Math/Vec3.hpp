@@ -1,8 +1,6 @@
 #pragma once
 
-#include<Math/MathUtils.hpp>
-#include<Math/Vec2.hpp>
-#include<ostream>
+#include <Math/Vec2.hpp>
 
 namespace drak {
 namespace math {
@@ -12,12 +10,12 @@ struct Vec4;
 
 template<typename T>
 struct Vec3 {
-	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
-		"\"T\" must be a scalar Type and not a 64 bits data type");
+	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64), DK_MATH_ERROR0(T));
 	static constexpr bool isIntegral = std::is_integral_v<T>;
 	DK_SERIALIZED_OBJECT(Vec3<T>)
 public:
 	Vec3();
+	explicit Vec3(const T n);
 	Vec3(const T X, const T Y, const T Z);
 	Vec3(const Vec4<T>& v);
 	Vec3(Vec4<T>&& v);
@@ -25,27 +23,17 @@ public:
 	Vec3(Vec3<T>&& v);
 	Vec3(const Vec2<T>& v);
 	Vec3(Vec2<T>&& v);
+	Vec3(const Vec2<T>& v, const T Z);
+	Vec3(Vec2<T>&& v, const T Z);
+	Vec3(const T X, const Vec2<T>& v);
+	Vec3(const T X, Vec2<T>&& v);
 	~Vec3() = default;
 
 public:
-	bool operator==(const Vec3<T>& v) const;
-	bool operator!=(const Vec3<T>& v) const;
-	bool operator>(const Vec3<T>& v)  const;
-	bool operator<(const Vec3<T>& v)  const;
-	bool operator>=(const Vec3<T>& v) const;
-	bool operator<=(const Vec3<T>& v) const;
-
 	bool isNormalized() const;
 	bool isNull() const;
 
 	F32 magnitude() const;
-
-	template<Axis ax, AngleUnit au = AngleUnit::DEGREE>
-	F32 rotation() const;
-
-	template<AngleUnit au = AngleUnit::DEGREE>
-	Vec3<T> rotation() const;
-	//TODO : Quat<F32> rotation() const;
 
 	Vec3<T>& operator  =(const Vec3<T>& v);
 	Vec3<T>& operator  =(Vec3<T>&& v);
@@ -74,47 +62,55 @@ public:
 	Vec3<T> operator--(const I32) const;
 	Vec3<T> operator-()	  const;
 
-	Vec3<T> conjugate() const;
-	Vec3<T> normalize() const;
-	/*template<Axis ax>
-	Vec3<T> rotate(const F32 angle) const;
+	Vec3<T>& negate();
+	Vec3<T>& abs();
+
+#if defined(QUAT)
 	template<Axis ax>
-	Vec3<T> rotate(const Vec3<T>& euler) const;*/
-	//Todo template<Axis ax>
-	//Todo Vec3<T> rotate(const Vec3<T>& euler) const;
+	Vec3<F32>& rotate(const F32 angle);
+	Vec3<F32>& rotate(const Vec3<F32>& axis, const F32 angle);
+	Vec3<F32>& rotate(const Vec3<F32>& euler);
+	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle);
+	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle, const F32 distance);
+#endif
+	Vec3<F32>& ceil();
+	Vec3<F32>& floor();
+	Vec3<F32>& round();
+	Vec3<F32>& sqrt();
+	Vec3<F32>& normalize();
+
+	Vec3<T> sign() const;
 
 	template<typename U>
 	Vec3<U> cast() const;
 
-	Vec3<F32> ceil();
-	Vec3<F32> floor();
-	Vec3<F32> round();
+	Vec2<T> yx() const;
+	Vec2<T> zy() const;
+	Vec2<T> xz() const;
+	Vec2<T> zx() const;
 
-	Vec2<T> xy();
-	Vec2<T> yz();
-	Vec2<T> yx();
-	Vec2<T> zy();
-	Vec2<T> xz();
-	Vec2<T> zx();
+	Vec3<T> zyx() const;
+	Vec3<T> yzx() const;
+	Vec3<T> zxy() const;
 
-	Vec3<T> zyx();
-	Vec3<T> yzx();
-	Vec3<T> zxy();
+	Vec2<T> gr() const;
+	Vec2<T> bg() const;
+	Vec2<T> rb() const;
+	Vec2<T> br() const;
 
-	Vec3<T> bgr();
-	Vec3<T> gbr();
-	Vec3<T> brg();
-
-private:
-	F32 computeAngleX();
-	F32 computeAngleY();
-	F32 computeAngleZ();
+	Vec3<T> bgr() const;
+	Vec3<T> gbr() const;
+	Vec3<T> brg() const;
 
 public:
 	union {
 		T m_vec[3];
 		struct { T x, y, z; };
 		struct { T r, g, b; };
+		struct { Vec2<T> xy; };
+		struct { Vec2<T> rg; };
+		struct { T padding1;  Vec2<T> yz; };
+		struct { T padding2;  Vec2<T> gb; };
 	};
 
 public:
@@ -123,6 +119,27 @@ public:
 	static Vec3<T> Right();
 	static Vec3<T> Forward();
 };
+
+using Vec3c = typename Vec3<U8>;
+using Vec3sc = typename Vec3<I8>;
+using Vec3s = typename Vec3<I16>;
+using Vec3us = typename Vec3<U16>;
+using Vec3i = typename Vec3<I32>;
+using Vec3u = typename Vec3<U32>;
+using Vec3f = typename Vec3<F32>;
+
+template<typename T>
+bool operator==(const Vec3<T>& v1, const Vec3<T>& v2);
+template<typename T>
+bool operator!=(const Vec3<T>& v1, const Vec3<T>& v2);
+template<typename T>
+bool operator>(const Vec3<T>& v1, const Vec3<T>& v2);
+template<typename T>
+bool operator<(const Vec3<T>& v1, const Vec3<T>& v2);
+template<typename T>
+bool operator>=(const Vec3<T>& v1, const Vec3<T>& v2);
+template<typename T>
+bool operator<=(const Vec3<T>& v1, const Vec3<T>& v2);
 
 template<typename T>
 Vec3<T> operator+(const Vec3<T>& v1, const Vec3<T>& v2);
@@ -186,16 +203,41 @@ F32 Distance(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 Vec3<T> Direction(const Vec3<T>& origin, const Vec3<T>& destination);
 
-/*
-template<Axis ax, typename T>
-void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const F32 angle);
+inline Vec3f Normalize(const Vec3f& v);
 
-template<Axis ax, typename T>
-void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Vec3<T>& euler);*/
+template<typename T>
+Vec3<T> Negate(const Vec3<T>& v);
 
-//TODO template<typename T>
-//TODO template<Axis ax>
-//TODO void RotateAround(Vec3<T>& v1, const Vec3<T>& point, const Quat<T>& q);
+template<typename T>
+Vec3<T> Abs(const Vec3<T>& v);
+
+inline Vec3f Ceil(const Vec3f& v);
+inline Vec3f Floor(const Vec3f& v);
+inline Vec3f Round(const Vec3f& v);
+inline Vec3f Sqrt(const Vec3f& v);
+#if defined(QUAT)
+template<Axis ax>
+Vec3f Rotate(const Vec3f& v, const F32 angle);
+
+inline Vec3f Rotate(const Vec3f& v, const Vec3f& axis, const F32 angle);
+
+inline Vec3f Rotate(const Vec3f& v, const Vec3f& euler);
+
+template<Axis ax>
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle);
+
+inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler);
+
+template<Axis ax>
+Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle, const F32 distance);
+
+inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler, const F32 distance);
+#endif
+template<typename T>
+Vec3<T> Min(const Vec3<T>& v1, const Vec3<T>& v2);
+
+template<typename T>
+Vec3<T> Max(const Vec3<T>& v1, const Vec3<T>& v2);
 
 template<typename T>
 bool ArePerpendicular(const Vec3<T>& v1, const Vec3<T>& v2);
@@ -214,14 +256,6 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
-
-using Vec3c  = typename Vec3<U8>;
-using Vec3sc = typename Vec3<I8>;
-using Vec3s  = typename Vec3<I16>;
-using Vec3us = typename Vec3<U16>;
-using Vec3i  = typename Vec3<I32>;
-using Vec3u  = typename Vec3<U32>;
-using Vec3f  = typename Vec3<F32>;
 
 } //namespace maths
 } //namespace drak

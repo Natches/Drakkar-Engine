@@ -13,7 +13,6 @@ using namespace drak::components;
 
 namespace drak {
 namespace core {
-thread::ThreadPool Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {

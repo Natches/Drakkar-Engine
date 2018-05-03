@@ -152,7 +152,7 @@ bool GlobalFunction<void, VArgs...>::operator!=(const GlobalFunction& gf) {
 
 template<class ...VArgs>
 void GlobalFunction<void, VArgs...>::args(VArgs&&...args) {
-	m_args = std::make_tuple<VArgs...>(std::forward<VArgs>(args)...);
+	new (&m_args) std::tuple<VArgs...>(std::forward<VArgs>(args)...);
 }
 
 template<class ...VArgs>
@@ -381,7 +381,7 @@ MemberFunction<CallerType, void, VArgs...>::MemberFunction(CallerType * caller,
 template<class CallerType, class...VArgs>
 MemberFunction<CallerType, void, VArgs...>::MemberFunction(CallerType* caller,
 	void(CallerType::* func)(VArgs...), VArgs&&...args)
-	: GlobalFunction<void, VArgs...>(std::make_tuple<VArgs>(std::forward<VArgs>(args)...)...),
+	: GlobalFunction<void, VArgs...>(std::tuple<VArgs...>(std::forward<VArgs>(args)...)),
 	m_pFunc(func), m_pCaller(caller) {
 }
 
@@ -397,7 +397,7 @@ MemberFunction<CallerType, void, VArgs...>::MemberFunction(const MemberFunction&
 
 template<class CallerType, class...VArgs>
 MemberFunction<CallerType, void, VArgs...>::MemberFunction(MemberFunction&& mf)
-	: GlobalFunction<VArgs...>(std::move(mf.m_args)), m_pFunc(std::move(mf.m_pFunc)),
+	: GlobalFunction<void, VArgs...>(std::move(mf.m_args)), m_pFunc(std::move(mf.m_pFunc)),
 	m_pCaller(std::move(mf.m_pCaller)) {
 }
 
