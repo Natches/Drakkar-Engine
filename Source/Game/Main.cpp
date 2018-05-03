@@ -27,6 +27,8 @@ public:
 
 		cube_TR.position = Vec3f(0,0,0);
 		cube_TR.scale = Vec3f(10.f, 10.f, 10.f);
+		cube_TR.rotation = Quaternion(Vec3f(0.f, 0.f, 45.f));
+		std::cout << cube_TR.rotation.euler() * ToDegF << std::endl;
 
 		cube_RB.mass = 1000.f;
 

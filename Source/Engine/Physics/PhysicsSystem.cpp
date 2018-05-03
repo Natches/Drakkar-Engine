@@ -1,10 +1,9 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <PxPhysicsAPI.h>
-#include <Core/Utils/MacroUtils.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
-#include <Engine/Scene/LevelSystem.hpp>
+//#include <Engine/Scene/LevelSystem.hpp>
 
 #define SIM_RATE 1.f/30.f 
 
@@ -26,10 +25,10 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 				trans.position.y,
 				trans.position.z,
 				PxQuat(
-					trans.rotation.x,
-					trans.rotation.y,
-					trans.rotation.z,
-					trans.rotation.w
+					trans.rotation.m_vecPart.x,
+					trans.rotation.m_vecPart.y,
+					trans.rotation.m_vecPart.z,
+					trans.rotation.m_scalar
 				)
 			)
 		);
@@ -41,10 +40,10 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 				trans.position.y,
 				trans.position.z,
 				PxQuat(
-					trans.rotation.x,
-					trans.rotation.y,
-					trans.rotation.z,
-					trans.rotation.w
+					trans.rotation.m_vecPart.x,
+					trans.rotation.m_vecPart.y,
+					trans.rotation.m_vecPart.z,
+					trans.rotation.m_scalar
 				)
 			)
 		);
@@ -54,31 +53,31 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 
-	BoxCollider& boxColldier = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
+	BoxCollider& boxCollider = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
 	physx::PxMaterial* mat = m_pPhysics->createMaterial(
-		boxColldier.material.staticFriction,
-		boxColldier.material.dynamicFriction,
-		boxColldier.material.restitution
+		boxCollider.material.staticFriction,
+		boxCollider.material.dynamicFriction,
+		boxCollider.material.restitution
 	);
 	physx::PxShape* box = m_pPhysics->createShape(
 		PxBoxGeometry(
-			boxColldier.width / 2.f,
-			boxColldier.height / 2.f,
-			boxColldier.depth / 2.f
+			boxCollider.width / 2.f,
+			boxCollider.height / 2.f,
+			boxCollider.depth / 2.f
 		),
 		*mat,
 		true
 	);
 	box->setLocalPose(
 		PxTransform(
-			boxColldier.localPosition.x,
-			boxColldier.localPosition.y,
-			boxColldier.localPosition.z,
+			boxCollider.localPosition.x,
+			boxCollider.localPosition.y,
+			boxCollider.localPosition.z,
 			PxQuat(
-				boxColldier.localRotation.x,
-				boxColldier.localRotation.y,
-				boxColldier.localRotation.z,
-				boxColldier.localRotation.w
+				boxCollider.localRotation.x,
+				boxCollider.localRotation.y,
+				boxCollider.localRotation.z,
+				boxCollider.localRotation.w
 			)
 		)
 	);
@@ -145,10 +144,10 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 		t.position.y = actorTransform.p.y;
 		t.position.z = actorTransform.p.z;
 
-		t.rotation.x = actorTransform.q.x;
-		t.rotation.y = actorTransform.q.y;
-		t.rotation.z = actorTransform.q.z;
-		t.rotation.w = actorTransform.q.w;
+		t.rotation.m_vecPart.x = actorTransform.q.x;
+		t.rotation.m_vecPart.y = actorTransform.q.y;
+		t.rotation.m_vecPart.z = actorTransform.q.z;
+		t.rotation.m_scalar = actorTransform.q.w;
 	}
 }
 
@@ -171,7 +170,7 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 					transforms[i].position.x,
 					transforms[i].position.y,
 					transforms[i].position.z,
-					PxQuat(transforms[i].rotation.x, transforms[i].rotation.y, transforms[i].rotation.z, transforms[i].rotation.w));
+					PxQuat(transforms[i].rotation.m_vecPart.x, transforms[i].rotation.m_vecPart.y, transforms[i].rotation.m_vecPart.z, transforms[i].rotation.m_scalar));
 				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
 			}
 		}

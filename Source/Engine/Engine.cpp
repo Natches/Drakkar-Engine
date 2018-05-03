@@ -48,7 +48,7 @@ int Engine::startup() {
 	eEvent.type = events::EngineEventDispatcher::STARTUP_BEGIN;
 	m_eventDispatcher.dispatchEvent(&eEvent);
 
-	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
+	//Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
 	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
 	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
@@ -62,7 +62,7 @@ int Engine::startup() {
 	
 	m_pLevelSystem->startup();
 	
-	s_pool.startup();
+	m_pool.startup();
 
 	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
 	m_eventDispatcher.dispatchEvent(&eEvent);
@@ -80,7 +80,7 @@ int Engine::shutdown() {
 	m_pVideoSystem->shutdown();
 	
 	Logbook::CloseLogs();
-	s_pool.shutdown();
+	m_pool.shutdown();
 	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_END;
 	m_eventDispatcher.dispatchEvent(&eEvent);
 	return 0;

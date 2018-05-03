@@ -1,5 +1,0 @@
-Startup Scene System
-<<<<<<< HEAD
-Shutdown Scene System
-=======
->>>>>>> dev

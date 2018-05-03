@@ -22,6 +22,7 @@ public:
 	T& getComponent() {
 		if (getComponentFlag(components::ComponentType<T>::id))
 			return level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
+		return addComponent<T>();
 	}
 
 	template <typename T>

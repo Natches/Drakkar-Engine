@@ -1,5 +1,4 @@
 #pragma once
-#include <PrecompiledHeader/pch.hpp>
 #include <Core/Core.hpp>
 #include <Core/Engine/Event.hpp>
 #include <Core/Timer/FrameTimer.hpp>
@@ -62,6 +61,7 @@ public:
 	inline time::FrameTimer& getFrameTimer() { return s_frameTime; }
 	template <typename T>
 	void createAll();
+	thread::ThreadPool m_pool;
 private:
 	DRAK_API Engine();
 	time::FrameTimer	s_frameTime;
@@ -71,7 +71,7 @@ private:
 	gfx::RenderSystem*	m_pRenderSystem;
 	video::AWindow*		m_pMainWindow;
 	events::EngineEventDispatcher m_eventDispatcher;
-	DRAK_API static thread::ThreadPool s_pool;
+
 	DRAK_API static bool running;
 
 };

@@ -15,7 +15,7 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 300.f, -100.f }, { 0.f, 0.f, -90.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.view({ 0.f, 100.f, -100.f }, { 0.f, 0.f, 100.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
 	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
@@ -42,11 +42,10 @@ void RenderSystem::forwardRender(Scene& scene) {
 		Transform& t = scene.gameObjects[scene.models[i].GameObjectID].getComponent<Transform>();
 		math::Mat4f modelMx =
 			math::Translate(t.position) *
-			math::Rotation(t.rotation) *
+			t.rotation.matrix() *
 			math::Scale(t.scale);
 		m_shaderMap["DefaultShader"]->uniform("model", modelMx);
 		m_shaderMap["DefaultShader"]->uniform("albedo", scene.models[i].albedo);
-
 		m_pUnitCube->render();
 	}
 
