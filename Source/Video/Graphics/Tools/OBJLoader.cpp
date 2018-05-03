@@ -1,8 +1,4 @@
-#include <fstream>
-#include <sstream>
-#include <map>
-
-#include <Video/Graphics/Tools/OBJLoader.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::math;
 using namespace drak::geom;

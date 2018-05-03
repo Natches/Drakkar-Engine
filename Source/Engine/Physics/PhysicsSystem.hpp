@@ -3,6 +3,8 @@
 #include <vector>
 #include <unordered_map>
 #include <Math/Vec3.hpp>
+#include <Math/Vec4.hpp>
+
 
 namespace physx {
 	class PxScene;
@@ -37,12 +39,12 @@ namespace drak {
 		friend core::Engine;
 	public:
 		physx::PxPhysics* getPhysics() { return m_pPhysics; }
-		DRAK_API void InitRigidBody(components::RigidBody & rb, LevelSystem& level);
+		DRAK_API void InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level);
 		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
 		DRAK_API void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
 		DRAK_API void applyForce(components::RigidBody& target, math::Vec3f& force);
 		DRAK_API void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
-		DRAK_API void move(components::RigidBody& target, math::Vec3f& newPos, math::Vec4f& newRot);
+		DRAK_API void goTo(components::RigidBody& target, math::Vec3f& newPos, math::Vec4f& newRot = math::Vec4f(0,0,0,1));
 
 	private:
 		PhysicsSystem();

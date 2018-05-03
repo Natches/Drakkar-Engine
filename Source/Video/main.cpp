@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 //#include <vector>
 //
 //#include <Video/VideoSystem.hpp>
@@ -57,7 +58,7 @@
 //	//gl::GLRendering::s_gridShader.setUniform("MVP", mvp);
 //	//gl::GLRendering::s_gridShader.setUniform("resolution", Vec2f{ 64.f, 64.f});
 //	//gl::GLRendering::s_gridShader.setUniform("tint", Vec4f{0.259f, 0.957f, 0.843f, 1.f });
-//	
+//
 //	while (pWin->isOpen()) {
 //		mvp = c.viewPerspective() * Scale<F32>({ 256.f, 1.f, 256.f });
 //		//gl::GLRendering::s_gridShader.setUniform("MVP", mvp);

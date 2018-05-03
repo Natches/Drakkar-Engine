@@ -1,19 +1,23 @@
 #pragma once
 #include <Core/Core.hpp>
-#include <Core/Components/AGameObject.hpp>
+#include <Core/Components/GameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
-#include <Math/Vec3.hpp>
-#include <Math/Vec4.hpp>
-#include <list>
-#include <vector>
-#include <map>
-#include <type_traits>
+#include <Serialization\Serializer.hpp>
+//#include <Math/Vec3.hpp>
+//#include <Math/Vec4.hpp>
+//#include <list>
+//#include <vector>
+//#include <map>
+//#include <type_traits>
 namespace physx{
 	class PxScene;
 }
 
 namespace drak {
+namespace events {
+	class Event;
+}
 namespace core {
 	class Engine;
 }
@@ -26,22 +30,23 @@ public:
 };
 
 struct Scene {
-	Scene(std::vector<AGameObject*>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
+	Scene(std::vector<GameObject>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
 		transforms(transforms),
 		models(models),
 		gameObjects(gameObjects),
 		rootIDXs(rootIDXs){}
 	std::vector<components::Transform>& transforms;
 	std::vector<components::Model>& models;
-	std::vector<AGameObject*>& gameObjects;
+	std::vector<GameObject>& gameObjects;
 	std::vector<U32> rootIDXs;
 };
 
 class LevelSystem {
+	DK_SERIALIZED_OBJECT(LevelSystem)
 	friend core::Engine;
-	friend void drak::AGameObject::makeRoot();
-	friend void drak::AGameObject::setParent(U32 pIdx);
-	friend void drak::AGameObject::setParent(AGameObject& parent);
+	friend void drak::GameObject::makeRoot();
+	friend void drak::GameObject::setParent(U32 pIdx);
+	friend void drak::GameObject::setParent(GameObject& parent);
 
 
 	template <I32 n>
@@ -51,7 +56,7 @@ class LevelSystem {
 	COMPONENT_CONTAINER(Model)
 	COMPONENT_CONTAINER(BoxCollider)
 
-	std::vector<AGameObject*> m_gameObjects;
+	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
 
 	void addGameObjectToRoots(U32 idx) {
@@ -75,9 +80,11 @@ public:
 	LevelSystem();
 	~LevelSystem();
 
-	physx::PxScene* m_pPhysXScene;
+	void SerializeLevel();
 
-	std::vector<AGameObject*>& getGameObjects() {
+	void SerializeEvent(const events::Event* pEvent);
+
+	std::vector<GameObject>& getGameObjects() {
 		return m_gameObjects;
 	}
 
@@ -92,31 +99,30 @@ public:
 	}
 
 	template <typename T>
-	T& addComponentToGameObject(AGameObject& gameObject) {
+	T& addComponentToGameObject(GameObject& gameObject) {
 		gameObject.setComponentFlag(components::ComponentType<T>::id, true);
 		__getComponentContainer(T).push_back(T());
 		T& component = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
 		static_cast<components::AComponent*>(&component)->idx = __getComponentContainer(T).size() - 1;
-		static_cast<components::AComponent*>(&component)->GameObjectIDX = gameObject.getIdx();
+		static_cast<components::AComponent*>(&component)->GameObjectID = gameObject.getIdx();
 		gameObject.setHandleIDPair(components::ComponentType<T>::id, __getComponentContainer(T).size() - 1);
 		return component;
 	}
 
-	template <typename T>
-	T* addGameObject() {
+	GameObject& addGameObject() {
 		try {
-			m_gameObjects.push_back(new T());
+			m_gameObjects.push_back(GameObject());
 		}
 		catch (std::bad_array_new_length &e) {
 			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
 		}
-		AGameObject& gameObject = *m_gameObjects[m_gameObjects.size() - 1];
-		gameObject.setIdx((U32)m_gameObjects.size() - 1);
+		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
+		gameObject.setIdx(m_gameObjects.size() - 1);
 		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
 		addComponentToGameObject<components::Transform>(gameObject);
-		return static_cast<T*>(&gameObject);
+		return gameObject;
 	}
 
 	Scene getScene() {
@@ -124,3 +130,8 @@ public:
 	}
 };
 } //core
+
+DK_METADATA_BEGIN(drak::LevelSystem)
+DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_rootIdxs)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

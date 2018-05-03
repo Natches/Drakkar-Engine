@@ -4,9 +4,12 @@
 #include <Core/Engine/TypeTraits.hpp>
 #include <Core/Utils/MacroUtils.hpp>
 
+#include <string>
+#include <array>
 #include <tuple>
+#include <array>
 
-#include <Serialization/SerializationUtils.hpp>
+#include <Serialization/MetaDataUtils.hpp>
 #include <Serialization/ReflectionUtils.hpp>
 
 namespace drak {
@@ -22,21 +25,23 @@ struct IFields {
 	virtual const char* varName(int idx) = 0;
 	virtual int varN() = 0;
 	virtual size_t totalSizeAllVar() = 0;
-	virtual std::tuple<void*, size_t> getVar(T& t, const char* name) = 0;
-	virtual bool setVar(T& t, const char* name, void* data) = 0;
+	virtual std::string getVar(T& t, const char* name) = 0;
+	virtual bool setVar(T& t, const char* name, const std::string& data) = 0;
 };
 
 template<typename T>
 static constexpr size_t SizeOfSerializedType() {
-	if constexpr(drak::types::IsBaseType_V<T> && !std::is_pointer_v<T>)
+	using namespace drak::types;
+	if constexpr(IsBaseType_V<T> && !std::is_pointer_v<T>)
 		return sizeof(T);
-	else if constexpr (drak::types::IsBaseType_V<T> && std::is_pointer_v<T>)
+	else if constexpr (IsBaseType_V<T> && std::is_pointer_v<T>)
 		return sizeof(std::remove_pointer_t<T>) + 1;
 	else if constexpr(std::is_array_v<T>)
-		return MetaData<std::remove_all_extents_t<T>>::s_staticSize * drak::types::SizeOfArray_V<T>;
+		return MetaData<std::remove_all_extents_t<T>>::s_staticSize * SizeOfArray_V<T>;
 	else if constexpr (std::is_pointer_v<T>)
 		return MetaData<std::remove_pointer_t<T>>::s_staticSize + 1;
-	else if constexpr (std::is_same_v<T, std::string> || !std::is_same_v<T, drak::types::VectorType_T<T>>)
+	else if constexpr (std::is_same_v<T, std::string> || IsVector_V<T> ||
+		IsMap_V<T> || IsUnorderedMap_V<T> || IsPair_V<T>)
 		return 0;
 	else
 		return MetaData<T>::s_staticSize;
@@ -44,14 +49,33 @@ static constexpr size_t SizeOfSerializedType() {
 
 template<typename T>
 static size_t SizeOfDynamiclyAllocatedType(const T& t) {
+	using namespace drak::types;
 	if constexpr (std::is_same_v<T, std::string>)
 		return t.size() + sizeof(size_t);
-	else if constexpr (!std::is_same_v<T, drak::types::VectorType_T<T>>) {
+	else if constexpr (IsVector_V<T>) {
 		size_t size = sizeof(size_t);
 		for (auto& x : t) {
-			size += SizeOfSerializedType<drak::types::VectorType_T<T>>() +
-				SizeOfDynamiclyAllocatedType<drak::types::VectorType_T<T>>(x);
+			size += SizeOfSerializedType<VectorType_T<T>>() +
+				SizeOfDynamiclyAllocatedType<VectorType_T<T>>(x);
 		}
+		return size;
+	}
+	else if constexpr (IsPair_V<T>) {
+		return  SizeOfSerializedType<REMOVE_ALL_TYPE_MODIFIER(PairType_T1<T>)>() +
+			SizeOfDynamiclyAllocatedType<REMOVE_ALL_TYPE_MODIFIER(PairType_T1<T>)>(t.first) +
+			SizeOfSerializedType<PairType_T2<T>>() +
+			SizeOfDynamiclyAllocatedType<PairType_T2<T>>(t.second);
+	}
+	else if constexpr (IsMap_V<T>) {
+		size_t size = sizeof(size_t);
+		for (auto& x : t)
+			size += SizeOfDynamiclyAllocatedType(x);
+		return size;
+	}
+	else if constexpr (IsUnorderedMap_V<T>) {
+		size_t size = sizeof(size_t);
+		for (auto& x : t)
+			size += SizeOfDynamiclyAllocatedType(x);
 		return size;
 	}
 	else
@@ -122,20 +146,6 @@ static void StringToValue(const char* c_str, T& t) {
 } // namespace serialization
 } // namespace drak
 
-#define FACTORY_PATTERN										\
-static type Create() { return type(); };					\
-static type* CreateNew() { return new type(); };			\
-static type Create(const char* c_str) {						\
-	type t;													\
-	SetBinary(t, c_str);									\
-	return t;												\
-}															\
-static type* CreateNew(const char* c_str) {					\
-	type* t = new type;										\
-	SetBinary(*t, c_str);									\
-	return t;												\
-}
-
 #define DK_METADATA_BEGIN(ty)								\
 template<>													\
 struct drak::serialization::MetaData<ty> {					\
@@ -143,14 +153,9 @@ using type = ty;											\
 static constexpr const char* TypeName() { return #ty; };
 
 #define DK_METADATA_END																			\
-FACTORY_PATTERN																					\
+DK_METADATA_FACTORY_PATTERN																		\
 static bool AreEqual(const type& t1, const type& t2) {											\
-std::tuple<char*, size_t> binary1 = GetBinary(t1), binary2 = GetBinary(t2);						\
-bool res = std::get<1>(GetBinary(t1)) == std::get<1>(GetBinary(t2)) &&							\
-!strcmp(std::get<0>(GetBinary(t1)), std::get<0>(GetBinary(t2)));								\
-delete[] std::get<0>(GetBinary(t1));															\
-delete[] std::get<0>(GetBinary(t2));															\
-return res;																						\
+return SerializeToBinary(t1) == SerializeToBinary(t2);											\
 }																								\
 static bool AreNotEqual(const type& t1, const type& t2) {										\
 return !AreEqual(t1, t2);																		\
@@ -163,6 +168,12 @@ private:																				\
 DK_DATA_STRUCT()																		\
 DK_SET_DATA()																			\
 DK_GET_DATA()																			\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_BINARY_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_DESERIALIZE_BINARY_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_JSON_FUNC(__VA_ARGS__))									\
+DK_EXPAND(DK_DESERIALIZE_JSON_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI_FUNC(__VA_ARGS__))									\
+DK_EXPAND(DK_DESERIALIZE_INI_TO_FIELD_FUNC(__VA_ARGS__))								\
 public:																					\
 static constexpr char* FieldName{ #fieldName };											\
 DK_EXPAND(DK_NAME_ARRAY(__VA_ARGS__))													\
@@ -173,12 +184,6 @@ DK_EXPAND(DK_GET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_SET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_GET_SIZE_BY_NAME(__VA_ARGS__))												\
 DK_EXPAND(DK_GET_TYPENAME_BY_NAME(__VA_ARGS__))											\
-DK_EXPAND(DK_SET_EVERY_DATA_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_BINARY_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_TO_JSON_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_JSON_TO_FIELD_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_FIELD_TO_INI_FUNC(__VA_ARGS__))											\
-DK_EXPAND(DK_INI_TO_FIELD_FUNC(__VA_ARGS__))											\
 DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\
@@ -190,10 +195,10 @@ virtual int varN() override {															\
 virtual size_t totalSizeAllVar() override {												\
 	return s_staticSize;																\
 };																						\
-virtual std::tuple<void*, size_t> getVar(type& t, const char* str)override {			\
+virtual std::string getVar(type& t, const char* str)override {							\
 	DK_EXPAND(DK_CONCAT(DK_GET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 }																						\
-virtual bool setVar(type& t, const char* name, void* data) override {					\
+virtual bool setVar(type& t, const char* name, const std::string& data) override {		\
 	DK_EXPAND(DK_CONCAT(DK_SET_DATA, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))				\
 	return false;																		\
 }																						\

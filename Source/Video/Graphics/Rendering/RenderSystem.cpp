@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
@@ -102,7 +103,7 @@ void RenderSystem::opaquePass() {
 	// for each pass (color, depth ...)
 	//	 for each shader
 	//		for each material (textures, uniforms ...)
-	//	
+	//
 
 	// m_pRenderer->depthTest(true);
 	// m_shaderMap["DefaultShader"]->use();

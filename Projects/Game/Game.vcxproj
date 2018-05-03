@@ -19,7 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Game\BehaviorMonolith.cpp" />
+    <ClCompile Include="..\..\Source\Game\Cube.cpp" />
     <ClCompile Include="..\..\Source\Game\Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Game\BehaviorContainerNames.gen" />
+    <None Include="..\..\Source\Game\BehaviorContainers.gen" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Game\BehaviorMonolith.h" />
+    <ClInclude Include="..\..\Source\Game\Cube.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -32,27 +42,27 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -76,7 +86,7 @@
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source\$(ProjectName)\;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeBase;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeShared;$(SolutionDir)Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(LibraryPath);$(SolutionDir)ThirdParty\PhysX-3.4\$(Platform)\</LibraryPath>
+    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath);$(SolutionDir)ThirdParty\PhysX-3.4\$(Platform)\</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,14 +115,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>DRAK_EXPORT;_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;DrakCore.lib;DrakEngine.lib;PhysX3DEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PxFoundationDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x86.lib;PxPvdSDKDEBUG_x86.lib;PxTaskDEBUG_x86.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DrakThreading.lib;DrakAPI.lib;Log.lib;DrakEngine.lib;DrakCore.lib;DrakCore.lib;DrakEngine.lib;PhysX3DEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PxFoundationDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x86.lib;PxPvdSDKDEBUG_x86.lib;PxTaskDEBUG_x86.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /e /r "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
@@ -124,14 +139,19 @@ xcopy /y /e /r "$(SolutionDir)Resources" "$(ProjectDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessorDefinitions>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>DRAK_EXPORT;_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;DrakEngine.lib;DrakCore.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DrakThreading.lib;DrakAPI.lib;Log.lib;DrakEngine.lib;DrakCore.lib;DrakEngine.lib;DrakCore.lib;PhysX3DEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3CookingDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxTaskDEBUG_x64.lib;LowLevelAABBDEBUG.lib;LowLevelDEBUG.lib;LowLevelClothDEBUG.lib;LowLevelDynamicsDEBUG.lib;LowLevelParticlesDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /e /r "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
@@ -145,18 +165,24 @@ xcopy /y /e /r "$(SolutionDir)Resources" "$(ProjectDir)"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessorDefinitions>NDEBUG;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>DRAK_EXPORT;NDEBUG;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;DrakEngine.lib;DrakCore.lib;PhysX3_x86.lib;PhysX3Common_x86.lib;PxFoundation_x86.lib;PhysX3Extensions.lib;PhysX3Cooking_x86.lib;PxPvdSDK_x86.lib;PxTask_x86.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DrakThreading.lib;DrakAPI.lib;Log.lib;DrakEngine.lib;DrakCore.lib;PhysX3_x86.lib;PhysX3Common_x86.lib;PxFoundation_x86.lib;PhysX3Extensions.lib;PhysX3Cooking_x86.lib;PxPvdSDK_x86.lib;PxTask_x86.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /e /r "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
@@ -170,18 +196,23 @@ xcopy /y /e /r "$(SolutionDir)Resources" "$(ProjectDir)"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessorDefinitions>NDEBUG;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Dev\lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>DRAK_EXPORT;NDEBUG;LOG2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;DrakEngine.lib;DrakCore.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PxFoundation_x64.lib;PhysX3Extensions.lib;PhysX3Cooking_x64.lib;PxPvdSDK_x64.lib;PxTask_x64.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DrakThreading.lib;DrakAPI.lib;Log.lib;DrakEngine.lib;DrakCore.lib;PhysX3_x64.lib;PhysX3Common_x64.lib;PxFoundation_x64.lib;PhysX3Extensions.lib;PhysX3Cooking_x64.lib;PxPvdSDK_x64.lib;PxTask_x64.lib;LowLevelAABB.lib;LowLevel.lib;LowLevelCloth.lib;LowLevelDynamics.lib;LowLevelParticles.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /e /r "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"

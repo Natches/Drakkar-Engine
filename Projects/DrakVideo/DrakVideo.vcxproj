@@ -82,27 +82,27 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -212,12 +212,18 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -243,12 +249,17 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

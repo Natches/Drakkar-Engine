@@ -1,34 +1,26 @@
 #pragma once
 
-#include<Math/MathUtils.hpp>
+#include <Math/MathUtils.hpp>
 #include <Serialization/MetaData.hpp>
-#include<ostream>
+#include <ostream>
 
 namespace drak {
 namespace math {
 template<typename T>
 struct Vec2 {
-	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64),
-		"\"T\" must be a scalar Type and not a 64 bits data type");
+	static_assert(std::is_scalar_v<T> && (sizeof(T) < 64), DK_MATH_ERROR0(T));
 
 	static constexpr bool isIntegral = std::is_integral_v<T>;
 	DK_SERIALIZED_OBJECT(Vec2<T>)
 public:
 	Vec2();
-
+	explicit Vec2(const T n);
 	Vec2(const T X, const T Y);
 	Vec2(const Vec2<T>& v);
 	Vec2(Vec2<T>&& v);
 	~Vec2() = default;
 
 public:
-	bool operator==(const Vec2<T>& v) const;
-	bool operator!=(const Vec2<T>& v) const;
-	bool operator>(const Vec2<T>& v)  const;
-	bool operator<(const Vec2<T>& v)  const;
-	bool operator>=(const Vec2<T>& v) const;
-	bool operator<=(const Vec2<T>& v) const;
-
 	bool isNormalized() const;
 	bool isNull() const;
 
@@ -64,19 +56,25 @@ public:
 	Vec2<T> operator--(const I32) const;
 	Vec2<T> operator-()	  const;
 
-	Vec2<T> conjugate() const;
-	Vec2<T> normalize() const;
-	Vec2<T> rotate(const F32 angle) const;
+	Vec2<T>& negate();
+	Vec2<T>& abs();
+
+	Vec2<F32>& rotate(F32 angle);
+	Vec2<F32>& rotateAround(const Vec2<F32>& point, const F32 angle);
+	Vec2<F32>& rotateAround(const Vec2<F32>& point, const F32 angle, const F32 distance);
+	Vec2<F32>& ceil();
+	Vec2<F32>& floor();
+	Vec2<F32>& round();
+	Vec2<F32>& sqrt();
+	Vec2<F32>& normalize();
+
+	Vec2<T> sign() const;
 	Vec2<T> perpendicularVector() const;
 
 	template<typename U>
 	Vec2<U> cast() const;
 
-	Vec2<F32> ceil();
-	Vec2<F32> floor();
-	Vec2<F32> round();
-
-	Vec2<T> yx();
+	Vec2<T> yx() const;
 
 public:
 	union {
@@ -89,6 +87,28 @@ public:
 	static Vec2<T> Up();
 	static Vec2<T> Right();
 };
+
+using Vec2c = typename Vec2<U8>;
+using Vec2sc = typename Vec2<I8>;
+using Vec2s = typename Vec2<I16>;
+using Vec2us = typename Vec2<U16>;
+using Vec2i = typename Vec2<I32>;
+using Vec2u = typename Vec2<U32>;
+using Vec2f = typename Vec2<F32>;
+
+template<typename T>
+bool operator==(const Vec2<T>& v1, const Vec2<T>& v2);
+template<typename T>
+bool operator!=(const Vec2<T>& v1, const Vec2<T>& v2);
+template<typename T>
+bool operator>(const Vec2<T>& v1, const Vec2<T>& v2);
+template<typename T>
+bool operator<(const Vec2<T>& v1, const Vec2<T>& v2);
+template<typename T>
+bool operator>=(const Vec2<T>& v1, const Vec2<T>& v2);
+template<typename T>
+bool operator<=(const Vec2<T>& v1, const Vec2<T>& v2);
+
 template<typename T>
 Vec2<T> operator+(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
@@ -146,13 +166,34 @@ template<typename T>
 T Cross(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
+Vec2<T> Normalize(const Vec2<T>& v);
+
+template<typename T>
+Vec2<T> Negate(const Vec2<T>& v);
+
+template<typename T>
+Vec2<T> Abs(const Vec2<T>& v);
+
+inline Vec2f Rotate(const Vec2f& v, F32 Angle);
+inline Vec2f Ceil(const Vec2f& v);
+inline Vec2f Floor(const Vec2f& v);
+inline Vec2f Round(const Vec2f& v);
+inline Vec2f Sqrt(const Vec2f& v);
+
+template<typename T>
 F32 Distance(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
 Vec2<T> Direction(const Vec2<T>& origin, const Vec2<T>& destination);
 
+inline Vec2f RotateAround(const Vec2f& v, const Vec2f& point, const F32 angle);
+inline Vec2f RotateAround(const Vec2f& v, const Vec2f& point, const F32 angle, const F32 distance);
+
 template<typename T>
-void RotateAround(Vec2<T>& v1, const Vec2<T>& point, const F32 angle);
+Vec2<T> Min(const Vec2<T>& v1, const Vec2<T>& v2);
+
+template<typename T>
+Vec2<T> Max(const Vec2<T>& v1, const Vec2<T>& v2);
 
 template<typename T>
 bool ArePerpendicular(const Vec2<T>& v1, const Vec2<T>& v2);
@@ -172,49 +213,41 @@ bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2);
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec2<T>& v);
 
-using Vec2c    = typename Vec2<U8>;
-using Vec2sc   = typename Vec2<I8>;
-using Vec2s    = typename Vec2<I16>;
-using Vec2us   = typename Vec2<U16>;
-using Vec2i    = typename Vec2<I32>;
-using Vec2u    = typename Vec2<U32>;
-using Vec2f    = typename Vec2<F32>;
-
 } //namespace maths
 } //namespace drak
 #include<Math/Vec2.inl>
 
-//DK_METADATA_BEGIN(drak::math::Vec2c)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2sc)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2s)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2us)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2i)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2u)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
-//
-//DK_METADATA_BEGIN(drak::math::Vec2f)
-//DK_PUBLIC_FIELDS(m_vec)
-//DK_PUBLIC_FIELD_COMPLEMENT
-//DK_METADATA_END
+DK_METADATA_BEGIN(drak::math::Vec2c)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2sc)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2s)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2us)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2i)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2u)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::math::Vec2f)
+DK_PUBLIC_FIELDS(m_vec)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END

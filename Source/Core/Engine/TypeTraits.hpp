@@ -1,8 +1,10 @@
 #pragma once
 
 #include <type_traits>
-#include <vector>
 #include <immintrin.h>
+#include <vector>
+#include <map>
+#include <unordered_map>
 
 namespace drak {
 namespace types {
@@ -155,7 +157,7 @@ struct IsIntrinType {
 };
 
 template<typename T>
-constexpr bool IsIntrinType_T = IsIntrinType<T>::value;
+constexpr bool IsIntrinType_V = IsIntrinType<T>::value;
 
 template<typename T>
 struct VectorType {
@@ -169,6 +171,88 @@ struct VectorType<std::vector<T>> {
 
 template<typename T>
 using VectorType_T = typename VectorType<T>::type;
+
+template<typename T>
+struct IsVector : VectorType<T> {
+	enum : bool {
+		value = std::is_same_v<T, std::vector<type>>
+	};
+};
+
+template<typename T>
+constexpr bool IsVector_V = IsVector<T>::value;
+
+template<typename T>
+struct PairType {
+	using type1 = T;
+	using type2 = void;
+};
+
+template<typename T, typename U>
+struct PairType<std::pair<T, U>> {
+	using type1 = T;
+	using type2 = U;
+};
+
+template<typename T>
+using PairType_T1 = typename PairType<T>::type1;
+
+template<typename T>
+using PairType_T2 = typename PairType<T>::type2;
+
+template<typename T>
+struct IsPair : PairType<T> {
+	enum : bool {
+		value = std::is_same_v<T, std::pair<type1, type2>>
+	};
+};
+
+template<typename T>
+constexpr bool IsPair_V = IsPair<T>::value;
+
+template<typename T>
+struct MapType {
+	using type1 = T;
+	using type2 = void;
+};
+
+template<typename T, typename U>
+struct MapType<std::map<T, U>> {
+	using type1 = T;
+	using type2 = U;
+};
+
+template<typename T, typename U>
+struct MapType<std::unordered_map<T, U>> {
+	using type1 = T;
+	using type2 = U;
+};
+
+template<typename T>
+using MapType_T1 = typename MapType<T>::type1;
+
+template<typename T>
+using MapType_T2 = typename MapType<T>::type2;
+
+template<typename T>
+struct IsMap : MapType<T> {
+	enum : bool {
+		value = std::is_same_v<T, std::map<type1, type2>>
+	};
+};
+
+template<typename T>
+constexpr bool IsMap_V = IsMap<T>::value;
+
+template<typename T>
+struct IsUnorderedMap : MapType<T> {
+	enum : bool {
+		value = std::is_same_v<T, std::unordered_map<type1, type2>>
+	};
+};
+
+template<typename T>
+constexpr bool IsUnorderedMap_V = IsUnorderedMap<T>::value;
 
 template<typename T>
 struct SizeOfArray {

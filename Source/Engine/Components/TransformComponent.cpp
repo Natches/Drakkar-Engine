@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include "TransformComponent.hpp"
 #include "PhysicsComponents.hpp"
 #include <Engine/Engine.hpp>
@@ -11,7 +12,7 @@ void setTransformPos(Transform & t, math::Vec3f newPos)
 	t.dirty = true;
 }
 
-void setTransformRot(Transform & t, math::Vec4f newRot)
+void setTransformRot(Transform & t, math::Quaternion newRot)
 {
 	t.rotation = newRot;
 	t.dirty = true;

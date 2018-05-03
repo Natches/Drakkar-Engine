@@ -1,6 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cassert>
+#include <PrecompiledHeader/pch.hpp>
 
 #include <GL/glew.h>
 

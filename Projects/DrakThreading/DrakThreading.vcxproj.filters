@@ -87,6 +87,9 @@
     <ClInclude Include="..\..\Source\Threading\Thread\StealableQueue\StealableQueue.hpp">
       <Filter>Header Files\Thread\StealableQueue</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Threading\Timer\BenchmarkTimer.hpp">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Threading\Main.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Threading\Function\Function.cpp">
       <Filter>Source Files\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Threading\Timer\BenchmarkTimer.cpp">
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

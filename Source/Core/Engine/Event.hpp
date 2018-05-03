@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <list>
 #include <map>
@@ -30,7 +29,7 @@ protected:
 
 class DefaultEventDispatcher: public IEventDispatcher {
 public:
-	void addEventListener(EventType type, EventListener listener) override;
+	DRAK_API void addEventListener(EventType type, EventListener listener) override;
 	void removeEventListener(EventType type, EventListener listener) override;
 
 protected:

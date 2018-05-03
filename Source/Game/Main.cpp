@@ -1,14 +1,9 @@
-#include <Core/Core.hpp>
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/AGameObject.hpp>
-#include <Engine/Components/Components.hpp>
-#include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
-#include <Math/Matrix4x4.hpp>
-#include <Windowing/Input/Keyboard.hpp>
-#include <Engine\CreateDerivative.hpp>
-#include <string>
+#include <Engine/Components/ABehavior.hpp>
+#include <Game/BehaviorMonolith.h>
 
 using namespace drak;
 using namespace core;
@@ -16,152 +11,69 @@ using namespace components;
 using namespace events;
 using namespace function;
 using namespace math;
+using namespace serialization;
 
-class Floor : public AGameObject {
-	// Inherited via AGameObject
+class BP : public IManualSceneBlueprint {
 public:
-	Floor() {
-		derivedTypeID = 1;
-		name = "Floor";
-	}
-	virtual void update() override
+
+	// Inherited via IManualSceneBlueprint
+	virtual void build(LevelSystem & scene) override
 	{
-	}
-	virtual void start() override
-	{
+		GameObject& cube = scene.addGameObject();
+		Transform& cube_TR = cube.getComponent<Transform>();
+		RigidBody& cube_RB = cube.addComponent<RigidBody>();
+		Model& cube_MDL = cube.addComponent<Model>();
+		BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
+
+		cube_TR.position = Vec3f(0,0,0);
+		cube_TR.scale = Vec3f(10.f, 10.f, 10.f);
+		cube_TR.rotation = Quaternion(Vec3f(0.f, 0.f, 45.f));
+
+		cube_RB.mass = 1000.f;
+
+		cube_MDL.albedo = gfx::Color3(1,0,0);
+
+		PhysicsMaterial mat;
+		mat.dynamicFriction = 0.5f;
+		mat.restitution = 0.5f;
+		mat.staticFriction = 0.5f;
+		cube_BC.width = 10.f;
+		cube_BC.height = 10.f;
+		cube_BC.depth = 10.f;
+		cube_BC.material = mat;
+		BHVR.getCubeBehaviorContainer().emplace_back();
+		BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1].gameObjectID = cube.getIdx();
+
+		GameObject& floor = scene.addGameObject();
+		floor.name = "Floor";
+		Transform& floor_TR = floor.getComponent<Transform>();
+		RigidBody& floor_RB = floor.addComponent<RigidBody>();
+		Model& floor_MDL = floor.addComponent<Model>();
+		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
+
+		floor_TR.position = Vec3f(0, -50.f, 0);
+		floor_TR.scale = Vec3f(100.f, 10.f, 100.f);
+
+		floor_RB.mass = 1000.f;
+		floor_RB.isStatic = true;
+
+		floor_MDL.albedo = gfx::Color3(0, 1, 0);
+
+		floor_BC.width = 100.f;
+		floor_BC.height = 10.f;
+		floor_BC.depth = 100.f;
+		floor_BC.material = mat;
+
+		BHVR.init();
 	}
 };
 
-class Cube : public AGameObject {
-public:
-	Cube() {
-		derivedTypeID = 0;
-		name = "Cube";
-	}
-
-	bool hitByPlayer = false;
-	virtual void update() override {
-	}
-
-	virtual void start() override {
-		RigidBody& rb = *getComponent<RigidBody>();
-		Engine::Get().getPhysicsSystem().AddCollisionCallback(
-			rb,
-			PhysicsEventDispatcher::COLLISION_IN,
-			new MemberFunction<Cube, void, const Event*>
-			(this, &Cube::OnCollisionEnter));
-	}
-
-	void Cube::OnCollisionEnter(const Event* pEvent) {
-		if (!pEvent)
-			return;
-		const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
-		switch (e->type) {
-		case PhysicsEventDispatcher::COLLISION_IN:
-			if (getLevel()->getGameObjects()[e->otherGameObjectIDX]->getName() == "Player") {
-				Model& model = *getComponent<Model>();
-				model.albedo.r = 1.0f;
-				model.albedo.g = 1.0f;
-				model.albedo.b = 0.0f;
-			}
-			break;
-		}
-	}
-
-	void Cube::OnCollisionExit(const Event* pEvent) {
-	}
-
-	void Cube::OnCollisionStay(const Event* pEvent) {
-	}
-
-};
-
-class Player : public AGameObject {
-public:
-	Player() {
-		derivedTypeID = 2;
-		name = "Player";
-	}
-
-	// Inherited via AGameObject
-	float speed = 50.f;
-	int score = 0;
-	virtual void update() override
-	{
-	}
-
-	virtual void start() override
-	{
-		Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, 
-			new MemberFunction<Player, void, const Event*>(this, &Player::KeyPress, &Keyboard::Get().event()));
-
-		RigidBody& rb = *getComponent<RigidBody>();
-		Engine::Get().getPhysicsSystem().AddCollisionCallback(
-			rb,
-			PhysicsEventDispatcher::COLLISION_IN,
-			new MemberFunction<Player, void, const Event*>
-				(this, &Player::OnCollisionEnter));
-	}
-
-	void Player::OnCollisionEnter(const Event* pEvent) {
-		if (!pEvent)
-			return;
-		const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
-		switch (e->type) {
-		case PhysicsEventDispatcher::COLLISION_IN:
-			AGameObject* obj = getLevel()->getGameObjects()[e->otherGameObjectIDX];
-			if (obj->getName() == "Cube") {
-				++score;
-				Model& m = *getComponent<Model>();
-				m.albedo.g -= 0.1f;
-				m.albedo.b -= 0.1f;
-			}
-			break;
-		}
-	}
-
-	void Player::KeyPress(const Event* pEvent) {
-		if(!pEvent)
-			return;
-		const KeyEvent* ke = static_cast<const KeyEvent*>(pEvent);
-		Transform& trans = *getComponent<Transform>();
-		switch (ke->key)
-		{
-		case Key::KEY_UP:
-			Engine::Get().getPhysicsSystem().move(
-				*getComponent<RigidBody>(),
-					trans.position + Vec3f(0, 0, -speed * DeltaTime),
-					trans.rotation);
-			break;
-		case Key::KEY_DOWN:
-			Engine::Get().getPhysicsSystem().move(
-				*getComponent<RigidBody>(), 
-					trans.position + Vec3f(0, 0, speed * DeltaTime),
-					trans.rotation);
-			break;
-		case Key::KEY_LEFT:
-			Engine::Get().getPhysicsSystem().move(
-				*getComponent<RigidBody>(),
-					trans.position + Vec3f(-speed * DeltaTime, 0, 0),
-					trans.rotation);
-			break;
-		case Key::KEY_RIGHT:
-			Engine::Get().getPhysicsSystem().move(
-				*getComponent<RigidBody>(),
-					trans.position + Vec3f(speed * DeltaTime, 0, 0),
-					trans.rotation);
-			break;
-		default:
-			break;
-		}
-	}
-};
-
-int main(int argc, char** argv) {
+void main() {
+	BP bp;
 	Engine::Get().startup();
-	Engine::Get().createAll<Cube>();
-	Engine::Get().createAll<Floor>();
-	Engine::Get().createAll<Player>();
+	Engine::Get().loadScene(bp);
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }
+
+

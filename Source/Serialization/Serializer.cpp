@@ -1,5 +1,4 @@
-#include <Serialization/Serializer.hpp>
-#include <fstream>
+#include <PrecompiledHeader/pch.hpp>
 
 namespace drak {
 namespace serialization {
@@ -36,7 +35,7 @@ void Serializer::FileDescriptor::loadFromFile(std::fstream& file) {
 }
 
 void Serializer::FileDescriptor::seekToBeginingOfClass(std::fstream& file) {
-	file.seekg(m_endPos, std::ios::beg);
+	file.seekg(std::streamoff(m_endPos), std::ios::beg);
 }
 
 } // namespace serialization
