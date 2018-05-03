@@ -103,7 +103,7 @@ Vec8<T>::Vec8(const Vec4<T>& v1, const Vec4<T>& v2) {
 template<typename T>
 Vec8<T>::Vec8(Vec4<T>&& v1, Vec4<T>&& v2) {
 	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
-		SIMDStruct::set(m_simdVec, v2.m_simdVec, v2.m_simdVec);
+		SIMDStruct::set(m_simdVec, v1.m_simdVec, v2.m_simdVec);
 	else {
 		xyzw = std::move(v1);
 		abcd = std::move(v2);
