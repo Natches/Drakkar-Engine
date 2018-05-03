@@ -48,6 +48,10 @@ public:
 	inline Mat4f matrix();
 	inline Vec3f euler() const;
 
+	inline Vec4f forward();
+	inline Vec4f right();
+	inline Vec4f up();
+
 public:
 	union {
 		struct {
