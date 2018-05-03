@@ -61,9 +61,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 	);
 	physx::PxShape* box = m_pPhysics->createShape(
 		PxBoxGeometry(
-			boxCollider.width / 2.f,
-			boxCollider.height / 2.f,
-			boxCollider.depth / 2.f
+			boxCollider.width * 0.25f,
+			boxCollider.height * 0.25f,
+			boxCollider.depth * 0.25f
 		),
 		*mat,
 		true

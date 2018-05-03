@@ -50,7 +50,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
-		* math::Translate<F32>({0.f, 0.f, 0.f})
+		* math::Translate<F32>({0.f, -100.f, 0.f})
 		* math::Scale<F32>({ 3000.f, 1.f, 3000.f });
 	m_shaderMap["GridShader"]->use();
 

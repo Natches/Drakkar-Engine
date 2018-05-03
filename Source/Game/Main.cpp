@@ -28,7 +28,6 @@ public:
 		cube_TR.position = Vec3f(0,0,0);
 		cube_TR.scale = Vec3f(10.f, 10.f, 10.f);
 		cube_TR.rotation = Quaternion(Vec3f(0.f, 0.f, 45.f));
-		std::cout << cube_TR.rotation.euler() * ToDegF << std::endl;
 
 		cube_RB.mass = 1000.f;
 
@@ -46,6 +45,7 @@ public:
 		BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1].gameObjectID = cube.getIdx();
 
 		GameObject& floor = scene.addGameObject();
+		floor.name = "Floor";
 		Transform& floor_TR = floor.getComponent<Transform>();
 		RigidBody& floor_RB = floor.addComponent<RigidBody>();
 		Model& floor_MDL = floor.addComponent<Model>();
