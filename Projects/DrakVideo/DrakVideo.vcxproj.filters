@@ -46,9 +46,6 @@
     <Filter Include="Header Files\Graphics\Rendering\Base">
       <UniqueIdentifier>{3cf4ca45-3e40-4069-9b1c-71f38fc209ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Rendering\Base">
-      <UniqueIdentifier>{0e2aa74e-36d3-4d49-8d5e-48270cd17e27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics\Common">
       <UniqueIdentifier>{2a5cd6f2-ac1f-4efd-a6f8-0a287ad95b05}</UniqueIdentifier>
     </Filter>
@@ -99,20 +96,11 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderTarget.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp">
       <Filter>Header Files\Graphics\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.hpp">
-      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IColorBuffer.hpp">
-      <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.hpp">
       <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
@@ -131,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
       <Filter>Header Files\Graphics\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +167,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp">
       <Filter>Source Files\Graphics\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLColorBuffer.cpp">
-      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
@@ -181,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp">
       <Filter>Source Files\Graphics\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

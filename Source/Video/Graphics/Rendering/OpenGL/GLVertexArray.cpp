@@ -10,9 +10,12 @@ GLVertexArray::~GLVertexArray() {
 	glDeleteVertexArrays(1, &m_glID);
 }
 
-void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) {
+void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
+	m_pVBO = pVBO;
+	m_pIBO = pIBO;
+
 	glCreateVertexArrays(1, &m_glID);
-	glVertexArrayVertexBuffer(m_glID, vbo.bindIndex(), vbo.glID(), 0, sizeof(Vertex));
+	glVertexArrayVertexBuffer(m_glID, m_pVBO->bindIndex(), m_pVBO->glID(), 0, sizeof(Vertex));
 	for (U32 i = VERT_ATTR_POS; i < VERT_ATTR_COUNT; ++i) {
 		glVertexArrayAttribFormat(
 			m_glID,
@@ -21,18 +24,15 @@ void GLVertexArray::create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo) 
 			g_VertexAttribDescArray[i].type,
 			g_VertexAttribDescArray[i].normalized,
 			g_VertexAttribDescArray[i].offset);
-		glVertexArrayAttribBinding(m_glID, i, vbo.bindIndex());
+		glVertexArrayAttribBinding(m_glID, i, m_pVBO->bindIndex());
 		glEnableVertexArrayAttrib(m_glID, i);
 	}
-	m_vertCount = ibo.indexCount();
-	m_iboID = ibo.glID();
-	glVertexArrayElementBuffer(m_glID, m_iboID);
+	glVertexArrayElementBuffer(m_glID, m_pIBO->glID());
 }
 
 void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboID);
-	glDrawElements(GL_TRIANGLES, m_vertCount, GL_UNSIGNED_SHORT, 0);
+	m_pIBO->drawElements();
 }
 
 } // namespace gl

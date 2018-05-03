@@ -18,6 +18,16 @@ void GLIndexBuffer::create(const GLushort* pIndices, GLsizei indexCount) {
 		GL_MAP_WRITE_BIT);
 }
 
+void GLIndexBuffer::drawElements() {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_glID);
+	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, 0);
+}
+
+void GLIndexBuffer::drawElementsInstanced() {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_glID);
+	glDrawElementsInstanced(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, 0, 1);
+}
+
 } // namespace gl
 } // namespace gfx
 } // namespace drak

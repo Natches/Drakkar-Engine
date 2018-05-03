@@ -11,5 +11,5 @@ DRAK_COMPONENT_END(Transform)
 
 DK_METADATA_BEGIN(drak::components::Transform)
 DK_PUBLIC_FIELDS(position, scale, rotation, ownerID, idxInMainArray)
-DK_PUBLIC_FIELD_COMPLEMENT
+DK_SERIALIZE_PUBLIC_FIELDS
 DK_METADATA_END

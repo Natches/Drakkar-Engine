@@ -1,0 +1,100 @@
+drak::LevelSystem: {
+PublicFields: {
+	"RigidBodyComponentContainer": [
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1000.000000",
+				"isStatic": "0",
+				"isKinematic": "0"
+			}
+		}
+	],
+	"TransformComponentContainer": [
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"-17.378670",
+							"0.000000"
+						]
+					}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"10.000000",
+							"10.000000",
+							"10.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				}
+			}
+		}
+	],
+	"ModelComponentContainer": [
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				}
+			}
+		}
+	],
+	"BoxColliderComponentContainer": [
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "10",
+				"height": "10",
+				"depth": "10"
+			}
+		}
+	],
+	"m_rootIdxs": [
+		"0"
+	]
+}
+}

@@ -1,4 +1,8 @@
 #include <PrecompiledHeader/pch.hpp>
+#include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+
+using namespace drak::components;
 
 namespace drak {
 namespace gfx {
@@ -11,13 +15,10 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 0.f, -30.f }, { 0.f, -30.f, 0.f }, { 0.f, 1.f, 0.f });
+	m_mainCam.view({ 0.f, 100.f, -100.f }, { 0.f, 0.f, 100.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 0.1f, 1000.f);
 
-	gl::GLTexture tex;
-	tex.loadFromFile("Resources/Textures/grid_cell.png");
-	tex.bind();
-	m_gridTex = tex.glID();
+	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 
 	return loadResources("Resources/");
 }
@@ -29,39 +30,35 @@ void RenderSystem::shutdown() {
 
 bool RenderSystem::loadResources(const std::string& dir) {
 	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.obj",  m_pUnitCube) &&
-			m_pRenderer->loadRenderables(dir + "Models/quad.obj", m_pGrid));
+			m_pRenderer->loadRenderables(dir + "Models/quad.dkobj", m_pGrid) &&
+			m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
 }
 
-void RenderSystem::forwardRender(
-	std::vector<components::Model>* models,
-	std::vector<components::Transform>* xforms) {
-
+void RenderSystem::forwardRender(Scene& scene) {
 	m_shaderMap["DefaultShader"]->use();
-	m_shaderMap["DefaultShader"]->setUniform("viewPrsp", m_mainCam.viewPerspective());
-
-	for (size_t i = 0, n = models->size(); i < n; ++i) {
+	m_shaderMap["DefaultShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
+	U32 flag = 1 << ComponentType<Model>::id;
+	for (size_t i = 0, n = scene.models.size(); i < n; ++i) {
+		Transform& t = scene.gameObjects[scene.models[i].GameObjectID].getComponent<Transform>();
 		math::Mat4f modelMx =
-			math::Translate((*xforms)[i].position) *
-			math::Rotation((*xforms)[i].rotation) *
-			math::Scale((*xforms)[i].scale);
-
-		m_shaderMap["DefaultShader"]->setUniform("model", modelMx);
-		m_shaderMap["DefaultShader"]->setUniform("albedo", (*models)[i].albedo);
-
-		// (*models)[i].pModel->render();
+			math::Translate(t.position) *
+			t.rotation.matrix() *
+			math::Scale(t.scale);
+		m_shaderMap["DefaultShader"]->uniform("model", modelMx);
+		m_shaderMap["DefaultShader"]->uniform("albedo", scene.models[i].albedo);
 		m_pUnitCube->render();
 	}
 
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({0.f, -100.f, 0.f})
-		* math::Scale<F32>({ 256.f, 1.f, 256.f });
+		* math::Scale<F32>({ 3000.f, 1.f, 3000.f });
 	m_shaderMap["GridShader"]->use();
-	m_shaderMap["GridShader"]->setUniform("tex", m_gridTex);
-	m_shaderMap["GridShader"]->setUniform("MVP", mvp);
-	m_shaderMap["GridShader"]->setUniform("resolution", math::Vec2f{ 64.f, 64.f});
-	m_shaderMap["GridShader"]->setUniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 
+	m_gridTex.bind();
+	m_shaderMap["GridShader"]->uniform("tex", 0);
+	m_shaderMap["GridShader"]->uniform("MVP", mvp);
+	m_shaderMap["GridShader"]->uniform("resolution", math::Vec2f{ 256.f, 256.f });
+	m_shaderMap["GridShader"]->uniform("tint", math::Vec4f{0.259f, 0.957f, 0.843f, 1.f });
 	m_pGrid->render();
 }
 

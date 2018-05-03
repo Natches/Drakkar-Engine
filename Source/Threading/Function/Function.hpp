@@ -1,5 +1,4 @@
 #pragma once
-
 #include <functional>
 #include <tuple>
 #include <Threading/Function/IFunction.hpp>

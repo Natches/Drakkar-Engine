@@ -8,8 +8,6 @@ uniform float 		nearZ 		= 0.1f;
 uniform float 		farZ  		= 100.f; 
 
 in VS_OUT {
-	vec3 pos;
-	vec3 normal;
 	vec2 uv;
 } frag;
 

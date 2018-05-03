@@ -40,16 +40,13 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{3ab9e3a4-010c-444f-905b-3dd28771935f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{07ff0b39-aecc-4eb2-8937-1ced435f34e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Components\AGameObject.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Engine\ISystem.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp">
       <Filter>Header Files\Engine</Filter>
@@ -93,19 +90,25 @@
     <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Components\GameObject.hpp">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
       <Filter>Source Files\Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp">
       <Filter>Source Files\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Engine\Event.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
-      <Filter>Source Files\Utils</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Components\GameObject.cpp">
+      <Filter>Source Files\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
