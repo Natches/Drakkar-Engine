@@ -1,4 +1,5 @@
 #include <Threading/Task/ATask.hpp>
+#include <Threading/Task/TaskSequence.hpp>
 #include <Threading/Task/TaskGroup.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
 
@@ -36,6 +37,12 @@ void TaskGroup<T>::sendGroupToThreadPool() {
 	T* data = m_taskList.data();
 	for(size_t i = 0, size = m_taskList.size(); i < size; ++i)
 		m_pool.addTask(data + i);
+}
+
+template<class T>
+void TaskGroup<T>::toSequence(TaskSequence& seq) {
+	for (auto& task : m_taskList)
+		seq.addTasks(&task);
 }
 
 } //namespace task

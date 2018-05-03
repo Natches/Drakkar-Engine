@@ -1,10 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
 #include <PxPhysicsAPI.h>
-#include <Math/Quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <bitset>
 
 using namespace drak;
 using namespace core;
@@ -96,21 +92,9 @@ class MainScene : public IManualSceneBlueprint {
 };
 
 int main(int argc, char** argv) {
-	glm::quat q1(glm::radians(glm::vec3(20, 10, 75)));
-	glm::vec3 eul = glm::degrees(glm::eulerAngles(q1));
-	glm::mat4 mat = glm::mat4_cast(q1);
-	glm::quat q5(mat);
-	Quaternion q2{ Vec3f(20, 10, 75) };
-	std::cout << q2 << std::endl;
-	std::cout << q2.euler() * ToDegF << std::endl;
-	std::cout << q2.matrix() << std::endl;
-	Quaternion q3{ q2.matrix() };
-	std::cout << q3 << std::endl;
-	Quaternion q4(Vec3f(1.f, 0.f, 1.f), 52 );
-  	system("pause");
-	/*Engine::Get().startup();
+	Engine::Get().startup();
 	MainScene scene;
 	Engine::Get().loadScene(scene);
 	Engine::Get().startLoop();
-	Engine::Get().shutdown();*/
+	Engine::Get().shutdown();
 }

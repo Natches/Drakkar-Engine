@@ -76,7 +76,7 @@
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source\$(ProjectName)\;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeBase;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeShared;$(SolutionDir)Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform);$(LibraryPath);$(SolutionDir)ThirdParty\PhysX-3.4\$(Platform)\</LibraryPath>
+    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath);$(SolutionDir)ThirdParty\PhysX-3.4\$(Platform)\</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,6 +158,7 @@
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

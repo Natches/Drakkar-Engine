@@ -8,6 +8,7 @@ class ThreadPool;
 
 namespace task {
 class ATask;
+class TaskSequence;
 
 template<class T>
 class TaskGroup {
@@ -23,6 +24,8 @@ public:
 
 	void clearGroup();
 	void sendGroupToThreadPool();
+
+	void toSequence(TaskSequence& seq);
 private:
 	std::vector<T> m_taskList;
 	ThreadPool& m_pool;

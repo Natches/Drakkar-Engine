@@ -27,17 +27,17 @@ public:
 	}
 	DRAK_API ~Engine();
 	DRAK_API PhysicsSystem& getPhysicsSystem();
+	time::FrameTimer	s_frameTime;
+	thread::ThreadPool m_pool;
+	DRAK_API static bool running;
 private:
 	DRAK_API Engine();
-	time::FrameTimer	s_frameTime;
 	PhysicsSystem		physicsSystem;
 	SceneSystem			sceneSystem;
 	video::VideoSystem	videoSystem;
 	gfx::RenderSystem	renderSystem;
 	video::AWindow*		pMainWindow;
 
-	DRAK_API static thread::ThreadPool s_pool;
-	DRAK_API static bool running;
 };
 
 } // namespace core
