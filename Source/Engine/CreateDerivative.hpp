@@ -7,13 +7,13 @@ namespace core {
 template <typename T>
 void Engine::createAll() {
 	T* t = new T();
-	AGameObject* g = static_cast<AGameObject*>(t);
+	GameObject* g = static_cast<GameObject*>(t);
 
 	if (g->getDTID() == 0) {
 		// for each cube in file ie : Game object with same DTID
 		//TEMP CODE
 		for (int i = 0; i < 100; ++i) {
-			AGameObject* newIstance = m_pLevelSystem->addGameObject<T>();
+			GameObject* newIstance = m_pLevelSystem->addGameObject<T>();
 			//for each component of instance
 			int id[4] = { 0,1,2,3 };
 			for (int j = 0; j < 4; ++j) {
@@ -47,7 +47,7 @@ void Engine::createAll() {
 		// for each floor in file ie : Game object with same DTID
 		//TEMP CODE
 		for (int i = 0; i < 1; ++i) {
-			AGameObject* newIstance = m_pLevelSystem->addGameObject<T>();
+			GameObject* newIstance = m_pLevelSystem->addGameObject<T>();
 			//for each component of instance
 			int id[4] = { 0,1,2 };
 			for (int j = 0; j < 4; ++j) {

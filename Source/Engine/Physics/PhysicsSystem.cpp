@@ -54,7 +54,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 
-	BoxCollider& boxColldier = level.getGameObjects()[rb.GameObjectID]->getComponent<BoxCollider>();
+	BoxCollider& boxColldier = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
 	physx::PxMaterial* mat = m_pPhysics->createMaterial(
 		boxColldier.material.staticFriction,
 		boxColldier.material.dynamicFriction,
@@ -136,9 +136,9 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 	PxU32 nbActiveActors;
 	PxActor** activeActors = m_pPhysicsScene->getActiveActors(nbActiveActors);
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
-	std::vector<AGameObject*>& gameObjects = levelSystem.getGameObjects();
+	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (U32 i = 0; i < nbActiveActors; ++i) {
-		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)]->getComponentIDX(ComponentType<Transform>::id)];
+		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)].getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
 		t.position.x = actorTransform.p.x;
@@ -161,10 +161,10 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 	AccumulatedTime -= SIM_RATE;
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
 	std::vector<RigidBody>& rigidBodies = levelSystem.getComponentContainerByType<RigidBody>();
-	std::vector<AGameObject*>& gameObjects = levelSystem.getGameObjects();
+	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (int i = 0; i < transforms.size(); ++i) {
 		if (transforms[i].dirty) {
-			AGameObject& gameObject = *gameObjects[transforms[i].GameObjectID];
+			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].dirty = false;
 				PxTransform trans(

@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <Core/Engine/Event.hpp>
 
 namespace drak {
@@ -13,8 +14,9 @@ namespace drak {
 
 		void DefaultEventDispatcher::dispatchEvent(const Event* e) {
 			if (m_listeners.find(e->type) != m_listeners.end())
-				for (auto& l : m_listeners[e->type])
+				for (auto& l : m_listeners[e->type]) {
 					l->invoke(std::move(e));
+				}
 		}
 
 	} // namespace events

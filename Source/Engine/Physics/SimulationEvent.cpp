@@ -1,4 +1,6 @@
-#include "SimulationEvent.h"
+#include <PrecompiledHeader/pch.hpp>
+#include <Engine/Physics/SimulationEvent.hpp>
+#include <PxPhysicsAPI.h>
 
 using namespace physx;
 using namespace drak;
@@ -84,4 +86,4 @@ void PhysicsEvents::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTr
 #include "SimulationEvent.hpp"
 #include <PxPhysicsAPI.h>
 #include <Engine/Components/PhysicsComponents.hpp>
-#include <Core/Components/AGameObject.hpp>
+#include <Core/Components/GameObject.hpp>

@@ -1,0 +1,16 @@
+drak::BehaviorMonolith: {
+PublicFields: {
+	"PlayerBehaviorContainer": [
+	],
+	"CubeBehaviorContainer": [
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "0",
+				"name": "Cube"
+			}
+		}
+	],
+	"FloorBehaviorContainer": [
+	]
+}
+}

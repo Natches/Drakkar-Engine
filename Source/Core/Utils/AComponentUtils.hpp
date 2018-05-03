@@ -1,6 +1,6 @@
 #pragma once
-#include <Core/Core.hpp>
-#include <cstring>
+#include <PrecompiledHeader/pch.hpp>
+
 /*!
 *	@file
 *	Macros and templated structures used in the component system
@@ -9,20 +9,31 @@
 namespace drak {
 namespace components {
 
-	template <class c>
-	struct  ComponentType
-	{
-		static const U32 ID;
-	};
+template <class c>
+struct  ComponentType
+{
+	static const U32 ID;
+};
 
-	struct AComponent
-	{
-		bool errorReturn;
-		U64 idx;
-		U64 GameObjectID;
-	};
+
+struct AComponent
+{
+	bool errorReturn;
+	U64 idx;
+	U64 GameObjectID;
+};
 }
+
 }
+//DK_METADATA_BEGIN(drak::behavior::ABehavior*)
+//DK_PUBLIC_FIELDS()
+//DK_PUBLIC_FIELD_COMPLEMENT
+//DK_METADATA_END
+//DK_METADATA_BEGIN(drak::behavior::ABehavior)
+//DK_PUBLIC_FIELDS(gameObjectID, name)
+//DK_PUBLIC_FIELD_COMPLEMENT
+//DK_METADATA_END
+
 
 #define DRAK_COMPONENT_START(name, ...) 		\
 namespace drak {								\
@@ -41,7 +52,11 @@ template <>										\
 struct  drak::components::ComponentType<drak::components::name>\
 {												\
 	static const U32 id = (U32)__COUNTER__;		\
-};												
+};
+
+
+
+
 
 /*!
 *	\def  DRAK_COMPONENT_START(name)

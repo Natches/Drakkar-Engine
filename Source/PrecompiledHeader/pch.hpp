@@ -26,7 +26,7 @@
 #include <Core/Core.hpp>
 #include <Core/Utils/FileUtils.hpp>
 #include <Core/Timer/FrameTimer.hpp>
-#include <Core/Components/AGameObject.h>
+#include <Core/Components/GameObject.hpp>
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Core/Utils/AComponentUtils.hpp>
 
@@ -41,13 +41,14 @@
 #include <Math/Vec8.hpp>
 #include <Math/Matrix4x4.hpp>
 
-#include <Engine/Components/Components.h>
-#include <Engine/Components/TransformComponent.h>
+#include <Engine/Components/Components.hpp>
+#include <Engine/Components/TransformComponent.hpp>
 #include <Engine/Components/ModelComponent.hpp>
-#include <Engine/Components/RigidBodyComponent.h>
+#include <Engine/Components/PhysicsComponents.hpp>
+#include <Engine/Components/ABehavior.hpp>
 
-#include <Engine/Scene/SceneSystem.h>
-#include <Engine/Scene/SceneSystemUtils.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystemUtils.hpp>
 
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>
@@ -73,14 +74,14 @@
 #include <Video/Graphics/Geometry/Mesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
-#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
+#include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
 #include <Video/Graphics/Rendering/Base/RenderFunctions.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderTarget.hpp>
 
-#include <Video/Graphics/Rendering/OpenGL/GLColorBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLIndexBuffer.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLObject.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>

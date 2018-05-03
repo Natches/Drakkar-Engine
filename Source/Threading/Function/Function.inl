@@ -392,7 +392,7 @@ MemberFunction<CallerType, void, VArgs...>::MemberFunction(void(CallerType::* fu
 
 template<class CallerType, class...VArgs>
 MemberFunction<CallerType, void, VArgs...>::MemberFunction(const MemberFunction& mf)
-	: GlobalFunction<VArgs...>(mf.m_args), m_pFunc(mf.m_pFunc), m_pCaller(mf.m_pCaller) {
+	: GlobalFunction<void, VArgs...>(mf.m_args), m_pFunc(mf.m_pFunc), m_pCaller(mf.m_pCaller) {
 }
 
 template<class CallerType, class...VArgs>
