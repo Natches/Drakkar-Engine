@@ -16,7 +16,7 @@ namespace physx{
 
 namespace drak {
 namespace events {
-	class Event;
+	struct Event;
 }
 namespace core {
 	class Engine;

@@ -1,5 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
 #include <Windowing/Input/Keyboard.hpp>
 
 #define BATCH_SIZE 1024u
@@ -44,9 +45,7 @@ bool RenderSystem::loadResources(const std::string& dir) {
 			m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
 }
 
-void RenderSystem::forwardRender(
-	std::vector<Model>& models,
-	std::vector<Transform>& xforms) {
+void RenderSystem::forwardRender(Scene& scene) {
 
 	m_pRenderer->cullTest(true);
 	m_shaderMap["InstanceShader"]->use();
@@ -54,24 +53,21 @@ void RenderSystem::forwardRender(
 
 	U32 flag = 1u << ComponentType<Model>::id;
 	std::vector<math::Mat4f> modelBatch;
-	for (size_t B = 0u, n = xforms.size(); B < n; B += BATCH_SIZE) {
+	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {
 		modelBatch.reserve(BATCH_SIZE);
 		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
-			if ((xforms[b].m_componentFlags & flag) == flag) {
-				math::Mat4f model =
-					math::Translate(xforms[b].position) *
-					math::Rotation(xforms[b].rotation) *
-					math::Scale(xforms[b].scale);
-				modelBatch.push_back(model);
-			}
+			Transform& t =  scene.gameObjects[scene.models[b].GameObjectID].getComponent<Transform>();
+			math::Mat4f model = 
+				math::Translate(t.position) *
+				t.rotation.matrix() *
+				math::Scale(t.scale);
+			modelBatch.push_back(model);
 		}
 		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());
 		m_modelUBO.bind();
 		m_pUnitCube->render();
 		modelBatch.clear();
 	}
-
-
 
 	renderGrid();
 }
