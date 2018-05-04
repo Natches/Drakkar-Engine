@@ -1,5 +1,16 @@
 #include <PrecompiledHeader/pch.hpp>
 
+#include <Core/Core.hpp>
+
+#include <Video/Graphics/Geometry/Mesh.hpp>
+#include <Video/Graphics/Tools/OBJLoader.hpp>
+
+#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
+
+using namespace drak::geom;
+
 namespace drak {
 namespace gfx {
 namespace gl {
@@ -12,7 +23,7 @@ bool GLRenderer::init() {
 	glewExperimental = true;
 	if (glewInit() == GLEW_OK) {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
-		glDebugMessageCallback((GLDEBUGPROC)errorCallback, 0);
+		glDebugMessageCallback((GLDEBUGPROC)debugLog, 0);
 
 		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
 
@@ -54,18 +65,16 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 
 	geom::Mesh mesh;
 	if (loader.load(dir, mesh)) {
-		const std::vector<geom::Vertex>& verts = mesh.vertices();
-		GLVertexBuffer vbo;
-		vbo.create(verts.data(), (U32)verts.size());
+		GLVertexBuffer* pVBO = new GLVertexBuffer;
+		pVBO->create(mesh.vertices().data(), (U32)mesh.vertices().size());
 
-		const std::vector<U16>& indices = mesh.indices();
-		GLIndexBuffer ibo;
-		ibo.create(indices.data(), (I32)indices.size());
+		GLIndexBuffer*  pIBO = new GLIndexBuffer;
+		pIBO->create(mesh.indices().data(), (I32)mesh.indices().size());
 
-		GLVertexArray* pVao = new GLVertexArray;
-		pVao->create(vbo, ibo);
+		GLVertexArray*  pVAO = new GLVertexArray;
+		pVAO->create(pVBO, pIBO);
+		rdr = pVAO;
 
-		rdr = pVao;
 		return true;
 	}
 	return false;
@@ -125,18 +134,48 @@ void GLRenderer::bindWindowFrameBuffer() {
 
 #pragma region Logging/Error-handling
 void GLRenderer::info() {
-	fprintf(stderr, "Renderer: %s\nVersion: %s\n", glGetString(GL_RENDERER), glGetString(GL_VERSION));
+	fprintf(stderr, 
+		"Renderer: %s\nVersion: %s\n", 
+		glGetString(GL_RENDERER), glGetString(GL_VERSION));
 }
 
-void GLRenderer::errorCallback(
-	GLenum			source,
-	GLenum			type,
+void GLRenderer::debugLog(
+	GLenum			source, 
+	GLenum			type, 
 	GLuint			id,
-	GLenum			severity,
+	GLenum			severity, 
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {
-	//fprintf(stderr, "%s\n", message);
+
+	std::string errLvl;
+	if		(severity == GL_DEBUG_SEVERITY_HIGH)		errLvl	= "High";
+	else if (severity == GL_DEBUG_SEVERITY_MEDIUM)		errLvl	= "Medium";
+	else if (severity == GL_DEBUG_SEVERITY_LOW)			errLvl	= "Low";
+
+	std::string errSrc = "Unknown";
+	if		(source == GL_DEBUG_SOURCE_API)				errSrc	= "API";
+	else if (source == GL_DEBUG_SOURCE_WINDOW_SYSTEM)	errSrc	= "OS";
+	else if (source == GL_DEBUG_SOURCE_SHADER_COMPILER)	errSrc	= "Shader Compiler";
+	else if (source == GL_DEBUG_SOURCE_THIRD_PARTY)		errSrc	= "Third Party";
+	else if (source == GL_DEBUG_SOURCE_APPLICATION)		errSrc	= "Application";
+
+	std::string errType = "Unknown";
+	if		(type == GL_DEBUG_TYPE_ERROR)				errType = "Error";
+	else if (type == GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR)	errType = "Deprecated Behavior";
+	else if (type == GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR)	errType = "Undefined Behavior";
+	else if (type == GL_DEBUG_TYPE_PORTABILITY)			errType = "Portability";
+	else if (type == GL_DEBUG_TYPE_PERFORMANCE)			errType = "Performance";
+
+	fprintf(stderr,
+		"======== GLRenderer Log ========"
+		"| Level.... %s\n"
+		"| Source... %s\n"
+		"| Type..... %s\n"
+		"================================",
+		errLvl.c_str(), 
+		errSrc.c_str(), 
+		errType.c_str());
 }
 #pragma endregion
 

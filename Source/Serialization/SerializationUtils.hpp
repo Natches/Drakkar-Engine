@@ -233,7 +233,10 @@ struct ComplexType<Type*> {																		\
 			str.reserve(MetaData::ComputeTotalSize(*t) + 1);									\
 			str.append(static_cast<char>(1), sizeof(char));										\
 			std::stringstream sstr;																\
-			str.append(MetaData::Serialize<EExtension::BINARY>(*t, sstr).str());				\
+			if constexpr(!std::is_abstract_v<T>)												\
+				str.append(MetaData::Serialize<EExtension::BINARY>(*t, sstr).str());			\
+			else																				\
+				str.append(MetaData<T*>::Serialize<EExtension::BINARY>(t, sstr).str());			\
 			return str;																			\
 		}																						\
 		else																					\
@@ -242,8 +245,10 @@ struct ComplexType<Type*> {																		\
 	static std::string SerializeToJSON(const T& t, int indent) {								\
 		if(static_cast<bool>(t)) {																\
 		std::stringstream sstr;																	\
-			return MetaData::Serialize<EExtension::JSON>										\
-				(*t, sstr, indent).str();														\
+			if constexpr(!std::is_abstract_v<T>)												\
+				return MetaData::Serialize<EExtension::JSON>(*t, sstr, indent).str();			\
+			else																				\
+				return MetaData<T*>::Serialize<EExtension::JSON>(t, sstr, indent).str();		\
 		}																						\
 		else																					\
 			return std::string("\"null\"");														\
@@ -718,6 +723,9 @@ static type& DeserializeINI(type& t, std::stringstream& sstr) {									\
 		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
 	return t;																					\
 }
+
+#define DK_NON_SERIALIZED_OBJECT(type)												\
+static constexpr bool s_serialized = false;
 
 #define DK_SERIALIZED_OBJECT(type)												\
 friend drak::serialization::MetaData<type>;										\

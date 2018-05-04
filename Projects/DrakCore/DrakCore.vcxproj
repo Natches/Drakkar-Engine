@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\Components\AGameObject.cpp" />
+    <ClCompile Include="..\..\Source\Core\Components\GameObject.cpp" />
+    <ClCompile Include="..\..\Source\Core\Engine\Event.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
@@ -30,11 +31,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Components\AGameObject.h" />
+    <ClInclude Include="..\..\Source\Core\Components\GameObject.hpp" />
     <ClInclude Include="..\..\Source\Core\Core.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Error.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\Event.hpp" />
-    <ClInclude Include="..\..\Source\Core\Engine\ISystem.h" />
     <ClInclude Include="..\..\Source\Core\Engine\Types.hpp" />
     <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp" />
     <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp" />

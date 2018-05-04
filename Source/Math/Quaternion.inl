@@ -221,6 +221,7 @@ Quaternion& operator*=(Quaternion& qa, const Quaternion& qb) {
 
 Quaternion& Quaternion::operator=(const Quaternion& qb) {
 	quat = qb.quat;
+	return *this;
 }
 
 Quaternion& Quaternion::operator=(Quaternion&& qb) {

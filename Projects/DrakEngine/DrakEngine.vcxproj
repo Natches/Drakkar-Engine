@@ -19,21 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\SimulationEvent.cpp" />
-    <ClCompile Include="..\..\Source\Engine\Scene\SceneSystem.cpp" />
+    <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Engine\Components\Components.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\Components.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />
-    <ClInclude Include="..\..\Source\Engine\Components\RigidBodyComponent.h" />
-    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\PhysicsComponents.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Engine.hpp" />
-    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.h" />
-    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.h" />
-    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystem.h" />
-    <ClInclude Include="..\..\Source\Engine\Scene\SceneSystemUtils.hpp" />
+    <ClInclude Include="..\..\Source\Engine\CreateDerivative.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Scene\LevelSystem.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Scene\LevelSystemUtils.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -89,7 +92,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeBase\;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeShared\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Source;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeBase;$(SolutionDir)ThirdParty\PhysX-3.4\IncludeShared;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(SolutionDir)ThirdParty\PhysX-3.4\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(SolutionDir)Source\;</SourcePath>
   </PropertyGroup>
@@ -203,6 +206,8 @@
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <OmitFramePointers>
+      </OmitFramePointers>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

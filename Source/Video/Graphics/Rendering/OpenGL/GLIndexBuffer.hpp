@@ -19,6 +19,9 @@ public:
 
 	void create(const GLushort* pIndices, GLsizei indexCount);
 
+	void drawElements();
+	void drawElementsInstanced();
+
 	DK_GETTER_C(GLushort, indexCount, m_indexCount)
 
 private:

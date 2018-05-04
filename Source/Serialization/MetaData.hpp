@@ -7,6 +7,7 @@
 #include <string>
 #include <array>
 #include <tuple>
+#include <array>
 
 #include <Serialization/MetaDataUtils.hpp>
 #include <Serialization/ReflectionUtils.hpp>

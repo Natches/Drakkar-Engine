@@ -1,6 +1,9 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <PxPhysicsAPI.h>
+#include <Engine/Physics/PhysicsSystem.hpp>
+#include <Engine/Physics/SimulationEvent.hpp>
+#include <Engine/Components/ABehavior.hpp>
+#include <Game/BehaviorMonolith.h>
 
 using namespace drak;
 using namespace core;
@@ -8,93 +11,69 @@ using namespace components;
 using namespace events;
 using namespace function;
 using namespace math;
+using namespace serialization;
 
-class Player : public AGameObject {
+class BP : public IManualSceneBlueprint {
+public:
 
-	Transform* transform;
-	int counter = 0;
-	virtual void Update() override {
-		if (counter <= 1000) {
-		}
-		else {
-			Engine::stopGame();
-		}
-		counter++;
-	}
-
-	virtual void Start() override {
-		transform = myScene->getComponentByHandle<Transform>(getHandle(ComponentType<Transform>::id));
-		//MemberFunction<Player, void, const Event*>
-		//	func(this, &Player::cameraControl, &Keyboard::Get().event());
-		//Keyboard::Get().addEventListener(events::Keyboard::KEY_DOWN, &func);
-	}
-
-	//void Player::cameraControl(const Event* pEvt) {
-	//	auto k = static_cast<const KeyEvent*>(pEvt);
-	//	DK_SELECT(k->key)
-	//		DK_CASE(Key::KEY_Q, printf("Hello\n"))
-	//	DK_END
-	//}
-
-};
-
-class Cube : public AGameObject {
-	virtual void Update() override {
-	}
-
-	virtual void Start() override {
-	}
-};
-
-class MainScene : public IManualSceneBlueprint {
 	// Inherited via IManualSceneBlueprint
-	virtual void build(Scene & scene) override
+	virtual void build(LevelSystem & scene) override
 	{
-		physx::PxMaterial* mat =  Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
-		physx::PxShape* cube = Engine::Get().getPhysicsSystem().getPhysics()->createShape(physx::PxBoxGeometry(2.5, 2.5, 2.5), *mat);
+		GameObject& cube = scene.addGameObject();
+		Transform& cube_TR = cube.getComponent<Transform>();
+		RigidBody& cube_RB = cube.addComponent<RigidBody>();
+		Model& cube_MDL = cube.addComponent<Model>();
+		BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
-		for (int i = 0; i < 10; ++i) {
-			Player* p1 = (Player*)scene.addGameObject<Player>();
-			scene.addComponentToGameObject<Transform>(p1);
-			Transform* transform = scene.getComponentByHandle<Transform>(p1->getHandle(ComponentType<Transform>::id));
-			transform->position = math::Vec3f(0, i*10, 0);
-			transform->rotation = math::Vec4f(0, 0, 0, 0);
-			transform->scale = math::Vec3f(5, 5, 5);
+		cube_TR.position = Vec3f(0,0,0);
+		cube_TR.scale = Vec3f(10.f, 10.f, 10.f);
+		cube_TR.rotation = Quaternion(Vec3f(0.f, 0.f, 45.f));
 
-			scene.addComponentToGameObject<Model>(p1);
-			Model* model = scene.getComponentByHandle<Model>(p1->getHandle(ComponentType<Model>::id));
-			model->albedo.r = 0.1f*(F32)i;
-			model->albedo.g = 0.2f;
+		cube_RB.mass = 1000.f;
 
-			scene.addComponentToGameObject<RigidBody>(p1);
-			RigidBody* rigid = scene.getComponentByHandle<RigidBody>(p1->getHandle(ComponentType<RigidBody>::id));
-			rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidDynamic(physx::PxTransform(0, i * 10, 0));
-			rigid->rigidActor->attachShape(*cube);
-			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rigid->rigidActor, 10.f);
-			scene.m_pPhysXScene->addActor(*rigid->rigidActor);
-		}
+		cube_MDL.albedo = gfx::Color3(1,0,0);
 
-		Cube* ground = scene.addGameObject<Cube>();
-		scene.addComponentToGameObject<Transform>(ground);
-		Transform* transform = scene.getComponentByHandle<Transform>(ground->getHandle(ComponentType<Transform>::id));
-		transform->position = math::Vec3f(0, -100, 0);
-		transform->rotation = math::Vec4f(0, 0, 0, 0);
-		transform->scale = math::Vec3f(100, 5, 100);
+		PhysicsMaterial mat;
+		mat.dynamicFriction = 0.5f;
+		mat.restitution = 0.5f;
+		mat.staticFriction = 0.5f;
+		cube_BC.width = 10.f;
+		cube_BC.height = 10.f;
+		cube_BC.depth = 10.f;
+		cube_BC.material = mat;
+		BHVR.getCubeBehaviorContainer().emplace_back();
+		BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1].gameObjectID = cube.getIdx();
 
-		scene.addComponentToGameObject<RigidBody>(ground);
-		RigidBody* rigid = scene.getComponentByHandle<RigidBody>(ground->getHandle(ComponentType<RigidBody>::id));
-		rigid->rigidActor = Engine::Get().getPhysicsSystem().getPhysics()->createRigidStatic(physx::PxTransform(transform->position.x, transform->position.y, transform->position.z));
-		rigid->material = Engine::Get().getPhysicsSystem().getPhysics()->createMaterial(0.5, 0.5, 0.5);
-		rigid->rigidActor->createShape(physx::PxBoxGeometry(transform->scale.x / 2.f, transform->scale.y / 2.f, transform->scale.z / 2.f), *rigid->material);
-		scene.m_pPhysXScene->addActor(*rigid->rigidActor);
+		GameObject& floor = scene.addGameObject();
+		floor.name = "Floor";
+		Transform& floor_TR = floor.getComponent<Transform>();
+		RigidBody& floor_RB = floor.addComponent<RigidBody>();
+		Model& floor_MDL = floor.addComponent<Model>();
+		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
+		floor_TR.position = Vec3f(0, -50.f, 0);
+		floor_TR.scale = Vec3f(100.f, 10.f, 100.f);
+
+		floor_RB.mass = 1000.f;
+		floor_RB.isStatic = true;
+
+		floor_MDL.albedo = gfx::Color3(0, 1, 0);
+
+		floor_BC.width = 100.f;
+		floor_BC.height = 10.f;
+		floor_BC.depth = 100.f;
+		floor_BC.material = mat;
+
+		BHVR.init();
 	}
 };
 
-int main(int argc, char** argv) {
+void main() {
+	BP bp;
 	Engine::Get().startup();
-	MainScene scene;
-	Engine::Get().loadScene(scene);
+	Engine::Get().loadScene(bp);
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }
+
+
