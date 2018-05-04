@@ -7,7 +7,8 @@ using namespace serialization;
 
 void BehaviorMonolith::load() {
 	//PlayerBehaviorContainer.push_back(behavior::Player());
-	//drak::serialization::Serializer::LoadFile<EExtension::JSON, BehaviorMonolith>(*this, "Behaviors");
+	Serializer::LoadFile<EExtension::JSON, BehaviorMonolith>(*this, "./Behaviors");
+	init();
 }
 
 BehaviorMonolith::BehaviorMonolith() {
@@ -16,14 +17,7 @@ BehaviorMonolith::BehaviorMonolith() {
 }
 
 void BehaviorMonolith::save() {
-	std::stringstream out;
-	Serialize<EExtension::JSON>(out);
-	std::fstream file;
-	file.open("Behaviors.json", std::fstream::out);
-	if (file.is_open()) {
-		file << out.rdbuf();
-		file.close();
-	}
+	Serializer::SerializeToFile<EExtension::JSON, BehaviorMonolith>(*this, "./", "Behaviors");
 }
 
 void drak::BehaviorMonolith::init()

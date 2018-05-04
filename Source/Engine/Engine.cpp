@@ -135,6 +135,10 @@ void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
 	m_pLevelSystem->loadScene(sceneBlueprint);
 }
 
+void Engine::loadScene(const char* filename) {
+	m_pLevelSystem->loadScene(filename);
+}
+
 
 
 } // namespace core
