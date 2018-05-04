@@ -16,20 +16,16 @@ namespace gl {
 * \brief
 *
 */
-class GLShader final : public GLObject, public IShader {
+class GLShader : public GLObject, public IShader {
 	using UniformMap = std::unordered_map<std::string, GLint>;
 public:
-	GLShader();
-	~GLShader();
+	GLShader() = default;
+	virtual ~GLShader();
 
 	void use() const override;
 
-	bool loadFromData(
-		const std::string& vertCode, 
-		const std::string& fragCode) override;
-	bool loadFromFile(
-		const std::string& vertFilename, 
-		const std::string& fragFilename) override;
+	bool loadFromData(const std::string& vertCode, const std::string& fragCode) override;
+	bool loadFromFile(const std::string& vertPath, const std::string& fragPath) override;
 
 	void uniform(const std::string& name, F32 value) override;
 	void uniform(const std::string& name, I32 value) override;
@@ -40,12 +36,16 @@ public:
 	void uniform(const std::string& name, const math::Vec4f& v4) override;
 	void uniform(const std::string& name, const math::Mat4f& matrix) override;
 
-private:
-	bool readFileText(const std::string& filename, std::vector<char>& text);
-	bool compileProgram(const char* vertCode, const char* fragCode);
-	bool compileShader(GLuint shaderID, const char* code);
+protected:
+	bool readFileText(const std::string& path, std::vector<GLchar>& outText);
+	bool compileShader(GLuint shaderID, const GLchar* code);
+	bool compileProgram(const GLchar* vertCode, const GLchar* fragCode);
+	void destroyProgram();
 
-private:
+	bool checkLink(GLuint progID);
+	bool checkCompile(GLuint shaderID);
+
+protected:
 	UniformMap	m_uniMap;
 };
 

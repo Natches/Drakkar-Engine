@@ -20,12 +20,8 @@ public:
 
 	virtual void use() const = 0;
 
-	virtual bool loadFromData(
-		const std::string& vertCode, 
-		const std::string& fragCode) = 0;
-	virtual bool loadFromFile(
-		const std::string& vertFilename, 
-		const std::string& fragFilename) = 0;
+	virtual bool loadFromData(const std::string& vertCode, const std::string& fragCode) = 0;
+	virtual bool loadFromFile(const std::string& vertPath, const std::string& fragPath) = 0;
 
 	virtual void uniform(const std::string& name, F32 value) = 0;
 	virtual void uniform(const std::string& name, I32 value) = 0;
