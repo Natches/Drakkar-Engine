@@ -18,9 +18,9 @@ out VS_OUT {
 
 void main()
 {
-	frag.pos	= vec3(models[gl_InstanceID] * vec4(pos, 1.0));
-	frag.normal	= normal;
+	frag.pos	= vec3(models[gl_InstanceID] * vec4(pos, 1.f));
+	frag.normal	= mat3(transpose(inverse(models[gl_InstanceID]))) * normal;
 	frag.uv		= uv;
 
-	gl_Position	= viewPrsp * models[gl_InstanceID] * vec4(pos, 1.0);
+	gl_Position	= viewPrsp * models[gl_InstanceID] * vec4(pos, 1.f);
 }

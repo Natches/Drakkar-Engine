@@ -25,13 +25,7 @@ void main()
 	vec3 normal			= normalize(frag.normal);
 	vec3 lightDir		= normalize(lightPos - frag.pos);
 	vec3 diffuse		= max(dot(normal, lightDir), 0.0) * lightColor;
-	
-	vec3 screenColor 	= vec3(
-		gl_FragCoord.x / viewport.x, 
-		gl_FragCoord.y / viewport.y,
-		0.3f);
-	
-	fragColor			= vec4(screenColor * (ambient + diffuse), 1.f);
+	fragColor			= vec4(albedo * (ambient + diffuse), 1.f);
 
     //fragColor = texture(tex, frag.uv);
 }

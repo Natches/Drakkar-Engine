@@ -63,7 +63,6 @@ private:
 
 	// Tests
 	IRenderable*		 m_pUnitCube;
-	IRenderable*		 m_pDragon;
 	gl::GLTexture		 m_gridTex;
 	gl::GLUniformBuffer	 m_modelUBO;
 };
