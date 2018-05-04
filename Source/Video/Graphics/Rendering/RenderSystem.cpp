@@ -1,7 +1,4 @@
 #include <PrecompiledHeader/pch.hpp>
-#include <Video/Graphics/Rendering/RenderSystem.hpp>
-#include <Engine/Scene/LevelSystem.hpp>
-#include <Windowing/Input/Keyboard.hpp>
 
 #define BATCH_SIZE 1024u
 
@@ -57,7 +54,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		modelBatch.reserve(BATCH_SIZE);
 		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
 			Transform& t =  scene.gameObjects[scene.models[b].GameObjectID].getComponent<Transform>();
-			math::Mat4f model = 
+			math::Mat4f model =
 				math::Translate(t.position) *
 				t.rotation.matrix() *
 				math::Scale(t.scale);

@@ -1,14 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
 
-#include <Core/Core.hpp>
-
-#include <Video/Graphics/Geometry/Mesh.hpp>
-#include <Video/Graphics/Tools/OBJLoader.hpp>
-
-#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
-
 using namespace drak::geom;
 
 namespace drak {
@@ -82,11 +73,11 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 	return false;
 }
 
-void GLRenderer::clear() { 
+void GLRenderer::clear() {
 	// TODO (Simon): enumerate API-agnostic
 	// buffer flags in RenderDefinitions.hpp
-	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GLRenderer::clearColorValue(const Color3& k) { clearColorValue({ k, 1.f }); }
@@ -121,7 +112,7 @@ void GLRenderer::cullTest(bool on, ECullMode mode) {
 	DK_END
 }
 
-void GLRenderer::windingOrder(EWindingOrder order) { 
+void GLRenderer::windingOrder(EWindingOrder order) {
 	glFrontFace(order == EWindingOrder::CLOCKWISE ? GL_CW : GL_CCW);
 }
 
@@ -135,16 +126,16 @@ void GLRenderer::bindWindowFrameBuffer() {
 
 #pragma region Logging/Error-handling
 void GLRenderer::info() {
-	fprintf(stderr, 
-		"Renderer: %s\nVersion: %s\n", 
+	fprintf(stderr,
+		"Renderer: %s\nVersion: %s\n",
 		glGetString(GL_RENDERER), glGetString(GL_VERSION));
 }
 
 void GLRenderer::debugLog(
-	GLenum			source, 
-	GLenum			type, 
+	GLenum			source,
+	GLenum			type,
 	GLuint			id,
-	GLenum			severity, 
+	GLenum			severity,
 	GLsizei			length,
 	const GLchar*	message,
 	const GLvoid*	userParam) {

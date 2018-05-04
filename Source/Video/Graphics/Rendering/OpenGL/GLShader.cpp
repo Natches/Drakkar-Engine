@@ -1,9 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
 
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLShader.hpp>
-
 using namespace drak::math;
 
 namespace drak {
@@ -30,11 +26,11 @@ bool GLShader::loadFromData(const std::string& vertCode, const std::string& frag
 
 bool GLShader::loadFromFile(const std::string& vertPath, const std::string& fragPath) {
 	std::vector<GLchar> vertCode;
-	if (!readFileText(vertPath, vertCode)) 
+	if (!readFileText(vertPath, vertCode))
 		return false;
 
 	std::vector<GLchar> fragCode;
-	if (!readFileText(fragPath, fragCode)) 
+	if (!readFileText(fragPath, fragCode))
 		return false;
 
 	return compileProgram(vertCode.data(), fragCode.data());
@@ -45,14 +41,14 @@ bool GLShader::compileProgram(const GLchar* vertCode, const GLchar* fragCode) {
 		return false;
 
 	// don't overwrite m_glID unless 'new' program links well (see func. end)
-	GLuint progID = glCreateProgram(); 
+	GLuint progID = glCreateProgram();
 
 	GLuint vertID = glCreateShader(GL_VERTEX_SHADER);
-	if (!compileShader(vertID, vertCode)) 
+	if (!compileShader(vertID, vertCode))
 		return false;
 
 	GLuint fragID = glCreateShader(GL_FRAGMENT_SHADER);
-	if (!compileShader(fragID, fragCode)) 
+	if (!compileShader(fragID, fragCode))
 		return false;
 
 	glAttachShader	(progID, vertID);
@@ -79,7 +75,7 @@ bool GLShader::compileShader(GLuint shaderID, const GLchar* code) {
 
 	if (checkCompile(shaderID))
 		return true;
-	
+
 	glDeleteShader(shaderID);
 	return true;
 }
