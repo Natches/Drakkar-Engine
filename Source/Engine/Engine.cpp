@@ -10,6 +10,7 @@
 
 
 using namespace drak::components;
+using namespace drak::time;
 
 namespace drak {
 namespace core {

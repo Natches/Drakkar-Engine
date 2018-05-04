@@ -27,7 +27,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderFunctions.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
@@ -36,6 +36,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
@@ -54,6 +55,7 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
@@ -154,16 +156,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;RENDERING_GL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <UndefinePreprocessorDefinitions>
-      </UndefinePreprocessorDefinitions>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -187,13 +187,14 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;RENDERING_GL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MinimalRebuild>false</MinimalRebuild>
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -221,6 +222,7 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
@@ -257,6 +259,7 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\include;$(SolutionDir)ThirdParty\VLD\include;$(SolutionDir)ThirdParty\SDL2-2.0.5\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>LOG2;WINDOWING_SDL;DRAK_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>

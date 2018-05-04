@@ -11,7 +11,8 @@ GLTexture::GLTexture() {
 }
 
 GLTexture::~GLTexture() {
-	glDeleteTextures(1, &m_glID);
+	if (m_glID != GL_INVALID)
+		glDeleteTextures(1, &m_glID);
 }
 
 void GLTexture::bind() const {

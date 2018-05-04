@@ -10,7 +10,7 @@ namespace gl {
 class GLFrameBuffer final : public GLObject, public IFrameBuffer {
 public:
 	GLFrameBuffer() = default;
-	~GLFrameBuffer() = default;
+	~GLFrameBuffer();
 
 	void bind() override;
 	void create(I32 dimX, I32 dimY) override;

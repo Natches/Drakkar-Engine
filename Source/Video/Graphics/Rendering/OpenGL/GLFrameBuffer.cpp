@@ -1,18 +1,20 @@
 #include <PrecompiledHeader/pch.hpp>
-#include <GL/glew.h>
-
-#include <Video/Graphics/Rendering/OpenGL/GLFrameBuffer.hpp>
 
 namespace drak {
 namespace gfx {
 namespace gl {
+
+GLFrameBuffer::~GLFrameBuffer() {
+	if (m_glID != GL_INVALID)
+		glDeleteFramebuffers(1, &m_glID);
+}
 
 void GLFrameBuffer::bind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_glID);
 }
 
 void GLFrameBuffer::create(I32 dimX, I32 dimY) {
-	// TODO (Simon): 
+	// TODO (Simon):
 	//		- Replace texture code block with DSA equivalent
 	//		- Affect a member GLTexture
 	//		- Add more attachments (at least depth)

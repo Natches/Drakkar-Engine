@@ -17,18 +17,21 @@ public:
 	const math::Mat4f& perspective(F32 fov, F32 aspect, F32 nearZ, F32 farZ);
 	const math::Mat4f& orthographic(F32 width, F32 height, F32 nearZ, F32 farZ);
 
+public:
 	DK_GETTER(F32, aspect, m_aspect)
-	DK_GETTER(math::Mat4f, viewPerspective, buildViewPerspective())
+	DK_GETTER(math::Mat4f, viewPerspective, m_prsp * m_view)
 	DK_GETTER_REF_C(math::Vec3f, eye, m_eye)
 
-	void move(const math::Vec3f& delta);
 private:
 	void buildView();
 	void buildPerspective();
 	void buildOrthographic();
 
-	inline math::Mat4f buildViewPerspective() { return m_prsp * m_view; }
+	inline math::Vec3f right()	 { return math::Cross(m_up, forward()).normalize(); }
+	inline math::Vec3f forward() { return (m_eye - m_at).normalize(); }
 
+	// Keyboard controls
+	void move(const math::Vec3f& delta);
 	void onKeyDown(const events::Event* pEvt);
 	
 private:
