@@ -72,6 +72,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakWindowing", "Projects\D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakAPI", "Projects\DrakAPI\DrakAPI.vcxproj", "{C02319EC-3496-4CB0-9FF5-CF10A556C1EE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrakAnimation", "Projects\DrakAnimation\DrakAnimation.vcxproj", "{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -183,6 +185,14 @@ Global
 		{C02319EC-3496-4CB0-9FF5-CF10A556C1EE}.Release|x64.Build.0 = Release|x64
 		{C02319EC-3496-4CB0-9FF5-CF10A556C1EE}.Release|x86.ActiveCfg = Release|Win32
 		{C02319EC-3496-4CB0-9FF5-CF10A556C1EE}.Release|x86.Build.0 = Release|Win32
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Debug|x64.ActiveCfg = Debug|x64
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Debug|x64.Build.0 = Debug|x64
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Debug|x86.ActiveCfg = Debug|Win32
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Debug|x86.Build.0 = Debug|Win32
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Release|x64.ActiveCfg = Release|x64
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Release|x64.Build.0 = Release|x64
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Release|x86.ActiveCfg = Release|Win32
+		{04ED5B7C-6273-4A2F-9A4F-5C65CB6EBE37}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
