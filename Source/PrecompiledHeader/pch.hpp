@@ -81,7 +81,6 @@
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
-#include <Video/Graphics/Rendering/Base/RenderFunctions.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderTarget.hpp>
 
 #include <Video/Graphics/Rendering/OpenGL/GLFrameBuffer.hpp>

@@ -8,7 +8,9 @@
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IShader.hpp>
+
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
 
@@ -33,6 +35,8 @@ public:
 
 	void forwardRender(Scene& scene);
 
+	void renderGrid();
+
 	void startFrame();
 	void endFrame();
 
@@ -43,18 +47,25 @@ private:
 	void transparentPass();
 
 private:
+	void onKeyUp(const events::Event* pEvt);
+
+private:
 	Camera			m_mainCam;
 
 	ShaderMap		m_shaderMap;
 	RenderArray		m_opaqueArr;
 	RenderArray		m_transpArr;
 
-	IRenderable*	m_pUnitCube;
 	IRenderable*	m_pGrid;
-	gl::GLTexture	m_gridTex;
-	
+
 	IRenderer*		m_pRenderer;
 	IFrameBuffer*	m_pFrame;
+
+	// Tests
+	IRenderable*		 m_pUnitCube;
+	IRenderable*		 m_pDragon;
+	gl::GLTexture		 m_gridTex;
+	gl::GLUniformBuffer	 m_modelUBO;
 };
 
 } // namespace gfx

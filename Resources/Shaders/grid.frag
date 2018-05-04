@@ -1,11 +1,9 @@
 #version 450 core
 
-layout(binding = 0)
-uniform sampler2D 	tex;
-uniform vec4 		tint 		= {1.f, 1.f, 1.f, 1.f};
+layout(binding = 0) uniform sampler2D tex;
 
-uniform float 		nearZ 		= 0.1f; 
-uniform float 		farZ  		= 100.f; 
+uniform vec4 tint = {1.f, 1.f, 1.f, 1.f};
+uniform vec2 viewport;
 
 in VS_OUT {
 	vec2 uv;

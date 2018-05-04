@@ -41,19 +41,19 @@ bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
 		return false;
 	}
 
+	GLShader* pInstanceShader = new GLShader;
+	if (pInstanceShader->loadFromFile(dir + "instanced.vert", dir + "default.frag"))
+		outMap["InstanceShader"] = pInstanceShader;
+	else {
+		delete pInstanceShader;
+		return false;
+	}
+
 	GLShader* pDefaultShader = new GLShader;
 	if (pDefaultShader->loadFromFile(dir + "default.vert", dir + "default.frag"))
 		outMap["DefaultShader"] = pDefaultShader;
 	else {
 		delete pDefaultShader;
-		return false;
-	}
-
-	GLShader* pFrameShader = new GLShader;
-	if (pFrameShader->loadFromFile(dir + "FrameDraw.vert", dir + "FrameDraw.frag"))
-		outMap["FrameDraw"] = pFrameShader;
-	else {
-		delete pFrameShader;
 		return false;
 	}
 
@@ -73,6 +73,8 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 
 		GLVertexArray*  pVAO = new GLVertexArray;
 		pVAO->create(pVBO, pIBO);
+		if (dir == "Resources/Models/cube.dkobj")
+			pVAO->m_instanced = true;
 		rdr = pVAO;
 
 		return true;
@@ -80,21 +82,16 @@ bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
 	return false;
 }
 
-void GLRenderer::clear() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void GLRenderer::clear() { 
+	// TODO (Simon): enumerate API-agnostic
+	// buffer flags in RenderDefinitions.hpp
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 }
 
-void GLRenderer::clearColorValue(const Color3& color) {
-	clearColorValue({ color, 1.f });
-}
-
-void GLRenderer::clearColorValue(const Color4& color) {
-	glClearColor(color.r, color.g, color.b, color.a);
-}
-
-void GLRenderer::clearDepthValue(F32 depth) {
-	glClearDepthf(depth);
-}
+void GLRenderer::clearColorValue(const Color3& k) { clearColorValue({ k, 1.f }); }
+void GLRenderer::clearColorValue(const Color4& k) { glClearColor(k.r, k.g, k.b, k.a); }
+void GLRenderer::clearDepthValue(F32 depth)		  { glClearDepthf(depth); }
 
 void GLRenderer::depthTest(bool on, EDepthMode mode) {
 	DK_GL_TOGGLE(on, GL_DEPTH_TEST)
@@ -112,7 +109,7 @@ void GLRenderer::depthTest(bool on, EDepthMode mode) {
 
 void GLRenderer::blendTest(bool on, EBlendMode srcFactor, EBlendMode dstFactor) {
 	DK_GL_TOGGLE(on, GL_BLEND)
-		glBlendFunc((GLenum)srcFactor, (GLenum)dstFactor);
+	glBlendFunc(GL_SRC_COLOR + (GLenum)srcFactor, GL_SRC_COLOR + (GLenum)dstFactor);
 }
 
 void GLRenderer::cullTest(bool on, ECullMode mode) {
@@ -124,8 +121,12 @@ void GLRenderer::cullTest(bool on, ECullMode mode) {
 	DK_END
 }
 
-void GLRenderer::windingOrder(EWindingOrder order) {
+void GLRenderer::windingOrder(EWindingOrder order) { 
 	glFrontFace(order == EWindingOrder::CLOCKWISE ? GL_CW : GL_CCW);
+}
+
+void GLRenderer::multisampling(bool on) {
+	DK_GL_TOGGLE(on, GL_MULTISAMPLE)
 }
 
 void GLRenderer::bindWindowFrameBuffer() {
@@ -148,7 +149,7 @@ void GLRenderer::debugLog(
 	const GLchar*	message,
 	const GLvoid*	userParam) {
 
-	std::string errLvl;
+	std::string errLvl = "Unknown";
 	if		(severity == GL_DEBUG_SEVERITY_HIGH)		errLvl	= "High";
 	else if (severity == GL_DEBUG_SEVERITY_MEDIUM)		errLvl	= "Medium";
 	else if (severity == GL_DEBUG_SEVERITY_LOW)			errLvl	= "Low";
@@ -168,14 +169,13 @@ void GLRenderer::debugLog(
 	else if (type == GL_DEBUG_TYPE_PERFORMANCE)			errType = "Performance";
 
 	fprintf(stderr,
-		"======== GLRenderer Log ========"
+		"============ GLRenderer Log ============\n"
 		"| Level.... %s\n"
 		"| Source... %s\n"
-		"| Type..... %s\n"
-		"================================",
-		errLvl.c_str(), 
-		errSrc.c_str(), 
-		errType.c_str());
+		"| Type..... %s\n|\n"
+		"| Message: %s"
+		"========================================\n",
+		errLvl.c_str(), errSrc.c_str(), errType.c_str(), message);
 }
 #pragma endregion
 
