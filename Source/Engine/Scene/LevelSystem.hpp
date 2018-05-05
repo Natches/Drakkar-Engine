@@ -132,6 +132,6 @@ public:
 } //core
 
 DK_METADATA_BEGIN(drak::LevelSystem)
-DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_rootIdxs)
+DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_gameObjects, m_rootIdxs)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

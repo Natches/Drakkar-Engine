@@ -29,7 +29,7 @@ I32 height;
 I32 depth;
 DRAK_COMPONENT_END(BoxCollider)
 DK_METADATA_BEGIN(drak::components::BoxCollider)
-DK_PUBLIC_FIELDS(localPosition, localRotation, material, width, height, depth)
+DK_PUBLIC_FIELDS(localPosition, localRotation, material, width, height, depth, idx, GameObjectID)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -43,7 +43,7 @@ DK_SERIALIZED_OBJECT(RigidBody)
 DRAK_COMPONENT_END(RigidBody)
 
 DK_METADATA_BEGIN(drak::components::RigidBody)
-DK_PUBLIC_FIELDS(mass, isStatic, isKinematic)
+DK_PUBLIC_FIELDS(mass, isStatic, isKinematic, idx, GameObjectID)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 

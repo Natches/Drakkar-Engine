@@ -26,19 +26,19 @@ struct Serializer {
 	static core::EError AddObjectToFile(const char* path, const T& t, VArgs&&...args);
 
 	template<EExtension ext, class T>
-	static std::tuple<T, core::EError> LoadFile(const char* path);
+	static std::tuple<T, core::EError> LoadFromFile(const char* path);
 
 	template<EExtension ext, class T>
-	static core::EError LoadFile(T& t, const char* path);
+	static core::EError LoadFromFile(T& t, const char* path);
 
 	template<EExtension ext, class T>
-	static core::EError LoadEveryFile(std::vector<T>& t, const char* path);
+	static core::EError LoadEveryFromFile(std::vector<T>& t, const char* path);
 
 	template<EExtension ext, class T>
-	static std::tuple<std::vector<T>, core::EError> LoadEveryFile(const char* path);
+	static std::tuple<std::vector<T>, core::EError> LoadEveryFromFile(const char* path);
 
 	template<EExtension ext, class T, class...VArgs>
-	static core::EError LoadFile(const char* path, T& t, VArgs&&...args);
+	static core::EError LoadFromFile(const char* path, T& t, VArgs&&...args);
 
 private:
 	struct FileDescriptor {
@@ -61,9 +61,9 @@ private:
 	static void SerializeToFileNoDesc(std::fstream& file, std::stringstream& sstr) {};
 
 	template<class T, class...VArgs>
-	static void LoadFile(std::stringstream& sstr, FileDescriptor& desc,
+	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 		std::map<std::string, int>& occurence,  T& t, VArgs&&...args);
-	static void LoadFile(std::stringstream& sstr, FileDescriptor& desc,
+	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 		std::map<std::string, int>& occurence) {};
 
 	template<class T, class...VArgs>

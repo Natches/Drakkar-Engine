@@ -7,7 +7,7 @@ using namespace serialization;
 
 void BehaviorMonolith::load() {
 	//PlayerBehaviorContainer.push_back(behavior::Player());
-	Serializer::LoadFile<EExtension::JSON, BehaviorMonolith>(*this, "./Behaviors");
+	Serializer::LoadFromFile<EExtension::JSON, BehaviorMonolith>(*this, "./Behaviors");
 	init();
 }
 

@@ -56,13 +56,13 @@ int Engine::startup() {
 
 	// TODO (Simon): Check for failed startups
 	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
-	
+
 	m_pRenderSystem->startup(m_pVideoSystem->renderer());
-	
+
 	m_pPhysicsSystem->Startup();
-	
+
 	m_pLevelSystem->startup();
-	
+
 	m_pool.startup();
 
 	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
@@ -79,7 +79,7 @@ int Engine::shutdown() {
 	m_pPhysicsSystem->Shutdown();
 	m_pRenderSystem->shutdown();
 	m_pVideoSystem->shutdown();
-	
+
 	Logbook::CloseLogs();
 	m_pool.shutdown();
 	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_END;
@@ -91,8 +91,9 @@ void Engine::startLoop() {
 	s_frameTime.start();
 
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (U32 i = 0; i < gameObjects.size(); ++i ) {
-		m_pPhysicsSystem->InitRigidBody(gameObjects[i].getComponent<RigidBody>(), gameObjects[i].getComponent<Transform>(), *m_pLevelSystem);
+	for (auto& go : gameObjects) {
+		go.setLevel(m_pLevelSystem);
+		m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
 	events::EngineEvent eEvent;
@@ -116,7 +117,7 @@ void Engine::startLoop() {
 		m_pMainWindow->clear();
 		m_pRenderSystem->startFrame();
 		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
-		
+
 		m_pRenderSystem->endFrame();
 		m_pMainWindow->swapBuffers();
 		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
