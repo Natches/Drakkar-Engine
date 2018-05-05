@@ -12,21 +12,24 @@ Mesh::~Mesh() {
 
 }
 
-void Mesh::addVertex(const Vertex& v) {
+void Mesh::addVertex(const Vertex1P1N1UV& v) {
 	m_vertices.push_back(v);
 }
 
-void Mesh::addIndex(U16 i) {
-	m_indices.push_back(i);
-}
-
-void Mesh::addTriangleVertices(const Vertex& v1, const Vertex& v2, const Vertex& v3) {
+void Mesh::addTriangleVertices(
+	const Vertex1P1N1UV& v1,
+	const Vertex1P1N1UV& v2,
+	const Vertex1P1N1UV& v3) {
 	addVertex(v1);
 	addVertex(v2);
 	addVertex(v3);
 }
 
-void Mesh::addTriangleIndices(U16 i1, U16 i2, U16 i3) {
+void Mesh::addIndex(U32 i) {
+	m_indices.push_back(i);
+}
+
+void Mesh::addTriangleIndices(U32 i1, U32 i2, U32 i3) {
 	addIndex(i1);
 	addIndex(i2);
 	addIndex(i3);

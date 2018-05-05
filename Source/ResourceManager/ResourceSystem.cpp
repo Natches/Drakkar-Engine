@@ -3,15 +3,15 @@
 namespace drak {
 
 void ResourceSystem::startup() {
-	m_pModelManager = new ModelManager();
+	// m_pModelManager = new ModelManager();
 }
 
 void ResourceSystem::shutdown() {
-	delete m_pModelManager;
+	// delete m_pModelManager;
 }
 
 MeshPtr ResourceSystem::loadMesh(const std::string& filename) {
-	m_meshManager.loadMesh(filename);
+	return m_meshManager.loadMesh(filename);
 }
 
 } // namespace drak 

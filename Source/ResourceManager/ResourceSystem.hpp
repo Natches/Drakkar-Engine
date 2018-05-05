@@ -16,12 +16,12 @@ public:
 	MeshPtr	loadMesh(const std::string& filename);
 	
 private:
-	MeshManager		m_meshManager;
-	TextureManager	m_textureManager;
-	// ShaderManager m_shaderManager;
+	MeshManager			m_meshManager;
+	//TextureManager		m_textureManager;
+	//ShaderManager		m_shaderManager;
 
-	ModelManager*	m_pModelManager;
-	// MaterialManager* m_pMaterialManager;
+	//ModelManager*		m_pModelManager;
+	//MaterialManager*	m_pMaterialManager;
 };
 
 } // namespace drak

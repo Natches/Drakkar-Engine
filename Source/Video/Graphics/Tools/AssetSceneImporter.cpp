@@ -1,4 +1,4 @@
-#include <iostream> // TODO (Simon): replace with Log
+#include <iostream> // TODO (Simon): replace with Log and modify debug message code
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -43,42 +43,49 @@ bool AssetSceneImporter::startImport(const std::string& filename, bool leftHande
 }
 
 void AssetSceneImporter::extractMeshes() {
-	if (m_pScene) {
-		for (U32 m = 0u; m < m_pScene->mNumMeshes; ++m) {
-			aiMesh* inMesh = m_pScene->mMeshes[m];
-			Mesh	outMesh;
+	if (m_pScene == nullptr) {
+		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
+		return;
+	}
 
-			for (U32 v = 0u; v < inMesh->mNumVertices; ++v) {
-				
-				Vertex vert;
-				
-				outMesh.addTriangleVertices()
-				inMesh->mVertices[v].x
-				inMesh->mVertices[v].y
-				inMesh->mVertices[v].z
-			}
-			
-			/*inMesh->mVertices[0].x
-			inMesh->mVertices[0].y
-			inMesh->mVertices[0].z
+	for (U32 m = 0u; m < m_pScene->mNumMeshes; ++m) {
+		aiMesh* inMesh = m_pScene->mMeshes[m];
+		Mesh	outMesh;
 
-			inMesh->mNormals[0].x
-			inMesh->mNormals[0].y
-			inMesh->mNormals[0].z
+		std::vector<math::Vec3f> positions;
+		positions.insert(
+			positions.end(),
+			&inMesh->mVertices[0],
+			&inMesh->mVertices[inMesh->mNumVertices - 1]);
+		
 
-			inMesh->mTextureCoords[0].x
-			inMesh->mTextureCoords[0].y*/
+		if (inMesh->HasNormals()) {
+			std::vector<math::Vec3f> normals;
+			normals.insert(
+				normals.end(),
+				&inMesh->mVertices[0],
+				&inMesh->mVertices[inMesh->mNumVertices - 1]);
+		}
 
-			for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
-				const aiFace& inFace = inMesh->mFaces[f];
-				if (inFace.mNumIndices == 3u)
-					outMesh.addTriangleIndices(
-						inFace.mIndices[0],
-						inFace.mIndices[1],
-						inFace.mIndices[2]);
+		if (inMesh->HasTextureCoords(0u)) {
+			std::vector<math::Vec2f> texCoords;
+			texCoords.insert(
+				texCoords.end(),
+				&inMesh->mVertices[0],
+				&inMesh->mVertices[inMesh->mNumVertices - 1]);
+		}
+	
+		for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
+			const aiFace& inFace = inMesh->mFaces[f];
+			if (inFace.mNumIndices == 3u) {
+				outMesh.addTriangleIndices(
+					inFace.mIndices[0],
+					inFace.mIndices[1],
+					inFace.mIndices[2]);
 			}
 		}
 	}
+	
 }
 
 void AssetSceneImporter::extractMaterials() {

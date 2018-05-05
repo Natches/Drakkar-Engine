@@ -22,8 +22,9 @@ public:
 	~AssetSceneImporter();
 
 	bool startImport(const std::string& filename, bool leftHanded = false);
-	void extractMeshes();
-	void extractMaterials();
+
+	void extractMeshes();		
+	void extractMaterials();	
 
 private:
 
