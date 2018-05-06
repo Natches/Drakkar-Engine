@@ -24,6 +24,9 @@ void drak::LevelSystem::SerializeLevel() {
 void LevelSystem::loadScene(const char* name) {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Load and build Scene from file\n");
 	Serializer::LoadFromFile<EExtension::JSON, LevelSystem>(*this, "./Scene");
+	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
+		m_gameObjects[i].setLevel(this);
+	}
 }
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {

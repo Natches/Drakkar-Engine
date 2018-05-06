@@ -65,6 +65,12 @@ int Engine::startup() {
 
 	m_pool.startup();
 
+	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
+	for (auto& go : gameObjects) {
+		go.setLevel(m_pLevelSystem);
+		m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+	}
+
 	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
 	m_eventDispatcher.dispatchEvent(&eEvent);
 	return 0;
@@ -89,12 +95,6 @@ int Engine::shutdown() {
 
 void Engine::startLoop() {
 	s_frameTime.start();
-
-	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (auto& go : gameObjects) {
-		go.setLevel(m_pLevelSystem);
-		m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
-	}
 
 	events::EngineEvent eEvent;
 	eEvent.type = events::EngineEventDispatcher::UPDATE_START;

@@ -26,6 +26,7 @@
     <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h" />
     <ClInclude Include="..\..\Source\Engine\Components\Components.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />

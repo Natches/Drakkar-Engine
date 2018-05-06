@@ -18,7 +18,6 @@ struct  ComponentType
 
 struct AComponent
 {
-	bool errorReturn;
 	U64 idx;
 	U64 GameObjectID;
 };
