@@ -19,12 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Animation\Animation.hpp" />
-    <ClInclude Include="..\..\Source\Animation\AnimationSystem.hpp" />
-    <ClInclude Include="..\..\Source\Animation\Bone.hpp" />
-    <ClInclude Include="..\..\Source\Animation\Joint.hpp" />
-    <ClInclude Include="..\..\Source\Animation\KeyFrame.hpp" />
-    <ClInclude Include="..\..\Source\Animation\Skeleton.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Animation\Animation.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Animation\AnimationScene.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Animation\AnimationSystem.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Animation\KeyFrame\KeyFrame.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Bone.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Joint.hpp" />
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Skeleton.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Animation\Animation\Animation.cpp" />
+    <ClCompile Include="..\..\Source\Animation\Skeleton\Skeleton.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

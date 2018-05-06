@@ -630,6 +630,28 @@ bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2) {
 	return Dot(v1, v2) < static_cast<T>(0);
 }
 
+template<typename T, AngleUnit unit>
+F32 Angle(const Vec3<T>& va, const Vec3<T>& vb) {
+	if constexpr (unit == AngleUnit::RADIANS)
+		return acos(Dot(Normalize(va), Normalize(vb)));
+	else
+		return acos(Dot(Normalize(va), Normalize(vb))) * ToDegF;
+}
+
+Vec3f Lerp(const Vec3f& start, const Vec3f& end, F32 percent) {
+	return Vec3f(start + Direction(start, end) * percent);
+}
+
+Vec3f SLerp(const Vec3f& start, const Vec3f& end, F32 percent) {
+	F32 dot = Dot(Normalize(start), Normalize(end));
+	F32 theta = acos(dot) * percent;
+	return Vec3f(start * cos(theta) + (Direction(start, end) * dot).normalize() * sin(theta));
+}
+
+Vec3f NLerp(const Vec3f& start, const Vec3f& end, F32 percent) {
+	return Lerp(start, end, percent).normalize();
+}
+
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v) {
 	return o << "{ x : " << v.x << ", y : " << v.y << ", z : " << v.z << " }";

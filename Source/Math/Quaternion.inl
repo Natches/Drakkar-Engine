@@ -1,4 +1,5 @@
 #include <Math/Quaternion.hpp>
+#include "Vec3.hpp"
 
 namespace drak {
 namespace math {
@@ -134,10 +135,12 @@ Mat4f Quaternion::matrix() {
 Vec3f Quaternion::euler() const {
 	float s2 = quat.y * quat.y + quat.z * quat.z;
 	float c2 = quat.x * quat.x + quat.w * quat.w;
-	float s = atan(quat.w / quat.x);
-	float d = atan2(quat.z, quat.y);
+	float s = atanf(quat.w / quat.x);
+	float d = atan2f(quat.z, quat.y);
 
-	return  Vec3f(s + d, c2 != 0 ? 2.0*atan(sqrt(s2 / c2)) : (0.5 > s2) ? 0 : M_PI, s - d) * ToDegF;
+	return  Vec3f(s + d,
+		IsNotEqual_V(c2, 0.f) ? 2.f * atanf(sqrt(s2 / c2)) : (0.5f > s2) ? 0.f : M_PI,
+		s - d) * ToDegF;
 }
 
 inline Vec4f Quaternion::forward() {
@@ -273,6 +276,10 @@ Vec3f Rotate(const Quaternion& q, const Vec3f& v) {
 Vec4f Rotate(const Quaternion& q, const Vec4f& v) {
 	return (Quaternion(-Dot(q.m_vecPart, v.xyz), (v.xyz * q.m_scalar) +
 		Cross(q.m_vecPart, v.xyz)) * Inverse(q)).m_vecPart;
+}
+
+Quaternion SLerp(const Quaternion & qa, const Quaternion & qb, F32 percent) {
+	return Quaternion(SLerp(qa.quat, qb.quat, percent));
 }
 
 Vec3f Rotate(const Vec3f& v, const Vec3f& axis, const F32 angle) {

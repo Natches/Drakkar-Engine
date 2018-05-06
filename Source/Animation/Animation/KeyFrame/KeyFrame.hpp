@@ -16,7 +16,7 @@ public:
 	KeyFrame& operator=(const KeyFrame& kFrame);
 	KeyFrame& operator=(KeyFrame&& kFrame);
 
-	core::EError jointByName(const std::string& name);
+	core::EError jointByName(const std::string& name, Joint& j);
 
 private:
 	std::vector<Joint> m_jointList;

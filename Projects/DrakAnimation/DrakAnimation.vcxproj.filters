@@ -13,25 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Skeleton">
+      <UniqueIdentifier>{e7f043ab-eb5b-40ba-ac3a-d5f8e47adbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animation">
+      <UniqueIdentifier>{4e9d44c8-e29d-4dca-8b8b-cb8f876c24d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animation\KeyFrame">
+      <UniqueIdentifier>{fcbb8695-2e1c-4361-a654-7f9ed41ca552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Skeleton\Bone">
+      <UniqueIdentifier>{1cd527fd-7514-4c2e-99a4-3ed85db43b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Skeleton">
+      <UniqueIdentifier>{bcf6bda8-80f2-4446-9f0d-31594578a515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation">
+      <UniqueIdentifier>{8bbdfcc6-0c78-4ed8-b436-690ac56cb337}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Animation\AnimationSystem.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Skeleton.hpp">
+      <Filter>Header Files\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\Animation.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Joint.hpp">
+      <Filter>Header Files\Skeleton\Bone</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\KeyFrame.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Bone.hpp">
+      <Filter>Header Files\Skeleton\Bone</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\Bone.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Animation\Animation.hpp">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\Joint.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Animation\AnimationScene.hpp">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\Skeleton.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\Animation\Animation\AnimationSystem.hpp">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Animation\KeyFrame\KeyFrame.hpp">
+      <Filter>Header Files\Animation\KeyFrame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Animation\Skeleton\Skeleton.cpp">
+      <Filter>Source Files\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Animation\Animation.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -106,3 +106,8 @@
 #include <Windowing/Input/Keyboard.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Windowing/Window/WindowSettings.hpp>
+
+#include <Animation/Animation/Animation.hpp>
+#include <Animation/Skeleton/Bone/Bone.hpp>
+#include <Animation/Skeleton/Bone/Joint.hpp>
+#include <Animation/Skeleton/Skeleton.hpp>

@@ -106,6 +106,8 @@ inline Vec3f Rotate(const Quaternion& q, const Vec3f& v);
 
 inline Vec4f Rotate(const Quaternion& q, const Vec4f& v);
 
+inline Quaternion SLerp(const Quaternion& qa, const Quaternion& qb, F32 percent);
+
 inline std::ostream& operator<<(std::ostream& o, const Quaternion& v);
 
 using Quat = Quaternion;

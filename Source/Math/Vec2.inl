@@ -554,6 +554,20 @@ Vec2f RotateAround(const Vec2f & v, const Vec2f & point, const F32 angle, const 
 	return (point + (Direction(point, v).normalize() * distance).rotate(angle));
 }
 
+Vec2f Lerp(const Vec2f& start, const Vec2f& end, F32 percent) {
+	return Vec2f(start + Direction(start, end) * percent);
+}
+
+Vec2f SLerp(const Vec2f& start, const Vec2f& end, F32 percent) {
+	F32 dot = Dot(Normalize(start), Normalize(end));
+	F32 theta = acos(dot) * percent;
+	return Vec2f(start * cos(theta) + (Direction(start, end) * dot).normalize() * sin(theta));
+}
+
+Vec2f NLerp(const Vec2f& start, const Vec2f& end, F32 percent) {
+	return Lerp(start, end, percent).normalize();
+}
+
 template<typename T>
 bool ArePerpendicular(const Vec2<T>& v1, const Vec2<T>& v2) {
 	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
@@ -577,6 +591,14 @@ bool AreSameDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
 template<typename T>
 bool AreOpposedDirection(const Vec2<T>& v1, const Vec2<T>& v2) {
 	return Dot(v1, v2) < static_cast<T>(0);
+}
+
+template<typename T, AngleUnit unit>
+F32 Angle(const Vec2<T>& va, const Vec2<T>& vb) {
+	if constexpr (unit == AngleUnit::RADIANS)
+		return acos(Dot(Normalize(va), Normalize(vb)));
+	else
+		return acos(Dot(Normalize(va), Normalize(vb))) * ToDegF;
 }
 
 template<typename T>

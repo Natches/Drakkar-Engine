@@ -4,6 +4,9 @@
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Components/ABehavior.hpp>
 #include <Game/BehaviorMonolith.h>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 
 using namespace drak;
 using namespace core;

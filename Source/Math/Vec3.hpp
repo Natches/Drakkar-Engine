@@ -254,6 +254,13 @@ bool AreSameDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 template<typename T>
 bool AreOpposedDirection(const Vec3<T>& v1, const Vec3<T>& v2);
 
+template<typename T, AngleUnit unit = AngleUnit::DEGREE>
+F32 Angle(const Vec3<T>& va, const Vec3<T>& vb);
+
+inline Vec3f Lerp(const Vec3f& start, const Vec3f& end, F32 percent);
+inline Vec3f SLerp(const Vec3f& start, const Vec3f& end, F32 percent);
+inline Vec3f NLerp(const Vec3f& start, const Vec3f& end, F32 percent);
+
 template<typename T>
 std::ostream& operator<<(std::ostream& o, const Vec3<T>& v);
 
