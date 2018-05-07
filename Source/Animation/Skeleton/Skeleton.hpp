@@ -17,16 +17,16 @@ public:
 
 	Skeleton& operator=(Skeleton&& skTon);
 
-	Joint jointByName(const std::string& name) const;
+	core::EError jointByName(const std::string& name, Joint& j) const;
 
 private:
 	void buildBoneList(const Bone& b);
-	void optimizeBoneList(const std::map<std::string, bool>& bonesUsefulness);
+	void optimizeBoneList();
 	void eraseFromHierarchy(Bone& b);
 
 private:
 	Bone m_base;
-	std::map<std::string, Bone> m_boneList;
+	std::unordered_map<std::string, Bone> m_boneList;
 	std::vector<Animation> m_animList;
 };
 

@@ -20,8 +20,13 @@ Skeleton& Skeleton::operator=(Skeleton&& skTon) {
 	return *this;
 }
 
-Joint Skeleton::jointByName(const std::string& name) const {
-	return m_boneList.at(name).joint;
+core::EError Skeleton::jointByName(const std::string& name, Joint& j) const {
+	if (m_boneList.find(name) != m_boneList.end()) {
+		j = m_boneList.at(name).joint;
+		return core::EError::NO_ERROR;
+	}
+	else
+		return core::EError::JOINT_NOT_FOUND;
 }
 
 void Skeleton::buildBoneList(const Bone& b) {
@@ -39,10 +44,16 @@ void Skeleton::eraseFromHierarchy(Bone& b) {
 	m_boneList.erase(b.name);
 }
 
-void Skeleton::optimizeBoneList(const std::map<std::string, bool>& bonesUsefulness) {
-	for (auto& p : bonesUsefulness) {
-		if (!p.second)
-			eraseFromHierarchy(m_boneList[p.first]);
+void Skeleton::optimizeBoneList() {
+	std::unordered_map<std::string, bool> neededBones;
+	for (auto& bone : m_boneList)
+		neededBones[bone.first] = false;
+	for (auto& anim : m_animList) {
+		anim.buildNecessaryBoneList(neededBones);
+	}
+	for (auto& nBone : neededBones) {
+		if (!nBone.second)
+			eraseFromHierarchy(m_boneList[nBone.first]);
 	}
 }
 

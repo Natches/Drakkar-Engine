@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <Core/Utils/ClassUtils.hpp>
-#include <Animation/Animation/KeyFrame/KeyFrame.hpp>
+#include <Animation/KeyFrame/KeyFrame.hpp>
 
 namespace drak {
 namespace animation {
@@ -19,15 +19,17 @@ public:
 	Animation(const Animation& anim);
 	Animation(Animation&& anim);
 
+	void buildNecessaryBoneList(std::unordered_map<std::string, bool>& neededBones) const;
+
 	DK_GETTER_REF_C(std::string, name, m_name)
 	DK_GETTER_REF_C(std::vector<KeyFrame>, frames, m_frames)
 	DK_GETTER_C(I32, frameNumber, m_frames.size())
-	DK_GETTER_C(F32, time, m_time)
+	DK_GETTER_C(F32, animationDuration, m_animationDuration)
 
 private:
 	std::string m_name;
 	std::vector<KeyFrame> m_frames;
-	F32 m_time;
+	F32 m_animationDuration;
 };
 
 } // namespace animation
