@@ -15,7 +15,9 @@
 namespace drak {
 
 	struct Scene;
-
+namespace components {
+	struct CameraComponent;
+}
 namespace gfx {
 
 /*!
@@ -35,7 +37,7 @@ public:
 
 	void forwardRender(Scene& scene);
 
-	void renderGrid();
+	void renderGrid(components::CameraComponent& mainCamera);
 
 	void startFrame();
 	void endFrame();

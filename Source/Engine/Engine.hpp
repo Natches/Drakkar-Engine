@@ -51,7 +51,7 @@ public:
 	DRAK_API static void StopGame();
 	DRAK_API void loadScene(IManualSceneBlueprint& sceneBluePrint);
 	DRAK_API void loadScene(const char* name);
-	DRAK_API static Engine& Get() {
+	static Engine& Get() {
 		static Engine engine;
 		return engine;
 	}

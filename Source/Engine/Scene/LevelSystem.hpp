@@ -30,15 +30,17 @@ public:
 };
 
 struct Scene {
-	Scene(std::vector<GameObject>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
+	Scene(std::vector<GameObject>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models, components::CameraComponent& mainCamera) :
 		transforms(transforms),
 		models(models),
 		gameObjects(gameObjects),
-		rootIDXs(rootIDXs){}
+		rootIDXs(rootIDXs),
+		mainCamera(mainCamera){}
 	std::vector<components::Transform>& transforms;
 	std::vector<components::Model>& models;
 	std::vector<GameObject>& gameObjects;
 	std::vector<U32> rootIDXs;
+	components::CameraComponent& mainCamera;
 };
 
 class LevelSystem {
@@ -55,6 +57,7 @@ class LevelSystem {
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(Model)
 	COMPONENT_CONTAINER(BoxCollider)
+	COMPONENT_CONTAINER(CameraComponent)
 
 	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
@@ -118,7 +121,7 @@ public:
 		}
 		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
 		gameObject.setIdx(m_gameObjects.size() - 1);
-		//gameObject.setLevel(this);
+		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
 		addComponentToGameObject<components::Transform>(gameObject);
@@ -126,7 +129,7 @@ public:
 	}
 
 	Scene getScene() {
-		return Scene(m_gameObjects, m_rootIdxs, __getComponentContainer(components::Transform), __getComponentContainer(components::Model));
+		return Scene(m_gameObjects, m_rootIdxs, __getComponentContainer(components::Transform), __getComponentContainer(components::Model), __getComponentContainer(components::CameraComponent)[0]);
 	}
 };
 } //core

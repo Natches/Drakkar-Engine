@@ -1,4 +1,4 @@
-#include <PrecompiledHeader\pch.hpp>
+#include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Engine.hpp>
@@ -7,12 +7,14 @@
 
 using namespace drak;
 using namespace behavior;
+using namespace math;
 using namespace events;
 using namespace function;
 using namespace components;
 
 Cube::Cube() : updateBind(MemberFunction<Cube, void, const Event*>(this, &Cube::update, NULL)),
-	startBind(MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL)){
+	startBind(MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL)),
+	keyboardEventFunc(MemberFunction<Cube, void, const Event*>(this, &Cube::keyboardEvent, NULL)){
 	name = "Cube";
 }
 
@@ -36,6 +38,23 @@ void Cube::start(const Event* pEvent) {
 		PhysicsEventDispatcher::COLLISION_IN,
 		new MemberFunction<Cube, void, const Event*>
 		(this, &Cube::OnCollisionEnter));
+	myTransform = &getComponent<Transform>();
+	Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, &keyboardEventFunc);
+	CameraComponent::BuildPerspective(getComponent<CameraComponent>());
+	CameraComponent::BuildView(getComponent<CameraComponent>());
+}
+
+void Cube::keyboardEvent(const events::Event* pEvent) {
+	if (!pEvent)
+		return;
+	const Key key = static_cast<const KeyEvent*>(pEvent)->key;
+	DK_SELECT(key)
+		DK_CASE(Key::KEY_UP, myTransform->position += Vec3f(0, 1, 0); CameraComponent::BuildView(getComponent<CameraComponent>()))
+		DK_CASE(Key::KEY_DOWN, myTransform->position += Vec3f(0, -1, 0); CameraComponent::BuildView(getComponent<CameraComponent>()))
+		DK_CASE(Key::KEY_LEFT, myTransform->position += Vec3f(-1, 0, 0); CameraComponent::BuildView(getComponent<CameraComponent>()))
+		DK_CASE(Key::KEY_RIGHT, myTransform->position += Vec3f(1, 0, 0); CameraComponent::BuildView(getComponent<CameraComponent>()))
+	DK_END
+
 }
 
 void Cube::OnCollisionEnter(const Event* pEvent) {

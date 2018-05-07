@@ -3,19 +3,26 @@
 #include <Engine/Physics/SimulationEvent.hpp>
 
 namespace drak {
+	namespace components {
+		struct Transform;
+	}
 namespace behavior {
 class Cube : public ABehaviorVariables {
 DK_SERIALIZED_OBJECT(Cube)
 	function::MemberFunction<Cube, void, const events::Event*> updateBind;
 	function::MemberFunction<Cube, void, const events::Event*> startBind;
+	function::MemberFunction<Cube, void, const events::Event*> keyboardEventFunc;
 	void bindUpdateToEngine();
 	void bindStartToEngine();
+	components::Transform* myTransform;
 public:
 	Cube();
 	~Cube();
 	void init();
 	void update(const events::Event* pEvent);
 	void start(const events::Event* pEvent);
+
+	void keyboardEvent(const events::Event* pEvent);
 
 	void OnCollisionEnter(const events::Event* pEvent);
 	void OnCollisionExit(const events::Event* pEvent);

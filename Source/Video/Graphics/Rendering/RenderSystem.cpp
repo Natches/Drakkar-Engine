@@ -22,8 +22,8 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_pRenderer->blendTest(true);
 	m_pRenderer->cullTest(true);
 
-	m_mainCam.view({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
-	m_mainCam.perspective(60.f, 16.f / 9.f, 1.f, 2048.f);
+	//m_mainCam.view({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	//m_mainCam.perspective(60.f, 16.f / 9.f, 1.f, 2048.f);
 
 	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 	m_modelUBO.create(BATCH_SIZE * sizeof(math::Mat4f));
@@ -46,7 +46,8 @@ void RenderSystem::forwardRender(Scene& scene) {
 
 	m_pRenderer->cullTest(true);
 	m_shaderMap["InstanceShader"]->use();
-	m_shaderMap["InstanceShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
+	//m_shaderMap["InstanceShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
+	m_shaderMap["InstanceShader"]->uniform("viewPrsp", scene.mainCamera.m_view * scene.mainCamera.m_prsp);
 
 	U32 flag = 1u << ComponentType<Model>::id;
 	std::vector<math::Mat4f> modelBatch;
@@ -66,13 +67,13 @@ void RenderSystem::forwardRender(Scene& scene) {
 		modelBatch.clear();
 	}
 
-	renderGrid();
+	renderGrid(scene.mainCamera);
 }
 
-void RenderSystem::renderGrid() {
+void RenderSystem::renderGrid(components::CameraComponent& mainCamera) {
 	m_pRenderer->cullTest(false);
 
-	math::Mat4f mvp = m_mainCam.viewPerspective()
+	math::Mat4f mvp = (mainCamera.m_view * mainCamera.m_prsp)
 		* math::Translate<F32>({ 0.f, -100.f, 0.f })
 		* math::Scale<F32>({ 2048.f, 1.f, 2048.f });
 	m_shaderMap["GridShader"]->use();

@@ -48,6 +48,9 @@
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\Components\CameraComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Engine\Engine.hpp">
@@ -83,7 +86,7 @@
     <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h">
+    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

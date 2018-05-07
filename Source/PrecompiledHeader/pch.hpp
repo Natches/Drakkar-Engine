@@ -43,10 +43,10 @@
 #include <Math/Vec8.hpp>
 #include <Math/Matrix4x4.hpp>
 
-#include <Engine/Components/Components.hpp>
 #include <Engine/Components/TransformComponent.hpp>
 #include <Engine/Components/ModelComponent.hpp>
 #include <Engine/Components/PhysicsComponents.hpp>
+#include <Engine/Components/CameraComponent.hpp>
 #include <Engine/Components/ABehavior.hpp>
 
 #include <Engine/Scene/LevelSystem.hpp>

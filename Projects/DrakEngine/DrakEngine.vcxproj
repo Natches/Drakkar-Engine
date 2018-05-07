@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Engine\Components\CameraComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp" />
@@ -26,7 +27,7 @@
     <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h" />
+    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\Components.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />
