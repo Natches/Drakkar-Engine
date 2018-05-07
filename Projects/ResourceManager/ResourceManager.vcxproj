@@ -19,14 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ServiceRegistered.hpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\ModelManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
