@@ -138,7 +138,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IVertexBuffer.hpp">
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp">

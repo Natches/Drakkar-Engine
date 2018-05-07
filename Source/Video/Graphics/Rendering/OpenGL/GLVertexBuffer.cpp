@@ -18,40 +18,19 @@ GLVertexBuffer::~GLVertexBuffer() {
 }
 
 void GLVertexBuffer::create(
-	const void*				pData,
-	const U32				vertexCount,
-	const U32				attribCount) {
-	glCreateBuffers(1, &m_glID);
-	glNamedBufferStorage(
-		m_glID,
-		vertexCount * elemSize,
-		pData,
-		GL_MAP_WRITE_BIT);
-}
-
-void GLVertexBuffer::create(
-	const Vertex1P*	pVerts,
-	const U32		vertexCount) {
-	VertexAttribDesc desc[] = {}
-	create(pVerts, vertexCount, )
-	glCreateBuffers(1, &m_glID);
-	glNamedBufferStorage(
-		m_glID,
-		vertexCount * sizeof(Vertex1P),
-		pVerts,
-		GL_MAP_WRITE_BIT);
-}
-
-void GLVertexBuffer::create(
-	const void*				pData,
-	const U32				vertexCount
-	const U32				attribCount) {
-	glCreateBuffers(1, &m_glID);
-	glNamedBufferStorage(
-		m_glID,
-		vertexCount * elemSize,
-		pData,
-		GL_MAP_WRITE_BIT);
+	const void* pVerts,
+	const U32	vertexCount,
+	const U32	vertexSize) {
+	if (m_glID == GL_INVALID) {
+		m_vertexCount = vertexCount;
+		m_vertexSize  = vertexSize;
+		glCreateBuffers(1, &m_glID);
+		glNamedBufferStorage(
+			m_glID,
+			vertexCount * m_vertexSize,
+			pVerts,
+			GL_MAP_WRITE_BIT);
+	}
 }
 
 } // namespace gl

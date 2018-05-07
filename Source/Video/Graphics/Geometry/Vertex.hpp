@@ -15,12 +15,23 @@ enum EVertexAttrib : U32 {
 };
 
 enum EVertexAttribType : U32 {
+	BYTE,
 	UNSIGNED_BYTE,
 	SHORT,
 	UNSIGNED_SHORT,
-	FLOAT,
 	INT,
-	UNSIGNED_INT
+	UNSIGNED_INT,
+	FLOAT
+};
+
+inline U32 VertexAttribSize(EVertexAttribType type, U32 count) {
+	switch (type) {
+		case BYTE:
+		case UNSIGNED_BYTE:  return 1u * count;
+		case SHORT:
+		case UNSIGNED_SHORT: return 2u * count;
+		default:			 return 4u * count;
+	}
 };
 
 struct VertexAttribDesc {
@@ -28,16 +39,16 @@ struct VertexAttribDesc {
 	VertexAttribDesc(
 		EVertexAttrib		aAttrib,
 		EVertexAttribType	aType,
-		U32					aSize,
+		U32					aCount,
 		bool				aNormalized)
 	:	attrib(aAttrib),
 		type(aType),
-		size(aSize),
+		count(aCount),
 		normalized(aNormalized) {}
 
 	EVertexAttrib		attrib;
 	EVertexAttribType	type;
-	U32					size;
+	U32					count;
 	bool				normalized;
 };
 

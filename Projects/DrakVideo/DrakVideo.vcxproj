@@ -28,7 +28,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IVertexBuffer.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp" />
