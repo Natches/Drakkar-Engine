@@ -35,8 +35,9 @@ void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 
 bool LevelSystem::startup() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
-	events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
-		new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+	//events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
+	//	new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+
 	return true;
 }
 

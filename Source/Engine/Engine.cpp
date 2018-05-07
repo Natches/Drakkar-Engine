@@ -62,7 +62,7 @@ int Engine::startup() {
 	m_pPhysicsSystem->Startup();
 
 	m_pLevelSystem->startup();
-
+	m_pLevelSystem->loadScene("Blyat");
 	m_pool.startup();
 
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
@@ -95,6 +95,8 @@ int Engine::shutdown() {
 
 void Engine::startLoop() {
 	s_frameTime.start();
+
+
 
 	events::EngineEvent eEvent;
 	eEvent.type = events::EngineEventDispatcher::UPDATE_START;
