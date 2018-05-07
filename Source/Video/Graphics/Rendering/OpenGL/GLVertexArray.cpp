@@ -27,7 +27,7 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 	
 	const VertexAttribDesc*	attribDescs = m_pVBO->attribDescs();
 	U32	attribOffset = 0u;
-	for (U32 i = 0u; i < m_pVBO->attribCount; ++i) {
+	for (U32 i = 0u; i < m_pVBO->attribCount(); ++i) {
 		glVertexArrayAttribFormat(
 			m_glID, 
 			attribDescs[i].attrib,

@@ -3,6 +3,7 @@
 #include <Core/Core.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
 

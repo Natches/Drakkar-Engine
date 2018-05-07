@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <ResourceManager/MeshManager.hpp>
 
 using namespace drak::geom;

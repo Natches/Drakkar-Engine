@@ -1,7 +1,4 @@
-#include <iostream> // TODO (Simon): replace with Log
-
-#include <Video/Graphics/Rendering/RenderSystem.hpp>
-#include <Windowing/Input/Keyboard.hpp>
+#include <PrecompiledHeader/pch.hpp>
 
 using namespace drak::events;
 using namespace drak::function;
@@ -31,7 +28,7 @@ void RenderSystem::shutdown() {
 	std::cout << "ResourceSystem shutdown" << std::endl;
 }
 
-void RenderSystem::render() {
+void RenderSystem::forwardRender(Scene& scene) {
 
 }
 

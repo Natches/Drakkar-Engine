@@ -1,3 +1,4 @@
+#include <PrecompiledHeader/pch.hpp>
 #include <ResourceManager/ResourceSystem.hpp>
 
 namespace drak {

@@ -77,6 +77,8 @@
 #include <Video/Graphics/Geometry/Mesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
+#include <Video/Graphics/Tools/AssetSceneImporter.hpp>
+
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
@@ -91,14 +93,10 @@
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
 
 #include <Video/Graphics/Rendering/Camera.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
-
-#include <Video/Graphics/Tools/ModelLoader.hpp>
-#include <Video/Graphics/Tools/OBJLoader.hpp>
 
 #include <Video/VideoSettings.hpp>
 #include <Video/VideoSystem.hpp>

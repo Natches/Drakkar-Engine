@@ -9,8 +9,10 @@ namespace geom {
 
 template<typename vertexType>
 class Mesh : public AMesh {
-	static_assert(std::is_same_v<Vertex1P, vertexType> || std::is_same_v<Vertex1P1N, vertexType>,
-		std::is_same_v<Vertex1P1N1UV, vertexType>, "Must be a vertexType");
+	static_assert(
+		std::is_same_v<Vertex1P,		vertexType> || 
+		std::is_same_v<Vertex1P1N,		vertexType> ||
+		std::is_same_v<Vertex1P1N1UV,	vertexType>, "Must be a vertexType");
 public:
 	Mesh(const std::string& filename = "");
 	virtual ~Mesh();

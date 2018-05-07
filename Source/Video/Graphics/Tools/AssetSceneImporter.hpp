@@ -1,21 +1,30 @@
 #pragma once
 
+#include <string>
+
 #pragma region Assimp Forward Declarations
 namespace Assimp {
 class Importer;
 } // namespace Assimp
+
 struct aiScene;
+struct aiMesh;
 #pragma endregion
 
 namespace drak {
+
+#pragma region Geometry Forward Declarations
 namespace geom {
 class AMesh;
 template<typename T>
 class Mesh;
+
 struct Vertex1P;
 struct Vertex1P1N;
 struct Vertex1P1N1UV;
 } // namespace geom
+#pragma endregion
+
 namespace gfx {
 namespace tools {
 
@@ -43,7 +52,7 @@ private:
 	void AddIndices(aiMesh* inMesh, MeshType& outMesh);
 
 private:
-	Assimp::Importer	m_importer;
+	Assimp::Importer*	m_pImporter;
 	const aiScene*		m_pScene;
 };
 
