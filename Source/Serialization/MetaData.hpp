@@ -116,7 +116,7 @@ static void StringToValue(const char* c_str, T& t) {
 	else if constexpr (std::is_same_v<T, F64>)
 		t = T(std::stod(c_str));
 	else if constexpr (std::is_pointer_v<T>) {
-		if (!strcmp(c_str, "null") || !strcmp(c_str, "nill"))
+		if (!strcmp(c_str, "null") || !strcmp(c_str, "nil"))
 			t = nullptr;
 		else {
 			if constexpr (std::is_same_v<T, std::string*> ||

@@ -29,6 +29,7 @@ struct BaseType {																				\
 		std::string str;																		\
 		sstr >> str;																			\
 		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
 		StringToValue<T>(str.c_str(), t);														\
 	}																							\
 	static std::string SerializeToINI(const T& t) {												\
@@ -256,8 +257,9 @@ struct ComplexType<Type*> {																		\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
 		std::string str;																		\
 		sstr >> str;																			\
-		if(str != "\"null\"" && str != "\"nill\"" &&											\
-			str != "\"null\"," && str != "\"nill\",")	{										\
+		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
+		if(str != "null" && str != "nil")	{													\
 			sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);						\
 			t = new Type();																		\
 			MetaData::Deserialize<EExtension::JSON>(*t, sstr);									\
