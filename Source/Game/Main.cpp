@@ -71,8 +71,10 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	Engine::Get().loadScene(bp);
+	Engine::Get().loadScene(/*bp*/"Blyat");
+	BHVR.load();
 	Engine::Get().startLoop();
+	BHVR.save();
 	Engine::Get().shutdown();
 }
 

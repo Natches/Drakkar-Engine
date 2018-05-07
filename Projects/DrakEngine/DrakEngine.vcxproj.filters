@@ -83,5 +83,8 @@
     <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

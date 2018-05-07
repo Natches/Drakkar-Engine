@@ -1,7 +1,5 @@
 drak::BehaviorMonolith: {
 PublicFields: {
-	"PlayerBehaviorContainer": [
-	],
 	"CubeBehaviorContainer": [
 		behavior::Cube: {
 			PublicFields: {
@@ -9,8 +7,6 @@ PublicFields: {
 				"name": "Cube"
 			}
 		}
-	],
-	"FloorBehaviorContainer": [
 	]
 }
 }

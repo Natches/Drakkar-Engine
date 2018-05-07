@@ -18,18 +18,15 @@ LevelSystem::~LevelSystem() {
 }
 
 void drak::LevelSystem::SerializeLevel() {
-	std::stringstream out;
-	Serialize<EExtension::JSON>(out);
-	std::fstream file;
-	file.open("Scene.json", std::fstream::out);
-	if (file.is_open()) {
-		file << out.rdbuf();
-		file.close();
-	}
+	Serializer::SerializeToFile<EExtension::JSON, LevelSystem>(*this, "./", "Scene");
 }
 
 void LevelSystem::loadScene(const char* name) {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Load and build Scene from file\n");
+	Serializer::LoadFromFile<EExtension::JSON, LevelSystem>(*this, "./Scene");
+	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
+		m_gameObjects[i].setLevel(this);
+	}
 }
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
@@ -53,5 +50,5 @@ void LevelSystem::SerializeEvent(const events::Event* pEvent) {
 
 void LevelSystem::shutdown() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
-	//SerializeLevel();
+	SerializeLevel();
 }

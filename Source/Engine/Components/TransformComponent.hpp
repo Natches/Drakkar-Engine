@@ -20,6 +20,6 @@ void setTransformPos(drak::components::Transform& t, drak::math::Vec3f newPos);
 void setTransformRot(drak::components::Transform& t, drak::math::Quaternion newRot);
 
 DK_METADATA_BEGIN(drak::components::Transform)
-DK_PUBLIC_FIELDS(position, scale, rotation)
+DK_PUBLIC_FIELDS(position, scale, rotation, idx, GameObjectID)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
