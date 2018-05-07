@@ -3,33 +3,37 @@
 namespace drak {
 namespace geom {
 
-Mesh::Mesh(const std::string& filename = "")
-:	m_filename(filename) {
+template<typename vertexType>
+Mesh<vertexType>::Mesh(const std::string& filename = "")
+	: AMesh(static_cast<int>((static_cast<float>(sizeof(vertexType)) / sizeof(Vec3f)) + 0.5f)),
+	m_filename(filename) {
 
 }
 
-Mesh::~Mesh() {
+template<typename vertexType>
+Mesh<vertexType>::~Mesh() {
 
 }
 
-void Mesh::addVertex(const Vertex1P1N1UV& v) {
-	m_vertices.push_back(v);
+template<typename vertexType>
+void Mesh<vertexType>::addVertex(const vertexType& v) {
+	m_vertices.emplace_back(v);
 }
 
-void Mesh::addTriangleVertices(
-	const Vertex1P1N1UV& v1,
-	const Vertex1P1N1UV& v2,
-	const Vertex1P1N1UV& v3) {
+template<typename vertexType>
+void Mesh<vertexType>::addTriangle(const vertexType& v1, const vertexType& v2, const vertexType& v3) {
 	addVertex(v1);
 	addVertex(v2);
 	addVertex(v3);
 }
 
-void Mesh::addIndex(U32 i) {
+template<typename vertexType>
+void Mesh<vertexType>::addIndex(U32 i) {
 	m_indices.push_back(i);
 }
 
-void Mesh::addTriangleIndices(U32 i1, U32 i2, U32 i3) {
+template<typename vertexType>
+void Mesh<vertexType>::addTriangleIndices(U32 i1, U32 i2, U32 i3) {
 	addIndex(i1);
 	addIndex(i2);
 	addIndex(i3);

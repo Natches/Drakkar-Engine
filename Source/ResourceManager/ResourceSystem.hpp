@@ -14,7 +14,7 @@ public:
 	void shutdown();
 
 	MeshPtr	loadMesh(const std::string& filename);
-	
+
 private:
 	MeshManager			m_meshManager;
 	//TextureManager		m_textureManager;

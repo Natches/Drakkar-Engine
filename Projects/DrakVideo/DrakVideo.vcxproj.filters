@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{b3be7c19-7809-40bb-bf66-038ec7c337e7}</UniqueIdentifier>
     </Filter>
@@ -51,6 +47,16 @@
     </Filter>
     <Filter Include="Source Files\Graphics\Common">
       <UniqueIdentifier>{83d3039e-a36b-401e-98df-7ff3e9a890da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry\Base">
+      <UniqueIdentifier>{a66c5e30-3d23-449d-b406-cc4215626a24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry\Base">
+      <UniqueIdentifier>{d0fb6683-8b7e-4570-ac05-8654afb40def}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +141,9 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IVertexBuffer.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp">
+      <Filter>Header Files\Graphics\Geometry\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\main.cpp">
@@ -181,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp">
+      <Filter>Source Files\Graphics\Geometry\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

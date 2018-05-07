@@ -8,6 +8,14 @@ struct aiScene;
 #pragma endregion
 
 namespace drak {
+namespace geom {
+class AMesh;
+template<typename T>
+class Mesh;
+struct Vertex1P;
+struct Vertex1P1N;
+struct Vertex1P1N1UV;
+} // namespace geom
 namespace gfx {
 namespace tools {
 
@@ -23,10 +31,16 @@ public:
 
 	bool startImport(const std::string& filename, bool leftHanded = false);
 
-	void extractMeshes();		
-	void extractMaterials();	
+	drak::geom::AMesh* extractMeshes();
+	void extractMaterials();
 
 private:
+	void extractPositions(aiMesh* inMesh, geom::Mesh<geom::Vertex1P>& outMesh);
+	void extractPositionNormals(aiMesh* inMesh, geom::Mesh<geom::Vertex1P1N>& outMesh);
+	void extractPositionNormalUVs(aiMesh* inMesh, geom::Mesh<geom::Vertex1P1N1UV>& outMesh);
+
+	template<typename MeshType>
+	void AddIndices(aiMesh* inMesh, MeshType& outMesh);
 
 private:
 	Assimp::Importer	m_importer;

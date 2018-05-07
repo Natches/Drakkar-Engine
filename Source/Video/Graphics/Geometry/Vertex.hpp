@@ -51,22 +51,19 @@ struct Vertex1P {
 	math::Vec3f pos;
 };
 
-struct Vertex1P1N {
+struct Vertex1P1N : public Vertex1P {
 	Vertex1P1N() = default;
 	Vertex1P1N(const math::Vec3f& aPos, const math::Vec3f& aNormal)
-		: pos(aPos), normal(aNormal) {}
+		: Vertex1P(aPos), normal(aNormal) {}
 
-	math::Vec3f pos;
 	math::Vec3f normal;
 };
 
-struct Vertex1P1N1UV {
+struct Vertex1P1N1UV  : public Vertex1P1N {
 	Vertex1P1N1UV() = default;
 	Vertex1P1N1UV(const math::Vec3f& aPos, const math::Vec3f& aNormal, const math::Vec2f& aUV)
-		: pos(aPos), normal(aNormal), uv(aUV) {}
+		: Vertex1P1N(aPos, aNormal), uv(aUV) {}
 
-	math::Vec3f pos;
-	math::Vec3f normal;
 	math::Vec2f uv;
 };
 

@@ -29,7 +29,7 @@ bool AssetSceneImporter::startImport(const std::string& filename, bool leftHande
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_Triangulate	|
 		aiProcess_SortByPType	|
-		aiProcess_GenNormals	| 
+		aiProcess_GenNormals	|
 		aiProcess_GenUVCoords	|
 		leftHanded ? aiProcess_ConvertToLeftHanded : 0);
 
@@ -37,59 +37,74 @@ bool AssetSceneImporter::startImport(const std::string& filename, bool leftHande
 		m_pScene = pScene;
 		return true;
 	}
-	
+
 	std::cout << m_importer.GetErrorString() << "\n";
 	return false;
 }
 
-void AssetSceneImporter::extractMeshes() {
+AMesh* AssetSceneImporter::extractMeshes() {
 	if (m_pScene == nullptr) {
 		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
-		return;
+		return nullptr;
 	}
 
 	for (U32 m = 0u; m < m_pScene->mNumMeshes; ++m) {
 		aiMesh* inMesh = m_pScene->mMeshes[m];
-		Mesh	outMesh;
-
-		std::vector<math::Vec3f> positions;
-		positions.insert(
-			positions.end(),
-			&inMesh->mVertices[0],
-			&inMesh->mVertices[inMesh->mNumVertices - 1]);
-		
-
-		if (inMesh->HasNormals()) {
-			std::vector<math::Vec3f> normals;
-			normals.insert(
-				normals.end(),
-				&inMesh->mVertices[0],
-				&inMesh->mVertices[inMesh->mNumVertices - 1]);
+		if (!inMesh->HasNormals() && !inMesh->HasTextureCoords(0u)) {
+			Mesh<Vertex1P>*	outMesh = new Mesh<Vertex1P>();
+			extractPositions(inMesh, *outMesh);
+			return outMesh;
 		}
-
-		if (inMesh->HasTextureCoords(0u)) {
-			std::vector<math::Vec2f> texCoords;
-			texCoords.insert(
-				texCoords.end(),
-				&inMesh->mVertices[0],
-				&inMesh->mVertices[inMesh->mNumVertices - 1]);
+		else if (inMesh->HasNormals() && !inMesh->HasTextureCoords(0u)) {
+			Mesh<Vertex1P1N>* outMesh = new Mesh<Vertex1P1N>();
+			extractPositionNormals(inMesh, *outMesh);
+			return outMesh;
 		}
-	
-		for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
-			const aiFace& inFace = inMesh->mFaces[f];
-			if (inFace.mNumIndices == 3u) {
-				outMesh.addTriangleIndices(
-					inFace.mIndices[0],
-					inFace.mIndices[1],
-					inFace.mIndices[2]);
-			}
+		else {
+			Mesh<Vertex1P1N1UV>* outMesh = new Mesh<Vertex1P1N1UV>();
+			extractPositionNormalUVs(inMesh, *outMesh);
+			return outMesh;
 		}
 	}
-	
+	return nullptr;
 }
 
 void AssetSceneImporter::extractMaterials() {
 
+}
+
+void AssetSceneImporter::extractPositions(aiMesh* inMesh, Mesh<Vertex1P>& outMesh) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])) });
+	}
+}
+
+void AssetSceneImporter::extractPositionNormals(aiMesh* inMesh, Mesh<Vertex1P1N>& outMesh) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
+			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])) });
+	}
+}
+
+void AssetSceneImporter::extractPositionNormalUVs(aiMesh* inMesh, Mesh<Vertex1P1N1UV>& outMesh) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
+			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),
+			*reinterpret_cast<math::Vec2f*>(&(inMesh->mTextureCoords[i])) });
+	}
+}
+
+template<typename MeshType>
+void AssetSceneImporter::AddIndices(aiMesh * inMesh, MeshType& outMesh) {
+	for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
+		const aiFace& inFace = inMesh->mFaces[f];
+		if (inFace.mNumIndices == 3u) {
+			outMesh.addTriangleIndices(
+				inFace.mIndices[0],
+				inFace.mIndices[1],
+				inFace.mIndices[2]);
+		}
+	}
 }
 
 } // namespace tools
