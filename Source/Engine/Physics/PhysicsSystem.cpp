@@ -143,11 +143,9 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 		t.position.x = actorTransform.p.x;
 		t.position.y = actorTransform.p.y;
 		t.position.z = actorTransform.p.z;
-
-		t.rotation.m_vecPart.x = actorTransform.q.x;
-		t.rotation.m_vecPart.y = actorTransform.q.y;
-		t.rotation.m_vecPart.z = actorTransform.q.z;
-		t.rotation.m_scalar = actorTransform.q.w;
+		PxMat44 mat = PxMat44(actorTransform.q).getTranspose();
+		math::Mat4f temp(*reinterpret_cast<math::Mat4f*>(&mat));
+		t.rotation = math::Quaternion(temp);
 	}
 }
 
