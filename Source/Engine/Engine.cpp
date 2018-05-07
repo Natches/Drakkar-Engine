@@ -11,6 +11,9 @@
 
 using namespace drak::components;
 using namespace drak::time;
+using namespace drak::thread;
+using namespace drak::video;
+using namespace drak::gfx;
 
 namespace drak {
 namespace core {

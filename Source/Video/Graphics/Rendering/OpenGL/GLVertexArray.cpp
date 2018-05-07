@@ -1,5 +1,7 @@
 #include <PrecompiledHeader/pch.hpp>
 
+#include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
+
 using namespace drak::geom;
 
 namespace drak {
@@ -20,28 +22,39 @@ void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
 	m_prim = GL_TRIANGLES;
 
 	glCreateVertexArrays(1, &m_glID);
-	glVertexArrayVertexBuffer(m_glID, m_pVBO->bindIndex(), m_pVBO->glID(), 0, sizeof(Vertex));
-	for (U32 i = VERT_ATTR_POS; i < VERT_ATTR_COUNT; ++i) {
+	glVertexArrayVertexBuffer(
+		m_glID, m_pVBO->bindIndex(), m_pVBO->glID(), 0, m_pVBO->vertexSize());
+	
+	const VertexAttribDesc*	attribDescs = m_pVBO->attribDescs();
+	U32	attribOffset = 0u;
+	for (U32 i = 0u; i < m_pVBO->attribCount; ++i) {
 		glVertexArrayAttribFormat(
-			m_glID,
-			i,
-			g_VertexAttribDescArray[i].size,
-			g_VertexAttribDescArray[i].type,
-			g_VertexAttribDescArray[i].normalized,
-			g_VertexAttribDescArray[i].offset);
-		glVertexArrayAttribBinding(m_glID, i, m_pVBO->bindIndex());
-		glEnableVertexArrayAttrib(m_glID, i);
+			m_glID, 
+			attribDescs[i].attrib,
+			attribDescs[i].count,
+			attribDescs[i].type + GL_BYTE,
+			attribDescs[i].normalized,
+			attribOffset);
+		glVertexArrayAttribBinding(m_glID, attribDescs[i].attrib, m_pVBO->bindIndex());
+		glEnableVertexArrayAttrib(m_glID, attribDescs[i].attrib);
+
+		attribOffset += VertexAttribSize(attribDescs[i].type, attribDescs[i].count);
 	}
 
 	if (m_pIBO)
 		glVertexArrayElementBuffer(m_glID, m_pIBO->glID());
 }
 
+/*
+	TODO (Simon
+*/
 void GLVertexArray::render() {
 	glBindVertexArray(m_glID);
 	if (m_pIBO) {
-		if (m_instanced) m_pIBO->drawElementsInstanced(m_prim);
-		else			 m_pIBO->drawElements(m_prim);
+		if (m_instanced) 
+			m_pIBO->drawElementsInstanced(m_prim);
+		else			 
+			m_pIBO->drawElements(m_prim);
 	}
 	else
 		glDrawArrays(m_prim, 0, m_vertexCount);

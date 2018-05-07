@@ -1,6 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 
-using namespace drak::geom;
+#include <Video/Graphics/Rendering/OpenGL/GLRenderer.hpp>
 
 namespace drak {
 namespace gfx {
@@ -15,65 +15,12 @@ bool GLRenderer::init() {
 	if (glewInit() == GLEW_OK) {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
 		glDebugMessageCallback((GLDEBUGPROC)debugLog, 0);
-
-		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
-
 		return true;
 	}
 	return false;
 }
 
-bool GLRenderer::loadShaders(const std::string& dir, ShaderMap& outMap) {
-	GLShader* pGridShader = new GLShader;
-	if (pGridShader->loadFromFile(dir + "grid.vert", dir + "grid.frag"))
-		outMap["GridShader"] = pGridShader;
-	else {
-		delete pGridShader;
-		return false;
-	}
-
-	GLShader* pInstanceShader = new GLShader;
-	if (pInstanceShader->loadFromFile(dir + "instanced.vert", dir + "default.frag"))
-		outMap["InstanceShader"] = pInstanceShader;
-	else {
-		delete pInstanceShader;
-		return false;
-	}
-
-	GLShader* pDefaultShader = new GLShader;
-	if (pDefaultShader->loadFromFile(dir + "default.vert", dir + "default.frag"))
-		outMap["DefaultShader"] = pDefaultShader;
-	else {
-		delete pDefaultShader;
-		return false;
-	}
-
-	return true;
-}
-
-bool GLRenderer::loadRenderables(const std::string& dir, IRenderable*& rdr) {
-	tools::OBJLoader loader;
-
-	geom::Mesh mesh;
-	if (loader.load(dir, mesh)) {
-		GLVertexBuffer* pVBO = new GLVertexBuffer;
-		pVBO->create(mesh.vertices().data(), (U32)mesh.vertices().size());
-
-		GLIndexBuffer*  pIBO = new GLIndexBuffer;
-		pIBO->create(mesh.indices().data(), (I32)mesh.indices().size());
-
-		GLVertexArray*  pVAO = new GLVertexArray;
-		pVAO->create(pVBO, pIBO);
-		if (dir == "Resources/Models/cube.dkobj")
-			pVAO->m_instanced = true;
-		rdr = pVAO;
-
-		return true;
-	}
-	return false;
-}
-
-void GLRenderer::clear() {
+void GLRenderer::clear() { 
 	// TODO (Simon): enumerate API-agnostic
 	// buffer flags in RenderDefinitions.hpp
 
