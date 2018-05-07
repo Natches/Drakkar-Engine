@@ -1,23 +1,18 @@
-#include <PrecompiledHeader/pch.hpp>
+#include <Video/Graphics/Geometry/Mesh.hpp>
 
 namespace drak {
 namespace geom {
 
 template<typename vertexType>
 Mesh<vertexType>::Mesh(const std::string& filename)
-	: AMesh(static_cast<int>((static_cast<float>(sizeof(vertexType)) / sizeof(Vec3f)) + 0.5f)),
+	: AMesh(static_cast<int>((static_cast<float>(sizeof(vertexType)) / sizeof(math::Vec3f)) + 0.5f)),
 	m_filename(filename) {
 
 }
 
 template<typename vertexType>
-Mesh<vertexType>::~Mesh() {
-
-}
-
-template<typename vertexType>
 void Mesh<vertexType>::addVertex(const vertexType& v) {
-	m_vertices.emplace_back(v);
+	m_vertices.push_back(v);
 }
 
 template<typename vertexType>

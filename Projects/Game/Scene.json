@@ -26,9 +26,9 @@ PublicFields: {
 				"position": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"9.450769",
-							"4.998863",
-							"-1.320582"
+							"-nan(ind)",
+							"-nan(ind)",
+							"-nan(ind)"
 						]
 					}
 				},
@@ -46,10 +46,10 @@ PublicFields: {
 						"quat": drak::math::Vec4f: {
 							PublicFields: {
 								"m_simdVec": [
-									"0.000000",
-									"-0.383638",
-									"0.000244",
-									"-0.923484"
+									"-nan(ind)",
+									"-nan(ind)",
+									"-nan(ind)",
+									"-nan(ind)"
 								]
 							}
 						}

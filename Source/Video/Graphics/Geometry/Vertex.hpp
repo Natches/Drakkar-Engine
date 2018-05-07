@@ -52,7 +52,11 @@ struct VertexAttribDesc {
 	bool				normalized;
 };
 
-extern const VertexAttribDesc g_VertexAttribDesc[];
+const VertexAttribDesc g_VertexAttribDesc[3] = {
+	{ VERT_ATTR_POS,	FLOAT, 3u, false },
+	{ VERT_ATTR_NORMAL, FLOAT, 3u, false },
+	{ VERT_ATTR_UV,		FLOAT, 2u, false }
+};
 
 struct Vertex1P {
 	Vertex1P() = default;
@@ -78,6 +82,17 @@ struct Vertex1P1N1UV  : public Vertex1P1N {
 	math::Vec2f uv;
 };
 
+struct IndexedVertex {
+	U32 pos;
+	U32 normal;
+	U32 uv;
+};
+
+struct IndexComparison {
+	bool operator()(const IndexedVertex& left, const IndexedVertex& right) const {
+		return memcmp(&left, &right, sizeof(math::Vec3u)) < 0;
+	}
+};
 
 } // namespace geom
 } // namespace drak

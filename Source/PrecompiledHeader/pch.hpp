@@ -74,6 +74,7 @@
 
 #include <Video/Graphics/Common/Color.hpp>
 
+#include <Video/Graphics/Geometry/Base/AMesh.hpp>
 #include <Video/Graphics/Geometry/Mesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 

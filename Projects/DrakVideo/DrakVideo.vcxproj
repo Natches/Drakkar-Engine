@@ -45,12 +45,12 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp" />
@@ -63,6 +63,7 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -70,6 +71,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Video\Graphics\Geometry\Mesh.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

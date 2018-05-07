@@ -15,7 +15,7 @@ class Mesh : public AMesh {
 		std::is_same_v<Vertex1P1N1UV,	vertexType>, "Must be a vertexType");
 public:
 	Mesh(const std::string& filename = "");
-	virtual ~Mesh();
+	virtual ~Mesh() = default;
 
 	void addVertex(const vertexType& v);
 	void addTriangle(
@@ -39,3 +39,5 @@ protected:
 
 } // namespace geom
 } // namespace drak
+
+#include <Video/Graphics/Geometry/Mesh.inl>
