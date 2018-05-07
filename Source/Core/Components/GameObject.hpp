@@ -89,6 +89,6 @@ private:
 }
 
 DK_METADATA_BEGIN(drak::GameObject)
-DK_PUBLIC_FIELDS(name, m_componentHandles, m_componentFlags, childrenIDXs, parentIDX, idx, m_isRoot)
+DK_PUBLIC_FIELDS(name, componentCount, m_componentHandles, m_componentFlags, childrenIDXs, parentIDX, idx, m_isRoot)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

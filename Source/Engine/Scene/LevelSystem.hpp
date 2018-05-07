@@ -118,7 +118,7 @@ public:
 		}
 		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
 		gameObject.setIdx(m_gameObjects.size() - 1);
-		gameObject.setLevel(this);
+		//gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
 		addComponentToGameObject<components::Transform>(gameObject);
@@ -132,6 +132,6 @@ public:
 } //core
 
 DK_METADATA_BEGIN(drak::LevelSystem)
-DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_rootIdxs)
+DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer, BoxColliderComponentContainer, m_gameObjects, m_rootIdxs)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

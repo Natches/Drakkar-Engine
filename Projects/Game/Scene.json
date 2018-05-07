@@ -5,7 +5,18 @@ PublicFields: {
 			PublicFields: {
 				"mass": "1000.000000",
 				"isStatic": "0",
-				"isKinematic": "0"
+				"isKinematic": "0",
+				"idx": "0",
+				"GameObjectID": "0"
+			}
+		},
+		drak::components::RigidBody: {
+			PublicFields: {
+				"mass": "1000.000000",
+				"isStatic": "True",
+				"isKinematic": "0",
+				"idx": "1",
+				"GameObjectID": "1"
 			}
 		}
 	],
@@ -15,9 +26,9 @@ PublicFields: {
 				"position": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"0.000000",
-							"-17.378670",
-							"0.000000"
+							"23.409550",
+							"-93.082390",
+							"-11.899083"
 						]
 					}
 				},
@@ -30,16 +41,60 @@ PublicFields: {
 						]
 					}
 				},
-				"rotation": drak::math::Vec4f: {
+				"rotation": drak::math::Quaternion: {
 					PublicFields: {
-						"m_simdVec": [
-							"0.000000",
-							"0.000000",
-							"0.000000",
-							"1.000000"
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"-0.751531",
+									"-0.355051",
+									"0.477239",
+									"-0.285276"
+								]
+							}
+						}
+					}
+				},
+				"idx": "0",
+				"GameObjectID": "0"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"position": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"-19.206007",
+							"-83.971985",
+							"9.742537"
 						]
 					}
-				}
+				},
+				"scale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"100.000000",
+							"10.000000",
+							"100.000000"
+						]
+					}
+				},
+				"rotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"-0.038580",
+									"0.090962",
+									"0.359219",
+									"0.928008"
+								]
+							}
+						}
+					}
+				},
+				"idx": "1",
+				"GameObjectID": "1"
 			}
 		}
 	],
@@ -50,11 +105,28 @@ PublicFields: {
 					PublicFields: {
 						"m_vec": [
 							"1.000000",
-							"0.000000",
+							"1.000000",
 							"0.000000"
 						]
 					}
-				}
+				},
+				"idx": "0",
+				"GameObjectID": "0"
+			}
+		},
+		drak::components::Model: {
+			PublicFields: {
+				"albedo": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"1.000000",
+							"0.000000"
+						]
+					}
+				},
+				"idx": "1",
+				"GameObjectID": "1"
 			}
 		}
 	],
@@ -89,12 +161,112 @@ PublicFields: {
 				},
 				"width": "10",
 				"height": "10",
-				"depth": "10"
+				"depth": "10",
+				"idx": "0",
+				"GameObjectID": "0"
+			}
+		},
+		drak::components::BoxCollider: {
+			PublicFields: {
+				"localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"localRotation": drak::math::Vec4f: {
+					PublicFields: {
+						"m_simdVec": [
+							"0.000000",
+							"0.000000",
+							"0.000000",
+							"1.000000"
+						]
+					}
+				},
+				"material": PhysicsMaterial: {
+					PublicFields: {
+						"staticFriction": "0.500000",
+						"dynamicFriction": "0.500000",
+						"restitution": "0.500000"
+					}
+				},
+				"width": "100",
+				"height": "10",
+				"depth": "100",
+				"idx": "1",
+				"GameObjectID": "1"
+			}
+		}
+	],
+	"m_gameObjects": [
+		drak::GameObject: {
+			PublicFields: {
+				"name": "",
+				"componentCount": "3",
+				"m_componentHandles": [
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"0",
+						"0"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"1",
+						"0"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"2",
+						"0"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"3",
+						"0"
+					}
+				],
+				"m_componentFlags": "15",
+				"childrenIDXs": [
+				],
+				"parentIDX": "0",
+				"idx": "0",
+				"m_isRoot": "1"
+			}
+		},
+		drak::GameObject: {
+			PublicFields: {
+				"name": "Floor",
+				"componentCount": "3",
+				"m_componentHandles": [
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"0",
+						"1"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"1",
+						"1"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"2",
+						"1"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"3",
+						"1"
+					}
+				],
+				"m_componentFlags": "15",
+				"childrenIDXs": [
+				],
+				"parentIDX": "0",
+				"idx": "1",
+				"m_isRoot": "1"
 			}
 		}
 	],
 	"m_rootIdxs": [
-		"0"
+		"0",
+		"1"
 	]
 }
 }

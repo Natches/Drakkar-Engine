@@ -71,8 +71,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	Engine::Get().loadScene(bp);
+	BHVR.load();
 	Engine::Get().startLoop();
+	BHVR.save();
 	Engine::Get().shutdown();
 }
 

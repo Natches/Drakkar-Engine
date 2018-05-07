@@ -93,6 +93,6 @@ int main() {
 	Serializer::SerializeToFile<Test>(t, "./", "SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Ser>(t.ser1, "./SerializedDataOfTest.txt");
 	Serializer::AddObjectToFile<Test>(t2, "./SerializedDataOfTest.txt");
-	auto[a,b] = Serializer::LoadEveryFile<Test>("./SerializedDataOfTest.txt");*/
+	auto[a,b] = Serializer::LoadEveryFromFile<Test>("./SerializedDataOfTest.txt");*/
   	return 0;
 }

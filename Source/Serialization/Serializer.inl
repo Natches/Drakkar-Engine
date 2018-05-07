@@ -79,13 +79,13 @@ core::EError Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& .
 }
 
 template<EExtension ext, class T>
-std::tuple<T, core::EError> Serializer::LoadFile(const char* path) {
+std::tuple<T, core::EError> Serializer::LoadFromFile(const char* path) {
 	T t;
-	return std::make_tuple(t, LoadFile<ext, T>(t, path));
+	return std::make_tuple(t, LoadFromFile<ext, T>(t, path));
 }
 
 template<EExtension ext, class T>
-core::EError Serializer::LoadFile(T& t, const char* path) {
+core::EError Serializer::LoadFromFile(T& t, const char* path) {
 	if constexpr(ext == EExtension::INI)
 		return LoadINI(t, (std::string(path) + ".ini").c_str());
 	else if constexpr (ext == EExtension::JSON)
@@ -95,7 +95,7 @@ core::EError Serializer::LoadFile(T& t, const char* path) {
 }
 
 template<EExtension ext, class T>
-core::EError Serializer::LoadEveryFile(std::vector<T>& t, const char* path) {
+core::EError Serializer::LoadEveryFromFile(std::vector<T>& t, const char* path) {
 	static_assert(!(ext == EExtension::JSON), "Cannot load multiple object from JSON file !!");
 	if constexpr(ext == EExtension::INI)
 		return LoadINI(t, (std::string(path) + ".ini").c_str());
@@ -104,13 +104,13 @@ core::EError Serializer::LoadEveryFile(std::vector<T>& t, const char* path) {
 }
 
 template<EExtension ext, class T>
-std::tuple<std::vector<T>, core::EError> Serializer::LoadEveryFile(const char* path) {
+std::tuple<std::vector<T>, core::EError> Serializer::LoadEveryFromFile(const char* path) {
 	std::vector<T> t;
-	return std::make_tuple(t, LoadFile<ext, T>(t, path));
+	return std::make_tuple(t, LoadFromFile<ext, T>(t, path));
 }
 
 template<EExtension ext, class T, class ...VArgs>
-core::EError Serializer::LoadFile(const char* path, T& t, VArgs&& ...args) {
+core::EError Serializer::LoadFromFile(const char* path, T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot load multiple object from JSON file !!");
 	if constexpr(ext == EExtension::INI)
 		return LoadINI((std::string(path) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
@@ -141,7 +141,7 @@ void Serializer::SerializeToFileNoDesc(std::fstream& file, std::stringstream& ss
 }
 
 template<class T, class ...VArgs>
-void Serializer::LoadFile(std::stringstream& sstr, FileDescriptor& desc,
+void Serializer::LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 	std::map<std::string, int>& occurence, T& t, VArgs&& ...args) {
 	if (desc.m_descriptor.find({ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(),
 		occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName()] }) != desc.m_descriptor.end()) {
@@ -324,7 +324,7 @@ core::EError Serializer::LoadINI(const char* path, T& t, VArgs&& ...args) {
 			}
 			Occurence(occurence, t, std::forward<VArgs>(args)...);
 			ini.seekg(0, std::ios::beg);
-			LoadFile(ini, desc, occurence, t, std::forward<VArgs>(args)...);
+			LoadFromFile(ini, desc, occurence, t, std::forward<VArgs>(args)...);
 			return core::EError::NO_ERROR;
 		}
 		return core::EError::FILE_NOT_OPENED;
@@ -565,7 +565,7 @@ core::EError Serializer::LoadBinary(const char* path, T& t, VArgs&& ...args) {
 			std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
 			binary << file.rdbuf();
 			file.close();
-			LoadFile(binary, desc, occurence, t, std::forward<VArgs>(args)...);
+			LoadFromFile(binary, desc, occurence, t, std::forward<VArgs>(args)...);
 			return core::EError::NO_ERROR;
 		}
 		return core::EError::FILE_NOT_OPENED;

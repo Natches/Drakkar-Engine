@@ -1,19 +1,20 @@
-#include <cassert>
 #include <ResourceManager/MeshManager.hpp>
 
+using namespace drak::geom;
+
 namespace drak {
-namespace io {
-void* MeshManager::getMesh(const std::string& str) {
-	assert(false);
-	return nullptr;
-}
-void MeshManager::loadMesh(const std::string& str) {
-	assert(false);
+
+MeshPtr MeshManager::preloadMesh(const std::string& filename) {
+	auto meshLoc = m_meshes.find(filename);
+	if (meshLoc == m_meshes.end())
+		m_meshes[filename] = std::make_shared<Mesh<Vertex1P1N1UV>>(filename);
+	return m_meshes[filename];
 }
 
-MeshManager MeshManager::Create() {
-	return MeshManager();
+MeshPtr MeshManager::loadMesh(const std::string& filename) {
+	auto meshLoc = preloadMesh(filename);
+	// meshLoc->load();
+	return meshLoc;
 }
 
-} // namespace io
 } // namespace drak
