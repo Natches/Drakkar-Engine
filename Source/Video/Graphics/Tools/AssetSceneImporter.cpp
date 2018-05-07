@@ -1,12 +1,8 @@
-#include <iostream> // TODO (Simon): replace with Log and modify debug message code
+#include <PrecompiledHeader/pch.hpp>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
-#include <Core/Engine/Types.hpp>
-#include <Video/Graphics/Tools/AssetSceneImporter.hpp>
-#include <Video/Graphics/Geometry/Mesh.hpp>
 
 using namespace drak::geom;
 
@@ -15,30 +11,29 @@ namespace gfx {
 namespace tools {
 
 AssetSceneImporter::AssetSceneImporter()
-:	m_pScene(nullptr) {
-
+:	m_pScene(nullptr), m_pImporter(new Assimp::Importer) {
 }
 
 AssetSceneImporter::~AssetSceneImporter() {
-
+	delete m_pImporter;
 }
 
 bool AssetSceneImporter::startImport(const std::string& filename, bool leftHanded) {
-	const aiScene* pScene = m_importer.ReadFile(
+	const aiScene* pScene = m_pImporter->ReadFile(
 		filename,
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_Triangulate	|
 		aiProcess_SortByPType	|
 		aiProcess_GenNormals	|
 		aiProcess_GenUVCoords	|
-		leftHanded ? aiProcess_ConvertToLeftHanded : 0);
+		(leftHanded ? aiProcess_ConvertToLeftHanded : 0));
 
 	if (pScene) {
 		m_pScene = pScene;
 		return true;
 	}
 
-	std::cout << m_importer.GetErrorString() << "\n";
+	std::cout << m_pImporter->GetErrorString() << "\n";
 	return false;
 }
 
@@ -74,20 +69,20 @@ void AssetSceneImporter::extractMaterials() {
 }
 
 void AssetSceneImporter::extractPositions(aiMesh* inMesh, Mesh<Vertex1P>& outMesh) {
-	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])) });
 	}
 }
 
 void AssetSceneImporter::extractPositionNormals(aiMesh* inMesh, Mesh<Vertex1P1N>& outMesh) {
-	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
 			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])) });
 	}
 }
 
 void AssetSceneImporter::extractPositionNormalUVs(aiMesh* inMesh, Mesh<Vertex1P1N1UV>& outMesh) {
-	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; i += 3) {
+	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		outMesh.addVertex({ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
 			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),
 			*reinterpret_cast<math::Vec2f*>(&(inMesh->mTextureCoords[i])) });

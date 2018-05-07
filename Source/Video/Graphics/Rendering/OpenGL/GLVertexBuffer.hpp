@@ -16,7 +16,7 @@ namespace gl {
 */
 class GLVertexBuffer final : public GLObject, public AVertexBuffer {
 public:
-	GLVertexBuffer() = default;
+	GLVertexBuffer();
 	~GLVertexBuffer();
 
 	void create(

@@ -32,16 +32,16 @@ public:
 		const U32	vertexCount,
 		const U32	vertexSize) = 0;
 
-	DK_GETTER_C(VertexAttribDesc*,	attribDescs,	m_attribDescs)
-	DK_GETTER_C(U32,				attribCount,	m_attribCount)
-	DK_GETTER_C(U32,				vertexCount,	m_vertexCount)
-	DK_GETTER_C(U32,				vertexSize,		m_vertexSize)
+	DK_GETTER_C(geom::VertexAttribDesc*,	attribDescs,	m_attribDescs)
+	DK_GETTER_C(U32,						attribCount,	m_attribCount)
+	DK_GETTER_C(U32,						vertexCount,	m_vertexCount)
+	DK_GETTER_C(U32,						vertexSize,		m_vertexSize)
 
 protected:
-	VertexAttribDesc*	m_attribDescs;
-	U32					m_attribCount;
-	U32					m_vertexCount;
-	U32					m_vertexSize;
+	geom::VertexAttribDesc*	m_attribDescs;
+	U32						m_attribCount;
+	U32						m_vertexCount;
+	U32						m_vertexSize;
 };
 
 } // namespace gfx

@@ -4,7 +4,7 @@ namespace drak {
 namespace geom {
 
 template<typename vertexType>
-Mesh<vertexType>::Mesh(const std::string& filename = "")
+Mesh<vertexType>::Mesh(const std::string& filename)
 	: AMesh(static_cast<int>((static_cast<float>(sizeof(vertexType)) / sizeof(Vec3f)) + 0.5f)),
 	m_filename(filename) {
 
