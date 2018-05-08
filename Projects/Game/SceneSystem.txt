@@ -1,3 +1,0 @@
-Startup Scene System
-Load and build Scene from file
-Shutdown Scene System

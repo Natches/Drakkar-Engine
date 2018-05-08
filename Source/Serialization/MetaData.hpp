@@ -84,8 +84,15 @@ static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 
 template<typename T>
 static std::string ValueToString(const T& value) {
-	if constexpr(drak::types::IsBaseType_V<T>)
+	if constexpr(drak::types::IsBaseType_V<T>) {
+		if constexpr(std::is_same_v<bool, T>) {
+			if (value)
+				return std::string("true");
+			else
+				return std::string("false");
+		}
 		return std::to_string(value);
+	}
 }
 
 template<typename T>
