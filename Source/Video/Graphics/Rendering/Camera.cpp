@@ -2,28 +2,41 @@
 
 using namespace drak::math;
 using namespace drak::events;
+using namespace drak::function;
 
 namespace drak {
 namespace gfx {
 
 Camera::Camera()
 {
+	Keyboard::Get().addEventListener(
+		KeyEvent::KEY_DOWN, 
+		new MemberFunction<Camera, void, const Event*>
+		(this, &Camera::onKeyDown, &Keyboard::Get().event()));
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::cameraControl(const Event* pEvt) {
+void Camera::move(const math::Vec3f& delta) {
+	m_eye += delta;
+	m_at += delta;
+	buildView();
+}
+
+void Camera::onKeyDown(const Event* pEvt) {
 	auto k = static_cast<const KeyEvent*>(pEvt);
+	Vec3f movement;
 	DK_SELECT(k->key)
-		DK_CASE(Key::KEY_Q, move({ 0.f,-1.f, 0.f }))
-		DK_CASE(Key::KEY_E, move({ 0.f, 1.f, 0.f }))
-		DK_CASE(Key::KEY_W, move({ 0.f, 0.f, 1.f }))
-		DK_CASE(Key::KEY_A, move({ -1.f, 0.f, 0.f }))
-		DK_CASE(Key::KEY_S, move({ 0.f, 0.f,-1.f }))
-		DK_CASE(Key::KEY_D, move({ 1.f, 0.f, 0.f }))
+		DK_CASE(Key::KEY_A, movement = -right())
+		DK_CASE(Key::KEY_D, movement =  right())
+		DK_CASE(Key::KEY_Q, movement = -m_up)
+		DK_CASE(Key::KEY_E, movement =  m_up)
+		DK_CASE(Key::KEY_W, movement = -forward())
+		DK_CASE(Key::KEY_S, movement =  forward())
 	DK_END
+	move(movement * 2.f);
 }
 
 #pragma region View Matrix

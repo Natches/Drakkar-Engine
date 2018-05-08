@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp" />
+    <ClInclude Include="..\..\Source\Math\Quaternion.hpp" />
     <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp" />
     <ClInclude Include="..\..\Source\Math\Vec2.hpp" />
     <ClInclude Include="..\..\Source\Math\Vec3.hpp" />
@@ -29,6 +30,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Math\Matrix4x4.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Math\Quaternion.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

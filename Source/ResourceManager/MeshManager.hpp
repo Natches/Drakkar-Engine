@@ -1,37 +1,26 @@
 #pragma once
 
-#include <map>
-#include <string>
-#include <ResourceManager/ResourceManager.hpp>
+#include <memory>
+#include <unordered_map>
+
+#include <Core/Utils/ClassUtils.hpp>
+#include <ResourceManager/ResourceDefinitions.hpp>
+#include <Video/Graphics/Geometry/Mesh.hpp>
 
 namespace drak {
-namespace io {
-/*!
-* \class MeshManager
-* \ingroup IO
-* \brief Class that hold all mesh already loaded, and a FBX/OBJ parser
-*/
 
-/*
-class OBJParser;
-class FBXParser;*/
-
-class MeshManager {
-	friend ResourceManager;
-
+class MeshManager final {
+	DK_NONMOVABLE_NONCOPYABLE(MeshManager)
 public:
-	~MeshManager() = default;
+	MeshPtr preloadMesh(const std::string& filename);
+	MeshPtr loadMesh(const std::string& filename);
 
-	void* getMesh(const std::string& str);
-	void loadMesh(const std::string& str);
-	static MeshManager Create();
 private:
+	friend class ResourceSystem;
 	MeshManager() = default;
 
 private:
-	std::map<std::string, void*> m_mesh;
-	/*OBJParser& m_objParser;
-	FBXParser& m_fbxParser;*/
+	MeshMap m_meshes;
 };
-} // namespace io
+
 } // namespace drak

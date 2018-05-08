@@ -1,11 +1,7 @@
-#include <ResourceManager/ServiceRegistered.hpp>
+#include <ResourceManager/ResourceManager.hpp>
 
 namespace drak {
-namespace io {
 
-ResourceManager::ResourceManager() {
-	StartupResourceManager();
-}
+
 
 } // namespace drak
-} // namespace io

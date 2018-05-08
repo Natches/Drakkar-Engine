@@ -348,3 +348,7 @@ Projects/DrakSerialization/Test\.ini
 Projects/DrakSerialization/Test\.json
 
 PrecompiledHeader/
+
+Projects/DrakVideo/Resources/
+
+Projects/Game/Resources/

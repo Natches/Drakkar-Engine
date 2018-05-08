@@ -11,7 +11,8 @@ GLTexture::GLTexture() {
 }
 
 GLTexture::~GLTexture() {
-	glDeleteTextures(1, &m_glID);
+	if (m_glID != GL_INVALID)
+		glDeleteTextures(1, &m_glID);
 }
 
 void GLTexture::bind() const {
@@ -29,8 +30,8 @@ bool GLTexture::loadFromFile(const char* filename, bool verticalFlip) {
 
 	if (img) {
 		glCreateTextures		(GL_TEXTURE_2D, 1, &m_glID);
-		glTextureStorage2D		(m_glID, 8, format, dimX, dimY);
-		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, formatSz, GL_UNSIGNED_BYTE, img);
+		glTextureStorage2D		(m_glID, 8, formatSz, dimX, dimY);
+		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, format, GL_UNSIGNED_BYTE, img);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

@@ -6,6 +6,8 @@
 namespace drak {
 namespace thread {
 namespace task {
+template<typename T>
+class TaskGroup;
 
 class TaskSequence : public ATask {
 
@@ -18,6 +20,8 @@ public:
 
 	virtual void operator()() override;
 	virtual void execute() override;
+
+	TaskGroup<ATask*> toGroup(ThreadPool& pool);
 
 private:
 	std::vector<ATask*> m_taskList;

@@ -6,23 +6,33 @@ namespace drak {
 namespace gfx {
 namespace gl {
 
+GLVertexBuffer::GLVertexBuffer()
+:	m_bindIndex(0u) {
+
+}
+
 GLVertexBuffer::~GLVertexBuffer() {
 	glDeleteBuffers(1, &m_glID);
 }
 
 void GLVertexBuffer::create(
-	const Vertex* const pVerts,
-	const GLuint vertCount,
-	const GLuint bindIndex) {
-
-	m_bindIndex	= bindIndex;
-
-	glCreateBuffers(1, &m_glID);
-	glNamedBufferStorage(
-		m_glID,
-		vertCount * sizeof(Vertex),
-		pVerts,
-		GL_MAP_WRITE_BIT);
+	const void*				pVerts,
+	const VertexAttribDesc*	attribDescs,
+	const U32				attribCount,
+	const U32				vertexCount,
+	const U32				vertexSize) {
+	if (m_glID == GL_INVALID) {
+		m_attribDescs = attribDescs;
+		m_attribCount = attribCount;
+		m_vertexCount = vertexCount;
+		m_vertexSize  = vertexSize;
+		glCreateBuffers(1, &m_glID);
+		glNamedBufferStorage(
+			m_glID,
+			vertexCount * m_vertexSize,
+			pVerts,
+			GL_MAP_WRITE_BIT); // flags
+	}
 }
 
 } // namespace gl

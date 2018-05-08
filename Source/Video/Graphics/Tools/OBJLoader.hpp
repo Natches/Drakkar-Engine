@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Video/Graphics/Geometry/Mesh.hpp>
+#include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
 namespace gfx {
@@ -11,7 +12,7 @@ public:
 	OBJLoader() = default;
 	~OBJLoader() = default;
 
-	bool load(const std::string& objPath, geom::Mesh& outMesh);
+	bool load(const std::string& objPath, geom::Mesh<geom::Vertex1P1N1UV>& outMesh);
 
 private:
 	math::Vec2f readVec2(std::ifstream& fs);

@@ -1,6 +1,6 @@
 #pragma once
-#include <Core/Core.hpp>
-#include <cstring>
+#include <PrecompiledHeader/pch.hpp>
+
 /*!
 *	@file
 *	Macros and templated structures used in the component system
@@ -9,25 +9,37 @@
 namespace drak {
 namespace components {
 
-	template <class c>
-	struct  ComponentType
-	{
-		static const int ID;
-	};
-	struct AComponent
-	{
-		U32 ownerID;
-		U64 idxInMainArray;
-	};
-}
+template <class c>
+struct  ComponentType
+{
+	static const U32 ID;
+};
+
+
+struct AComponent
+{
+	U64 idx;
+	U64 GameObjectID;
+};
 }
 
-#define DRAK_COMPONENT_START(name) 	\
-namespace drak {					\
-namespace components {				\
-struct name : public AComponent		\
-{									\
-	void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
+}
+//DK_METADATA_BEGIN(drak::behavior::ABehavior*)
+//DK_PUBLIC_FIELDS()
+//DK_PUBLIC_FIELD_COMPLEMENT
+//DK_METADATA_END
+//DK_METADATA_BEGIN(drak::behavior::ABehavior)
+//DK_PUBLIC_FIELDS(gameObjectID, name)
+//DK_PUBLIC_FIELD_COMPLEMENT
+//DK_METADATA_END
+
+
+#define DRAK_COMPONENT_START(name, ...) 		\
+namespace drak {								\
+namespace components {							\
+struct name : public AComponent, __VA_ARGS__	\
+{												\
+	//void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 
 #define DRAK_COMPONENT_END(name)				\
@@ -39,7 +51,11 @@ template <>										\
 struct  drak::components::ComponentType<drak::components::name>\
 {												\
 	static const U32 id = (U32)__COUNTER__;		\
-};												
+};
+
+
+
+
 
 /*!
 *	\def  DRAK_COMPONENT_START(name)

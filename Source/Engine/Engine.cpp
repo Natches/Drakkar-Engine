@@ -1,93 +1,148 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
+#include <Core/Components/GameObject.hpp>
+#include <Windowing/Window/AWindow.hpp>
+#include <Engine/Physics/PhysicsSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+#include <Video/VideoSystem.hpp>
+#include <Video/Graphics/Rendering/RenderSystem.hpp>
+
+
+
+using namespace drak::components;
+using namespace drak::time;
+using namespace drak::thread;
+using namespace drak::video;
+using namespace drak::gfx;
 
 namespace drak {
 namespace core {
-thread::ThreadPool Engine::s_pool;
 bool Engine::running = true;
 
 Engine::Engine() {
-
+	m_pVideoSystem = new video::VideoSystem();
+	m_pRenderSystem = new gfx::RenderSystem();
+	m_pPhysicsSystem = new PhysicsSystem;
+	m_pLevelSystem = new LevelSystem;
 }
 
 Engine::~Engine() {
-
+	delete m_pVideoSystem;
+	delete m_pRenderSystem;
+	delete m_pPhysicsSystem;
+	delete m_pLevelSystem;
 }
 
 PhysicsSystem& Engine::getPhysicsSystem()
 {
-	return physicsSystem;
+	return *m_pPhysicsSystem;
+}
+
+DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
+	return s_frameTime;
+}
+
+DRAK_API LevelSystem & Engine::currentLevel()
+{
+		return *m_pLevelSystem;
 }
 
 int Engine::startup() {
-	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
+	events::EngineEvent eEvent;
+	eEvent.type = events::EngineEventDispatcher::STARTUP_BEGIN;
+	m_eventDispatcher.dispatchEvent(&eEvent);
+
+	//Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
 	//Init systems
 	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
 	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
 	// TODO (Simon): Check for failed startups
-	videoSystem.startup(videoSettings, pMainWindow);
-	renderSystem.startup(videoSystem.renderer());
-	sceneSystem.Startup();
-	s_pool.startup();
-	physicsSystem.Startup();
-	physicsSystem.InitPxScene(&sceneSystem.scene->m_pPhysXScene);
+	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
 
+	m_pRenderSystem->startup(m_pVideoSystem->renderer());
+
+	m_pPhysicsSystem->Startup();
+
+	m_pLevelSystem->startup();
+	m_pLevelSystem->loadScene("Blyat");
+	m_pool.startup();
+
+	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
+	for (auto& go : gameObjects) {
+		go.setLevel(m_pLevelSystem);
+		m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+	}
+
+	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
+	m_eventDispatcher.dispatchEvent(&eEvent);
 	return 0;
 }
 
 int Engine::shutdown() {
+	events::EngineEvent eEvent;
+	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_START;
+	m_eventDispatcher.dispatchEvent(&eEvent);
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
-	sceneSystem.Shutdown();
-	physicsSystem.Shutdown();
-	renderSystem.shutdown();
-	videoSystem.shutdown();
+	m_pLevelSystem->shutdown();
+	m_pPhysicsSystem->Shutdown();
+	m_pRenderSystem->shutdown();
+	m_pVideoSystem->shutdown();
 
 	Logbook::CloseLogs();
-	s_pool.shutdown();
-
+	m_pool.shutdown();
+	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_END;
+	m_eventDispatcher.dispatchEvent(&eEvent);
 	return 0;
 }
 
 void Engine::startLoop() {
 	s_frameTime.start();
 
-	std::vector<AGameObject*>& gameObjects = sceneSystem.scene->getGameObjects();
-	for (auto g : gameObjects)
-		g->Start();
 
-	while (pMainWindow->isOpen()) {
+
+	events::EngineEvent eEvent;
+	eEvent.type = events::EngineEventDispatcher::UPDATE_START;
+	m_eventDispatcher.dispatchEvent(&eEvent);
+
+	while (m_pMainWindow->isOpen()) {
 		s_frameTime.update();
-		pMainWindow->pollEvents();
+		m_pMainWindow->pollEvents();
 
-		gameObjects = sceneSystem.scene->getGameObjects();
-		for (auto g : gameObjects)
-			g->Update();
+		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
+		m_eventDispatcher.dispatchEvent(&eEvent);
 
-		std::vector<components::Transform> subArray = sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::RigidBody>::id);
-		physicsSystem.Update(sceneSystem.scene->m_pPhysXScene, s_frameTime.deltaTime(),
-				sceneSystem.scene->getComponentContainerByType<components::RigidBody>(),
-				&subArray);
-		sceneSystem.scene->stampSubArrayIntoMainArray<components::Transform>(subArray);
+		//gameObjects = m_pLevelSystem->getGameObjects();
+		//for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
+		//	gameObjects[i]->update();
 
-		pMainWindow->clear();
-		renderSystem.startFrame();
+		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
+			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
-		renderSystem.forwardRender(sceneSystem.scene->getComponentContainerByType<components::Model>(),
-			&sceneSystem.scene->getFilteredComponentSubArray<components::Transform>(components::ComponentType<components::Model>::id));
+		m_pMainWindow->clear();
+		m_pRenderSystem->startFrame();
+		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
 
-		renderSystem.endFrame();
-		pMainWindow->swapBuffers();
+		m_pRenderSystem->endFrame();
+		m_pMainWindow->swapBuffers();
+		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
+		m_eventDispatcher.dispatchEvent(&eEvent);
 	}
 	s_frameTime.stop();
+	eEvent.type = events::EngineEventDispatcher::UPDATE_END;
+	m_eventDispatcher.dispatchEvent(&eEvent);
 }
 
-void Engine::stopGame() {
+void Engine::StopGame() {
 	Engine::running = false;
 }
 
 void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
-	sceneSystem.loadScene(sceneBlueprint);
+	m_pLevelSystem->loadScene(sceneBlueprint);
+}
+
+void Engine::loadScene(const char* filename) {
+	m_pLevelSystem->loadScene(filename);
 }
 
 

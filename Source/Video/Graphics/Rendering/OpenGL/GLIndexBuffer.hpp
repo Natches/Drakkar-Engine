@@ -17,9 +17,12 @@ public:
 	GLIndexBuffer() = default;
 	~GLIndexBuffer();
 
-	void create(const GLushort* pIndices, GLsizei indexCount);
+	void create(const GLuint* pIndices, GLsizei indexCount);
 
-	DK_GETTER_C(GLushort, indexCount, m_indexCount)
+	void drawElements(GLenum prim);
+	void drawElementsInstanced(GLenum prim);
+
+	DK_GETTER_C(GLuint, indexCount, m_indexCount)
 
 private:
 	GLsizei m_indexCount;
