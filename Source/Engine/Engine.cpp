@@ -7,8 +7,6 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 
-
-
 using namespace drak::components;
 using namespace drak::time;
 using namespace drak::thread;
