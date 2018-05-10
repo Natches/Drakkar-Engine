@@ -15,36 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp">
+    <ClInclude Include="..\..\Source\Converter\ResourceConvert.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp">
+    <ClInclude Include="..\..\Source\Converter\ModelImporter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp">
+    <ClInclude Include="..\..\Source\Converter\ResourceDefinitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp">
+    <ClCompile Include="..\..\Source\Converter\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp">
+    <ClCompile Include="..\..\Source\Converter\ModelImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\ModelManager.cpp">
+    <ClCompile Include="..\..\Source\Converter\ResourceDefinitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

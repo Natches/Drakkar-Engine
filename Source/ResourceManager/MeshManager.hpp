@@ -11,13 +11,10 @@ namespace drak {
 
 class MeshManager final {
 	DK_NONMOVABLE_NONCOPYABLE(MeshManager)
-public:
-	MeshPtr preloadMesh(const std::string& filename);
-	MeshPtr loadMesh(const std::string& filename);
 
 private:
 	friend class ResourceSystem;
-	MeshManager() = default;
+	MeshManager();
 
 private:
 	MeshMap m_meshes;

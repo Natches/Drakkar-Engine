@@ -132,9 +132,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp">
-      <Filter>Header Files\Graphics\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
@@ -184,9 +181,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp">
-      <Filter>Source Files\Graphics\Tools</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>

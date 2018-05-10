@@ -143,6 +143,7 @@ void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
 
 void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
+	m_pLevelSystem->loadScene(filename);
 }
 
 

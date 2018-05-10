@@ -3,16 +3,22 @@
 
 namespace drak {
 
-void ResourceSystem::startup() {
+core::EError ResourceSystem::unloadAll(const std::string& filename) {
+	return core::EError();
+}
+
+core::EError ResourceSystem::reloadAll(const std::string& filename) {
+	return core::EError();
+}
+
+core::EError ResourceSystem::startup() {
 	// m_pModelManager = new ModelManager();
+	return core::EError();
 }
 
-void ResourceSystem::shutdown() {
+core::EError ResourceSystem::shutdown() {
 	// delete m_pModelManager;
+	return core::EError();
 }
 
-MeshPtr ResourceSystem::loadMesh(const std::string& filename) {
-	return m_meshManager.loadMesh(filename);
-}
-
-} // namespace drak 
+} // namespace drak

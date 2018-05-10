@@ -5,6 +5,7 @@
 #include <Threading/Thread/ThreadObject.hpp>
 
 namespace drak {
+class ResourceConverter;
 namespace core {
 	class Engine;
 } // namespace core
@@ -13,6 +14,7 @@ namespace thread {
 class ThreadPool {
 	friend ThreadObject;
 	friend core::Engine;
+	friend ResourceConverter;
 	DK_NONMOVABLE_NONCOPYABLE(ThreadPool)
 
 	using Task = task::ATask;

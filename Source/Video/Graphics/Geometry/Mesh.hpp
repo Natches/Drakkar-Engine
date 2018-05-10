@@ -10,7 +10,7 @@ namespace geom {
 template<typename vertexType>
 class Mesh : public AMesh {
 	static_assert(
-		std::is_same_v<Vertex1P,		vertexType> || 
+		std::is_same_v<Vertex1P,		vertexType> ||
 		std::is_same_v<Vertex1P1N,		vertexType> ||
 		std::is_same_v<Vertex1P1N1UV,	vertexType>, "Must be a vertexType");
 public:
@@ -28,12 +28,16 @@ public:
 
 	DK_GETTER_REF_C(std::vector<vertexType>, vertices, m_vertices)
 	DK_GETTER_REF_C(std::vector<U32>, indices, m_indices)
+	DK_GETTER(U32, verticeCount, m_verticeCount)
+	DK_GETTER(U32, indiceCount, m_indiceCount)
 
 protected:
 	std::vector<vertexType>		m_vertices;
 	std::vector<U32>			m_indices;
 
 	std::string					m_filename;
+	U32							m_verticeCount;
+	U32							m_indiceCount;
 	U8							m_numAttribs;
 };
 

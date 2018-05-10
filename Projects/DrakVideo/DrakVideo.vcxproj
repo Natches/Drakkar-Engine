@@ -44,7 +44,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
@@ -62,7 +61,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
