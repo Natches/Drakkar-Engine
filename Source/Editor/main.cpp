@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
     framelessWin.setContent(&editor);
     framelessWin.setWindowState(Qt::WindowMaximized);
     framelessWin.setWindowTitle("Drakkar Editor");
-    //framelessWin.setWindowIcon(drakEditor.style()->standardIcon(QStyle::SP_DesktopIcon));
     framelessWin.show();
 
     return drakEditor.exec();
