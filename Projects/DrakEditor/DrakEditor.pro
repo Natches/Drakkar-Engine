@@ -25,31 +25,41 @@ DEPENDPATH  += $$DKSRC
 
 SOURCES += \
         $$DKSRC/Editor/main.cpp \
-        $$DKSRC/Editor/Editor.cpp
+        $$DKSRC/Editor/Editor.cpp \
+        $$DKSRC/Editor/framelesswindow.cpp \
+        $$DKSRC/Editor/windowdragger.cpp \
+        $$DKSRC/Editor/DarkStyle.cpp \
 
 HEADERS += \
         $$DKSRC/Editor/Editor.hpp \
-        $$DKSRC/Engine/Engine.hpp
-
-#win32:LIBS += ../../Binaries
-
-DESTDIR     = $$OUT_PWD
-
-OBJECTS_DIR = $$DESTDIR/.obj
-MOC_DIR     = $$DESTDIR/.moc
-RCC_DIR     = $$DESTDIR/.qrc
-UI_DIR      = $$DESTDIR/.ui
+        $$DKSRC/Editor/DarkStyle.h \
+        $$DKSRC/Editor/framelesswindow.h \
+        $$DKSRC/Editor/windowdragger.h \
+        $$DKSRC/Engine/Engine.hpp \
 
 #------------------------------------------------------
 
-required_qt_dll.path = %{buildDir}
-required_qt_dll.files = $$QMAKE_LIBDIR_QT/QtCore.dll
-INSTALLS += required_qt_dll
+DESTDIR     = $$OUT_PWD
+TEMPDIR     = $$DESTDIR/Intermediate
 
+OBJECTS_DIR = $$TEMPDIR/.obj
+MOC_DIR     = $$TEMPDIR/.moc
+RCC_DIR     = $$TEMPDIR/.qrc
+UI_DIR      = $$TEMPDIR/.ui
 
-QT_QPA_PLATFORM_PLUGIN_PATH = %QTDIR%\plugins\platforms\
+#------------------------------------------------------
+
+RSRCDIR     = "Resources"
+RESOURCES   += \
+            $$RSRCDIR/darkstyle.qrc \
+            $$RSRCDIR/framelesswindow.qrc \
+
+#------------------------------------------------------
+
+#win32:LIBS += ../../Binaries
 
 #------------------------------------------------------
 
 FORMS += \
-    Editor.ui
+    Editor.ui \
+    framelesswindow.ui \

@@ -16,6 +16,9 @@ public:
     ~Editor();
 
 private:
+    void init();
+
+private:
     Ui::Editor *ui;
 };
 

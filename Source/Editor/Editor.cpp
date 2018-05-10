@@ -6,9 +6,15 @@ Editor::Editor(QWidget *parent) :
     ui(new Ui::Editor)
 {
     ui->setupUi(this);
+    init();
 }
 
 Editor::~Editor()
 {
     delete ui;
+}
+
+void Editor::init()
+{
+    splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
 }

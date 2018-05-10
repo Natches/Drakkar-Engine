@@ -1,11 +1,23 @@
-#include "Editor.hpp"
 #include <QApplication>
+
+#include "DarkStyle.h"
+#include "framelesswindow.h"
+
+#include "Editor.hpp"
 
 int main(int argc, char *argv[])
 {
-    QApplication editorApp(argc, argv);
-    Editor editorWin;
-    editorWin.show();
+    QApplication drakEditor(argc, argv);
+    drakEditor.setStyle(new DarkStyle);
 
-    return editorApp.exec();
+    Editor editor;
+
+    FramelessWindow framelessWin;
+    framelessWin.setContent(&editor);
+    framelessWin.setWindowState(Qt::WindowMaximized);
+    framelessWin.setWindowTitle("Drakkar Editor");
+    //framelessWin.setWindowIcon(drakEditor.style()->standardIcon(QStyle::SP_DesktopIcon));
+    framelessWin.show();
+
+    return drakEditor.exec();
 }
