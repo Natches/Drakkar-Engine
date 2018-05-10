@@ -16,19 +16,19 @@ DK_USE_NAMESPACE(drak)
 using namespace physx;
 using namespace drak::components;
 
-void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level)
+void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
 {
 	if (rb.isStatic) {
 		rb.rigidActor = m_pPhysics->createRigidStatic(
 			physx::PxTransform(
-				trans.position.x,
-				trans.position.y,
-				trans.position.z,
+				trans.globalPosition.x,
+				trans.globalPosition.y,
+				trans.globalPosition.z,
 				PxQuat(
-					trans.rotation.m_vecPart.x,
-					trans.rotation.m_vecPart.y,
-					trans.rotation.m_vecPart.z,
-					trans.rotation.m_scalar
+					trans.globalRotation.m_vecPart.x,
+					trans.globalRotation.m_vecPart.y,
+					trans.globalRotation.m_vecPart.z,
+					trans.globalRotation.m_scalar
 				)
 			)
 		);
@@ -36,14 +36,14 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
-				trans.position.x,
-				trans.position.y,
-				trans.position.z,
+				trans.globalPosition.x,
+				trans.globalPosition.y,
+				trans.globalPosition.z,
 				PxQuat(
-					trans.rotation.m_vecPart.x,
-					trans.rotation.m_vecPart.y,
-					trans.rotation.m_vecPart.z,
-					trans.rotation.m_scalar
+					trans.globalRotation.m_vecPart.x,
+					trans.globalRotation.m_vecPart.y,
+					trans.globalRotation.m_vecPart.z,
+					trans.globalRotation.m_scalar
 				)
 			)
 		);
@@ -140,14 +140,14 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)].getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
-		t.position.x = actorTransform.p.x;
-		t.position.y = actorTransform.p.y;
-		t.position.z = actorTransform.p.z;
+		t.globalPosition.x = actorTransform.p.x;
+		t.globalPosition.y = actorTransform.p.y;
+		t.globalPosition.z = actorTransform.p.z;
 
-		t.rotation.m_vecPart.x = actorTransform.q.x;
-		t.rotation.m_vecPart.y = actorTransform.q.y;
-		t.rotation.m_vecPart.z = actorTransform.q.z;
-		t.rotation.m_scalar = actorTransform.q.w;
+		t.globalRotation.m_vecPart.x = actorTransform.q.x;
+		t.globalRotation.m_vecPart.y = actorTransform.q.y;
+		t.globalRotation.m_vecPart.z = actorTransform.q.z;
+		t.globalRotation.m_scalar = actorTransform.q.w;
 	}
 }
 
@@ -167,10 +167,10 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].dirty = false;
 				PxTransform trans(
-					transforms[i].position.x,
-					transforms[i].position.y,
-					transforms[i].position.z,
-					PxQuat(transforms[i].rotation.m_vecPart.x, transforms[i].rotation.m_vecPart.y, transforms[i].rotation.m_vecPart.z, transforms[i].rotation.m_scalar));
+					transforms[i].globalPosition.x,
+					transforms[i].globalPosition.y,
+					transforms[i].globalPosition.z,
+					PxQuat(transforms[i].globalRotation.m_vecPart.x, transforms[i].globalRotation.m_vecPart.y, transforms[i].globalRotation.m_vecPart.z, transforms[i].globalRotation.m_scalar));
 				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
 			}
 		}

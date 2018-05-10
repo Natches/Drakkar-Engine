@@ -25,9 +25,9 @@ public:
 		Model& cube_MDL = cube.addComponent<Model>();
 		BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
-		cube_TR.position = Vec3f(0,0,0);
-		cube_TR.scale = Vec3f(10.f, 10.f, 10.f);
-		cube_TR.rotation = Quaternion(Vec3f(0.f, 0.f, 45.f));
+		cube_TR.globalPosition = Vec3f(0,0,0);
+		cube_TR.globalScale = Vec3f(10.f, 10.f, 10.f);
+		cube_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 0.f));
 
 		cube_RB.mass = 1000.f;
 
@@ -43,6 +43,32 @@ public:
 		cube_BC.material = mat;
 		BHVR.getCubeBehaviorContainer().emplace_back();
 		BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1].gameObjectID = cube.getIdx();
+		const U32 parentIDX = cube.getIdx();
+
+		GameObject& childCube = scene.addGameObject();
+		Transform& childCube_TR = childCube.getComponent<Transform>();
+		Model& childCube_MDL = childCube.addComponent<Model>();
+
+		childCube_TR.globalPosition = Vec3f(30, 0, 0);
+		childCube_TR.globalScale = Vec3f(1.5f, 1.5f, 1.5f);
+		childCube_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 90.f));
+
+		childCube_MDL.albedo = gfx::Color3(1, 0, 0);
+		const U32 parent2IDX = childCube.getIdx();
+		childCube.setParent(parentIDX);
+
+		GameObject& childCube2 = scene.addGameObject();
+		Transform& childCube2_TR = childCube2.getComponent<Transform>();
+		Model& childCube2_MDL = childCube2.addComponent<Model>();
+
+		childCube2_TR.globalPosition = Vec3f(50, 0, 0);
+		childCube2_TR.globalScale = Vec3f(1.f, 1.f, 1.f);
+		childCube2_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 0.f));
+
+		childCube2_MDL.albedo = gfx::Color3(1, 0, 0);
+
+		childCube2.setParent(parent2IDX);
+
 
 		GameObject& floor = scene.addGameObject();
 		floor.name = "Floor";
@@ -51,8 +77,9 @@ public:
 		Model& floor_MDL = floor.addComponent<Model>();
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
-		floor_TR.position = Vec3f(0, -50.f, 0);
-		floor_TR.scale = Vec3f(100.f, 10.f, 100.f);
+		floor_TR.globalPosition = Vec3f(0, -50.f, 0);
+		floor_TR.globalScale = Vec3f(100.f, 10.f, 100.f);
+		floor_TR.globalRotation = Quaternion(1.f, Vec3f(0.f, 0.f, 0.f));
 
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
@@ -71,8 +98,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	Engine::Get().loadScene(/*bp*/"Blyat");
-	BHVR.load();
+	//Engine::Get().loadScene(/*bp*/"Scene");
+	Engine::Get().loadScene(bp);
+	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();
 	Engine::Get().shutdown();
