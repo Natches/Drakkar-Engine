@@ -19,24 +19,35 @@ struct SkeletalVertex {
 };
 
 struct Mesh {
+	std::string name;
 	std::vector<int> indices;
 	std::vector<Vertex> vertices;
 };
 
 struct SkeletalMesh {
+	std::string name;
 	std::vector<int> indices;
 	std::vector<SkeletalVertex> vertices;
 };
 
 struct Texture {
-	U8 channel;
-	U32 width, height;
+	std::string name;
 	std::vector<U8> pixels;
+	U32 width, height;
+	U16 format;
+	U8 channels;
 };
 
 struct Material {
-	Texture albedo;
-	Texture normal;
+	std::string name;
+	std::string albedo;
+	std::string normal;
+	math::Vec3f diffuseColor;
+	math::Vec3f specularColor;
+	math::Vec3f ambientColor;
+	F32 opacity;
+	F32 shininess;
+	F32 shininessStrength;
 };
 
 template<typename T>
@@ -44,7 +55,7 @@ struct Model {
 	static_assert(std::is_same_v<T, Mesh> || std::is_same_v<T, SkeletalMesh>,
 		"Must Be a Mesh Definition !!");
 	T mesh;
-	Material material;
+	std::string material;
 };
 
 bool IsTexture(const char* file);
@@ -73,7 +84,7 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::Texture)
-DK_PUBLIC_FIELDS(channel, width, height, pixels)
+DK_PUBLIC_FIELDS(channels, width, height, pixels)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -82,12 +93,12 @@ DK_PUBLIC_FIELDS(albedo, normal)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Model<Mesh>)
+DK_METADATA_BEGIN(drak::Model<drak::Mesh>)
 DK_PUBLIC_FIELDS(mesh, material)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Model<SkeletalMesh>)
+DK_METADATA_BEGIN(drak::Model<drak::SkeletalMesh>)
 DK_PUBLIC_FIELDS(mesh, material)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

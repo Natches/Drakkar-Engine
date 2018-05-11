@@ -9,12 +9,15 @@ class ResourceConverter;
 namespace core {
 	class Engine;
 } // namespace core
+namespace converter {
+class ResourceConverter;
+} //namespace converter
 namespace thread {
 
 class ThreadPool {
 	friend ThreadObject;
 	friend core::Engine;
-	friend ResourceConverter;
+	friend drak::converter::ResourceConverter;
 	DK_NONMOVABLE_NONCOPYABLE(ThreadPool)
 
 	using Task = task::ATask;

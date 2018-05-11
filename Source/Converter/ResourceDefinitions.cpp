@@ -1,12 +1,11 @@
 #include <PrecompiledHeader/pch.hpp>
-#include <Converter/ResourceDefinition.hpp>
-#include <shlwapi.h>
+#include <Converter/ResourceDefinitions.hpp>
 
 namespace drak {
 
 DK_ENUM_CLASS(EFileType, U8, MESH, TEXTURE)
 
-static const std::map<const char*, EFileType> fileMap{ { "fbx", EFileType::MESH },
+static const std::map<std::string, EFileType> fileMap{ { "fbx", EFileType::MESH },
 { "3d", EFileType::MESH },
 { "3ds", EFileType::MESH },
 { "3mf", EFileType::MESH },
@@ -38,17 +37,20 @@ static const std::map<const char*, EFileType> fileMap{ { "fbx", EFileType::MESH 
 };
 
 bool IsTexture(const char* file) {
-	const char* ext = PathFindExtensionA(file);
+	std::string ext(file);
+	ext.erase(ext.begin(), ext.begin() + ext.find_last_of('.'));
 	if (ext[0] == '.')
-		return fileMap.find(ext + 1) != fileMap.end() && fileMap.at(ext + 1) == EFileType::TEXTURE;
+		return fileMap.find(ext.c_str() + 1) != fileMap.end() && fileMap.at(ext.c_str() + 1) == EFileType::TEXTURE;
 	else
 		return false;
 }
 
 bool IsMesh(const char* file) {
-	const char* ext = PathFindExtensionA(file);
-	if (ext[0] == '.')
-		return fileMap.find(ext + 1) != fileMap.end() && fileMap.at(ext+1) == EFileType::MESH;
+	std::string ext(file);
+	ext.erase(ext.begin(), ext.begin() + ext.find_last_of('.'));
+	if (ext[0] == '.') {
+		return fileMap.find(ext.c_str() + 1) != fileMap.end() && fileMap.at(ext.c_str() + 1) == EFileType::MESH;
+	}
 	else
 		return false;
 }

@@ -52,9 +52,9 @@ template<EExtension ext, class T>
 core::EError Serializer::AddObjectToFile(const T& t, const char* path) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	if constexpr(ext == EExtension::INI)
-		return AddSerializeToINI(t, std::string(path) + ".ini");
+		return AddToINI(t, (std::string(path) + ".ini")c_str());
 	else if constexpr (ext == EExtension::BINARY)
-		return AddSerializeToBinary(t, std::string(path) + ".bin");
+		return AddToBinary(t, (std::string(path) + ".bin").c_str());
 	return core::EError::FILE_NOT_FOUND;
 }
 
@@ -62,9 +62,9 @@ template<EExtension ext, class T>
 core::EError Serializer::AddObjectToFile(const std::vector<T>& t, const char* path) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	if constexpr(ext == EExtension::INI)
-		return AddSerializeToINI(t, std::string(path) + ".ini");
+		return AddToINI<T>(t, (std::string(path) + ".ini").c_str());
 	else if constexpr (ext == EExtension::BINARY)
-		return AddSerializeToBinary(t, std::string(path) + ".bin");
+		return AddToBinary<T>(t, (std::string(path) + ".bin").c_str());
 	return core::EError::FILE_NOT_FOUND;
 }
 
@@ -72,9 +72,9 @@ template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::AddObjectToFile(const char* path, const T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	if constexpr(ext == EExtension::INI)
-		return AddSerializeToINI(std::string(path) + ".ini", t, std::forward<VArgs>(args)...);
+		return AddToINI(std::string(path) + ".ini", t, std::forward<VArgs>(args)...);
 	else if constexpr (ext == EExtension::BINARY)
-		return AddSerializeToBinary(std::string(path) + ".bin", t, std::forward<VArgs>(args)...);
+		return AddToBinary(std::string(path) + ".bin", t, std::forward<VArgs>(args)...);
 	return core::EError::FILE_NOT_FOUND;
 }
 
@@ -87,20 +87,20 @@ std::tuple<T, core::EError> Serializer::LoadFromFile(const char* path) {
 template<EExtension ext, class T>
 core::EError Serializer::LoadFromFile(T& t, const char* path) {
 	if constexpr(ext == EExtension::INI)
-		return LoadINI(t, (std::string(path) + ".ini").c_str());
+		return LoadFromINI(t, (std::string(path) + ".ini").c_str());
 	else if constexpr (ext == EExtension::JSON)
-		return LoadJSON(t, (std::string(path) + ".json").c_str());
+		return LoadFromJSON(t, (std::string(path) + ".json").c_str());
 	else if constexpr (ext == EExtension::BINARY)
-		return LoadBinary(t, (std::string(path) + ".bin").c_str());
+		return LoadFromBinary(t, (std::string(path) + ".bin").c_str());
 }
 
 template<EExtension ext, class T>
 core::EError Serializer::LoadEveryFromFile(std::vector<T>& t, const char* path) {
 	static_assert(!(ext == EExtension::JSON), "Cannot load multiple object from JSON file !!");
 	if constexpr(ext == EExtension::INI)
-		return LoadINI(t, (std::string(path) + ".ini").c_str());
+		return LoadFromINI(t, (std::string(path) + ".ini").c_str());
 	else if constexpr (ext == EExtension::BINARY)
-		return LoadBinary(t, (std::string(path) + ".bin").c_str());
+		return LoadFromBinary(t, (std::string(path) + ".bin").c_str());
 }
 
 template<EExtension ext, class T>
@@ -113,9 +113,9 @@ template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::LoadFromFile(const char* path, T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot load multiple object from JSON file !!");
 	if constexpr(ext == EExtension::INI)
-		return LoadINI((std::string(path) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
+		return LoadFromINI((std::string(path) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
 	else if constexpr (ext == EExtension::BINARY)
-		return LoadBinary((std::string(path) + ".bin").c_str(), t, std::forward<VArgs>(args)...);
+		return LoadFromBinary((std::string(path) + ".bin").c_str(), t, std::forward<VArgs>(args)...);
 }
 
 
@@ -207,7 +207,7 @@ core::EError Serializer::SerializeToINI(const char* path, const char* filename, 
 }
 
 template<class T>
-core::EError Serializer::AddSerializeToINI(const T& t, const char* path) {
+core::EError Serializer::AddToINI(const T& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path,  std::ios::app);
 		if (file.is_open()) {
@@ -224,7 +224,7 @@ core::EError Serializer::AddSerializeToINI(const T& t, const char* path) {
 }
 
 template<class T>
-inline core::EError Serializer::AddSerializeToINI(const std::vector<T>& t, const char * path) {
+inline core::EError Serializer::AddToINI(const std::vector<T>& t, const char * path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::app);
 		if (file.is_open()) {
@@ -242,7 +242,7 @@ inline core::EError Serializer::AddSerializeToINI(const std::vector<T>& t, const
 }
 
 template<class T, class ...VArgs>
-core::EError Serializer::AddSerializeToINI(const char* path, const T& t, VArgs&& ...args) {
+core::EError Serializer::AddToINI(const char* path, const T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::app);
 		if (file.is_open()) {
@@ -258,7 +258,7 @@ core::EError Serializer::AddSerializeToINI(const char* path, const T& t, VArgs&&
 }
 
 template<class T>
-core::EError Serializer::LoadINI(T& t, const char* path) {
+core::EError Serializer::LoadFromINI(T& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
@@ -279,7 +279,7 @@ core::EError Serializer::LoadINI(T& t, const char* path) {
 }
 
 template<class T>
-core::EError Serializer::LoadINI(std::vector<T>& t, const char* path) {
+core::EError Serializer::LoadFromINI(std::vector<T>& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
@@ -305,7 +305,7 @@ core::EError Serializer::LoadINI(std::vector<T>& t, const char* path) {
 }
 
 template<EExtension ext, class T, class ...VArgs>
-core::EError Serializer::LoadINI(const char* path, T& t, VArgs&& ...args) {
+core::EError Serializer::LoadFromINI(const char* path, T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
@@ -347,7 +347,7 @@ core::EError Serializer::SerializeToJSON(const T& t, const char* path, const cha
 }
 
 template<class T>
-core::EError Serializer::LoadJSON(T& t, const char* path) {
+core::EError Serializer::LoadFromJSON(T& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
@@ -420,7 +420,7 @@ core::EError Serializer::SerializeToBinary(const char* path, const char* filenam
 }
 
 template<class T>
-core::EError Serializer::AddSerializeToBinary(const T& t, const char* path) {
+core::EError Serializer::AddToBinary(const T& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -447,7 +447,7 @@ core::EError Serializer::AddSerializeToBinary(const T& t, const char* path) {
 }
 
 template<class T>
-core::EError Serializer::AddSerializeToBinary(const std::vector<T>& t, const char* path) {
+core::EError Serializer::AddToBinary(const std::vector<T>& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -475,7 +475,7 @@ core::EError Serializer::AddSerializeToBinary(const std::vector<T>& t, const cha
 }
 
 template<class T, class ...VArgs>
-core::EError Serializer::AddSerializeToBinary(const char* path, const T& t, VArgs&& ...args) {
+core::EError Serializer::AddToBinary(const char* path, const T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
@@ -495,7 +495,7 @@ core::EError Serializer::AddSerializeToBinary(const char* path, const T& t, VArg
 }
 
 template<class T>
-core::EError Serializer::LoadBinary(T& t, const char* path) {
+core::EError Serializer::LoadFromBinary(T& t, const char* path) {
 	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
 		if (file.is_open()) {
@@ -520,7 +520,7 @@ core::EError Serializer::LoadBinary(T& t, const char* path) {
 }
 
 template<class T>
-core::EError Serializer::LoadBinary(std::vector<T>& t, const char* path) {
+core::EError Serializer::LoadFromBinary(std::vector<T>& t, const char* path) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
 		if (file.is_open()) {
@@ -553,7 +553,7 @@ core::EError Serializer::LoadBinary(std::vector<T>& t, const char* path) {
 }
 
 template<EExtension ext, class T, class ...VArgs>
-core::EError Serializer::LoadBinary(const char* path, T& t, VArgs&& ...args) {
+core::EError Serializer::LoadFromBinary(const char* path, T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
 		if (file.is_open()) {

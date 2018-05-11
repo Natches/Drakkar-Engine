@@ -3,9 +3,9 @@
 #include <PxPhysicsAPI.h>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
-//#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
 
-#define SIM_RATE 1.f/30.f 
+#define SIM_RATE 1.f/30.f
 
 DK_USE_NAMESPACE(drak)
 
@@ -91,7 +91,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 }
 
 void drak::PhysicsSystem::AddCollisionCallback(RigidBody& rb,
-	events::EventType type, 
+	events::EventType type,
 	events::EventListener listener)
 {
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
@@ -262,5 +262,5 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 			target.rigidActor->setGlobalPose(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
 		}
 	}
-	
+
 }

@@ -35,5 +35,8 @@
     <ClCompile Include="..\..\Source\Converter\ResourceDefinitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Converter\ResourceConvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

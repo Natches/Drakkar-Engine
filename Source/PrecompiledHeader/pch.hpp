@@ -43,15 +43,6 @@
 #include <Math/Vec8.hpp>
 #include <Math/Matrix4x4.hpp>
 
-#include <Engine/Components/Components.hpp>
-#include <Engine/Components/TransformComponent.hpp>
-#include <Engine/Components/ModelComponent.hpp>
-#include <Engine/Components/PhysicsComponents.hpp>
-#include <Engine/Components/ABehavior.hpp>
-
-#include <Engine/Scene/LevelSystem.hpp>
-#include <Engine/Scene/LevelSystemUtils.hpp>
-
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>
 #include <Threading/Function/Function.hpp>
@@ -76,8 +67,6 @@
 
 #include <Video/Graphics/Geometry/Mesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
-
-#include <Video/Graphics/Tools/AssetSceneImporter.hpp>
 
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>

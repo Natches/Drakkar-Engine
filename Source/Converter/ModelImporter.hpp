@@ -20,17 +20,28 @@ namespace tools {
 * \brief
 */
 class ModelImporter final {
+	using TexVec = std::vector<Texture>;
+	using MatVec = std::vector<Material>;
+	using ModelVec = std::vector<Model<Mesh>>;
+	using SkelMeshVec = std::vector<Model<SkeletalMesh>>;
 public:
 	ModelImporter();
 	~ModelImporter();
 
-	bool startImport(const std::string& filename, bool leftHanded = false);
+	bool startImport(const std::string& filename, bool optimizeMesh = false, bool leftHanded = false);
 
-	void extractMeshes(Mesh& aOutMesh);
-	void extractSkeletalMeshes(SkeletalMesh& aOutMesh);
-	void extractMaterials(Material& aOutMat);
+	void importModel(ModelVec& aModels, MatVec& aMaterials, TexVec& aTextures,
+		bool extractMaterialsAndTexture = true);
+	void importSkeletalModel(SkelMeshVec& aModels, MatVec& aMaterials, TexVec& aTextures,
+		bool extractMaterialsAndTexture = true);
+
+	DK_GETTER_REF_C(std::string, filename, m_filename)
 
 private:
+	void extractModels(ModelVec& aOutModelVec);
+	void extractSkeletalModels(SkelMeshVec& aOutMeshVec);
+	void extractMaterials(MatVec& aOutMatVec);
+	void extractTextures(TexVec& aOutTexVec);
 	void extractVertex(aiMesh* inMesh, Mesh& outMesh);
 	void extractSkeletalVertex(aiMesh* inMesh, SkeletalMesh& outMesh);
 
@@ -40,8 +51,11 @@ private:
 private:
 	Assimp::Importer*	m_pImporter;
 	const aiScene*		m_pScene;
+	std::vector<std::tuple<std::string&>> m_textureToLoadLater;
+	std::string m_filename;
 };
 
+void loadTextureFromFile(const std::string& filename, Texture& aOutTexture);
+
 } // namespace tools
-} // namespace gfx
 } // namespace drak
