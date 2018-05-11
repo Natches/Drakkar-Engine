@@ -1,5 +1,6 @@
 #include "Editor.hpp"
 #include "ui_editor.h"
+//#include "Engine/Engine.hpp"
 
 Editor::Editor(QWidget *parent) :
     QMainWindow(parent),
@@ -17,4 +18,5 @@ Editor::~Editor()
 void Editor::init()
 {
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
+    //drak::core::Engine::Get().startup();
 }
