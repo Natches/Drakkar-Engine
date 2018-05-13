@@ -18,7 +18,35 @@ ModelImporter::ModelImporter()
 :	m_pScene(nullptr), m_pImporter(new Assimp::Importer) {
 }
 
+ModelImporter::ModelImporter(const ModelImporter& m) : m_pScene(nullptr),
+	m_pImporter(m.m_pImporter) {
+}
+
+ModelImporter::ModelImporter(ModelImporter&& m) : m_pScene(std::move(m.m_pScene)),
+	m_pImporter(std::move(m.m_pImporter)) {
+	m.m_pScene = nullptr;
+	m.m_pImporter = nullptr;
+}
+
 ModelImporter::~ModelImporter() {
+}
+
+ModelImporter& ModelImporter::operator=(const ModelImporter& m) {
+	m_pScene = nullptr;
+	m_pImporter = new Assimp::Importer;
+	return *this;
+}
+
+ModelImporter& ModelImporter::operator=(ModelImporter&& m) {
+	m_pScene = std::move(m.m_pScene);
+	m_pImporter = std::move(m.m_pImporter);
+	m.m_pScene = nullptr;
+	m.m_pImporter = nullptr;
+	return *this;
+}
+
+bool ModelImporter::operator==(const ModelImporter& m) {
+	return m_pImporter == m.m_pImporter;
 }
 
 bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, bool leftHanded) {

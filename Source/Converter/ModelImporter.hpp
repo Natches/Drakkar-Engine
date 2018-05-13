@@ -26,7 +26,14 @@ class ModelImporter final {
 	using SkelMeshVec = std::vector<Model<SkeletalMesh>>;
 public:
 	ModelImporter();
+	ModelImporter(const ModelImporter& m);
+	ModelImporter(ModelImporter&& m);
 	~ModelImporter();
+
+	ModelImporter& operator=(const ModelImporter& m);
+	ModelImporter& operator=(ModelImporter&& m);
+
+	bool operator==(const ModelImporter& m);
 
 	bool startImport(const std::string& filename, bool optimizeMesh = false, bool leftHanded = false);
 

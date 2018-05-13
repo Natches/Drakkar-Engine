@@ -1,13 +1,13 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <iostream>
 #include <string>
-#include <Converter/ResourceConvert.hpp>
+#include <Converter/ResourceConverter.hpp>
 
 int main(int ac, char**av) {
 	drak::converter::ResourceConverter r;
 	r.startup();
-	const char** toConvert = new const char*[ac];
-	const char** alreadyConverted = new const char*[ac];
+	char** toConvert = new char*[ac];
+	char** alreadyConverted = new char*[ac];
 	U32 sizeToConvert = 0, sizeAlreadyConverted = 0;
 	std::vector<std::string> files;
 	for (int i = 1; i < ac; ++i) {
@@ -26,14 +26,15 @@ int main(int ac, char**av) {
 			}
 		}
 	}
-	r.convert(sizeToConvert, toConvert);
+	if(sizeToConvert)
+		r.convert(sizeToConvert, toConvert);
 	char choice;
 	std::cout << "Do you want to compress files ? (y/n) \n";
 	std::cin >> choice;
 	if (choice == 'y') {
 		std::cout << "Name of package (32char max) :\n";
 		char name[32];
-		std::cin >> choice;
+		std::cin >> name;
 		r.toPackage(sizeAlreadyConverted, alreadyConverted, name);
 	}
 	r.shutdown();

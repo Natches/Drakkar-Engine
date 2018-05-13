@@ -20,22 +20,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Converter\ModelImporter.hpp" />
-    <ClInclude Include="..\..\Source\Converter\ResourceConvert.hpp" />
+    <ClInclude Include="..\..\Source\Converter\ResourceConverter.hpp" />
     <ClInclude Include="..\..\Source\Converter\ResourceDefinitions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Converter\Main.cpp" />
     <ClCompile Include="..\..\Source\Converter\ModelImporter.cpp" />
-    <ClCompile Include="..\..\Source\Converter\ResourceConvert.cpp" />
+    <ClCompile Include="..\..\Source\Converter\ResourceConverter.cpp" />
     <ClCompile Include="..\..\Source\Converter\ResourceDefinitions.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

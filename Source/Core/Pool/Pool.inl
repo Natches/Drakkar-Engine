@@ -34,7 +34,7 @@ template<typename T>
 T& Pool<T>::borrow() {
 	if (m_pool.empty())
 		grow();
-	m_inUse.emplace_back(m_pool.front());
+	m_inUse.emplace_back(std::move(m_pool.front()));
 	m_pool.erase(m_pool.begin());
 	return m_inUse[m_inUse.size() - 1];
 }
@@ -43,7 +43,6 @@ template<typename T>
 void Pool<T>::getBack(T&& t) {
 	m_inUse.erase(std::remove(m_inUse.begin(), m_inUse.end(), t), m_inUse.end());
 	m_pool.emplace_back(std::move(t));
-	t = T();
 }
 
 template<typename T>

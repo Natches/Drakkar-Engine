@@ -35,22 +35,11 @@ static const std::map<std::string, EFileType> fileMap{ { "fbx", EFileType::MESH 
 };
 
 bool IsTexture(const char* file) {
-	std::string ext(file);
-	ext.erase(ext.begin(), ext.begin() + ext.find_last_of('.'));
-	if (ext[0] == '.')
-		return fileMap.find(ext.c_str() + 1) != fileMap.end() && fileMap.at(ext.c_str() + 1) == EFileType::TEXTURE;
-	else
-		return false;
+	return fileMap.find(drak::io::Extension(file)) != fileMap.end() && fileMap.at(drak::io::Extension(file)) == EFileType::TEXTURE;
 }
 
 bool IsMesh(const char* file) {
-	std::string ext(file);
-	ext.erase(ext.begin(), ext.begin() + ext.find_last_of('.'));
-	if (ext[0] == '.') {
-		return fileMap.find(ext.c_str() + 1) != fileMap.end() && fileMap.at(ext.c_str() + 1) == EFileType::MESH;
-	}
-	else
-		return false;
+	return fileMap.find(drak::io::Extension(file)) != fileMap.end() && fileMap.at(drak::io::Extension(file)) == EFileType::MESH;
 }
 
 } //namespace drak

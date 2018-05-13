@@ -19,16 +19,17 @@ public:
 	void startup();
 	void shutdown();
 
-	void convert(int count, const char**filename);
-	void toPackage(int count, const char**filename, const char* finalName);
+	void convert(int count, char**filename);
+	void toPackage(int count, char**filename, const char* finalName);
 
 private:
-	void convertModel(tools::ModelImporter& importer);
-	void convertTexture(const std::string& filename);
+	void convertModel(const char* filename, bool optimizeMesh);
+	void convertTexture(const char* filename);
 
 private:
-	core::Pool<tools::ModelImporter> m_modelImporterPool;
+	std::atomic<core::Pool<tools::ModelImporter>*> m_modelImporterPool;
 	thread::ThreadPool m_pool;
+	std::mutex m_mutex;
 };
 
 } // namespace converter

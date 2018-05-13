@@ -31,7 +31,8 @@ DRAK_API core::EError CreateDirectories(const char* path) {
 	core::EError err;
 	std::string directory = path;
 	size_t pos = 0, oldPos = 0;
-	while((pos = directory.find_first_of('/')) != directory.npos) {
+	while((pos = directory.find_first_of('/')) != directory.npos ||
+		(pos = directory.find_first_of('\\')) != directory.npos) {
 		oldPos += pos + 1;
 		directory = path;
 		directory.erase(directory.begin() + oldPos, directory.end());
@@ -52,27 +53,43 @@ core::EError CreateDirectoryIfDoesntExist(const char* path) {
 
 DRAK_API std::string Extension(const char* path) {
 	std::string file(path);
-	file.erase(file.begin(), file.begin() + file.find_last_of('.'));
+	size_t pos = 0;
+	if ((pos = file.find_last_of('.')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
 	return file;
 }
 
 DRAK_API std::string AllExtension(const char* path) {
 	std::string file(path);
-	file.erase(file.begin(), file.begin() + file.find_last_of('/'));
-	file.erase(file.begin(), file.begin() + file.find_first_of('.'));
+	size_t pos = 0;
+	if ((pos = file.find_last_of('/')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
+	if ((pos = file.find_last_of('\\')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
+	if ((pos = file.find_first_of('.')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
 	return file;
 }
 
 DRAK_API std::string FileName(const char* path) {
 	std::string file(path);
-	file.erase(file.begin(), file.begin() + file.find_last_of('/'));
+	size_t pos = 0;
+	if ((pos = file.find_last_of('/')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
+	if ((pos = file.find_last_of('\\')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
 	return file;
 }
 
 DRAK_API std::string FileNameNoExtension(const char* path) {
 	std::string file(path);
-	file.erase(file.begin(), file.begin() + file.find_last_of('/'));
-	file.erase(file.begin() + file.find_last_of('.'), file.end());
+	size_t pos = 0;
+	if((pos = file.find_last_of('/')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
+	if ((pos = file.find_last_of('\\')) != file.npos)
+		file.erase(file.begin(), file.begin() + pos + 1);
+	if ((pos = file.find_last_of('.')) != file.npos)
+		file.erase(file.begin() + pos, file.end());
 	return file;
 }
 
