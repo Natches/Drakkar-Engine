@@ -19,11 +19,10 @@ public:
 	void startup();
 	void shutdown();
 
-	void convert(int count, char**filename);
-	void toPackage(int count, char**filename);
+	void convert(int count, const char**filename);
+	void toPackage(int count, const char**filename, const char* finalName);
 
 private:
-	void compress();
 	void convertModel(tools::ModelImporter& importer);
 	void convertTexture(const std::string& filename);
 

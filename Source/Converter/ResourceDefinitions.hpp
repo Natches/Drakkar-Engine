@@ -58,6 +58,11 @@ struct Model {
 	std::string material;
 };
 
+struct Pak {
+	std::vector<std::string> filenames;
+	std::vector<std::string> files;
+};
+
 bool IsTexture(const char* file);
 bool IsMesh(const char* file);
 
@@ -74,22 +79,23 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::Mesh)
-DK_PUBLIC_FIELDS(indices, vertices)
+DK_PUBLIC_FIELDS(name, indices, vertices)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::SkeletalMesh)
-DK_PUBLIC_FIELDS(indices, vertices)
+DK_PUBLIC_FIELDS(name, indices, vertices)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::Texture)
-DK_PUBLIC_FIELDS(channels, width, height, pixels)
+DK_PUBLIC_FIELDS(name, channels, width, height, pixels, format)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::Material)
-DK_PUBLIC_FIELDS(albedo, normal)
+DK_PUBLIC_FIELDS(name, albedo, normal, diffuseColor, specularColor, ambientColor,
+opacity, shininess, shininessStrength)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -100,5 +106,10 @@ DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::Model<drak::SkeletalMesh>)
 DK_PUBLIC_FIELDS(mesh, material)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::Pak)
+DK_PUBLIC_FIELDS(filenames, files)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

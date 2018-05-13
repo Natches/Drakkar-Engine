@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Converter/ModelImporter.hpp>
 
+#include <assimp/config.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -21,19 +22,19 @@ ModelImporter::~ModelImporter() {
 }
 
 bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, bool leftHanded) {
+	m_textureToLoadLater.clear();
 	const aiScene* pScene = m_pImporter->ReadFile(
 		filename,
 		aiProcess_JoinIdenticalVertices |
-		aiProcess_Triangulate	|
-		aiProcess_SortByPType	|
+		aiProcess_Triangulate |
+		aiProcess_SortByPType |
 		aiProcess_RemoveRedundantMaterials |
-		aiProcess_GenNormals	|
-		aiProcess_GenUVCoords   |
+		aiProcess_GenNormals |
+		aiProcess_GenUVCoords |
 		(optimizeMesh ? aiProcess_OptimizeMeshes |
 			aiProcess_OptimizeGraph |
 			aiProcess_ImproveCacheLocality : 0) |
-		(leftHanded ? aiProcess_ConvertToLeftHanded : 0));
-
+			(leftHanded ? aiProcess_ConvertToLeftHanded : 0));
 	if (pScene) {
 		m_pScene = pScene;
 		m_filename = std::string(filename.c_str());
@@ -53,7 +54,6 @@ void ModelImporter::importModel(ModelVec& aModels,
 	}
 
 	extractModels(aModels);
-
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials);
 		extractTextures(aTextures);
@@ -66,10 +66,15 @@ void ModelImporter::importSkeletalModel(SkelMeshVec& aMeshes,
 
 void ModelImporter::extractModels(ModelVec& aOutModelVec) {
 	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, Model<Mesh>());
+	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
+		aOutModelVec[i].mesh.name = inMesh->mName.C_Str();
 		extractVertex(inMesh, aOutModelVec[i].mesh);
-		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, aOutModelVec[i].material);
+		AddIndices(inMesh, aOutModelVec[i].mesh);
+		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
+		aOutModelVec[i].material = str.C_Str();
+		str.Clear();
 	}
 }
 
@@ -80,38 +85,27 @@ void ModelImporter::extractSkeletalModels(SkelMeshVec& aOutMeshVec) {
 void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
 	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, Material());
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_NAME, aOutMatVec[i].name);
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), aOutMatVec[i].albedo);
-		if (aOutMatVec[i].albedo[0] != '*' &&
-			drak::io::FileExists(aOutMatVec[i].albedo.c_str()) == core::EError::NO_ERROR) {
+		aiString str;
+		aiVector3D temp;
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_NAME, str);
+		aOutMatVec[i].name = str.C_Str();
+		str.Clear();
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), str);
+		aOutMatVec[i].albedo = str.C_Str();
+		str.Clear();
+		if(aOutMatVec[i].albedo != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].albedo));
-		}
-		else if(aOutMatVec[i].normal[0] != '*') {
-			std::cout << "Texture at Path" << aOutMatVec[i].albedo << " not found \n";
-			aOutMatVec[i].albedo = "";
-		}
-		else {
-			aOutMatVec[i].albedo.erase(std::remove(aOutMatVec[i].albedo.begin(),
-				aOutMatVec[i].albedo.end(), '*'), aOutMatVec[i].albedo.end());
-			aOutMatVec[i].albedo = m_filename + std::string("Texture") + aOutMatVec[i].albedo;
-		}
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_NORMALS(0), aOutMatVec[i].normal);
-		if (aOutMatVec[i].normal[0] != '*' &&
-			drak::io::FileExists(aOutMatVec[i].normal.c_str()) == core::EError::NO_ERROR) {
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_NORMALS(0), str);
+		aOutMatVec[i].normal = str.C_Str();
+		str.Clear();
+		if (aOutMatVec[i].normal != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].normal));
-		}
-		else if(aOutMatVec[i].normal[0] != '*'){
-			std::cout << "Texture at Path" << aOutMatVec[i].normal << " not found\n";
-			aOutMatVec[i].normal = "";
-		}
-		else {
-			aOutMatVec[i].normal.erase(std::remove(aOutMatVec[i].normal.begin(),
-				aOutMatVec[i].normal.end(), '*'), aOutMatVec[i].normal.end());
-			aOutMatVec[i].normal = m_filename + std::string("Texture") + aOutMatVec[i].normal;
-		}
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, aOutMatVec[i].diffuseColor);
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, aOutMatVec[i].specularColor);
-		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, aOutMatVec[i].ambientColor);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, temp);
+		aOutMatVec[i].diffuseColor = *reinterpret_cast<math::Vec3f*>(&temp);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, temp);
+		aOutMatVec[i].specularColor = *reinterpret_cast<math::Vec3f*>(&temp);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, temp);
+		aOutMatVec[i].ambientColor = *reinterpret_cast<math::Vec3f*>(&temp);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_OPACITY, aOutMatVec[i].opacity);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS, aOutMatVec[i].shininess);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, aOutMatVec[i].shininessStrength);
@@ -119,38 +113,46 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
 }
 
 void ModelImporter::extractTextures(TexVec& aOutTexVec) {
-	aOutTexVec.insert(aOutTexVec.begin(),
-		m_pScene->mNumTextures + m_textureToLoadLater.size(), Texture());
-	for (U32 i = 0u, size = m_pScene->mNumTextures; i < size; ++i) {
-		Texture& temp = aOutTexVec[i];
-		temp.name = m_filename + std::string("Texture") + std::to_string(i);
-		if (m_pScene->mTextures[i]->mHeight) {
-			temp.width = m_pScene->mTextures[i]->mWidth;
-			temp.height = m_pScene->mTextures[i]->mHeight;
-			temp.pixels.resize(aOutTexVec[i].height * aOutTexVec[i].width);
-			memcpy(temp.pixels.data(), (U8*)m_pScene->mTextures[i]->pcData,
-				temp.width * temp.height);
-			temp.channels = 4;
-			temp.format = GL_RGBA8;
-		}
-		else {
-			I32 height, width, channels;
-			U8* pixels = stbi_load_from_memory((U8*)m_pScene->mTextures[i]->pcData,
-				(U32)strlen((const char*)m_pScene->mTextures[i]->pcData), &width, &height, &channels, 0);
-			temp.pixels.resize(height * width);
-			memcpy(temp.pixels.data(), pixels, width * height);
-			temp.format = channels == 3 ? GL_RGB8 : GL_RGBA8;
-			temp.channels = channels;
-			temp.height = height;
-			temp.width = width;
-		}
-	}
+	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), Texture());
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {
-		Texture& temp = aOutTexVec[m_pScene->mNumTextures + i];
-		loadTextureFromFile(std::get<0>(texture), temp);
-		std::get<0>(texture) = m_filename + std::string("Texture") + std::to_string(m_pScene->mNumTextures + i);
+		Texture& temp = aOutTexVec[i];
+		const aiTexture* tex;
+		if (tex = m_pScene->GetEmbeddedTexture(std::get<0>(texture).c_str())) {
+			if (tex->mHeight) {
+				temp.width = tex->mWidth;
+				temp.height = tex->mHeight;
+				temp.pixels.reserve(temp.height * temp.width);
+				memcpy(temp.pixels.data(), (U8*)tex->pcData,
+					temp.width * temp.height);
+				temp.pixels.resize(temp.height * temp.width);
+				temp.channels = 4;
+				temp.format = GL_RGBA8;
+			}
+			else {
+				I32 height, width, channels;
+				U8* pixels = stbi_load_from_memory((U8*)tex->pcData,
+					tex->mWidth, &width, &height, &channels, 0);
+				temp.pixels.reserve(height * width);
+				memcpy(temp.pixels.data(), pixels, width * height);
+				temp.pixels.resize(height * width);
+				temp.format = channels == 3 ? GL_RGB8 : GL_RGBA8;
+				temp.channels = channels;
+				temp.height = height;
+				temp.width = width;
+			}
+		}
+		else if (io::FileExists(std::get<0>(texture).c_str()) == core::EError::NO_ERROR)
+			loadTextureFromFile(std::get<0>(texture), temp);
+		else {
+			std::cout << "Failed to extract Texture : " <<
+				std::get<0>(texture) << " in : " << m_filename << "\n";
+			continue;
+		}
+		std::get<0>(texture) = m_pScene->GetShortFilename(m_filename.c_str()) +
+			std::string("Texture") + std::to_string(i);
 		temp.name = std::get<0>(texture);
+		++i;
 	}
 }
 
@@ -158,7 +160,7 @@ void ModelImporter::extractVertex(aiMesh* inMesh, Mesh& outMesh) {
 	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		outMesh.vertices.emplace_back(Vertex{ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
 			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),
-			*reinterpret_cast<math::Vec2f*>(&(inMesh->mTextureCoords[i])) });
+			(*reinterpret_cast<math::Vec3f*>(&(inMesh->mTextureCoords[0][i]))).xy });
 	}
 }
 
@@ -170,10 +172,9 @@ void ModelImporter::AddIndices(aiMesh* inMesh, MeshType& outMesh) {
 	for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
 		const aiFace& inFace = inMesh->mFaces[f];
 		if (inFace.mNumIndices == 3u) {
-			outMesh.indices(
-				inFace.mIndices[0],
-				inFace.mIndices[1],
-				inFace.mIndices[2]);
+			outMesh.indices.emplace_back(inFace.mIndices[0]);
+			outMesh.indices.emplace_back(inFace.mIndices[1]);
+			outMesh.indices.emplace_back(inFace.mIndices[2]);
 		}
 	}
 }
@@ -186,8 +187,9 @@ void loadTextureFromFile(const std::string& filename, Texture& aOutTexture) {
 	aOutTexture.height = height;
 	aOutTexture.channels = channels;
 	aOutTexture.format = channels == 3 ? GL_RGB8 : GL_RGBA8;
-	aOutTexture.pixels.resize(height * width);
+	aOutTexture.pixels.reserve(height * width);
 	memcpy(aOutTexture.pixels.data(), pixels, width * height);
+	aOutTexture.pixels.resize(height * width);
 }
 
 } // namespace tools

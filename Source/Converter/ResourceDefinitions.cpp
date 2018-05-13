@@ -17,8 +17,6 @@ static const std::map<std::string, EFileType> fileMap{ { "fbx", EFileType::MESH 
 { "cms", EFileType::MESH },
 { "cob", EFileType::MESH },
 { "dae", EFileType::MESH },
-{ "irr", EFileType::MESH },
-{ "irrmesh", EFileType::MESH },
 { "md2", EFileType::MESH },
 { "md3", EFileType::MESH },
 { "md5", EFileType::MESH },

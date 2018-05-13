@@ -275,7 +275,7 @@ static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
 	t.reserve(size);																			\
-	for(int i = 0; i < size; ++i) {																\
+	for(size_t i = 0; i < size; ++i) {															\
 		T data;																					\
 		DeserializeBinary(data, sstr);															\
 		t.emplace_back(data);																	\

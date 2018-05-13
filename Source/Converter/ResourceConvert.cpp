@@ -16,15 +16,17 @@ void ResourceConverter::shutdown() {
 	m_pool.shutdown();
 }
 
-void ResourceConverter::convert(int count, char** filename) {
+void ResourceConverter::convert(int count, const char** filename) {
 	using namespace drak::thread::task;
 	TaskGroup<ATask*> grp(m_pool);
-	for (int i = 1; i < count; ++i) {
+	for (int i = 0; i < count; ++i) {
 		if (IsMesh(filename[i])) {
 			using func = function::MemberFunction<ResourceConverter, void, tools::ModelImporter&>;
-
+			char choice;
+			std::cout << "Do you want to Optimize the Mesh ? (y/n)\n";
+			std::cin >> choice;
 			tools::ModelImporter& imp = m_modelImporterPool.borrow();
-			if (imp.startImport(filename[i])) {
+			if (imp.startImport(filename[i], choice == 'y')) {
 				func f(this, &ResourceConverter::convertModel, imp);
 				Task<func>* task = new Task<func>(f);
 				grp.registerTask(std::move(task));
@@ -45,7 +47,37 @@ void ResourceConverter::convert(int count, char** filename) {
 	grp.clearGroup<true>();
 }
 
-void ResourceConverter::toPackage(int count, char** filename) {
+void ResourceConverter::toPackage(int count, const char** filename, const char* finalName) {
+	Pak p;
+	z_stream strm;
+	std::stringstream sstr;
+	std::string str;
+	std::ifstream file;
+	for (int i = 0; i < count; ++i) {
+		p.filenames.emplace_back(filename[i]);
+		strm.zalloc = Z_NULL;
+		strm.zfree = Z_NULL;
+		strm.opaque = Z_NULL;
+		if (deflateInit(&strm, 9) != Z_OK) {
+			std::cout << "Resource Converter : Failed to Init Deflate\n";
+			continue;
+		}
+		file.open(filename[i]);
+		sstr << file.rdbuf();
+		strm.avail_in = strm.avail_out = (U32)sstr.width();
+		strm.next_in = (U8*)sstr.str().c_str();
+		U8* temp = new U8[(U32)sstr.width()];
+		strm.next_out = temp;
+		if (deflate(&strm, Z_FINISH) == Z_STREAM_ERROR) {
+			std::cout << "Resource Converter : Failed to Deflate :" << filename[i] << "\n";
+			deflateEnd(&strm);
+			continue;
+		}
+		str = std::string((const char* const)strm.next_out, strm.avail_out);
+		deflateEnd(&strm);
+		p.files.emplace_back(str);
+	}
+	serialization::Serializer::SerializeToFile<serialization::EExtension::BINARY, Pak>(p, "Resources/Compressed/", finalName);
 }
 
 void ResourceConverter::convertModel(tools::ModelImporter& importer) {

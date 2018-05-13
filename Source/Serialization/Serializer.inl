@@ -8,7 +8,7 @@ namespace serialization {
 template<EExtension ext, class T>
 core::EError Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectories(path)) == core::EError::NO_ERROR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(t, path, filename);
@@ -24,7 +24,7 @@ template<EExtension ext, class T>
 core::EError Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectories(path)) == core::EError::NO_ERROR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(t, path, filename);
@@ -38,7 +38,7 @@ template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectories(path)) == core::EError::NO_ERROR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(path, filename, t, std::forward<VArgs>(args)...);
