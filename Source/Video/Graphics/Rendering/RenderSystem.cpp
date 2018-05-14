@@ -53,10 +53,11 @@ void RenderSystem::forwardRender(Scene& scene) {
 		modelBatch.reserve(BATCH_SIZE);
 		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
 			Transform& t = scene.gameObjects[scene.models[b].GameObjectID].getComponent<Transform>();
+			math::Quaternion q = t.getGlobalRotation();
 			math::Mat4f model =
-				math::Translate(t.globalPosition) *
-				t.globalRotation.matrix() *
-				math::Scale(t.globalScale);
+				math::Translate(t.getGlobalPosition()) *
+				q.matrix() *
+				math::Scale(t.getGlobalScale());
 			modelBatch.push_back(model);
 		}
 		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());

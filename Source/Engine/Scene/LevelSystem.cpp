@@ -65,10 +65,10 @@ bool LevelSystem::startup() {
 
 void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
 	for (U32 i = 0; i < children.size(); ++i) {
-		m_gameObjects[children[i]].getComponent<Transform>().globalPosition = parentTransform.globalPosition + math::Rotate(parentTransform.globalRotation, m_gameObjects[children[i]].getComponent<Transform>().localPosition);
-		m_gameObjects[children[i]].getComponent<Transform>().globalRotation = parentTransform.globalRotation * m_gameObjects[children[i]].getComponent<Transform>().localRotation;
-		m_gameObjects[children[i]].getComponent<Transform>().globalScale = parentTransform.globalScale * m_gameObjects[children[i]].getComponent<Transform>().localScale;
-		m_gameObjects[children[i]].getComponent<Transform>().dirty = true;
+		m_gameObjects[children[i]].getComponent<Transform>().setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>().getLocalPosition()));
+		m_gameObjects[children[i]].getComponent<Transform>().setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>().getLocalRotation());
+		m_gameObjects[children[i]].getComponent<Transform>().setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>().getLocalScale());
+		m_gameObjects[children[i]].getComponent<Transform>().isDirty() = true;
 		moveChildren(m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
 	}
 }

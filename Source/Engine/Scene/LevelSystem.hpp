@@ -26,7 +26,7 @@ namespace core {
 
 class DRAK_API IManualSceneBlueprint {
 public:
-	std::string name;
+	const char* name;
 	IManualSceneBlueprint() = default;
 	virtual ~IManualSceneBlueprint() = default;
 	virtual void build(LevelSystem& scene) = 0;
