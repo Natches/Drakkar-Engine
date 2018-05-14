@@ -47,26 +47,22 @@ DRAK_API LevelSystem & Engine::currentLevel()
 		return *m_pLevelSystem;
 }
 
-int Engine::startup(const video::VideoSettings& videoSettings) {
+int Engine::startup() {
 	events::EngineEvent eEvent;
 	eEvent.type = events::EngineEventDispatcher::STARTUP_BEGIN;
 	m_eventDispatcher.dispatchEvent(&eEvent);
 
 	//Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
+	video::WindowSettings  winSettings = { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings  videoSettings = { winSettings, gfx::ERenderer::OPENGL };
 
 	// vvv Check for failed startups vvv
 	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
 	m_pRenderSystem->startup(m_pVideoSystem->renderer());
 	m_pPhysicsSystem->Startup();
 	m_pLevelSystem->startup();
-	m_pLevelSystem->loadScene("Blyat");
+	//m_pLevelSystem->loadScene("Blyat");
 	m_pool.startup();
-
-	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (auto& go : gameObjects) {
-		go.setLevel(m_pLevelSystem);
-		m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
-	}
 
 	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
 	m_eventDispatcher.dispatchEvent(&eEvent);
@@ -93,7 +89,11 @@ int Engine::shutdown() {
 void Engine::startLoop() {
 	s_frameTime.start();
 
-
+	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
+	for (auto& go : gameObjects) {
+		if(go.getComponentFlag(ComponentType<RigidBody>::id))
+			m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+	}
 
 	events::EngineEvent eEvent;
 	eEvent.type = events::EngineEventDispatcher::UPDATE_START;
@@ -106,6 +106,7 @@ void Engine::startLoop() {
 		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&eEvent);
 
+		m_pLevelSystem->propogateMovementFromRoots();
 		//gameObjects = m_pLevelSystem->getGameObjects();
 		//for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
 		//	gameObjects[i]->update();

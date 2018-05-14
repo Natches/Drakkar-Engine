@@ -8,12 +8,18 @@ using namespace components;
 
 void setTransformPos(Transform & t, math::Vec3f newPos)
 {
-	t.position = newPos;
+	if (t.m_isRoot)
+		t.globalPosition = newPos;
+	else
+		t.localPosition = newPos;
 	t.dirty = true;
 }
 
 void setTransformRot(Transform & t, math::Quaternion newRot)
 {
-	t.rotation = newRot;
+	if (t.m_isRoot)
+		t.globalRotation = newRot;
+	else
+		t.localRotation = newRot;
 	t.dirty = true;
 }

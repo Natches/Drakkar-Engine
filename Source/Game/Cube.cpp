@@ -64,5 +64,5 @@ void Cube::bindUpdateToEngine() {
 	core::Engine::Get().GetEventDispatcher().addEventListener(events::EngineEventDispatcher::UPDATE_LOOP_START, &updateBind);
 }
 void Cube::bindStartToEngine() {
-	core::Engine::Get().GetEventDispatcher().addEventListener(events::EngineEventDispatcher::STARTUP_END, &startBind);
+	core::Engine::Get().GetEventDispatcher().addEventListener(events::EngineEventDispatcher::UPDATE_START, &startBind);
 }

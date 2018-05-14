@@ -41,7 +41,7 @@ class Engine final {
 	DK_NONMOVABLE_NONCOPYABLE(Engine)
 
 public:
-	DRAK_API int startup(const video::VideoSettings& videoSettings);
+	DRAK_API int startup();
 	DRAK_API int shutdown();
 	DRAK_API void startLoop();
 	events::EngineEventDispatcher& GetEventDispatcher() { return m_eventDispatcher; }
