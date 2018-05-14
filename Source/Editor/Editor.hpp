@@ -2,6 +2,7 @@
 #define EDITOR_H
 
 #include <QMainWindow>
+#include <QFileSystemModel>
 
 #include "transformwidget.h"
 
@@ -19,29 +20,30 @@ public:
 
 private:
     void init();
-    void setupDocks();
+    void setupWidgets();
     void setupToolbar();
+    void setProjectPath(QString dir);
 
     void loadFonts();
 
 private slots:
-    //void on_newProject_triggered();
+    void on_newProject_triggered();
 
     void on_toggleView_Project_triggered();
     void on_toggleView_Inspector_triggered();
     void on_toggleView_Console_triggered();
     void on_toggleView_SceneGraph_triggered();
 
-    //void on_treeView_clicked(const QModelIndex &index);
+    void on_treeView_clicked(const QModelIndex &index);
 
-    //void on_actionWireframe_triggered(bool checked);
-    //void on_actionAdd_Cube_triggered();
+    void on_actionWireframe_triggered(bool checked);
+    void on_actionAdd_Cube_triggered();
 
 private:
     Ui::Editor *ui;
 
     TransformWidget		*transformWidget;
-    //QFileSystemModel    *folderModel, *fileModel;
+    QFileSystemModel    *folderModel, *fileModel;
 };
 
 #endif // EDITOR_H

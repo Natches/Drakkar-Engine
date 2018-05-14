@@ -85,13 +85,13 @@
   <widget class="QDockWidget" name="dock_Inspector">
    <property name="minimumSize">
     <size>
-     <width>256</width>
-     <height>300</height>
+     <width>340</width>
+     <height>450</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>524287</width>
+     <width>340</width>
      <height>524287</height>
     </size>
    </property>
@@ -120,6 +120,12 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
       <widget class="QScrollArea" name="scrollArea">
+       <property name="minimumSize">
+        <size>
+         <width>320</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -140,7 +146,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>238</width>
+          <width>322</width>
           <height>413</height>
          </rect>
         </property>

@@ -1,4 +1,5 @@
 #include <QFontDatabase>
+#include <QFileDialog>
 
 #include "Editor.hpp"
 #include "ui_editor.h"
@@ -21,19 +22,26 @@ Editor::~Editor()
 void Editor::init()
 {
     loadFonts();
-    setupDocks();
+    setupWidgets();
     setupToolbar();
 
     drak::core::Engine::Get().startup();
     drak::core::Engine::Get().startLoop();
 }
 
-void Editor::setupDocks()
+void Editor::setupWidgets()
 {
     setCentralWidget(ui->dock_RenderTarget);
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
-
     ui->scrollArea->setWidget(new TransformWidget);
+
+    folderModel = new QFileSystemModel(this);
+    folderModel->setFilter(QDir::NoDot | QDir::AllDirs);
+
+    fileModel = new QFileSystemModel(this);
+    fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+
+    setProjectPath("");
 }
 
 void Editor::setupToolbar()
@@ -51,7 +59,6 @@ void Editor::setupToolbar()
     ui->toolBar->addWidget(spacerR);
 }
 
-/*
 void Editor::setProjectPath(QString dir)
 {
     QModelIndex folderRoot = folderModel->setRootPath(dir);
@@ -65,7 +72,6 @@ void Editor::setProjectPath(QString dir)
     ui->listView->setModel(fileModel);
     ui->listView->setRootIndex(fileRoot);
 }
-*/
 
 void Editor::loadFonts()
 {
@@ -74,7 +80,6 @@ void Editor::loadFonts()
     QApplication::setFont(font);
 }
 
-/*
 void Editor::on_newProject_triggered()
 {
     QString directory =
@@ -84,7 +89,6 @@ void Editor::on_newProject_triggered()
                 QCoreApplication::applicationDirPath());
     setProjectPath(directory);
 }
-*/
 
 void Editor::on_toggleView_SceneGraph_triggered() {
     ui->dock_SceneGraph->toggleViewAction()->trigger();
@@ -102,18 +106,16 @@ void Editor::on_toggleView_Console_triggered() {
     ui->dock_Console->toggleViewAction()->trigger();
 }
 
-/*
 void Editor::on_treeView_clicked(const QModelIndex &index) {
     ui->listView->setRootIndex(fileModel->setRootPath(fileModel->fileInfo(index).absoluteFilePath()));
 }
 
 void Editor::on_actionWireframe_triggered(bool toggle)
 {
-
+    (void)toggle;
 }
 
 void Editor::on_actionAdd_Cube_triggered()
 {
 
 }
-*/

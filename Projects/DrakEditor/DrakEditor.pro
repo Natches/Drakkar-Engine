@@ -42,7 +42,7 @@ SOURCES     +=                                      \
             $$DKSRC/Editor/transformwidget.cpp      \
             $$DKSRC/Editor/framelesswindow.cpp      \
             $$DKSRC/Editor/windowdragger.cpp        \
-            $$DKSRC/Editor/DarkStyle.cpp            \
+            $$DKSRC/Editor/DarkStyle.cpp
 
 HEADERS     +=                                      \
             $$DKSRC/Editor/Editor.hpp               \
@@ -50,7 +50,7 @@ HEADERS     +=                                      \
             $$DKSRC/Editor/DarkStyle.h              \
             $$DKSRC/Editor/framelesswindow.h        \
             $$DKSRC/Editor/windowdragger.h          \
-            $$DKSRC/Engine/Engine.hpp               \
+            $$DKSRC/Engine/Engine.hpp
 
 #----------------------------------------------------------
 
