@@ -50,8 +50,8 @@ private:
 	void extractSkeletalModels(SkelMeshVec& aOutMeshVec);
 	void extractMaterials(MatVec& aOutMatVec);
 	void extractTextures(TexVec& aOutTexVec);
-	void extractVertex(aiMesh* inMesh, Mesh& outMesh);
-	void extractSkeletalVertex(aiMesh* inMesh, SkeletalMesh& outMesh);
+	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
+	void extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh);
 
 	template<typename MeshType>
 	void AddIndices(aiMesh* inMesh, MeshType& outMesh);
@@ -63,7 +63,7 @@ private:
 	std::string m_filename;
 };
 
-void loadTextureFromFile(const std::string& filename, Texture& aOutTexture);
+void loadTextureFromFile(const std::string& filename, definition::Texture& aOutTexture);
 
 } // namespace importer
 } // namespace tools

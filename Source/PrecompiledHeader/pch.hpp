@@ -93,3 +93,5 @@
 #include <Windowing/Input/Keyboard.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Windowing/Window/WindowSettings.hpp>
+
+#include <Converter/ResourceDefinitions.hpp>

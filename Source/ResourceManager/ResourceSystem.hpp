@@ -5,6 +5,7 @@
 #include <ResourceManager/MeshManager.hpp>
 #include <ResourceManager/TextureManager.hpp>
 #include <ResourceManager/ResourceDefinitions.hpp>
+#include <Converter/ResourceConverter.hpp>
 
 namespace drak {
 namespace core {
@@ -43,7 +44,7 @@ private:
 	//ModelManager*		m_pModelManager;
 	//MaterialManager*	m_pMaterialManager;
 
-	std::vector<gfx::tools::ModelImporter> m_assetImporterPool;
+	converter::ResourceConverter m_converter;
 };
 
 } // namespace drak

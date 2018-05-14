@@ -1,5 +1,4 @@
 #include <PrecompiledHeader/pch.hpp>
-#include <Converter/ResourceDefinitions.hpp>
 
 namespace drak {
 namespace definition {

@@ -94,7 +94,7 @@ void ModelImporter::importSkeletalModel(SkelMeshVec& aMeshes,
 }
 
 void ModelImporter::extractModels(ModelVec& aOutModelVec) {
-	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, Model<Mesh>());
+	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model<definition::Mesh>());
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
@@ -112,7 +112,7 @@ void ModelImporter::extractSkeletalModels(SkelMeshVec& aOutMeshVec) {
 }
 
 void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
-	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, Material());
+	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, definition::Material());
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
 		aiVector3D temp;
@@ -142,10 +142,10 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
 }
 
 void ModelImporter::extractTextures(TexVec& aOutTexVec) {
-	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), Texture());
+	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), definition::Texture());
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {
-		Texture& temp = aOutTexVec[i];
+		definition::Texture& temp = aOutTexVec[i];
 		const aiTexture* tex;
 		if (tex = m_pScene->GetEmbeddedTexture(std::get<0>(texture).c_str())) {
 			if (tex->mHeight) {
@@ -185,15 +185,16 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec) {
 	}
 }
 
-void ModelImporter::extractVertex(aiMesh* inMesh, Mesh& outMesh) {
+void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
-		outMesh.vertices.emplace_back(Vertex{ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
+		outMesh.vertices.emplace_back
+		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
 			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),
 			(*reinterpret_cast<math::Vec3f*>(&(inMesh->mTextureCoords[0][i]))).xy });
 	}
 }
 
-void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, SkeletalMesh& outMesh) {
+void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh) {
 }
 
 template<typename MeshType>
@@ -208,7 +209,7 @@ void ModelImporter::AddIndices(aiMesh* inMesh, MeshType& outMesh) {
 	}
 }
 
-void loadTextureFromFile(const std::string& filename, Texture& aOutTexture) {
+void loadTextureFromFile(const std::string& filename, definition::Texture& aOutTexture) {
 	I32 height, width, channels;
 	U8* pixels = stbi_load(filename.c_str(), &width, &height, &channels, 0);
 	aOutTexture.name = filename;
