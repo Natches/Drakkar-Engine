@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp" />
@@ -27,8 +28,10 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
@@ -38,16 +41,16 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\ModelLoader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp" />
@@ -57,10 +60,9 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexAttrib.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\ModelLoader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -69,6 +71,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Video\Graphics\Geometry\Mesh.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

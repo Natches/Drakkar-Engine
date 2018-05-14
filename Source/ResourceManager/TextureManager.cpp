@@ -1,11 +1,8 @@
 #include <PrecompiledHeader/pch.hpp>
-
-using namespace drak::math;
+#include <ResourceManager/TextureManager.hpp>
 
 namespace drak {
-namespace geom {
 
 
 
-} // namespace geom
 } // namespace drak

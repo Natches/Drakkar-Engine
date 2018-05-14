@@ -36,7 +36,7 @@ public:
 
 	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LEQUAL) = 0;
 
-	virtual void blendTest(bool on, 
+	virtual void blendTest(bool on,
 		EBlendMode srcFactor = EBlendMode::SRC_ALPHA,
 		EBlendMode dstFactor = EBlendMode::ONE_MINUS_SRC_ALPHA) = 0;
 
@@ -52,4 +52,3 @@ enum ERenderer {
 
 } // namespace gfx
 } // namespace drak
-

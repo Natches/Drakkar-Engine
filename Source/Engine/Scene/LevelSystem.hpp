@@ -1,15 +1,17 @@
 #pragma once
+
 #include <Core/Core.hpp>
 #include <Core/Components/GameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
-#include <Serialization\Serializer.hpp>
+#include <Serialization/Serializer.hpp>
 //#include <Math/Vec3.hpp>
 //#include <Math/Vec4.hpp>
 //#include <list>
 //#include <vector>
 //#include <map>
 //#include <type_traits>
+
 namespace physx{
 	class PxScene;
 }
@@ -24,6 +26,7 @@ namespace core {
 
 class DRAK_API IManualSceneBlueprint {
 public:
+	std::string name;
 	IManualSceneBlueprint() = default;
 	virtual ~IManualSceneBlueprint() = default;
 	virtual void build(LevelSystem& scene) = 0;

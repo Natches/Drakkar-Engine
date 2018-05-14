@@ -19,6 +19,7 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem & scene) override
 	{
+		name = "Scene";
 		GameObject& cube = scene.addGameObject();
 		Transform& cube_TR = cube.getComponent<Transform>();
 		RigidBody& cube_RB = cube.addComponent<RigidBody>();
@@ -98,8 +99,8 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	Engine::Get().loadScene(bp);
-	//Engine::Get().loadScene("Scene");
+	//Engine::Get().loadScene(bp);
+	Engine::Get().loadScene("Scene");
 	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();

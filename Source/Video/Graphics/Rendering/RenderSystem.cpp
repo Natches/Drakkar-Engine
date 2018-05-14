@@ -37,9 +37,9 @@ void RenderSystem::shutdown() {
 }
 
 bool RenderSystem::loadResources(const std::string& dir) {
-	return (m_pRenderer->loadShaders	(dir + "Shaders/", m_shaderMap) &&
-			m_pRenderer->loadRenderables(dir + "Models/quad.dkobj", m_pGrid) &&
-			m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
+	return (m_pRenderer->loadShaders(dir + "Shaders/", m_shaderMap) &&
+		m_pRenderer->loadRenderables(dir + "Models/quad.dkobj", m_pGrid) &&
+		m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
 }
 
 void RenderSystem::forwardRender(Scene& scene) {
@@ -52,7 +52,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {
 		modelBatch.reserve(BATCH_SIZE);
 		for (size_t b = B; b < BATCH_SIZE && b < n; ++b) {
-			Transform& t =  scene.gameObjects[scene.models[b].GameObjectID].getComponent<Transform>();
+			Transform& t = scene.gameObjects[scene.models[b].GameObjectID].getComponent<Transform>();
 			math::Mat4f model =
 				math::Translate(t.globalPosition) *
 				t.globalRotation.matrix() *

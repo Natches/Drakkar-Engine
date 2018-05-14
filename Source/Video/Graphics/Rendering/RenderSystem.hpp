@@ -1,20 +1,14 @@
 #pragma once
 
-#include <unordered_map>
-
 #include <Core/Core.hpp>
-#include <Engine/Components/Components.hpp>
 #include <Video/Graphics/Rendering/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
-#include <Video/Graphics/Rendering/Base/IShader.hpp>
-
-#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
 
-	struct Scene;
+struct Scene;
 
 namespace gfx {
 
@@ -50,16 +44,16 @@ private:
 	void onKeyUp(const events::Event* pEvt);
 
 private:
-	Camera			m_mainCam;
+	Camera				m_mainCam;
 
-	ShaderMap		m_shaderMap;
-	RenderArray		m_opaqueArr;
-	RenderArray		m_transpArr;
+	ShaderMap			m_shaderMap;
+	RenderQueue			m_opaqueArr;
+	RenderQueue			m_transpArr;
 
-	IRenderable*	m_pGrid;
+	IRenderable*		m_pGrid;
 
-	IRenderer*		m_pRenderer;
-	IFrameBuffer*	m_pFrame;
+	IRenderer*			m_pRenderer;
+	IFrameBuffer*		m_pFrame;
 
 	// Tests
 	IRenderable*		 m_pUnitCube;

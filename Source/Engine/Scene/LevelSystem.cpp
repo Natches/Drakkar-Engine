@@ -51,12 +51,15 @@ void LevelSystem::loadScene(const char* name) {
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
+	filename = sceneBluePrint.name;
+	SerializeLevel();
 }
 
 bool LevelSystem::startup() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
-	events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
-		new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+	//events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
+	//	new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+
 	return true;
 }
 
@@ -86,5 +89,5 @@ void LevelSystem::SerializeEvent(const events::Event* pEvent) {
 
 void LevelSystem::shutdown() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
-	SerializeLevel();
+	//SerializeLevel();
 }

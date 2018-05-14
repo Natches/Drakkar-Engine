@@ -1,4 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
+#include <Video/Graphics/Tools/OBJLoader.hpp>
 
 using namespace drak::math;
 using namespace drak::geom;
@@ -13,18 +14,18 @@ const char*	OBJ_PARSE_VEC2F = "%f %f\n";
 const char*	OBJ_PARSE_VEC3F = "%f %f %f\n";
 
 // Face Assembly Formats
-const char*	OBJ_PARSE_FACE_IND1 = "%hu %hu %hu\n";
-const char*	OBJ_PARSE_FACE_IND2 = "%hu/%hu %hu/%hu %hu/%hu\n";
-const char*	OBJ_PARSE_FACE_IND3 = "%hu/%hu/%hu %hu/%hu/%hu %hu/%hu/%hu\n";
+const char*	OBJ_PARSE_FACE_IND1 = "%u %u %u\n";
+const char*	OBJ_PARSE_FACE_IND2 = "%u/%u %u/%u %u/%u\n";
+const char*	OBJ_PARSE_FACE_IND3 = "%u/%u/%u %u/%u/%u %u/%u/%u\n";
 //-------------------------------------------------------------------------------------------------
 
 
-bool OBJLoader::load(const std::string& objPath, Mesh& outMesh) {
+bool OBJLoader::load(const std::string& objPath, Mesh<Vertex1P1N1UV>& outMesh) {
 	std::vector<Vec2f>	uvs;
 	std::vector<Vec3f>	positions, normals;
 
-	std::map<IndexedVertex, U16, IndexComparison> vertexLookup;
-	U16	indexCount = 0u;
+	std::map<IndexedVertex, U32, IndexComparison> vertexLookup;
+	U32	indexCount = 0u;
 
 	std::ifstream objFile(objPath);
 	if (!objFile.is_open())
