@@ -98,8 +98,8 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
 	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();

@@ -13,7 +13,7 @@ PublicFields: {
 		drak::components::RigidBody: {
 			PublicFields: {
 				"mass": "1000.000000",
-				"isStatic": "0",
+				"isStatic": "1",
 				"isKinematic": "0",
 				"idx": "1",
 				"GameObjectID": "3"
@@ -26,9 +26,9 @@ PublicFields: {
 				"globalPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"0.000000",
-							"-43.065556",
-							"0.000000"
+							"5.680792",
+							"-41.745068",
+							"-0.481511"
 						]
 					}
 				},
@@ -46,10 +46,10 @@ PublicFields: {
 						"quat": drak::math::Vec4f: {
 							PublicFields: {
 								"m_simdVec": [
-									"1.000000",
-									"0.000000",
-									"0.000000",
-									"0.000000"
+									"0.350226",
+									"-0.074669",
+									"0.065581",
+									"-0.931378"
 								]
 							}
 						}
@@ -87,7 +87,7 @@ PublicFields: {
 						}
 					}
 				},
-				"m_isRoot": "0",
+				"m_isRoot": "1",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
@@ -97,9 +97,9 @@ PublicFields: {
 				"globalPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"-30.000000",
-							"-42.139999",
-							"0.000000"
+							"27.986784",
+							"-21.879700",
+							"-3.276133"
 						]
 					}
 				},
@@ -117,10 +117,10 @@ PublicFields: {
 						"quat": drak::math::Vec4f: {
 							PublicFields: {
 								"m_simdVec": [
-									"0.707107",
-									"0.000000",
-									"0.000000",
-									"0.707107"
+									"0.906231",
+									"-0.006426",
+									"0.099172",
+									"-0.410937"
 								]
 							}
 						}
@@ -168,9 +168,9 @@ PublicFields: {
 				"globalPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"-30.000000",
-							"-62.140003",
-							"0.000000"
+							"15.134957",
+							"-6.958055",
+							"0.213145"
 						]
 					}
 				},
@@ -188,10 +188,10 @@ PublicFields: {
 						"quat": drak::math::Vec4f: {
 							PublicFields: {
 								"m_simdVec": [
-									"0.707107",
-									"0.000000",
-									"0.000000",
-									"0.707107"
+									"0.906231",
+									"-0.006426",
+									"0.099172",
+									"-0.410937"
 								]
 							}
 						}
@@ -240,7 +240,7 @@ PublicFields: {
 					PublicFields: {
 						"m_vec": [
 							"0.000000",
-							"-89.798882",
+							"-50.000000",
 							"0.000000"
 						]
 					}
@@ -300,7 +300,7 @@ PublicFields: {
 						}
 					}
 				},
-				"m_isRoot": "0",
+				"m_isRoot": "1",
 				"idx": "3",
 				"GameObjectID": "3"
 			}
@@ -313,7 +313,7 @@ PublicFields: {
 					PublicFields: {
 						"m_vec": [
 							"1.000000",
-							"0.000000",
+							"1.000000",
 							"0.000000"
 						]
 					}
