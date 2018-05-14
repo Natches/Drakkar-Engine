@@ -1,4 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
+#include <Core/Utils/FileUtils.hpp>
 
 namespace drak {
 namespace io {
@@ -90,6 +91,16 @@ DRAK_API std::string FileNameNoExtension(const char* path) {
 		file.erase(file.begin(), file.begin() + pos + 1);
 	if ((pos = file.find_last_of('.')) != file.npos)
 		file.erase(file.begin() + pos, file.end());
+	return file;
+}
+
+DRAK_API std::string Directories(const char * path) {
+	std::string file(path);
+	size_t pos = 0;
+	if ((pos = file.find_last_of('/')) != file.npos)
+		file.erase(file.begin() + file.find_last_of('/') + 1, file.end());
+	if ((pos = file.find_last_of('\\')) != file.npos)
+		file.erase(file.begin() + file.find_last_of('\\') + 1, file.end());
 	return file;
 }
 

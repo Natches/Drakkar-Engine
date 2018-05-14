@@ -33,5 +33,7 @@ DRAK_API std::string FileName(const char* path);
 
 DRAK_API std::string FileNameNoExtension(const char* path);
 
+DRAK_API std::string Directories(const char* path);
+
 } // namespace io
 } // namespace drak
