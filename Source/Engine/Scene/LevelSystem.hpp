@@ -30,7 +30,7 @@ public:
 };
 
 struct Scene {
-	Scene(std::vector<GameObject>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
+	Scene(std::vector<GameObject>& gameObjects, std::vector<U32>& rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
 		transforms(transforms),
 		models(models),
 		gameObjects(gameObjects),
@@ -38,7 +38,7 @@ struct Scene {
 	std::vector<components::Transform>& transforms;
 	std::vector<components::Model>& models;
 	std::vector<GameObject>& gameObjects;
-	std::vector<U32> rootIDXs;
+	std::vector<U32>& rootIDXs;
 };
 
 class LevelSystem {
@@ -73,6 +73,8 @@ class LevelSystem {
 	}
 
 	void propogateMovementFromRoots();
+
+	std::string filename;
 public:
 
 	void loadScene(const char* name);

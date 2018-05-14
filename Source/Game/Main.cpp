@@ -50,7 +50,7 @@ public:
 		Model& childCube_MDL = childCube.addComponent<Model>();
 
 		childCube_TR.globalPosition = Vec3f(30, 0, 0);
-		childCube_TR.globalScale = Vec3f(1.5f, 1.5f, 1.5f);
+		childCube_TR.globalScale = Vec3f(1.0f, 1.0f, 1.0f);
 		childCube_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 90.f));
 
 		childCube_MDL.albedo = gfx::Color3(1, 0, 0);
@@ -78,7 +78,7 @@ public:
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
 		floor_TR.globalPosition = Vec3f(0, -50.f, 0);
-		floor_TR.globalScale = Vec3f(100.f, 10.f, 100.f);
+		floor_TR.globalScale = Vec3f(1000.f, 10.f, 1000.f);
 		floor_TR.globalRotation = Quaternion(1.f, Vec3f(0.f, 0.f, 0.f));
 
 		floor_RB.mass = 1000.f;
@@ -86,9 +86,9 @@ public:
 
 		floor_MDL.albedo = gfx::Color3(0, 1, 0);
 
-		floor_BC.width = 100.f;
+		floor_BC.width = 1000.f;
 		floor_BC.height = 10.f;
-		floor_BC.depth = 100.f;
+		floor_BC.depth = 1000.f;
 		floor_BC.material = mat;
 
 		BHVR.init();
@@ -98,8 +98,8 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(/*bp*/"Scene");
-	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene(bp);
+	Engine::Get().loadScene("Scene");
 	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();
