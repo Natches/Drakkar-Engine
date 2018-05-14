@@ -5,6 +5,7 @@
 #include <Math/Vec4.hpp>
 
 namespace drak {
+namespace definition {
 
 struct Vertex {
 	math::Vec3f pos, normal;
@@ -66,50 +67,51 @@ struct Pak {
 bool IsTexture(const char* file);
 bool IsMesh(const char* file);
 
-} //namespace drak
+} // namespace definition
+} // namespace drak
 
-DK_METADATA_BEGIN(drak::Vertex)
+DK_METADATA_BEGIN(drak::definition::Vertex)
 DK_PUBLIC_FIELDS(pos, normal, uv)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::SkeletalVertex)
+DK_METADATA_BEGIN(drak::definition::SkeletalVertex)
 DK_PUBLIC_FIELDS(weight, boneId, pos, normal, uv)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Mesh)
+DK_METADATA_BEGIN(drak::definition::Mesh)
 DK_PUBLIC_FIELDS(name, indices, vertices)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::SkeletalMesh)
+DK_METADATA_BEGIN(drak::definition::SkeletalMesh)
 DK_PUBLIC_FIELDS(name, indices, vertices)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Texture)
+DK_METADATA_BEGIN(drak::definition::Texture)
 DK_PUBLIC_FIELDS(name, channels, width, height, pixels, format)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Material)
+DK_METADATA_BEGIN(drak::definition::Material)
 DK_PUBLIC_FIELDS(name, albedo, normal, diffuseColor, specularColor, ambientColor,
 opacity, shininess, shininessStrength)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Model<drak::Mesh>)
+DK_METADATA_BEGIN(drak::definition::Model<drak::definition::Mesh>)
 DK_PUBLIC_FIELDS(mesh, material)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Model<drak::SkeletalMesh>)
+DK_METADATA_BEGIN(drak::definition::Model<drak::definition::SkeletalMesh>)
 DK_PUBLIC_FIELDS(mesh, material)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::Pak)
+DK_METADATA_BEGIN(drak::definition::Pak)
 DK_PUBLIC_FIELDS(filenames, files)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

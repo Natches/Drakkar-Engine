@@ -16,11 +16,11 @@ int main(int ac, char**av) {
 		}
 		else {
 			toConvert[sizeToConvert++] = av[i];
-			if (drak::IsMesh(av[i])) {
+			if (drak::definition::IsMesh(av[i])) {
 				files.emplace_back((std::string("Resources/Models/") + drak::io::FileNameNoExtension(av[i])) + ".dkResources.bin");
 				alreadyConverted[sizeAlreadyConverted++] = files[files.size() - 1].data();
 			}
-			else if (drak::IsTexture(av[i])) {
+			else if (drak::definition::IsTexture(av[i])) {
 				files.emplace_back((std::string("Resources/Textures/") + drak::io::FileNameNoExtension(av[i])) + ".dkResources.bin");
 				alreadyConverted[sizeAlreadyConverted++] = files[files.size() - 1].data();
 			}

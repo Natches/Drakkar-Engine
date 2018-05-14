@@ -27,7 +27,7 @@ private:
 	void convertTexture(const char* filename);
 
 private:
-	std::atomic<core::Pool<tools::ModelImporter>*> m_modelImporterPool;
+	std::atomic<core::Pool<tools::importer::ModelImporter>*> m_modelImporterPool;
 	thread::ThreadPool m_pool;
 	std::mutex m_mutex;
 };

@@ -14,16 +14,17 @@ struct aiMesh;
 
 namespace drak {
 namespace tools {
+namespace importer{
 /*!
 * \class ModelImporter
 * \ingroup Tools
 * \brief
 */
 class ModelImporter final {
-	using TexVec = std::vector<Texture>;
-	using MatVec = std::vector<Material>;
-	using ModelVec = std::vector<Model<Mesh>>;
-	using SkelMeshVec = std::vector<Model<SkeletalMesh>>;
+	using TexVec = std::vector<definition::Texture>;
+	using MatVec = std::vector<definition::Material>;
+	using ModelVec = std::vector<definition::Model<definition::Mesh>>;
+	using SkelMeshVec = std::vector<definition::Model<definition::SkeletalMesh>>;
 public:
 	ModelImporter();
 	ModelImporter(const ModelImporter& m);
@@ -64,5 +65,6 @@ private:
 
 void loadTextureFromFile(const std::string& filename, Texture& aOutTexture);
 
+} // namespace importer
 } // namespace tools
 } // namespace drak

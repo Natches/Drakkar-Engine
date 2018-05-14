@@ -13,6 +13,7 @@
 
 namespace drak {
 namespace tools {
+namespace importer {
 
 ModelImporter::ModelImporter()
 :	m_pScene(nullptr), m_pImporter(new Assimp::Importer) {
@@ -220,5 +221,6 @@ void loadTextureFromFile(const std::string& filename, Texture& aOutTexture) {
 	aOutTexture.pixels.resize(height * width);
 }
 
+} // namespace importer
 } // namespace tools
 } // namespace drak

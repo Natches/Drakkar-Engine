@@ -2,6 +2,7 @@
 #include <Converter/ResourceDefinitions.hpp>
 
 namespace drak {
+namespace definition {
 
 DK_ENUM_CLASS(EFileType, U8, MESH, TEXTURE)
 
@@ -42,4 +43,5 @@ bool IsMesh(const char* file) {
 	return fileMap.find(drak::io::Extension(file)) != fileMap.end() && fileMap.at(drak::io::Extension(file)) == EFileType::MESH;
 }
 
-} //namespace drak
+} // namespace definition
+} // namespace drak

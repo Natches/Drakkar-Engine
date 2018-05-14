@@ -8,7 +8,7 @@ namespace converter {
 
 void ResourceConverter::startup() {
 	m_pool.startup();
-	m_modelImporterPool = new core::Pool<tools::ModelImporter>((U32)m_pool.m_pool.size());
+	m_modelImporterPool = new core::Pool<tools::importer::ModelImporter>((U32)m_pool.m_pool.size());
 }
 
 void ResourceConverter::shutdown() {
@@ -18,9 +18,10 @@ void ResourceConverter::shutdown() {
 
 void ResourceConverter::convert(int count, char** filename) {
 	using namespace drak::thread::task;
+
 	TaskGroup<ATask*> grp(m_pool);
 	for (int i = 0; i < count; ++i) {
-		if (IsMesh(filename[i])) {
+		if (definition::IsMesh(filename[i])) {
 			char choice;
 			std::cout << "Do you want to Optimize the Mesh ( " << filename[i] << " ) ? (y/n)\n";
 			std::cin >> choice;
@@ -29,7 +30,7 @@ void ResourceConverter::convert(int count, char** filename) {
 			Task<func>* task = new Task<func>(f);
 			grp.registerTask(std::move(task));
 		}
-		else if (IsTexture(filename[i])) {
+		else if (definition::IsTexture(filename[i])) {
 			using func = function::MemberFunction<ResourceConverter, void, const char*>;
 
 			func f(this, &ResourceConverter::convertTexture, (const char*)filename[i]);
@@ -45,6 +46,9 @@ void ResourceConverter::convert(int count, char** filename) {
 }
 
 void ResourceConverter::toPackage(int count, char** filename, const char* finalName) {
+	using namespace definition;
+	using namespace serialization;
+
 	Pak p;
 	std::string str;
 	for (int i = 0; i < count; ++i) {
@@ -76,12 +80,15 @@ void ResourceConverter::toPackage(int count, char** filename, const char* finalN
 		p.files.emplace_back(str);
 		deflateEnd(&strm);
 	}
-	serialization::Serializer::SerializeToFile<serialization::EExtension::BINARY, Pak>(p, "Resources/Packaged/", finalName);
+	Serializer::SerializeToFile<EExtension::BINARY, Pak>(p, "Resources/Packaged/", finalName);
 }
 
 void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
+	using namespace definition;
+	using namespace serialization;
+
 	m_mutex.lock();
-	tools::ModelImporter importer(m_modelImporterPool.load()->borrow());
+	tools::importer::ModelImporter importer(m_modelImporterPool.load()->borrow());
 	m_mutex.unlock();
 	if (importer.startImport(filename, optimizeMesh)) {
 		std::vector<Texture> textures;
@@ -91,10 +98,12 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		importer.importModel(models, materials, textures);
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
 		path.insert(path.end() - path.begin(), ".dkResources");
-		serialization::Serializer::SerializeToFile<serialization::EExtension::BINARY, Model<Mesh>>(models, "Resources/Models/", path.c_str());
+		Serializer::SerializeToFile<EExtension::BINARY, Model<Mesh>>
+			(models, "Resources/Models/", path.c_str());
+
 		path.insert(0, "Resources/Models/");
-		serialization::Serializer::AddObjectToFile<serialization::EExtension::BINARY, Material>(materials, path.c_str());
-		serialization::Serializer::AddObjectToFile<serialization::EExtension::BINARY, Texture>(textures, path.c_str());
+		Serializer::AddObjectToFile<EExtension::BINARY, Material>(materials, path.c_str());
+		Serializer::AddObjectToFile<EExtension::BINARY, Texture>(textures, path.c_str());
 	}
 	m_mutex.lock();
 	m_modelImporterPool.load()->getBack(std::move(importer));
@@ -102,11 +111,14 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 }
 
 void ResourceConverter::convertTexture(const char* filename) {
+	using namespace definition;
+	using namespace serialization;
+
 	Texture tex;
-	tools::loadTextureFromFile(filename, tex);
+	tools::importer::loadTextureFromFile(filename, tex);
 	std::string path = drak::io::FileNameNoExtension(filename);
 	path.insert(path.end() - path.begin(), ".dkResources");
-	serialization::Serializer::SerializeToFile<serialization::EExtension::BINARY, Texture>(tex, "Resources/Textures/", path.c_str());
+	Serializer::SerializeToFile<EExtension::BINARY, Texture>(tex, "Resources/Textures/", path.c_str());
 }
 
 } // namespace converter
