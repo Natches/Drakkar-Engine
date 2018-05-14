@@ -17,6 +17,7 @@ public:
 
 private:
     void init();
+    void loadFonts();
 
 private:
     Ui::Editor *ui;

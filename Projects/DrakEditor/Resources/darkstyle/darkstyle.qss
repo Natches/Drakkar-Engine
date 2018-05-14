@@ -90,20 +90,30 @@ QToolBar::right{
   background-color:qlineargradient(x1:1,y1:0,x2:0,y2:0,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
   border-left:3px solid qlineargradient(x1:1,y1:0,x2:0,y2:0,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
 }
+
 QMainWindow::separator{
-  width:6px;
-  height:5px;
-  padding:2px;
+  width:1px;
+  height:1px;
+  padding-left: 4px;
+  border: 1px dotted #4c4c4c;
+  spacing: 3px; /* spacing between items in the tool bar */
 }
+
+QWidget {
+    font: 10pt ":/Input"
+}
+
+QMainWindow::separator:hover,QSplitter::handle:hover{
+  background:palette(highlight);
+}
+
 QSplitter::handle:horizontal{
   width:10px;
 }
 QSplitter::handle:vertical{
   height:10px;
 }
-QMainWindow::separator:hover,QSplitter::handle:hover{
-  background:palette(highlight);
-}
+
 QDockWidget::title{
   padding:4px;
   background-color:qlineargradient(x1:0,y1:1,x2:0,y2:0,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
@@ -111,7 +121,7 @@ QDockWidget::title{
   border-bottom:2px solid rgba(25,25,25,75);
 }
 QDockWidget{
-  titlebar-close-icon:url(:/darkstyle/icon_close.png);
+  titlebar-close-icon:url(:/darkstyle/close.png);
   titlebar-normal-icon:url(:/darkstyle/icon_restore.png);
 }
 QDockWidget::close-button,QDockWidget::float-button{
