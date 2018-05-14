@@ -49,7 +49,6 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		);
 		if(rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-		((physx::PxRigidDynamic*)rb.rigidActor)->setSleepThreshold(0.001f);
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 

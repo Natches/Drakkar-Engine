@@ -99,7 +99,7 @@ public:
 			Model& instCube_MDL = instCube.addComponent<Model>();
 			BoxCollider& instCube_BC = instCube.addComponent<BoxCollider>();
 
-			instCube_TR.setGlobalPosition(Vec3f(0, i * 10.f + 10.f, 0));
+			instCube_TR.setGlobalPosition(Vec3f(0, i * 5.f, 0));
 			instCube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
 			instCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
@@ -125,8 +125,8 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
 	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();
