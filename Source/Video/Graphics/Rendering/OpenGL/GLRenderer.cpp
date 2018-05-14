@@ -147,7 +147,7 @@ void GLRenderer::debugLog(
 	const GLchar*	message,
 	const GLvoid*	userParam) {
 
-	std::string errLvl = "Unknown";
+	/*std::string errLvl = "Unknown";
 	if		(severity == GL_DEBUG_SEVERITY_HIGH)		errLvl = "High";
 	else if (severity == GL_DEBUG_SEVERITY_MEDIUM)		errLvl = "Medium";
 	else if (severity == GL_DEBUG_SEVERITY_LOW)			errLvl = "Low";
@@ -173,7 +173,7 @@ void GLRenderer::debugLog(
 		"| Type..... %s\n|\n"
 		"| Message: %s"
 		"========================================\n",
-		errLvl.c_str(), errSrc.c_str(), errType.c_str(), message);
+		errLvl.c_str(), errSrc.c_str(), errType.c_str(), message);*/
 }
 #pragma endregion
 

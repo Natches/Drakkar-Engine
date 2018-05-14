@@ -12,9 +12,12 @@ using namespace function;
 using namespace components;
 
 Cube::Cube() : updateBind(MemberFunction<Cube, void, const Event*>(this, &Cube::update, NULL)),
-	startBind(MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL)){
+	startBind(MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL)),
+	keyBind(MemberFunction<Cube, void, const Event*>(this, &Cube::OnKeyPress, NULL)){
 	name = "Cube";
 }
+
+
 
 Cube::~Cube(){
 }
@@ -22,6 +25,7 @@ Cube::~Cube(){
 void Cube::init() {
 	bindUpdateToEngine();
 	bindStartToEngine();
+	bindKeyPressToEngine();
 }
 
 void Cube::update(const Event* pEvent) {
@@ -36,6 +40,24 @@ void Cube::start(const Event* pEvent) {
 		PhysicsEventDispatcher::COLLISION_IN,
 		new MemberFunction<Cube, void, const Event*>
 		(this, &Cube::OnCollisionEnter));
+}
+
+void Cube::OnKeyPress(const events::Event * pEvent) {
+	/*const KeyEvent* key = static_cast<const KeyEvent*>(pEvent);
+	RigidBody& rb = getComponent<RigidBody>();
+	Transform& trans = getComponent<Transform>();
+	switch (key->key)
+	{
+	case(Key::KEY_UP):
+
+		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (1.f * DeltaTime)));
+		break;
+	case(Key::KEY_DOWN):
+		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (-1.f * DeltaTime)));
+		break;
+	default:
+		break;
+	}*/
 }
 
 void Cube::OnCollisionEnter(const Event* pEvent) {
@@ -65,4 +87,8 @@ void Cube::bindUpdateToEngine() {
 }
 void Cube::bindStartToEngine() {
 	core::Engine::Get().GetEventDispatcher().addEventListener(events::EngineEventDispatcher::UPDATE_START, &startBind);
+}
+
+void Cube::bindKeyPressToEngine() {
+	Keyboard::Get().addEventListener(KeyEvent::KEY_DOWN, &keyBind);
 }

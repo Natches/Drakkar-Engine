@@ -26,9 +26,9 @@ public:
 		Model& cube_MDL = cube.addComponent<Model>();
 		BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
-		cube_TR.globalPosition = Vec3f(0,0,0);
-		cube_TR.globalScale = Vec3f(10.f, 10.f, 10.f);
-		cube_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 0.f));
+		cube_TR.setGlobalPosition(Vec3f(0,0,0));
+		cube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+		cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
 		cube_RB.mass = 1000.f;
 
@@ -50,9 +50,9 @@ public:
 		Transform& childCube_TR = childCube.getComponent<Transform>();
 		Model& childCube_MDL = childCube.addComponent<Model>();
 
-		childCube_TR.globalPosition = Vec3f(30, 0, 0);
-		childCube_TR.globalScale = Vec3f(1.0f, 1.0f, 1.0f);
-		childCube_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 90.f));
+		childCube_TR.setGlobalPosition(Vec3f(30, 0, 0));
+		childCube_TR.setGlobalScale(Vec3f(10.0f, 10.0f, 10.0f));
+		childCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 90.f)));
 
 		childCube_MDL.albedo = gfx::Color3(1, 0, 0);
 		const U32 parent2IDX = childCube.getIdx();
@@ -62,9 +62,9 @@ public:
 		Transform& childCube2_TR = childCube2.getComponent<Transform>();
 		Model& childCube2_MDL = childCube2.addComponent<Model>();
 
-		childCube2_TR.globalPosition = Vec3f(50, 0, 0);
-		childCube2_TR.globalScale = Vec3f(1.f, 1.f, 1.f);
-		childCube2_TR.globalRotation = Quaternion(Vec3f(0.f, 0.f, 0.f));
+		childCube2_TR.setGlobalPosition(Vec3f(50, 0, 0));
+		childCube2_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+		childCube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
 		childCube2_MDL.albedo = gfx::Color3(1, 0, 0);
 
@@ -78,9 +78,9 @@ public:
 		Model& floor_MDL = floor.addComponent<Model>();
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
-		floor_TR.globalPosition = Vec3f(0, -50.f, 0);
-		floor_TR.globalScale = Vec3f(1000.f, 10.f, 1000.f);
-		floor_TR.globalRotation = Quaternion(1.f, Vec3f(0.f, 0.f, 0.f));
+		floor_TR.setGlobalPosition(Vec3f(0, -50.f, 0));
+		floor_TR.setGlobalScale(Vec3f(1000.f, 10.f, 1000.f));
+		floor_TR.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
 
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
@@ -91,6 +91,32 @@ public:
 		floor_BC.height = 10.f;
 		floor_BC.depth = 1000.f;
 		floor_BC.material = mat;
+
+		for (int i = 0; i < 2500; ++i) {
+			GameObject& instCube = scene.addGameObject();
+			Transform& instCube_TR = instCube.getComponent<Transform>();
+			RigidBody& instCube_RB = instCube.addComponent<RigidBody>();
+			Model& instCube_MDL = instCube.addComponent<Model>();
+			BoxCollider& instCube_BC = instCube.addComponent<BoxCollider>();
+
+			instCube_TR.setGlobalPosition(Vec3f(0, i * 10.f + 10.f, 0));
+			instCube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+			instCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+
+			instCube_RB.mass = 1000.f;
+
+			instCube_MDL.albedo = gfx::Color3(1, 0, 0);
+
+			PhysicsMaterial matInst;
+			matInst.dynamicFriction = 0.5f;
+			matInst.restitution = 0.5f;
+			matInst.staticFriction = 0.5f;
+			instCube_BC.width = 10.f;
+			instCube_BC.height = 10.f;
+			instCube_BC.depth = 10.f;
+			instCube_BC.material = matInst;
+		}
+
 
 		BHVR.init();
 	}
