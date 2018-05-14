@@ -3,10 +3,7 @@
 #include <Core/Engine/Event.hpp>
 #include <Core/Timer/FrameTimer.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
-//#include <Engine/Physics/PhysicsSystem.hpp>
-//#include <Engine/Scene/LevelSystem.hpp>
-//#include <Video/VideoSystem.hpp>
-//#include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Video/VideoSettings.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;
@@ -44,7 +41,7 @@ class Engine final {
 	DK_NONMOVABLE_NONCOPYABLE(Engine)
 
 public:
-	DRAK_API int startup();
+	DRAK_API int startup(const video::VideoSettings& videoSettings);
 	DRAK_API int shutdown();
 	DRAK_API void startLoop();
 	events::EngineEventDispatcher& GetEventDispatcher() { return m_eventDispatcher; }

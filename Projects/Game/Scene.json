@@ -4,8 +4,8 @@ PublicFields: {
 		drak::components::RigidBody: {
 			PublicFields: {
 				"mass": "1000.000000",
-				"isStatic": "0",
-				"isKinematic": "0",
+				"isStatic": "false",
+				"isKinematic": "false",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
@@ -13,8 +13,8 @@ PublicFields: {
 		drak::components::RigidBody: {
 			PublicFields: {
 				"mass": "1000.000000",
-				"isStatic": "1",
-				"isKinematic": "0",
+				"isStatic": "true",
+				"isKinematic": "false",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
@@ -230,7 +230,7 @@ PublicFields: {
 				],
 				"parentIDX": "0",
 				"idx": "0",
-				"m_isRoot": "1"
+				"m_isRoot": "true"
 			}
 		},
 		drak::GameObject: {
@@ -260,7 +260,7 @@ PublicFields: {
 				],
 				"parentIDX": "0",
 				"idx": "1",
-				"m_isRoot": "1"
+				"m_isRoot": "true"
 			}
 		}
 	],

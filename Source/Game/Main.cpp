@@ -69,8 +69,10 @@ public:
 };
 
 void main() {
-	BP bp;
-	Engine::Get().startup();
+	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
+
+	Engine::Get().startup(videoSettings);
 	BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();
