@@ -28,5 +28,6 @@
         <file>darkstyle/close-hover.png</file>
         <file>darkstyle/close-pressed.png</file>
         <file>darkstyle/Input-Regular.ttf</file>
+        <file>darkstyle/icon_play_pause.png</file>
     </qresource>
 </RCC>
