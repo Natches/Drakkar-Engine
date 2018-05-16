@@ -15,11 +15,9 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -27,69 +25,60 @@ QT_BEGIN_NAMESPACE
 class Ui_TransformWidget
 {
 public:
-    QGridLayout *gridLayout_4;
-    QVBoxLayout *verticalLayout_4;
-    QGroupBox *groupBox;
-    QGridLayout *gridLayout;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QDoubleSpinBox *spin_PosX;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *label_2;
-    QDoubleSpinBox *spin_PosY;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label_3;
-    QDoubleSpinBox *spin_PosZ;
-    QGroupBox *groupBox_2;
-    QGridLayout *gridLayout_2;
-    QVBoxLayout *verticalLayout_2;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *label_4;
-    QDoubleSpinBox *spin_RotX;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *label_5;
-    QDoubleSpinBox *spin_RotY;
-    QHBoxLayout *horizontalLayout_6;
-    QLabel *label_6;
-    QDoubleSpinBox *spin_RotZ;
-    QGroupBox *groupBox_3;
     QGridLayout *gridLayout_3;
-    QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_7;
-    QLabel *label_7;
-    QDoubleSpinBox *spin_ScaleX;
-    QHBoxLayout *horizontalLayout_8;
-    QLabel *label_8;
-    QDoubleSpinBox *spin_ScaleY;
-    QHBoxLayout *horizontalLayout_9;
-    QLabel *label_9;
-    QDoubleSpinBox *spin_ScaleZ;
-    QLabel *label_10;
+    QGridLayout *gridLayout_2;
+    QHBoxLayout *horizontalLayout_14;
+    QLabel *label_31;
+    QHBoxLayout *horizontalLayout_15;
+    QLabel *label_32;
+    QDoubleSpinBox *spin_PosY_9;
+    QLabel *label_33;
+    QDoubleSpinBox *spin_PosX_9;
+    QLabel *label_34;
+    QDoubleSpinBox *spin_PosZ_9;
+    QHBoxLayout *horizontalLayout_12;
+    QLabel *label_27;
+    QHBoxLayout *horizontalLayout_13;
+    QLabel *label_28;
+    QDoubleSpinBox *spin_PosY_8;
+    QLabel *label_29;
+    QDoubleSpinBox *spin_PosX_8;
+    QLabel *label_30;
+    QDoubleSpinBox *spin_PosZ_8;
+    QHBoxLayout *horizontalLayout_5;
+    QLabel *label_14;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_11;
+    QDoubleSpinBox *spin_PosY_4;
+    QLabel *label_12;
+    QDoubleSpinBox *spin_PosX_4;
+    QLabel *label_13;
+    QDoubleSpinBox *spin_PosZ_4;
+    QLabel *label;
 
     void setupUi(QWidget *TransformWidget)
     {
         if (TransformWidget->objectName().isEmpty())
             TransformWidget->setObjectName(QStringLiteral("TransformWidget"));
-        TransformWidget->resize(220, 486);
-        TransformWidget->setMaximumSize(QSize(16777215, 486));
+        TransformWidget->resize(300, 256);
+        TransformWidget->setMaximumSize(QSize(16777215, 256));
         TransformWidget->setStyleSheet(QStringLiteral(""));
-        gridLayout_4 = new QGridLayout(TransformWidget);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        groupBox = new QGroupBox(TransformWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setMinimumSize(QSize(200, 144));
-        groupBox->setMaximumSize(QSize(16777215, 16777215));
-        gridLayout = new QGridLayout(groupBox);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        label = new QLabel(groupBox);
-        label->setObjectName(QStringLiteral("label"));
+        gridLayout_3 = new QGridLayout(TransformWidget);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setHorizontalSpacing(6);
+        horizontalLayout_14 = new QHBoxLayout();
+        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
+        label_31 = new QLabel(TransformWidget);
+        label_31->setObjectName(QStringLiteral("label_31"));
+
+        horizontalLayout_14->addWidget(label_31);
+
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
+        label_32 = new QLabel(TransformWidget);
+        label_32->setObjectName(QStringLiteral("label_32"));
         QPalette palette;
         QBrush brush(QColor(234, 76, 76, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -123,24 +112,19 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label->setPalette(palette);
-        label->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
-        label->setAlignment(Qt::AlignCenter);
+        label_32->setPalette(palette);
+        label_32->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
+        label_32->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout_15->addWidget(label_32);
 
-        spin_PosX = new QDoubleSpinBox(groupBox);
-        spin_PosX->setObjectName(QStringLiteral("spin_PosX"));
+        spin_PosY_9 = new QDoubleSpinBox(TransformWidget);
+        spin_PosY_9->setObjectName(QStringLiteral("spin_PosY_9"));
 
-        horizontalLayout->addWidget(spin_PosX);
+        horizontalLayout_15->addWidget(spin_PosY_9);
 
-
-        verticalLayout->addLayout(horizontalLayout);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        label_2 = new QLabel(groupBox);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        label_33 = new QLabel(TransformWidget);
+        label_33->setObjectName(QStringLiteral("label_33"));
         QPalette palette1;
         QBrush brush4(QColor(162, 239, 68, 255));
         brush4.setStyle(Qt::SolidPattern);
@@ -168,24 +152,19 @@ public:
         palette1.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette1.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette1.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_2->setPalette(palette1);
-        label_2->setStyleSheet(QStringLiteral("color: #A2EF44;"));
-        label_2->setAlignment(Qt::AlignCenter);
+        label_33->setPalette(palette1);
+        label_33->setStyleSheet(QStringLiteral("color: #A2EF44;"));
+        label_33->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_2->addWidget(label_2);
+        horizontalLayout_15->addWidget(label_33);
 
-        spin_PosY = new QDoubleSpinBox(groupBox);
-        spin_PosY->setObjectName(QStringLiteral("spin_PosY"));
+        spin_PosX_9 = new QDoubleSpinBox(TransformWidget);
+        spin_PosX_9->setObjectName(QStringLiteral("spin_PosX_9"));
 
-        horizontalLayout_2->addWidget(spin_PosY);
+        horizontalLayout_15->addWidget(spin_PosX_9);
 
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label_3 = new QLabel(groupBox);
-        label_3->setObjectName(QStringLiteral("label_3"));
+        label_34 = new QLabel(TransformWidget);
+        label_34->setObjectName(QStringLiteral("label_34"));
         QPalette palette2;
         QBrush brush5(QColor(36, 189, 223, 255));
         brush5.setStyle(Qt::SolidPattern);
@@ -213,38 +192,34 @@ public:
         palette2.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette2.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette2.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_3->setPalette(palette2);
-        label_3->setStyleSheet(QStringLiteral("color: #24BDDF"));
-        label_3->setAlignment(Qt::AlignCenter);
+        label_34->setPalette(palette2);
+        label_34->setStyleSheet(QStringLiteral("color: #24BDDF"));
+        label_34->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_3->addWidget(label_3);
+        horizontalLayout_15->addWidget(label_34);
 
-        spin_PosZ = new QDoubleSpinBox(groupBox);
-        spin_PosZ->setObjectName(QStringLiteral("spin_PosZ"));
+        spin_PosZ_9 = new QDoubleSpinBox(TransformWidget);
+        spin_PosZ_9->setObjectName(QStringLiteral("spin_PosZ_9"));
 
-        horizontalLayout_3->addWidget(spin_PosZ);
-
-
-        verticalLayout->addLayout(horizontalLayout_3);
+        horizontalLayout_15->addWidget(spin_PosZ_9);
 
 
-        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
+        horizontalLayout_14->addLayout(horizontalLayout_15);
 
 
-        verticalLayout_4->addWidget(groupBox);
+        gridLayout_2->addLayout(horizontalLayout_14, 2, 0, 1, 1);
 
-        groupBox_2 = new QGroupBox(TransformWidget);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setMinimumSize(QSize(200, 144));
-        groupBox_2->setMaximumSize(QSize(16777215, 16777215));
-        gridLayout_2 = new QGridLayout(groupBox_2);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        label_4 = new QLabel(groupBox_2);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        label_27 = new QLabel(TransformWidget);
+        label_27->setObjectName(QStringLiteral("label_27"));
+
+        horizontalLayout_12->addWidget(label_27);
+
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        label_28 = new QLabel(TransformWidget);
+        label_28->setObjectName(QStringLiteral("label_28"));
         QPalette palette3;
         palette3.setBrush(QPalette::Active, QPalette::WindowText, brush);
         palette3.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -270,24 +245,19 @@ public:
         palette3.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette3.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette3.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_4->setPalette(palette3);
-        label_4->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
-        label_4->setAlignment(Qt::AlignCenter);
+        label_28->setPalette(palette3);
+        label_28->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
+        label_28->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_4->addWidget(label_4);
+        horizontalLayout_13->addWidget(label_28);
 
-        spin_RotX = new QDoubleSpinBox(groupBox_2);
-        spin_RotX->setObjectName(QStringLiteral("spin_RotX"));
+        spin_PosY_8 = new QDoubleSpinBox(TransformWidget);
+        spin_PosY_8->setObjectName(QStringLiteral("spin_PosY_8"));
 
-        horizontalLayout_4->addWidget(spin_RotX);
+        horizontalLayout_13->addWidget(spin_PosY_8);
 
-
-        verticalLayout_2->addLayout(horizontalLayout_4);
-
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        label_5 = new QLabel(groupBox_2);
-        label_5->setObjectName(QStringLiteral("label_5"));
+        label_29 = new QLabel(TransformWidget);
+        label_29->setObjectName(QStringLiteral("label_29"));
         QPalette palette4;
         palette4.setBrush(QPalette::Active, QPalette::WindowText, brush4);
         palette4.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -313,24 +283,19 @@ public:
         palette4.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette4.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette4.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_5->setPalette(palette4);
-        label_5->setStyleSheet(QStringLiteral("color: #A2EF44;"));
-        label_5->setAlignment(Qt::AlignCenter);
+        label_29->setPalette(palette4);
+        label_29->setStyleSheet(QStringLiteral("color: #A2EF44;"));
+        label_29->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_5->addWidget(label_5);
+        horizontalLayout_13->addWidget(label_29);
 
-        spin_RotY = new QDoubleSpinBox(groupBox_2);
-        spin_RotY->setObjectName(QStringLiteral("spin_RotY"));
+        spin_PosX_8 = new QDoubleSpinBox(TransformWidget);
+        spin_PosX_8->setObjectName(QStringLiteral("spin_PosX_8"));
 
-        horizontalLayout_5->addWidget(spin_RotY);
+        horizontalLayout_13->addWidget(spin_PosX_8);
 
-
-        verticalLayout_2->addLayout(horizontalLayout_5);
-
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_6 = new QLabel(groupBox_2);
-        label_6->setObjectName(QStringLiteral("label_6"));
+        label_30 = new QLabel(TransformWidget);
+        label_30->setObjectName(QStringLiteral("label_30"));
         QPalette palette5;
         palette5.setBrush(QPalette::Active, QPalette::WindowText, brush5);
         palette5.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -356,38 +321,35 @@ public:
         palette5.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette5.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette5.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_6->setPalette(palette5);
-        label_6->setStyleSheet(QStringLiteral("color: #24BDDF"));
-        label_6->setAlignment(Qt::AlignCenter);
+        label_30->setPalette(palette5);
+        label_30->setStyleSheet(QStringLiteral("color: #24BDDF"));
+        label_30->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_6->addWidget(label_6);
+        horizontalLayout_13->addWidget(label_30);
 
-        spin_RotZ = new QDoubleSpinBox(groupBox_2);
-        spin_RotZ->setObjectName(QStringLiteral("spin_RotZ"));
+        spin_PosZ_8 = new QDoubleSpinBox(TransformWidget);
+        spin_PosZ_8->setObjectName(QStringLiteral("spin_PosZ_8"));
 
-        horizontalLayout_6->addWidget(spin_RotZ);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_6);
+        horizontalLayout_13->addWidget(spin_PosZ_8);
 
 
-        gridLayout_2->addLayout(verticalLayout_2, 0, 0, 1, 1);
+        horizontalLayout_12->addLayout(horizontalLayout_13);
 
 
-        verticalLayout_4->addWidget(groupBox_2);
+        gridLayout_2->addLayout(horizontalLayout_12, 3, 0, 1, 1);
 
-        groupBox_3 = new QGroupBox(TransformWidget);
-        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        groupBox_3->setMinimumSize(QSize(200, 144));
-        groupBox_3->setMaximumSize(QSize(16777215, 16777215));
-        gridLayout_3 = new QGridLayout(groupBox_3);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        label_7 = new QLabel(groupBox_3);
-        label_7->setObjectName(QStringLiteral("label_7"));
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        label_14 = new QLabel(TransformWidget);
+        label_14->setObjectName(QStringLiteral("label_14"));
+        label_14->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        horizontalLayout_5->addWidget(label_14);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        label_11 = new QLabel(TransformWidget);
+        label_11->setObjectName(QStringLiteral("label_11"));
         QPalette palette6;
         palette6.setBrush(QPalette::Active, QPalette::WindowText, brush);
         palette6.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -413,24 +375,19 @@ public:
         palette6.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette6.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette6.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_7->setPalette(palette6);
-        label_7->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
-        label_7->setAlignment(Qt::AlignCenter);
+        label_11->setPalette(palette6);
+        label_11->setStyleSheet(QStringLiteral("color: #EA4C4C;"));
+        label_11->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_7->addWidget(label_7);
+        horizontalLayout_4->addWidget(label_11);
 
-        spin_ScaleX = new QDoubleSpinBox(groupBox_3);
-        spin_ScaleX->setObjectName(QStringLiteral("spin_ScaleX"));
+        spin_PosY_4 = new QDoubleSpinBox(TransformWidget);
+        spin_PosY_4->setObjectName(QStringLiteral("spin_PosY_4"));
 
-        horizontalLayout_7->addWidget(spin_ScaleX);
+        horizontalLayout_4->addWidget(spin_PosY_4);
 
-
-        verticalLayout_3->addLayout(horizontalLayout_7);
-
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        label_8 = new QLabel(groupBox_3);
-        label_8->setObjectName(QStringLiteral("label_8"));
+        label_12 = new QLabel(TransformWidget);
+        label_12->setObjectName(QStringLiteral("label_12"));
         QPalette palette7;
         palette7.setBrush(QPalette::Active, QPalette::WindowText, brush4);
         palette7.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -456,24 +413,19 @@ public:
         palette7.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette7.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette7.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_8->setPalette(palette7);
-        label_8->setStyleSheet(QStringLiteral("color: #A2EF44;"));
-        label_8->setAlignment(Qt::AlignCenter);
+        label_12->setPalette(palette7);
+        label_12->setStyleSheet(QStringLiteral("color: #A2EF44;"));
+        label_12->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_8->addWidget(label_8);
+        horizontalLayout_4->addWidget(label_12);
 
-        spin_ScaleY = new QDoubleSpinBox(groupBox_3);
-        spin_ScaleY->setObjectName(QStringLiteral("spin_ScaleY"));
+        spin_PosX_4 = new QDoubleSpinBox(TransformWidget);
+        spin_PosX_4->setObjectName(QStringLiteral("spin_PosX_4"));
 
-        horizontalLayout_8->addWidget(spin_ScaleY);
+        horizontalLayout_4->addWidget(spin_PosX_4);
 
-
-        verticalLayout_3->addLayout(horizontalLayout_8);
-
-        horizontalLayout_9 = new QHBoxLayout();
-        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
-        label_9 = new QLabel(groupBox_3);
-        label_9->setObjectName(QStringLiteral("label_9"));
+        label_13 = new QLabel(TransformWidget);
+        label_13->setObjectName(QStringLiteral("label_13"));
         QPalette palette8;
         palette8.setBrush(QPalette::Active, QPalette::WindowText, brush5);
         palette8.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -499,36 +451,33 @@ public:
         palette8.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         palette8.setBrush(QPalette::Disabled, QPalette::Highlight, brush2);
         palette8.setBrush(QPalette::Disabled, QPalette::HighlightedText, brush3);
-        label_9->setPalette(palette8);
-        label_9->setStyleSheet(QStringLiteral("color: #24BDDF"));
-        label_9->setAlignment(Qt::AlignCenter);
+        label_13->setPalette(palette8);
+        label_13->setStyleSheet(QStringLiteral("color: #24BDDF"));
+        label_13->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout_9->addWidget(label_9);
+        horizontalLayout_4->addWidget(label_13);
 
-        spin_ScaleZ = new QDoubleSpinBox(groupBox_3);
-        spin_ScaleZ->setObjectName(QStringLiteral("spin_ScaleZ"));
+        spin_PosZ_4 = new QDoubleSpinBox(TransformWidget);
+        spin_PosZ_4->setObjectName(QStringLiteral("spin_PosZ_4"));
 
-        horizontalLayout_9->addWidget(spin_ScaleZ);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_9);
+        horizontalLayout_4->addWidget(spin_PosZ_4);
 
 
-        gridLayout_3->addLayout(verticalLayout_3, 0, 0, 1, 1);
+        horizontalLayout_5->addLayout(horizontalLayout_4);
 
 
-        verticalLayout_4->addWidget(groupBox_3);
+        gridLayout_2->addLayout(horizontalLayout_5, 1, 0, 1, 1);
+
+        label = new QLabel(TransformWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setMaximumSize(QSize(16777215, 16));
+        label->setStyleSheet(QStringLiteral("background:rgb(32, 32, 32)"));
+        label->setAlignment(Qt::AlignCenter);
+
+        gridLayout_2->addWidget(label, 0, 0, 1, 1);
 
 
-        gridLayout_4->addLayout(verticalLayout_4, 1, 0, 1, 1);
-
-        label_10 = new QLabel(TransformWidget);
-        label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setMinimumSize(QSize(0, 16));
-        label_10->setMaximumSize(QSize(16777215, 16));
-        label_10->setStyleSheet(QStringLiteral("background: #232629"));
-
-        gridLayout_4->addWidget(label_10, 0, 0, 1, 1);
+        gridLayout_3->addLayout(gridLayout_2, 2, 0, 1, 1);
 
 
         retranslateUi(TransformWidget);
@@ -539,19 +488,19 @@ public:
     void retranslateUi(QWidget *TransformWidget)
     {
         TransformWidget->setWindowTitle(QApplication::translate("TransformWidget", "Form", nullptr));
-        groupBox->setTitle(QApplication::translate("TransformWidget", "Position", nullptr));
-        label->setText(QApplication::translate("TransformWidget", "X", nullptr));
-        label_2->setText(QApplication::translate("TransformWidget", "Y", nullptr));
-        label_3->setText(QApplication::translate("TransformWidget", "Z", nullptr));
-        groupBox_2->setTitle(QApplication::translate("TransformWidget", "Rotation", nullptr));
-        label_4->setText(QApplication::translate("TransformWidget", "X", nullptr));
-        label_5->setText(QApplication::translate("TransformWidget", "Y", nullptr));
-        label_6->setText(QApplication::translate("TransformWidget", "Z", nullptr));
-        groupBox_3->setTitle(QApplication::translate("TransformWidget", "Scale", nullptr));
-        label_7->setText(QApplication::translate("TransformWidget", "X", nullptr));
-        label_8->setText(QApplication::translate("TransformWidget", "Y", nullptr));
-        label_9->setText(QApplication::translate("TransformWidget", "Z", nullptr));
-        label_10->setText(QApplication::translate("TransformWidget", "Transform Component", nullptr));
+        label_31->setText(QApplication::translate("TransformWidget", "Rotation:", nullptr));
+        label_32->setText(QApplication::translate("TransformWidget", "X", nullptr));
+        label_33->setText(QApplication::translate("TransformWidget", "Y", nullptr));
+        label_34->setText(QApplication::translate("TransformWidget", "Z", nullptr));
+        label_27->setText(QApplication::translate("TransformWidget", "Scale:", nullptr));
+        label_28->setText(QApplication::translate("TransformWidget", "X", nullptr));
+        label_29->setText(QApplication::translate("TransformWidget", "Y", nullptr));
+        label_30->setText(QApplication::translate("TransformWidget", "Z", nullptr));
+        label_14->setText(QApplication::translate("TransformWidget", "Position:", nullptr));
+        label_11->setText(QApplication::translate("TransformWidget", "X", nullptr));
+        label_12->setText(QApplication::translate("TransformWidget", "Y", nullptr));
+        label_13->setText(QApplication::translate("TransformWidget", "Z", nullptr));
+        label->setText(QApplication::translate("TransformWidget", "Transform Component", nullptr));
     } // retranslateUi
 
 };

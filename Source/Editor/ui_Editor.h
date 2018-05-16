@@ -137,8 +137,8 @@ public:
         Editor->setMenuBar(menuBar);
         dock_Inspector = new QDockWidget(Editor);
         dock_Inspector->setObjectName(QStringLiteral("dock_Inspector"));
-        dock_Inspector->setMinimumSize(QSize(256, 300));
-        dock_Inspector->setMaximumSize(QSize(524287, 524287));
+        dock_Inspector->setMinimumSize(QSize(340, 450));
+        dock_Inspector->setMaximumSize(QSize(340, 524287));
         dock_Inspector->setCursor(QCursor(Qt::ArrowCursor));
         dock_Inspector->setAcceptDrops(false);
         dock_Inspector->setStyleSheet(QStringLiteral(""));
@@ -152,6 +152,7 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         scrollArea = new QScrollArea(dockWidgetContents_10);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
+        scrollArea->setMinimumSize(QSize(320, 0));
         scrollArea->setFrameShape(QFrame::NoFrame);
         scrollArea->setFrameShadow(QFrame::Plain);
         scrollArea->setLineWidth(1);
@@ -159,7 +160,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 238, 413));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 322, 413));
         scrollArea->setWidget(scrollAreaWidgetContents);
 
         gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);

@@ -13,11 +13,17 @@ Editor::Editor(QWidget *parent) :
     init();
 }
 
+
 Editor::~Editor()
 {
     drak::core::Engine::Get().shutdown();
     delete ui;
 }
+
+
+/**************************************************************************************************
+ *  GUI Setup
+ *************************************************************************************************/
 
 void Editor::init()
 {
@@ -28,6 +34,7 @@ void Editor::init()
     drak::core::Engine::Get().startup();
     drak::core::Engine::Get().startLoop();
 }
+
 
 void Editor::setupWidgets()
 {
@@ -44,6 +51,7 @@ void Editor::setupWidgets()
     setProjectPath("");
 }
 
+
 void Editor::setupToolbar()
 {
     QWidget* spacerL = new QWidget(this);
@@ -59,6 +67,7 @@ void Editor::setupToolbar()
     ui->toolBar->addWidget(spacerR);
 }
 
+
 void Editor::setProjectPath(QString dir)
 {
     QModelIndex folderRoot = folderModel->setRootPath(dir);
@@ -73,6 +82,7 @@ void Editor::setProjectPath(QString dir)
     ui->listView->setRootIndex(fileRoot);
 }
 
+
 void Editor::loadFonts()
 {
     QFontDatabase::addApplicationFont(":/Input-Regular.ttf");
@@ -80,15 +90,45 @@ void Editor::loadFonts()
     QApplication::setFont(font);
 }
 
-void Editor::on_newProject_triggered()
+
+/**************************************************************************************************
+ *  QOpenGLWindow Overrides
+ *************************************************************************************************/
+
+void Editor::initializeGL()
 {
-    QString directory =
-            QFileDialog::getExistingDirectory(
-                this,
-                tr("Select a project directory."),
-                QCoreApplication::applicationDirPath());
+
+}
+
+
+void Editor::repaintGL(int w, int h)
+{
+
+}
+
+
+void Editor::paintGL()
+{
+
+}
+
+
+/**************************************************************************************************
+ *  File Menu
+ *************************************************************************************************/
+
+void Editor::on_newProject_triggered() {
+    QString directory = QFileDialog::getExistingDirectory(
+        this,
+        tr("Select a project directory."),
+        QCoreApplication::applicationDirPath());
     setProjectPath(directory);
 }
+
+
+/**************************************************************************************************
+ *  View Menu
+ *************************************************************************************************/
 
 void Editor::on_toggleView_SceneGraph_triggered() {
     ui->dock_SceneGraph->toggleViewAction()->trigger();
@@ -102,20 +142,31 @@ void Editor::on_toggleView_Inspector_triggered() {
     ui->dock_Inspector->toggleViewAction()->trigger();
 }
 
-void Editor::on_toggleView_Console_triggered() {
+void Editor::on_toggleView_Console_triggered(){
     ui->dock_Console->toggleViewAction()->trigger();
 }
 
+
+/**************************************************************************************************
+ *  Project Tree
+ *************************************************************************************************/
+
 void Editor::on_treeView_clicked(const QModelIndex &index) {
-    ui->listView->setRootIndex(fileModel->setRootPath(fileModel->fileInfo(index).absoluteFilePath()));
+    ui->listView->setRootIndex(
+        fileModel->setRootPath(
+            fileModel->fileInfo(index).absoluteFilePath()));
 }
 
-void Editor::on_actionWireframe_triggered(bool toggle)
-{
+
+/**************************************************************************************************
+ * Toolbar Actions
+ *************************************************************************************************/
+
+void Editor::on_actionWireframe_triggered(bool toggle) {
     (void)toggle;
 }
 
-void Editor::on_actionAdd_Cube_triggered()
-{
+
+void Editor::on_actionAdd_Cube_triggered() {
 
 }
