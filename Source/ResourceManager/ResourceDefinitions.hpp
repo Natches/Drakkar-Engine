@@ -7,7 +7,7 @@ namespace drak {
 namespace gfx {
 	class Model;
 	class Material;
-	class Shader;
+	class IShader;
 	class Texture;
 } // namespace gfx
 
@@ -20,7 +20,7 @@ template<class T>
 using ResourcePtr		= std::shared_ptr<T>;
 using ModelPtr			= ResourcePtr<gfx::Model>;
 using MaterialPtr		= ResourcePtr<gfx::Material>;
-using ShaderPtr			= ResourcePtr<gfx::Shader>;
+using ShaderPtr			= ResourcePtr<gfx::IShader>;
 using TexturePtr		= ResourcePtr<gfx::Texture>;
 using MeshPtr			= ResourcePtr<geom::AMesh>;
 using SkinnedMeshPtr	= ResourcePtr<geom::SkinnedMesh>;
@@ -29,7 +29,7 @@ template<class T>
 using ResourceMap		= std::unordered_map<std::string, ResourcePtr<T>>;
 using ModelMap			= ResourceMap<gfx::Model>;
 using MaterialMap		= ResourceMap<gfx::Material>;
-using ShaderMap			= ResourceMap<gfx::Shader>;
+using ShaderMap			= ResourceMap<gfx::IShader>;
 using TextureMap		= ResourceMap<gfx::Texture>;
 using MeshMap			= ResourceMap<geom::AMesh>;
 using SkinnedMeshMap	= ResourceMap<geom::SkinnedMesh>;

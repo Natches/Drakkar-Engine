@@ -23,8 +23,9 @@ namespace importer{
 class ModelImporter final {
 	using TexVec = std::vector<definition::Texture>;
 	using MatVec = std::vector<definition::Material>;
-	using ModelVec = std::vector<definition::Model<definition::Mesh>>;
-	using SkelMeshVec = std::vector<definition::Model<definition::SkeletalMesh>>;
+	using ModelVec = std::vector<definition::Model>;
+	using MeshVec = std::vector<definition::Mesh>;
+	using SkelMeshVec = std::vector<definition::SkeletalMesh>;
 public:
 	ModelImporter();
 	ModelImporter(const ModelImporter& m);
@@ -38,16 +39,17 @@ public:
 
 	bool startImport(const std::string& filename, bool optimizeMesh = false, bool leftHanded = false);
 
-	void importModel(ModelVec& aModels, MatVec& aMaterials, TexVec& aTextures,
+	void importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials, TexVec& aTextures,
 		bool extractMaterialsAndTexture = true);
-	void importSkeletalModel(SkelMeshVec& aModels, MatVec& aMaterials, TexVec& aTextures,
+
+	void importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials, TexVec& aTextures,
 		bool extractMaterialsAndTexture = true);
 
 	DK_GETTER_REF_C(std::string, filename, m_filename)
 
 private:
-	void extractModels(ModelVec& aOutModelVec);
-	void extractSkeletalModels(SkelMeshVec& aOutMeshVec);
+	void extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec);
+	void extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec);
 	void extractMaterials(MatVec& aOutMatVec);
 	void extractTextures(TexVec& aOutTexVec);
 	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);

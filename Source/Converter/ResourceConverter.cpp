@@ -1,6 +1,7 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Converter/ResourceConverter.hpp>
 #include <Threading/Task/TaskGroup.hpp>
+#include <Core/Utils/FileUtils.hpp>
 #include <zlib.h>
 
 namespace drak {
@@ -93,15 +94,17 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 	if (importer.startImport(filename, optimizeMesh)) {
 		std::vector<Texture> textures;
 		std::vector<Material> materials;
-		std::vector<Model<Mesh>> models;
+		std::vector<Model> models;
+		std::vector<Mesh> meshes;
 
-		importer.importModel(models, materials, textures);
+		importer.importModel(models, meshes, materials, textures);
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
 		path.insert(path.end() - path.begin(), ".dkResources");
-		Serializer::SerializeToFile<EExtension::BINARY, Model<Mesh>>
+		Serializer::SerializeToFile<EExtension::BINARY, Model>
 			(models, "Resources/Models/", path.c_str());
 
 		path.insert(0, "Resources/Models/");
+		Serializer::AddObjectToFile<EExtension::BINARY, Mesh>(meshes, path.c_str());
 		Serializer::AddObjectToFile<EExtension::BINARY, Material>(materials, path.c_str());
 		Serializer::AddObjectToFile<EExtension::BINARY, Texture>(textures, path.c_str());
 	}

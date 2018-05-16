@@ -1,7 +1,7 @@
 #include <PrecompiledHeader/pch.hpp>
 
-#include <iostream>
 #include <Converter/ModelImporter.hpp>
+#include <Core/Utils/FileUtils.hpp>
 
 #include <assimp/config.h>
 #include <assimp/Importer.hpp>
@@ -74,7 +74,7 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 	return false;
 }
 
-void ModelImporter::importModel(ModelVec& aModels,
+void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes,
 	MatVec& aMaterials, TexVec& aTextures, bool extractMaterialsAndTexture) {
 
 	if (m_pScene == nullptr) {
@@ -82,32 +82,33 @@ void ModelImporter::importModel(ModelVec& aModels,
 		return;
 	}
 
-	extractModels(aModels);
+	extractMeshes(aModels, aMeshes);
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials);
 		extractTextures(aTextures);
 	}
 }
 
-void ModelImporter::importSkeletalModel(SkelMeshVec& aMeshes,
+void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes,
 	MatVec& aMaterials, TexVec& aTextures, bool extractMaterialsAndTexture) {
 }
 
-void ModelImporter::extractModels(ModelVec& aOutModelVec) {
-	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model<definition::Mesh>());
+void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec) {
+	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
+	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::Mesh());
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
-		aOutModelVec[i].mesh.name = inMesh->mName.C_Str();
-		extractVertex(inMesh, aOutModelVec[i].mesh);
-		AddIndices(inMesh, aOutModelVec[i].mesh);
+		aOutModelVec[i].mesh = aOutMeshVec[i].name = inMesh->mName.C_Str();
+		extractVertex(inMesh, aOutMeshVec[i]);
+		AddIndices(inMesh, aOutMeshVec[i]);
 		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
 		aOutModelVec[i].material = str.C_Str();
 		str.Clear();
 	}
 }
 
-void ModelImporter::extractSkeletalModels(SkelMeshVec& aOutMeshVec) {
+void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec) {
 
 }
 

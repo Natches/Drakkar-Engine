@@ -5,6 +5,7 @@
 
 namespace drak {
 
+template<typename T>
 class AResource {
 public:
 	enum ELoadState : U8 {
@@ -17,12 +18,14 @@ public:
 	virtual ~AResource() = default;
 
 protected:
-	//AResource(const std::string& filename);
+	AResource(const std::string& filename);
 
 protected:
+	std::string filename;
 	ELoadState	m_loadState;
 };
 
-using AResourcePtr = std::shared_ptr<AResource>;
+template<typename T>
+using AResourcePtr = std::shared_ptr<AResource<T>>;
 
 } // namespace drak

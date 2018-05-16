@@ -51,11 +51,8 @@ struct Material {
 	F32 shininessStrength;
 };
 
-template<typename T>
 struct Model {
-	static_assert(std::is_same_v<T, Mesh> || std::is_same_v<T, SkeletalMesh>,
-		"Must Be a Mesh Definition !!");
-	T mesh;
+	std::string mesh;
 	std::string material;
 };
 
@@ -101,12 +98,7 @@ opacity, shininess, shininessStrength)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::definition::Model<drak::definition::Mesh>)
-DK_PUBLIC_FIELDS(mesh, material)
-DK_PUBLIC_FIELD_COMPLEMENT
-DK_METADATA_END
-
-DK_METADATA_BEGIN(drak::definition::Model<drak::definition::SkeletalMesh>)
+DK_METADATA_BEGIN(drak::definition::Model)
 DK_PUBLIC_FIELDS(mesh, material)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

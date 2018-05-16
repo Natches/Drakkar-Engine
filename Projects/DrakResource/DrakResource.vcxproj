@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ResourceManager\IResourceManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp" />

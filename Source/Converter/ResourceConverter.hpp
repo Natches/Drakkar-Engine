@@ -22,6 +22,8 @@ public:
 	void convert(int count, char**filename);
 	void toPackage(int count, char**filename, const char* finalName);
 
+	void convertModel(const char* filename, bool optimizeMesh);
+
 private:
 	void convertModel(const char* filename, bool optimizeMesh);
 	void convertTexture(const char* filename);
