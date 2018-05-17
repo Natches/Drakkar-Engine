@@ -65,6 +65,8 @@ bool LevelSystem::startup() {
 
 void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
 	for (U32 i = 0; i < children.size(); ++i) {
+		if (m_gameObjects[children[i]].getComponentFlag(ComponentType<RigidBody>::id))
+			continue;
 		m_gameObjects[children[i]].getComponent<Transform>().setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>().getLocalPosition()));
 		m_gameObjects[children[i]].getComponent<Transform>().setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>().getLocalRotation());
 		m_gameObjects[children[i]].getComponent<Transform>().setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>().getLocalScale());

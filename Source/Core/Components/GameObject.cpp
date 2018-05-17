@@ -1,12 +1,13 @@
 #include <PrecompiledHeader/pch.hpp>
 #include "GameObject.hpp"
 #include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Engine.hpp>
+#include <Engine/Physics/PhysicsSystem.hpp>
 using namespace drak;
 using namespace components;
 
 void GameObject::attachChild(U32 childIDX) {
 	childrenIDXs.push_back(childIDX);
-
 }
 void GameObject::removeChild(U32 childIDX) {
 	for (U32 i = 0; i < childrenIDXs.size(); ++i) {

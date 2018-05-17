@@ -52,6 +52,8 @@
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
 
+#include <Core/Components/GameObject.hpp>
+
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>
 #include <Threading/Function/Function.hpp>
