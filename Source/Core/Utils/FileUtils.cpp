@@ -37,7 +37,7 @@ DRAK_API core::EError CreateDirectories(const char* path) {
 		oldPos += pos + 1;
 		directory = path;
 		directory.erase(directory.begin() + oldPos, directory.end());
-		if ((err = DirectoryExists(directory.c_str())) != core::EError::NO_ERROR)
+		if ((err = DirectoryExists(directory.c_str())) != DK_OK)
 			if ((err = CreateDirectory(directory.c_str())) == core::EError::DIRECTORY_NOT_CREATED)
 				return err;
 		directory = path + oldPos;
@@ -47,7 +47,7 @@ DRAK_API core::EError CreateDirectories(const char* path) {
 
 core::EError CreateDirectoryIfDoesntExist(const char* path) {
 	core::EError err;
-	if ((err = DirectoryExists(path)) != core::EError::NO_ERROR)
+	if ((err = DirectoryExists(path)) != DK_OK)
 		return CreateDirectory(path);
 	return core::EError::DIRECTORY_ALREADY_EXIST;
 }

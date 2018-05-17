@@ -27,13 +27,13 @@
     <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ResourceManager\IResourceManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Resource.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\ResourceManager\ResourceSystem.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\ResourceManager\Resource.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

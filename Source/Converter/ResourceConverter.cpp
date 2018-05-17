@@ -81,7 +81,8 @@ void ResourceConverter::toPackage(int count, char** filename, const char* finalN
 		p.files.emplace_back(str);
 		deflateEnd(&strm);
 	}
-	Serializer::SerializeToFile<EExtension::BINARY, Pak>(p, "Resources/Packaged/", finalName);
+	Serializer::SerializeToFile<EExtension::BINARY, Pak, false>(p, "Resources/Packaged/",
+		(std::string(finalName) + ".pak").c_str());
 }
 
 void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
@@ -100,13 +101,13 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		importer.importModel(models, meshes, materials, textures);
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
 		path.insert(path.end() - path.begin(), ".dkResources");
-		Serializer::SerializeToFile<EExtension::BINARY, Model>
+		Serializer::SerializeToFile<EExtension::BINARY, Model, false>
 			(models, "Resources/Models/", path.c_str());
 
 		path.insert(0, "Resources/Models/");
-		Serializer::AddObjectToFile<EExtension::BINARY, Mesh>(meshes, path.c_str());
-		Serializer::AddObjectToFile<EExtension::BINARY, Material>(materials, path.c_str());
-		Serializer::AddObjectToFile<EExtension::BINARY, Texture>(textures, path.c_str());
+		Serializer::AddObjectToFile<EExtension::BINARY, Mesh, false>(meshes, path.c_str());
+		Serializer::AddObjectToFile<EExtension::BINARY, Material, false>(materials, path.c_str());
+		Serializer::AddObjectToFile<EExtension::BINARY, Texture, false>(textures, path.c_str());
 	}
 	m_mutex.lock();
 	m_modelImporterPool.load()->getBack(std::move(importer));
@@ -121,7 +122,7 @@ void ResourceConverter::convertTexture(const char* filename) {
 	tools::importer::loadTextureFromFile(filename, tex);
 	std::string path = drak::io::FileNameNoExtension(filename);
 	path.insert(path.end() - path.begin(), ".dkResources");
-	Serializer::SerializeToFile<EExtension::BINARY, Texture>(tex, "Resources/Textures/", path.c_str());
+	Serializer::SerializeToFile<EExtension::BINARY, Texture, false>(tex, "Resources/Textures/", path.c_str());
 }
 
 } // namespace converter

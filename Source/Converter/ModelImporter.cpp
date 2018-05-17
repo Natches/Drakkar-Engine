@@ -172,7 +172,7 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec) {
 				temp.width = width;
 			}
 		}
-		else if (io::FileExists(std::get<0>(texture).c_str()) == core::EError::NO_ERROR)
+		else if (io::FileExists(std::get<0>(texture).c_str()) == DK_OK)
 			loadTextureFromFile(std::get<0>(texture), temp);
 		else {
 			std::cout << "Failed to extract Texture : " <<

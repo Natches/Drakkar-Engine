@@ -38,7 +38,7 @@
     <ClInclude Include="..\..\Source\ResourceManager\IResourceManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\AResource.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Resource.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp" />
@@ -50,6 +50,16 @@
     <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\ResourceManager\Resource.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="..\..\Source\ResourceManager\ResourceSystem.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
