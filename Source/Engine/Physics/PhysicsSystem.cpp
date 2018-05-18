@@ -254,16 +254,18 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 	
 }
 
-void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<PxShape*>& shapes) {
+void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
 	for (U32 i = 0; i < target.children().size(); ++i) {
 		GameObject& child = level.m_gameObjects[target.children()[i]];
 		if (child.getComponentFlag(ComponentType<RigidBody>::id)) {
 			RigidBody& childRB = child.getComponent<RigidBody>();
+			childRB.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, true);
 			U32 shapeCount = childRB.rigidActor->getNbShapes();
 			PxShape** childShapes = new PxShape*[shapeCount];
 			shapeCount = childRB.rigidActor->getShapes(childShapes, shapeCount);
 			for (U32 i = 0; i < shapeCount; ++i) {
-				shapes.push_back(childShapes[i]);
+				PxVec3 pos = PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor).p;
+				shapes.push_back(std::make_pair(childShapes[i], PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor)));
 			}
 		}
 		addChildShapes(level, child, shapes);
@@ -272,22 +274,31 @@ void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target
 
 void drak::PhysicsSystem::attachChildrenToRoot(LevelSystem& level, components::RigidBody& target){
 	GameObject& gameObject = level.m_gameObjects[target.GameObjectID];
-	std::vector<PxShape*> shapes;
+	std::vector<std::pair<physx::PxShape*, physx::PxTransform>> shapes;
 	for (U32 i = 0; i < gameObject.children().size(); ++i) {
 		if (level.m_gameObjects[gameObject.children()[i]].getComponentFlag(ComponentType<RigidBody>::id)) {
 			RigidBody& childRB = level.m_gameObjects[gameObject.children()[i]].getComponent<RigidBody>();
+			childRB.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, true);
 			U32 shapeCount = childRB.rigidActor->getNbShapes();
 			PxShape** childShapes = new PxShape*[shapeCount];
 			shapeCount = childRB.rigidActor->getShapes(childShapes, shapeCount);
 			for (U32 i = 0; i < shapeCount; ++i) {
-				shapes.push_back(childShapes[i]);
+				shapes.push_back(std::make_pair(childShapes[i], PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor)));
 			}
 		}
 		addChildShapes(level, level.m_gameObjects[gameObject.children()[i]], shapes);
 	}
 
 	for (U32 i = 0; i < shapes.size(); ++i) {
-		target.rigidActor->attachShape(*shapes[i]);
+		PxShape* shape = PxRigidActorExt::createExclusiveShape(*target.rigidActor, shapes[i].first->getGeometry().any(), *shapes[i].first->getMaterialFromInternalFaceIndex(1));
+		shapes[i].second;
+		PxVec3 globalPos = shapes[i].second.p;
+		shape->setLocalPose(
+			PxTransform(
+				shapes[i].second.p - target.rigidActor->getGlobalPose().p,
+				shapes[i].first->getLocalPose().q));
+		//physx::PxRigidBodyExt::updateMassAndInertia(*target.rigidActor, rb.mass);
 	}
+	//target.rigidActor = m_pPhysics->createRigidDynamic(target.rigidActor->getGlobalPose());
 	//physx::PxRigidBodyExt::updateMassAndInertia((*(PxRigidBody*)target.rigidActor), target.mass);
 }

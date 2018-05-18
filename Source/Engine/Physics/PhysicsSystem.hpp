@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <Math/Vec3.hpp>
 #include <Math/Vec4.hpp>
-
+#include <foundation/PxTransform.h>
 
 namespace physx {
 	class PxScene;
@@ -13,6 +13,7 @@ namespace physx {
 	class PxCooking;
 	class PxTolerancesScale;
 	class PxPvd;
+	class PxShape;
 	//class PxCudaContextManager;
 }
 
@@ -22,6 +23,7 @@ namespace physx {
 
 namespace drak {
 	class LevelSystem;
+	class GameObject;
 	namespace components {
 		struct RigidBody;
 		struct Transform;
@@ -50,7 +52,7 @@ namespace drak {
 		~PhysicsSystem();
 		void InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level);
 		void attachChildrenToRoot(LevelSystem& level, components::RigidBody& target);
-		void addChildShapes(LevelSystem& level, GameObject& target, std::vector<physx::PxShape*>& shapes);
+		void addChildShapes(LevelSystem& level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes);
 		void updateComponents(LevelSystem& levelSystem);
 		bool advance(F64 deltaTime, LevelSystem& levelSystem);
 		bool Startup();
