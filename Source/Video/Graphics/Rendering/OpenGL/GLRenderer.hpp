@@ -39,7 +39,7 @@ public:
 	void multisampling(bool on) override;
 
 	//void bindFrameBuffer() override;
-	virtual void bindWindowFrameBuffer() override;
+	void bindWindowFrameBuffer() override;
 
 private:
 	static void debugLog(

@@ -49,28 +49,28 @@ public:
 			return m_componentHandles[id];
 		return -1;
 	}
-	inline U32 getIdx() {
+	inline const U32 getIdx() {
 		return idx;
 	}
-	inline void setIdx(U32 idx) {
+	inline void setIdx(const U32 idx) {
 		this->idx = idx;
 	}
+	inline const std::vector<U32>& children() const{
+		return childrenIDXs;
+	}
+
 	inline void setLevel(LevelSystem* level) {
 		this->level = level;
 	}
 	inline LevelSystem* getLevel() {
 		return level;
 	}
-	inline bool isRoot() {
-		return m_isRoot;
-	}
 	std::map<U64, U64>& getComponentHandles() {
 		return m_componentHandles;
 	}
 
-	void makeRoot();
-	void setParent(U32 parentIDX);
-	void setParent(GameObject& parent);
+	DRAK_API void makeRoot();
+	DRAK_API void setParent(const U32 pIDX);
 	U64 componentCount;
 	std::string name;
 private:
@@ -80,15 +80,12 @@ private:
 	std::vector<U32> childrenIDXs;
 	U32 parentIDX;
 	U32 idx;
-	bool m_isRoot = true;
 	void attachChild(U32 childIDX);
-	void attachChild(GameObject& child);
 	void removeChild(U32 childIDX);
-	void removeChild(GameObject& child);
 };
 }
 
 DK_METADATA_BEGIN(drak::GameObject)
-DK_PUBLIC_FIELDS(name, componentCount, m_componentHandles, m_componentFlags, childrenIDXs, parentIDX, idx, m_isRoot)
+DK_PUBLIC_FIELDS(name, componentCount, m_componentHandles, m_componentFlags, childrenIDXs, parentIDX, idx)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
