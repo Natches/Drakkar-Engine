@@ -1,10 +1,11 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include <QOpenGLWindow>
+#include <QMainWindow>
 #include <QFileSystemModel>
 
-#include "transformwidget.h"
+#include "GLEditorWidget.hpp"
+#include "TransformWidget.hpp"
 
 namespace Ui {
 class Editor;
@@ -58,7 +59,7 @@ private slots:
 private:
     Ui::Editor          *ui;
 
-    TransformWidget		*transformWidget;
+    GLEditorWidget      *glTarget;
     QFileSystemModel    *folderModel, *fileModel;
 };
 

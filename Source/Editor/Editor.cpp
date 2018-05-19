@@ -7,15 +7,13 @@
 
 Editor::Editor(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Editor)
-{
+    ui(new Ui::Editor) {
     ui->setupUi(this);
     init();
 }
 
 
-Editor::~Editor()
-{
+Editor::~Editor() {
     drak::core::Engine::Get().shutdown();
     delete ui;
 }
@@ -25,8 +23,7 @@ Editor::~Editor()
  *  GUI Setup
  *************************************************************************************************/
 
-void Editor::init()
-{
+void Editor::init() {
     loadFonts();
     setupWidgets();
     setupToolbar();
@@ -36,11 +33,10 @@ void Editor::init()
 }
 
 
-void Editor::setupWidgets()
-{
+void Editor::setupWidgets() {
     setCentralWidget(ui->dock_RenderTarget);
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
-    ui->scrollArea->setWidget(new TransformWidget);
+    ui->scrollArea->layout()->addWidget(new TransformWidget);
 
     folderModel = new QFileSystemModel(this);
     folderModel->setFilter(QDir::NoDot | QDir::AllDirs);
@@ -48,12 +44,14 @@ void Editor::setupWidgets()
     fileModel = new QFileSystemModel(this);
     fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
 
+    glTarget = new GLEditorWidget;
+    ui->dock_RenderTarget->setWidget(glTarget);
+
     setProjectPath("");
 }
 
 
-void Editor::setupToolbar()
-{
+void Editor::setupToolbar() {
     QWidget* spacerL = new QWidget(this);
     spacerL->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     spacerL->setVisible(true);
@@ -68,8 +66,7 @@ void Editor::setupToolbar()
 }
 
 
-void Editor::setProjectPath(QString dir)
-{
+void Editor::setProjectPath(QString dir) {
     QModelIndex folderRoot = folderModel->setRootPath(dir);
     ui->treeView->setModel(folderModel);
     ui->treeView->setRootIndex(folderRoot);
@@ -83,33 +80,10 @@ void Editor::setProjectPath(QString dir)
 }
 
 
-void Editor::loadFonts()
-{
+void Editor::loadFonts() {
     QFontDatabase::addApplicationFont(":/Input-Regular.ttf");
     QFont font(":/Input", 10, 1);
     QApplication::setFont(font);
-}
-
-
-/**************************************************************************************************
- *  QOpenGLWindow Overrides
- *************************************************************************************************/
-
-void Editor::initializeGL()
-{
-
-}
-
-
-void Editor::repaintGL(int w, int h)
-{
-
-}
-
-
-void Editor::paintGL()
-{
-
 }
 
 

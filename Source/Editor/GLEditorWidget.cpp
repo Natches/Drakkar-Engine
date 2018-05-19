@@ -1,14 +1,12 @@
 #include "GLEditorWidget.hpp"
 
-GLEditorWidget::GLEditorWidget(QWidget *parent) :
-    QWidget(parent)
-{
+GLEditorWidget::GLEditorWidget(QWidget *parent)
+:   QOpenGLWidget(parent) {
 
 }
 
 
-GLEditorWidget::~GLEditorWidget()
-{
+GLEditorWidget::~GLEditorWidget() {
 
 }
 

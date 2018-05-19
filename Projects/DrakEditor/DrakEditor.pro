@@ -1,8 +1,8 @@
-#------------------------------------------------------------------------------
+###############################################################################
 #
 #                      Drakkar Editor
 #
-#------------------------------------------------------------------------------
+###############################################################################
 
 QT          += core gui widgets
 DEFINES     += QT_DEPRECATED_WARNINGS
@@ -13,7 +13,7 @@ TEMPLATE    = app
 CONFIG      += c++17
 CONFIG      -= debug_and_release debug_and_release_target
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 DKBIN       = "../../Binaries"
 
@@ -24,12 +24,12 @@ CONFIG(release, debug|release) {
     DESTDIR = $$DKBIN/Release/x64
 }
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 LIBS        +=                                      \
             $$DESTDIR/DrakEngine.lib                \
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 DKSRC       = "../../Source"
 
@@ -37,24 +37,24 @@ INCLUDEPATH += $$DKSRC
 DEPENDPATH  += $$DKSRC
 
 SOURCES     +=                                      \
-            $$DKSRC/Editor/main.cpp                 \
-            $$DKSRC/Editor/Editor.cpp               \
-            $$DKSRC/Editor/transformwidget.cpp      \
+            $$DKSRC/Editor/DarkStyle.cpp            \
             $$DKSRC/Editor/framelesswindow.cpp      \
             $$DKSRC/Editor/windowdragger.cpp        \
-            $$DKSRC/Editor/DarkStyle.cpp \
-    ../../Source/Editor/GLEditorWidget.cpp
+            $$DKSRC/Editor/main.cpp                 \
+            $$DKSRC/Editor/Editor.cpp               \
+            $$DKSRC/Editor/GLEditorWidget.cpp       \
+            $$DKSRC/Editor/TransformWidget.cpp      \
 
 HEADERS     +=                                      \
-            $$DKSRC/Editor/Editor.hpp               \
-            $$DKSRC/Editor/transformwidget.h        \
             $$DKSRC/Editor/DarkStyle.h              \
             $$DKSRC/Editor/framelesswindow.h        \
             $$DKSRC/Editor/windowdragger.h          \
-            $$DKSRC/Engine/Engine.hpp \
-    ../../Source/Editor/GLEditorWidget.hpp
+            $$DKSRC/Editor/Editor.hpp               \
+            $$DKSRC/Editor/GLEditorWidget.hpp       \
+            $$DKSRC/Editor/TransformWidget.hpp      \
+            $$DKSRC/Engine/Engine.hpp               \
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 RSRCDIR     = "Resources"
 
@@ -65,7 +65,7 @@ RESOURCES   +=                                      \
 RC_ICONS    +=                                      \
             $$RSRCDIR/Drakkar.ico                   \
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 FORMDIR     = "Forms"
 
@@ -74,7 +74,7 @@ FORMS       +=                                      \
             $$FORMDIR/framelesswindow.ui            \
             $$FORMDIR/transformwidget.ui            \
 
-#------------------------------------------------------------------------------
+###############################################################################
 
 TEMPDIR     = "Intermediate"
 
@@ -83,4 +83,4 @@ MOC_DIR     = $$TEMPDIR/moc
 RCC_DIR     = $$TEMPDIR/qrc
 UI_DIR      = $$DKSRC/Editor
 
-#------------------------------------------------------------------------------
+###############################################################################
