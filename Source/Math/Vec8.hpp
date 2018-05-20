@@ -1,9 +1,9 @@
 #pragma once
 
-#include<Math/MathUtils.hpp>
-#include<Math/SIMDUtils.hpp>
-#include<Math/Vec4.hpp>
-#include<ostream>
+#include <Math/Vec8.fwd>
+#include <Math/MathUtils.hpp>
+#include <Math/SIMDUtils.hpp>
+#include <Math/Vec4.hpp>
 
 namespace drak {
 namespace math {
@@ -87,14 +87,6 @@ public:
 		SIMDType m_simdVec;
 	};
 };
-
-using Vec8c = typename Vec8<U8>;
-using Vec8sc = typename Vec8<I8>;
-using Vec8s = typename Vec8<I16>;
-using Vec8us = typename Vec8<U16>;
-using Vec8i = typename Vec8<I32>;
-using Vec8u = typename Vec8<U32>;
-using Vec8f = typename Vec8<F32>;
 
 template<typename T>
 bool operator==(const Vec8<T>& v1, const Vec8<T>& v2);
