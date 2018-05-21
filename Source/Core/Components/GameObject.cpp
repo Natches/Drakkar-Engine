@@ -38,6 +38,5 @@ void GameObject::setParent(const U32 pIDX) {
 	level->getGameObjects()[pIDX].attachChild(idx);
 	Transform& parentTransform = level->getGameObjects()[parentIDX].getComponent<Transform>();
 	getComponent<components::Transform>().setLocalPosition(getComponent<components::Transform>().getGlobalPosition() - parentTransform.getGlobalPosition());
-	getComponent<components::Transform>().setLocalRotation(getComponent<components::Transform>().getGlobalRotation());
 	getComponent<components::Transform>().setLocalScale(getComponent<components::Transform>().getGlobalScale() / parentTransform.getGlobalScale());
 }

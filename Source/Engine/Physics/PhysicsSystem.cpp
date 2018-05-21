@@ -155,12 +155,14 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].isDirty() = false;
-				PxTransform trans(
-					transforms[i].getGlobalPosition().x,
-					transforms[i].getGlobalPosition().y,
-					transforms[i].getGlobalPosition().z,
-					PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
-				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
+				if (!rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->getActorFlag(PxActorFlag::eDISABLE_SIMULATION)) {
+					PxTransform trans(
+						transforms[i].getGlobalPosition().x,
+						transforms[i].getGlobalPosition().y,
+						transforms[i].getGlobalPosition().z,
+						PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
+					rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
+				}
 			}
 		}
 	}
