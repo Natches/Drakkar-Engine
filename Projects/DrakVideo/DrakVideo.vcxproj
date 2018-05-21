@@ -84,7 +84,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4777d9a5-56ea-4560-991a-865dc8e98fdc}</ProjectGuid>
     <RootNamespace>DrakRHI</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>DrakVideo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

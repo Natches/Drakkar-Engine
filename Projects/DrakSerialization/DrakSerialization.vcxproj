@@ -35,7 +35,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{ca4b903d-a2bb-4eb1-922b-50c7a83b07c4}</ProjectGuid>
     <RootNamespace>DrakSerialization</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

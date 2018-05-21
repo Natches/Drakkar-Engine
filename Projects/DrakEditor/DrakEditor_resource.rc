@@ -1,6 +1,6 @@
 #include <windows.h>
 
-IDI_ICON1	ICON	DISCARDABLE	"C:\\Users\\s.gleizes\\Documents\\Projects\\DrakkarEngine\\Projects\\DrakEditor\\Resources\\Drakkar.ico"
+IDI_ICON1	ICON	DISCARDABLE	"D:\\Dev\\Projects\\Drakkar-Engine\\Projects\\DrakEditor\\Resources\\Drakkar.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION 0,0,0,0

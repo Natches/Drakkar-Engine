@@ -36,7 +36,7 @@ void Editor::init() {
 void Editor::setupWidgets() {
     setCentralWidget(ui->dock_RenderTarget);
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
-    ui->scrollArea->layout()->addWidget(new TransformWidget);
+   // ui->scrollArea->layout()->addWidget(new TransformWidget);
 
     folderModel = new QFileSystemModel(this);
     folderModel->setFilter(QDir::NoDot | QDir::AllDirs);
@@ -44,8 +44,8 @@ void Editor::setupWidgets() {
     fileModel = new QFileSystemModel(this);
     fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
 
-    glTarget = new GLEditorWidget;
-    ui->dock_RenderTarget->setWidget(glTarget);
+    //glTarget = new GLEditorWidget;
+    //ui->dock_RenderTarget->setWidget(glTarget);
 
     setProjectPath("");
 }
@@ -116,7 +116,7 @@ void Editor::on_toggleView_Inspector_triggered() {
     ui->dock_Inspector->toggleViewAction()->trigger();
 }
 
-void Editor::on_toggleView_Console_triggered(){
+void Editor::on_toggleView_Console_triggered() {
     ui->dock_Console->toggleViewAction()->trigger();
 }
 

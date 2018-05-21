@@ -1,9 +1,5 @@
 #pragma once
 
-#include <Math/Vec2.hpp>
-#include <Math/Vec3.hpp>
-#include <Math/Matrix4x4.hpp>
-
 namespace drak {
 namespace gfx {
 
