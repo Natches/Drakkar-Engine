@@ -44,8 +44,8 @@ void Editor::setupWidgets() {
     fileModel = new QFileSystemModel(this);
     fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
 
-    //glTarget = new GLEditorWidget;
-    //ui->dock_RenderTarget->setWidget(glTarget);
+    glTarget = new GLEditorWidget;
+    ui->dock_RenderTarget->setWidget(glTarget);
 
     setProjectPath("");
 }

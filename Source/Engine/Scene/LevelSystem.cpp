@@ -38,7 +38,7 @@ void LevelSystem::loadScene(const char* name) {
 		filename = "Untitled";
 	else
 		filename += name;
-	if (io::FileExists((filename + ".json").c_str()) != EError::NO_ERROR) {
+	if (io::FileExists((filename + ".json").c_str()) != EError::NO_ERR) {
 		DefaultSceneBP def;
 		loadScene(def);
 		return;

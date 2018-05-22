@@ -102,7 +102,7 @@ void GLRenderer::depthTest(bool on, EDepthMode mode) {
 		DK_CASE(EDepthMode::NOT_EQUAL, glDepthFunc(GL_NOTEQUAL))
 		DK_CASE(EDepthMode::GEQUAL, glDepthFunc(GL_GEQUAL))
 		DK_CASE(EDepthMode::ALWAYS, glDepthFunc(GL_ALWAYS))
-		DK_END
+	DK_END
 }
 
 void GLRenderer::blendTest(bool on, EBlendMode srcFactor, EBlendMode dstFactor) {

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QFileSystemModel>
 
-//#include "GLEditorWidget.hpp"
+#include "GLEditorWidget.hpp"
 #include "TransformWidget.hpp"
 
 namespace Ui {
@@ -59,7 +59,7 @@ private slots:
 private:
     Ui::Editor          *ui;
 
-    //GLEditorWidget      *glTarget;
+    GLEditorWidget      *glTarget;
     QFileSystemModel    *folderModel, *fileModel;
 };
 

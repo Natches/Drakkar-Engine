@@ -4,7 +4,7 @@
 #
 ###############################################################################
 
-QT          += core gui widgets
+QT          += core gui widgets opengl
 DEFINES     += QT_DEPRECATED_WARNINGS
 
 TARGET      = DrakEditor

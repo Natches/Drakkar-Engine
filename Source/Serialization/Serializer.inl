@@ -8,7 +8,7 @@ namespace serialization {
 template<EExtension ext, class T>
 core::EError Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(t, path, filename);
@@ -24,7 +24,7 @@ template<EExtension ext, class T>
 core::EError Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(t, path, filename);
@@ -38,7 +38,7 @@ template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERROR ||
+	if ((err = drak::io::CreateDirectory(path)) == core::EError::NO_ERR ||
 		err == core::EError::DIRECTORY_ALREADY_EXIST) {
 		if constexpr(ext == EExtension::INI)
 			return SerializeToINI(path, filename, t, std::forward<VArgs>(args)...);
@@ -172,7 +172,7 @@ core::EError Serializer::SerializeToINI(const T& t, const char* path, const char
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -187,7 +187,7 @@ core::EError Serializer::SerializeToINI(const std::vector<T>& t, const char* pat
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -201,14 +201,14 @@ core::EError Serializer::SerializeToINI(const char* path, const char* filename, 
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
 
 template<class T>
 core::EError Serializer::AddSerializeToINI(const T& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path,  std::ios::app);
 		if (file.is_open()) {
 			std::stringstream ini(std::ios::in | std::ios::out);
@@ -216,7 +216,7 @@ core::EError Serializer::AddSerializeToINI(const T& t, const char* path) {
 			file << ini.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -225,7 +225,7 @@ core::EError Serializer::AddSerializeToINI(const T& t, const char* path) {
 
 template<class T>
 inline core::EError Serializer::AddSerializeToINI(const std::vector<T>& t, const char * path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::app);
 		if (file.is_open()) {
 			std::stringstream ini(std::ios::in | std::ios::out);
@@ -234,7 +234,7 @@ inline core::EError Serializer::AddSerializeToINI(const std::vector<T>& t, const
 			file << ini.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -243,7 +243,7 @@ inline core::EError Serializer::AddSerializeToINI(const std::vector<T>& t, const
 
 template<class T, class ...VArgs>
 core::EError Serializer::AddSerializeToINI(const char* path, const T& t, VArgs&& ...args) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::app);
 		if (file.is_open()) {
 			std::stringstream ini(std::ios::in | std::ios::out | std::ios::binary);
@@ -252,14 +252,14 @@ core::EError Serializer::AddSerializeToINI(const char* path, const T& t, VArgs&&
 			file.flush();
 			file.close();
 		}
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_FOUND;
 }
 
 template<class T>
 core::EError Serializer::LoadINI(T& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
 			std::stringstream ini(std::ios::in | std::ios::out);
@@ -269,7 +269,7 @@ core::EError Serializer::LoadINI(T& t, const char* path) {
 			if (it != std::string::npos) {
 				ini.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::INI>(t, ini);
-				return core::EError::NO_ERROR;
+				return core::EError::NO_ERR;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -280,7 +280,7 @@ core::EError Serializer::LoadINI(T& t, const char* path) {
 
 template<class T>
 core::EError Serializer::LoadINI(std::vector<T>& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
 			std::stringstream ini(std::ios::in | std::ios::out);
@@ -295,7 +295,7 @@ core::EError Serializer::LoadINI(std::vector<T>& t, const char* path) {
 					t.emplace_back(t2);
 					it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 				}
-				return core::EError::NO_ERROR;
+				return core::EError::NO_ERR;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -325,7 +325,7 @@ core::EError Serializer::LoadINI(const char* path, T& t, VArgs&& ...args) {
 			Occurence(occurence, t, std::forward<VArgs>(args)...);
 			ini.seekg(0, std::ios::beg);
 			LoadFromFile(ini, desc, occurence, t, std::forward<VArgs>(args)...);
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -341,14 +341,14 @@ core::EError Serializer::SerializeToJSON(const T& t, const char* path, const cha
 		file << json.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
 
 template<class T>
 core::EError Serializer::LoadJSON(T& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in);
 		if (file.is_open()) {
 			std::stringstream json(std::ios::in | std::ios::out);
@@ -358,7 +358,7 @@ core::EError Serializer::LoadJSON(T& t, const char* path) {
 			if (it != std::string::npos) {
 				json.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::JSON>(t, json);
-				return core::EError::NO_ERROR;
+				return core::EError::NO_ERR;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -379,7 +379,7 @@ core::EError Serializer::SerializeToBinary(const T& t, const char* path, const c
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -398,7 +398,7 @@ core::EError Serializer::SerializeToBinary(const std::vector<T>& t, const char* 
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -414,14 +414,14 @@ core::EError Serializer::SerializeToBinary(const char* path, const char* filenam
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
 
 template<class T>
 core::EError Serializer::AddSerializeToBinary(const T& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
 			FileDescriptor desc;
@@ -439,7 +439,7 @@ core::EError Serializer::AddSerializeToBinary(const T& t, const char* path) {
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -448,7 +448,7 @@ core::EError Serializer::AddSerializeToBinary(const T& t, const char* path) {
 
 template<class T>
 core::EError Serializer::AddSerializeToBinary(const std::vector<T>& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
 			FileDescriptor desc;
@@ -468,7 +468,7 @@ core::EError Serializer::AddSerializeToBinary(const std::vector<T>& t, const cha
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 	}
 	return core::EError::FILE_NOT_FOUND;
@@ -476,7 +476,7 @@ core::EError Serializer::AddSerializeToBinary(const std::vector<T>& t, const cha
 
 template<class T, class ...VArgs>
 core::EError Serializer::AddSerializeToBinary(const char* path, const T& t, VArgs&& ...args) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in | std::ios::out | std::ios::binary);
 		if (file.is_open()) {
 			FileDescriptor desc;
@@ -489,14 +489,14 @@ core::EError Serializer::AddSerializeToBinary(const char* path, const T& t, VArg
 			file.flush();
 			file.close();
 		}
-		return core::EError::NO_ERROR;
+		return core::EError::NO_ERR;
 	}
 	return core::EError::FILE_NOT_FOUND;
 }
 
 template<class T>
 core::EError Serializer::LoadBinary(T& t, const char* path) {
-	if (drak::io::FileExists(path) == core::EError::NO_ERROR) {
+	if (drak::io::FileExists(path) == core::EError::NO_ERR) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
 		if (file.is_open()) {
 			FileDescriptor desc;
@@ -509,7 +509,7 @@ core::EError Serializer::LoadBinary(T& t, const char* path) {
 				binary << file.rdbuf();
 				file.close();
 				MetaData<T>::Deserialize<EExtension::BINARY>(t, binary);
-				return core::EError::NO_ERROR;
+				return core::EError::NO_ERR;
 			}
 			file.close();
 			return core::EError::CLASS_NOT_FOUND;
@@ -542,7 +542,7 @@ core::EError Serializer::LoadBinary(std::vector<T>& t, const char* path) {
 						[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), i }], std::ios::beg);
 					t.emplace_back(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Deserialize(binary.str().c_str()));
 				}
-				return core::EError::NO_ERROR;
+				return core::EError::NO_ERR;
 			}
 			file.close();
 			return core::EError::CLASS_NOT_FOUND;
@@ -566,7 +566,7 @@ core::EError Serializer::LoadBinary(const char* path, T& t, VArgs&& ...args) {
 			binary << file.rdbuf();
 			file.close();
 			LoadFromFile(binary, desc, occurence, t, std::forward<VArgs>(args)...);
-			return core::EError::NO_ERROR;
+			return core::EError::NO_ERR;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}

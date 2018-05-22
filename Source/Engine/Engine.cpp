@@ -97,7 +97,7 @@ void Engine::startLoop() {
 	eEvent.type = events::EngineEventDispatcher::UPDATE_START;
 	m_eventDispatcher.dispatchEvent(&eEvent);
 
-	while (m_pMainWindow->isOpen()) {
+	while (1) {
 		s_frameTime.update();
 		m_pMainWindow->pollEvents();
 
@@ -112,14 +112,15 @@ void Engine::startLoop() {
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
-		m_pMainWindow->clear();
+		//m_pMainWindow->clear();
 		m_pRenderSystem->startFrame();
 		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
 
 		m_pRenderSystem->endFrame();
-		m_pMainWindow->swapBuffers();
+		//m_pMainWindow->swapBuffers();
 		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
 		m_eventDispatcher.dispatchEvent(&eEvent);
+		
 	}
 	s_frameTime.stop();
 	eEvent.type = events::EngineEventDispatcher::UPDATE_END;

@@ -15,5 +15,4 @@ using UL32	= unsigned long;
 using F32   = float;
 using F64   = double;
 
-using byte  = I8;
 using ubyte = U8;
