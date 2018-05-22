@@ -74,45 +74,53 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 	return false;
 }
 
-void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes,
-	MatVec& aMaterials, TexVec& aTextures, bool extractMaterialsAndTexture) {
+void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials,
+	TexVec& aTextures, definition::ResourceName aNames, bool extractMaterialsAndTexture) {
 
 	if (m_pScene == nullptr) {
 		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
 		return;
 	}
 
-	extractMeshes(aModels, aMeshes);
+	extractMeshes(aModels, aMeshes, aNames);
 	if (extractMaterialsAndTexture) {
-		extractMaterials(aMaterials);
-		extractTextures(aTextures);
+		extractMaterials(aMaterials, aNames);
+		extractTextures(aTextures, aNames);
 	}
 }
 
-void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes,
-	MatVec& aMaterials, TexVec& aTextures, bool extractMaterialsAndTexture) {
+void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials,
+	TexVec& aTextures, definition::ResourceName aNames, bool extractMaterialsAndTexture) {
 }
 
-void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec) {
+void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
+	definition::ResourceName aNames) {
 	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
 	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::Mesh());
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
-		aOutModelVec[i].mesh = aOutMeshVec[i].name = inMesh->mName.C_Str();
+		aOutMeshVec[i].name = inMesh->mName.C_Str();
+		aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
 		extractVertex(inMesh, aOutMeshVec[i]);
 		AddIndices(inMesh, aOutMeshVec[i]);
 		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
-		aOutModelVec[i].material = str.C_Str();
-		str.Clear();
+		if (str != aiString("")) {
+			aNames.names[aOutModelVec[i].mesh] =
+				definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
+			aOutModelVec[i].mesh = inMesh->mName.C_Str();
+			aOutModelVec[i].material = str.C_Str();
+			str.Clear();
+		}
 	}
 }
 
-void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec) {
+void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
+	definition::ResourceName aNames) {
 
 }
 
-void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
+void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceName aNames) {
 	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, definition::Material());
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
@@ -120,6 +128,7 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_NAME, str);
 		aOutMatVec[i].name = str.C_Str();
 		str.Clear();
+		aNames.names[aOutMatVec[i].name] = definition::EFileType::MATERIAL;
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), str);
 		aOutMatVec[i].albedo = str.C_Str();
 		str.Clear();
@@ -136,13 +145,17 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec) {
 		aOutMatVec[i].specularColor = *reinterpret_cast<math::Vec3f*>(&temp);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_AMBIENT, temp);
 		aOutMatVec[i].ambientColor = *reinterpret_cast<math::Vec3f*>(&temp);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_TRANSPARENT, temp);
+		aOutMatVec[i].transparentColor = *reinterpret_cast<math::Vec3f*>(&temp);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_OPACITY, aOutMatVec[i].opacity);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS, aOutMatVec[i].shininess);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, aOutMatVec[i].shininessStrength);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_TWOSIDED, aOutMatVec[i].twoSided);
+		m_pScene->mMaterials[i]->Get(AI_MATKEY_ENABLE_WIREFRAME, aOutMatVec[i].wireframe);
 	}
 }
 
-void ModelImporter::extractTextures(TexVec& aOutTexVec) {
+void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName aNames) {
 	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), definition::Texture());
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {
@@ -152,10 +165,9 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec) {
 			if (tex->mHeight) {
 				temp.width = tex->mWidth;
 				temp.height = tex->mHeight;
-				temp.pixels.reserve(temp.height * temp.width);
+				temp.pixels.resize(temp.height * temp.width * 4);
 				memcpy(temp.pixels.data(), (U8*)tex->pcData,
-					temp.width * temp.height);
-				temp.pixels.resize(temp.height * temp.width);
+					temp.width * temp.height * 4);
 				temp.channels = 4;
 				temp.format = GL_RGBA8;
 			}
@@ -163,9 +175,8 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec) {
 				I32 height, width, channels;
 				U8* pixels = stbi_load_from_memory((U8*)tex->pcData,
 					tex->mWidth, &width, &height, &channels, 0);
-				temp.pixels.reserve(height * width);
-				memcpy(temp.pixels.data(), pixels, width * height);
-				temp.pixels.resize(height * width);
+				temp.pixels.resize(height * width * channels);
+				memcpy(temp.pixels.data(), pixels, width * height * channels);
 				temp.format = channels == 3 ? GL_RGB8 : GL_RGBA8;
 				temp.channels = channels;
 				temp.height = height;
@@ -182,6 +193,7 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec) {
 		std::get<0>(texture) = m_pScene->GetShortFilename(m_filename.c_str()) +
 			std::string("Texture") + std::to_string(i);
 		temp.name = std::get<0>(texture);
+		aNames.names[temp.name] = definition::EFileType::TEXTURE;
 		++i;
 	}
 }
@@ -218,9 +230,8 @@ void loadTextureFromFile(const std::string& filename, definition::Texture& aOutT
 	aOutTexture.height = height;
 	aOutTexture.channels = channels;
 	aOutTexture.format = channels == 3 ? GL_RGB8 : GL_RGBA8;
-	aOutTexture.pixels.reserve(height * width);
-	memcpy(aOutTexture.pixels.data(), pixels, width * height);
-	aOutTexture.pixels.resize(height * width);
+	aOutTexture.pixels.resize(height * width * channels);
+	memcpy(aOutTexture.pixels.data(), pixels, width * height * channels);
 }
 
 } // namespace importer

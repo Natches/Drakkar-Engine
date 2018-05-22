@@ -7,6 +7,8 @@
 namespace drak {
 namespace definition {
 
+DK_ENUM(EFileType, U8, MESH = 1 << 0, TEXTURE = 1 << 1, MATERIAL = 1 << 2, MODEL = 1 << 3)
+
 struct Vertex {
 	math::Vec3f pos, normal;
 	math::Vec2f uv;
@@ -21,13 +23,13 @@ struct SkeletalVertex {
 
 struct Mesh {
 	std::string name;
-	std::vector<int> indices;
+	std::vector<U32> indices;
 	std::vector<Vertex> vertices;
 };
 
 struct SkeletalMesh {
 	std::string name;
-	std::vector<int> indices;
+	std::vector<U32> indices;
 	std::vector<SkeletalVertex> vertices;
 };
 
@@ -46,14 +48,20 @@ struct Material {
 	math::Vec3f diffuseColor;
 	math::Vec3f specularColor;
 	math::Vec3f ambientColor;
+	math::Vec3f transparentColor;
 	F32 opacity;
 	F32 shininess;
 	F32 shininessStrength;
+	bool wireframe, twoSided;
 };
 
 struct Model {
 	std::string mesh;
 	std::string material;
+};
+
+struct ResourceName {
+	std::map<std::string, EFileType> names;
 };
 
 struct Pak {
@@ -93,8 +101,8 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Material)
-DK_PUBLIC_FIELDS(name, albedo, normal, diffuseColor, specularColor, ambientColor,
-opacity, shininess, shininessStrength)
+DK_PUBLIC_FIELDS(name, albedo, normal, diffuseColor, specularColor, ambientColor, transparentColor,
+opacity, shininess, shininessStrength, twoSided, wireframe)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -105,5 +113,10 @@ DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Pak)
 DK_PUBLIC_FIELDS(filenames, files)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::ResourceName)
+DK_PUBLIC_FIELDS(names)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

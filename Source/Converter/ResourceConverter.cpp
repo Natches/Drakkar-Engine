@@ -97,17 +97,15 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		std::vector<Material> materials;
 		std::vector<Model> models;
 		std::vector<Mesh> meshes;
+		ResourceName rName;
 
-		importer.importModel(models, meshes, materials, textures);
+		importer.importModel(models, meshes, materials, textures, rName);
+
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
 		path.insert(path.end() - path.begin(), ".dkResources");
-		Serializer::SerializeToFile<EExtension::BINARY, Model, false>
-			(models, "Resources/Models/", path.c_str());
 
-		path.insert(0, "Resources/Models/");
-		Serializer::AddObjectToFile<EExtension::BINARY, Mesh, false>(meshes, path.c_str());
-		Serializer::AddObjectToFile<EExtension::BINARY, Material, false>(materials, path.c_str());
-		Serializer::AddObjectToFile<EExtension::BINARY, Texture, false>(textures, path.c_str());
+		Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
+			("Resources/Models/", path.c_str(), rName, models, meshes, materials, textures);
 	}
 	m_mutex.lock();
 	m_modelImporterPool.load()->getBack(std::move(importer));
@@ -121,8 +119,10 @@ void ResourceConverter::convertTexture(const char* filename) {
 	Texture tex;
 	tools::importer::loadTextureFromFile(filename, tex);
 	std::string path = drak::io::FileNameNoExtension(filename);
+	ResourceName rName;
+	rName.names[path] = EFileType::TEXTURE;
 	path.insert(path.end() - path.begin(), ".dkResources");
-	Serializer::SerializeToFile<EExtension::BINARY, Texture, false>(tex, "Resources/Textures/", path.c_str());
+	Serializer::SerializeToFile<EExtension::BINARY, false, Texture>("Resources/Textures/", path.c_str(), tex, rName);
 }
 
 } // namespace converter

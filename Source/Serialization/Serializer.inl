@@ -1,5 +1,6 @@
 #include <Serialization/Serializer.hpp>
 #include <Core/Utils/FileUtils.hpp>
+#include <Core/Utils/MacroUtils.hpp>
 #include <fstream>
 
 namespace drak {
@@ -8,7 +9,7 @@ namespace serialization {
 template<EExtension ext, class T, bool addExtension>
 core::EError Serializer::SerializeToFile(const T& t, const char* path, const char* filename) {
 	core::EError err;
-	if (DK_DIR_OK(err = drak::io::CreateDirectories(path))) {
+	if (DK_DIR_OK((err = drak::io::CreateDirectories(path)))) {
 		if constexpr(ext == EExtension::INI) {
 			if constexpr(addExtension)
 				return SerializeToINI(t, path, (std::string(filename) + ".ini").c_str());
@@ -35,7 +36,7 @@ template<EExtension ext, class T, bool addExtension>
 core::EError Serializer::SerializeToFile(const std::vector<T>& t, const char* path, const char* filename) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if (DK_DIR_OK(err = drak::io::CreateDirectories(path))) {
+	if (DK_DIR_OK((err = drak::io::CreateDirectories(path)))) {
 		if constexpr(ext == EExtension::INI) {
 			if constexpr(addExtension)
 				return SerializeToINI(t, path, (std::string(filename) + ".ini").c_str());
@@ -56,7 +57,7 @@ template<EExtension ext, bool addExtension, class T, class ...VArgs>
 core::EError Serializer::SerializeToFile(const char* path, const char* filename, const T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot add multiple object in JSON file !!");
 	core::EError err;
-	if (DK_DIR_OK(err = drak::io::CreateDirectories(path))) {
+	if (DK_DIR_OK((err = drak::io::CreateDirectories(path)))) {
 		if constexpr(ext == EExtension::INI) {
 			if constexpr(addExtension)
 				return SerializeToINI(path, (std::string(filename) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
@@ -220,20 +221,28 @@ void Serializer::SerializeToFile(std::fstream& file, std::stringstream& sstr,
 	FileDescriptor& desc, const T& t, VArgs&& ...args) {
 	int max = 0;
 	for (auto& x : desc.m_descriptor) {
-		if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName() && x.first.second > max)
+		if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName() && x.first.second > max)
 			max = x.first.second;
 	}
-	desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), max + 1 }] = (int)binary.tellp();
-	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Serialize<ext>(t, binary);
+	if constexpr (types::IsVector_V<TYPEOF(t)>) {
+		for (int i = 0; i < t.size(); ++i) {
+			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName(), max + i }] = (int)sstr.tellp();
+			MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::Serialize<ext>(t[i], sstr);
+		}
+	}
+	else {
+		desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), max }] = (int)sstr.tellp();
+		MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Serialize<ext>(t, sstr);
+	}
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
-		SerializeToFile(file, sstr, desc, std::forward<VArgs>(args)...);
+		SerializeToFile<ext, VArgs...>(file, sstr, desc, std::forward<VArgs>(args)...);
 }
 
 template<EExtension ext, class T, class ...VArgs>
 void Serializer::SerializeToFileNoDesc(std::fstream& file, std::stringstream& sstr, const T& t, VArgs&& ...args) {
-	MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Serialize<ext>(t, binary);
+	MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::Serialize<ext>(t, binary);
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
-		SerializeToFileNoDesc(file, sstr, std::forward<VArgs>(args)...);
+		SerializeToFileNoDesc<ext, VArgs...>(file, sstr, std::forward<VArgs>(args)...);
 }
 
 template<class T, class ...VArgs>
@@ -293,7 +302,7 @@ core::EError Serializer::SerializeToINI(const char* path, const char* filename, 
 	std::fstream file((std::string(path) + filename), std::ios::out);
 	if (file.is_open()) {
 		std::stringstream ini(std::ios::in | std::ios::out);
-		SerializeToFileNoDesc<EExtension::INI>(file, ini, std::forward<VArgs>(args)...);
+		SerializeToFileNoDesc<EExtension::INI>(file, ini, t, std::forward<VArgs>(args)...);
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
@@ -505,7 +514,7 @@ core::EError Serializer::SerializeToBinary(const char* path, const char* filenam
 	if (file.is_open()) {
 		FileDescriptor desc;
 		std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
-		SerializeToFile<EExtension::BINARY>(file, binary, std::forward<VArgs>(args)...);
+		SerializeToFile<EExtension::BINARY>(file, binary, desc, t, std::forward<VArgs>(args)...);
 		desc.writeToFile(file);
 		file << binary.rdbuf();
 		file.flush();

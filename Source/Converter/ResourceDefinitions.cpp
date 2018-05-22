@@ -4,8 +4,6 @@
 namespace drak {
 namespace definition {
 
-DK_ENUM_CLASS(EFileType, U8, MESH, TEXTURE)
-
 static const std::map<std::string, EFileType> fileMap{ { "fbx", EFileType::MESH },
 { "3d", EFileType::MESH },
 { "3ds", EFileType::MESH },
