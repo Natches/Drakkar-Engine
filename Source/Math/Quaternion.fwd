@@ -1,0 +1,11 @@
+#pragma once
+
+#include <Core/Engine/Types.hpp>
+
+namespace drak {
+namespace math {
+
+struct Quaternion;
+
+} // namespace math
+} // namespace drak

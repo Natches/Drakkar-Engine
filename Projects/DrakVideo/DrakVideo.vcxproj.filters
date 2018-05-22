@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{b3be7c19-7809-40bb-bf66-038ec7c337e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{1b9dd476-89b7-4fe1-9c20-7811ad3a9aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry">
+      <UniqueIdentifier>{68cb2e5e-a090-4230-9c0a-ee5540c69390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry">
+      <UniqueIdentifier>{b5ab2431-6e25-44e2-b051-acfbbf0523c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering">
+      <UniqueIdentifier>{afe13766-863e-4df4-a4dd-bfe45039a087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering\OpenGL">
+      <UniqueIdentifier>{1d4db4f8-3c64-445b-91de-ddcad41d5d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering">
+      <UniqueIdentifier>{a08994b8-f43d-47b8-a0d0-d5b484507695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering\OpenGL">
+      <UniqueIdentifier>{9e005f4e-c1fb-4ba1-b2b0-2abef4574ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Tools">
+      <UniqueIdentifier>{3bd686f6-d4fe-4048-b515-96e0bbefce0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Tools">
+      <UniqueIdentifier>{f65295c4-4839-4b85-9347-ae6957b67d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering\Base">
+      <UniqueIdentifier>{3cf4ca45-3e40-4069-9b1c-71f38fc209ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Common">
+      <UniqueIdentifier>{2a5cd6f2-ac1f-4efd-a6f8-0a287ad95b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Common">
+      <UniqueIdentifier>{83d3039e-a36b-401e-98df-7ff3e9a890da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry\Base">
+      <UniqueIdentifier>{a66c5e30-3d23-449d-b406-cc4215626a24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry\Base">
+      <UniqueIdentifier>{d0fb6683-8b7e-4570-ac05-8654afb40def}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\VideoSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp">
+      <Filter>Header Files\Graphics\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderer.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderable.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IRenderTarget.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp">
+      <Filter>Header Files\Graphics\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp">
+      <Filter>Header Files\Graphics\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp">
+      <Filter>Header Files\Graphics\Tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Video\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\VideoSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp">
+      <Filter>Source Files\Graphics\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp">
+      <Filter>Source Files\Graphics\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp">
+      <Filter>Source Files\Graphics\Tools</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Video\Graphics\Geometry\Mesh.inl">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </None>
+  </ItemGroup>
+</Project>

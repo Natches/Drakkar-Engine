@@ -15,11 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -38,8 +33,38 @@
     <ClInclude Include="..\..\Source\Math\Vec8.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Quaternion.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix4x4.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Quaternion.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec2.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec3.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec4.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vec8.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Math.fwd">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\Math\Matrix4x4.inl">
+      <Filter>Header Files</Filter>
+    </None>
     <None Include="..\..\Source\Math\SIMDUtils.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -53,6 +78,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\Source\Math\Vec8.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Source\Math\Quaternion.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
