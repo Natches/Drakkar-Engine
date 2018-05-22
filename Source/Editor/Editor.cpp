@@ -28,7 +28,7 @@ void Editor::init() {
     setupWidgets();
     setupToolbar();
 
-    drak::core::Engine::Get().startup();
+    drak::core::Engine::Get().startup(true);
     drak::core::Engine::Get().startLoop();
 }
 

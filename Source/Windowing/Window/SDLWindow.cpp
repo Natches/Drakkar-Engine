@@ -19,7 +19,7 @@ SDLWindow::SDLWindow(const WindowSettings& settings)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8); // read from file
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
 	m_pWin = SDL_CreateWindow(
 		settings.title,
@@ -27,17 +27,17 @@ SDLWindow::SDLWindow(const WindowSettings& settings)
 		SDL_WINDOWPOS_CENTERED,
 		settings.resX,
 		settings.resY,
-		winFlags
-	);
-
-	m_pEvt = new SDL_Event;
+		winFlags);
 
 	m_glContext = SDL_GL_CreateContext(static_cast<SDL_Window*>(m_pWin));
+
+	m_pEvt = new SDL_Event;
 	m_open = true;
 }
 
 SDLWindow::~SDLWindow() {
-	if (m_open) close();
+	if (m_open) 
+		close();
 }
 
 bool SDLWindow::InitSDLVideo() {
