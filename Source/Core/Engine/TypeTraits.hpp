@@ -57,7 +57,7 @@ struct IsBaseType {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -69,7 +69,7 @@ struct IsBaseType<T*> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -81,7 +81,7 @@ struct IsBaseType<T[]> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -93,7 +93,7 @@ struct IsBaseType<T[N]> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -105,7 +105,7 @@ struct IsBaseType<const T> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -117,7 +117,7 @@ struct IsBaseType<const T*> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -129,7 +129,7 @@ struct IsBaseType<const T[]> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -141,7 +141,7 @@ struct IsBaseType<const T[N]> {
 		std::is_same_v<T, I32> || std::is_same_v<T, U64> || std::is_same_v<T, I64> ||
 		std::is_same_v<T, F32> || std::is_same_v<T, F64> || std::is_same_v<T, __m64> ||
 		std::is_same_v<T, __m128> || std::is_same_v<T, __m256> || std::is_same_v<T, __m128i> ||
-		std::is_same_v<T, __m256i>
+		std::is_same_v<T, __m256i> || std::is_enum_v<T>
 	};
 };
 
@@ -165,7 +165,7 @@ struct VectorType {
 };
 
 template<typename T>
-struct VectorType<std::vector<T>> {
+struct VectorType<std::vector<T, std::allocator<T>>> {
 	using type = typename T;
 };
 
