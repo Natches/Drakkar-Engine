@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <Math/Vec3.hpp>
 #include <Math/Vec4.hpp>
-#include <foundation/PxTransform.h>
+//#include <foundation/PxTransform.h>
 
 namespace physx {
 	class PxScene;
@@ -51,8 +51,8 @@ namespace drak {
 		PhysicsSystem();
 		~PhysicsSystem();
 		void InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level);
-		void attachChildrenToRoot(LevelSystem& level, components::RigidBody& target);
-		void addChildShapes(LevelSystem& level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes);
+		//void attachChildrenToRoot(LevelSystem& level, components::RigidBody& target);
+		//void addChildShapes(LevelSystem& level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes);
 		void updateComponents(LevelSystem& levelSystem);
 		bool advance(F64 deltaTime, LevelSystem& levelSystem);
 		bool Startup();

@@ -28,7 +28,7 @@ public:
 
 		cube_TR.setGlobalPosition(Vec3f(0,0,0));
 		cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
-		cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+		cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
 
 		cube_RB.mass = 1000.f;
 

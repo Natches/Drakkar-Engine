@@ -19,16 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Engine\Components\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\SimulationEvent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
+    <ClCompile Include="PhysicsComponents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h" />
     <ClInclude Include="..\..\Source\Engine\Components\Components.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ABehavior.hpp" />
+    <ClInclude Include="..\..\Source\Engine\Components\GameObject.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\ModelComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\PhysicsComponents.hpp" />
     <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.hpp" />

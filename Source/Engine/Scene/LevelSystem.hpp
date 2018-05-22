@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Core.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Serialization/Serializer.hpp>

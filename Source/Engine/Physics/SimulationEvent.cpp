@@ -86,4 +86,4 @@ void PhysicsEvents::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTr
 #include "SimulationEvent.hpp"
 #include <PxPhysicsAPI.h>
 #include <Engine/Components/PhysicsComponents.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>

@@ -1,6 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
@@ -94,12 +94,6 @@ void Engine::startLoop() {
 		if(go.getComponentFlag(ComponentType<RigidBody>::id))
 			m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
 	}
-	for (U32 i = 0; i < m_pLevelSystem->m_rootIdxs.size(); ++i) {
-		if (gameObjects[m_pLevelSystem->m_rootIdxs[i]].getComponentFlag(ComponentType<RigidBody>::id))
-			m_pPhysicsSystem->attachChildrenToRoot(*m_pLevelSystem, gameObjects[m_pLevelSystem->m_rootIdxs[i]].getComponent<RigidBody>());
-	}
-	
-
 
 	events::EngineEvent eEvent;
 	eEvent.type = events::EngineEventDispatcher::UPDATE_START;

@@ -1,7 +1,7 @@
 #include <PrecompiledHeader/pch.hpp>
-#include "GameObject.hpp"
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Engine.hpp>
+#include <PxPhysicsAPI.h>
 using namespace drak;
 using namespace components;
 
@@ -25,6 +25,7 @@ void GameObject::makeRoot() {
 		getComponent<components::Transform>().isRoot() = true;
 		level->addGameObjectToRoots(idx);
 	}
+	getComponent<RigidBody>().activate(true);
 }
 void GameObject::setParent(const U32 pIDX) {
 	if (getComponent<components::Transform>().isRoot()) {
@@ -36,6 +37,7 @@ void GameObject::setParent(const U32 pIDX) {
 	}
 	parentIDX = pIDX;
 	level->getGameObjects()[pIDX].attachChild(idx);
+	getComponent<RigidBody>().activate(false);
 	Transform& parentTransform = level->getGameObjects()[parentIDX].getComponent<Transform>();
 	getComponent<components::Transform>().setLocalPosition(getComponent<components::Transform>().getGlobalPosition() - parentTransform.getGlobalPosition());
 	getComponent<components::Transform>().setLocalScale(getComponent<components::Transform>().getGlobalScale() / parentTransform.getGlobalScale());

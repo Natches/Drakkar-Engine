@@ -83,6 +83,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 	*goIDX = rb.GameObjectID;
 	rb.rigidActor->userData = goIDX;
 	m_pPhysicsScene->addActor(*rb.rigidActor);
+	rb.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, !rb.active());
 	return;
 }
 
@@ -155,14 +156,12 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].isDirty() = false;
-				if (!rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->getActorFlag(PxActorFlag::eDISABLE_SIMULATION)) {
-					PxTransform trans(
-						transforms[i].getGlobalPosition().x,
-						transforms[i].getGlobalPosition().y,
-						transforms[i].getGlobalPosition().z,
-						PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
-					rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
-				}
+				PxTransform trans(
+					transforms[i].getGlobalPosition().x,
+					transforms[i].getGlobalPosition().y,
+					transforms[i].getGlobalPosition().z,
+					PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
+				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
 			}
 		}
 	}
@@ -256,7 +255,7 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 	
 }
 
-void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
+/*void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
 	for (U32 i = 0; i < target.children().size(); ++i) {
 		GameObject& child = level.m_gameObjects[target.children()[i]];
 		if (child.getComponentFlag(ComponentType<RigidBody>::id)) {
@@ -272,9 +271,9 @@ void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target
 		}
 		addChildShapes(level, child, shapes);
 	}
-}
+}*/
 
-void drak::PhysicsSystem::attachChildrenToRoot(LevelSystem& level, components::RigidBody& target){
+/*void drak::PhysicsSystem::attachChildrenToRoot(LevelSystem& level, components::RigidBody& target){
 	GameObject& gameObject = level.m_gameObjects[target.GameObjectID];
 	std::vector<std::pair<physx::PxShape*, physx::PxTransform>> shapes;
 	for (U32 i = 0; i < gameObject.children().size(); ++i) {
@@ -303,4 +302,4 @@ void drak::PhysicsSystem::attachChildrenToRoot(LevelSystem& level, components::R
 	}
 	//target.rigidActor = m_pPhysics->createRigidDynamic(target.rigidActor->getGlobalPose());
 	//physx::PxRigidBodyExt::updateMassAndInertia((*(PxRigidBody*)target.rigidActor), target.mass);
-}
+}*/
