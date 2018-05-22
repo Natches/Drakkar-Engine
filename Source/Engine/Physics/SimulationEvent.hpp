@@ -35,7 +35,7 @@ class PhysicsEvents : public physx::PxSimulationEventCallback {
 public:
 	PhysicsEvents();
 	~PhysicsEvents();
-	void AddEventListener(components::RigidBody& rb, EventType type,  EventListener listener);
+	void AddEventListener(const components::RigidBody& rb, EventType type,  EventListener listener);
 	void onConstraintBreak(physx::PxConstraintInfo * constraints, physx::PxU32 count) override;
 	void onWake(physx::PxActor ** actors, physx::PxU32 count) override;
 	void onSleep(physx::PxActor ** actors, physx::PxU32 count) override;

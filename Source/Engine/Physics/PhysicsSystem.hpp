@@ -42,7 +42,7 @@ namespace drak {
 	public:
 		physx::PxPhysics* getPhysics() { return m_pPhysics; }
 
-		DRAK_API void AddCollisionCallback(components::RigidBody& rb, events::EventType type, events::EventListener listener);
+		DRAK_API void AddCollisionCallback(const components::RigidBody& rb, events::EventType type, events::EventListener listener);
 		DRAK_API void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
 		DRAK_API void applyForce(components::RigidBody& target, math::Vec3f& force);
 		DRAK_API void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);

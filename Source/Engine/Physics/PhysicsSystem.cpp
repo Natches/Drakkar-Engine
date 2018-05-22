@@ -50,7 +50,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.w)));
 	}
 	else {
-		rb.dynamic = m_pPhysics->createRigidDynamic(
+		rb.rigidActor = m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
 				trans.getGlobalPosition().x,
 				trans.getGlobalPosition().y,
@@ -63,7 +63,6 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
-		rb.rigidActor = rb.dynamic;
 		if(rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 		PxShape* shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
@@ -76,7 +75,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.y,
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
-		physx::PxRigidBodyExt::updateMassAndInertia(*rb.dynamic, rb.mass);
+		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 
 	U64* goIDX = new U64;
@@ -87,7 +86,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 	return;
 }
 
-void drak::PhysicsSystem::AddCollisionCallback(RigidBody& rb,
+void drak::PhysicsSystem::AddCollisionCallback(const RigidBody& rb,
 	events::EventType type, 
 	events::EventListener listener){
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
