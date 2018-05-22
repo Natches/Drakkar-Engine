@@ -1,10 +1,10 @@
 #pragma once
 
+#include <Math/Vec4.fwd>
 #include <Math/MathUtils.hpp>
 #include <Math/SIMDUtils.hpp>
 #include <Math/Vec2.hpp>
 #include <Math/Vec3.hpp>
-#include<ostream>
 
 namespace drak {
 namespace math {
@@ -134,14 +134,6 @@ public:
 	static Vec4<T> Right();
 	static Vec4<T> Forward();
 };
-
-using Vec4c = typename Vec4<U8>;
-using Vec4sc = typename Vec4<I8>;
-using Vec4s = typename Vec4<I16>;
-using Vec4us = typename Vec4<U16>;
-using Vec4i = typename Vec4<I32>;
-using Vec4u = typename Vec4<U32>;
-using Vec4f = typename Vec4<F32>;
 
 template<typename T>
 bool operator==(const Vec4<T>& v1, const Vec4<T>& v2);
