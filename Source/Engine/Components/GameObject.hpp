@@ -68,7 +68,6 @@ public:
 	std::map<U64, U64>& getComponentHandles() {
 		return m_componentHandles;
 	}
-
 	DRAK_API void makeRoot();
 	DRAK_API void setParent(const U32 pIDX);
 	U64 componentCount;

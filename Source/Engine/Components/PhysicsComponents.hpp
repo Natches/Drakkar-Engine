@@ -6,6 +6,8 @@
 #include <Math/Vec4.hpp>
 namespace physx {
 	class PxRigidActor;
+	class PxRigidDynamic;
+	class PxShape;
 }
 
 struct PhysicsMaterial {
@@ -36,10 +38,15 @@ DK_METADATA_END
 DRAK_COMPONENT_START(RigidBody)
 DK_SERIALIZED_OBJECT(RigidBody)
 	physx::PxRigidActor* rigidActor;
+	physx::PxRigidDynamic* dynamic;
 	//std::vector<U32> boxColliderIDXs;
 	F32 mass;
 	bool isStatic;
 	bool isKinematic;
+	void activate(bool value);
+	inline const bool active() const { return m_active; }
+	private:
+		bool m_active = true;
 DRAK_COMPONENT_END(RigidBody)
 
 DK_METADATA_BEGIN(drak::components::RigidBody)

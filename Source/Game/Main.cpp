@@ -27,8 +27,8 @@ public:
 		BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
 		cube_TR.setGlobalPosition(Vec3f(0,0,0));
-		cube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
-		cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+		cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
+		cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
 
 		cube_RB.mass = 1000.f;
 
@@ -38,9 +38,9 @@ public:
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
 		mat.staticFriction = 0.5f;
-		cube_BC.width = 10.f;
-		cube_BC.height = 10.f;
-		cube_BC.depth = 10.f;
+		cube_BC.width = 1.f;
+		cube_BC.height = 1.f;
+		cube_BC.depth = 1.f;
 		cube_BC.material = mat;
 		BHVR.getCubeBehaviorContainer().emplace_back();
 		BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1].gameObjectID = cube.getIdx();
@@ -48,23 +48,41 @@ public:
 
 		GameObject& childCube = scene.addGameObject();
 		Transform& childCube_TR = childCube.getComponent<Transform>();
+		RigidBody& childCube_RB = childCube.addComponent<RigidBody>();
+		BoxCollider& childCube_BC = childCube.addComponent<BoxCollider>();
 		Model& childCube_MDL = childCube.addComponent<Model>();
 
-		childCube_TR.setGlobalPosition(Vec3f(30, 0, 0));
-		childCube_TR.setGlobalScale(Vec3f(10.0f, 10.0f, 10.0f));
-		childCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 90.f)));
+		childCube_TR.setGlobalPosition(Vec3f(5, 0, 0));
+		childCube_TR.setGlobalScale(Vec3f(1.0f, 1.0f, 1.0f));
+		childCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+
+		childCube_RB.mass = 1000.f;
+
+		childCube_BC.width = 1.f;
+		childCube_BC.height = 1.f;
+		childCube_BC.depth = 1.f;
+		childCube_BC.material = mat;
 
 		childCube_MDL.albedo = gfx::Color3(1, 0, 0);
 		const U32 parent2IDX = childCube.getIdx();
 		childCube.setParent(parentIDX);
-
+		 
 		GameObject& childCube2 = scene.addGameObject();
 		Transform& childCube2_TR = childCube2.getComponent<Transform>();
+		RigidBody& childCube2_RB = childCube2.addComponent<RigidBody>();
+		BoxCollider& childCube2_BC = childCube2.addComponent<BoxCollider>();
 		Model& childCube2_MDL = childCube2.addComponent<Model>();
 
-		childCube2_TR.setGlobalPosition(Vec3f(50, 0, 0));
-		childCube2_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+		childCube2_TR.setGlobalPosition(Vec3f(10, 0, 0));
+		childCube2_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
 		childCube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+
+		childCube2_BC.width = 1.f;
+		childCube2_BC.height = 1.f;
+		childCube2_BC.depth = 1.f;
+		childCube2_BC.material = mat;
+		
+		childCube2_RB.mass = 1000.f;
 
 		childCube2_MDL.albedo = gfx::Color3(1, 0, 0);
 
@@ -92,32 +110,6 @@ public:
 		floor_BC.depth = 1000.f;
 		floor_BC.material = mat;
 
-		for (int i = 0; i < 2500; ++i) {
-			GameObject& instCube = scene.addGameObject();
-			Transform& instCube_TR = instCube.getComponent<Transform>();
-			RigidBody& instCube_RB = instCube.addComponent<RigidBody>();
-			Model& instCube_MDL = instCube.addComponent<Model>();
-			BoxCollider& instCube_BC = instCube.addComponent<BoxCollider>();
-
-			instCube_TR.setGlobalPosition(Vec3f(0, i * 10.f + 10.f, 0));
-			instCube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
-			instCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-
-			instCube_RB.mass = 1000.f;
-
-			instCube_MDL.albedo = gfx::Color3(1, 0, 0);
-
-			PhysicsMaterial matInst;
-			matInst.dynamicFriction = 0.5f;
-			matInst.restitution = 0.5f;
-			matInst.staticFriction = 0.5f;
-			instCube_BC.width = 10.f;
-			instCube_BC.height = 10.f;
-			instCube_BC.depth = 10.f;
-			instCube_BC.material = matInst;
-		}
-
-
 		BHVR.init();
 	}
 };
@@ -125,8 +117,8 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
 	//BHVR.load();
 	Engine::Get().startLoop();
 	BHVR.save();
