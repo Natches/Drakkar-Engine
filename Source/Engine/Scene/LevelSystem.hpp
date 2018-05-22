@@ -26,13 +26,14 @@ namespace core {
 
 class DRAK_API IManualSceneBlueprint {
 public:
+	const char* name;
 	IManualSceneBlueprint() = default;
 	virtual ~IManualSceneBlueprint() = default;
 	virtual void build(LevelSystem& scene) = 0;
 };
 
 struct Scene {
-	Scene(std::vector<GameObject>& gameObjects, std::vector<U32> rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
+	Scene(std::vector<GameObject>& gameObjects, std::vector<U32>& rootIDXs, std::vector<components::Transform>& transforms, std::vector<components::Model>& models) :
 		transforms(transforms),
 		models(models),
 		gameObjects(gameObjects),
@@ -40,15 +41,14 @@ struct Scene {
 	std::vector<components::Transform>& transforms;
 	std::vector<components::Model>& models;
 	std::vector<GameObject>& gameObjects;
-	std::vector<U32> rootIDXs;
+	std::vector<U32>& rootIDXs;
 };
 
 class LevelSystem {
 	DK_SERIALIZED_OBJECT(LevelSystem)
 	friend core::Engine;
 	friend void drak::GameObject::makeRoot();
-	friend void drak::GameObject::setParent(U32 pIdx);
-	friend void drak::GameObject::setParent(GameObject& parent);
+	friend void drak::GameObject::setParent(const U32 pIdx);
 
 
 	template <I32 n>
@@ -60,6 +60,7 @@ class LevelSystem {
 
 	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
+	void moveChildren(const components::Transform& parentTransform, const std::vector<U32>& children);
 
 	void addGameObjectToRoots(U32 idx) {
 		m_rootIdxs.push_back(idx);
@@ -68,11 +69,15 @@ class LevelSystem {
 	void removeGameObjectFromRoots(U32 idx) {
 		for (U32 i = 0; i < m_rootIdxs.size(); ++i) {
 			if (m_rootIdxs[i] == idx) {
-				m_rootIdxs[i] = *m_rootIdxs.end();
+				m_rootIdxs[i] = m_rootIdxs[m_rootIdxs.size() - 1];
 				m_rootIdxs.pop_back();
 			}
 		}
 	}
+
+	void propogateMovementFromRoots();
+
+	std::string filename;
 public:
 
 	void loadScene(const char* name);
@@ -120,7 +125,7 @@ public:
 		}
 		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
 		gameObject.setIdx(m_gameObjects.size() - 1);
-		//gameObject.setLevel(this);
+		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
 		addComponentToGameObject<components::Transform>(gameObject);

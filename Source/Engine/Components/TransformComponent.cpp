@@ -5,15 +5,3 @@
 
 using namespace drak;
 using namespace components;
-
-void setTransformPos(Transform & t, math::Vec3f newPos)
-{
-	t.position = newPos;
-	t.dirty = true;
-}
-
-void setTransformRot(Transform & t, math::Quaternion newRot)
-{
-	t.rotation = newRot;
-	t.dirty = true;
-}

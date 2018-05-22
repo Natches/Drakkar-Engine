@@ -23,6 +23,9 @@ public:
 	virtual bool init() = 0;
 	virtual void info() = 0;
 
+	virtual bool loadShaders(const std::string& dir, ShaderMap& outMap) = 0;
+	virtual bool loadRenderables(const std::string& dir, IRenderable*& rdr) = 0;
+
 	//virtual void bindFrameBuffer() = 0;
 	virtual void bindWindowFrameBuffer() = 0;
 
@@ -33,7 +36,7 @@ public:
 
 	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LEQUAL) = 0;
 
-	virtual void blendTest(bool on, 
+	virtual void blendTest(bool on,
 		EBlendMode srcFactor = EBlendMode::SRC_ALPHA,
 		EBlendMode dstFactor = EBlendMode::ONE_MINUS_SRC_ALPHA) = 0;
 
@@ -49,4 +52,3 @@ enum ERenderer {
 
 } // namespace gfx
 } // namespace drak
-

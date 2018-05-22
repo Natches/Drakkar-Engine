@@ -20,9 +20,11 @@ public:
 	~GLVertexBuffer();
 
 	void create(
-		const void*	pVerts,
-		const U32	vertexCount,
-		const U32	vertexSize);
+		const void*						pVerts,
+		const geom::VertexAttribDesc*	attribDescs,
+		const U32						attribCount,
+		const U32						vertexCount,
+		const U32						vertexSize) override;
 
 	DK_GETTER_C(GLuint, bindIndex, m_bindIndex)
 

@@ -225,7 +225,7 @@ void Serializer::SerializeToFile(std::fstream& file, std::stringstream& sstr,
 			max = x.first.second;
 	}
 	if constexpr (types::IsVector_V<TYPEOF(t)>) {
-		for (int i = 0; i < t.size(); ++i) {
+		for (unsigned int i = 0; i < (unsigned int)t.size(); ++i) {
 			desc.m_descriptor[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName(), max + i }] = (int)sstr.tellp();
 			MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::Serialize<ext>(t[i], sstr);
 		}

@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Core/Core.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
 
 namespace drak {
 
-	struct Scene;
+struct Scene;
 
 namespace gfx {
 
@@ -31,10 +32,11 @@ public:
 	void renderGrid();
 
 	void startFrame();
-	void render();
 	void endFrame();
 
 private:
+	bool loadResources(const std::string& dir);
+
 	void opaquePass();
 	void transparentPass();
 
@@ -42,11 +44,16 @@ private:
 	void onKeyUp(const events::Event* pEvt);
 
 private:
-	RenderQueue		m_opaqueQueue;
-	RenderQueue		m_transpQueue;
-	
-	IRenderer*		m_pRenderer;
-	IFrameBuffer*	m_pFrame;
+	Camera				m_mainCam;
+
+	ShaderMap			m_shaderMap;
+	RenderQueue			m_opaqueArr;
+	RenderQueue			m_transpArr;
+
+	IRenderable*		m_pGrid;
+
+	IRenderer*			m_pRenderer;
+	IFrameBuffer*		m_pFrame;
 
 	// Tests
 	IRenderable*		 m_pUnitCube;

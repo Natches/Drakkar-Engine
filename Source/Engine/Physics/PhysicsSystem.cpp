@@ -16,19 +16,19 @@ DK_USE_NAMESPACE(drak)
 using namespace physx;
 using namespace drak::components;
 
-void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::Transform& trans, LevelSystem& level)
+void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
 {
 	if (rb.isStatic) {
 		rb.rigidActor = m_pPhysics->createRigidStatic(
 			physx::PxTransform(
-				trans.position.x,
-				trans.position.y,
-				trans.position.z,
+				trans.getGlobalPosition().x,
+				trans.getGlobalPosition().y,
+				trans.getGlobalPosition().z,
 				PxQuat(
-					trans.rotation.m_vecPart.x,
-					trans.rotation.m_vecPart.y,
-					trans.rotation.m_vecPart.z,
-					trans.rotation.m_scalar
+					trans.getGlobalRotation().m_vecPart.x,
+					trans.getGlobalRotation().m_vecPart.y,
+					trans.getGlobalRotation().m_vecPart.z,
+					trans.getGlobalRotation().m_scalar
 				)
 			)
 		);
@@ -36,14 +36,14 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody & rb, components::
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
-				trans.position.x,
-				trans.position.y,
-				trans.position.z,
+				trans.getGlobalPosition().x,
+				trans.getGlobalPosition().y,
+				trans.getGlobalPosition().z,
 				PxQuat(
-					trans.rotation.m_vecPart.x,
-					trans.rotation.m_vecPart.y,
-					trans.rotation.m_vecPart.z,
-					trans.rotation.m_scalar
+					trans.getGlobalRotation().m_vecPart.x,
+					trans.getGlobalRotation().m_vecPart.y,
+					trans.getGlobalRotation().m_vecPart.z,
+					trans.getGlobalRotation().m_scalar
 				)
 			)
 		);
@@ -140,14 +140,8 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)].getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
-		t.position.x = actorTransform.p.x;
-		t.position.y = actorTransform.p.y;
-		t.position.z = actorTransform.p.z;
-
-		t.rotation.m_vecPart.x = actorTransform.q.x;
-		t.rotation.m_vecPart.y = actorTransform.q.y;
-		t.rotation.m_vecPart.z = actorTransform.q.z;
-		t.rotation.m_scalar = actorTransform.q.w;
+		t.setGlobalPosition( math::Vec3f(actorTransform.p.x, actorTransform.p.y, actorTransform.p.z));
+		t.setGlobalRotation(math::Quaternion(actorTransform.q.w, math::Vec3f(actorTransform.q.x, actorTransform.q.y, actorTransform.q.z)));
 	}
 }
 
@@ -162,15 +156,15 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 	std::vector<RigidBody>& rigidBodies = levelSystem.getComponentContainerByType<RigidBody>();
 	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (int i = 0; i < transforms.size(); ++i) {
-		if (transforms[i].dirty) {
+		if (transforms[i].isDirty()) {
 			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
-				transforms[i].dirty = false;
+				transforms[i].isDirty() = false;
 				PxTransform trans(
-					transforms[i].position.x,
-					transforms[i].position.y,
-					transforms[i].position.z,
-					PxQuat(transforms[i].rotation.m_vecPart.x, transforms[i].rotation.m_vecPart.y, transforms[i].rotation.m_vecPart.z, transforms[i].rotation.m_scalar));
+					transforms[i].getGlobalPosition().x,
+					transforms[i].getGlobalPosition().y,
+					transforms[i].getGlobalPosition().z,
+					PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
 				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
 			}
 		}

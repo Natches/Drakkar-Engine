@@ -33,12 +33,6 @@
     <Filter Include="Source Files\Graphics\Rendering\OpenGL">
       <UniqueIdentifier>{9e005f4e-c1fb-4ba1-b2b0-2abef4574ed8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\Tools">
-      <UniqueIdentifier>{3bd686f6-d4fe-4048-b515-96e0bbefce0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics\Tools">
-      <UniqueIdentifier>{f65295c4-4839-4b85-9347-ae6957b67d09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics\Rendering\Base">
       <UniqueIdentifier>{3cf4ca45-3e40-4069-9b1c-71f38fc209ec}</UniqueIdentifier>
     </Filter>
@@ -149,9 +143,6 @@
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
@@ -193,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Material.cpp">
       <Filter>Source Files\Graphics\Rendering\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

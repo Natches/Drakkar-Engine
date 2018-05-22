@@ -1,7 +1,6 @@
 #include <cassert>
 #include <Math/Vec3.hpp>
 #include <Math/Vec4.hpp>
-#include <Math/Quaternion.hpp>
 
 namespace drak {
 namespace math {

@@ -132,17 +132,12 @@ Mat4f Quaternion::matrix() {
 }
 
 Vec3f Quaternion::euler() const {
-	Vec8f vec = (Vec8f(Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.y), 
-		Vec4f(m_vecPart, m_vecPart.x)) * Vec8f(Vec4f(m_vecPart, m_vecPart.z),
-			Vec4f(m_vecPart.y, m_vecPart.y, m_vecPart.x, m_vecPart.x)));
-	F32 pitch = std::clamp(-2 * (vec.c - vec.y), -1.0f, 1.0f);
-	return Vec3f(IsEqual_V(pitch, -1.f) ?
-		atan2f(m_vecPart.x, m_scalar) : IsEqual_V(pitch, 1.f) ?
-		atan2f(m_vecPart.x, m_scalar) :
-		atan2f((vec.x + vec.w), 0.5f - (vec.b + vec.d)),
-		asinf(pitch),
-		IsEqual_V(fabs(pitch), 1.f) ? 0.f :
-		atan2f((vec.z + vec.a), 0.5f - (vec.b + (m_vecPart.z * m_vecPart.z)))) * ToDegF;
+	float s2 = quat.y * quat.y + quat.z * quat.z;
+	float c2 = quat.x * quat.x + quat.w * quat.w;
+	float s = atanf(quat.w / quat.x);
+	float d = atan2f(quat.z, quat.y);
+
+	return  Vec3f(s + d, IsNotEqual_V(c2, 0.f) ? 2.0f * atanf(sqrtf(s2 / c2)) : (0.5f > s2) ? 0 : M_PIF, s - d) * ToDegF;
 }
 
 inline Vec4f Quaternion::forward() {
@@ -159,14 +154,14 @@ inline Vec4f Quaternion::up() {
 
 template<typename U>
 void Quaternion::fromEuler(U&& u) {
-	Vec3f theta = { (std::forward<U>(u) * (ToRadF * 0.5f)) };
-	Vec3f cosV{ cos(theta.x), cos(theta.y), cos(theta.z) };
-	Vec3f sinV{ sin(theta.x), sin(theta.y), sin(theta.z) };
+	Vec3f theta(std::forward<U>(u) * (ToRadF * 0.5f));
+	Vec3f cosV{ cos(theta.x - theta.z), cos(theta.y), cos(theta.x + theta.z) };
+	Vec3f sinV{ sin(theta.x - theta.z), sin(theta.y), sin(theta.x + theta.z) };
 
-	m_scalar = cosV.x * cosV.y * cosV.z + sinV.x * sinV.y * sinV.z;
-	m_vecPart = { sinV.x * cosV.y * cosV.z - cosV.x * sinV.y * sinV.z,
-		cosV.x * sinV.y * cosV.z + sinV.x * cosV.y * sinV.z,
-		cosV.x * cosV.y * sinV.z - sinV.x * sinV.y * cosV.z };
+	quat = { cosV.z * cosV.y,
+			 cosV.x * sinV.y,
+			 sinV.x * sinV.y,
+			 sinV.z * cosV.y };
 }
 
 template<typename U>

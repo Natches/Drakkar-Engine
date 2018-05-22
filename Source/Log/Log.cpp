@@ -24,7 +24,7 @@ void Logbook::CloseLogs() {
 }
 
 void Logbook::Log(Logbook::EOutput output, std::string filename, const char* message, ...) {
-	va_list args;
+	/*va_list args;
 	va_start(args, message);
 	switch (output) {
 	case Logbook::EOutput::CONSOLE: {
@@ -48,5 +48,5 @@ void Logbook::Log(Logbook::EOutput output, std::string filename, const char* mes
 		break;
 	}
 	}
-	va_end(args);
+	va_end(args);*/
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <Core/Utils/ClassUtils.hpp>
-#include <ResourceManager/ModelManager.hpp>
-#include <ResourceManager/MeshManager.hpp>
-#include <ResourceManager/MaterialManager.hpp>
-#include <ResourceManager/TextureManager.hpp>
-#include <ResourceManager/ResourceDefinitions.hpp>
+#include <ResourceManager/Manager/ModelManager.hpp>
+#include <ResourceManager/Manager/MeshManager.hpp>
+#include <ResourceManager/Manager/MaterialManager.hpp>
+#include <ResourceManager/Manager/TextureManager.hpp>
+#include <ResourceManager/Resource/ResourceDefinitions.hpp>
 #include <Converter/ResourceConverter.hpp>
 
 namespace drak {
