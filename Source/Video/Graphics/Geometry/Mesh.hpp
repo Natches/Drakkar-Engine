@@ -1,44 +1,30 @@
 #pragma once
 
+#include <string>
 #include <vector>
-#include <Video/Graphics/Geometry/Base/AMesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
+class MeshManager;
 namespace geom {
 
-template<typename vertexType>
-class Mesh : public AMesh {
-	static_assert(
-		std::is_same_v<Vertex1P,		vertexType> ||
-		std::is_same_v<Vertex1P1N,		vertexType> ||
-		std::is_same_v<Vertex1P1N1UV,	vertexType>, "Must be a vertexType");
+class Mesh final {
+
 public:
-	Mesh(const std::string& filename = "");
-	virtual ~Mesh();
+	Mesh() = delete;
+	Mesh(const std::string& name, std::vector<Vertex1P1N1UV>&& vertices, std::vector<U32>&& indices);
+	~Mesh() = default;
 
-	void addVertex(const vertexType& v);
-	void addTriangle(
-		const vertexType& v1,
-		const vertexType& v2,
-		const vertexType& v3);
+	using Manager = MeshManager;
 
-	void addIndex(U32 i);
-	void addTriangleIndices(U32 i1, U32 i2, U32 i3);
-
-	DK_GETTER_REF_C(std::vector<vertexType>, vertices, m_vertices)
+	DK_GETTER_REF_C(std::string, name, m_name)
+	DK_GETTER_REF_C(std::vector<Vertex1P1N1UV>, vertices, m_vertices)
 	DK_GETTER_REF_C(std::vector<U32>, indices, m_indices)
-	DK_GETTER(U32, verticeCount, m_verticeCount)
-	DK_GETTER(U32, indiceCount, m_indiceCount)
 
-protected:
-	std::vector<vertexType>		m_vertices;
+private:
+	std::string					m_name;
+	std::vector<Vertex1P1N1UV>	m_vertices;
 	std::vector<U32>			m_indices;
-
-	std::string					m_filename;
-	U32							m_verticeCount;
-	U32							m_indiceCount;
-	U8							m_numAttribs;
 };
 
 } // namespace geom
