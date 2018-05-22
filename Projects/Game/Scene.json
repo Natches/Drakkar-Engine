@@ -415,9 +415,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "1",
-				"height": "1",
-				"depth": "1",
+				"width": "1.000000",
+				"height": "1.000000",
+				"depth": "1.000000",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
@@ -450,9 +450,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "1",
-				"height": "1",
-				"depth": "1",
+				"width": "1.000000",
+				"height": "1.000000",
+				"depth": "1.000000",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
@@ -485,9 +485,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "1",
-				"height": "1",
-				"depth": "1",
+				"width": "1.000000",
+				"height": "1.000000",
+				"depth": "1.000000",
 				"idx": "2",
 				"GameObjectID": "2"
 			}
@@ -520,9 +520,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "1000",
-				"height": "10",
-				"depth": "1000",
+				"width": "1000.000000",
+				"height": "10.000000",
+				"depth": "1000.000000",
 				"idx": "3",
 				"GameObjectID": "3"
 			}

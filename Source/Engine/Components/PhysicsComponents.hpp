@@ -26,9 +26,9 @@ DK_SERIALIZED_OBJECT(PhysicsMaterial)
 math::Vec3f localPosition = math::Vec3f(0, 0, 0);
 math::Vec4f localRotation = math::Vec4f(0, 0, 0, 1);
 PhysicsMaterial material;
-I32 width;
-I32 height;
-I32 depth;
+F32 width;
+F32 height;
+F32 depth;
 DRAK_COMPONENT_END(BoxCollider)
 DK_METADATA_BEGIN(drak::components::BoxCollider)
 DK_PUBLIC_FIELDS(localPosition, localRotation, material, width, height, depth, idx, GameObjectID)
