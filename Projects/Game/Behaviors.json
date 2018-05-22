@@ -6,6 +6,12 @@ PublicFields: {
 				"gameObjectID": "0",
 				"name": "Cube"
 			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "3",
+				"name": "Cube"
+			}
 		}
 	]
 }

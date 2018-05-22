@@ -9,6 +9,8 @@ DK_SERIALIZED_OBJECT(Cube)
 	function::MemberFunction<Cube, void, const events::Event*> updateBind;
 	function::MemberFunction<Cube, void, const events::Event*> startBind;
 	function::MemberFunction<Cube, void, const events::Event*> keyBind;
+	function::MemberFunction<Cube, void, const events::Event*> collisionEnterBind;
+
 	void bindUpdateToEngine();
 	void bindStartToEngine();
 	void bindKeyPressToEngine();

@@ -38,7 +38,7 @@ DK_METADATA_END
 DRAK_COMPONENT_START(RigidBody)
 DK_SERIALIZED_OBJECT(RigidBody)
 	physx::PxRigidActor* rigidActor;
-	physx::PxRigidDynamic* dynamic;
+	//physx::PxRigidDynamic* dynamic;
 	//std::vector<U32> boxColliderIDXs;
 	F32 mass;
 	bool isStatic;
@@ -50,7 +50,7 @@ DK_SERIALIZED_OBJECT(RigidBody)
 DRAK_COMPONENT_END(RigidBody)
 
 DK_METADATA_BEGIN(drak::components::RigidBody)
-DK_PUBLIC_FIELDS(mass, isStatic, isKinematic, idx, GameObjectID)
+DK_PUBLIC_FIELDS(mass, isStatic, isKinematic, m_active, idx, GameObjectID)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
