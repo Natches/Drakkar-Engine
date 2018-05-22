@@ -3,6 +3,7 @@
 #include <Core/Utils/ClassUtils.hpp>
 #include <ResourceManager/ModelManager.hpp>
 #include <ResourceManager/MeshManager.hpp>
+#include <ResourceManager/MaterialManager.hpp>
 #include <ResourceManager/TextureManager.hpp>
 #include <ResourceManager/ResourceDefinitions.hpp>
 #include <Converter/ResourceConverter.hpp>
@@ -37,10 +38,12 @@ private:
 	core::EError startup();
 	core::EError shutdown();
 
-	//TextureManager	m_textureManager;
-	//ShaderManager		m_shaderManager;
+	//ShaderManager	m_shaderManager;
 
-	ModelManager		m_pModelManager;
+	ModelManager		m_modelManager;
+	TextureManager		m_textureManager;
+	MeshManager			m_meshManager;
+	MaterialManager		m_materialManager;
 
 	converter::ResourceConverter m_converter;
 };

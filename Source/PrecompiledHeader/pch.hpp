@@ -84,7 +84,10 @@
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
 
-#include <Video/Graphics/Rendering/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Texture.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Model.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Material.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 
 #include <Video/VideoSettings.hpp>

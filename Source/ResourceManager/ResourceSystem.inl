@@ -15,7 +15,7 @@ core::EError ResourceSystem::loadOrGet(const std::string& filename, ResourcePtr<
 		/*if (io::AllExtension(filename.c_str()) == "drakResource.bin") {
 			if constexpr(std::is_same_v<T, Model> || std::is_same_v<T, Mesh>)
 			definition::Model inT;
-			if ((err = Serializer::LoadFromFile(inT, filename)) != core::EError::NO_ERROR) {
+			if ((err = Serializer::LoadFromFile(inT, filename)) != DK_OK) {
 				std::cout << "ResourceSystem : Error While Loading this file : " << filename << "\n";
 				return err;
 			}
@@ -23,7 +23,7 @@ core::EError ResourceSystem::loadOrGet(const std::string& filename, ResourcePtr<
 		else {
 			m_converter.convert(1, &filename.c_str());
 			definition::T inT;
-			if ((err = Serializer::LoadFromFile(inT, std::string(io::FileNameNoExtension(filename)) + "drakResource.bin")) != core::EError::NO_ERROR) {
+			if ((err = Serializer::LoadFromFile(inT, std::string(io::FileNameNoExtension(filename)) + "drakResource.bin")) != DK_OK) {
 				std::cout << "ResourceSystem : Error While Loading this file : " << filename << "\n";
 				return err;
 			}
