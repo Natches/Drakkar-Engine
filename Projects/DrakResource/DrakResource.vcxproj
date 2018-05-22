@@ -35,39 +35,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ResourceManager\IResourceManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\Resource.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\Base\AResourceManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\Base\IResourceManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\MaterialManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\MeshManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\ModelManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\TextureManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp" />
-    <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Resource\Resource.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Resource\ResourceDefinitions.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\ModelManager.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp" />
-    <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Source\ResourceManager\Resource.inl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    <None Include="..\..\Source\ResourceManager\Manager\Base\AResourceManager.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\Source\ResourceManager\ResourceSystem.inl">
+    <None Include="..\..\Source\ResourceManager\ResourceSystem.inl" />
+    <None Include="..\..\Source\ResourceManager\Resource\Resource.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">true</ExcludedFromBuild>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\MaterialManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\MeshManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\ModelManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\TextureManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

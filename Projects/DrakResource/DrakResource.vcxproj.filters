@@ -13,50 +13,74 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Resource">
+      <UniqueIdentifier>{307d997c-236e-4f99-97c2-3adc455138eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{e50fead4-7631-42fe-ab51-4020b54f86ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Base">
+      <UniqueIdentifier>{f80b9906-4a04-49bc-b70f-c1c18068dcd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{badf371c-b779-4d32-8e83-0db47e91ca1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\ResourceManager\MeshManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Source\ResourceManager\Resource\ResourceDefinitions.hpp">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Resource\Resource.hpp">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\ModelManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\TextureManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\MaterialManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\MeshManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\Base\AResourceManager.hpp">
+      <Filter>Header Files\Manager\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\Base\IResourceManager.hpp">
+      <Filter>Header Files\Manager\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\TextureManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ModelManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\ResourceDefinitions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\IResourceManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ResourceManager\Resource.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\ResourceManager\MeshManager.cpp">
-      <Filter>Source Files</Filter>
+    <None Include="..\..\Source\ResourceManager\Resource\Resource.inl">
+      <Filter>Header Files\Resource</Filter>
+    </None>
+    <None Include="..\..\Source\ResourceManager\Manager\Base\AResourceManager.inl">
+      <Filter>Header Files\Manager\Base</Filter>
+    </None>
+    <None Include="..\..\Source\ResourceManager\ResourceSystem.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\ModelManager.cpp">
+      <Filter>Source Files\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\TextureManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\TextureManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\MaterialManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\MeshManager.cpp">
+      <Filter>Source Files\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ResourceManager\ModelManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Source\ResourceManager\ResourceSystem.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\..\Source\ResourceManager\Resource.inl">
-      <Filter>Header Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

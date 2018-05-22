@@ -52,11 +52,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Graphics\Geometry\Base">
-      <UniqueIdentifier>{a66c5e30-3d23-449d-b406-cc4215626a24}</UniqueIdentifier>
+    <Filter Include="Header Files\Graphics\Rendering\HighLevel">
+      <UniqueIdentifier>{aa49f91c-533d-4db1-9f4b-79d6ca4c691e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Geometry\Base">
-      <UniqueIdentifier>{d0fb6683-8b7e-4570-ac05-8654afb40def}</UniqueIdentifier>
+    <Filter Include="Source Files\Graphics\Rendering\HighLevel">
+      <UniqueIdentifier>{308ebb5d-e847-40df-8a8c-ca94763a4deb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp">
-      <Filter>Header Files\Graphics\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp">
       <Filter>Header Files\Graphics\Common</Filter>
     </ClInclude>
@@ -129,17 +126,20 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp">
-      <Filter>Header Files\Graphics\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp">
-      <Filter>Header Files\Graphics\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp">
       <Filter>Header Files\Graphics\Rendering\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp">
-      <Filter>Header Files\Graphics\Geometry\Base</Filter>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Camera.hpp">
+      <Filter>Header Files\Graphics\Rendering\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Material.hpp">
+      <Filter>Header Files\Graphics\Rendering\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Model.hpp">
+      <Filter>Header Files\Graphics\Rendering\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Texture.hpp">
+      <Filter>Header Files\Graphics\Rendering\HighLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp">
       <Filter>Source Files\Graphics\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp">
-      <Filter>Source Files\Graphics\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp">
       <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
@@ -185,8 +182,17 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp">
-      <Filter>Source Files\Graphics\Geometry\Base</Filter>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Model.cpp">
+      <Filter>Source Files\Graphics\Rendering\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Texture.cpp">
+      <Filter>Source Files\Graphics\Rendering\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Camera.cpp">
+      <Filter>Source Files\Graphics\Rendering\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Material.cpp">
+      <Filter>Source Files\Graphics\Rendering\HighLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
