@@ -54,6 +54,9 @@
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\ShaderManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\ResourceManager\Resource\Resource.inl">
@@ -81,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\ShaderManager.cpp">
+      <Filter>Source Files\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

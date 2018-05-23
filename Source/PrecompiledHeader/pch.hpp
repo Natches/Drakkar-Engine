@@ -23,6 +23,7 @@
 #include <direct.h>
 #include <chrono>
 #include <thread>
+#include <string_view>
 
 #include <Core/Core.hpp>
 #include <Core/Utils/FileUtils.hpp>

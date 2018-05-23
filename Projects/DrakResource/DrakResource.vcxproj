@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\Source\ResourceManager\Manager\MaterialManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\MeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\ModelManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\ShaderManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\TextureManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Resource\Resource.hpp" />
@@ -72,6 +73,7 @@
     <ClCompile Include="..\..\Source\ResourceManager\Manager\MaterialManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\MeshManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\ModelManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\ShaderManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\TextureManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp" />
   </ItemGroup>
@@ -123,9 +125,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
     <PlatformToolset>v141</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
     <PlatformToolset>v141</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -209,6 +213,9 @@
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">
     <ClCompile>
@@ -226,6 +233,9 @@
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -242,6 +252,9 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">
     <ClCompile>
@@ -258,6 +271,9 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -282,6 +298,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -305,11 +324,22 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
     <ClCompile>
       <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
+    <Lib>
+      <AdditionalDependencies>DrakThreading.lib;DrakCore.lib;DrakConverter.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
