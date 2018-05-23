@@ -29,6 +29,7 @@ void TextureManager::load(const std::string& filename, std::vector<definition::T
 
 void TextureManager::reload(std::vector<definition::Texture>& inTextures) {
 	for (auto& texture : inTextures) {
+		m_map[texture.name]->loadState(Resource<gfx::Texture>::ELoadState::LOADING);
 
 		new (&m_map[texture.name]->m_resource)
 			gfx::Texture(texture.name, std::move(texture.pixels),

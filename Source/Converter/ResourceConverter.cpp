@@ -17,24 +17,21 @@ void ResourceConverter::shutdown() {
 	m_pool.shutdown();
 }
 
-void ResourceConverter::convert(int count, char** filename) {
+void ResourceConverter::convert(int count, const char** filename) {
 	using namespace drak::thread::task;
 
 	TaskGroup<ATask*> grp(m_pool);
 	for (int i = 0; i < count; ++i) {
 		if (definition::IsMesh(filename[i])) {
-			char choice;
-			std::cout << "Do you want to Optimize the Mesh ( " << filename[i] << " ) ? (y/n)\n";
-			std::cin >> choice;
 			using func = function::MemberFunction<ResourceConverter, void, const char*, bool>;
-			func f(this, &ResourceConverter::convertModel, (const char*)filename[i], choice == 'y');
+			func f(this, &ResourceConverter::convertModel, std::move(filename[i]), true);
 			Task<func>* task = new Task<func>(f);
 			grp.registerTask(std::move(task));
 		}
 		else if (definition::IsTexture(filename[i])) {
 			using func = function::MemberFunction<ResourceConverter, void, const char*>;
 
-			func f(this, &ResourceConverter::convertTexture, (const char*)filename[i]);
+			func f(this, &ResourceConverter::convertTexture, std::move(filename[i]));
 			Task<func>* task = new Task<func>(f);
 			grp.registerTask(std::move(task));
 		}
@@ -46,7 +43,7 @@ void ResourceConverter::convert(int count, char** filename) {
 	grp.clearGroup<true>();
 }
 
-void ResourceConverter::toPackage(int count, char** filename, const char* finalName) {
+void ResourceConverter::toPackage(int count, const char** filename, const char* finalName) {
 	using namespace definition;
 	using namespace serialization;
 
@@ -80,9 +77,46 @@ void ResourceConverter::toPackage(int count, char** filename, const char* finalN
 		str = std::string((const char*)temp2, sstr.str().size() - strm.avail_out);
 		p.files.emplace_back(str);
 		deflateEnd(&strm);
+		delete[] temp1;
+		delete[] temp2;
 	}
 	Serializer::SerializeToFile<EExtension::BINARY, Pak, false>(p, "Resources/Packaged/",
 		(std::string(finalName) + ".pak").c_str());
+}
+
+definition::Pak ResourceConverter::fromPackage(const char* filename) {
+	using namespace definition;
+	using namespace serialization;
+
+	Pak pak;
+	Serializer::LoadFromFile<EExtension::BINARY, Pak, false>(pak, filename);
+	for (I32 i = 0, size = (I32)pak.filenames.size(); i < size; ++i) {
+		std::ofstream file(pak.filenames[i]);
+		z_stream strm;
+		strm.zalloc = Z_NULL;
+		strm.zfree = Z_NULL;
+		strm.opaque = Z_NULL;
+		strm.avail_in = 0;
+		strm.next_in = Z_NULL;
+		if (inflateInit(&strm) != Z_OK) {
+			std::cout << "Resource Converter : Failed to Init Deflate\n";
+			continue;
+		}
+		strm.avail_in = (U32)pak.files[i].size();
+		strm.next_in = (U8*)pak.files[i].c_str();
+		U8* out = new U8[strm.avail_in];
+		do {
+			strm.avail_out = strm.avail_in;
+			strm.next_out = out;
+			inflate(&strm, Z_NO_FLUSH);
+			file.write((const char*)out, strm.total_out);
+		} while (strm.avail_out == 0);
+		file.close();
+		delete[] out;
+	}
+	pak.files.clear();
+	pak.files.shrink_to_fit();
+	return pak;
 }
 
 void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {

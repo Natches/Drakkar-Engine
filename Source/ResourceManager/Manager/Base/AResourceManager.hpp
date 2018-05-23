@@ -14,6 +14,7 @@ protected:
 	virtual typename Resource<T>::ELoadState state(const std::string& name) const override;
 	virtual void preload(const std::string& filename) override;
 	virtual void unload(const std::string& name) override;
+	virtual bool contain(const std::string& name) const override;
 
 	Map m_map;
 };

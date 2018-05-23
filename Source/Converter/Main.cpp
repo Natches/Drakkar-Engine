@@ -27,7 +27,7 @@ int main(int ac, char**av) {
 		}
 	}
 	if(sizeToConvert)
-		r.convert(sizeToConvert, toConvert);
+		r.convert(sizeToConvert, (const char**)toConvert);
 	char choice;
 	std::cout << "Do you want to compress files ? (y/n) \n";
 	std::cin >> choice;
@@ -35,7 +35,7 @@ int main(int ac, char**av) {
 		std::cout << "Name of package (32char max) :\n";
 		char name[32];
 		std::cin >> name;
-		r.toPackage(sizeAlreadyConverted, alreadyConverted, name);
+		r.toPackage(sizeAlreadyConverted, (const char**)alreadyConverted, name);
 	}
 	r.shutdown();
 	system("pause");

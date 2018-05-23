@@ -31,4 +31,9 @@ void AResourceManager<T, Map>::unload(const std::string& name) {
 	m_map.erase(name);
 }
 
+template<typename T, typename Map>
+bool AResourceManager<T, Map>::contain(const std::string& name) const {
+	return m_map.find(name) != m_map.end();
+}
+
 } // namespace drak

@@ -30,6 +30,7 @@ void MeshManager::load(const std::string& filename, std::vector<definition::Mesh
 
 void MeshManager::reload(std::vector<definition::Mesh>& inMeshes) {
 	for (auto& mesh : inMeshes) {
+		m_map[mesh.name]->loadState(Resource<geom::Mesh>::ELoadState::LOADING);
 		new (&m_map[mesh.name]->m_resource)
 			geom::Mesh(mesh.name,
 				std::move(*reinterpret_cast<std::vector<geom::Vertex1P1N1UV>*>(&mesh.vertices)),

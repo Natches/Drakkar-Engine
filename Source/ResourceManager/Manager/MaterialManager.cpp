@@ -32,7 +32,7 @@ void MaterialManager::load(const std::string& filename, std::vector<definition::
 
 void MaterialManager::reload(std::vector<definition::Material>& inMaterials) {
 	for (auto& material : inMaterials) {
-
+		m_map[material.name]->loadState(Resource<gfx::Material>::ELoadState::LOADING);
 		new (&m_map[material.name]->m_resource)
 			gfx::Material(material.name, std::move(material.albedo), std::move(material.normal),
 				std::move(material.diffuseColor), std::move(material.specularColor),

@@ -28,6 +28,7 @@ void ModelManager::load(const std::string& filename, std::vector<definition::Mod
 
 void ModelManager::reload(std::vector<definition::Model>& inModels) {
 	for (auto& model : inModels) {
+		m_map[model.mesh]->loadState(Resource<gfx::Model>::ELoadState::LOADING);
 
 		new (&m_map[model.mesh]->m_resource) gfx::Model(model.mesh, model.material);
 

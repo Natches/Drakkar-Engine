@@ -19,8 +19,9 @@ public:
 	void startup();
 	void shutdown();
 
-	void convert(int count, char**filename);
-	void toPackage(int count, char**filename, const char* finalName);
+	void convert(int count, const char** filename);
+	void toPackage(int count, const char** filename, const char* finalName);
+	definition::Pak fromPackage(const char* filename);
 
 private:
 	void convertModel(const char* filename, bool optimizeMesh);
