@@ -3,7 +3,8 @@
 #include <Core/Engine/Event.hpp>
 #include <Serialization\MetaData.hpp>
 #include <Math/Vec3.hpp>
-#include <Math/Vec4.hpp>
+#include <Math\Vec4.hpp>
+#include <memory>
 namespace physx {
 	class PxRigidActor;
 	class PxRigidDynamic;
@@ -37,14 +38,20 @@ DK_METADATA_END
 
 DRAK_COMPONENT_START(RigidBody)
 DK_SERIALIZED_OBJECT(RigidBody)
-	physx::PxRigidActor* rigidActor;
+	std::shared_ptr<physx::PxRigidActor> rigidActor;
 	//physx::PxRigidDynamic* dynamic;
 	//std::vector<U32> boxColliderIDXs;
 	F32 mass;
 	bool isStatic;
 	bool isKinematic;
-	void activate(bool value);
+	DRAK_API void activate(bool value);
 	inline const bool active() const { return m_active; }
+	DRAK_API RigidBody();
+	DRAK_API RigidBody(const RigidBody& other); //copy constructor
+	DRAK_API RigidBody(RigidBody&& other);// move constructor
+	DRAK_API ~RigidBody();
+	DRAK_API RigidBody& operator=(const RigidBody& other); // copy assignment
+	DRAK_API RigidBody& operator=(RigidBody&& other); // move assignment
 	private:
 		bool m_active = true;
 DRAK_COMPONENT_END(RigidBody)

@@ -16,8 +16,7 @@ DK_USE_NAMESPACE(drak)
 using namespace physx;
 using namespace drak::components;
 
-void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
-{
+void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level){
 	BoxCollider& boxCollider = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
 	physx::PxMaterial* mat = m_pPhysics->createMaterial(
 		boxCollider.material.staticFriction,
@@ -25,7 +24,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		boxCollider.material.restitution
 	);
 	if (rb.isStatic) {
-		rb.rigidActor = m_pPhysics->createRigidStatic(
+		rb.rigidActor = std::shared_ptr<physx::PxRigidActor>(m_pPhysics->createRigidStatic(
 			physx::PxTransform(
 				trans.getGlobalPosition().x,
 				trans.getGlobalPosition().y,
@@ -37,7 +36,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					trans.getGlobalRotation().m_scalar
 				)
 			)
-		);
+		), [=](physx::PxRigidStatic* f) {m_pPhysicsScene->removeActor(*f); });
 		PxShape* shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
 		shape->setLocalPose(
 			PxTransform(
@@ -50,7 +49,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.w)));
 	}
 	else {
-		rb.rigidActor = m_pPhysics->createRigidDynamic(
+		rb.rigidActor = std::shared_ptr<physx::PxRigidActor>(m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
 				trans.getGlobalPosition().x,
 				trans.getGlobalPosition().y,
@@ -62,9 +61,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					trans.getGlobalRotation().m_scalar
 				)
 			)
-		);
+		), [=](physx::PxRigidDynamic* f) {m_pPhysicsScene->removeActor(*f); });
 		if(rb.isKinematic)
-			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+			((physx::PxRigidDynamic*)rb.rigidActor.get())->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 		PxShape* shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
 		shape->setLocalPose(
 			PxTransform(
@@ -75,7 +74,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.y,
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
-		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor.get(), rb.mass);
 	}
 
 	U64* goIDX = new U64;
@@ -231,21 +230,21 @@ void PhysicsSystem::Shutdown() {
 }
 
 void drak::PhysicsSystem::applyImpulse(components::RigidBody & target, math::Vec3f & impulse) {
-	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(impulse.x, impulse.y, impulse.z), PxForceMode::eIMPULSE);
+	((PxRigidDynamic*)target.rigidActor.get())->addForce(PxVec3(impulse.x, impulse.y, impulse.z), PxForceMode::eIMPULSE);
 }
 
 void drak::PhysicsSystem::applyForce(components::RigidBody & target, math::Vec3f & force) {
-	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(force.x, force.y, force.z), PxForceMode::eFORCE);
+	((PxRigidDynamic*)target.rigidActor.get())->addForce(PxVec3(force.x, force.y, force.z), PxForceMode::eFORCE);
 }
 
 void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::Vec3f & newVelocity) {
-	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
+	((PxRigidDynamic*)target.rigidActor.get())->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
 }
 
 void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Vec4f& newRot) {
 	if (target.rigidActor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
-		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags() == PxRigidBodyFlag::eKINEMATIC) {
-			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
+		if (((PxRigidDynamic*)target.rigidActor.get())->getRigidBodyFlags() == PxRigidBodyFlag::eKINEMATIC) {
+			((PxRigidDynamic*)target.rigidActor.get())->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
 		}
 		else {
 			target.rigidActor->setGlobalPose(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));

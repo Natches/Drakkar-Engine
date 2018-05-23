@@ -116,6 +116,24 @@ public:
 		return component;
 	}
 
+	template <typename T>
+	void DestroyComponent(U32 idx) {
+		T& target = __getComponentContainer(T)[idx];
+		T& last = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
+		U32 newIDX = static_cast<components::AComponent*>(&target)->idx;
+		GameObject& targetGameObject = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
+		//set flag to 0
+		targetGameObject.setComponentFlag(components::ComponentType<T>::id, false);
+		//remove handle
+		targetGameObject.getComponentHandles().erase(components::ComponentType<T>::id);
+		//change idx of swaped component and its handle
+		std::swap(target, last);
+		GameObject& swappedGameObject = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
+		swappedGameObject.getComponentHandles()[components::ComponentType<T>::id] = newIDX;
+		static_cast<components::AComponent*>(&target)->idx = newIDX;
+		__getComponentContainer(T).pop_back();
+	}
+
 	GameObject& addGameObject() {
 		try {
 			m_gameObjects.push_back(GameObject());
