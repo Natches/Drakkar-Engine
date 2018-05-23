@@ -29,14 +29,13 @@ void Editor::init() {
     setupToolbar();
 
     drak::core::Engine::Get().startup(true);
-    drak::core::Engine::Get().startLoop();
 }
 
 
 void Editor::setupWidgets() {
     setCentralWidget(ui->dock_RenderTarget);
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
-   // ui->scrollArea->layout()->addWidget(new TransformWidget);
+    //ui->scrollArea->layout()->addWidget(new TransformWidget);
 
     folderModel = new QFileSystemModel(this);
     folderModel->setFilter(QDir::NoDot | QDir::AllDirs);

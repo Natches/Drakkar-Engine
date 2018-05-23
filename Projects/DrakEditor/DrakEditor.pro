@@ -44,6 +44,7 @@ SOURCES     +=                                      \
             $$DKSRC/Editor/Editor.cpp               \
             $$DKSRC/Editor/GLEditorWidget.cpp       \
             $$DKSRC/Editor/TransformWidget.cpp      \
+            $$DKSRC/Editor/SceneGraphWidget.cpp     \
 
 HEADERS     +=                                      \
             $$DKSRC/Editor/DarkStyle.h              \
@@ -52,6 +53,7 @@ HEADERS     +=                                      \
             $$DKSRC/Editor/Editor.hpp               \
             $$DKSRC/Editor/GLEditorWidget.hpp       \
             $$DKSRC/Editor/TransformWidget.hpp      \
+            $$DKSRC/Editor/SceneGraphWidget.hpp     \
             $$DKSRC/Engine/Engine.hpp               \
 
 ###############################################################################

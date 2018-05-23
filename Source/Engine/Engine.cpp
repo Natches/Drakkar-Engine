@@ -90,6 +90,9 @@ int Engine::shutdown() {
 }
 
 void Engine::startLoop() {
+	if (m_editorMode)
+		return;
+
 	s_frameTime.start();
 
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
@@ -103,8 +106,7 @@ void Engine::startLoop() {
 
 	while (s_running) {
 		s_frameTime.update();
-		if (!m_editorMode)
-			m_pMainWindow->pollEvents();
+		m_pMainWindow->pollEvents();
 
 		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&m_evt);
@@ -117,13 +119,9 @@ void Engine::startLoop() {
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
-		if (!m_editorMode)
-			m_pMainWindow->clear();
-
+		m_pMainWindow->clear();
 		renderScene();
-		
-		if (!m_editorMode)
-			m_pMainWindow->swapBuffers();
+		m_pMainWindow->swapBuffers();
 
 		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
 		m_eventDispatcher.dispatchEvent(&m_evt);
@@ -135,7 +133,8 @@ void Engine::startLoop() {
 
 void Engine::renderScene() {
 	m_pRenderSystem->startFrame();
-	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+	m_pRenderSystem->renderGrid();
+	//m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
 	m_pRenderSystem->endFrame();
 }
 
