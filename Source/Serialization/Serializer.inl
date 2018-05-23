@@ -181,15 +181,15 @@ core::EError Serializer::LoadFromFile(const char* path, T& t, VArgs&& ...args) {
 	static_assert(!(ext == EExtension::JSON), "Cannot load multiple object from JSON file !!");
 	if constexpr(ext == EExtension::INI) {
 		if constexpr(addExtension)
-			return LoadFromINI((std::string(path) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
+			return LoadFromINI<ext>((std::string(path) + ".ini").c_str(), t, std::forward<VArgs>(args)...);
 		else
-			return LoadFromINI(path, t, std::forward<VArgs>(args)...);
+			return LoadFromINI<ext>(path, t, std::forward<VArgs>(args)...);
 	}
 	else if constexpr (ext == EExtension::BINARY) {
 		if constexpr(addExtension)
-			return LoadFromBinary((std::string(path) + ".bin").c_str(), t, std::forward<VArgs>(args)...);
+			return LoadFromBinary<ext>((std::string(path) + ".bin").c_str(), t, std::forward<VArgs>(args)...);
 		else
-			return LoadFromBinary(path, t, std::forward<VArgs>(args)...);
+			return LoadFromBinary<ext>(path, t, std::forward<VArgs>(args)...);
 	}
 }
 
@@ -245,19 +245,41 @@ void Serializer::SerializeToFileNoDesc(std::fstream& file, std::stringstream& ss
 		SerializeToFileNoDesc<ext, VArgs...>(file, sstr, std::forward<VArgs>(args)...);
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 void Serializer::LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 	std::map<std::string, int>& occurence, T& t, VArgs&& ...args) {
 	if (desc.m_descriptor.find({ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(),
-		occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName()] }) != desc.m_descriptor.end()) {
-		sstr.seekg(desc.m_descriptor
-			[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(),
-			occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName()] }], std::ios::beg);
-		MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Deserialize(binary.str().c_str(), t);
-		++occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName()];
+		occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()] }) != desc.m_descriptor.end()) {
+		if constexpr (types::IsVector_V<TYPEOF(t)>) {
+			for (auto& x : desc.m_descriptor) {
+				if (x.first.first == MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName())
+					++occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()];
+			}
+			if (occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()]) {
+				for (int i = 0, count = 
+					occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()];
+					i < count; ++i) {
+
+					sstr.seekg(desc.m_descriptor
+						[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName(), i }],
+						std::ios::beg);
+
+					t.emplace_back();
+					MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::Deserialize
+						<ext>(t[t.size() - 1], sstr);
+				}
+			}
+		}
+		else {
+			sstr.seekg(desc.m_descriptor
+				[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName(),
+				occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()] }], std::ios::beg);
+			MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::Deserialize<ext>(t, sstr);
+			++occurence[MetaData<REMOVE_ALL_TYPE_MODIFIER(TYPEOF(t))>::TypeName()];
+		}
 	}
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
-		SerializeToFile(sstr, desc, occurence, std::forward<VArgs>(args)...);
+		LoadFromFile<ext>(sstr, desc, occurence, std::forward<VArgs>(args)...);
 
 }
 
@@ -409,7 +431,7 @@ core::EError Serializer::LoadFromINI(std::vector<T>& t, const char* path) {
 	return core::EError::FILE_NOT_FOUND;
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::LoadFromINI(const char* path, T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path)) {
 		std::fstream file(path, std::ios::in);
@@ -429,7 +451,7 @@ core::EError Serializer::LoadFromINI(const char* path, T& t, VArgs&& ...args) {
 			}
 			Occurence(occurence, t, std::forward<VArgs>(args)...);
 			ini.seekg(0, std::ios::beg);
-			LoadFromFile(ini, desc, occurence, t, std::forward<VArgs>(args)...);
+			LoadFromFile<ext>(ini, desc, occurence, t, std::forward<VArgs>(args)...);
 			return core::EError::NO_ERROR;
 		}
 		return core::EError::FILE_NOT_OPENED;
@@ -645,7 +667,9 @@ core::EError Serializer::LoadFromBinary(std::vector<T>& t, const char* path) {
 				for (int i = 0; i < occurence; ++i) {
 					binary.seekg(desc.m_descriptor
 						[{ MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::TypeName(), i }], std::ios::beg);
-					t.emplace_back(MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Deserialize(binary.str().c_str()));
+					t.emplace_back();
+					MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Deserialize
+						<EExtension::BINARY>(t[t.size() - 1], binary);
 				}
 				return core::EError::NO_ERROR;
 			}
@@ -657,7 +681,7 @@ core::EError Serializer::LoadFromBinary(std::vector<T>& t, const char* path) {
 	return core::EError::FILE_NOT_FOUND;
 }
 
-template<class T, class ...VArgs>
+template<EExtension ext, class T, class ...VArgs>
 core::EError Serializer::LoadFromBinary(const char* path, T& t, VArgs&& ...args) {
 	if (drak::io::FileExists(path) == DK_OK) {
 		std::fstream file(path, std::ios::in | std::ios::binary);
@@ -670,7 +694,7 @@ core::EError Serializer::LoadFromBinary(const char* path, T& t, VArgs&& ...args)
 			std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
 			binary << file.rdbuf();
 			file.close();
-			LoadFromFile(binary, desc, occurence, t, std::forward<VArgs>(args)...);
+			LoadFromFile<ext>(binary, desc, occurence, t, std::forward<VArgs>(args)...);
 			return core::EError::NO_ERROR;
 		}
 		return core::EError::FILE_NOT_OPENED;

@@ -63,7 +63,7 @@ private:
 		const T& t, VArgs&&...args);
 	static void SerializeToFileNoDesc(std::fstream& file, std::stringstream& sstr) {};
 
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 		std::map<std::string, int>& occurence,  T& t, VArgs&&...args);
 	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
@@ -89,7 +89,7 @@ private:
 	static core::EError LoadFromINI(T& t, const char* path);
 	template<class T>
 	static core::EError LoadFromINI(std::vector<T>& t, const char* path);
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static core::EError LoadFromINI(const char* path, T& t, VArgs&&...args);
 
 	template<class T>
@@ -113,7 +113,7 @@ private:
 	static core::EError LoadFromBinary(T& t, const char* path);
 	template<class T>
 	static core::EError LoadFromBinary(std::vector<T>& t, const char* path);
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static core::EError LoadFromBinary(const char* path, T& t, VArgs&&...args);
 
 	template<typename T>
