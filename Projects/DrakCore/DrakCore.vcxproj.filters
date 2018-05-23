@@ -16,14 +16,8 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{5853c5ca-19cd-496d-bdfb-57f1ade5436f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{5c100485-0e78-4a06-a039-48aa63660813}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{912da90a-a633-4813-9fc8-e270fbf6dbf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component">
-      <UniqueIdentifier>{3c959af2-7dcd-4d1a-ae38-66005dd354ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ServiceLocator">
       <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
@@ -109,9 +103,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Engine\Event.cpp">
       <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Components\GameObject.cpp">
-      <Filter>Source Files\Component</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
       <Filter>Source Files\Utils</Filter>

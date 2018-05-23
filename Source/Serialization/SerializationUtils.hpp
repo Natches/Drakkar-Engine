@@ -237,7 +237,7 @@ struct ComplexType<Type*> {																		\
 			if constexpr(!std::is_abstract_v<T>)												\
 				str.append(MetaData::Serialize<EExtension::BINARY>(*t, sstr).str());			\
 			else																				\
-				str.append(MetaData<T*>::Serialize<EExtension::BINARY>(t, sstr).str());			\
+				str.append(MetaData::Serialize<EExtension::BINARY>(t, sstr).str());			\
 			return str;																			\
 		}																						\
 		else																					\
@@ -249,7 +249,7 @@ struct ComplexType<Type*> {																		\
 			if constexpr(!std::is_abstract_v<T>)												\
 				return MetaData::Serialize<EExtension::JSON>(*t, sstr, indent).str();			\
 			else																				\
-				return MetaData<T*>::Serialize<EExtension::JSON>(t, sstr, indent).str();		\
+				return MetaData::Serialize<EExtension::JSON>(t, sstr, indent).str();		\
 		}																						\
 		else																					\
 			return std::string("\"null\"");														\

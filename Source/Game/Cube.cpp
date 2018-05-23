@@ -11,13 +11,13 @@ using namespace events;
 using namespace function;
 using namespace components;
 
-Cube::Cube() : updateBind(MemberFunction<Cube, void, const Event*>(this, &Cube::update, NULL)),
-	startBind(MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL)),
-	keyBind(MemberFunction<Cube, void, const Event*>(this, &Cube::OnKeyPress, NULL)){
+Cube::Cube() {
+	updateBind = MemberFunction<Cube, void, const Event*>(this, &Cube::update, NULL);
+	startBind = MemberFunction<Cube, void, const Event*>(this, &Cube::start, NULL);
+	keyBind = MemberFunction<Cube, void, const Event*>(this, &Cube::OnKeyPress, NULL);
+	collisionEnterBind = MemberFunction<Cube, void, const Event*>(this, &Cube::OnCollisionEnter, NULL);
 	name = "Cube";
 }
-
-
 
 Cube::~Cube(){
 }
@@ -38,8 +38,7 @@ void Cube::start(const Event* pEvent) {
 	core::Engine::Get().getPhysicsSystem().AddCollisionCallback(
 		rb,
 		PhysicsEventDispatcher::COLLISION_IN,
-		new MemberFunction<Cube, void, const Event*>
-		(this, &Cube::OnCollisionEnter));
+		&collisionEnterBind);
 }
 
 void Cube::OnKeyPress(const events::Event * pEvent) {

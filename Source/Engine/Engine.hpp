@@ -56,8 +56,6 @@ public:
 	DRAK_API time::FrameTimer& GetFrameTimer();
 	DRAK_API LevelSystem& currentLevel();
 	inline time::FrameTimer& getFrameTimer() { return s_frameTime; }
-	template <typename T>
-	void createAll();
 	thread::ThreadPool m_pool;
 private:
 	DRAK_API Engine();

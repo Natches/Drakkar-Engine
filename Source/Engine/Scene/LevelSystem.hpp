@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/Core.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Engine/Components/Components.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Serialization/Serializer.hpp>
@@ -124,7 +124,7 @@ public:
 			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
 		}
 		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
-		gameObject.setIdx(m_gameObjects.size() - 1);
+		gameObject.setIdx((U32)m_gameObjects.size() - 1);
 		gameObject.setLevel(this);
 		m_rootIdxs.push_back(gameObject.getIdx());
 		//Add transform to all game objects
