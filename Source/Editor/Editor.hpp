@@ -5,6 +5,7 @@
 #include <QFileSystemModel>
 
 #include "GLEditorWidget.hpp"
+#include "SceneGraphWidget.hpp"
 #include "TransformWidget.hpp"
 
 namespace Ui {
@@ -60,6 +61,7 @@ private:
     Ui::Editor          *ui;
 
     GLEditorWidget      *glTarget;
+    SceneGraphWidget    *sceneGraph;
     QFileSystemModel    *folderModel, *fileModel;
 };
 

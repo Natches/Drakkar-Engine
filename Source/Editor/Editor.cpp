@@ -46,6 +46,9 @@ void Editor::setupWidgets() {
     glTarget = new GLEditorWidget;
     ui->dock_RenderTarget->setWidget(glTarget);
 
+    sceneGraph = new SceneGraphWidget;
+    ui->dock_SceneGraph->setWidget(sceneGraph);
+
     setProjectPath("");
 }
 
