@@ -48,10 +48,7 @@ public:
 	DRAK_API static void StopGame();
 	DRAK_API void loadScene(IManualSceneBlueprint& sceneBluePrint);
 	DRAK_API void loadScene(const char* name);
-	DRAK_API static Engine& Get() {
-		static Engine engine;
-		return engine;
-	}
+	DRAK_API static Engine& Get();
 	DRAK_API ~Engine();
 	DRAK_API PhysicsSystem& getPhysicsSystem();
 	DRAK_API time::FrameTimer& GetFrameTimer();
@@ -59,6 +56,7 @@ public:
 	inline time::FrameTimer& getFrameTimer() { return s_frameTime; }
 	thread::ThreadPool m_pool;
 private:
+	static Engine* m_pInstance;
 	DRAK_API Engine();
 	time::FrameTimer	s_frameTime;
 	PhysicsSystem*		m_pPhysicsSystem;
@@ -75,5 +73,6 @@ private:
 } // namespace core
 } // namespace drak
 
-#define CurrentLevel drak::core::Engine::Get().currentLevel()
+#define EngineCurrentLevel drak::core::Engine::Get().currentLevel()
+#define EnginePhysicsSystem drak::core::Engine::Get().getPhysicsSystem()
 #define DeltaTime drak::core::Engine::Get().getFrameTimer().deltaTime()

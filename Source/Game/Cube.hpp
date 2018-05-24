@@ -26,7 +26,7 @@ public:
 	void OnCollisionStay(const events::Event* pEvent);
 	template <typename T>
 	T& getComponent() {
-		return CurrentLevel.getGameObjects()[gameObjectID].getComponent<T>();
+		return EngineCurrentLevel.getGameObjects()[gameObjectID].getComponent<T>();
 	}
 };
 BHVR_TYPE(Cube)

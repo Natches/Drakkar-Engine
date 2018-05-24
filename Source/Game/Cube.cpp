@@ -50,7 +50,7 @@ void Cube::OnKeyPress(const events::Event * pEvent) {
 	switch (key->key)
 	{
 	case(Key::KEY_SPACE):
-		CurrentLevel.DestroyComponent<RigidBody>(getComponent<RigidBody>().idx);
+		EngineCurrentLevel.DestroyComponent<RigidBody>(getComponent<RigidBody>().idx);
 		break;
 	default:
 		break;
@@ -63,7 +63,7 @@ void Cube::OnCollisionEnter(const Event* pEvent) {
 	const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
 	switch (e->type) {
 	case PhysicsEventDispatcher::COLLISION_IN:
-		if (CurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
+		if (EngineCurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
 			Model& model = getComponent<Model>();
 			model.albedo.r = 1.0f;
 			model.albedo.g = 1.0f;

@@ -33,6 +33,11 @@ public:
 	}
 };
 
+#define _INIT_COMPONENTS_OF_TYPE(type)							\
+for (U32 i = 0; i < __getComponentContainer(type).size(); ++i) {\
+	__getComponentContainer(type)[i].initComponent();			\
+}
+
 void LevelSystem::loadScene(const char* name) {
 	if (name == nullptr)
 		filename = "Untitled";
@@ -44,10 +49,16 @@ void LevelSystem::loadScene(const char* name) {
 		return;
 	}
 	Serializer::LoadFromFile<EExtension::JSON, LevelSystem>(*this, name);
+	_INIT_COMPONENTS_OF_TYPE(Transform)
+	_INIT_COMPONENTS_OF_TYPE(RigidBody)
+	_INIT_COMPONENTS_OF_TYPE(Model)
+	_INIT_COMPONENTS_OF_TYPE(BoxCollider)
 	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
 		m_gameObjects[i].setLevel(this);
+		m_gameObjects[i].setParent(m_gameObjects[i].getParent());
 	}
 }
+#undef _INIT_COMPONENTS_OF_TYPE(type)
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);

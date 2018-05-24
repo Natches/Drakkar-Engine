@@ -131,6 +131,7 @@ public:
 		GameObject& swappedGameObject = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
 		swappedGameObject.getComponentHandles()[components::ComponentType<T>::id] = newIDX;
 		static_cast<components::AComponent*>(&target)->idx = newIDX;
+		static_cast<components::AComponent*>(&last)->deleteComponent();
 		__getComponentContainer(T).pop_back();
 	}
 
