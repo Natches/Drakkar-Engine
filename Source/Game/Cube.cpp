@@ -42,21 +42,19 @@ void Cube::start(const Event* pEvent) {
 }
 
 void Cube::OnKeyPress(const events::Event * pEvent) {
-	/*const KeyEvent* key = static_cast<const KeyEvent*>(pEvent);
+	if (!pEvent)
+		return;
+	const KeyEvent* key = static_cast<const KeyEvent*>(pEvent);
 	RigidBody& rb = getComponent<RigidBody>();
 	Transform& trans = getComponent<Transform>();
 	switch (key->key)
 	{
-	case(Key::KEY_UP):
-
-		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (1.f * DeltaTime)));
-		break;
-	case(Key::KEY_DOWN):
-		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (-1.f * DeltaTime)));
+	case(Key::KEY_SPACE):
+		CurrentLevel.DestroyComponent<RigidBody>(getComponent<RigidBody>().idx);
 		break;
 	default:
 		break;
-	}*/
+	}
 }
 
 void Cube::OnCollisionEnter(const Event* pEvent) {
