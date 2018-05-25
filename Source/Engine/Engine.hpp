@@ -50,10 +50,6 @@ public:
 
 	//---------------------------------------------------------------------------------------------
 	//	Static Methods
-	DRAK_API static Engine& Get() {
-		static Engine engine;
-		return engine;
-	}
 	DRAK_API static void StopGame();
 
 	//---------------------------------------------------------------------------------------------
@@ -68,15 +64,15 @@ public:
 	//---------------------------------------------------------------------------------------------
 	//	Getters
 	DRAK_API PhysicsSystem&			getPhysicsSystem();
-	DRAK_API time::FrameTimer&		GetFrameTimer();
 	DRAK_API LevelSystem&			currentLevel();
 
 	events::EngineEventDispatcher&	GetEventDispatcher()	{ return m_eventDispatcher; }
-	time::FrameTimer&				getFrameTimer()			{ return s_frameTime; }
 
+	time::FrameTimer&				getFrameTimer()			{ return s_frameTime; }
 	thread::ThreadPool m_pool;
 
 private:
+	static Engine* m_pInstance;
 	DRAK_API Engine();
 
 	DRAK_API static bool			s_running;
@@ -95,5 +91,6 @@ private:
 } // namespace core
 } // namespace drak
 
-#define CurrentLevel	drak::core::Engine::Get().currentLevel()
-#define DeltaTime		drak::core::Engine::Get().getFrameTimer().deltaTime()
+#define EngineCurrentLevel drak::core::Engine::Get().currentLevel()
+#define EnginePhysicsSystem drak::core::Engine::Get().getPhysicsSystem()
+#define DeltaTime drak::core::Engine::Get().getFrameTimer().deltaTime()

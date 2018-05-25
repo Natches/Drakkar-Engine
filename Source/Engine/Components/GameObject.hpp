@@ -19,10 +19,10 @@ public:
 	~GameObject() = default;
 
 	template <typename T>
-	T& getComponent() {
+	T* getComponent() {
 		if (getComponentFlag(components::ComponentType<T>::id))
-			return level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
-		return addComponent<T>();
+			return &level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
+		return nullptr;
 	}
 
 	template <typename T>
@@ -68,9 +68,9 @@ public:
 	std::map<U64, U64>& getComponentHandles() {
 		return m_componentHandles;
 	}
-
 	DRAK_API void makeRoot();
-	DRAK_API void setParent(const U32 pIDX);
+	DRAK_API void setParent(const I32 pIDX);
+	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;
 private:
@@ -78,7 +78,7 @@ private:
 	U64 m_componentFlags = 0;
 	LevelSystem* level;
 	std::vector<U32> childrenIDXs;
-	U32 parentIDX;
+	I32 parentIDX = -1;
 	U32 idx;
 	void attachChild(U32 childIDX);
 	void removeChild(U32 childIDX);

@@ -27,7 +27,7 @@
 #include <Core/Core.hpp>
 #include <Core/Utils/FileUtils.hpp>
 #include <Core/Timer/FrameTimer.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Core/Utils/AComponentUtils.hpp>
 
@@ -51,6 +51,8 @@
 
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
+
+#include <Engine/Components/GameObject.hpp>
 
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>

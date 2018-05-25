@@ -1,6 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
@@ -15,6 +15,7 @@ using namespace drak::gfx;
 
 namespace drak {
 namespace core {
+Engine* Engine::m_pInstance = nullptr;
 
 bool Engine::s_running = true;
 
@@ -32,7 +33,7 @@ Engine::~Engine() {
 	delete m_pLevelSystem;
 }
 
-PhysicsSystem& Engine::getPhysicsSystem() {
+DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
@@ -40,8 +41,8 @@ time::FrameTimer& Engine::GetFrameTimer() {
 	return s_frameTime;
 }
 
-LevelSystem & Engine::currentLevel() {
-	return *m_pLevelSystem;
+DRAK_API LevelSystem & Engine::currentLevel(){
+		return *m_pLevelSystem;
 }
 
 int Engine::startup(bool editorMode) {
@@ -98,7 +99,7 @@ void Engine::startLoop() {
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
 	for (auto& go : gameObjects) {
 		if(go.getComponentFlag(ComponentType<RigidBody>::id))
-			m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
 	m_evt.type = events::EngineEventDispatcher::UPDATE_START;
@@ -149,6 +150,14 @@ void Engine::loadScene(IManualSceneBlueprint& sceneBlueprint) {
 void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
 }
+
+DRAK_API Engine & Engine::Get(){
+	if (!m_pInstance)
+		m_pInstance = new Engine();
+	return *m_pInstance;
+}
+
+
 
 } // namespace core
 } // namespace drak

@@ -18,6 +18,12 @@ using namespace drak::components;
 
 void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
 {
+	BoxCollider& boxCollider = *level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
+	physx::PxMaterial* mat = m_pPhysics->createMaterial(
+		boxCollider.material.staticFriction,
+		boxCollider.material.dynamicFriction,
+		boxCollider.material.restitution
+	);
 	if (rb.isStatic) {
 		rb.rigidActor = m_pPhysics->createRigidStatic(
 			physx::PxTransform(
@@ -32,6 +38,16 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
+		boxCollider.shape->setLocalPose(
+			PxTransform(
+				boxCollider.localPosition.x,
+				boxCollider.localPosition.y,
+				boxCollider.localPosition.z,
+				PxQuat(boxCollider.localRotation.x,
+					boxCollider.localRotation.y,
+					boxCollider.localRotation.z,
+					boxCollider.localRotation.w)));
 	}
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
@@ -49,51 +65,30 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		);
 		if(rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-		((physx::PxRigidDynamic*)rb.rigidActor)->setSleepThreshold(0.001f);
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
+		boxCollider.shape->setLocalPose(
+			PxTransform(
+				boxCollider.localPosition.x,
+				boxCollider.localPosition.y,
+				boxCollider.localPosition.z,
+				PxQuat(boxCollider.localRotation.x,
+					boxCollider.localRotation.y,
+					boxCollider.localRotation.z,
+					boxCollider.localRotation.w)));
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
-
-	BoxCollider& boxCollider = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
-	physx::PxMaterial* mat = m_pPhysics->createMaterial(
-		boxCollider.material.staticFriction,
-		boxCollider.material.dynamicFriction,
-		boxCollider.material.restitution
-	);
-	physx::PxShape* box = m_pPhysics->createShape(
-		PxBoxGeometry(
-			boxCollider.width * 0.25f,
-			boxCollider.height * 0.25f,
-			boxCollider.depth * 0.25f
-		),
-		*mat,
-		true
-	);
-	box->setLocalPose(
-		PxTransform(
-			boxCollider.localPosition.x,
-			boxCollider.localPosition.y,
-			boxCollider.localPosition.z,
-			PxQuat(
-				boxCollider.localRotation.x,
-				boxCollider.localRotation.y,
-				boxCollider.localRotation.z,
-				boxCollider.localRotation.w
-			)
-		)
-	);
-	rb.rigidActor->attachShape(*box);
 
 	U64* goIDX = new U64;
 	*goIDX = rb.GameObjectID;
 	rb.rigidActor->userData = goIDX;
 	m_pPhysicsScene->addActor(*rb.rigidActor);
+	rb.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, !rb.active());
 	return;
 }
 
-void drak::PhysicsSystem::AddCollisionCallback(RigidBody& rb,
+void drak::PhysicsSystem::AddCollisionCallback(const RigidBody& rb,
 	events::EventType type, 
-	events::EventListener listener)
-{
+	events::EventListener listener){
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
 }
 
@@ -258,3 +253,52 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 	}
 	
 }
+
+/*void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
+	for (U32 i = 0; i < target.children().size(); ++i) {
+		GameObject& child = level.m_gameObjects[target.children()[i]];
+		if (child.getComponentFlag(ComponentType<RigidBody>::id)) {
+			RigidBody& childRB = child.getComponent<RigidBody>();
+			childRB.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, true);
+			U32 shapeCount = childRB.rigidActor->getNbShapes();
+			PxShape** childShapes = new PxShape*[shapeCount];
+			shapeCount = childRB.rigidActor->getShapes(childShapes, shapeCount);
+			for (U32 i = 0; i < shapeCount; ++i) {
+				PxVec3 pos = PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor).p;
+				shapes.push_back(std::make_pair(childShapes[i], PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor)));
+			}
+		}
+		addChildShapes(level, child, shapes);
+	}
+}*/
+
+/*void drak::PhysicsSystem::attachChildrenToRoot(LevelSystem& level, components::RigidBody& target){
+	GameObject& gameObject = level.m_gameObjects[target.GameObjectID];
+	std::vector<std::pair<physx::PxShape*, physx::PxTransform>> shapes;
+	for (U32 i = 0; i < gameObject.children().size(); ++i) {
+		if (level.m_gameObjects[gameObject.children()[i]].getComponentFlag(ComponentType<RigidBody>::id)) {
+			RigidBody& childRB = level.m_gameObjects[gameObject.children()[i]].getComponent<RigidBody>();
+			childRB.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, true);
+			U32 shapeCount = childRB.rigidActor->getNbShapes();
+			PxShape** childShapes = new PxShape*[shapeCount];
+			shapeCount = childRB.rigidActor->getShapes(childShapes, shapeCount);
+			for (U32 i = 0; i < shapeCount; ++i) {
+				shapes.push_back(std::make_pair(childShapes[i], PxShapeExt::getGlobalPose(*childShapes[i], *childRB.rigidActor)));
+			}
+		}
+		addChildShapes(level, level.m_gameObjects[gameObject.children()[i]], shapes);
+	}
+
+	for (U32 i = 0; i < shapes.size(); ++i) {
+		PxShape* shape = PxRigidActorExt::createExclusiveShape(*target.rigidActor, shapes[i].first->getGeometry().any(), *shapes[i].first->getMaterialFromInternalFaceIndex(1));
+		shapes[i].second;
+		PxVec3 globalPos = shapes[i].second.p;
+		shape->setLocalPose(
+			PxTransform(
+				shapes[i].second.p - target.rigidActor->getGlobalPose().p,
+				shapes[i].first->getLocalPose().q));
+		//physx::PxRigidBodyExt::updateMassAndInertia(*target.rigidActor, rb.mass);
+	}
+	//target.rigidActor = m_pPhysics->createRigidDynamic(target.rigidActor->getGlobalPose());
+	//physx::PxRigidBodyExt::updateMassAndInertia((*(PxRigidBody*)target.rigidActor), target.mass);
+}*/
