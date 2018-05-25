@@ -9,20 +9,21 @@ using namespace drak::definition;
 
 namespace drak {
 
-void MaterialManager::preload(const std::string& names) {
-	Base::preload(names);
+void MaterialManager::preload(const std::string& names, const std::string& filename) {
+	Base::preload(names, filename);
 }
 
-void MaterialManager::preload(const ResourceName& rName) {
+void MaterialManager::preload(const ResourceName& rName, const std::string& filename) {
 	for (auto name : rName.names) {
 		if (name.second == EFileType::MATERIAL)
-			m_map[name.first] = MaterialPtr((Resource<gfx::Material>*)(new char[sizeof(Resource<gfx::Material>)]));
+			m_map[name.first] = MaterialPtr(new Resource<gfx::Material>(filename));
 	}
 }
 
 void MaterialManager::load(const std::string& filename, std::vector<definition::Material>& inMaterials) {
 	for (auto& material : inMaterials) {
-
+		if (!m_map[material.name].get())
+			m_map[material.name].reset(new Resource<gfx::Material>(filename));
 		new (m_map[material.name].get()) Resource<gfx::Material>(filename,
 			gfx::Material(material.name, std::move(material.albedo), std::move(material.normal),
 				std::move(material.diffuseColor), std::move(material.specularColor),

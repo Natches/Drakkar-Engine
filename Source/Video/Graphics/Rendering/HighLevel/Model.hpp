@@ -3,12 +3,14 @@
 #include <string>
 
 namespace drak {
+template<typename T>
+class Resource;
 class ModelManager;
 namespace gfx {
 
 struct Model final {
+	friend class Resource<Model>;
 public:
-	Model() = delete;
 	Model(const std::string& meshName, const std::string& materialName);
 	~Model() = default;
 
@@ -17,6 +19,9 @@ public:
 public:
 	std::string m_meshName;
 	std::string m_materialName;
+
+private:
+	Model() = default;
 };
 
 } // namespace gfx

@@ -20,9 +20,9 @@ typename Resource<T>::ELoadState AResourceManager<T, Map>::state(const std::stri
 
 
 template<typename T, typename Map>
-void AResourceManager<T, Map>::preload(const std::string& name) {
+void AResourceManager<T, Map>::preload(const std::string& name, const std::string& filename) {
 	if (m_map.find(name) == m_map.end())
-		m_map[name] = ResourcePtr<T>((Resource<T>*)(new char[sizeof(Resource<T>)]));
+		m_map[name] = ResourcePtr<T>(new Resource<T>(filename));
 }
 
 template<typename T, typename Map>

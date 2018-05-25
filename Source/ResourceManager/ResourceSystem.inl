@@ -53,7 +53,7 @@ ResourcePtr<T> ResourceSystem::loadOrGet(U& manager, const std::string& name, co
 	if (manager.contain(name))
 		return manager.get(name);
 	else {
-		manager.preload(name);
+		manager.preload(name, filename);
 		char* buffer = new char[sizeof(thread::task::Task<func>)];
 		new (buffer) thread::task::Task<func>(
 			func(this, &ResourceSystem::convertLoad, (const std::string)filename, (void*)buffer));

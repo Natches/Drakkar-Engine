@@ -25,8 +25,8 @@ class TextureManager final : public AResourceManager<gfx::Texture, TextureMap> {
 
 	using Base = typename AResourceManager<gfx::Texture, TextureMap>;
 public:
-	virtual void preload(const std::string& names);
-	virtual void preload(const definition::ResourceName& names) override;
+	virtual void preload(const std::string& names, const std::string& filename);
+	virtual void preload(const definition::ResourceName& names, const std::string& filename) override;
 	void load(const std::string& filename, std::vector<definition::Texture>& inTextures);
 	void reload(std::vector<definition::Texture>& inTextures);
 

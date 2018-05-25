@@ -1,6 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
-#include <Engine/Components/PhysicsComponents.hpp>
 #include <Engine/Components/GameObject.hpp>
 #include <PxPhysicsAPI.h>
 

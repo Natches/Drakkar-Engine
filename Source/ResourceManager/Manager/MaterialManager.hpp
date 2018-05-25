@@ -26,8 +26,8 @@ class MaterialManager final : public AResourceManager<gfx::Material, MaterialMap
 	using Base = typename AResourceManager<gfx::Material, MaterialMap>;
 
 public:
-	virtual void preload(const std::string& names);
-	virtual void preload(const definition::ResourceName& names) override;
+	virtual void preload(const std::string& names, const std::string& filename);
+	virtual void preload(const definition::ResourceName& names, const std::string& filename) override;
 	void load(const std::string& filename, std::vector<definition::Material>& inMaterials);
 	void reload(std::vector<definition::Material>& inMaterials);
 

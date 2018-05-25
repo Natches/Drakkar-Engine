@@ -9,20 +9,21 @@ using namespace drak::definition;
 
 namespace drak {
 
-void ModelManager::preload(const std::string& names) {
-	Base::preload(names);
+void ModelManager::preload(const std::string& names, const std::string& filename) {
+	Base::preload(names, filename);
 }
 
-void ModelManager::preload(const ResourceName& rName) {
+void ModelManager::preload(const ResourceName& rName, const std::string& filename) {
 	for (auto name : rName.names) {
 		if ((name.second & EFileType::MODEL) == EFileType::MODEL)
-			m_map[name.first] = ModelPtr((Resource<gfx::Model>*)(new char[sizeof(Resource<gfx::Model>)]));
+			m_map[name.first] = ModelPtr(new Resource<gfx::Model>(filename));
 	}
 }
 
 void ModelManager::load(const std::string& filename, std::vector<definition::Model>& inModels) {
 	for (auto& model : inModels) {
-
+		if (!m_map[model.mesh].get())
+			m_map[model.mesh].reset(new Resource<gfx::Model>(filename));
 		new (m_map[model.mesh].get()) Resource<gfx::Model>(filename,
 			gfx::Model(model.mesh, model.material));
 

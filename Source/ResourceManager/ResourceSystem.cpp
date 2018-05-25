@@ -65,19 +65,19 @@ void ResourceSystem::load(const std::string& filename) {
 			rName, models, textures, materials, meshes) == DK_OK) {
 
 			if (textures.size()) {
-				m_textureManager.preload(rName);
+				m_textureManager.preload(rName, filename);
 				m_textureManager.load(filename, textures);
 			}
 			if (meshes.size()) {
-				m_meshManager.preload(rName);
+				m_meshManager.preload(rName, filename);
 				m_meshManager.load(filename, meshes);
 			}
 			if (materials.size()) {
-				m_materialManager.preload(rName);
+				m_materialManager.preload(rName, filename);
 				m_materialManager.load(filename, materials);
 			}
 			if (models.size()) {
-				m_modelManager.preload(rName);
+				m_modelManager.preload(rName, filename);
 				m_modelManager.load(filename, models);
 			}
 
@@ -95,8 +95,15 @@ void ResourceSystem::load(const std::string& filename) {
 void ResourceSystem::convertLoad(const std::string filename, void* task) {
 	definition::Pak pak;
 	convert(filename, pak);
-	if (!pak.filenames.size())
-		load(filename);
+	if (!pak.filenames.size()) {
+		std::string ext = io::AllExtension(filename.c_str());
+		if (ext != "dkResources" && ext != "pak") {
+			load(io::Directories(filename.c_str()) +
+				io::FileNameNoExtension(filename.c_str()) + ".dkResources");
+		}
+		else
+			load(filename);
+	}
 	else {
 		m_mutex.lock();
 		if (std::find(m_systemData.packageLoaded.begin(), m_systemData.packageLoaded.end(), filename) ==
@@ -126,24 +133,26 @@ bool ResourceSystem::startup() {
 void ResourceSystem::updateFromData() {
 	if (m_systemData.packageLoaded.size()) {
 		for (auto& pakName : m_systemData.packageLoaded) {
-			char* buffer = new char[sizeof(thread::task::Task<func>)];
+			/*char* buffer = new char[sizeof(thread::task::Task<func>)];
 			new (buffer) thread::task::Task<func>
 				(func(this, &ResourceSystem::convertLoad, (const std::string)pakName, (void*)buffer));
 			m_mutex.lock();
 			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
 			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
-			m_mutex.unlock();
+			m_mutex.unlock();*/
+			convertOrLoad(pakName);
 		}
 	}
 	if (m_systemData.fileLoaded.size()) {
 		for (auto& file : m_systemData.fileLoaded) {
-			char* buffer = new char[sizeof(thread::task::Task<func>)];
+			/*char* buffer = new char[sizeof(thread::task::Task<func>)];
 			new (buffer) thread::task::Task<func>
 				(func(this, &ResourceSystem::convertLoad, (const std::string)file, (void*)buffer));
 			m_mutex.lock();
 			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
 			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
-			m_mutex.unlock();
+			m_mutex.unlock();*/
+			convertOrLoad(file);
 		}
 	}
 }

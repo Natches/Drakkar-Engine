@@ -35,14 +35,7 @@
 #include <Serialization/MetaData.hpp>
 #include <Serialization/Serializer.hpp>
 
-#include <Math/Quaternion.hpp>
-#include <Math/MathUtils.hpp>
-#include <Math/SIMDUtils.hpp>
-#include <Math/Vec2.hpp>
-#include <Math/Vec3.hpp>
-#include <Math/Vec4.hpp>
-#include <Math/Vec8.hpp>
-#include <Math/Matrix4x4.hpp>
+#include <Math/Math.hpp>
 
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>
@@ -99,3 +92,5 @@
 #include <Windowing/Window/WindowSettings.hpp>
 
 #include <Converter/ResourceDefinitions.hpp>
+
+#include <Engine/Components/Components.hpp>

@@ -22,8 +22,8 @@ class MeshManager final : public AResourceManager<geom::Mesh, MeshMap> {
 
 	using Base = typename AResourceManager<geom::Mesh, MeshMap>;
 public:
-	virtual void preload(const std::string& names);
-	virtual void preload(const definition::ResourceName& rName) override;
+	virtual void preload(const std::string& names, const std::string& filename);
+	virtual void preload(const definition::ResourceName& rName, const std::string& filename) override;
 	void load(const std::string& filename, std::vector<definition::Mesh>& inMeshes);
 	void reload(std::vector<definition::Mesh>& inMeshes);
 

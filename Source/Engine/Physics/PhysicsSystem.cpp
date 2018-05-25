@@ -1,7 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <PxPhysicsAPI.h>
-#include <Engine/Components/Components.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
 
@@ -87,7 +86,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 }
 
 void drak::PhysicsSystem::AddCollisionCallback(const RigidBody& rb,
-	events::EventType type, 
+	events::EventType type,
 	events::EventListener listener){
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
 }

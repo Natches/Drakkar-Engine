@@ -16,7 +16,7 @@ bool GLRenderer::init() {
 		DK_GL_TOGGLE(true, GL_DEBUG_OUTPUT);
 		glDebugMessageCallback((GLDEBUGPROC)debugLog, 0);
 
-		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
+		clearColorValue(Color3(1.0f, 1.0f, 1.0f));
 
 		return true;
 	}

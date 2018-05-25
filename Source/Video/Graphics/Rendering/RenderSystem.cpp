@@ -1,6 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
-#include <Engine/Components/ModelComponent.hpp>
 #include <ResourceManager/Resource/ResourceDefinitions.hpp>
 #include <ResourceManager/Resource/Resource.hpp>
 
@@ -46,11 +45,23 @@ void RenderSystem::shutdown() {
 void RenderSystem::forwardRender(Scene& scene) {
 	convertModelToRenderable(scene.models, scene.resourceManager);
 	m_pRenderer->cullTest(true);
-	ShaderPtr shader = m_shaderManager.get("InstanceShader");
+	ShaderPtr shader = m_shaderManager.get("DefaultShader");
 	shader->resource()->use();
 	shader->resource()->uniform("viewPrsp", m_mainCam.viewPerspective());
 
-	U32 flag = 1u << ComponentType<components::Model>::id;
+
+	for (auto& model : scene.models) {
+		Transform& t = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
+		math::Quaternion q = t.getGlobalRotation();
+		math::Mat4f mMatrix =
+			math::Translate(t.getGlobalPosition()) *
+			q.matrix() *
+			math::Scale(t.getGlobalScale());
+		shader->resource()->uniform("model", mMatrix);
+		m_renderable[model.model]->render();
+	}
+
+	/*U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
 	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {
 		modelBatch.reserve(BATCH_SIZE);
@@ -66,8 +77,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());
 		m_modelUBO.bind();
 		modelBatch.clear();
-	}
-
+	}*/
 	//renderGrid();
 }
 
@@ -114,8 +124,7 @@ void RenderSystem::convertModelToRenderable(const std::vector<components::Model>
 				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.model, std::string(""));
 				gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
 				vertBuffer->create(meshPtr->resource().vertices().data(), geom::g_VertexAttribDesc, 3,
-					(U32)meshPtr->resource().vertices().size(), (U32)(meshPtr->resource().vertices().size() *
-					sizeof(geom::Vertex1P1N1UV)));
+					(U32)meshPtr->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
 				gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
 				indexBuffer->create(meshPtr->resource().indices().data(),
 					(U32)meshPtr->resource().indices().size());

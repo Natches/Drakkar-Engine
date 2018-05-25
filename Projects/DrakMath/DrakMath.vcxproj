@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Math\Math.fwd" />
+    <ClInclude Include="..\..\Source\Math\Math.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix4x4.fwd" />

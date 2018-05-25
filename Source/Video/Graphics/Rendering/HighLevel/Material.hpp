@@ -5,12 +5,14 @@
 #include <Math/Vec3.hpp>
 
 namespace drak {
+template<typename T>
+class Resource;
 class MaterialManager;
 namespace gfx {
 
 class Material final {
+	friend class Resource<Material>;
 public:
-	Material() = delete;
 	Material(const std::string& name, std::string&& albedo = "", std::string&& normal = "",
 		math::Vec3f&& diffuseColor = { 1.f, 1.f, 1.f },
 		math::Vec3f&& specularColor = { 1.f, 1.f, 1.f },
@@ -36,6 +38,9 @@ public:
 	F32 m_shininessStrength;
 	bool m_wireframe;
 	bool m_twoSided;
+
+private:
+	Material() = default;
 
 private:
 	std::string m_name;
