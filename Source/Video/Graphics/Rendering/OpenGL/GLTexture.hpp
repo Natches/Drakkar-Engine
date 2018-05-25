@@ -12,7 +12,7 @@ public:
 	~GLTexture();
 
 	void bind() const;
-	bool loadFromFile(const char* filename, bool verticalFlip = true);
+	/*bool loadFromFile(const char* filename, bool verticalFlip = true);*/
 };
 
 } // namespace gl

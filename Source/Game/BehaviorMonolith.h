@@ -5,9 +5,9 @@
 
 namespace drak {
 #define BEHAVIOR_CONTAINER(c)																				\
-std::vector<behavior::##c> c##BehaviorContainer;															\
+std::vector<behavior::##c*> c##BehaviorContainer;															\
 public:																										\
-std::vector<behavior::##c>& get##c##BehaviorContainer() {return c##BehaviorContainer;}						\
+std::vector<behavior::##c*>& get##c##BehaviorContainer() {return c##BehaviorContainer;}						\
 private:
 
 #define GET_BHVR_CONTAINER(c) get##c##BehaviorContainer()

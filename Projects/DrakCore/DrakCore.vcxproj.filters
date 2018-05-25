@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{07ff0b39-aecc-4eb2-8937-1ced435f34e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Pool">
+      <UniqueIdentifier>{d7219557-a9de-44d8-b223-8cd79c6f57b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Core.hpp">
@@ -84,6 +87,9 @@
     <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Pool\Pool.hpp">
+      <Filter>Header Files\Pool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
@@ -98,5 +104,10 @@
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\Pool\Pool.inl">
+      <Filter>Header Files\Pool</Filter>
+    </None>
   </ItemGroup>
 </Project>

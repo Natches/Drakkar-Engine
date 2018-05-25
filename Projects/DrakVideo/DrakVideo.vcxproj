@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\Graphics\Common\Color.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Mesh.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Geometry\Vertex.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IFrameBuffer.hpp" />
@@ -30,8 +29,10 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\IShader.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\AVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Base\RenderDefinitions.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Camera.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Model.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Camera.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Material.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Model.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Texture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
@@ -43,16 +44,16 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\Texture.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.hpp" />
-    <ClInclude Include="..\..\Source\Video\Graphics\Tools\OBJLoader.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp" />
     <ClInclude Include="..\..\Source\Video\VideoSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Base\AMesh.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Vertex.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Material.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Model.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Texture.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLFrameBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp" />
@@ -62,8 +63,6 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\RenderSystem.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\AssetSceneImporter.cpp" />
-    <ClCompile Include="..\..\Source\Video\Graphics\Tools\OBJLoader.cpp" />
     <ClCompile Include="..\..\Source\Video\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -72,19 +71,11 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Source\Video\Graphics\Geometry\Mesh.inl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4777d9a5-56ea-4560-991a-865dc8e98fdc}</ProjectGuid>
     <RootNamespace>DrakRHI</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>DrakVideo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -174,20 +165,24 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+ 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
  </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;DrakResource.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -205,20 +200,24 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\VLD\lib\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;vld.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
+ 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
  </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;DrakResource.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -242,6 +241,9 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <FloatingPointModel>Precise</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -252,10 +254,10 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
     <PostBuildEvent>
       <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
+</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;DrakResource.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -278,6 +280,9 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -288,10 +293,10 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)
     <PostBuildEvent>
       <Command>xcopy /y "$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)\SDL2.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)" 
 xcopy /y "$(SolutionDir)ThirdParty\glew-2.0.0\bin\$(Platform)\glew32.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"
-xcopy /y "$(SolutionDir)ThirdParty\assimp-3.3.1\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)"</Command>
+</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;assimp-vc140-mt.lib;</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;DrakWindowing.lib;DrakResource.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-3.3.1\lib\$(Platform)\$(Configuration);$(SolutionDir)Binaries\$Configuration\$(Platform);$(SolutionDir)ThirdParty\glew-2.0.0\lib\$(Platform);$(SolutionDir)ThirdParty\SDL2-2.0.5\lib\$(Platform)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

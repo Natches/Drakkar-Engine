@@ -22,6 +22,8 @@ inline void setLocalRotation(const math::Quaternion& localRotation) {  m_localRo
 inline void setGlobalRotation(const math::Quaternion& globalRotation) { m_globalRotation = globalRotation; m_dirty = true;}
 inline bool& isRoot() { return m_isRoot; }
 inline bool& isDirty() { return m_dirty; }
+DRAK_API virtual void initComponent() override { ; }
+DRAK_API virtual void deleteComponent() override { ; }
 private:
 math::Vec3f m_globalPosition = math::Vec3f(0, 0, 0);
 math::Vec3f m_globalScale = math::Vec3f(1, 1, 1);

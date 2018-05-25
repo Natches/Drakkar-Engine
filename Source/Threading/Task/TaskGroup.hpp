@@ -22,6 +22,7 @@ public:
 	void unRegisterTask(T&& task);
 	void waitForTasks();
 
+	template<bool areAllocated>
 	void clearGroup();
 	void sendGroupToThreadPool();
 

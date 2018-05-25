@@ -5,6 +5,7 @@
 #include <Math/Matrix4x4.hpp>
 
 namespace drak {
+class ShaderManager;
 namespace gfx {
 
 /*!
@@ -15,8 +16,11 @@ namespace gfx {
 */
 class IShader {
 public:
+
 	IShader() = default;
 	virtual ~IShader() = default;
+
+	using Manager = ShaderManager;
 
 	virtual void use() const = 0;
 

@@ -23,7 +23,7 @@ void BehaviorMonolith::save() {
 void drak::BehaviorMonolith::init()
 {
 	for (int i = 0; i < GET_BHVR_CONTAINER(Cube).size(); ++i) {
-		GET_BHVR_CONTAINER(Cube)[i].init();
+		GET_BHVR_CONTAINER(Cube)[i]->init();
 	}
 }
 

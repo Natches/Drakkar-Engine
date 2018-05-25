@@ -1,11 +1,10 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <PxPhysicsAPI.h>
-#include <Engine/Components/Components.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
-//#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
 
-#define SIM_RATE 1.f/30.f 
+#define SIM_RATE 1.f/30.f
 
 DK_USE_NAMESPACE(drak)
 
@@ -18,7 +17,7 @@ using namespace drak::components;
 
 void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
 {
-	BoxCollider& boxCollider = level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
+	BoxCollider& boxCollider = *level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
 	physx::PxMaterial* mat = m_pPhysics->createMaterial(
 		boxCollider.material.staticFriction,
 		boxCollider.material.dynamicFriction,
@@ -38,8 +37,8 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
-		PxShape* shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
-		shape->setLocalPose(
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
+		boxCollider.shape->setLocalPose(
 			PxTransform(
 				boxCollider.localPosition.x,
 				boxCollider.localPosition.y,
@@ -50,7 +49,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.w)));
 	}
 	else {
-		rb.dynamic = m_pPhysics->createRigidDynamic(
+		rb.rigidActor = m_pPhysics->createRigidDynamic(
 			physx::PxTransform(
 				trans.getGlobalPosition().x,
 				trans.getGlobalPosition().y,
@@ -63,11 +62,10 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
-		rb.rigidActor = rb.dynamic;
 		if(rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-		PxShape* shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
-		shape->setLocalPose(
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
+		boxCollider.shape->setLocalPose(
 			PxTransform(
 				boxCollider.localPosition.x,
 				boxCollider.localPosition.y,
@@ -76,7 +74,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.y,
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
-		physx::PxRigidBodyExt::updateMassAndInertia(*rb.dynamic, rb.mass);
+		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 	}
 
 	U64* goIDX = new U64;
@@ -87,8 +85,8 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 	return;
 }
 
-void drak::PhysicsSystem::AddCollisionCallback(RigidBody& rb,
-	events::EventType type, 
+void drak::PhysicsSystem::AddCollisionCallback(const RigidBody& rb,
+	events::EventType type,
 	events::EventListener listener){
 	m_pPhysicsEvent->AddEventListener(rb, type, listener);
 }
@@ -252,7 +250,7 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 			target.rigidActor->setGlobalPose(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
 		}
 	}
-	
+
 }
 
 /*void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
