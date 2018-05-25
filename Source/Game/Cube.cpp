@@ -60,21 +60,6 @@ void Cube::OnKeyPress(const events::Event * pEvent) {
 }
 
 void Cube::OnCollisionEnter(const Event* pEvent) {
-	if (!pEvent)
-		return;
-	const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
-	switch (e->type) {
-	case PhysicsEventDispatcher::COLLISION_IN:
-		if (EngineCurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
-			if (getComponent<Model>()) {
-				Model& model = *getComponent<Model>();
-				model.albedo.r = 1.0f;
-				model.albedo.g = 1.0f;
-				model.albedo.b = 0.0f;
-			}
-		}
-		break;
-	}
 }
 
 void Cube::OnCollisionExit(const Event* pEvent) {

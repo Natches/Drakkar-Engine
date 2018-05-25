@@ -132,7 +132,8 @@ bool ResourceSystem::startup() {
 
 void ResourceSystem::updateFromData() {
 	if (m_systemData.packageLoaded.size()) {
-		for (auto& pakName : m_systemData.packageLoaded) {
+		std::vector<std::string> temp = m_systemData.packageLoaded;
+		for (auto& pakName : temp) {
 			/*char* buffer = new char[sizeof(thread::task::Task<func>)];
 			new (buffer) thread::task::Task<func>
 				(func(this, &ResourceSystem::convertLoad, (const std::string)pakName, (void*)buffer));
@@ -140,11 +141,14 @@ void ResourceSystem::updateFromData() {
 			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
 			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
 			m_mutex.unlock();*/
+			m_systemData.packageLoaded.erase(std::find(m_systemData.packageLoaded.begin(),
+				m_systemData.packageLoaded.end(), pakName));
 			convertOrLoad(pakName);
 		}
 	}
 	if (m_systemData.fileLoaded.size()) {
-		for (auto& file : m_systemData.fileLoaded) {
+		std::vector<std::string> temp = m_systemData.fileLoaded;
+		for (auto& file : temp) {
 			/*char* buffer = new char[sizeof(thread::task::Task<func>)];
 			new (buffer) thread::task::Task<func>
 				(func(this, &ResourceSystem::convertLoad, (const std::string)file, (void*)buffer));
@@ -152,6 +156,8 @@ void ResourceSystem::updateFromData() {
 			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
 			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
 			m_mutex.unlock();*/
+			m_systemData.fileLoaded.erase(std::find(m_systemData.fileLoaded.begin(),
+				m_systemData.fileLoaded.end(), file));
 			convertOrLoad(file);
 		}
 	}

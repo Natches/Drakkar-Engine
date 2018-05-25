@@ -51,12 +51,12 @@ void RenderSystem::forwardRender(Scene& scene) {
 
 
 	for (auto& model : scene.models) {
-		Transform& t = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
-		math::Quaternion q = t.getGlobalRotation();
+		Transform* t = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
+		math::Quaternion q = t->getGlobalRotation();
 		math::Mat4f mMatrix =
-			math::Translate(t.getGlobalPosition()) *
+			math::Translate(t->getGlobalPosition()) *
 			q.matrix() *
-			math::Scale(t.getGlobalScale());
+			math::Scale(t->getGlobalScale());
 		shader->resource()->uniform("model", mMatrix);
 		m_renderable[model.model]->render();
 	}
