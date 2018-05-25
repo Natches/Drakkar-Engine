@@ -1,13 +1,11 @@
 #pragma once
 
+#include <Math/Vec4.fwd>
 #include <Math/Vec3.fwd>
 #include <Math/Vec2.hpp>
 
 namespace drak {
 namespace math {
-
-template<typename T>
-struct Vec4;
 
 template<typename T>
 struct Vec3 {
@@ -66,14 +64,14 @@ public:
 	Vec3<T>& negate();
 	Vec3<T>& abs();
 
-#if defined(QUAT)
+//#if defined(QUAT)
 	template<Axis ax>
 	Vec3<F32>& rotate(const F32 angle);
 	Vec3<F32>& rotate(const Vec3<F32>& axis, const F32 angle);
 	Vec3<F32>& rotate(const Vec3<F32>& euler);
 	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle);
 	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle, const F32 distance);
-#endif
+//#endif
 	Vec3<F32>& ceil();
 	Vec3<F32>& floor();
 	Vec3<F32>& round();

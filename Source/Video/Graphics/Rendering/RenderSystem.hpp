@@ -29,7 +29,6 @@ public:
 	void shutdown();
 
 	void forwardRender(Scene& scene);
-
 	void renderGrid();
 
 	void startFrame();

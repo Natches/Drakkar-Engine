@@ -7,8 +7,6 @@
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
 
-
-
 using namespace drak::components;
 using namespace drak::time;
 using namespace drak::thread;
@@ -17,14 +15,15 @@ using namespace drak::gfx;
 
 namespace drak {
 namespace core {
-bool Engine::running = true;
 Engine* Engine::m_pInstance = nullptr;
 
+bool Engine::s_running = true;
+
 Engine::Engine() {
-	m_pVideoSystem = new video::VideoSystem();
-	m_pRenderSystem = new gfx::RenderSystem();
-	m_pPhysicsSystem = new PhysicsSystem();
-	m_pLevelSystem = new LevelSystem();
+	m_pVideoSystem		= new video::VideoSystem();
+	m_pRenderSystem		= new gfx::RenderSystem();
+	m_pPhysicsSystem	= new PhysicsSystem;
+	m_pLevelSystem		= new LevelSystem;
 }
 
 Engine::~Engine() {
@@ -38,40 +37,41 @@ DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
-DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
-	return s_frameTime;
-}
-
 DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
 }
 
-int Engine::startup() {
-	events::EngineEvent eEvent;
-	eEvent.type = events::EngineEventDispatcher::STARTUP_BEGIN;
-	m_eventDispatcher.dispatchEvent(&eEvent);
+int Engine::startup(bool editorMode) {
+	m_editorMode = editorMode;
 
-	//Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
-	video::WindowSettings  winSettings = { "DrakVideoTest", 1600, 900 };
-	video::VideoSettings  videoSettings = { winSettings, gfx::ERenderer::OPENGL };
+	m_evt.type = events::EngineEventDispatcher::STARTUP_BEGIN;
+	m_eventDispatcher.dispatchEvent(&m_evt);
 
-	// vvv Check for failed startups vvv
-	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
-	m_pRenderSystem->startup(m_pVideoSystem->renderer());
-	m_pPhysicsSystem->Startup();
-	m_pLevelSystem->startup();
-	//m_pLevelSystem->loadScene("Blyat");
-	m_pool.startup();
+	video::WindowSettings  winSettings		= { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings   videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
 
-	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
-	m_eventDispatcher.dispatchEvent(&eEvent);
-	return 0;
+	bool videoStatus = m_editorMode ?
+		m_pVideoSystem->startup(videoSettings) :
+		m_pVideoSystem->startup(videoSettings, m_pMainWindow);
+
+	if (videoStatus												
+		&& m_pRenderSystem->startup(m_pVideoSystem->renderer())	
+		&& m_pPhysicsSystem->Startup()								
+		&& m_pLevelSystem->startup()								
+		&& m_pool.startup()) {
+
+		m_evt.type = events::EngineEventDispatcher::STARTUP_END;
+		m_eventDispatcher.dispatchEvent(&m_evt);
+
+		return 0;
+	}
+	return 1;
 }
 
 int Engine::shutdown() {
-	events::EngineEvent eEvent;
-	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_START;
-	m_eventDispatcher.dispatchEvent(&eEvent);
+	m_evt.type = events::EngineEventDispatcher::SHUTDOWN_START;
+	m_eventDispatcher.dispatchEvent(&m_evt);
+
 	Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Shutdown systems\n");
 	m_pLevelSystem->shutdown();
 	m_pPhysicsSystem->Shutdown();
@@ -80,12 +80,16 @@ int Engine::shutdown() {
 
 	Logbook::CloseLogs();
 	m_pool.shutdown();
-	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_END;
-	m_eventDispatcher.dispatchEvent(&eEvent);
+	m_evt.type = events::EngineEventDispatcher::SHUTDOWN_END;
+	m_eventDispatcher.dispatchEvent(&m_evt);
+
 	return 0;
 }
 
 void Engine::startLoop() {
+	if (m_editorMode)
+		return;
+
 	s_frameTime.start();
 
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
@@ -94,16 +98,15 @@ void Engine::startLoop() {
 			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
-	events::EngineEvent eEvent;
-	eEvent.type = events::EngineEventDispatcher::UPDATE_START;
-	m_eventDispatcher.dispatchEvent(&eEvent);
+	m_evt.type = events::EngineEventDispatcher::UPDATE_START;
+	m_eventDispatcher.dispatchEvent(&m_evt);
 
-	while (m_pMainWindow->isOpen()) {
+	while (s_running) {
 		s_frameTime.update();
 		m_pMainWindow->pollEvents();
 
-		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
-		m_eventDispatcher.dispatchEvent(&eEvent);
+		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
+		m_eventDispatcher.dispatchEvent(&m_evt);
 
 		m_pLevelSystem->propogateMovementFromRoots();
 
@@ -111,24 +114,29 @@ void Engine::startLoop() {
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
 		m_pMainWindow->clear();
-		m_pRenderSystem->startFrame();
-		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
-
-		m_pRenderSystem->endFrame();
+		renderScene();
 		m_pMainWindow->swapBuffers();
-		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
-		m_eventDispatcher.dispatchEvent(&eEvent);
+
+		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
+		m_eventDispatcher.dispatchEvent(&m_evt);
 	}
 	s_frameTime.stop();
-	eEvent.type = events::EngineEventDispatcher::UPDATE_END;
-	m_eventDispatcher.dispatchEvent(&eEvent);
+	m_evt.type = events::EngineEventDispatcher::UPDATE_END;
+	m_eventDispatcher.dispatchEvent(&m_evt);
+}
+
+void Engine::renderScene() {
+	m_pRenderSystem->startFrame();
+	//m_pRenderSystem->renderGrid();
+	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+	m_pRenderSystem->endFrame();
 }
 
 void Engine::StopGame() {
-	Engine::running = false;
+	s_running = false;
 }
 
-void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
+void Engine::loadScene(IManualSceneBlueprint& sceneBlueprint) {
 	m_pLevelSystem->loadScene(sceneBlueprint);
 }
 
@@ -136,7 +144,7 @@ void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
 }
 
-DRAK_API Engine & Engine::Get(){
+DRAK_API Engine& Engine::Get(){
 	if (!m_pInstance)
 		m_pInstance = new Engine();
 	return *m_pInstance;

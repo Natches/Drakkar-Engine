@@ -353,4 +353,17 @@ Projects/DrakVideo/Resources/
 
 Projects/DrakConverter/Resources/
 
+Projects/Game/Models/
+
+Projects/Game/Shaders/
+
+Projects/Game/Textures/
+
+Projects/DrakEditor/\.qmake\.stash
+
+Projects/DrakEditor/Makefile
+
+CodeGraphData/
+Projects/DrakConverter/Resources/
+
 CodeGraphData/

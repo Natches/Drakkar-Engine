@@ -29,12 +29,12 @@ constexpr T ToDegree(T n) {
 	return (n * static_cast<T>(ToDeg));
 }
 
-enum class AngleUnit : byte {
+enum class AngleUnit : U8 {
 	DEGREE,
 	RADIANS
 };
 
-enum class Axis : byte {
+enum class Axis : U8 {
 	X,
 	Y,
 	Z
