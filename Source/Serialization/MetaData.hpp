@@ -157,7 +157,7 @@ static void StringToValue(const char* c_str, T& t) {
 template<>													\
 struct drak::serialization::MetaData<ty> {					\
 using type = ty;											\
-static constexpr const char* TypeName() { return #ty; };
+static constexpr char* TypeName() { return #ty; };
 
 #define DK_METADATA_END																			\
 DK_METADATA_FACTORY_PATTERN																		\

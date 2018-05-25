@@ -23,20 +23,38 @@ void TaskGroup<T>::unRegisterTask(T&& task) {
 
 template<class T>
 void TaskGroup<T>::waitForTasks() {
-	for each(const T& task in m_taskList)
-		while (!task.executed());
+	if constexpr (std::is_pointer_v<T>) {
+		for(const auto& t : m_taskList)
+			while (!(*t).executed());
+	}
+	else {
+		for(const auto& t : m_taskList)
+			while (!t.executed());
+	}
 }
 
 template<class Task>
+template<bool areAllocated>
 void TaskGroup<Task>::clearGroup() {
+	if constexpr (areAllocated) {
+		for (auto x : m_taskList) {
+			delete x;
+		}
+	}
 	m_taskList.clear();
 }
 
 template<class T>
 void TaskGroup<T>::sendGroupToThreadPool() {
-	T* data = m_taskList.data();
-	for(size_t i = 0, size = m_taskList.size(); i < size; ++i)
-		m_pool.addTask(data + i);
+	if constexpr(std::is_pointer_v<T>) {
+		for (size_t i = 0, size = m_taskList.size(); i < size; ++i)
+			m_pool.addTask(m_taskList[i]);
+	}
+	else {
+		T* data = m_taskList.data();
+		for (size_t i = 0, size = m_taskList.size(); i < size; ++i)
+			m_pool.addTask(data + i);
+	}
 }
 
 template<class T>

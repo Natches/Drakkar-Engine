@@ -109,9 +109,6 @@ void Engine::startLoop() {
 		m_eventDispatcher.dispatchEvent(&m_evt);
 
 		m_pLevelSystem->propogateMovementFromRoots();
-		//gameObjects = m_pLevelSystem->getGameObjects();
-		//for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
-		//	gameObjects[i]->update();
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
@@ -130,7 +127,7 @@ void Engine::startLoop() {
 
 void Engine::renderScene() {
 	m_pRenderSystem->startFrame();
-	m_pRenderSystem->renderGrid();
+	//m_pRenderSystem->renderGrid();
 	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
 	m_pRenderSystem->endFrame();
 }

@@ -2,6 +2,8 @@
 #include "Engine/Engine.hpp"
 #include "Engine/Scene/LevelSystem.hpp"
 
+using namespace drak::core;
+
 SceneGraphWidget::SceneGraphWidget(QWidget *parent)
 :   QTreeWidget(parent) {
     setColumnCount(1);
@@ -11,12 +13,13 @@ SceneGraphWidget::SceneGraphWidget(QWidget *parent)
     addTreeRoot("C");
 
     setHeaderLabel("Game Object");
-    setSelectionMode(QAbstractItemView::MultiSelection);
     setDragEnabled(true);
     setDropIndicatorShown(true);
+    setSelectionMode(QAbstractItemView::MultiSelection);
     setDragDropMode(QAbstractItemView::InternalMove);
 
-    drak::core::Engine::currentLevel().getGameObjects();
+    drak::core::Engine::Get().currentLevel().getGameObjects();
+
 }
 
 

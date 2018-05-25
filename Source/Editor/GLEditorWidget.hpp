@@ -3,7 +3,7 @@
 
 #include <QOpenGLWidget>
 
-class GLEditorWidget : public QOpenGLWidget {
+class GLEditorWidget final : public QOpenGLWidget {
     Q_OBJECT
 public:
     explicit GLEditorWidget(QWidget *parent = 0);

@@ -4,14 +4,15 @@
 #
 ###############################################################################
 
-QT          += core gui widgets opengl
-DEFINES     += QT_DEPRECATED_WARNINGS
+QT              += core gui widgets opengl
+DEFINES         += QT_DEPRECATED_WARNINGS LOG2
 
-TARGET      = DrakEditor
-TEMPLATE    = app
+TARGET          = DrakEditor
+TEMPLATE        = app
 
-CONFIG      += c++17
-CONFIG      -= debug_and_release debug_and_release_target
+CONFIG          -= debug_and_release debug_and_release_target
+QMAKE_CXXFLAGS  *= /std:c++17
+QMAKE_CXXFLAGS  -= -Zc:strictStrings
 
 ###############################################################################
 

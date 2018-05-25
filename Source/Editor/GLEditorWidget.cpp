@@ -2,12 +2,25 @@
 #include "Engine/Engine.hpp"
 #include "GLEditorWidget.hpp"
 
+using namespace drak::core;
+
+
 GLEditorWidget::GLEditorWidget(QWidget *parent)
 :   QOpenGLWidget(parent) {
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(16);
 
+    create();
+}
+
+
+GLEditorWidget::~GLEditorWidget() {
+    Engine::Get().shutdown();
+}
+
+
+void GLEditorWidget::initializeGL() {
     QSurfaceFormat format;
     format.setVersion(4,5);
     format.setOption(QSurfaceFormat::DeprecatedFunctions);
@@ -15,22 +28,16 @@ GLEditorWidget::GLEditorWidget(QWidget *parent)
     format.setProfile(QSurfaceFormat::CoreProfile);
     QSurfaceFormat::setDefaultFormat(format);
 
-    create();
+    Engine::Get().startup(true);
 }
 
-GLEditorWidget::~GLEditorWidget() {
-    drak::core::Engine::Get().shutdown();
-}
-
-void GLEditorWidget::initializeGL() {
-    drak::core::Engine::Get().startup(true);
-}
 
 void GLEditorWidget::resizeGL(int w, int h) {
 
 }
 
+
 void GLEditorWidget::paintGL() {
-    drak::core::Engine::Get().renderScene();
+    Engine::Get().renderScene();
 }
 
