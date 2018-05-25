@@ -82,17 +82,16 @@ struct Vertex1P1N1UV  : public Vertex1P1N {
 	math::Vec2f uv;
 };
 
-struct IndexedVertex {
-	U32 pos;
-	U32 normal;
-	U32 uv;
+struct Vertex1P1N1UV1B1W : public Vertex1P1N1UV {
+	Vertex1P1N1UV1B1W() = default;
+	Vertex1P1N1UV1B1W(const math::Vec3f& aPos, const math::Vec3f& aNormal, const math::Vec2f& aUV,
+		const math::Vec4u& aBoneIndice, const math::Vec4f& aBoneWeight)
+		: Vertex1P1N1UV(aPos, aNormal, aUV), boneIndice(aBoneIndice), boneWeight(aBoneWeight) {
+	}
+	math::Vec4u boneIndice;
+	math::Vec4f boneWeight;
 };
 
-struct IndexComparison {
-	bool operator()(const IndexedVertex& left, const IndexedVertex& right) const {
-		return memcmp(&left, &right, sizeof(math::Vec3u)) < 0;
-	}
-};
 
 } // namespace geom
 } // namespace drak

@@ -4,6 +4,8 @@
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Components/ABehavior.hpp>
 #include <Game/BehaviorMonolith.h>
+#include <Engine/Scene/LevelSystem.hpp>
+
 
 using namespace drak;
 using namespace core;
@@ -17,27 +19,29 @@ class BP : public IManualSceneBlueprint {
 public:
 
 	// Inherited via IManualSceneBlueprint
-	virtual void build(LevelSystem & scene) override
+	virtual void build(LevelSystem& scene) override
 	{
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/SK_Mannequin.dkResources"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
 		mat.staticFriction = 0.5f;
 		name = "Scene";
-		for (int i = 0; i < 2; ++i) {
+		for (int i = 0; i < 20; ++i) {
 			GameObject& cube = scene.addGameObject();
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
-			Model& cube_MDL = cube.addComponent<Model>();
+			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
 			BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
-			cube_TR.setGlobalPosition(Vec3f(0+i*20, 0, 0));
-			cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
+			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 20.f, 0.f));
+			cube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
 			cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
 
 			cube_RB.mass = 1000.f;
 
-			cube_MDL.albedo = gfx::Color3(1, 0, 0);
+			cube_MDL.model = "SK_Mannequin1";
 
 			cube_BC.width = 1.f;
 			cube_BC.height = 1.f;
@@ -51,9 +55,9 @@ public:
 			Transform& childCube_TR = *childCube.getComponent<Transform>();
 			RigidBody& childCube_RB = childCube.addComponent<RigidBody>();
 			BoxCollider& childCube_BC = childCube.addComponent<BoxCollider>();
-			Model& childCube_MDL = childCube.addComponent<Model>();
+			drak::components::Model& childCube_MDL = childCube.addComponent<drak::components::Model>();
 
-			childCube_TR.setGlobalPosition(Vec3f(5 + i * 20, 0, 0));
+			childCube_TR.setGlobalPosition(Vec3f(5.f, 0.f + i * 20.f, 0.f));
 			childCube_TR.setGlobalScale(Vec3f(1.0f, 1.0f, 1.0f));
 			childCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
@@ -64,7 +68,7 @@ public:
 			childCube_BC.depth = 1.f;
 			childCube_BC.material = mat;
 
-			childCube_MDL.albedo = gfx::Color3(1, 0, 0);
+			childCube_MDL.model = "SK_Mannequin1";
 			const U32 parent2IDX = childCube.getIdx();
 			childCube.setParent(parentIDX);
 
@@ -72,9 +76,9 @@ public:
 			Transform& childCube2_TR = *childCube2.getComponent<Transform>();
 			RigidBody& childCube2_RB = childCube2.addComponent<RigidBody>();
 			BoxCollider& childCube2_BC = childCube2.addComponent<BoxCollider>();
-			Model& childCube2_MDL = childCube2.addComponent<Model>();
+			drak::components::Model& childCube2_MDL = childCube2.addComponent<drak::components::Model>();
 
-			childCube2_TR.setGlobalPosition(Vec3f(10 + i * 20, 0, 0));
+			childCube2_TR.setGlobalPosition(Vec3f(10.f, 0.f + i * 20.f, 0));
 			childCube2_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
 			childCube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
@@ -85,7 +89,7 @@ public:
 
 			childCube2_RB.mass = 1000.f;
 
-			childCube2_MDL.albedo = gfx::Color3(1, 0, 0);
+			childCube2_MDL.model = "SK_Mannequin1";
 
 			childCube2.setParent(parent2IDX);
 
@@ -94,7 +98,7 @@ public:
 		floor.name = "Floor";
 		Transform& floor_TR = *floor.getComponent<Transform>();
 		RigidBody& floor_RB = floor.addComponent<RigidBody>();
-		Model& floor_MDL = floor.addComponent<Model>();
+		drak::components::Model& floor_MDL = floor.addComponent<drak::components::Model>();
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
 		floor_TR.setGlobalPosition(Vec3f(0, -50.f, 0));
@@ -104,7 +108,7 @@ public:
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
 
-		floor_MDL.albedo = gfx::Color3(0, 1, 0);
+		floor_MDL.model = "cube";
 
 		floor_BC.width = 1000.f;
 		floor_BC.height = 10.f;

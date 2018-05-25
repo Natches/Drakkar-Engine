@@ -1,43 +1,34 @@
 #pragma once
 
+#include <string>
 #include <vector>
-#include <Video/Graphics/Geometry/Base/AMesh.hpp>
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
+template<typename T>
+class Resource;
+class MeshManager;
 namespace geom {
 
-template<typename vertexType>
-class Mesh : public AMesh {
-	static_assert(
-		std::is_same_v<Vertex1P,		vertexType> || 
-		std::is_same_v<Vertex1P1N,		vertexType> ||
-		std::is_same_v<Vertex1P1N1UV,	vertexType>, "Must be a vertexType");
+class Mesh final {
+	friend class Resource<Mesh>;
 public:
-	Mesh(const std::string& filename = "");
-	virtual ~Mesh() = default;
+	Mesh(const std::string& name, std::vector<Vertex1P1N1UV>&& vertices, std::vector<U32>&& indices);
+	~Mesh() = default;
 
-	void addVertex(const vertexType& v);
-	void addTriangle(
-		const vertexType& v1,
-		const vertexType& v2,
-		const vertexType& v3);
+	using Manager = MeshManager;
 
-	void addIndex(U32 i);
-	void addTriangleIndices(U32 i1, U32 i2, U32 i3);
-
-	DK_GETTER_REF_C(std::vector<vertexType>, vertices, m_vertices)
+	DK_GETTER_REF_C(std::string, name, m_name)
+	DK_GETTER_REF_C(std::vector<Vertex1P1N1UV>, vertices, m_vertices)
 	DK_GETTER_REF_C(std::vector<U32>, indices, m_indices)
+private:
+	Mesh() = default;
 
-protected:
-	std::vector<vertexType>		m_vertices;
+private:
+	std::string					m_name;
+	std::vector<Vertex1P1N1UV>	m_vertices;
 	std::vector<U32>			m_indices;
-
-	std::string					m_filename;
-	U8							m_numAttribs;
 };
 
 } // namespace geom
 } // namespace drak
-
-#include <Video/Graphics/Geometry/Mesh.inl>

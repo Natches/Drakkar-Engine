@@ -1,10 +1,8 @@
 #include <PrecompiledHeader/pch.hpp>
-//#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
-//#include <Serialization\Serializer.hpp>
-//#include <Engine\Engine.hpp>
-//#include <fstream>
-//#include <PxPhysicsAPI.h>
+
 using namespace drak;
 using namespace core;
 using namespace serialization;
@@ -58,6 +56,7 @@ void LevelSystem::loadScene(const char* name) {
 		if(m_gameObjects[i].getParent() >= 0 )
 			m_gameObjects[i].setParent(m_gameObjects[i].getParent());
 	}
+	m_resourceManager->startup();
 }
 #undef _INIT_COMPONENTS_OF_TYPE(type)
 
@@ -65,13 +64,15 @@ void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
 	filename = sceneBluePrint.name;
 	SerializeLevel();
+	m_resourceManager->updateFromData();
 }
 
 bool LevelSystem::startup() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
 	//events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
 	//	new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
-
+	m_resourceManager = new ResourceSystem(m_data);
+	m_resourceManager->startup();
 	return true;
 }
 
@@ -102,4 +103,6 @@ void LevelSystem::SerializeEvent(const events::Event* pEvent) {
 void LevelSystem::shutdown() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
 	//SerializeLevel();
+	m_resourceManager->shutdown();
+	delete m_resourceManager;
 }

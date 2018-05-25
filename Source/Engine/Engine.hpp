@@ -3,7 +3,6 @@
 #include <Core/Engine/Event.hpp>
 #include <Core/Timer/FrameTimer.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
-#include <Video/VideoSettings.hpp>
 
 namespace drak {
 class IManualSceneBlueprint;

@@ -12,7 +12,7 @@ namespace components {
 template <class c>
 struct  ComponentType
 {
-	static const U32 ID;
+	static const U32 id;
 };
 
 
@@ -67,6 +67,6 @@ struct  drak::components::ComponentType<drak::components::name>\
 
 /*!
 *	\def  DRAK_COMPONENT_END(name)
-*	\brief Defines the end of a component 
+*	\brief Defines the end of a component
 *	Creates a template specialization of AComponent templated with the defined component. This allows templated functions to use the component ID as template parameters
 */

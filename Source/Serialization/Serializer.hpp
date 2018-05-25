@@ -7,38 +7,41 @@ namespace drak {
 namespace serialization {
 
 struct Serializer {
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError SerializeToFile(const T& t, const char* path, const char* filename);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError SerializeToFile(const std::vector<T>& t, const char* path, const char* filename);
 
-	template<EExtension ext, class T, class...VArgs>
+	template<EExtension ext, bool addExtension, class T, class...VArgs>
 	static core::EError SerializeToFile(const char* path, const char* filename, const T& t, VArgs&&...args);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError AddObjectToFile(const T& t, const char* path);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError AddObjectToFile(const std::vector<T>& t, const char* path);
 
-	template<EExtension ext, class T, class...VArgs>
+	template<EExtension ext, bool addExtension, class T, class...VArgs>
 	static core::EError AddObjectToFile(const char* path, const T& t, VArgs&&...args);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static std::tuple<T, core::EError> LoadFromFile(const char* path);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError LoadFromFile(T& t, const char* path);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static core::EError LoadEveryFromFile(std::vector<T>& t, const char* path);
 
-	template<EExtension ext, class T>
+	template<EExtension ext, class T, bool addExtension = true>
 	static std::tuple<std::vector<T>, core::EError> LoadEveryFromFile(const char* path);
 
-	template<EExtension ext, class T, class...VArgs>
+	template<EExtension ext, bool addExtension, class T, class...VArgs>
 	static core::EError LoadFromFile(const char* path, T& t, VArgs&&...args);
+
+	template<EExtension ext, class T, bool addExtension = true>
+	static core::EError Contain(const char* path, U32& count);
 
 private:
 	struct FileDescriptor {
@@ -60,7 +63,7 @@ private:
 		const T& t, VArgs&&...args);
 	static void SerializeToFileNoDesc(std::fstream& file, std::stringstream& sstr) {};
 
-	template<class T, class...VArgs>
+	template<EExtension ext, class T, class...VArgs>
 	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 		std::map<std::string, int>& occurence,  T& t, VArgs&&...args);
 	static void LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
@@ -77,22 +80,22 @@ private:
 	template<class T, class...VArgs>
 	static core::EError SerializeToINI(const char* path, const char* filename, const T& t, VArgs&&...args);
 	template<class T>
-	static core::EError AddSerializeToINI(const T& t, const char* path);
+	static core::EError AddToINI(const T& t, const char* path);
 	template<class T>
-	static core::EError AddSerializeToINI(const std::vector<T>& t, const char* path);
+	static core::EError AddToINI(const std::vector<T>& t, const char* path);
 	template<class T, class...VArgs>
-	static core::EError AddSerializeToINI(const char* path, const T& t, VArgs&&...args);
+	static core::EError AddToINI(const char* path, const T& t, VArgs&&...args);
 	template<class T>
-	static core::EError LoadINI(T& t, const char* path);
+	static core::EError LoadFromINI(T& t, const char* path);
 	template<class T>
-	static core::EError LoadINI(std::vector<T>& t, const char* path);
+	static core::EError LoadFromINI(std::vector<T>& t, const char* path);
 	template<EExtension ext, class T, class...VArgs>
-	static core::EError LoadINI(const char* path, T& t, VArgs&&...args);
+	static core::EError LoadFromINI(const char* path, T& t, VArgs&&...args);
 
 	template<class T>
 	static core::EError SerializeToJSON(const T& t, const char* path, const char* filename);
 	template<class T>
-	static core::EError LoadJSON(T& t, const char* path);
+	static core::EError LoadFromJSON(T& t, const char* path);
 
 	template<class T>
 	static core::EError SerializeToBinary(const T& t, const char* path, const char* filename);
@@ -101,17 +104,26 @@ private:
 	template<class T, class...VArgs>
 	static core::EError SerializeToBinary(const char* path, const char* filename, const T& t, VArgs&&...args);
 	template<class T>
-	static core::EError AddSerializeToBinary(const T& t, const char* path);
+	static core::EError AddToBinary(const T& t, const char* path);
 	template<class T>
-	static core::EError AddSerializeToBinary(const std::vector<T>& t, const char* path);
+	static core::EError AddToBinary(const std::vector<T>& t, const char* path);
 	template<class T, class...VArgs>
-	static core::EError AddSerializeToBinary(const char* path, const T& t, VArgs&&...args);
+	static core::EError AddToBinary(const char* path, const T& t, VArgs&&...args);
 	template<class T>
-	static core::EError LoadBinary(T& t, const char* path);
+	static core::EError LoadFromBinary(T& t, const char* path);
 	template<class T>
-	static core::EError LoadBinary(std::vector<T>& t, const char* path);
+	static core::EError LoadFromBinary(std::vector<T>& t, const char* path);
 	template<EExtension ext, class T, class...VArgs>
-	static core::EError LoadBinary(const char* path, T& t, VArgs&&...args);
+	static core::EError LoadFromBinary(const char* path, T& t, VArgs&&...args);
+
+	template<typename T>
+	static core::EError ContainBinary(const char* path, U32& count);
+
+	template<typename T>
+	static core::EError ContainJSON(const char* path);
+
+	template<typename T>
+	static core::EError ContainINI(const char* path, U32& count);
 };
 
 } // namespace serialization
