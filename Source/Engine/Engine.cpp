@@ -18,12 +18,13 @@ using namespace drak::gfx;
 namespace drak {
 namespace core {
 bool Engine::running = true;
+Engine* Engine::m_pInstance = nullptr;
 
 Engine::Engine() {
 	m_pVideoSystem = new video::VideoSystem();
 	m_pRenderSystem = new gfx::RenderSystem();
-	m_pPhysicsSystem = new PhysicsSystem;
-	m_pLevelSystem = new LevelSystem;
+	m_pPhysicsSystem = new PhysicsSystem();
+	m_pLevelSystem = new LevelSystem();
 }
 
 Engine::~Engine() {
@@ -33,8 +34,7 @@ Engine::~Engine() {
 	delete m_pLevelSystem;
 }
 
-PhysicsSystem& Engine::getPhysicsSystem()
-{
+DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
@@ -42,8 +42,7 @@ DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
 	return s_frameTime;
 }
 
-DRAK_API LevelSystem & Engine::currentLevel()
-{
+DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
 }
 
@@ -92,7 +91,7 @@ void Engine::startLoop() {
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
 	for (auto& go : gameObjects) {
 		if(go.getComponentFlag(ComponentType<RigidBody>::id))
-			m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
 	events::EngineEvent eEvent;
@@ -138,6 +137,12 @@ void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
 
 void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
+}
+
+DRAK_API Engine & Engine::Get(){
+	if (!m_pInstance)
+		m_pInstance = new Engine();
+	return *m_pInstance;
 }
 
 

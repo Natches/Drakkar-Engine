@@ -34,7 +34,7 @@ void Cube::update(const Event* pEvent) {
 
 void Cube::start(const Event* pEvent) {
 	BehaviorMonolith& mono = BehaviorMonolith::Get();
-	RigidBody& rb = getComponent<RigidBody>();
+	RigidBody& rb = *getComponent<RigidBody>();
 	core::Engine::Get().getPhysicsSystem().AddCollisionCallback(
 		rb,
 		PhysicsEventDispatcher::COLLISION_IN,
@@ -42,21 +42,20 @@ void Cube::start(const Event* pEvent) {
 }
 
 void Cube::OnKeyPress(const events::Event * pEvent) {
-	/*const KeyEvent* key = static_cast<const KeyEvent*>(pEvent);
-	RigidBody& rb = getComponent<RigidBody>();
-	Transform& trans = getComponent<Transform>();
+	if (!pEvent)
+		return;
+	const KeyEvent* key = static_cast<const KeyEvent*>(pEvent);
+	RigidBody& rb = *getComponent<RigidBody>();
+	Transform& trans = *getComponent<Transform>();
 	switch (key->key)
 	{
-	case(Key::KEY_UP):
-
-		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (1.f * DeltaTime)));
-		break;
-	case(Key::KEY_DOWN):
-		core::Engine::Get().getPhysicsSystem().goTo(rb, math::Vec3f(0, 0, trans.getGlobalPosition().z + (-1.f * DeltaTime)));
+	case(Key::KEY_SPACE):
+		if(getComponent<BoxCollider>())
+			EngineCurrentLevel.DestroyComponent<BoxCollider>(getComponent<BoxCollider>()->idx);
 		break;
 	default:
 		break;
-	}*/
+	}
 }
 
 void Cube::OnCollisionEnter(const Event* pEvent) {
@@ -65,11 +64,13 @@ void Cube::OnCollisionEnter(const Event* pEvent) {
 	const CollisionEvent* e = static_cast<const CollisionEvent*>(pEvent);
 	switch (e->type) {
 	case PhysicsEventDispatcher::COLLISION_IN:
-		if (CurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
-			Model& model = getComponent<Model>();
-			model.albedo.r = 1.0f;
-			model.albedo.g = 1.0f;
-			model.albedo.b = 0.0f;
+		if (EngineCurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
+			if (getComponent<Model>()) {
+				Model& model = *getComponent<Model>();
+				model.albedo.r = 1.0f;
+				model.albedo.g = 1.0f;
+				model.albedo.b = 0.0f;
+			}
 		}
 		break;
 	}

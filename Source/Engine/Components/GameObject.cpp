@@ -17,19 +17,19 @@ void GameObject::removeChild(U32 childIDX) {
 	}
 }
 void GameObject::makeRoot() {
-	if (getComponent<components::Transform>().isRoot()) {
+	if (getComponent<components::Transform>()->isRoot()) {
 		return;
 	}
 	else {
 		level->getGameObjects()[parentIDX].removeChild(idx);
-		getComponent<components::Transform>().isRoot() = true;
+		getComponent<components::Transform>()->isRoot() = true;
 		level->addGameObjectToRoots(idx);
 	}
-	getComponent<RigidBody>().activate(true);
+	getComponent<RigidBody>()->activate(true);
 }
-void GameObject::setParent(const U32 pIDX) {
-	if (getComponent<components::Transform>().isRoot()) {
-		getComponent<components::Transform>().isRoot() = false;
+void GameObject::setParent(const I32 pIDX) {
+	if (getComponent<components::Transform>()->isRoot()) {
+		getComponent<components::Transform>()->isRoot() = false;
 		level->removeGameObjectFromRoots(idx);
 	}
 	else {
@@ -37,8 +37,8 @@ void GameObject::setParent(const U32 pIDX) {
 	}
 	parentIDX = pIDX;
 	level->getGameObjects()[pIDX].attachChild(idx);
-	getComponent<RigidBody>().activate(false);
-	Transform& parentTransform = level->getGameObjects()[parentIDX].getComponent<Transform>();
-	getComponent<components::Transform>().setLocalPosition(getComponent<components::Transform>().getGlobalPosition() - parentTransform.getGlobalPosition());
-	getComponent<components::Transform>().setLocalScale(getComponent<components::Transform>().getGlobalScale() / parentTransform.getGlobalScale());
+	getComponent<RigidBody>()->activate(false);
+	Transform& parentTransform = *level->getGameObjects()[parentIDX].getComponent<Transform>();
+	getComponent<components::Transform>()->setLocalPosition(getComponent<components::Transform>()->getGlobalPosition() - parentTransform.getGlobalPosition());
+	getComponent<components::Transform>()->setLocalScale(getComponent<components::Transform>()->getGlobalScale() / parentTransform.getGlobalScale());
 }
