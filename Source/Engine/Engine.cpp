@@ -37,10 +37,6 @@ DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
-time::FrameTimer& Engine::GetFrameTimer() {
-	return s_frameTime;
-}
-
 DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
 }
@@ -135,7 +131,7 @@ void Engine::startLoop() {
 void Engine::renderScene() {
 	m_pRenderSystem->startFrame();
 	m_pRenderSystem->renderGrid();
-	//m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
 	m_pRenderSystem->endFrame();
 }
 
@@ -151,7 +147,7 @@ void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
 }
 
-DRAK_API Engine & Engine::Get(){
+DRAK_API Engine& Engine::Get(){
 	if (!m_pInstance)
 		m_pInstance = new Engine();
 	return *m_pInstance;

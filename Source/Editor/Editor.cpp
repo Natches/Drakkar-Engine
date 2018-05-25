@@ -27,8 +27,6 @@ void Editor::init() {
     loadFonts();
     setupWidgets();
     setupToolbar();
-
-    drak::core::Engine::Get().startup(true);
 }
 
 

@@ -55,6 +55,7 @@ HEADERS     +=                                      \
             $$DKSRC/Editor/TransformWidget.hpp      \
             $$DKSRC/Editor/SceneGraphWidget.hpp     \
             $$DKSRC/Engine/Engine.hpp               \
+            $$DKSRC/Engine/Scene/LevelSystem.hpp    \
 
 ###############################################################################
 
