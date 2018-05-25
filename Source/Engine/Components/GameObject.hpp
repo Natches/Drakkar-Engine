@@ -19,10 +19,10 @@ public:
 	~GameObject() = default;
 
 	template <typename T>
-	T& getComponent() {
+	T* getComponent() {
 		if (getComponentFlag(components::ComponentType<T>::id))
-			return level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
-		return addComponent<T>();
+			return &level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
+		return nullptr;
 	}
 
 	template <typename T>
@@ -70,7 +70,7 @@ public:
 	}
 	DRAK_API void makeRoot();
 	DRAK_API void setParent(const U32 pIDX);
-	inline U32 getParent() { return parentIDX; }
+	inline const U32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;
 private:

@@ -91,7 +91,7 @@ void Engine::startLoop() {
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
 	for (auto& go : gameObjects) {
 		if(go.getComponentFlag(ComponentType<RigidBody>::id))
-			m_pPhysicsSystem->InitRigidBody(go.getComponent<RigidBody>(), go.getComponent<Transform>(), *m_pLevelSystem);
+			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
 	events::EngineEvent eEvent;

@@ -23,14 +23,15 @@ DK_METADATA_END
 
 DRAK_COMPONENT_START(BoxCollider)
 DK_SERIALIZED_OBJECT(BoxCollider)
+physx::PxShape* shape;
 math::Vec3f localPosition = math::Vec3f(0, 0, 0);
 math::Vec4f localRotation = math::Vec4f(0, 0, 0, 1);
 PhysicsMaterial material;
 F32 width;
 F32 height;
 F32 depth;
-DRAK_API void deleteComponent() { ; }
-DRAK_API void initComponent() { ; }
+DRAK_API virtual void deleteComponent() override;
+DRAK_API virtual void initComponent() override  { ; }
 DRAK_COMPONENT_END(BoxCollider)
 DK_METADATA_BEGIN(drak::components::BoxCollider)
 DK_PUBLIC_FIELDS(localPosition, localRotation, material, width, height, depth, idx, GameObjectID)
@@ -45,8 +46,8 @@ DK_SERIALIZED_OBJECT(RigidBody)
 	F32 mass;
 	bool isStatic;
 	bool isKinematic;
-	DRAK_API void deleteComponent();
-	DRAK_API void initComponent();
+	DRAK_API virtual void deleteComponent() override;
+	DRAK_API virtual void initComponent() override;
 	DRAK_API void activate(bool value);
 	inline const bool active() const { return m_active; }
 	private:

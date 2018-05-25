@@ -25,7 +25,7 @@ public:
 	void OnCollisionExit(const events::Event* pEvent);
 	void OnCollisionStay(const events::Event* pEvent);
 	template <typename T>
-	T& getComponent() {
+	T* getComponent() {
 		return EngineCurrentLevel.getGameObjects()[gameObjectID].getComponent<T>();
 	}
 };

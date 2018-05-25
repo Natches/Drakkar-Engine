@@ -118,19 +118,21 @@ public:
 
 	template <typename T>
 	void DestroyComponent(U32 idx) {
+		if (components::ComponentType<T>::id == components::ComponentType<Transform>::id)
+			return;
 		T& target = __getComponentContainer(T)[idx];
 		T& last = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
 		U32 newIDX = static_cast<components::AComponent*>(&target)->idx;
-		GameObject& targetGameObject = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
+		GameObject& gameObjectThatHasTargetComponent = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
+		GameObject& gameObjectThatHasLastComponent = m_gameObjects[static_cast<components::AComponent*>(&last)->GameObjectID];
 		//set flag to 0
-		targetGameObject.setComponentFlag(components::ComponentType<T>::id, false);
+		gameObjectThatHasTargetComponent.setComponentFlag(components::ComponentType<T>::id, false);
 		//remove handle
-		targetGameObject.getComponentHandles().erase(components::ComponentType<T>::id);
-		//change idx of swaped component and its handle
+		gameObjectThatHasTargetComponent.getComponentHandles().erase(components::ComponentType<T>::id);
+
 		std::swap(target, last);
-		GameObject& swappedGameObject = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
-		swappedGameObject.getComponentHandles()[components::ComponentType<T>::id] = newIDX;
-		static_cast<components::AComponent*>(&target)->idx = newIDX;
+		static_cast<components::AComponent*>(&target)->idx = idx;
+		gameObjectThatHasLastComponent.getComponentHandles()[components::ComponentType<T>::id] = newIDX;
 		static_cast<components::AComponent*>(&last)->deleteComponent();
 		__getComponentContainer(T).pop_back();
 	}

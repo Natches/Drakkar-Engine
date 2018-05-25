@@ -18,6 +18,11 @@ void drak::components::RigidBody::deleteComponent() {
 	core::Engine::Get().getPhysicsSystem().getPhysicsScene().removeActor(*rigidActor);
 }
 
+void drak::components::BoxCollider::deleteComponent() {
+	if(core::Engine::Get().currentLevel().getGameObjects()[GameObjectID].getComponentFlag(ComponentType<RigidBody>::id))
+		core::Engine::Get().currentLevel().getGameObjects()[GameObjectID].getComponent<RigidBody>()->rigidActor->detachShape(*shape);
+}
+
 void drak::components::RigidBody::initComponent(){
 	rigidActor = nullptr;
 }

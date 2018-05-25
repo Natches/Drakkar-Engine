@@ -26,7 +26,7 @@ public:
 		name = "Scene";
 		for (int i = 0; i < 2; ++i) {
 			GameObject& cube = scene.addGameObject();
-			Transform& cube_TR = cube.getComponent<Transform>();
+			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
 			Model& cube_MDL = cube.addComponent<Model>();
 			BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
@@ -48,7 +48,7 @@ public:
 			const U32 parentIDX = cube.getIdx();
 
 			GameObject& childCube = scene.addGameObject();
-			Transform& childCube_TR = childCube.getComponent<Transform>();
+			Transform& childCube_TR = *childCube.getComponent<Transform>();
 			RigidBody& childCube_RB = childCube.addComponent<RigidBody>();
 			BoxCollider& childCube_BC = childCube.addComponent<BoxCollider>();
 			Model& childCube_MDL = childCube.addComponent<Model>();
@@ -69,7 +69,7 @@ public:
 			childCube.setParent(parentIDX);
 
 			GameObject& childCube2 = scene.addGameObject();
-			Transform& childCube2_TR = childCube2.getComponent<Transform>();
+			Transform& childCube2_TR = *childCube2.getComponent<Transform>();
 			RigidBody& childCube2_RB = childCube2.addComponent<RigidBody>();
 			BoxCollider& childCube2_BC = childCube2.addComponent<BoxCollider>();
 			Model& childCube2_MDL = childCube2.addComponent<Model>();
@@ -92,7 +92,7 @@ public:
 		}
 		GameObject& floor = scene.addGameObject();
 		floor.name = "Floor";
-		Transform& floor_TR = floor.getComponent<Transform>();
+		Transform& floor_TR = *floor.getComponent<Transform>();
 		RigidBody& floor_RB = floor.addComponent<RigidBody>();
 		Model& floor_MDL = floor.addComponent<Model>();
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
@@ -119,9 +119,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
-	BHVR.load();
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
+	//BHVR.load();
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }
