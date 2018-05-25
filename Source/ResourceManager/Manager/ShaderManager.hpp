@@ -9,18 +9,20 @@
 
 namespace drak {
 namespace gfx {
+class RenderSystem;
 class IShader;
 } //namespace gfx
 
 class ShaderManager final {
 	friend class ResourceSystem;
+	friend class gfx::RenderSystem;
 
 	DK_NONMOVABLE_NONCOPYABLE(ShaderManager)
 
 public:
 	ShaderPtr get(const std::string& name) const;
 	void preload(const std::string& name);
-	void load(const std::string& name, const std::string& vertFile, const std::string& fragFile);
+	bool load(const std::string& name, const std::string& vertFile, const std::string& fragFile);
 	void unload(const std::string& name);
 	void reload(const std::string& name);
 	bool contain(const std::string& name)const;

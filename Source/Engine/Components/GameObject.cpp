@@ -1,5 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Engine/Engine.hpp>
 #include <PxPhysicsAPI.h>
 using namespace drak;

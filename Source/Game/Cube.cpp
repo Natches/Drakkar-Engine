@@ -4,6 +4,7 @@
 #include <Engine/Engine.hpp>
 #include <Game/BehaviorMonolith.h>
 #include <Game/Cube.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
 
 using namespace drak;
 using namespace behavior;
@@ -67,9 +68,6 @@ void Cube::OnCollisionEnter(const Event* pEvent) {
 	case PhysicsEventDispatcher::COLLISION_IN:
 		if (CurrentLevel.getGameObjects()[e->otherGameObjectIDX].name == "Floor") {
 			Model& model = getComponent<Model>();
-			model.albedo.r = 1.0f;
-			model.albedo.g = 1.0f;
-			model.albedo.b = 0.0f;
 		}
 		break;
 	}

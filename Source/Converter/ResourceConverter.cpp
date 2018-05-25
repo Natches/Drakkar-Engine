@@ -7,20 +7,32 @@
 namespace drak {
 namespace converter {
 
-void ResourceConverter::startup() {
-	m_pool.startup();
-	m_modelImporterPool = new core::Pool<tools::importer::ModelImporter>((U32)m_pool.m_pool.size());
+void ResourceConverter::startup(thread::ThreadPool* pool) {
+	if (pool) {
+		m_pool = pool;
+		m_allocated = false;
+	}
+	else {
+		m_pool = new thread::ThreadPool();
+		m_pool->startup();
+		m_allocated = true;
+	}
+	m_modelImporterPool = new core::Pool<tools::importer::ModelImporter>((U32)m_pool->m_pool.size());
 }
 
 void ResourceConverter::shutdown() {
-	m_pool.waitForAllTasks();
-	m_pool.shutdown();
+	if (m_allocated) {
+		m_pool->waitForAllTasks();
+		m_pool->shutdown();
+		delete m_pool;
+		m_pool = nullptr;
+	}
 }
 
 void ResourceConverter::convert(int count, const char** filename) {
 	using namespace drak::thread::task;
 
-	TaskGroup<ATask*> grp(m_pool);
+	TaskGroup<ATask*> grp(*m_pool);
 	for (int i = 0; i < count; ++i) {
 		if (definition::IsMesh(filename[i])) {
 			using func = function::MemberFunction<ResourceConverter, void, const char*, bool>;

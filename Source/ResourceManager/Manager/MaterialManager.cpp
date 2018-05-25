@@ -9,10 +9,14 @@ using namespace drak::definition;
 
 namespace drak {
 
+void MaterialManager::preload(const std::string& names) {
+	Base::preload(names);
+}
+
 void MaterialManager::preload(const ResourceName& rName) {
 	for (auto name : rName.names) {
 		if (name.second == EFileType::MATERIAL)
-			m_map[name.first] = MaterialPtr();
+			m_map[name.first] = MaterialPtr((Resource<gfx::Material>*)(new char[sizeof(Resource<gfx::Material>)]));
 	}
 }
 

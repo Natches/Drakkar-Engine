@@ -3,20 +3,13 @@
 
 namespace drak {
 
-ResourcePtr<gfx::IShader*> ResourceSystem::loadOrGetShader(const std::string& name,
-	const std::string& vertFile, const std::string& fragFile) {
-	if (m_shaderManager.contain(name))
-		return m_shaderManager.m_map[name];
-	else {
-		m_shaderManager.preload(name);
-		m_shaderManager.load(name, vertFile, fragFile);
-		return m_shaderManager.m_map[name];
-	}
+ResourceSystem::ResourceSystem(ResourceSystemData& data) : m_systemData(data) {
+
 }
 
 void ResourceSystem::convert(const std::string& filename, definition::Pak& pak) {
 	std::string ext = io::Extension(filename.c_str());
-	if (ext != std::string("dkResource") && ext != std::string("pak")) {
+	if (ext != std::string("dkResources") && ext != std::string("pak")) {
 		const char* temp = filename.data();
 		m_converter.convert(1, &temp);
 	}
@@ -24,7 +17,11 @@ void ResourceSystem::convert(const std::string& filename, definition::Pak& pak) 
 		pak = m_converter.fromPackage(filename.data());
 }
 
-void ResourceSystem::reload(const std::string& filename, void* task) {
+void ResourceSystem::convertOrLoad(const std::string& filename) {
+	convertLoad(filename, nullptr);
+}
+
+void ResourceSystem::reload(const std::string filename, void* task) {
 	using namespace serialization;
 
 	std::vector<definition::Model> models;
@@ -36,14 +33,14 @@ void ResourceSystem::reload(const std::string& filename, void* task) {
 	if (Serializer::LoadFromFile<EExtension::BINARY, false, definition::ResourceName>(filename.c_str(),
 		rName, models, textures, materials, meshes) == DK_OK) {
 
-		if (models.size())
-			m_modelManager.reload(models);
 		if (textures.size())
 			m_textureManager.reload(textures);
-		if (materials.size())
-			m_materialManager.reload(materials);
 		if (meshes.size())
 			m_meshManager.reload(meshes);
+		if (materials.size())
+			m_materialManager.reload(materials);
+		if (models.size())
+			m_modelManager.reload(models);
 	}
 	else
 		std::cout << "Error while reloading from :" << filename << std::endl;
@@ -56,35 +53,43 @@ void ResourceSystem::reload(const std::string& filename, void* task) {
 
 void ResourceSystem::load(const std::string& filename) {
 	using namespace serialization;
+	if (std::find(m_systemData.fileLoaded.begin(), m_systemData.fileLoaded.end(), filename) ==
+		m_systemData.fileLoaded.end()) {
+		std::vector<definition::Model> models;
+		std::vector<definition::Texture> textures;
+		std::vector<definition::Material> materials;
+		std::vector<definition::Mesh> meshes;
+		definition::ResourceName rName;
 
-	std::vector<definition::Model> models;
-	std::vector<definition::Texture> textures;
-	std::vector<definition::Material> materials;
-	std::vector<definition::Mesh> meshes;
-	definition::ResourceName rName;
+		if (Serializer::LoadFromFile<EExtension::BINARY, false, definition::ResourceName>(filename.c_str(),
+			rName, models, textures, materials, meshes) == DK_OK) {
 
-	if (Serializer::LoadFromFile<EExtension::BINARY, false, definition::ResourceName>(filename.c_str(),
-		rName, models, textures, materials, meshes) == DK_OK) {
+			if (textures.size()) {
+				m_textureManager.preload(rName);
+				m_textureManager.load(filename, textures);
+			}
+			if (meshes.size()) {
+				m_meshManager.preload(rName);
+				m_meshManager.load(filename, meshes);
+			}
+			if (materials.size()) {
+				m_materialManager.preload(rName);
+				m_materialManager.load(filename, materials);
+			}
+			if (models.size()) {
+				m_modelManager.preload(rName);
+				m_modelManager.load(filename, models);
+			}
 
-		if (models.size()) {
-			m_modelManager.preload(rName);
-			m_modelManager.load(filename, models);
+			m_mutex.lock();
+			if (std::find(m_systemData.fileLoaded.begin(), m_systemData.fileLoaded.end(), filename) ==
+				m_systemData.fileLoaded.end())
+				m_systemData.fileLoaded.emplace_back(filename);
+			m_mutex.unlock();
 		}
-		if (textures.size()) {
-			m_textureManager.preload(rName);
-			m_textureManager.load(filename, textures);
-		}
-		if (materials.size()) {
-			m_materialManager.preload(rName);
-			m_materialManager.load(filename, materials);
-		}
-		if (meshes.size()) {
-			m_meshManager.preload(rName);
-			m_meshManager.load(filename, meshes);
-		}
+		else
+			std::cout << "Error while loading from :" << filename << std::endl;
 	}
-	else
-		std::cout << "Error while loading from :" << filename << std::endl;
 }
 
 void ResourceSystem::convertLoad(const std::string filename, void* task) {
@@ -93,24 +98,60 @@ void ResourceSystem::convertLoad(const std::string filename, void* task) {
 	if (!pak.filenames.size())
 		load(filename);
 	else {
+		m_mutex.lock();
+		if (std::find(m_systemData.packageLoaded.begin(), m_systemData.packageLoaded.end(), filename) ==
+			m_systemData.packageLoaded.end())
+			m_systemData.packageLoaded.emplace_back(filename);
+		m_mutex.unlock();
 		for (auto file : pak.filenames) {
 			load(file);
 		}
 	}
-	m_mutex.lock();
-	m_loadingAssets.erase(std::find(m_loadingAssets.begin(), m_loadingAssets.end(),
-		(thread::task::Task<func>*)task));
-	delete (thread::task::Task<func>*)task;
-	m_mutex.unlock();
+	if (task) {
+		m_mutex.lock();
+		m_loadingAssets.erase(std::find(m_loadingAssets.begin(), m_loadingAssets.end(),
+			(thread::task::Task<func>*)task));
+		delete (thread::task::Task<func>*)task;
+		m_mutex.unlock();
+	}
 }
 
 bool ResourceSystem::startup() {
-	m_converter.startup();
+	m_pool.startup();
+	m_converter.startup(&m_pool);
+	updateFromData();
 	return true;
+}
+
+void ResourceSystem::updateFromData() {
+	if (m_systemData.packageLoaded.size()) {
+		for (auto& pakName : m_systemData.packageLoaded) {
+			char* buffer = new char[sizeof(thread::task::Task<func>)];
+			new (buffer) thread::task::Task<func>
+				(func(this, &ResourceSystem::convertLoad, (const std::string)pakName, (void*)buffer));
+			m_mutex.lock();
+			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
+			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
+			m_mutex.unlock();
+		}
+	}
+	if (m_systemData.fileLoaded.size()) {
+		for (auto& file : m_systemData.fileLoaded) {
+			char* buffer = new char[sizeof(thread::task::Task<func>)];
+			new (buffer) thread::task::Task<func>
+				(func(this, &ResourceSystem::convertLoad, (const std::string)file, (void*)buffer));
+			m_mutex.lock();
+			m_loadingAssets.emplace_back((thread::task::Task<func>*)buffer);
+			m_pool.addTask(m_loadingAssets[m_loadingAssets.size() - 1]);
+			m_mutex.unlock();
+		}
+	}
 }
 
 bool ResourceSystem::shutdown() {
 	m_converter.shutdown();
+	m_pool.waitForAllTasks();
+	m_pool.shutdown();
 	return true;
 }
 

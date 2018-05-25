@@ -17,9 +17,12 @@ struct ResourceName;
 
 class MeshManager final : public AResourceManager<geom::Mesh, MeshMap> {
 	friend class ResourceSystem;
+
 	DK_NONMOVABLE_NONCOPYABLE(MeshManager)
 
+	using Base = typename AResourceManager<geom::Mesh, MeshMap>;
 public:
+	virtual void preload(const std::string& names);
 	virtual void preload(const definition::ResourceName& rName) override;
 	void load(const std::string& filename, std::vector<definition::Mesh>& inMeshes);
 	void reload(std::vector<definition::Mesh>& inMeshes);

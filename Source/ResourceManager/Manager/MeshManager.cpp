@@ -3,16 +3,18 @@
 #include <Converter/ResourceDefinitions.hpp>
 
 using namespace drak::core;
-using namespace drak::geom;
-using namespace drak::gfx;
 using namespace drak::definition;
 
 namespace drak {
 
+void MeshManager::preload(const std::string& names) {
+	Base::preload(names);
+}
+
 void MeshManager::preload(const ResourceName& rName) {
 	for (auto name : rName.names) {
 		if ((name.second & EFileType::MESH) == EFileType::MESH)
-			m_map[name.first] = MeshPtr();
+			m_map[name.first] = MeshPtr((Resource<geom::Mesh>*)(new char[sizeof(Resource<geom::Mesh>)]));
 	}
 }
 

@@ -1,6 +1,8 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
-#include <Engine/Components/TransformComponent.hpp>
+#include <Engine/Components/ModelComponent.hpp>
+#include <ResourceManager/Resource/ResourceDefinitions.hpp>
+#include <ResourceManager/Resource/Resource.hpp>
 
 #define BATCH_SIZE 1024u
 
@@ -27,29 +29,28 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_mainCam.view({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 1.f, 2048.f);
 
-	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
+	//m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 	m_modelUBO.create(BATCH_SIZE * sizeof(math::Mat4f));
 
-	return loadResources("Resources/");
+	return loadShaders();
 }
 
 void RenderSystem::shutdown() {
+	for (auto& model : m_renderable) {
+		delete model.second;
+	}
 	// ...
 	// delete resources
 }
 
-bool RenderSystem::loadResources(const std::string& dir) {
-	return (m_pRenderer->loadShaders(dir + "Shaders/", m_shaderMap) &&
-		m_pRenderer->loadRenderables(dir + "Models/quad.dkobj", m_pGrid) &&
-		m_pRenderer->loadRenderables(dir + "Models/cube.dkobj", m_pUnitCube));
-}
-
 void RenderSystem::forwardRender(Scene& scene) {
+	convertModelToRenderable(scene.models, scene.resourceManager);
 	m_pRenderer->cullTest(true);
-	m_shaderMap["InstanceShader"]->use();
-	m_shaderMap["InstanceShader"]->uniform("viewPrsp", m_mainCam.viewPerspective());
+	ShaderPtr shader = m_shaderManager.get("InstanceShader");
+	shader->resource()->use();
+	shader->resource()->uniform("viewPrsp", m_mainCam.viewPerspective());
 
-	U32 flag = 1u << ComponentType<Model>::ID;
+	U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
 	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {
 		modelBatch.reserve(BATCH_SIZE);
@@ -64,11 +65,10 @@ void RenderSystem::forwardRender(Scene& scene) {
 		}
 		m_modelUBO.write(0, modelBatch.size() * sizeof(math::Mat4f), modelBatch.data());
 		m_modelUBO.bind();
-		m_pUnitCube->render();
 		modelBatch.clear();
 	}
 
-	renderGrid();
+	//renderGrid();
 }
 
 void RenderSystem::renderGrid() {
@@ -77,13 +77,15 @@ void RenderSystem::renderGrid() {
 	math::Mat4f mvp = m_mainCam.viewPerspective()
 		* math::Translate<F32>({ 0.f, -100.f, 0.f })
 		* math::Scale<F32>({ 2048.f, 1.f, 2048.f });
-	m_shaderMap["GridShader"]->use();
+
+	ShaderPtr shader = m_shaderManager.get("GridShader");
+	shader->resource()->use();
 
 	m_gridTex.bind();
-	m_shaderMap["GridShader"]->uniform("tex", 0);
-	m_shaderMap["GridShader"]->uniform("MVP", mvp);
-	m_shaderMap["GridShader"]->uniform("resolution", math::Vec2f{ 64.f, 64.f });
-	m_shaderMap["GridShader"]->uniform("tint", math::Vec4f{ 0.259f, 0.957f, 0.843f, 1.f });
+	shader->resource()->uniform("tex", 0);
+	shader->resource()->uniform("MVP", mvp);
+	shader->resource()->uniform("resolution", math::Vec2f{ 64.f, 64.f });
+	shader->resource()->uniform("tint", math::Vec4f{ 0.259f, 0.957f, 0.843f, 1.f });
 	m_pGrid->render();
 }
 
@@ -92,6 +94,37 @@ void RenderSystem::startFrame() {
 
 	// opaquePass();
 	// transparentPass();
+}
+
+bool drak::gfx::RenderSystem::loadShaders() {
+	m_shaderManager.preload("InstanceShader");
+	m_shaderManager.preload("DefaultShader");
+	m_shaderManager.preload("GridShader");
+	return m_shaderManager.load("InstanceShader", "instanced.vert", "default.frag") &&
+		m_shaderManager.load("DefaultShader", "default.vert", "default.frag") &&
+		m_shaderManager.load("GridShader", "grid.vert", "grid.frag");
+}
+
+void RenderSystem::convertModelToRenderable(const std::vector<components::Model>& models,
+	ResourceSystem& manager) {
+	for (auto& model : models) {
+		if (m_renderable.find(model.model) == m_renderable.end()) {
+			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.model, std::string(""));
+			if (modelPtr->loadState() == Resource<geom::Mesh>::ELoadState::READY) {
+				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.model, std::string(""));
+				gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
+				vertBuffer->create(meshPtr->resource().vertices().data(), geom::g_VertexAttribDesc, 3,
+					(U32)meshPtr->resource().vertices().size(), (U32)(meshPtr->resource().vertices().size() *
+					sizeof(geom::Vertex1P1N1UV)));
+				gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
+				indexBuffer->create(meshPtr->resource().indices().data(),
+					(U32)meshPtr->resource().indices().size());
+				gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
+				vertexArray->create(vertBuffer, indexBuffer);
+				m_renderable[model.model] = vertexArray;
+			}
+		}
+	}
 }
 
 void RenderSystem::opaquePass() {

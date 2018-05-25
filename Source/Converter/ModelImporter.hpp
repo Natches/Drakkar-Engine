@@ -40,20 +40,20 @@ public:
 	bool startImport(const std::string& filename, bool optimizeMesh = false, bool leftHanded = false);
 
 	void importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials, TexVec& aTextures,
-		definition::ResourceName aNames, bool extractMaterialsAndTexture = true);
+		definition::ResourceName& aNames, bool extractMaterialsAndTexture = true);
 
 	void importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials, TexVec& aTextures,
-		definition::ResourceName aNames, bool extractMaterialsAndTexture = true);
+		definition::ResourceName& aNames, bool extractMaterialsAndTexture = true);
 
 	DK_GETTER_REF_C(std::string, filename, m_filename)
 
 private:
 	void extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
-		definition::ResourceName aNames);
+		definition::ResourceName& aNames);
 	void extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
-		definition::ResourceName aNames);
-	void extractMaterials(MatVec& aOutMatVec, definition::ResourceName aNames);
-	void extractTextures(TexVec& aOutTexVec, definition::ResourceName aNames);
+		definition::ResourceName& aNames);
+	void extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames);
+	void extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames);
 	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
 	void extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh);
 

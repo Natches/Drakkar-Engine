@@ -13,18 +13,19 @@ ShaderPtr ShaderManager::get(const std::string& name) const {
 
 void ShaderManager::preload(const std::string& name) {
 	if (m_map.find(name) == m_map.end())
-		m_map[name] = ShaderPtr();
+		m_map[name] = ShaderPtr((drak::Resource<gfx::IShader*>*)new char[sizeof(drak::Resource<gfx::IShader*>)]);
 }
 
-void ShaderManager::load(const std::string& name, const std::string& vertFile, const std::string& fragFile) {
+bool ShaderManager::load(const std::string& name, const std::string& vertFile, const std::string& fragFile) {
 	new (m_map[name].get()) drak::Resource<gfx::IShader*>(vertFile + "," + fragFile, new gfx::gl::GLShader());
-	std::string shaderPath("./Resource/Shader/");
+	std::string shaderPath("./Resources/Shaders/");
 	if (!m_map[name]->m_resource->loadFromFile(shaderPath + vertFile, shaderPath + fragFile)) {
 		std::cout << "Failed to Load shader :" << name << std::endl;
 		unload(name);
-		return;
+		return false;
 	}
 	m_map[name]->loadState(Resource<gfx::IShader*>::ELoadState::READY);
+	return true;
 }
 
 void ShaderManager::unload(const std::string& name) {

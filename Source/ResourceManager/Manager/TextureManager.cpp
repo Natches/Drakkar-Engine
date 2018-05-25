@@ -9,10 +9,14 @@ using namespace drak::definition;
 
 namespace drak {
 
+void TextureManager::preload(const std::string& names) {
+	Base::preload(names);
+}
+
 void TextureManager::preload(const ResourceName& rName) {
 	for (auto name : rName.names) {
 		if (name.second == EFileType::TEXTURE)
-			m_map[name.first] = TexturePtr();
+			m_map[name.first] = TexturePtr((Resource<gfx::Texture>*)(new char[sizeof(Resource<gfx::Texture>)]));
 	}
 }
 

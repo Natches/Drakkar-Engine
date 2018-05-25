@@ -26,7 +26,7 @@ public:
 	Resource(const std::string& filename);
 	Resource(const std::string& filename, T&& resource);
 	Resource(Resource&& resource);
-	virtual ~Resource() = default;
+	virtual ~Resource();
 
 	Resource& operator=(Resource&& resource);
 
@@ -42,3 +42,5 @@ private:
 };
 
 } // namespace drak
+
+#include <ResourceManager/Resource/Resource.inl>

@@ -9,10 +9,14 @@ using namespace drak::definition;
 
 namespace drak {
 
+void ModelManager::preload(const std::string& names) {
+	Base::preload(names);
+}
+
 void ModelManager::preload(const ResourceName& rName) {
 	for (auto name : rName.names) {
 		if ((name.second & EFileType::MODEL) == EFileType::MODEL)
-			m_map[name.first] = ModelPtr();
+			m_map[name.first] = ModelPtr((Resource<gfx::Model>*)(new char[sizeof(Resource<gfx::Model>)]));
 	}
 }
 

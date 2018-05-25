@@ -17,7 +17,7 @@ Resource<T>::Resource(Resource&& resource)
 }
 
 template<typename T>
-Resource<T>::Resource() {
+Resource<T>::~Resource() {
 	if constexpr(std::is_pointer_v<T>)
 		delete m_resource;
 }

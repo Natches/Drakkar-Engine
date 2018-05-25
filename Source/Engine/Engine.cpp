@@ -42,7 +42,7 @@ DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
 	return s_frameTime;
 }
 
-DRAK_API LevelSystem & Engine::currentLevel()
+DRAK_API LevelSystem& Engine::currentLevel()
 {
 		return *m_pLevelSystem;
 }
@@ -107,9 +107,6 @@ void Engine::startLoop() {
 		m_eventDispatcher.dispatchEvent(&eEvent);
 
 		m_pLevelSystem->propogateMovementFromRoots();
-		//gameObjects = m_pLevelSystem->getGameObjects();
-		//for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
-		//	gameObjects[i]->update();
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);

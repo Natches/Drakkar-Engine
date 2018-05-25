@@ -75,7 +75,7 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 }
 
 void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials,
-	TexVec& aTextures, definition::ResourceName aNames, bool extractMaterialsAndTexture) {
+	TexVec& aTextures, definition::ResourceName& aNames, bool extractMaterialsAndTexture) {
 
 	if (m_pScene == nullptr) {
 		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
@@ -90,11 +90,11 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMa
 }
 
 void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials,
-	TexVec& aTextures, definition::ResourceName aNames, bool extractMaterialsAndTexture) {
+	TexVec& aTextures, definition::ResourceName& aNames, bool extractMaterialsAndTexture) {
 }
 
 void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
-	definition::ResourceName aNames) {
+	definition::ResourceName& aNames) {
 	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
 	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::Mesh());
 	aiString str;
@@ -116,11 +116,11 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 }
 
 void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
-	definition::ResourceName aNames) {
+	definition::ResourceName& aNames) {
 
 }
 
-void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceName aNames) {
+void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames) {
 	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, definition::Material());
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
@@ -155,7 +155,7 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 	}
 }
 
-void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName aNames) {
+void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames) {
 	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), definition::Texture());
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {

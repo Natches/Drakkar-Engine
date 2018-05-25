@@ -22,7 +22,7 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DRAK_COMPONENT_START(BoxCollider)
-DK_SERIALIZED_OBJECT(PhysicsMaterial)
+DK_SERIALIZED_OBJECT(BoxCollider)
 math::Vec3f localPosition = math::Vec3f(0, 0, 0);
 math::Vec4f localRotation = math::Vec4f(0, 0, 0, 1);
 PhysicsMaterial material;

@@ -23,9 +23,6 @@ public:
 	bool init() override;
 	void info() override;
 
-	bool loadShaders(const std::string& dir, ShaderMap& outMap) override;
-	bool loadRenderables(const std::string& dir, IRenderable*& rdr) override;
-
 	void clear() override;
 	void clearColorValue(const Color3& k) override;
 	void clearColorValue(const Color4& k) override;
@@ -35,7 +32,7 @@ public:
 	void blendTest(bool on, EBlendMode srcFactor,EBlendMode dstFactor) override;
 	void cullTest(bool on, ECullMode mode) override;
 	void windingOrder(EWindingOrder order) override;
-	
+
 	void multisampling(bool on) override;
 
 	//void bindFrameBuffer() override;

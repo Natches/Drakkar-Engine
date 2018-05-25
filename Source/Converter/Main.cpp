@@ -5,7 +5,7 @@
 
 int main(int ac, char**av) {
 	drak::converter::ResourceConverter r;
-	r.startup();
+	r.startup(nullptr);
 	char** toConvert = new char*[ac];
 	char** alreadyConverted = new char*[ac];
 	U32 sizeToConvert = 0, sizeAlreadyConverted = 0;

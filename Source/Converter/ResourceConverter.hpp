@@ -2,11 +2,12 @@
 
 #include <vector>
 #include <Converter/ModelImporter.hpp>
-#include <Threading/Thread/Threadpool.hpp>
 #include <Core/Pool/Pool.hpp>
 
 namespace drak {
-
+namespace thread {
+class ThreadPool;
+} //namespace thread
 namespace tools {
 class ModelImporter;
 } //namespace tools
@@ -16,7 +17,7 @@ namespace converter {
 class ResourceConverter {
 
 public:
-	void startup();
+	void startup(thread::ThreadPool* pool);
 	void shutdown();
 
 	void convert(int count, const char** filename);
@@ -29,8 +30,9 @@ private:
 
 private:
 	std::atomic<core::Pool<tools::importer::ModelImporter>*> m_modelImporterPool;
-	thread::ThreadPool m_pool;
+	thread::ThreadPool* m_pool;
 	std::mutex m_mutex;
+	bool m_allocated;
 };
 
 } // namespace converter

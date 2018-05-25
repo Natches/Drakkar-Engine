@@ -28,7 +28,7 @@ public:
 	template <typename T>
 	T& addComponent() {
 		if (!getComponentFlag(components::ComponentType<T>::id)) {
-			componentCount++;
+			++componentCount;
 			return level->addComponentToGameObject<T>(*this);
 		}
 		else

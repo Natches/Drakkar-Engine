@@ -23,7 +23,10 @@ class ModelManager final : public AResourceManager<gfx::Model, ModelMap> {
 	friend class ResourceSystem;
 
 	DK_NONMOVABLE_NONCOPYABLE(ModelManager)
+
+	using Base = typename AResourceManager<gfx::Model, ModelMap>;
 public:
+	virtual void preload(const std::string& names) override;
 	virtual void preload(const definition::ResourceName& names) override;
 	void load(const std::string& filename, std::vector<definition::Model>& inModels);
 	void reload(std::vector<definition::Model>& ininModelsTex);
