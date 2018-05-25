@@ -48,7 +48,7 @@ class LevelSystem {
 	DK_SERIALIZED_OBJECT(LevelSystem)
 	friend core::Engine;
 	friend void drak::GameObject::makeRoot();
-	friend void drak::GameObject::setParent(const U32 pIdx);
+	friend void drak::GameObject::setParent(const I32 pIdx);
 
 
 	template <I32 n>

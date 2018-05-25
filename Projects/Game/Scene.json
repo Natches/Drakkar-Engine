@@ -952,7 +952,7 @@ PublicFields: {
 				"childrenIDXs": [
 					"1"
 				],
-				"parentIDX": "4294967295",
+				"parentIDX": "-1",
 				"idx": "0"
 			}
 		},
@@ -1041,7 +1041,7 @@ PublicFields: {
 				"childrenIDXs": [
 					"4"
 				],
-				"parentIDX": "4294967295",
+				"parentIDX": "-1",
 				"idx": "3"
 			}
 		},
@@ -1129,7 +1129,7 @@ PublicFields: {
 				"m_componentFlags": "15",
 				"childrenIDXs": [
 				],
-				"parentIDX": "4294967295",
+				"parentIDX": "-1",
 				"idx": "6"
 			}
 		}

@@ -27,7 +27,7 @@ void GameObject::makeRoot() {
 	}
 	getComponent<RigidBody>()->activate(true);
 }
-void GameObject::setParent(const U32 pIDX) {
+void GameObject::setParent(const I32 pIDX) {
 	if (getComponent<components::Transform>()->isRoot()) {
 		getComponent<components::Transform>()->isRoot() = false;
 		level->removeGameObjectFromRoots(idx);

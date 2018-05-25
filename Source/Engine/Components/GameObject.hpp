@@ -69,8 +69,8 @@ public:
 		return m_componentHandles;
 	}
 	DRAK_API void makeRoot();
-	DRAK_API void setParent(const U32 pIDX);
-	inline const U32 getParent() { return parentIDX; }
+	DRAK_API void setParent(const I32 pIDX);
+	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;
 private:
@@ -78,7 +78,7 @@ private:
 	U64 m_componentFlags = 0;
 	LevelSystem* level;
 	std::vector<U32> childrenIDXs;
-	U32 parentIDX = -1;
+	I32 parentIDX = -1;
 	U32 idx;
 	void attachChild(U32 childIDX);
 	void removeChild(U32 childIDX);
