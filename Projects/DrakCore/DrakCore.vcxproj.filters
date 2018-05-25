@@ -87,9 +87,6 @@
     <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Components\GameObject.hpp">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Pool\Pool.hpp">
       <Filter>Header Files\Pool</Filter>
     </ClInclude>

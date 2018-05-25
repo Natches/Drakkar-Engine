@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugStatic|Win32">
-      <Configuration>DebugStatic</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugStatic|x64">
-      <Configuration>DebugStatic</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseStatic|Win32">
-      <Configuration>ReleaseStatic</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseStatic|x64">
-      <Configuration>ReleaseStatic</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -40,10 +24,8 @@
     <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp" />
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +50,8 @@
   <ItemGroup>
     <None Include="..\..\Source\Core\Pool\Pool.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
@@ -79,17 +59,10 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FD7C1D45-09AF-4016-8ADB-A274F7C48DCC}</ProjectGuid>
     <RootNamespace>DrakCore</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
-    <UseIntelMKL>No</UseIntelMKL>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -109,24 +82,12 @@
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
-    <PlatformToolset>v141</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
-    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -136,16 +97,10 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,13 +108,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(SolutionDir)Source\;</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source\;$(IncludePath)</IncludePath>
@@ -174,13 +122,6 @@
     <SourcePath>$(VC_SourcePath);$(SolutionDir)Source\;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source\;$(SolutionDir)Source\$(ProjectName)\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(SolutionDir)Source\;</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">
     <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source\;$(SolutionDir)Source\$(ProjectName)\;$(IncludePath)</IncludePath>
@@ -225,69 +166,7 @@
       <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <Lib>
-      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <Parallelization>false</Parallelization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DRAK_EXPORT;LOG2</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <Lib>
-      <AdditionalDependencies>Log.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>

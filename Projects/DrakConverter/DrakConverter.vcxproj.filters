@@ -26,9 +26,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Converter\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Converter\ModelImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

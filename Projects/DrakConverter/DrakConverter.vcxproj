@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugStatic|Win32">
-      <Configuration>DebugStatic</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugStatic|x64">
-      <Configuration>DebugStatic</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseStatic|Win32">
-      <Configuration>ReleaseStatic</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseStatic|x64">
-      <Configuration>ReleaseStatic</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -40,20 +24,12 @@
     <ClInclude Include="..\..\Source\Converter\ResourceDefinitions.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Converter\Main.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Converter\ModelImporter.cpp" />
     <ClCompile Include="..\..\Source\Converter\ResourceConverter.cpp" />
     <ClCompile Include="..\..\Source\Converter\ResourceDefinitions.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
@@ -61,57 +37,33 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{6bd50e04-30e7-4672-8861-6404f32af61b}</ProjectGuid>
     <RootNamespace>ResourceConverter</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>DrakConverter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
-    <PlatformToolset>v141</PlatformToolset>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>NotSet</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
-    <PlatformToolset>v141</PlatformToolset>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
@@ -123,16 +75,10 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,59 +86,31 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\ConverterExecutable\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">
-    <OutDir>$(SolutionDir)Binaries\Debug\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\Debug\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\Debug\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\ConverterExecutable\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\ConverterExecutable\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">
-    <OutDir>$(SolutionDir)Binaries\Debug\$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\Debug\$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\Debug\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable\</OutDir>
-    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\ConverterExecutable\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <IncludePath>$(SolutionDir)Source;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
-    <IntDir>$(ProjectDir)Intermediate\Release\$(Platform)\</IntDir>
-    <OutDir>$(SolutionDir)Binaries\Release\$(Platform)\</OutDir>
-    <IncludePath>$(SolutionDir)Source;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
-    <IntDir>$(ProjectDir)Intermediate\Release\$(Platform)\</IntDir>
-    <OutDir>$(SolutionDir)Binaries\Release\$(Platform)\</OutDir>
-    <IncludePath>$(SolutionDir)Source;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Binaries\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)Source</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -207,7 +125,7 @@
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.11\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <FloatingPointModel>
       </FloatingPointModel>
     </ClCompile>
@@ -217,39 +135,16 @@
     </Link>
     <PostBuildEvent>
       <Command>
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
-xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <PreprocessorDefinitions>LOG2;DRAK_EXPORT;</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\Debug\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <FloatingPointModel>
-      </FloatingPointModel>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\$(Configuration);</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\Debug\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Debug\$(Platform)"</Command>
+xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Debug\$(Platform)"
+
+</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\Debug;$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\Debug\static;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\static</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -264,7 +159,7 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc1
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.11\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -272,37 +167,16 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc1
     </Link>
     <PostBuildEvent>
       <Command>
-xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
-xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugStatic|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <PreprocessorDefinitions>LOG2;DRAK_EXPORT;</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\Debug\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\$(Configuration);</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>
 xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\Debug\$(Platform)" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Debug\$(Platform)"</Command>
+xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Debug\$(Platform)"
+
+</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\Debug;$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\Debug\static;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\static</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -321,7 +195,7 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc1
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.11\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
@@ -333,9 +207,12 @@ xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Debug\assimp-vc1
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\$(Configuration)\dynamic;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
-xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"</Command>
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Release\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Release\$(Platform)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\static</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -353,7 +230,7 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.11\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -364,63 +241,12 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\$(Configuration)\dynamic;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
-xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.8.10\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|Win32'">
-    <Lib>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\Release;$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\Release\static;</AdditionalLibraryDirectories>
-    </Lib>
-    <PostBuildEvent>
       <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Release\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Release\$(Platform)"</Command>
     </PostBuildEvent>
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\Release\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LOG2;DRAK_EXPORT;</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStatic|x64'">
     <Lib>
-      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\Release;$(SolutionDir)ThirdParty\zlib-1.2.8.10\lib\$(Platform)\Release\static;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\static</AdditionalLibraryDirectories>
     </Lib>
-    <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\Release\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\Release\$(Platform)"</Command>
-    </PostBuildEvent>
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\Release\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\zlib-1.2.8.10\include;$(SolutionDir)ThirdParty\assimp-4.1.0\include;$(SolutionDir)ThirdParty\stb</AdditionalIncludeDirectories>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <OmitFramePointers>
-      </OmitFramePointers>
-      <PreprocessorDefinitions>LOG2;DRAK_EXPORT;</PreprocessorDefinitions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-    </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -181,7 +181,78 @@ PublicFields: {
 				"m_localPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"5.000000",
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "1",
+				"GameObjectID": "1"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
 							"0.000000",
 							"0.000000"
 						]
@@ -211,8 +282,79 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "false",
-				"idx": "1",
+				"idx": "2",
 				"GameObjectID": "1"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "3",
+				"GameObjectID": "0"
 			}
 		},
 		drak::components::Transform: {
@@ -252,7 +394,78 @@ PublicFields: {
 				"m_localPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"5.000000",
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "4",
+				"GameObjectID": "2"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
 							"0.000000",
 							"0.000000"
 						]
@@ -282,7 +495,7 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "false",
-				"idx": "2",
+				"idx": "5",
 				"GameObjectID": "2"
 			}
 		},
@@ -353,7 +566,7 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "true",
-				"idx": "3",
+				"idx": "6",
 				"GameObjectID": "3"
 			}
 		},
@@ -394,7 +607,78 @@ PublicFields: {
 				"m_localPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"5.000000",
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "7",
+				"GameObjectID": "4"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
 							"0.000000",
 							"0.000000"
 						]
@@ -424,8 +708,79 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "false",
-				"idx": "4",
+				"idx": "8",
 				"GameObjectID": "4"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "9",
+				"GameObjectID": "3"
 			}
 		},
 		drak::components::Transform: {
@@ -465,7 +820,78 @@ PublicFields: {
 				"m_localPosition": drak::math::Vec3f: {
 					PublicFields: {
 						"m_vec": [
-							"5.000000",
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_localScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_localRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_isRoot": "true",
+				"idx": "10",
+				"GameObjectID": "5"
+			}
+		},
+		drak::components::Transform: {
+			PublicFields: {
+				"m_globalPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
+							"0.000000",
+							"0.000000"
+						]
+					}
+				},
+				"m_globalScale": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"1.000000",
+							"1.000000",
+							"1.000000"
+						]
+					}
+				},
+				"m_globalRotation": drak::math::Quaternion: {
+					PublicFields: {
+						"quat": drak::math::Vec4f: {
+							PublicFields: {
+								"m_simdVec": [
+									"1.000000",
+									"0.000000",
+									"0.000000",
+									"0.000000"
+								]
+							}
+						}
+					}
+				},
+				"m_localPosition": drak::math::Vec3f: {
+					PublicFields: {
+						"m_vec": [
+							"0.000000",
 							"0.000000",
 							"0.000000"
 						]
@@ -495,7 +921,7 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "false",
-				"idx": "5",
+				"idx": "11",
 				"GameObjectID": "5"
 			}
 		},
@@ -566,7 +992,7 @@ PublicFields: {
 					}
 				},
 				"m_isRoot": "true",
-				"idx": "6",
+				"idx": "12",
 				"GameObjectID": "6"
 			}
 		}
@@ -574,105 +1000,49 @@ PublicFields: {
 	"ModelComponentContainer": [
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "2",
 				"GameObjectID": "2"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "3",
 				"GameObjectID": "3"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "4",
 				"GameObjectID": "4"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"1.000000",
-							"0.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "5",
 				"GameObjectID": "5"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"albedo": drak::math::Vec3f: {
-					PublicFields: {
-						"m_vec": [
-							"0.000000",
-							"1.000000",
-							"0.000000"
-						]
-					}
-				},
+				"model": "SK_Mannequin1",
 				"idx": "6",
 				"GameObjectID": "6"
 			}
@@ -929,7 +1299,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -937,7 +1307,7 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"0"
+						"3"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
@@ -946,9 +1316,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"0"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"0"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 					"1"
 				],
@@ -959,7 +1333,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -967,7 +1341,7 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"1"
+						"2"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
@@ -976,9 +1350,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"1"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"1"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 					"2"
 				],
@@ -989,7 +1367,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -997,18 +1375,22 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"2"
+						"5"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
-						"2"
+						"4"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"2"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"2"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 				],
 				"parentIDX": "1",
@@ -1018,7 +1400,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -1026,18 +1408,22 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"3"
+						"9"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
-						"3"
+						"6"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"3"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"3"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 					"4"
 				],
@@ -1048,7 +1434,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -1056,18 +1442,22 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"4"
+						"8"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
-						"4"
+						"7"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"4"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"4"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 					"5"
 				],
@@ -1078,7 +1468,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -1086,18 +1476,22 @@ PublicFields: {
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"1",
-						"5"
+						"11"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
-						"5"
+						"10"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"5"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"5"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "31",
 				"childrenIDXs": [
 				],
 				"parentIDX": "4",
@@ -1114,19 +1508,19 @@ PublicFields: {
 						"6"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
-						"1",
-						"6"
-					},
-					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"2",
-						"6"
+						"12"
 					},
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"3",
 						"6"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"4",
+						"6"
 					}
 				],
-				"m_componentFlags": "15",
+				"m_componentFlags": "29",
 				"childrenIDXs": [
 				],
 				"parentIDX": "0",
@@ -1138,6 +1532,14 @@ PublicFields: {
 		"0",
 		"3",
 		"6"
-	]
+	],
+	"m_data": drak::ResourceSystemData: {
+		PrivateFields: {
+			"fileLoaded": [
+			],
+			"packageLoaded": [
+			]
+		}
+	}
 }
 }
