@@ -1,5 +1,5 @@
 #pragma once
-#include <PrecompiledHeader/pch.hpp>
+#include <Core\Engine\Types.hpp>
 
 /*!
 *	@file
@@ -12,15 +12,16 @@ namespace components {
 template <class c>
 struct  ComponentType
 {
-	static const U32 ID;
+	static const U32 id;
 };
 
 
 struct AComponent
 {
-	bool errorReturn;
 	U64 idx;
 	U64 GameObjectID;
+	virtual void deleteComponent() = 0;
+	virtual void initComponent() = 0;
 };
 }
 
@@ -39,7 +40,7 @@ struct AComponent
 namespace drak {								\
 namespace components {							\
 struct name : public AComponent, __VA_ARGS__	\
-{												\
+{												
 	//void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 
@@ -66,6 +67,6 @@ struct  drak::components::ComponentType<drak::components::name>\
 
 /*!
 *	\def  DRAK_COMPONENT_END(name)
-*	\brief Defines the end of a component 
+*	\brief Defines the end of a component
 *	Creates a template specialization of AComponent templated with the defined component. This allows templated functions to use the component ID as template parameters
 */

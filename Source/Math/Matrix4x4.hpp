@@ -1,6 +1,7 @@
 #pragma once
 
-#include<Math/Vec8.hpp>
+#include <Math/Matrix4x4.fwd>
+#include <Math/Vec8.hpp>
 
 namespace drak {
 namespace math {
@@ -58,14 +59,6 @@ public:
 			a23, a30, a31, a32, a33; };
 	};
 };
-
-using Mat4c = typename Matrix4x4<U8>;
-using Mat4sc = typename Matrix4x4<I8>;
-using Mat4s = typename Matrix4x4<I16>;
-using Mat4us = typename Matrix4x4<U16>;
-using Mat4i = typename Matrix4x4<I32>;
-using Mat4u = typename Matrix4x4<U32>;
-using Mat4f = typename Matrix4x4<F32>;
 
 template<typename T>
 bool operator==(const Matrix4x4<T>& m1, const Matrix4x4<T>& m2);

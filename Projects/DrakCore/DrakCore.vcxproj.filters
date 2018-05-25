@@ -16,14 +16,8 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{5853c5ca-19cd-496d-bdfb-57f1ade5436f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{5c100485-0e78-4a06-a039-48aa63660813}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{912da90a-a633-4813-9fc8-e270fbf6dbf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component">
-      <UniqueIdentifier>{3c959af2-7dcd-4d1a-ae38-66005dd354ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ServiceLocator">
       <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
@@ -42,6 +36,9 @@
     </Filter>
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{07ff0b39-aecc-4eb2-8937-1ced435f34e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pool">
+      <UniqueIdentifier>{d7219557-a9de-44d8-b223-8cd79c6f57b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,8 +87,8 @@
     <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Components\GameObject.hpp">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="..\..\Source\Core\Pool\Pool.hpp">
+      <Filter>Header Files\Pool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,10 +102,12 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Components\GameObject.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\Pool\Pool.inl">
+      <Filter>Header Files\Pool</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -29,6 +29,7 @@ struct BaseType {																				\
 		std::string str;																		\
 		sstr >> str;																			\
 		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
 		StringToValue<T>(str.c_str(), t);														\
 	}																							\
 	static std::string SerializeToINI(const T& t) {												\
@@ -73,6 +74,7 @@ struct BaseType<Type[N]> {																		\
 		for(size_t i = 0; i < N; ++i) {															\
 			sstr >> str;																		\
 			str.erase(std::remove(str.begin(), str.end(), '"'), str.end());						\
+			str.erase(std::remove(str.begin(), str.end(), ','), str.end());						\
 			StringToValue<Type>(str.c_str(), t[i]);												\
 		}																						\
 		sstr >> str;																			\
@@ -236,7 +238,7 @@ struct ComplexType<Type*> {																		\
 			if constexpr(!std::is_abstract_v<T>)												\
 				str.append(MetaData::Serialize<EExtension::BINARY>(*t, sstr).str());			\
 			else																				\
-				str.append(MetaData<T*>::Serialize<EExtension::BINARY>(t, sstr).str());			\
+				str.append(MetaData::Serialize<EExtension::BINARY>(t, sstr).str());			\
 			return str;																			\
 		}																						\
 		else																					\
@@ -248,7 +250,7 @@ struct ComplexType<Type*> {																		\
 			if constexpr(!std::is_abstract_v<T>)												\
 				return MetaData::Serialize<EExtension::JSON>(*t, sstr, indent).str();			\
 			else																				\
-				return MetaData<T*>::Serialize<EExtension::JSON>(t, sstr, indent).str();		\
+				return MetaData::Serialize<EExtension::JSON>(t, sstr, indent).str();		\
 		}																						\
 		else																					\
 			return std::string("\"null\"");														\
@@ -256,8 +258,9 @@ struct ComplexType<Type*> {																		\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
 		std::string str;																		\
 		sstr >> str;																			\
-		if(str != "\"null\"" && str != "\"nill\"" &&											\
-			str != "\"null\"," && str != "\"nill\",")	{										\
+		str.erase(std::remove(str.begin(), str.end(), '"'), str.end());							\
+		str.erase(std::remove(str.begin(), str.end(), ','), str.end());							\
+		if(str != "null" && str != "nil")	{													\
 			sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);						\
 			t = new Type();																		\
 			MetaData::Deserialize<EExtension::JSON>(*t, sstr);									\
@@ -270,10 +273,11 @@ struct ComplexType<Type*> {																		\
 #define DK_SET_DATA()																			\
 template<typename T>																			\
 static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr) {				\
+	t.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
 	t.reserve(size);																			\
-	for(int i = 0; i < size; ++i) {																\
+	for(size_t i = 0; i < size; ++i) {															\
 		T data;																					\
 		DeserializeBinary(data, sstr);															\
 		t.emplace_back(data);																	\
@@ -281,6 +285,7 @@ static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr
 }																								\
 template<typename T>																			\
 static void DeserializeJSONToVector(std::vector<T>& t, std::stringstream& sstr) {				\
+	t.clear();																					\
 	std::string str;																			\
 	sstr >> str;																				\
 	sstr >> str;																				\
@@ -300,6 +305,7 @@ static void DeserializeBinaryToString(std::string& t, std::stringstream& sstr) {
 	sstr.seekg(std::streamoff(size), std::ios::cur);											\
 }																								\
 static std::stringstream& DeserializeJSONToString(std::string& t, std::stringstream& sstr) {	\
+	t.clear();																					\
 	sstr >> t;																					\
 	t.erase(std::remove(t.begin(), t.end(), '"'), t.end());										\
 	t.erase(std::remove(t.begin(), t.end(), ','), t.end());										\
@@ -324,6 +330,7 @@ static void DeserializeBinaryToPair(T& p, std::stringstream& sstr) {							\
 }																								\
 template<typename T, typename U>																\
 static void DeserializeBinaryToMap(std::map<T, U>& m, std::stringstream& sstr) {				\
+	m.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
 	std::pair<T, U> p;																			\
@@ -335,6 +342,7 @@ static void DeserializeBinaryToMap(std::map<T, U>& m, std::stringstream& sstr) {
 template<typename T, typename U>																\
 static void DeserializeBinaryToUnorderedMap														\
 	(std::unordered_map<T, U>& um, std::stringstream& sstr) {									\
+	um.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
 	std::pair<T, U> p;																			\
@@ -355,12 +363,13 @@ static void DeserializeJSONToPair(T& p, std::stringstream& sstr) {								\
 }																								\
 template<typename T, typename U>																\
 static void DeserializeJSONToMap(std::map<T, U>& m, std::stringstream& sstr) {					\
+	m.clear();																					\
 	std::string str;																			\
 	std::pair<T, U> p;																			\
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);							\
 		DeserializeJSONToPair(p, sstr);															\
 		m.insert(p);																			\
 		sstr >> str;																			\
@@ -369,12 +378,13 @@ static void DeserializeJSONToMap(std::map<T, U>& m, std::stringstream& sstr) {		
 template<typename T, typename U>																\
 static void DeserializeJSONToUnorderedMap														\
 	(std::unordered_map<T, U>& um, std::stringstream& sstr) {									\
+	um.clear();																					\
 	std::string str;																			\
 	std::pair<T, U> p;																			\
 	sstr >> str;																				\
 	sstr >> str;																				\
 	while (str != "]" && str != "],") {															\
-		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);												\
+		sstr.seekg(std::streamoff(-(int)str.size()), std::ios::cur);							\
 		DeserializeJSONToPair(p, sstr);															\
 		um.insert(p);																			\
 		sstr >> str;																			\

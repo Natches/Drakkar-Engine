@@ -84,8 +84,15 @@ static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 
 template<typename T>
 static std::string ValueToString(const T& value) {
-	if constexpr(drak::types::IsBaseType_V<T>)
+	if constexpr(drak::types::IsBaseType_V<T>) {
+		if constexpr(std::is_same_v<bool, T>) {
+			if (value)
+				return std::string("true");
+			else
+				return std::string("false");
+		}
 		return std::to_string(value);
+	}
 }
 
 template<typename T>
@@ -116,7 +123,7 @@ static void StringToValue(const char* c_str, T& t) {
 	else if constexpr (std::is_same_v<T, F64>)
 		t = T(std::stod(c_str));
 	else if constexpr (std::is_pointer_v<T>) {
-		if (!strcmp(c_str, "null") || !strcmp(c_str, "nill"))
+		if (!strcmp(c_str, "null") || !strcmp(c_str, "nil"))
 			t = nullptr;
 		else {
 			if constexpr (std::is_same_v<T, std::string*> ||
@@ -150,7 +157,7 @@ static void StringToValue(const char* c_str, T& t) {
 template<>													\
 struct drak::serialization::MetaData<ty> {					\
 using type = ty;											\
-static constexpr const char* TypeName() { return #ty; };
+static constexpr char* TypeName() { return #ty; };
 
 #define DK_METADATA_END																			\
 DK_METADATA_FACTORY_PATTERN																		\

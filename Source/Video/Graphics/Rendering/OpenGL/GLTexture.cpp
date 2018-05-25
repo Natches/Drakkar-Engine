@@ -1,6 +1,7 @@
 #include <PrecompiledHeader/pch.hpp>
+/*
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <stb_image.h>*/
 
 namespace drak {
 namespace gfx {
@@ -19,6 +20,7 @@ void GLTexture::bind() const {
 	glBindTextureUnit(0, m_glID);
 }
 
+/*
 bool GLTexture::loadFromFile(const char* filename, bool verticalFlip) {
 	stbi_set_flip_vertically_on_load(verticalFlip);
 
@@ -45,6 +47,7 @@ bool GLTexture::loadFromFile(const char* filename, bool verticalFlip) {
 	}
 	return false;
 }
+*/
 
 } // namespace gl
 } // namespace gfx

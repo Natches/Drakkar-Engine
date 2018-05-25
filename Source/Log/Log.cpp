@@ -24,11 +24,11 @@ void Logbook::CloseLogs() {
 }
 
 void Logbook::Log(Logbook::EOutput output, std::string filename, const char* message, ...) {
-	va_list args;
+	/*va_list args;
 	va_start(args, message);
 	switch (output) {
 	case Logbook::EOutput::CONSOLE: {
-		printf_s("%s: ", filename);
+		printf_s("%s: ", filename.c_str());
 		printf_s(message, args);
 		break;
 	}
@@ -43,10 +43,10 @@ void Logbook::Log(Logbook::EOutput output, std::string filename, const char* mes
 		if (logs.count(filename) == 0)
 			logs.insert(std::pair<std::string, FILE*>(filename, OpenLogFile(filename)));
 		fprintf_s(logs[filename], message, args);
-		printf_s("%s: ", filename);
+		printf_s("%s: ", filename.c_str());
 		printf_s(message, args);
 		break;
 	}
 	}
-	va_end(args);
+	va_end(args);*/
 }

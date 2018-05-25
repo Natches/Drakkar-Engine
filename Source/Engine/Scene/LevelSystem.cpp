@@ -1,10 +1,8 @@
 #include <PrecompiledHeader/pch.hpp>
-//#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystem.hpp>
+#include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
-//#include <Serialization\Serializer.hpp>
-//#include <Engine\Engine.hpp>
-//#include <fstream>
-//#include <PxPhysicsAPI.h>
+
 using namespace drak;
 using namespace core;
 using namespace serialization;
@@ -18,29 +16,80 @@ LevelSystem::~LevelSystem() {
 }
 
 void drak::LevelSystem::SerializeLevel() {
-	std::stringstream out;
-	Serialize<EExtension::JSON>(out);
-	std::fstream file;
-	file.open("Scene.json", std::fstream::out);
-	if (file.is_open()) {
-		file << out.rdbuf();
-		file.close();
+	if(!filename.empty())
+		Serializer::SerializeToFile<EExtension::JSON, LevelSystem>(*this, "./", filename.c_str());
+	else
+		Serializer::SerializeToFile<EExtension::JSON, LevelSystem>(*this, "./", "Scene");
+}
+
+class DefaultSceneBP : public IManualSceneBlueprint {
+public:
+
+	// Inherited via IManualSceneBlueprint
+	virtual void build(LevelSystem & scene) override
+	{
 	}
+};
+
+#define _INIT_COMPONENTS_OF_TYPE(type)							\
+for (U32 i = 0; i < __getComponentContainer(type).size(); ++i) {\
+	__getComponentContainer(type)[i].initComponent();			\
 }
 
 void LevelSystem::loadScene(const char* name) {
-	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Load and build Scene from file\n");
+	if (name == nullptr)
+		filename = "Untitled";
+	else
+		filename += name;
+	if (io::FileExists((filename + ".json").c_str()) != EError::NO_ERROR) {
+		DefaultSceneBP def;
+		loadScene(def);
+		return;
+	}
+	Serializer::LoadFromFile<EExtension::JSON, LevelSystem>(*this, name);
+	_INIT_COMPONENTS_OF_TYPE(Transform)
+	_INIT_COMPONENTS_OF_TYPE(RigidBody)
+	_INIT_COMPONENTS_OF_TYPE(Model)
+	_INIT_COMPONENTS_OF_TYPE(BoxCollider)
+	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
+		m_gameObjects[i].setLevel(this);
+		if(m_gameObjects[i].getParent() >= 0 )
+			m_gameObjects[i].setParent(m_gameObjects[i].getParent());
+	}
+	m_resourceManager->startup();
 }
+#undef _INIT_COMPONENTS_OF_TYPE(type)
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
+	filename = sceneBluePrint.name;
+	SerializeLevel();
+	m_resourceManager->updateFromData();
 }
 
 bool LevelSystem::startup() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Startup Scene System\n");
-	events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
-		new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+	//events::Keyboard::Get().addEventListener(events::KeyEvent::KEY_DOWN,
+	//	new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
+	m_resourceManager = new ResourceSystem(m_data);
+	m_resourceManager->startup();
 	return true;
+}
+
+void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
+	for (U32 i = 0; i < children.size(); ++i) {
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalScale());
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+		m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
+		moveChildren(*m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
+	}
+}
+
+void drak::LevelSystem::propogateMovementFromRoots() {
+	for (I32 i = 0; i < m_rootIdxs.size(); ++i) {
+		moveChildren(*m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
+	}
 }
 
 void LevelSystem::SerializeEvent(const events::Event* pEvent) {
@@ -54,4 +103,6 @@ void LevelSystem::SerializeEvent(const events::Event* pEvent) {
 void LevelSystem::shutdown() {
 	Logbook::Log(Logbook::EOutput::BOTH, "SceneSystem.txt", "Shutdown Scene System\n");
 	//SerializeLevel();
+	m_resourceManager->shutdown();
+	delete m_resourceManager;
 }

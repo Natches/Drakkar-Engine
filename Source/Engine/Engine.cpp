@@ -1,6 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
@@ -11,16 +11,20 @@
 
 using namespace drak::components;
 using namespace drak::time;
+using namespace drak::thread;
+using namespace drak::video;
+using namespace drak::gfx;
 
 namespace drak {
 namespace core {
 bool Engine::running = true;
+Engine* Engine::m_pInstance = nullptr;
 
 Engine::Engine() {
 	m_pVideoSystem = new video::VideoSystem();
 	m_pRenderSystem = new gfx::RenderSystem();
-	m_pPhysicsSystem = new PhysicsSystem;
-	m_pLevelSystem = new LevelSystem;
+	m_pPhysicsSystem = new PhysicsSystem();
+	m_pLevelSystem = new LevelSystem();
 }
 
 Engine::~Engine() {
@@ -30,8 +34,7 @@ Engine::~Engine() {
 	delete m_pLevelSystem;
 }
 
-PhysicsSystem& Engine::getPhysicsSystem()
-{
+DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
@@ -39,8 +42,7 @@ DRAK_API time::FrameTimer& Engine::GetFrameTimer() {
 	return s_frameTime;
 }
 
-DRAK_API LevelSystem & Engine::currentLevel()
-{
+DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
 }
 
@@ -50,19 +52,15 @@ int Engine::startup() {
 	m_eventDispatcher.dispatchEvent(&eEvent);
 
 	//Logbook::Log(Logbook::EOutput::CONSOLE, "EngineLog.txt", "Init systems\n");
-	//Init systems
-	video::WindowSettings	winSettings		= { "DrakVideoTest", 1600, 900 };
-	video::VideoSettings	videoSettings	= { winSettings, gfx::ERenderer::OPENGL };
+	video::WindowSettings  winSettings = { "DrakVideoTest", 1600, 900 };
+	video::VideoSettings  videoSettings = { winSettings, gfx::ERenderer::OPENGL };
 
-	// TODO (Simon): Check for failed startups
+	// vvv Check for failed startups vvv
 	m_pVideoSystem->startup(videoSettings, m_pMainWindow);
-	
 	m_pRenderSystem->startup(m_pVideoSystem->renderer());
-	
 	m_pPhysicsSystem->Startup();
-	
 	m_pLevelSystem->startup();
-	
+	//m_pLevelSystem->loadScene("Blyat");
 	m_pool.startup();
 
 	eEvent.type = events::EngineEventDispatcher::STARTUP_END;
@@ -79,7 +77,7 @@ int Engine::shutdown() {
 	m_pPhysicsSystem->Shutdown();
 	m_pRenderSystem->shutdown();
 	m_pVideoSystem->shutdown();
-	
+
 	Logbook::CloseLogs();
 	m_pool.shutdown();
 	eEvent.type = events::EngineEventDispatcher::SHUTDOWN_END;
@@ -91,8 +89,9 @@ void Engine::startLoop() {
 	s_frameTime.start();
 
 	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (U32 i = 0; i < gameObjects.size(); ++i ) {
-		m_pPhysicsSystem->InitRigidBody(gameObjects[i].getComponent<RigidBody>(), gameObjects[i].getComponent<Transform>(), *m_pLevelSystem);
+	for (auto& go : gameObjects) {
+		if(go.getComponentFlag(ComponentType<RigidBody>::id))
+			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
 	events::EngineEvent eEvent;
@@ -106,9 +105,7 @@ void Engine::startLoop() {
 		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&eEvent);
 
-		//gameObjects = m_pLevelSystem->getGameObjects();
-		//for (U64 i = 0, size = gameObjects.size(); i < size; ++i)
-		//	gameObjects[i]->update();
+		m_pLevelSystem->propogateMovementFromRoots();
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
@@ -116,7 +113,7 @@ void Engine::startLoop() {
 		m_pMainWindow->clear();
 		m_pRenderSystem->startFrame();
 		m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
-		
+
 		m_pRenderSystem->endFrame();
 		m_pMainWindow->swapBuffers();
 		eEvent.type = events::EngineEventDispatcher::UPDATE_LOOP_END;
@@ -133,6 +130,16 @@ void Engine::StopGame() {
 
 void Engine::loadScene(IManualSceneBlueprint & sceneBlueprint) {
 	m_pLevelSystem->loadScene(sceneBlueprint);
+}
+
+void Engine::loadScene(const char* filename) {
+	m_pLevelSystem->loadScene(filename);
+}
+
+DRAK_API Engine & Engine::Get(){
+	if (!m_pInstance)
+		m_pInstance = new Engine();
+	return *m_pInstance;
 }
 
 

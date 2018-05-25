@@ -917,7 +917,7 @@ bool AreOpposedDirection(const Vec4<T>& v1, const Vec4<T>& v2) {
 }
 
 template<typename T, AngleUnit unit>
-F32 Angle(const Vec3<T>& va, const Vec3<T>& vb) {
+F32 Angle(const Vec4<T>& va, const Vec4<T>& vb) {
 	if constexpr (unit == AngleUnit::RADIANS)
 		return acos(Dot(Normalize(va), Normalize(vb)));
 	else

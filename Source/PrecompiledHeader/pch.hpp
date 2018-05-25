@@ -23,34 +23,19 @@
 #include <direct.h>
 #include <chrono>
 #include <thread>
+#include <string_view>
 
 #include <Core/Core.hpp>
 #include <Core/Utils/FileUtils.hpp>
 #include <Core/Timer/FrameTimer.hpp>
-#include <Core/Components/GameObject.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Core/Utils/AComponentUtils.hpp>
 
 #include <Serialization/MetaData.hpp>
 #include <Serialization/Serializer.hpp>
 
-#include <Math/Quaternion.hpp>
-#include <Math/MathUtils.hpp>
-#include <Math/SIMDUtils.hpp>
-#include <Math/Vec2.hpp>
-#include <Math/Vec3.hpp>
-#include <Math/Vec4.hpp>
-#include <Math/Vec8.hpp>
-#include <Math/Matrix4x4.hpp>
-
-#include <Engine/Components/Components.hpp>
-#include <Engine/Components/TransformComponent.hpp>
-#include <Engine/Components/ModelComponent.hpp>
-#include <Engine/Components/PhysicsComponents.hpp>
-#include <Engine/Components/ABehavior.hpp>
-
-#include <Engine/Scene/LevelSystem.hpp>
-#include <Engine/Scene/LevelSystemUtils.hpp>
+#include <Math/Math.hpp>
 
 #include <Threading/Function/IFunction.hpp>
 #include <Threading/Function/IndicesTrick.hpp>
@@ -91,14 +76,13 @@
 #include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
-#include <Video/Graphics/Rendering/OpenGL/GLVertexAttrib.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
 
-#include <Video/Graphics/Rendering/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Texture.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Model.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Material.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
-
-#include <Video/Graphics/Tools/ModelLoader.hpp>
-#include <Video/Graphics/Tools/OBJLoader.hpp>
 
 #include <Video/VideoSettings.hpp>
 #include <Video/VideoSystem.hpp>
@@ -106,6 +90,10 @@
 #include <Windowing/Input/Keyboard.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Windowing/Window/WindowSettings.hpp>
+
+#include <Converter/ResourceDefinitions.hpp>
+
+#include <Engine/Components/Components.hpp>
 
 #include <Animation/Animation.hpp>
 #include <Animation/Skeleton/Bone/Bone.hpp>

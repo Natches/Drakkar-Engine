@@ -1,5 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Physics/SimulationEvent.hpp>
+#include <Engine/Components/GameObject.hpp>
 #include <PxPhysicsAPI.h>
 
 using namespace physx;
@@ -13,7 +14,7 @@ PhysicsEvents::PhysicsEvents() {
 PhysicsEvents::~PhysicsEvents() {
 }
 
-void drak::events::PhysicsEvents::AddEventListener(components::RigidBody& rb, EventType type, EventListener listener) {
+void drak::events::PhysicsEvents::AddEventListener(const components::RigidBody& rb, EventType type, EventListener listener) {
 	m_collisionEventDispatchers.insert({ rb.GameObjectID, PhysicsEventDispatcher() });
 	m_collisionEventDispatchers[rb.GameObjectID].addEventListener(type, listener);
 }
@@ -82,8 +83,3 @@ void PhysicsEvents::onTrigger(PxTriggerPair * pairs, PxU32 count) {
 
 void PhysicsEvents::onAdvance(const PxRigidBody * const * bodyBuffer, const PxTransform * poseBuffer, const PxU32 count) {
 }
-#include <PrecompiledHeader/pch.hpp>
-#include "SimulationEvent.hpp"
-#include <PxPhysicsAPI.h>
-#include <Engine/Components/PhysicsComponents.hpp>
-#include <Core/Components/GameObject.hpp>

@@ -485,10 +485,10 @@ T Cross(const Vec2<T>& v1, const Vec2<T>& v2) {
 
 template<typename T>
 Vec2<T> Normalize(const Vec2<T>& v) {
-	F32 size = magnitude();
+	F32 size = v.magnitude();
 	if (IsNotEqual_V(size, static_cast<T>(0)))
-		return *this / size;
-	return *this;
+		return v / size;
+	return v;
 }
 
 template<typename T>

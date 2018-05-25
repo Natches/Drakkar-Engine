@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Math/Vec3.fwd>
 #include <Math/Vec2.hpp>
 
 namespace drak {
@@ -119,14 +120,6 @@ public:
 	static Vec3<T> Right();
 	static Vec3<T> Forward();
 };
-
-using Vec3c = typename Vec3<U8>;
-using Vec3sc = typename Vec3<I8>;
-using Vec3s = typename Vec3<I16>;
-using Vec3us = typename Vec3<U16>;
-using Vec3i = typename Vec3<I32>;
-using Vec3u = typename Vec3<U32>;
-using Vec3f = typename Vec3<F32>;
 
 template<typename T>
 bool operator==(const Vec3<T>& v1, const Vec3<T>& v2);

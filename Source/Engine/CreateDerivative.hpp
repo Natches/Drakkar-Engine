@@ -4,6 +4,7 @@
 #include <Serialization\Serializer.hpp>
 namespace drak {
 namespace core {
+/*
 template <typename T>
 void Engine::createAll() {
 	T* t = new T();
@@ -79,6 +80,6 @@ void Engine::createAll() {
 		}
 	}
 	delete t;
-}
+}*/
 }
 }

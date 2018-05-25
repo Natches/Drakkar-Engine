@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Math/Vec2.fwd>
 #include <Math/MathUtils.hpp>
 #include <Serialization/MetaData.hpp>
 #include <ostream>
@@ -87,14 +88,6 @@ public:
 	static Vec2<T> Up();
 	static Vec2<T> Right();
 };
-
-using Vec2c = typename Vec2<U8>;
-using Vec2sc = typename Vec2<I8>;
-using Vec2s = typename Vec2<I16>;
-using Vec2us = typename Vec2<U16>;
-using Vec2i = typename Vec2<I32>;
-using Vec2u = typename Vec2<U32>;
-using Vec2f = typename Vec2<F32>;
 
 template<typename T>
 bool operator==(const Vec2<T>& v1, const Vec2<T>& v2);

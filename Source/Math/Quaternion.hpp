@@ -4,6 +4,7 @@
 #define QUAT
 #endif // !QUAT
 
+#include <Math/Quaternion.fwd>
 #include <Math/Matrix4x4.hpp>
 
 namespace drak {

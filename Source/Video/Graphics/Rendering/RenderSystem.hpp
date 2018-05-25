@@ -1,21 +1,16 @@
 #pragma once
 
-#include <unordered_map>
-
 #include <Core/Core.hpp>
-#include <Engine/Components/Components.hpp>
-#include <Video/Graphics/Rendering/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
 #include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
-#include <Video/Graphics/Rendering/Base/IShader.hpp>
-
-#include <Video/Graphics/Rendering/OpenGL/GLTexture.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
+#include <ResourceManager/Manager/ShaderManager.hpp>
+#include <Engine/Components/ModelComponent.hpp>
 
 namespace drak {
 
-	struct Scene;
-
+struct Scene;
 namespace gfx {
 
 /*!
@@ -41,7 +36,9 @@ public:
 	void endFrame();
 
 private:
-	bool loadResources(const std::string& dir);
+	bool loadShaders();
+	void convertModelToRenderable(const std::vector<components::Model>& models,
+		ResourceSystem& manager);
 
 	void opaquePass();
 	void transparentPass();
@@ -50,21 +47,23 @@ private:
 	void onKeyUp(const events::Event* pEvt);
 
 private:
-	Camera			m_mainCam;
+	Camera				m_mainCam;
 
-	ShaderMap		m_shaderMap;
-	RenderArray		m_opaqueArr;
-	RenderArray		m_transpArr;
+	RenderQueue			m_opaqueArr;
+	RenderQueue			m_transpArr;
 
-	IRenderable*	m_pGrid;
+	IRenderable*		m_pGrid;
+	gl::GLTexture		m_gridTex;
 
-	IRenderer*		m_pRenderer;
-	IFrameBuffer*	m_pFrame;
+	std::map<std::string, IRenderable*> m_renderable;
+	std::map<std::string, gl::GLTexture> m_texture;
 
-	// Tests
-	IRenderable*		 m_pUnitCube;
-	gl::GLTexture		 m_gridTex;
+	IRenderer*			m_pRenderer;
+	IFrameBuffer*		m_pFrame;
+
 	gl::GLUniformBuffer	 m_modelUBO;
+
+	ShaderManager		 m_shaderManager;
 };
 
 } // namespace gfx

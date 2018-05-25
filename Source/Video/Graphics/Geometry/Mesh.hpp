@@ -1,30 +1,33 @@
 #pragma once
 
+#include <string>
 #include <vector>
-
 #include <Video/Graphics/Geometry/Vertex.hpp>
 
 namespace drak {
+template<typename T>
+class Resource;
+class MeshManager;
 namespace geom {
 
-class Mesh {
+class Mesh final {
+	friend class Resource<Mesh>;
 public:
-	Mesh();
-	virtual ~Mesh();
+	Mesh(const std::string& name, std::vector<Vertex1P1N1UV>&& vertices, std::vector<U32>&& indices);
+	~Mesh() = default;
 
-	void addVertex(const Vertex& v);
-	void addIndex(U16 i);
-	void addTriangle(
-		const Vertex& v1, U16 i1,
-		const Vertex& v2, U16 i2,
-		const Vertex& v3, U16 i3);
+	using Manager = MeshManager;
 
-	DK_GETTER_REF_C(std::vector<Vertex>, vertices, m_vertices)
-	DK_GETTER_REF_C(std::vector<U16>, indices, m_indices)
+	DK_GETTER_REF_C(std::string, name, m_name)
+	DK_GETTER_REF_C(std::vector<Vertex1P1N1UV>, vertices, m_vertices)
+	DK_GETTER_REF_C(std::vector<U32>, indices, m_indices)
+private:
+	Mesh() = default;
 
-protected:
-	std::vector<Vertex> m_vertices;
-	std::vector<U16>	m_indices;
+private:
+	std::string					m_name;
+	std::vector<Vertex1P1N1UV>	m_vertices;
+	std::vector<U32>			m_indices;
 };
 
 } // namespace geom
