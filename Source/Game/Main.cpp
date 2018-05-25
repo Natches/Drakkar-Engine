@@ -21,14 +21,14 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/SK_Mannequin.dkResources"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));
-		PhysicsMaterial mat;
+		/*scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/SK_Mannequin.dkResources"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));*/
+		/*PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
-		mat.staticFriction = 0.5f;
+		mat.staticFriction = 0.5f;*/
 		name = "Scene";
-		for (int i = 0; i < 20; ++i) {
+		/*for (int i = 0; i < 20; ++i) {
 			GameObject& cube = scene.addGameObject();
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
@@ -116,16 +116,16 @@ public:
 		floor_BC.material = mat;
 
 		BHVR.init();
-		BHVR.save();
+		BHVR.save();*/
 	}
 };
 
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
-	BHVR.load();
+	Engine::Get().loadScene(bp);
+	/*Engine::Get().loadScene("Scene");
+	BHVR.load();*/
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }
