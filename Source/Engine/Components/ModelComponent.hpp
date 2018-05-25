@@ -7,6 +7,10 @@
 DRAK_COMPONENT_START(Model)
 DK_SERIALIZED_OBJECT(Model)
 std::string model;
+gfx::IRenderable* pModel;
+gfx::Color3 albedo;
+DRAK_API void deleteComponent() { ; }
+DRAK_API void initComponent() { ; }
 DRAK_COMPONENT_END(Model)
 
 DK_METADATA_BEGIN(drak::components::Model)

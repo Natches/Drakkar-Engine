@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/Engine/Types.hpp>
+#include <Core\Engine\Types.hpp>
 
 /*!
 *	@file
@@ -20,6 +20,8 @@ struct AComponent
 {
 	U64 idx;
 	U64 GameObjectID;
+	virtual void deleteComponent() = 0;
+	virtual void initComponent() = 0;
 };
 }
 
@@ -38,7 +40,7 @@ struct AComponent
 namespace drak {								\
 namespace components {							\
 struct name : public AComponent, __VA_ARGS__	\
-{
+{												
 	//void operator=(const name& other){std::memcpy(this, &other, sizeof(name));}
 
 

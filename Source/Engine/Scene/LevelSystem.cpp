@@ -31,6 +31,11 @@ public:
 	}
 };
 
+#define _INIT_COMPONENTS_OF_TYPE(type)							\
+for (U32 i = 0; i < __getComponentContainer(type).size(); ++i) {\
+	__getComponentContainer(type)[i].initComponent();			\
+}
+
 void LevelSystem::loadScene(const char* name) {
 	if (name == nullptr)
 		filename = "Untitled";
@@ -42,11 +47,18 @@ void LevelSystem::loadScene(const char* name) {
 		return;
 	}
 	Serializer::LoadFromFile<EExtension::JSON, LevelSystem>(*this, name);
+	_INIT_COMPONENTS_OF_TYPE(Transform)
+	_INIT_COMPONENTS_OF_TYPE(RigidBody)
+	_INIT_COMPONENTS_OF_TYPE(Model)
+	_INIT_COMPONENTS_OF_TYPE(BoxCollider)
 	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
 		m_gameObjects[i].setLevel(this);
+		if(m_gameObjects[i].getParent() >= 0 )
+			m_gameObjects[i].setParent(m_gameObjects[i].getParent());
 	}
 	m_resourceManager->startup();
 }
+#undef _INIT_COMPONENTS_OF_TYPE(type)
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
@@ -66,17 +78,17 @@ bool LevelSystem::startup() {
 
 void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
 	for (U32 i = 0; i < children.size(); ++i) {
-		m_gameObjects[children[i]].getComponent<Transform>().setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>().getLocalPosition()));
-		m_gameObjects[children[i]].getComponent<Transform>().setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>().getLocalScale());
-		m_gameObjects[children[i]].getComponent<Transform>().setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>().getLocalRotation());
-		m_gameObjects[children[i]].getComponent<Transform>().isDirty() = true;
-		moveChildren(m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalScale());
+		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+		m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
+		moveChildren(*m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
 	}
 }
 
 void drak::LevelSystem::propogateMovementFromRoots() {
 	for (I32 i = 0; i < m_rootIdxs.size(); ++i) {
-		moveChildren(m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
+		moveChildren(*m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
 	}
 }
 

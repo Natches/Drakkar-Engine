@@ -46,7 +46,7 @@ class LevelSystem {
 	DK_SERIALIZED_OBJECT(LevelSystem)
 	friend core::Engine;
 	friend void drak::GameObject::makeRoot();
-	friend void drak::GameObject::setParent(const U32 pIdx);
+	friend void drak::GameObject::setParent(const I32 pIdx);
 
 
 	template <I32 n>
@@ -113,6 +113,27 @@ public:
 		static_cast<components::AComponent*>(&component)->GameObjectID = gameObject.getIdx();
 		gameObject.setHandleIDPair(components::ComponentType<T>::id, __getComponentContainer(T).size() - 1);
 		return component;
+	}
+
+	template <typename T>
+	void DestroyComponent(U32 idx) {
+		if (components::ComponentType<T>::id == components::ComponentType<Transform>::id)
+			return;
+		T& target = __getComponentContainer(T)[idx];
+		T& last = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
+		U32 newIDX = static_cast<components::AComponent*>(&target)->idx;
+		GameObject& gameObjectThatHasTargetComponent = m_gameObjects[static_cast<components::AComponent*>(&target)->GameObjectID];
+		GameObject& gameObjectThatHasLastComponent = m_gameObjects[static_cast<components::AComponent*>(&last)->GameObjectID];
+		//set flag to 0
+		gameObjectThatHasTargetComponent.setComponentFlag(components::ComponentType<T>::id, false);
+		//remove handle
+		gameObjectThatHasTargetComponent.getComponentHandles().erase(components::ComponentType<T>::id);
+
+		std::swap(target, last);
+		static_cast<components::AComponent*>(&target)->idx = idx;
+		gameObjectThatHasLastComponent.getComponentHandles()[components::ComponentType<T>::id] = newIDX;
+		static_cast<components::AComponent*>(&last)->deleteComponent();
+		__getComponentContainer(T).pop_back();
 	}
 
 	GameObject& addGameObject() {
