@@ -70,6 +70,7 @@ public:
 	}
 	DRAK_API void makeRoot();
 	DRAK_API void setParent(const I32 pIDX);
+	inline void setParentIndex(const I32 pIDX) { parentIDX = pIDX; }
 	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;

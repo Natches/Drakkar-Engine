@@ -53,8 +53,6 @@ void LevelSystem::loadScene(const char* name) {
 	_INIT_COMPONENTS_OF_TYPE(BoxCollider)
 	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
 		m_gameObjects[i].setLevel(this);
-		if(m_gameObjects[i].getParent() >= 0 )
-			m_gameObjects[i].setParent(m_gameObjects[i].getParent());
 	}
 	m_resourceManager->startup();
 }

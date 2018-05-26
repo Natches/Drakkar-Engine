@@ -74,6 +74,8 @@ public:
 	inline bool						inEditorMode()			{ return m_editorMode; }
 	thread::ThreadPool m_pool;
 
+	bool CameraRaycast(U64& hitGameObjectID);
+
 private:
 	static Engine* m_pInstance;
 	DRAK_API Engine();

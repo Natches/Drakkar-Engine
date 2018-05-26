@@ -20,6 +20,8 @@ public:
 public:
 	DK_GETTER(F32, aspect, m_aspect)
 	DK_GETTER(math::Mat4f, viewPerspective, m_prsp * m_view)
+	DK_GETTER(math::Mat4f&, perspective, m_prsp)
+	DK_GETTER(math::Mat4f&, view, m_view)
 	DK_GETTER_REF_C(math::Vec3f, eye, m_eye)
 
 private:

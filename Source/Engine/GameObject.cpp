@@ -38,7 +38,22 @@ void GameObject::setParent(const I32 pIDX) {
 	}
 	parentIDX = pIDX;
 	level->getGameObjects()[pIDX].attachChild(idx);
-	getComponent<RigidBody>()->activate(false);
+	if (getComponentFlag(ComponentType<RigidBody>::id)) {
+		if (core::Engine::Get().inEditorMode()) {
+			physx::PxShape* shapes;
+			physx::PxU32 arraySize;
+			arraySize = getComponent<RigidBody>()->rigidActor->getNbShapes();
+			getComponent<RigidBody>()->rigidActor->getShapes(&shapes, arraySize);
+			for (U32 i = 0; i < arraySize; ++i) {
+				shapes[i].setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, true);
+			}
+		}
+		if (getComponent<RigidBody>()->rigidActor->getType() == physx::PxActorType::eRIGID_DYNAMIC) {
+			getComponent<RigidBody>()->isKinematic = true;
+			static_cast<physx::PxRigidDynamic*>(getComponent<RigidBody>()->rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+		}
+	}
+
 	Transform& parentTransform = *level->getGameObjects()[parentIDX].getComponent<Transform>();
 	getComponent<components::Transform>()->setLocalPosition(getComponent<components::Transform>()->getGlobalPosition() - parentTransform.getGlobalPosition());
 	getComponent<components::Transform>()->setLocalScale(getComponent<components::Transform>()->getGlobalScale() / parentTransform.getGlobalScale());

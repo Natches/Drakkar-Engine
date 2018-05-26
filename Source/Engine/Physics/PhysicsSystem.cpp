@@ -245,7 +245,7 @@ void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::V
 
 void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Quaternion& newRot) {
 	if (target.rigidActor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
-		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags() == PxRigidBodyFlag::eKINEMATIC) {
+		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags().isSet(PxRigidBodyFlag::eKINEMATIC)) {
 			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.m_vecPart.x, newRot.m_vecPart.y, newRot.m_vecPart.z, newRot.m_scalar)));
 		}
 		else {
@@ -253,6 +253,16 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 		}
 	}
 
+}
+
+bool drak::PhysicsSystem::raycast(math::Vec3f position, math::Vec3f direction, F32 maxLength, U64& gameObjectID) {
+	PxRaycastBuffer hit;
+	direction.normalize();
+	if (m_pPhysicsScene->raycast(PxVec3(position.x, position.y, position.z), PxVec3(direction.x, direction.y, direction.z), maxLength, hit)){
+		gameObjectID = *(U64*)hit.block.actor->userData;
+		return true;
+	}
+	return false;
 }
 
 /*void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {
