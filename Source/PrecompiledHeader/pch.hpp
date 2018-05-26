@@ -88,6 +88,7 @@
 #include <Video/VideoSystem.hpp>
 
 #include <Windowing/Input/Keyboard.hpp>
+#include <Windowing/Input/Mouse.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Windowing/Window/WindowSettings.hpp>
 

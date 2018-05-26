@@ -4,8 +4,6 @@
 
 #include <Windowing/Window/SDLWindow.hpp>
 
-#include <GL/glew.h>
-
 using namespace drak::events;
 
 namespace drak {
@@ -57,11 +55,22 @@ void SDLWindow::pollEvents() {
 		break;
 	case SDL_KEYDOWN:
 	case SDL_KEYUP:
-		KeyEvent e {
+		handleKeyEvent({
 			keyConvert(m_pEvt->key.keysym.sym),
-			m_pEvt->key.type == SDL_KEYDOWN ? KeyEvent::KEY_DOWN : KeyEvent::KEY_UP
-		};
-		handleKeyEvent(e);
+			m_pEvt->key.type == SDL_KEYDOWN ? 
+				KeyEvent::KEY_DOWN : 
+				KeyEvent::KEY_UP});
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEBUTTONUP:
+		handleMouseEvent({
+			m_pEvt->button.button == SDL_BUTTON_LEFT ?
+				MouseEvent::MOUSE_LEFT : MouseEvent::MOUSE_RIGHT,
+			m_pEvt->button.type == SDL_MOUSEBUTTONDOWN ?
+				MouseEvent::MOUSE_DOWN : MouseEvent::MOUSE_UP});
+		break;
+	case SDL_MOUSEMOTION:
+		handleMouseEvent({m_pEvt->button.x, m_pEvt->button.y, MouseEvent::MOUSE_MOVE});
 		break;
 	}
 	m_pEvt->type = SDL_FIRSTEVENT;

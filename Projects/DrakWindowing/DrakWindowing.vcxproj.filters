@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\Source\Windowing\Window\SDLWindow.cpp">
       <Filter>Source Files\Window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Windowing\Input\Mouse.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Windowing\Window\WindowSettings.hpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Windowing\Window\SDLWindow.hpp">
       <Filter>Header Files\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Windowing\Input\Mouse.hpp">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

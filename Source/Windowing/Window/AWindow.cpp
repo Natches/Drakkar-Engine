@@ -16,5 +16,10 @@ void AWindow::handleKeyEvent(const KeyEvent& e) {
 	Keyboard::Get().dispatchEvent(&Keyboard::Get().m_evt);
 }
 
+void AWindow::handleMouseEvent(const MouseEvent& e) {
+	Mouse::Get().m_evt = e;
+	Mouse::Get().dispatchEvent(&Mouse::Get().m_evt);
+}
+
 } // namespace video
 } // namespace drak

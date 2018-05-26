@@ -44,6 +44,7 @@ private:
 
 private:
 	void onKeyUp(const events::Event* pEvt);
+	void onMouseEvent(const events::Event* pEvt);
 
 private:
 	Camera				m_mainCam;
