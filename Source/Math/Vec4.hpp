@@ -74,14 +74,14 @@ public:
 	Vec4<T>& negate();
 	Vec4<T>& abs();
 
-#if defined(QUAT)
+//#if defined(QUAT)
 	template<Axis ax>
 	Vec4<F32>& rotate(const F32 angle);
 	Vec4<F32>& rotate(const Vec3<F32>& axis, const F32 angle);
 	Vec4<F32>& rotate(const Vec3<F32>& euler);
 	Vec4<F32>& rotateAround(const Vec4<F32>& point, const F32 angle);
 	Vec4<F32>& rotateAround(const Vec4<F32>& point, const F32 angle, const F32 distance);
-#endif
+//#endif
 	Vec4<F32>& ceil();
 	Vec4<F32>& floor();
 	Vec4<F32>& round();

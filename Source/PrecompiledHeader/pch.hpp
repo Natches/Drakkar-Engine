@@ -28,7 +28,7 @@
 #include <Core/Core.hpp>
 #include <Core/Utils/FileUtils.hpp>
 #include <Core/Timer/FrameTimer.hpp>
-#include <Engine/Components/GameObject.hpp>
+#include <Engine/GameObject.hpp>
 #include <Core/Utils/VA_ArgsUtils.hpp>
 #include <Core/Utils/AComponentUtils.hpp>
 

@@ -48,11 +48,11 @@
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Engine\Components\GameObject.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsComponents.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\GameObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,8 +92,8 @@
     <ClInclude Include="..\..\Source\Engine\Components\CameraComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\Components\GameObject.hpp">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="..\..\Source\Engine\GameObject.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
