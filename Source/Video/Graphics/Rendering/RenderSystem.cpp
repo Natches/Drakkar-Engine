@@ -40,11 +40,8 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 }
 
 void RenderSystem::shutdown() {
-	for (auto& model : m_renderable) {
+	for (auto& model : m_renderables)
 		delete model.second;
-	}
-	// ...
-	// delete resources
 }
 
 void RenderSystem::forwardRender(Scene& scene) {
@@ -54,7 +51,6 @@ void RenderSystem::forwardRender(Scene& scene) {
 	shader->resource()->use();
 	shader->resource()->uniform("viewPrsp", m_mainCam.viewPerspective());
 
-
 	for (auto& model : scene.models) {
 		Transform* t = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
 		math::Quaternion q = t->getGlobalRotation();
@@ -63,7 +59,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 			q.matrix() *
 			math::Scale(t->getGlobalScale());
 		shader->resource()->uniform("model", mMatrix);
-		m_renderable[model.model]->render();
+		m_renderables[model.model]->render();
 	}
 
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
@@ -123,7 +119,7 @@ bool drak::gfx::RenderSystem::loadShaders() {
 void RenderSystem::convertModelToRenderable(const std::vector<components::Model>& models,
 	ResourceSystem& manager) {
 	for (auto& model : models) {
-		if (m_renderable.find(model.model) == m_renderable.end()) {
+		if (m_renderables.find(model.model) == m_renderables.end()) {
 			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.model, std::string(""));
 			if (modelPtr->loadState() == Resource<geom::Mesh>::ELoadState::READY) {
 				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.model, std::string(""));
@@ -135,7 +131,7 @@ void RenderSystem::convertModelToRenderable(const std::vector<components::Model>
 					(U32)meshPtr->resource().indices().size());
 				gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
 				vertexArray->create(vertBuffer, indexBuffer);
-				m_renderable[model.model] = vertexArray;
+				m_renderables[model.model] = vertexArray;
 			}
 		}
 	}

@@ -55,8 +55,8 @@ private:
 	IRenderable*		m_pGrid;
 	gl::GLTexture		m_gridTex;
 
-	std::map<std::string, IRenderable*> m_renderable;
-	std::map<std::string, gl::GLTexture> m_texture;
+	std::map<std::string, IRenderable*> m_renderables;
+	std::map<std::string, gl::GLTexture> m_textures;
 
 	IRenderer*			m_pRenderer;
 	IFrameBuffer*		m_pFrame;
