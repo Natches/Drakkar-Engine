@@ -46,7 +46,7 @@ namespace drak {
 		DRAK_API void applyImpulse(components::RigidBody& target, math::Vec3f& impulse);
 		DRAK_API void applyForce(components::RigidBody& target, math::Vec3f& force);
 		DRAK_API void changeVelocity(components::RigidBody& target, math::Vec3f& newVelocity);
-		DRAK_API void goTo(components::RigidBody& target, math::Vec3f& newPos, math::Vec4f& newRot = math::Vec4f(0,0,0,1));
+		DRAK_API void goTo(components::RigidBody& target, math::Vec3f& newPos, math::Quaternion& newRot = math::Quaternion(math::Vec4f(0,0,0,1)));
 
 	private:
 		PhysicsSystem();

@@ -13,7 +13,19 @@ void drak::components::RigidBody::activate(bool value) {
 	if (rigidActor == nullptr) {
 		return;
 	}
-	rigidActor->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !value);
+	if (core::Engine::Get().inEditorMode()) {
+		physx::PxShape* shapes;
+		physx::PxU32 arraySize;
+		arraySize = rigidActor->getNbShapes();
+		rigidActor->getShapes(&shapes, arraySize);
+		for (U32 i = 0; i < arraySize; ++i) {
+			shapes[i].setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, !value);
+		}
+	}
+	else {
+		rigidActor->setActorFlag(physx::PxActorFlag::eDISABLE_SIMULATION, !value);
+	}
+
 }
 
 void drak::components::RigidBody::deleteComponent() {

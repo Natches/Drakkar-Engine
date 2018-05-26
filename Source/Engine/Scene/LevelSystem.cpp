@@ -78,10 +78,15 @@ bool LevelSystem::startup() {
 
 void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
 	for (U32 i = 0; i < children.size(); ++i) {
-		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+		if (m_gameObjects[children[i]].getComponentFlag(ComponentType<RigidBody>::id) && m_gameObjects[children[i]].getComponent<RigidBody>()->active()) {
+			Engine::Get().getPhysicsSystem().goTo(*m_gameObjects[children[i]].getComponent<RigidBody>(), parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()), parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+		}
+		else {
+			m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+			m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+			m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
+		}
 		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalScale());
-		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
-		m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
 		moveChildren(*m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
 	}
 }
