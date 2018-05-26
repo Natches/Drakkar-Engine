@@ -6,10 +6,10 @@
 
 namespace drak {
 
-//---------------------------------------------------------------------------------------
-// Forward Declarations
-namespace events { struct KeyEvent; }
-//---------------------------------------------------------------------------------------
+namespace events { 
+struct KeyEvent; 
+struct MouseEvent;
+} // namespace Events
 
 namespace video {
 
@@ -39,6 +39,7 @@ public:
 	virtual void	close()			= 0;
 
 	virtual void	handleKeyEvent(const events::KeyEvent& e);
+	virtual void	handleMouseEvent(const events::MouseEvent& e);
 
 protected:
 	void*	m_pWin;

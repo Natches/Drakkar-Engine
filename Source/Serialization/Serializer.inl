@@ -299,7 +299,7 @@ core::EError Serializer::SerializeToINI(const T& t, const char* path, const char
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -314,7 +314,7 @@ core::EError Serializer::SerializeToINI(const std::vector<T>& t, const char* pat
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -328,7 +328,7 @@ core::EError Serializer::SerializeToINI(const char* path, const char* filename, 
 		file << ini.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -343,7 +343,7 @@ core::EError Serializer::AddToINI(const T& t, const char* path) {
 			file << ini.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -361,7 +361,7 @@ inline core::EError Serializer::AddToINI(const std::vector<T>& t, const char * p
 			file << ini.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -379,7 +379,7 @@ core::EError Serializer::AddToINI(const char* path, const T& t, VArgs&& ...args)
 			file.flush();
 			file.close();
 		}
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_FOUND;
 }
@@ -396,7 +396,7 @@ core::EError Serializer::LoadFromINI(T& t, const char* path) {
 			if (it != std::string::npos) {
 				ini.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::INI>(t, ini);
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -422,7 +422,7 @@ core::EError Serializer::LoadFromINI(std::vector<T>& t, const char* path) {
 					t.emplace_back(t2);
 					it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 				}
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -452,7 +452,7 @@ core::EError Serializer::LoadFromINI(const char* path, T& t, VArgs&& ...args) {
 			Occurence(occurence, t, std::forward<VArgs>(args)...);
 			ini.seekg(0, std::ios::beg);
 			LoadFromFile<ext>(ini, desc, occurence, t, std::forward<VArgs>(args)...);
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -468,7 +468,7 @@ core::EError Serializer::SerializeToJSON(const T& t, const char* path, const cha
 		file << json.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -485,7 +485,7 @@ core::EError Serializer::LoadFromJSON(T& t, const char* path) {
 			if (it != std::string::npos) {
 				json.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::JSON>(t, json);
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -506,7 +506,7 @@ core::EError Serializer::SerializeToBinary(const T& t, const char* path, const c
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -525,7 +525,7 @@ core::EError Serializer::SerializeToBinary(const std::vector<T>& t, const char* 
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -541,7 +541,7 @@ core::EError Serializer::SerializeToBinary(const char* path, const char* filenam
 		file << binary.rdbuf();
 		file.flush();
 		file.close();
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_OPENED;
 }
@@ -566,7 +566,7 @@ core::EError Serializer::AddToBinary(const T& t, const char* path) {
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -595,7 +595,7 @@ core::EError Serializer::AddToBinary(const std::vector<T>& t, const char* path) 
 			file << binary.rdbuf();
 			file.flush();
 			file.close();
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 	}
 	return core::EError::FILE_NOT_FOUND;
@@ -616,7 +616,7 @@ core::EError Serializer::AddToBinary(const char* path, const T& t, VArgs&& ...ar
 			file.flush();
 			file.close();
 		}
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	return core::EError::FILE_NOT_FOUND;
 }
@@ -636,7 +636,7 @@ core::EError Serializer::LoadFromBinary(T& t, const char* path) {
 				binary << file.rdbuf();
 				file.close();
 				MetaData<T>::Deserialize<EExtension::BINARY>(t, binary);
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			file.close();
 			return core::EError::CLASS_NOT_FOUND;
@@ -671,7 +671,7 @@ core::EError Serializer::LoadFromBinary(std::vector<T>& t, const char* path) {
 					MetaData<REMOVE_ALL_TYPE_MODIFIER(T)>::Deserialize
 						<EExtension::BINARY>(t[t.size() - 1], binary);
 				}
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			file.close();
 			return core::EError::CLASS_NOT_FOUND;
@@ -695,7 +695,7 @@ core::EError Serializer::LoadFromBinary(const char* path, T& t, VArgs&& ...args)
 			binary << file.rdbuf();
 			file.close();
 			LoadFromFile<ext>(binary, desc, occurence, t, std::forward<VArgs>(args)...);
-			return core::EError::NO_ERROR;
+			return DK_OK;
 		}
 		return core::EError::FILE_NOT_OPENED;
 	}
@@ -716,7 +716,7 @@ core::EError Serializer::ContainBinary(const char* path, U32& count) {
 					++occurence;
 			}
 			if (desc.find(MetaData<REMOVE_ALL_TYPE_MODIFIER<T>>::TypeName(), 0)) {
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			else
 				return core::EError::CLASS_NOT_FOUND;
@@ -735,7 +735,7 @@ core::EError Serializer::ContainJSON(const char* path) {
 			getline(file, str);
 			file.close();
 			if (str == std::string(MetaData<REMOVE_ALL_TYPE_MODIFIER<T>>::TypeName()) + ": {") {
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}
@@ -759,7 +759,7 @@ core::EError Serializer::ContainINI(const char* path, U32& count) {
 					++count;
 					it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 				}
-				return core::EError::NO_ERROR;
+				return DK_OK;
 			}
 			return core::EError::CLASS_NOT_FOUND;
 		}

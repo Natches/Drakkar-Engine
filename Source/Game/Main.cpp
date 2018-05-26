@@ -123,9 +123,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
-	BHVR.load();
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
+	//BHVR.load();
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }

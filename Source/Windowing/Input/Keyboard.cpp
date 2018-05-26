@@ -3,13 +3,6 @@
 namespace drak {
 namespace events {
 
-Keyboard::Keyboard() {
-
-}
-
-Keyboard::~Keyboard() {
-
-}
 
 Keyboard& Keyboard::Get() {
 	static Keyboard s_keyboard;

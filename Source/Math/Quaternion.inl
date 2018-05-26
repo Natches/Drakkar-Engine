@@ -138,9 +138,7 @@ Vec3f Quaternion::euler() const {
 	float s = atanf(quat.w / quat.x);
 	float d = atan2f(quat.z, quat.y);
 
-	return  Vec3f(s + d,
-		IsNotEqual_V(c2, 0.f) ? 2.f * atanf(sqrt(s2 / c2)) : (0.5f > s2) ? 0.f : M_PI,
-		s - d) * ToDegF;
+	return  Vec3f(s + d, IsNotEqual_V(c2, 0.f) ? 2.0f * atanf(sqrtf(s2 / c2)) : (0.5f > s2) ? 0 : M_PIF, s - d) * ToDegF;
 }
 
 inline Vec4f Quaternion::forward() {

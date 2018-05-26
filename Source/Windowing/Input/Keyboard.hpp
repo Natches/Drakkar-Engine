@@ -85,8 +85,8 @@ protected:
 	void dispatchEvent(const Event* e) override;
 
 private:
-	Keyboard();
-	~Keyboard();
+	Keyboard()	= default;
+	~Keyboard()	= default;
 
 private:
 	std::map<EventType, std::list<EventListener>> m_listeners;
@@ -95,5 +95,5 @@ private:
 friend void video::AWindow::handleKeyEvent(const KeyEvent& e);
 };
 
-} // namespace input
+} // namespace events
 } // namespace drak

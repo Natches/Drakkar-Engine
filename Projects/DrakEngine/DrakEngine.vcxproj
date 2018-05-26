@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\Source\Engine\Components\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
+    <ClCompile Include="..\..\Source\Engine\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\SimulationEvent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\..\Source\Engine\Components\TransformComponent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Engine.hpp" />
     <ClInclude Include="..\..\Source\Engine\CreateDerivative.hpp" />
+    <ClInclude Include="..\..\Source\Engine\GameObject.hpp" />
     <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.hpp" />
     <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Scene\LevelSystem.hpp" />
@@ -134,6 +136,11 @@
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>
@@ -159,6 +166,11 @@
       <PrecompiledHeaderFile>PrecompiledHeader/pch.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\static;</AdditionalLibraryDirectories>
@@ -187,6 +199,9 @@
       <PrecompiledHeaderOutputFile>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\pch.pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <FloatingPointModel>Precise</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -218,6 +233,9 @@
       <ProgramDataBaseFileName>$(SolutionDir)PrecompiledHeader\$(Configuration)\$(Platform)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <OmitFramePointers>
       </OmitFramePointers>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
