@@ -1,6 +1,5 @@
 #include <PrecompiledHeader/pch.hpp>
 #include <Engine/Engine.hpp>
-#include <Engine/Components/GameObject.hpp>
 #include <Windowing/Window/AWindow.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
