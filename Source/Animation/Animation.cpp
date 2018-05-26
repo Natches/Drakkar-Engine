@@ -13,14 +13,5 @@ Animation::Animation(Animation&& anim)
 	m_animationDuration(std::move(anim.m_animationDuration)) {
 }
 
-void Animation::buildNecessaryBoneList(std::unordered_map<std::string, bool>& neededBones) const {
-	for (auto kFrame : m_frames) {
-		for (auto& nBone : neededBones) {
-			if (kFrame.jointByName(nBone.first, Joint()) == core::EError::NO_ERROR)
-				nBone.second = true;
-		}
-	}
-}
-
 } // namespace animation
 } // namespace drak

@@ -17,6 +17,10 @@ Vec2<T>::Vec2(const T n) : m_vec{ n, n } {
 }
 
 template<typename T>
+Vec2<T>::Vec2(const T* arr) : memcpy(m_vec, arr, sizeof(m_vec)) {
+}
+
+template<typename T>
 Vec2<T>::Vec2(const T X, const T Y) : m_vec{ X, Y } {
 
 }

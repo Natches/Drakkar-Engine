@@ -91,6 +91,20 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMa
 
 void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials,
 	TexVec& aTextures, definition::ResourceName& aNames, bool extractMaterialsAndTexture) {
+	if (m_pScene == nullptr) {
+		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
+		return;
+	}
+
+	extractSkeletalMeshes(aModels, aSkelMeshes, aNames);
+	if (extractMaterialsAndTexture) {
+		extractMaterials(aMaterials, aNames);
+		extractTextures(aTextures, aNames);
+	}
+}
+
+bool ModelImporter::hasAnimation() {
+	return m_pScene->HasAnimations();
 }
 
 void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
@@ -117,7 +131,25 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 
 void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
 	definition::ResourceName& aNames) {
-
+	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
+	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::SkeletalMesh());
+	aiString str;
+	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
+		aiMesh* inMesh = m_pScene->mMeshes[i];
+		aOutMeshVec[i].name = inMesh->mName.C_Str();
+		aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
+		extractSkeleton(inMesh, aOutMeshVec[i].skeleton);
+		extractSkeletalVertex(inMesh, aOutMeshVec[i]);
+		AddIndices(inMesh, aOutMeshVec[i]);
+		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
+		if (str != aiString("")) {
+			aNames.names[aOutModelVec[i].mesh] =
+				definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
+			aOutModelVec[i].mesh = inMesh->mName.C_Str();
+			aOutModelVec[i].material = str.C_Str();
+			str.Clear();
+		}
+	}
 }
 
 void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames) {
@@ -199,25 +231,89 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 }
 
 void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
+	outMesh.vertices.resize(inMesh->mNumVertices);
 	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
-		outMesh.vertices.emplace_back
-		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
-			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),
-			(*reinterpret_cast<math::Vec3f*>(&(inMesh->mTextureCoords[0][i]))).xy });
+		outMesh.vertices[i] =
+		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i),
+			*reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i),
+			*reinterpret_cast<math::Vec2f*>(inMesh->mTextureCoords[0] + i) });
 	}
 }
 
 void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh) {
+	definition::SkeletalVertex skelVert;
+	outMesh.vertices.resize(inMesh->mNumVertices);
+	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
+		skelVert.pos = *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i);
+		skelVert.normal = *reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i);
+		skelVert.uv = *reinterpret_cast<math::Vec2f*>(inMesh->mTextureCoords[0] + i);
+		outMesh.vertices[i] = skelVert;
+	}
+	std::map<U32, std::pair<std::vector<U32>, std::vector<F32>>> weightMap;
+	for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
+		aiBone* bone = inMesh->mBones[i];
+		for (U32 i2 = 0, size2 = bone->mNumWeights; i2 < size2; ++i2) {
+			std::pair<std::vector<U32>, std::vector<F32>> weightPair =
+				weightMap[bone->mWeights[i2].mVertexId];
+			weightPair.first.emplace_back(i);
+			weightPair.second.emplace_back(bone->mWeights[i2].mWeight);
+		}
+	}
+	for (auto& weightNode : weightMap) {
+		outMesh.vertices[weightNode.first].boneId = { weightNode.second.first.data() };
+		outMesh.vertices[weightNode.first].weight = { weightNode.second.second.data() };
+	}
+}
+
+void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSkeleton) {
+	if (inMesh->HasBones()) {
+		new (&outSkeleton.invGlobalPos) math::Mat4f(m_pScene->mRootNode->mTransformation[0]);
+		outSkeleton.invGlobalPos.inverse();
+		aiVector3D pos, scale;
+		aiQuaternion quat;
+		for (unsigned int size = inMesh->mNumBones, i = 0; i < size; ++i) {
+			definition::Bone& b = outSkeleton.bones[inMesh->mBones[i]->mName.C_Str()];
+			b.name = inMesh->mBones[i]->mName.C_Str();
+			definition::Joint& j = b.joint;
+			inMesh->mBones[i]->mOffsetMatrix.Decompose(scale, quat, pos);
+			new (&j.pos) math::Vec3f((F32*)&pos);
+			new (&j.rot) math::Quat(math::Vec4f((F32*)&quat));
+			new (&j.scale) math::Vec3f((F32*)&scale);
+		}
+		buildBoneHierarchy(m_pScene->mRootNode->FindNode(inMesh->mBones[0]->mName.C_Str()),
+			outSkeleton.bones[std::string(inMesh->mBones[0]->mName.C_Str())], outSkeleton);
+	}
+	if (m_pScene->HasAnimations()) {
+		extractAnimation(outSkeleton.animations);
+		outSkeleton.optimizeBoneList();
+	}
+}
+
+void ModelImporter::buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
+	definition::Skeleton& skeleton) {
+	for (unsigned int i = 0, size = inNode->mNumChildren; i < size; ++i) {
+		b.children.emplace_back(std::string(inNode->mChildren[i]->mName.C_Str()));
+		skeleton.bones[b.children[b.children.size() - 1]].parent = b.name;
+		buildBoneHierarchy(inNode->mChildren[i],
+			skeleton.bones[std::string(inNode->mChildren[i]->mName.C_Str())], skeleton);
+	}
+}
+
+void ModelImporter::extractAnimation(std::vector<definition::Animation>& outAnimations) {
+}
+
+void ModelImporter::extractKeyframe(aiNodeAnim* inKeyframe, definition::Keyframe& outKeyframe) {
 }
 
 template<typename MeshType>
 void ModelImporter::AddIndices(aiMesh* inMesh, MeshType& outMesh) {
+	outMesh.indices.resize(inMesh->mNumFaces * 3);
 	for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
 		const aiFace& inFace = inMesh->mFaces[f];
 		if (inFace.mNumIndices == 3u) {
-			outMesh.indices.emplace_back(inFace.mIndices[0]);
-			outMesh.indices.emplace_back(inFace.mIndices[1]);
-			outMesh.indices.emplace_back(inFace.mIndices[2]);
+			outMesh.indices[f](inFace.mIndices[0]);
+			outMesh.indices[f + 1](inFace.mIndices[1]);
+			outMesh.indices[f + 2](inFace.mIndices[2]);
 		}
 	}
 }

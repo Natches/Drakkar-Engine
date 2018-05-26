@@ -27,12 +27,6 @@ struct Mesh {
 	std::vector<Vertex> vertices;
 };
 
-struct SkeletalMesh {
-	std::string name;
-	std::vector<U32> indices;
-	std::vector<SkeletalVertex> vertices;
-};
-
 struct Texture {
 	std::string name;
 	std::vector<U8> pixels;
@@ -58,6 +52,48 @@ struct Material {
 struct Model {
 	std::string mesh;
 	std::string material;
+};
+
+struct Joint {
+	math::Vec3f pos;
+	math::Vec3f scale;
+	math::Quat rot;
+};
+
+struct Bone {
+	bool operator==(const Bone& b);
+	std::string name, parent;
+	std::vector<std::string> children;
+	Joint joint;
+};
+
+struct Keyframe {
+	core::EError jointByName(const std::string& name, Joint& j) const;
+	std::map<std::string, Joint> joints;
+};
+
+struct Animation {
+	void buildNecessaryBoneList(std::unordered_map<std::string, bool>& neededBones) const;
+	std::string name;
+	std::vector<Keyframe> frames;
+	F32 animationDuration;
+};
+
+struct Skeleton {
+	core::EError jointByName(const std::string& name, Joint& j) const;
+	void optimizeBoneList();
+	void eraseFromHierarchy(Bone& b, Bone* parent);
+	Bone base;
+	std::unordered_map<std::string, Bone> bones;
+	std::vector<Animation> animations;
+	math::Mat4f invGlobalPos;
+};
+
+struct SkeletalMesh {
+	std::string name;
+	std::vector<U32> indices;
+	std::vector<SkeletalVertex> vertices;
+	Skeleton skeleton;
 };
 
 struct ResourceName {
@@ -90,11 +126,6 @@ DK_PUBLIC_FIELDS(name, indices, vertices)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::definition::SkeletalMesh)
-DK_PUBLIC_FIELDS(name, indices, vertices)
-DK_PUBLIC_FIELD_COMPLEMENT
-DK_METADATA_END
-
 DK_METADATA_BEGIN(drak::definition::Texture)
 DK_PUBLIC_FIELDS(name, channels, width, height, pixels, format)
 DK_PUBLIC_FIELD_COMPLEMENT
@@ -118,5 +149,35 @@ DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::ResourceName)
 DK_PUBLIC_FIELDS(names)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::Joint)
+DK_PUBLIC_FIELDS(pos, scale, rot)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::Bone)
+DK_PUBLIC_FIELDS(children, joint, name, invTPose)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::Keyframe)
+DK_PUBLIC_FIELDS(joints)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::Animation)
+DK_PUBLIC_FIELDS(name, frames, animationDuration)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::Skeleton)
+DK_PUBLIC_FIELDS(base, bones, animations)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+DK_METADATA_BEGIN(drak::definition::SkeletalMesh)
+DK_PUBLIC_FIELDS(name, indices, vertices, skeleton)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

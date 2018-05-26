@@ -10,6 +10,10 @@ class Importer;
 
 struct aiScene;
 struct aiMesh;
+struct aiBone;
+struct aiNode;
+struct aiAnimation;
+struct aiNodeAnim;
 #pragma endregion
 
 namespace drak {
@@ -45,6 +49,8 @@ public:
 	void importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials, TexVec& aTextures,
 		definition::ResourceName& aNames, bool extractMaterialsAndTexture = true);
 
+	bool hasAnimation();
+
 	DK_GETTER_REF_C(std::string, filename, m_filename)
 
 private:
@@ -56,6 +62,11 @@ private:
 	void extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames);
 	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
 	void extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh);
+	void extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSkeleton);
+	void buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
+		definition::Skeleton& skeleton);
+	void extractAnimation(std::vector<definition::Animation>& outAnimations);
+	void extractKeyframe(aiNodeAnim* inKeyframe, definition::Keyframe& outKeyframe);
 
 	template<typename MeshType>
 	void AddIndices(aiMesh* inMesh, MeshType& outMesh);

@@ -190,23 +190,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Resources\Shaders\grid.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\grid.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\instanced.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\default.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\default.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\skinning.vert">
-      <Filter>Resource Files</Filter>
-    </None>
+    <None Include="..\..\Resources\Shaders\default.frag" />
+    <None Include="..\..\Resources\Shaders\default.vert" />
+    <None Include="..\..\Resources\Shaders\grid.frag" />
+    <None Include="..\..\Resources\Shaders\grid.vert" />
+    <None Include="..\..\Resources\Shaders\instanced.vert" />
+    <None Include="..\..\Resources\Shaders\skinning.vert" />
   </ItemGroup>
 </Project>

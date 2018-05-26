@@ -20,11 +20,6 @@ public:
 	core::EError jointByName(const std::string& name, Joint& j) const;
 
 private:
-	void buildBoneList(const Bone& b);
-	void optimizeBoneList();
-	void eraseFromHierarchy(Bone& b);
-
-private:
 	Bone m_base;
 	std::unordered_map<std::string, Bone> m_boneList;
 	std::vector<Animation> m_animList;

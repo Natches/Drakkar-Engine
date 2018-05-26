@@ -19,8 +19,6 @@ public:
 	Animation(const Animation& anim);
 	Animation(Animation&& anim);
 
-	void buildNecessaryBoneList(std::unordered_map<std::string, bool>& neededBones) const;
-
 	DK_GETTER_REF_C(std::string, name, m_name)
 	DK_GETTER_REF_C(std::vector<KeyFrame>, frames, m_frames)
 	DK_GETTER_C(I32, frameNumber, m_frames.size())
