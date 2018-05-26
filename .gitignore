@@ -367,3 +367,5 @@ CodeGraphData/
 Projects/DrakConverter/Resources/
 
 CodeGraphData/
+
+*.rc

@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Windowing\Input\Keyboard.cpp" />
+    <ClCompile Include="..\..\Source\Windowing\Input\Mouse.cpp" />
     <ClCompile Include="..\..\Source\Windowing\Window\AWindow.cpp" />
     <ClCompile Include="..\..\Source\Windowing\Window\SDLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Windowing\Input\Keyboard.hpp" />
+    <ClInclude Include="..\..\Source\Windowing\Input\Mouse.hpp" />
     <ClInclude Include="..\..\Source\Windowing\Window\AWindow.hpp" />
     <ClInclude Include="..\..\Source\Windowing\Window\SDLWindow.hpp" />
     <ClInclude Include="..\..\Source\Windowing\Window\WindowSettings.hpp" />

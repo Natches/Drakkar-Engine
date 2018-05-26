@@ -18,6 +18,11 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 		new MemberFunction<RenderSystem, void, const Event*>
 		(this, &RenderSystem::onKeyUp, &Keyboard::Get().event()));
 
+	Mouse::Get().addEventListener(
+		MouseEvent::MOUSE_MOVE,
+		new MemberFunction<RenderSystem, void, const Event*>
+		(this, &RenderSystem::onMouseEvent, &Mouse::Get().event()));
+
 	m_pRenderer = pRenderer;
 	m_pRenderer->info();
 
@@ -176,6 +181,14 @@ void RenderSystem::onKeyUp(const events::Event* pEvt) {
 	DK_END
 }
 
+void RenderSystem::onMouseEvent(const events::Event* pEvt) {
+	auto m = static_cast<const MouseEvent*>(pEvt);
+	std::cout << m->xPos << "; " << m->yPos << "\n";
+	//DK_SELECT(m->btn)
+	//	DK_CASE(MouseEvent::MOUSE_LEFT, std::cout << "Left\n")
+	//	DK_CASE(MouseEvent::MOUSE_RIGHT, std::cout << "Right\n")
+	//DK_END
+}
 
 } // namespace gfx
 } // namespace drak
