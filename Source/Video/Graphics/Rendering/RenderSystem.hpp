@@ -34,6 +34,8 @@ public:
 	void startFrame();
 	void endFrame();
 
+	inline Camera& mainCamera() { return m_mainCam; }
+
 private:
 	bool loadShaders();
 	void convertModelToRenderable(const std::vector<components::Model>& models,

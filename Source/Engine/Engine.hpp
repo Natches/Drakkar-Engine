@@ -71,7 +71,10 @@ public:
 	events::EngineEventDispatcher&	GetEventDispatcher()	{ return m_eventDispatcher; }
 
 	time::FrameTimer&				getFrameTimer()			{ return s_frameTime; }
+	inline bool						inEditorMode()			{ return m_editorMode; }
 	thread::ThreadPool m_pool;
+
+	bool CameraRaycast(U64& hitGameObjectID);
 
 private:
 	static Engine* m_pInstance;

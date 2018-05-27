@@ -36,7 +36,7 @@ public:
 			BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
 
 			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 20.f, 0.f));
-			cube_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+			cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
 			cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
 
 			cube_RB.mass = 1000.f;
@@ -44,7 +44,7 @@ public:
 			cube_MDL.model = "SK_Mannequin1";
 
 			cube_BC.width = 1.f;
-			cube_BC.height = 1.f;
+			cube_BC.height = 4.f;
 			cube_BC.depth = 1.f;
 			cube_BC.material = mat;
 			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
@@ -64,13 +64,13 @@ public:
 			childCube_RB.mass = 1000.f;
 
 			childCube_BC.width = 1.f;
-			childCube_BC.height = 1.f;
+			childCube_BC.height = 4.f;
 			childCube_BC.depth = 1.f;
 			childCube_BC.material = mat;
 
 			childCube_MDL.model = "SK_Mannequin1";
 			const U32 parent2IDX = childCube.getIdx();
-			childCube.setParent(parentIDX);
+			childCube.setParentIndex(parentIDX);
 
 			GameObject& childCube2 = scene.addGameObject();
 			Transform& childCube2_TR = *childCube2.getComponent<Transform>();
@@ -83,7 +83,7 @@ public:
 			childCube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
 
 			childCube2_BC.width = 1.f;
-			childCube2_BC.height = 1.f;
+			childCube2_BC.height = 4.f;
 			childCube2_BC.depth = 1.f;
 			childCube2_BC.material = mat;
 
@@ -91,7 +91,7 @@ public:
 
 			childCube2_MDL.model = "SK_Mannequin1";
 
-			childCube2.setParent(parent2IDX);
+			childCube2.setParentIndex(parent2IDX);
 
 		}
 		GameObject& floor = scene.addGameObject();
@@ -129,5 +129,3 @@ void main() {
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }
-
-

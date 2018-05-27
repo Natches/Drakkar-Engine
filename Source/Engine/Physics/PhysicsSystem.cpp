@@ -47,6 +47,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.y,
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
+		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	}
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
@@ -75,6 +76,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
 		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	}
 
 	U64* goIDX = new U64;
@@ -241,16 +243,26 @@ void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::V
 	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
 }
 
-void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Vec4f& newRot) {
+void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Quaternion& newRot) {
 	if (target.rigidActor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
-		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags() == PxRigidBodyFlag::eKINEMATIC) {
-			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
+		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags().isSet(PxRigidBodyFlag::eKINEMATIC)) {
+			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.m_vecPart.x, newRot.m_vecPart.y, newRot.m_vecPart.z, newRot.m_scalar)));
 		}
 		else {
-			target.rigidActor->setGlobalPose(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.x, newRot.y, newRot.z, newRot.w)));
+			target.rigidActor->setGlobalPose(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.m_vecPart.x, newRot.m_vecPart.y, newRot.m_vecPart.z, newRot.m_scalar)));
 		}
 	}
 
+}
+
+bool drak::PhysicsSystem::raycast(math::Vec3f position, math::Vec3f direction, F32 maxLength, U64& gameObjectID) {
+	PxRaycastBuffer hit;
+	direction.normalize();
+	if (m_pPhysicsScene->raycast(PxVec3(position.x, position.y, position.z), PxVec3(direction.x, direction.y, direction.z), maxLength, hit)){
+		gameObjectID = *(U64*)hit.block.actor->userData;
+		return true;
+	}
+	return false;
 }
 
 /*void drak::PhysicsSystem::addChildShapes(LevelSystem & level, GameObject& target, std::vector<std::pair<physx::PxShape*, physx::PxTransform>>& shapes) {

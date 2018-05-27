@@ -5,6 +5,7 @@
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Engine/InputManager.hpp>
 
 using namespace drak::components;
 using namespace drak::time;
@@ -17,6 +18,16 @@ namespace core {
 Engine* Engine::m_pInstance = nullptr;
 
 bool Engine::s_running = true;
+
+bool Engine::CameraRaycast(U64& hitGameObjectID){
+	math::Vec2i mousePos(InputManager::mousePos());
+	math::Vec4f ray_clip(2.f * mousePos.x / m_pMainWindow->width() - 1.f, 1.f - 2.f * mousePos.y / m_pMainWindow->height(), -1.f, 1.f);
+	math::Vec4f ray_eye(math::Inverse(m_pRenderSystem->mainCamera().perspective()) * ray_clip);
+	ray_eye.z = -1.f;
+	ray_eye.w = 0.f;
+	math::Vec4f ray_world(math::Inverse(m_pRenderSystem->mainCamera().view()) * ray_eye);
+	return m_pPhysicsSystem->raycast(m_pRenderSystem->mainCamera().eye(), ray_eye, 1000.f, hitGameObjectID);
+}
 
 Engine::Engine() {
 	m_pVideoSystem		= new video::VideoSystem();
@@ -97,6 +108,11 @@ void Engine::startLoop() {
 			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
+	for (U32 i = 0; i < gameObjects.size(); ++i) {
+		if (gameObjects[i].getParent() >= 0)
+			gameObjects[i].setParent(gameObjects[i].getParent());
+	}
+
 	m_evt.type = events::EngineEventDispatcher::UPDATE_START;
 	m_eventDispatcher.dispatchEvent(&m_evt);
 
@@ -111,6 +127,14 @@ void Engine::startLoop() {
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
+
+		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
+			U64 hitID; 
+			if (CameraRaycast(hitID)) {
+				if(m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
+					m_pLevelSystem->DestroyComponent<components::Model>(m_pLevelSystem->m_gameObjects[hitID].getComponentHandles()[ComponentType<components::Model>::id]);
+			}	
+		}
 
 		m_pMainWindow->clear();
 		renderScene();
