@@ -85,7 +85,7 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec
 	}
 
 	extractMeshes(aModels, aMeshes, aNames);
-	extractSkeletalMeshes(aModels, aSkelMeshes, aNames);
+	extractSkinnedMeshes(aModels, aSkelMeshes, aNames);
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials, aNames);
 		extractTextures(aTextures, aNames);
@@ -116,7 +116,7 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 	}
 }
 
-void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
+void ModelImporter::extractSkinnedMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
 	definition::ResourceName& aNames) {
 	aOutModelVec.resize(m_pScene->mNumMeshes);
 	aOutMeshVec.resize(m_pScene->mNumMeshes);
@@ -125,14 +125,14 @@ void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& a
 		aiMesh* inMesh = m_pScene->mMeshes[i];
 		if (inMesh->HasBones()) {
 			aOutMeshVec[i].name = inMesh->mName.C_Str();
-			aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
+			aNames.names[aOutMeshVec[i].name] = definition::EFileType::SKINNEDMESH;
 			extractSkeleton(inMesh, aOutMeshVec[i].skeleton);
 			extractSkeletalVertex(inMesh, aOutMeshVec[i]);
 			AddIndices(inMesh, aOutMeshVec[i]);
 			m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
 			if (str != aiString("")) {
 				aNames.names[aOutModelVec[i].mesh] =
-					definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
+					definition::EFileType(definition::EFileType::SKINNEDMESH | definition::EFileType::MODEL);
 				aOutModelVec[i].mesh = inMesh->mName.C_Str();
 				aOutModelVec[i].material = str.C_Str();
 				str.Clear();
@@ -151,12 +151,12 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 		str.Clear();
 		aNames.names[aOutMatVec[i].name] = definition::EFileType::MATERIAL;
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), str);
-		aOutMatVec[i].albedo = str.C_Str();
+		aOutMatVec[i].albedo = io::FileName(str.C_Str());
 		str.Clear();
 		if(aOutMatVec[i].albedo != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].albedo));
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_NORMALS(0), str);
-		aOutMatVec[i].normal = str.C_Str();
+		aOutMatVec[i].normal = io::FileName(str.C_Str());
 		str.Clear();
 		if (aOutMatVec[i].normal != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].normal));
@@ -229,7 +229,7 @@ void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 	}
 }
 
-void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh) {
+void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outMesh) {
 	definition::SkeletalVertex skelVert;
 	outMesh.vertices.resize(inMesh->mNumVertices);
 	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
@@ -260,7 +260,8 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 		outSkeleton.invGlobalPos.inverse();
 		aiVector3D pos, scale;
 		aiQuaternion quat;
-		for (unsigned int size = inMesh->mNumBones, i = 0; i < size; ++i) {
+		bool first = true;
+		for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
 			if (inMesh->mBones[i]->mName.length) {
 				definition::Bone& b = outSkeleton.bones[inMesh->mBones[i]->mName.C_Str()];
 				b.name = inMesh->mBones[i]->mName.C_Str();
@@ -269,6 +270,10 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 				new (&j.pos) math::Vec3f((F32*)&pos);
 				new (&j.rot) math::Quat(math::Vec4f((F32*)&quat));
 				new (&j.scale) math::Vec3f((F32*)&scale);
+				if (first) {
+					outSkeleton.base = b.name;
+					first = false;
+				}
 			}
 		}
 		buildBoneHierarchy(m_pScene->mRootNode->FindNode(inMesh->mBones[0]->mName.C_Str()),

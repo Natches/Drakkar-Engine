@@ -31,6 +31,12 @@
     <Filter Include="Source Files\KeyFrame">
       <UniqueIdentifier>{4907c141-7088-4571-908d-b26ec6da5500}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{77ed2d81-f282-4d91-82ba-b88f19515056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{38044368-250b-4e1d-8466-0041db6a3cf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Animation\Skeleton\Skeleton.hpp">
@@ -42,9 +48,6 @@
     <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Bone.hpp">
       <Filter>Header Files\Skeleton\Bone</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\KeyFrame\KeyFrame.hpp">
-      <Filter>Header Files\KeyFrame</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Animation\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,6 +56,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Animation\AnimationSystem.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Geometry\SkinnedVertex.hpp">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Geometry\SkinnedMesh.hpp">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\KeyFrame\KeyFrame.hpp">
+      <Filter>Header Files\KeyFrame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Animation\KeyFrame\KeyFrame.cpp">
       <Filter>Source Files\KeyFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Geometry\SkinnedMesh.cpp">
+      <Filter>Source Files\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

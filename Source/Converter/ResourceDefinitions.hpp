@@ -7,7 +7,8 @@
 namespace drak {
 namespace definition {
 
-DK_ENUM(EFileType, U8, MESH = 1 << 0, TEXTURE = 1 << 1, MATERIAL = 1 << 2, MODEL = 1 << 3)
+DK_ENUM(EFileType, U8, MESH = 1 << 0, TEXTURE = 1 << 1, MATERIAL = 1 << 2, MODEL = 1 << 3,
+	SKINNEDMESH = 1 << 4)
 
 struct Vertex {
 	math::Vec3f pos, normal;
@@ -15,10 +16,10 @@ struct Vertex {
 };
 
 struct SkeletalVertex {
-	math::Vec4f weight;
-	math::Vec4u boneId;
 	math::Vec3f pos, normal;
 	math::Vec2f uv;
+	math::Vec4u boneId;
+	math::Vec4f weight;
 };
 
 struct Mesh {
@@ -86,13 +87,13 @@ struct Skeleton {
 	void interpolateKeyframe();
 	void optimizeBoneList();
 	void eraseFromHierarchy(Bone& b, Bone* parent);
-	Bone base;
+	std::string base;
 	std::unordered_map<std::string, Bone> bones;
 	std::vector<Animation> animations;
 	math::Mat4f invGlobalPos;
 };
 
-struct SkeletalMesh {
+struct SkinnedMesh {
 	std::string name;
 	std::vector<U32> indices;
 	std::vector<SkeletalVertex> vertices;
@@ -180,7 +181,7 @@ DK_PUBLIC_FIELDS(base, bones, animations,invGlobalPos)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
-DK_METADATA_BEGIN(drak::definition::SkeletalMesh)
+DK_METADATA_BEGIN(drak::definition::SkinnedMesh)
 DK_PUBLIC_FIELDS(name, indices, vertices, skeleton)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

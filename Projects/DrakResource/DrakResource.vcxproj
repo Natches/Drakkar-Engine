@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\Source\ResourceManager\Manager\MeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\ModelManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\ShaderManager.hpp" />
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\SkinnedMeshManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Manager\TextureManager.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\ResourceSystem.hpp" />
     <ClInclude Include="..\..\Source\ResourceManager\Resource\Resource.hpp" />
@@ -55,6 +56,7 @@
     <ClCompile Include="..\..\Source\ResourceManager\Manager\MeshManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\ModelManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\ShaderManager.cpp" />
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\SkinnedMeshManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\Manager\TextureManager.cpp" />
     <ClCompile Include="..\..\Source\ResourceManager\ResourceSystem.cpp" />
   </ItemGroup>

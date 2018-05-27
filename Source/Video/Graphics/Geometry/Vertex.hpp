@@ -11,6 +11,8 @@ enum EVertexAttrib : U32 {
 	VERT_ATTR_POS,
 	VERT_ATTR_NORMAL,
 	VERT_ATTR_UV,
+	VERT_ATTR_BONE_ID,
+	VERT_ATTR_BONE_WEIGHT,
 	VERT_ATTR_COUNT
 };
 
@@ -81,17 +83,6 @@ struct Vertex1P1N1UV  : public Vertex1P1N {
 
 	math::Vec2f uv;
 };
-
-struct Vertex1P1N1UV1B1W : public Vertex1P1N1UV {
-	Vertex1P1N1UV1B1W() = default;
-	Vertex1P1N1UV1B1W(const math::Vec3f& aPos, const math::Vec3f& aNormal, const math::Vec2f& aUV,
-		const math::Vec4u& aBoneIndice, const math::Vec4f& aBoneWeight)
-		: Vertex1P1N1UV(aPos, aNormal, aUV), boneIndice(aBoneIndice), boneWeight(aBoneWeight) {
-	}
-	math::Vec4u boneIndice;
-	math::Vec4f boneWeight;
-};
-
 
 } // namespace geom
 } // namespace drak

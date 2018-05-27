@@ -57,6 +57,9 @@
     <ClInclude Include="..\..\Source\ResourceManager\Manager\ShaderManager.hpp">
       <Filter>Header Files\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ResourceManager\Manager\SkinnedMeshManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\ResourceManager\Resource\Resource.inl">
@@ -86,6 +89,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ResourceManager\Manager\ShaderManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ResourceManager\Manager\SkinnedMeshManager.cpp">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
   </ItemGroup>

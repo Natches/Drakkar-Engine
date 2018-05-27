@@ -189,12 +189,4 @@
       <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Resources\Shaders\default.frag" />
-    <None Include="..\..\Resources\Shaders\default.vert" />
-    <None Include="..\..\Resources\Shaders\grid.frag" />
-    <None Include="..\..\Resources\Shaders\grid.vert" />
-    <None Include="..\..\Resources\Shaders\instanced.vert" />
-    <None Include="..\..\Resources\Shaders\skinning.vert" />
-  </ItemGroup>
 </Project>

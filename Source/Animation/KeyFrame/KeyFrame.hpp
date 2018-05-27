@@ -6,15 +6,15 @@
 namespace drak {
 namespace animation {
 
-class KeyFrame final {
+class Keyframe final {
 public:
-	KeyFrame() = default;
-	~KeyFrame() = default;
-	KeyFrame(const KeyFrame& kFrame);
-	KeyFrame(KeyFrame&& kFrame);
+	Keyframe() = default;
+	~Keyframe() = default;
+	Keyframe(const Keyframe& kFrame);
+	Keyframe(Keyframe&& kFrame);
 
-	KeyFrame& operator=(const KeyFrame& kFrame);
-	KeyFrame& operator=(KeyFrame&& kFrame);
+	Keyframe& operator=(const Keyframe& kFrame);
+	Keyframe& operator=(Keyframe&& kFrame);
 
 	core::EError jointByName(const std::string& name, Joint& j) const;
 

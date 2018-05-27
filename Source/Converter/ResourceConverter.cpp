@@ -143,7 +143,7 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		std::vector<Material> materials;
 		std::vector<Model> models;
 		std::vector<Mesh> meshes;
-		std::vector<SkeletalMesh> skelMeshes;
+		std::vector<SkinnedMesh> skelMeshes;
 		ResourceName rName;
 
 		importer.importModel(models, meshes, skelMeshes, materials, textures, rName);

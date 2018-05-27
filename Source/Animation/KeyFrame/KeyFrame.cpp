@@ -3,25 +3,25 @@
 namespace drak {
 namespace animation {
 
-KeyFrame::KeyFrame(const KeyFrame& kFrame)
+Keyframe::Keyframe(const Keyframe& kFrame)
 	: m_jointList(kFrame.m_jointList) {
 }
 
-KeyFrame::KeyFrame(KeyFrame&& kFrame)
+Keyframe::Keyframe(Keyframe&& kFrame)
 	: m_jointList(std::move(kFrame.m_jointList)) {
 }
 
-KeyFrame& KeyFrame::operator=(const KeyFrame& kFrame) {
+Keyframe& Keyframe::operator=(const Keyframe& kFrame) {
 	m_jointList = kFrame.m_jointList;
 	return *this;
 }
 
-KeyFrame& KeyFrame::operator=(KeyFrame&& kFrame) {
+Keyframe& Keyframe::operator=(Keyframe&& kFrame) {
 	m_jointList = std::move(kFrame.m_jointList);
 	return *this;
 }
 
-core::EError KeyFrame::jointByName(const std::string& name, Joint& j) const {
+core::EError Keyframe::jointByName(const std::string& name, Joint& j) const {
 	if (m_jointList.find(name) != m_jointList.end()) {
 		j = m_jointList.at(name);
 		return DK_OK;

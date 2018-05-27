@@ -7,11 +7,9 @@ namespace drak {
 namespace animation {
 
 struct Bone final {
-	Bone* parent;
+	std::string name;
 	std::vector<Bone> children;
 	Joint joint;
-	std::string name;
-	math::Mat4f invTPose;
 };
 
 } // namespace animation

@@ -29,7 +29,7 @@ class ModelImporter final {
 	using MatVec = std::vector<definition::Material>;
 	using ModelVec = std::vector<definition::Model>;
 	using MeshVec = std::vector<definition::Mesh>;
-	using SkelMeshVec = std::vector<definition::SkeletalMesh>;
+	using SkelMeshVec = std::vector<definition::SkinnedMesh>;
 public:
 	ModelImporter();
 	ModelImporter(const ModelImporter& m);
@@ -52,12 +52,12 @@ public:
 private:
 	void extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 		definition::ResourceName& aNames);
-	void extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
+	void extractSkinnedMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
 		definition::ResourceName& aNames);
 	void extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames);
 	void extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames);
 	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
-	void extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMesh& outMesh);
+	void extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outMesh);
 	void extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSkeleton);
 	void buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 		definition::Skeleton& skeleton);
