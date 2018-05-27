@@ -12,11 +12,7 @@ namespace drak {
 namespace definition {
 struct Model;
 struct ResourceName;
-} //namespace converter
-
-namespace gfx {
-struct Model;
-} //namespace gfx
+} //namespace definition
 
 
 class ModelManager final : public AResourceManager<gfx::Model, ModelMap> {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <vector>
 #include <Serialization/MetaData.hpp>
 #include <Math/Vec4.hpp>
@@ -64,9 +65,10 @@ struct Joint {
 
 struct Bone {
 	bool operator==(const Bone& b);
-	std::string name, parent;
+	std::string name;
 	std::vector<std::string> children;
 	Joint joint;
+	std::string parent;
 };
 
 struct Keyframe {
@@ -88,8 +90,8 @@ struct Skeleton {
 	void optimizeBoneList();
 	void eraseFromHierarchy(Bone& b, Bone* parent);
 	std::string base;
-	std::unordered_map<std::string, Bone> bones;
-	std::vector<Animation> animations;
+	std::map<std::string, Bone> bones;
+	std::map<std::string, Animation> animations;
 	math::Mat4f invGlobalPos;
 };
 
@@ -162,7 +164,7 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Bone)
-DK_PUBLIC_FIELDS(children, joint, name)
+DK_PUBLIC_FIELDS(name, children, joint)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 

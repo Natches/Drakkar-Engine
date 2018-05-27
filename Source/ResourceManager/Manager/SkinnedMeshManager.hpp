@@ -12,7 +12,7 @@ namespace drak {
 namespace definition {
 struct SkinnedMesh;
 struct ResourceName;
-} //namespace converter
+} //namespace definition
 
 
 class SkinnedMeshManager final : public AResourceManager<geom::SkinnedMesh, SkinnedMeshMap> {

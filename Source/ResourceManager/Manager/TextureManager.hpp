@@ -12,11 +12,7 @@ namespace drak {
 namespace definition {
 struct Texture;
 struct ResourceName;
-} //namespace converter
-
-namespace gfx {
-class Texture;
-} //namespace gfx
+} //namespace definition
 
 class TextureManager final : public AResourceManager<gfx::Texture, TextureMap> {
 	friend class ResourceSystem;

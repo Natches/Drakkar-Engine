@@ -71,6 +71,14 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\VideoSystem.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\default.frag" />
+    <None Include="..\..\Resources\Shaders\default.vert" />
+    <None Include="..\..\Resources\Shaders\grid.frag" />
+    <None Include="..\..\Resources\Shaders\grid.vert" />
+    <None Include="..\..\Resources\Shaders\instanced.vert" />
+    <None Include="..\..\Resources\Shaders\skinning.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4777d9a5-56ea-4560-991a-865dc8e98fdc}</ProjectGuid>

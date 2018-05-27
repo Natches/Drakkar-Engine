@@ -276,7 +276,7 @@ Vec4f Rotate(const Quaternion& q, const Vec4f& v) {
 		Cross(q.m_vecPart, v.xyz)) * Inverse(q)).m_vecPart;
 }
 
-Quaternion SLerp(const Quaternion & qa, const Quaternion & qb, F32 percent) {
+Quaternion SLerp(const Quaternion& qa, const Quaternion& qb, F32 percent) {
 	return Quaternion(SLerp(qa.quat, qb.quat, percent));
 }
 

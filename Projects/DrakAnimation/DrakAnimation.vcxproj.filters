@@ -66,6 +66,9 @@
     <ClInclude Include="..\..\Source\Animation\KeyFrame\KeyFrame.hpp">
       <Filter>Header Files\KeyFrame</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Animator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Animation\Skeleton\Skeleton.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Animation\Geometry\SkinnedMesh.cpp">
       <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Animator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

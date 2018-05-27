@@ -29,7 +29,7 @@ class ModelImporter final {
 	using MatVec = std::vector<definition::Material>;
 	using ModelVec = std::vector<definition::Model>;
 	using MeshVec = std::vector<definition::Mesh>;
-	using SkelMeshVec = std::vector<definition::SkinnedMesh>;
+	using SkinnedMeshVec = std::vector<definition::SkinnedMesh>;
 public:
 	ModelImporter();
 	ModelImporter(const ModelImporter& m);
@@ -43,7 +43,7 @@ public:
 
 	bool startImport(const std::string& filename, bool optimizeMesh = true, bool leftHanded = false);
 
-	void importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec& aSkelMeshes,
+	void importModel(ModelVec& aModels, MeshVec& aMeshes, SkinnedMeshVec& aSkMeshes,
 		MatVec& aMaterials, TexVec& aTextures, definition::ResourceName& aNames,
 		bool extractMaterialsAndTexture = true);
 
@@ -52,16 +52,16 @@ public:
 private:
 	void extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 		definition::ResourceName& aNames);
-	void extractSkinnedMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
+	void extractSkinnedMeshes(ModelVec& aOutModelVec, SkinnedMeshVec& aOutSkMeshVec,
 		definition::ResourceName& aNames);
 	void extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames);
 	void extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames);
 	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
-	void extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outMesh);
+	void extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outSkMesh);
 	void extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSkeleton);
 	void buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 		definition::Skeleton& skeleton);
-	void extractAnimation(std::vector<definition::Animation>& outAnimations);
+	void extractAnimation(std::map<std::string, definition::Animation>& outAnimations);
 	void extractKeyframe(aiNodeAnim* inKeyframe, std::vector<definition::Keyframe>& outKeyframe);
 
 	template<typename MeshType>

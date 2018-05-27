@@ -276,11 +276,9 @@ static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr
 	t.clear();																					\
 	size_t size;																				\
 	sstr.read((char*)&size, sizeof(size_t));													\
-	t.reserve(size);																			\
+	t.resize(size);																				\
 	for(size_t i = 0; i < size; ++i) {															\
-		T data;																					\
-		DeserializeBinary(data, sstr);															\
-		t.emplace_back(data);																	\
+		DeserializeBinary(t[i], sstr);															\
 	}																							\
 }																								\
 template<typename T>																			\

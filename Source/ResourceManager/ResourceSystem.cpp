@@ -28,15 +28,18 @@ void ResourceSystem::reload(const std::string filename, void* task) {
 	std::vector<definition::Texture> textures;
 	std::vector<definition::Material> materials;
 	std::vector<definition::Mesh> meshes;
+	std::vector<definition::SkinnedMesh> skMeshes;
 	definition::ResourceName rName;
 
 	if (Serializer::LoadFromFile<EExtension::BINARY, false, definition::ResourceName>(filename.c_str(),
-		rName, models, textures, materials, meshes) == DK_OK) {
+		rName, models, meshes, skMeshes, materials, textures) == DK_OK) {
 
 		if (textures.size())
 			m_textureManager.reload(textures);
 		if (meshes.size())
 			m_meshManager.reload(meshes);
+		if (skMeshes.size())
+			m_skinnedMeshManager.reload(skMeshes);
 		if (materials.size())
 			m_materialManager.reload(materials);
 		if (models.size())
@@ -59,10 +62,11 @@ void ResourceSystem::load(const std::string& filename) {
 		std::vector<definition::Texture> textures;
 		std::vector<definition::Material> materials;
 		std::vector<definition::Mesh> meshes;
+		std::vector<definition::SkinnedMesh> skMeshes;
 		definition::ResourceName rName;
 
 		if (Serializer::LoadFromFile<EExtension::BINARY, false, definition::ResourceName>(filename.c_str(),
-			rName, models, textures, materials, meshes) == DK_OK) {
+			rName, models, meshes, skMeshes, materials, textures) == DK_OK) {
 
 			if (textures.size()) {
 				m_textureManager.preload(rName, filename);
@@ -71,6 +75,10 @@ void ResourceSystem::load(const std::string& filename) {
 			if (meshes.size()) {
 				m_meshManager.preload(rName, filename);
 				m_meshManager.load(filename, meshes);
+			}
+			if (skMeshes.size()) {
+				m_skinnedMeshManager.preload(rName, filename);
+				m_skinnedMeshManager.load(filename, skMeshes);
 			}
 			if (materials.size()) {
 				m_materialManager.preload(rName, filename);

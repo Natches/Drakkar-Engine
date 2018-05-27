@@ -9,9 +9,12 @@ namespace drak {
 template<typename T>
 ResourcePtr<T> ResourceSystem::loadOrGet(const std::string& name, const std::string& filename) {
 	static_assert(std::is_same_v<T, geom::Mesh> || std::is_same_v<T, gfx::Material> ||
-		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture>);
+		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture> ||
+		std::is_same_v<T, geom::SkinnedMesh>);
 	if constexpr (std::is_same_v<T, geom::Mesh>)
 		return loadOrGet<T, T::Manager>(m_meshManager, name, filename);
+	else if constexpr (std::is_same_v<T, geom::SkinnedMesh>)
+		return loadOrGet<T, T::Manager>(m_skinnedMeshManager, name, filename);
 	else if constexpr (std::is_same_v<T, gfx::Material>)
 		return loadOrGet<T, T::Manager>(m_materialManager, name, filename);
 	else if constexpr (std::is_same_v<T, gfx::Model>)
@@ -23,9 +26,12 @@ ResourcePtr<T> ResourceSystem::loadOrGet(const std::string& name, const std::str
 template<typename T>
 void ResourceSystem::unload(const std::string& name) {
 	static_assert(std::is_same_v<T, geom::Mesh> || std::is_same_v<T, gfx::Material> ||
-		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture>);
+		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture> ||
+		std::is_same_v<T, geom::SkinnedMesh>);
 	if constexpr (std::is_same_v<T, geom::Mesh>)
 		m_meshManager.unload(name);
+	else if constexpr (std::is_same_v<T, geom::SkinnedMesh>)
+		m_skinnedMeshManager.unload(name);
 	else if constexpr (std::is_same_v<T, gfx::Material>) 
 		m_materialManager.unload(name);
 	else if constexpr (std::is_same_v<T, gfx::Model>) 
@@ -37,9 +43,12 @@ void ResourceSystem::unload(const std::string& name) {
 template<typename T>
 void ResourceSystem::reload(const std::string& name) {
 	static_assert(std::is_same_v<T, geom::Mesh> || std::is_same_v<T, gfx::Material> ||
-		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture>);
+		std::is_same_v<T, gfx::Model> || std::is_same_v<T, gfx::Texture> ||
+		std::is_same_v<T, geom::SkinnedMesh>);
 	if constexpr (std::is_same_v<T, geom::Mesh>)
 		reload<T::Manager>(m_meshManager, m_meshManager[name].filename());
+	else if constexpr (std::is_same_v<T, geom::SkinnedMesh>)
+		reload<T::Manager>(m_skinnedMeshManager, m_skinnedMeshManager[name].filename());
 	else if constexpr (std::is_same_v<T, gfx::Material>) 
 		reload<T::Manager>(m_materialManager, m_materialManager[name].filename());
 	else if constexpr (std::is_same_v<T, gfx::Model>) 

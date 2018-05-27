@@ -280,7 +280,6 @@ void Serializer::LoadFromFile(std::stringstream& sstr, FileDescriptor& desc,
 	}
 	if constexpr (static_cast<bool>(sizeof...(VArgs)))
 		LoadFromFile<ext>(sstr, desc, occurence, std::forward<VArgs>(args)...);
-
 }
 
 template<class T, class ...VArgs>

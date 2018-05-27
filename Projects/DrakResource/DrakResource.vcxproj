@@ -161,7 +161,7 @@
       </MinimalRebuild>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>DrakConverter.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DrakConverter.lib;DrakAnimation.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Lib>
@@ -186,7 +186,7 @@
       </MinimalRebuild>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>DrakConverter.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DrakConverter.lib;DrakAnimation.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Lib>
@@ -219,7 +219,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>DrakConverter.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DrakConverter.lib;DrakAnimation.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Lib>
@@ -251,7 +251,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>DrakConverter.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DrakConverter.lib;DrakAnimation.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Lib>

@@ -21,7 +21,7 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/SK_Mannequin.dkResources"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/zombii.dkResources"));
 		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;

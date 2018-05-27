@@ -52,6 +52,9 @@
     <Filter Include="Source Files\Graphics\Rendering\HighLevel">
       <UniqueIdentifier>{308ebb5d-e847-40df-8a8c-ca94763a4deb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{11ea303e-670b-45ad-a59b-d1c22a43f9ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Video\VideoSettings.hpp">
@@ -188,5 +191,25 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\grid.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\instanced.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\skinning.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\default.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\default.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\grid.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

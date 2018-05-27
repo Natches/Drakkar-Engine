@@ -9348,7 +9348,7 @@ PublicFields: {
 	"m_data": drak::ResourceSystemData: {
 		PrivateFields: {
 			"fileLoaded": [
-				"./Resources/Models/SK_Mannequin.dkResources",
+				"./Resources/Models/zombii.dkResources",
 				"./Resources/Models/cube.dkResources"
 			],
 			"packageLoaded": [

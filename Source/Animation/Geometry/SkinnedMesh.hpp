@@ -12,7 +12,8 @@ class SkinnedMeshManager;
 namespace geom {
 
 class SkinnedMesh {
-	friend class Resource<SkinnedMesh>;
+	friend class Resource<geom::SkinnedMesh>;
+
 public:
 	SkinnedMesh(const std::string& name, std::vector<Vertex1P1N1UV1B1W>&& vertices,
 		std::vector<U32>&& indices, animation::Skeleton&& skeleton);

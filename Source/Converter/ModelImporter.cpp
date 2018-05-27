@@ -75,7 +75,7 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 	return false;
 }
 
-void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec& aSkelMeshes,
+void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkinnedMeshVec& aSkMeshes,
 	MatVec& aMaterials, TexVec& aTextures, definition::ResourceName& aNames,
 	bool extractMaterialsAndTexture) {
 
@@ -85,7 +85,7 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec
 	}
 
 	extractMeshes(aModels, aMeshes, aNames);
-	extractSkinnedMeshes(aModels, aSkelMeshes, aNames);
+	extractSkinnedMeshes(aModels, aSkMeshes, aNames);
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials, aNames);
 		extractTextures(aTextures, aNames);
@@ -100,15 +100,21 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
 		if (!inMesh->HasBones()) {
-			aOutMeshVec[i].name = inMesh->mName.C_Str();
-			aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
+			std::string name = inMesh->mName.C_Str();
+			if (aNames.names.find(name) != aNames.names.end()) {
+				U32 i = 0;
+				for (; aNames.names.find(name + std::to_string(i)) != aNames.names.end(); ++i);
+				name += std::to_string(i);
+			}
+			aOutMeshVec[i].name = name;
+			aNames.names[name] = definition::EFileType::MESH;
 			extractVertex(inMesh, aOutMeshVec[i]);
 			AddIndices(inMesh, aOutMeshVec[i]);
 			m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
 			if (str != aiString("")) {
 				aNames.names[aOutModelVec[i].mesh] =
 					definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
-				aOutModelVec[i].mesh = inMesh->mName.C_Str();
+				aOutModelVec[i].mesh = name;
 				aOutModelVec[i].material = str.C_Str();
 				str.Clear();
 			}
@@ -116,24 +122,30 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 	}
 }
 
-void ModelImporter::extractSkinnedMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
+void ModelImporter::extractSkinnedMeshes(ModelVec& aOutModelVec, SkinnedMeshVec& aOutSkMeshVec,
 	definition::ResourceName& aNames) {
 	aOutModelVec.resize(m_pScene->mNumMeshes);
-	aOutMeshVec.resize(m_pScene->mNumMeshes);
+	aOutSkMeshVec.resize(m_pScene->mNumMeshes);
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
 		if (inMesh->HasBones()) {
-			aOutMeshVec[i].name = inMesh->mName.C_Str();
-			aNames.names[aOutMeshVec[i].name] = definition::EFileType::SKINNEDMESH;
-			extractSkeleton(inMesh, aOutMeshVec[i].skeleton);
-			extractSkeletalVertex(inMesh, aOutMeshVec[i]);
-			AddIndices(inMesh, aOutMeshVec[i]);
+			std::string name = inMesh->mName.C_Str();
+			if (aNames.names.find(name) != aNames.names.end()) {
+				U32 i = 0;
+				for (; aNames.names.find(name + std::to_string(i)) != aNames.names.end(); ++i);
+				name += std::to_string(i);
+			}
+			aNames.names[name] = definition::EFileType::SKINNEDMESH;
+			aOutSkMeshVec[i].name = name;
+			extractSkeleton(inMesh, aOutSkMeshVec[i].skeleton);
+			extractSkeletalVertex(inMesh, aOutSkMeshVec[i]);
+			AddIndices(inMesh, aOutSkMeshVec[i]);
 			m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
 			if (str != aiString("")) {
 				aNames.names[aOutModelVec[i].mesh] =
 					definition::EFileType(definition::EFileType::SKINNEDMESH | definition::EFileType::MODEL);
-				aOutModelVec[i].mesh = inMesh->mName.C_Str();
+				aOutModelVec[i].mesh = name;
 				aOutModelVec[i].material = str.C_Str();
 				str.Clear();
 			}
@@ -145,7 +157,7 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 	aOutMatVec.resize(m_pScene->mNumMaterials);
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
-		aiVector3D temp;
+		aiColor3D temp;
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_NAME, str);
 		aOutMatVec[i].name = str.C_Str();
 		str.Clear();
@@ -229,14 +241,14 @@ void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 	}
 }
 
-void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outMesh) {
+void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outSkMesh) {
 	definition::SkeletalVertex skelVert;
-	outMesh.vertices.resize(inMesh->mNumVertices);
+	outSkMesh.vertices.resize(inMesh->mNumVertices);
 	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		skelVert.pos = *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i);
 		skelVert.normal = *reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i);
 		skelVert.uv = *reinterpret_cast<math::Vec2f*>(inMesh->mTextureCoords[0] + i);
-		outMesh.vertices[i] = skelVert;
+		outSkMesh.vertices[i] = skelVert;
 	}
 	std::map<U32, std::pair<std::vector<U32>, std::vector<F32>>> weightMap;
 	for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
@@ -249,8 +261,8 @@ void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMes
 		}
 	}
 	for (auto& weightNode : weightMap) {
-		outMesh.vertices[weightNode.first].boneId = math::Vec4u(weightNode.second.first.data());
-		outMesh.vertices[weightNode.first].weight = math::Vec4f(weightNode.second.second.data());
+		outSkMesh.vertices[weightNode.first].boneId = math::Vec4u(weightNode.second.first.data());
+		outSkMesh.vertices[weightNode.first].weight = math::Vec4f(weightNode.second.second.data());
 	}
 }
 
@@ -303,11 +315,10 @@ void ModelImporter::buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 	}
 }
 
-void ModelImporter::extractAnimation(std::vector<definition::Animation>& outAnimations) {
-	outAnimations.resize(m_pScene->mNumAnimations);
+void ModelImporter::extractAnimation(std::map<std::string, definition::Animation>& outAnimations) {
 	for (U32 i = 0, size = m_pScene->mNumAnimations; i < size; ++i) {
 		aiAnimation* aiAnim = m_pScene->mAnimations[i];
-		definition::Animation& anim = outAnimations[i];
+		definition::Animation& anim = outAnimations[aiAnim->mName.C_Str()];
 		anim.animationDuration = (F32)aiAnim->mDuration;
 		anim.tickPerSecond = (F32)aiAnim->mTicksPerSecond;
 		anim.name = std::string(aiAnim->mName.C_Str());

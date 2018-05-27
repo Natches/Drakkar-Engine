@@ -7,6 +7,7 @@
 #include <ResourceManager/Manager/MaterialManager.hpp>
 #include <ResourceManager/Manager/TextureManager.hpp>
 #include <ResourceManager/Manager/ShaderManager.hpp>
+#include <ResourceManager/Manager/SkinnedMeshManager.hpp>
 #include <ResourceManager/Resource/ResourceDefinitions.hpp>
 #include <Converter/ResourceConverter.hpp>
 #include <Threading/Thread/ThreadPool.hpp>
@@ -62,6 +63,7 @@ private:
 	TextureManager		m_textureManager;
 	MeshManager			m_meshManager;
 	MaterialManager		m_materialManager;
+	SkinnedMeshManager  m_skinnedMeshManager;
 
 	converter::ResourceConverter m_converter;
 	std::vector<thread::task::Task<func>*> m_loadingAssets;

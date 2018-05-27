@@ -61,8 +61,9 @@ core::EError Skeleton::jointByName(const std::string& name, Joint& j) const {
 }
 
 void Skeleton::interpolateKeyframe() {
-	for (auto& anim : animations) {
+	for (auto& animPair : animations) {
 		std::vector<Keyframe> tempFrame;
+		Animation& anim = animPair.second;
 		tempFrame.reserve(anim.frames.size());
 		for (U32 i = 0, size = (U32)anim.frames.size(); i < size; ++i) {
 			definition::Keyframe& frame = anim.frames[i], newFrame;
@@ -110,7 +111,7 @@ void Skeleton::optimizeBoneList() {
 	for (auto& bone : bones)
 		neededBones[bone.first] = false;
 	for (auto& anim : animations)
-		anim.buildNecessaryBoneList(neededBones);
+		anim.second.buildNecessaryBoneList(neededBones);
 	for (auto& nBone : neededBones) {
 		bool find = false;
 		Bone& b = bones[nBone.first];

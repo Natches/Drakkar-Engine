@@ -143,16 +143,16 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		std::vector<Material> materials;
 		std::vector<Model> models;
 		std::vector<Mesh> meshes;
-		std::vector<SkinnedMesh> skelMeshes;
+		std::vector<SkinnedMesh> skMeshes;
 		ResourceName rName;
 
-		importer.importModel(models, meshes, skelMeshes, materials, textures, rName);
+		importer.importModel(models, meshes, skMeshes, materials, textures, rName);
 
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
 		path.insert(path.end() - path.begin(), ".dkResources");
 
 		Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
-			("Resources/Models/", path.c_str(), rName, models, meshes, skelMeshes, materials, textures);
+			("Resources/Models/", path.c_str(), rName, models, meshes, skMeshes, materials, textures);
 	}
 	m_mutex.lock();
 	m_modelImporterPool.load()->getBack(std::move(importer));

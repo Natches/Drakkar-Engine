@@ -12,11 +12,8 @@ namespace drak {
 namespace definition {
 struct Material;
 struct ResourceName;
-} //namespace converter
+} //namespace definition
 
-namespace gfx {
-class Material;
-} //namespace gfx
 
 class MaterialManager final : public AResourceManager<gfx::Material, MaterialMap> {
 	friend class ResourceSystem;

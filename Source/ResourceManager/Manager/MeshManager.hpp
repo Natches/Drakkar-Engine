@@ -12,7 +12,7 @@ namespace drak {
 namespace definition {
 struct Mesh;
 struct ResourceName;
-} //namespace converter
+} //namespace definition
 
 
 class MeshManager final : public AResourceManager<geom::Mesh, MeshMap> {

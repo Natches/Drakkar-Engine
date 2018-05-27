@@ -115,9 +115,11 @@ bool drak::gfx::RenderSystem::loadShaders() {
 	m_shaderManager.preload("InstanceShader");
 	m_shaderManager.preload("DefaultShader");
 	m_shaderManager.preload("GridShader");
+	m_shaderManager.preload("SkinningShader");
 	return m_shaderManager.load("InstanceShader", "instanced.vert", "default.frag") &&
 		m_shaderManager.load("DefaultShader", "default.vert", "default.frag") &&
-		m_shaderManager.load("GridShader", "grid.vert", "grid.frag");
+		m_shaderManager.load("GridShader", "grid.vert", "grid.frag") &&
+		m_shaderManager.load("SkinningShader", "skinning.vert", "default.frag");
 }
 
 void RenderSystem::convertModelToRenderable(const std::vector<components::Model>& models,
