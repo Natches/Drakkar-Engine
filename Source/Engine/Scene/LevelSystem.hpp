@@ -55,6 +55,7 @@ class LevelSystem {
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(Model)
 	COMPONENT_CONTAINER(BoxCollider)
+	COMPONENT_CONTAINER(SphereCollider)
 
 	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
@@ -163,6 +164,6 @@ public:
 
 DK_METADATA_BEGIN(drak::LevelSystem)
 DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer,
-	BoxColliderComponentContainer, m_gameObjects, m_rootIdxs, m_data)
+	BoxColliderComponentContainer, SphereColliderComponentContainer, m_gameObjects, m_rootIdxs, m_data)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

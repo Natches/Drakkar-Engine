@@ -33,66 +33,20 @@ public:
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
 			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
-			BoxCollider& cube_BC = cube.addComponent<BoxCollider>();
+			SphereCollider& cube_SC = cube.addComponent<SphereCollider>();
 
-			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 20.f, 0.f));
+			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 5.f, 0.f));
 			cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
 			cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
 
-			cube_RB.mass = 1000.f;
+			cube_RB.mass = 100.f;
 
 			cube_MDL.model = "SK_Mannequin1";
 
-			cube_BC.width = 1.f;
-			cube_BC.height = 4.f;
-			cube_BC.depth = 1.f;
-			cube_BC.material = mat;
+			cube_SC.radius = 2.f;
+			cube_SC.material = mat;
 			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
 			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube.getIdx();
-			const U32 parentIDX = cube.getIdx();
-
-			GameObject& childCube = scene.addGameObject();
-			Transform& childCube_TR = *childCube.getComponent<Transform>();
-			RigidBody& childCube_RB = childCube.addComponent<RigidBody>();
-			BoxCollider& childCube_BC = childCube.addComponent<BoxCollider>();
-			drak::components::Model& childCube_MDL = childCube.addComponent<drak::components::Model>();
-
-			childCube_TR.setGlobalPosition(Vec3f(5.f, 0.f + i * 20.f, 0.f));
-			childCube_TR.setGlobalScale(Vec3f(1.0f, 1.0f, 1.0f));
-			childCube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-
-			childCube_RB.mass = 1000.f;
-
-			childCube_BC.width = 1.f;
-			childCube_BC.height = 4.f;
-			childCube_BC.depth = 1.f;
-			childCube_BC.material = mat;
-
-			childCube_MDL.model = "SK_Mannequin1";
-			const U32 parent2IDX = childCube.getIdx();
-			childCube.setParentIndex(parentIDX);
-
-			GameObject& childCube2 = scene.addGameObject();
-			Transform& childCube2_TR = *childCube2.getComponent<Transform>();
-			RigidBody& childCube2_RB = childCube2.addComponent<RigidBody>();
-			BoxCollider& childCube2_BC = childCube2.addComponent<BoxCollider>();
-			drak::components::Model& childCube2_MDL = childCube2.addComponent<drak::components::Model>();
-
-			childCube2_TR.setGlobalPosition(Vec3f(10.f, 0.f + i * 20.f, 0));
-			childCube2_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
-			childCube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-
-			childCube2_BC.width = 1.f;
-			childCube2_BC.height = 4.f;
-			childCube2_BC.depth = 1.f;
-			childCube2_BC.material = mat;
-
-			childCube2_RB.mass = 1000.f;
-
-			childCube2_MDL.model = "SK_Mannequin1";
-
-			childCube2.setParentIndex(parent2IDX);
-
 		}
 		GameObject& floor = scene.addGameObject();
 		floor.name = "Floor";

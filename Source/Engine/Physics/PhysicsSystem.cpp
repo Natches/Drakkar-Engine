@@ -17,12 +17,6 @@ using namespace drak::components;
 
 void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::Transform& trans, LevelSystem& level)
 {
-	BoxCollider& boxCollider = *level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
-	physx::PxMaterial* mat = m_pPhysics->createMaterial(
-		boxCollider.material.staticFriction,
-		boxCollider.material.dynamicFriction,
-		boxCollider.material.restitution
-	);
 	if (rb.isStatic) {
 		rb.rigidActor = m_pPhysics->createRigidStatic(
 			physx::PxTransform(
@@ -37,17 +31,6 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
-		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
-		boxCollider.shape->setLocalPose(
-			PxTransform(
-				boxCollider.localPosition.x,
-				boxCollider.localPosition.y,
-				boxCollider.localPosition.z,
-				PxQuat(boxCollider.localRotation.x,
-					boxCollider.localRotation.y,
-					boxCollider.localRotation.z,
-					boxCollider.localRotation.w)));
-		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	}
 	else {
 		rb.rigidActor = m_pPhysics->createRigidDynamic(
@@ -63,8 +46,18 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 				)
 			)
 		);
-		if(rb.isKinematic)
+		if (rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+	}
+
+	if (level.getGameObjects()[rb.GameObjectID].getComponentFlag(ComponentType<BoxCollider>::id)) {
+		BoxCollider& boxCollider = *level.getGameObjects()[rb.GameObjectID].getComponent<BoxCollider>();
+		physx::PxMaterial* mat = m_pPhysics->createMaterial(
+			boxCollider.material.staticFriction,
+			boxCollider.material.dynamicFriction,
+			boxCollider.material.restitution
+		);
 		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
 		boxCollider.shape->setLocalPose(
 			PxTransform(
@@ -75,10 +68,29 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.y,
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
-		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
 		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	}
 
+	if (level.getGameObjects()[rb.GameObjectID].getComponentFlag(ComponentType<SphereCollider>::id)) {
+		SphereCollider& sphereCollider = *level.getGameObjects()[rb.GameObjectID].getComponent<SphereCollider>();
+		physx::PxMaterial* mat = m_pPhysics->createMaterial(
+			sphereCollider.material.staticFriction,
+			sphereCollider.material.dynamicFriction,
+			sphereCollider.material.restitution
+		);
+		sphereCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxSphereGeometry(sphereCollider.radius), *mat);
+		sphereCollider.shape->setLocalPose(
+			PxTransform(
+				sphereCollider.localPosition.x,
+				sphereCollider.localPosition.y,
+				sphereCollider.localPosition.z,
+				PxQuat(sphereCollider.localRotation.x,
+					sphereCollider.localRotation.y,
+					sphereCollider.localRotation.z,
+					sphereCollider.localRotation.w)));
+		sphereCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+	}
+	
 	U64* goIDX = new U64;
 	*goIDX = rb.GameObjectID;
 	rb.rigidActor->userData = goIDX;
