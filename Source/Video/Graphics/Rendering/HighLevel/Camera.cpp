@@ -9,10 +9,10 @@ namespace gfx {
 
 Camera::Camera()
 {
-	Keyboard::Get().addEventListener(
-		KeyEvent::KEY_DOWN,
-		new MemberFunction<Camera, void, const Event*>
-		(this, &Camera::onKeyDown, &Keyboard::Get().event()));
+	//Keyboard::Get().addEventListener(
+	//	KeyEvent::KEY_DOWN,
+	//	new MemberFunction<Camera, void, const Event*>
+	//	(this, &Camera::onKeyDown, &Keyboard::Get().event()));
 }
 
 Camera::~Camera()

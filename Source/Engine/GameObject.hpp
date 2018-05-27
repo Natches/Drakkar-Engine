@@ -74,7 +74,10 @@ public:
 	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;
+	inline void markForDestruction() { m_markedForDestrution = true; }
+	inline bool isMarkedForDestruction() { return m_markedForDestrution; }
 private:
+	bool m_markedForDestrution = false;
 	std::map<U64, U64> m_componentHandles;
 	U64 m_componentFlags = 0;
 	LevelSystem* level;

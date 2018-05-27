@@ -28,12 +28,20 @@ public:
 		mat.restitution = 0.5f;
 		mat.staticFriction = 0.5f;
 		name = "Scene";
+		GameObject& raycastPointer = scene.addGameObject();
+		Transform& raycastPointer_TR = *raycastPointer.getComponent<Transform>();
+		drak::components::Model& raycastPointer_MDL = raycastPointer.addComponent<drak::components::Model>();
+		raycastPointer_TR.setGlobalPosition(Vec3f(0.f, 0.f, 0.f));
+		raycastPointer_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
+		raycastPointer_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
+		raycastPointer_MDL.model = "cube";
+
 		for (int i = 0; i < 20; ++i) {
 			GameObject& cube = scene.addGameObject();
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
 			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
-			SphereCollider& cube_SC = cube.addComponent<SphereCollider>();
+			BoxCollider& cube_SC = cube.addComponent<BoxCollider>();
 
 			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 5.f, 0.f));
 			cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
@@ -43,11 +51,20 @@ public:
 
 			cube_MDL.model = "SK_Mannequin1";
 
-			cube_SC.radius = 2.f;
+			cube_SC.width = 4.f;
+			cube_SC.height = 2.f;
+			cube_SC.depth = 2.f;
 			cube_SC.material = mat;
+
 			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
 			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube.getIdx();
 		}
+
+		GameObject& cameraController = scene.addGameObject();
+		cameraController.name = "CameraController";
+		BHVR.getCameraControllerBehaviorContainer().emplace_back(new behavior::CameraController());
+		BHVR.getCameraControllerBehaviorContainer()[BHVR.getCameraControllerBehaviorContainer().size() - 1]->gameObjectID = cameraController.getIdx();
+
 		GameObject& floor = scene.addGameObject();
 		floor.name = "Floor";
 		Transform& floor_TR = *floor.getComponent<Transform>();
@@ -77,9 +94,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	Engine::Get().loadScene(bp);
-	//Engine::Get().loadScene("Scene");
-	//BHVR.load();
+	//Engine::Get().loadScene(bp);
+	Engine::Get().loadScene("Scene");
+	BHVR.load();
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }

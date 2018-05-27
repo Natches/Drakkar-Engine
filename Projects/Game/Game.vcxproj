@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Game\BehaviorMonolith.cpp" />
+    <ClCompile Include="..\..\Source\Game\CameraController.cpp" />
     <ClCompile Include="..\..\Source\Game\Cube.cpp" />
     <ClCompile Include="..\..\Source\Game\Main.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Game\BehaviorMonolith.h" />
+    <ClInclude Include="..\..\Source\Game\CameraController.hpp" />
     <ClInclude Include="..\..\Source\Game\Cube.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -317,7 +317,7 @@ Vec3<F32>& Vec3<T>::rotate(const F32 angle) {
 template<typename T>
 Vec3<F32>& Vec3<T>::rotate(const Vec3<F32>& axis, const F32 angle) {
 	static_assert(!Vec3<T>::isIntegral, DK_MATH_ERROR2(T));
-	*this = Rotate(Quaternion(v, angle), *this);
+	*this = Rotate(Quaternion(axis, angle), *this);
 	return *this;
 }
 

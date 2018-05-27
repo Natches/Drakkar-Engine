@@ -3,12 +3,6 @@ PublicFields: {
 	"CubeBehaviorContainer": [
 		behavior::Cube: {
 			PublicFields: {
-				"gameObjectID": "0",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
 				"gameObjectID": "1",
 				"name": "Cube"
 			}
@@ -119,6 +113,20 @@ PublicFields: {
 			PublicFields: {
 				"gameObjectID": "19",
 				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "20",
+				"name": "Cube"
+			}
+		}
+	],
+	"CameraControllerBehaviorContainer": [
+		behavior::CameraController: {
+			PublicFields: {
+				"gameObjectID": "21",
+				"name": ""
 			}
 		}
 	]

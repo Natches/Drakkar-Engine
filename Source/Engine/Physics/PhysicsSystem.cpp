@@ -3,7 +3,6 @@
 #include <PxPhysicsAPI.h>
 #include <Engine/Physics/SimulationEvent.hpp>
 #include <Engine/Scene/LevelSystem.hpp>
-
 #define SIM_RATE 1.f/30.f
 
 DK_USE_NAMESPACE(drak)
@@ -58,7 +57,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 			boxCollider.material.dynamicFriction,
 			boxCollider.material.restitution
 		);
-		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.25f, boxCollider.height * 0.25f, boxCollider.depth * 0.25f), *mat);
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.50f, boxCollider.height * 0.50f, boxCollider.depth * 0.50f), *mat);
 		boxCollider.shape->setLocalPose(
 			PxTransform(
 				boxCollider.localPosition.x,
@@ -91,9 +90,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		sphereCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
 	}
 	
-	U64* goIDX = new U64;
-	*goIDX = rb.GameObjectID;
-	rb.rigidActor->userData = goIDX;
+	rb.rigidActor->userData = reinterpret_cast<void*>(rb.GameObjectID);
 	m_pPhysicsScene->addActor(*rb.rigidActor);
 	rb.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, !rb.active());
 	return;
@@ -145,7 +142,8 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
 	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (U32 i = 0; i < nbActiveActors; ++i) {
-		Transform& t = transforms[gameObjects[*static_cast<U64*>(activeActors[i]->userData)].getComponentIDX(ComponentType<Transform>::id)];
+		U32 idx = reinterpret_cast<U32>(activeActors[i]->userData);
+		Transform& t = transforms[gameObjects[idx].getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
 		t.setGlobalPosition( math::Vec3f(actorTransform.p.x, actorTransform.p.y, actorTransform.p.z));
@@ -267,11 +265,11 @@ void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newP
 
 }
 
-bool drak::PhysicsSystem::raycast(math::Vec3f position, math::Vec3f direction, F32 maxLength, U64& gameObjectID) {
+bool drak::PhysicsSystem::raycast(math::Vec3f position, math::Vec3f direction, F32 maxLength, U32& gameObjectID) {
 	PxRaycastBuffer hit;
 	direction.normalize();
 	if (m_pPhysicsScene->raycast(PxVec3(position.x, position.y, position.z), PxVec3(direction.x, direction.y, direction.z), maxLength, hit)){
-		gameObjectID = *(U64*)hit.block.actor->userData;
+		gameObjectID = (U32)hit.block.actor->userData;
 		return true;
 	}
 	return false;

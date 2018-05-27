@@ -19,14 +19,14 @@ Engine* Engine::m_pInstance = nullptr;
 
 bool Engine::s_running = true;
 
-bool Engine::CameraRaycast(U64& hitGameObjectID){
+bool Engine::CameraRaycast(U32& hitGameObjectID){
 	math::Vec2i mousePos(InputManager::mousePos());
-	math::Vec4f ray_clip(2.f * mousePos.x / m_pMainWindow->width() - 1.f, 1.f - 2.f * mousePos.y / m_pMainWindow->height(), -1.f, 1.f);
-	math::Vec4f ray_eye(math::Inverse(m_pRenderSystem->mainCamera().perspective()) * ray_clip);
-	ray_eye.z = -1.f;
-	ray_eye.w = 0.f;
-	math::Vec4f ray_world(math::Inverse(m_pRenderSystem->mainCamera().view()) * ray_eye);
-	return m_pPhysicsSystem->raycast(m_pRenderSystem->mainCamera().eye(), ray_eye, 1000.f, hitGameObjectID);
+	float x = (2.0f * mousePos.x) / m_pMainWindow->width() - 1.0f;
+	float y = 1.0f - (2.0f * mousePos.y) / m_pMainWindow->height();
+	math::Vec4f ndcPoint4 = math::Vec4f(x, y, -1, 1);
+	math::Vec4f worldSpacePoint4 = math::Inverse(m_pRenderSystem->mainCamera().viewPerspective()) * ndcPoint4;
+	math::Vec3f worldSpacePoint3 = worldSpacePoint4.xyz / worldSpacePoint4.w;
+	return m_pPhysicsSystem->raycast(m_pRenderSystem->mainCamera().eye(), worldSpacePoint3 - m_pRenderSystem->mainCamera().eye(), 10000.f, hitGameObjectID);
 }
 
 Engine::Engine() {
@@ -49,6 +49,10 @@ DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 
 DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
+}
+
+DRAK_API gfx::Camera & Engine::getMainCamera(){
+	return m_pRenderSystem->mainCamera();
 }
 
 int Engine::startup(bool editorMode) {
@@ -128,13 +132,13 @@ void Engine::startLoop() {
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
-		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
-			U64 hitID; 
-			if (CameraRaycast(hitID)) {
-				if(m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
-					m_pLevelSystem->DestroyComponent<components::Model>(m_pLevelSystem->m_gameObjects[hitID].getComponentHandles()[ComponentType<components::Model>::id]);
-			}	
-		}
+		//if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
+		//	U32 hitID; 
+		//	if (CameraRaycast(hitID)) {
+		//		if (m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
+		//			m_pLevelSystem->destroyGameObject(hitID);			
+		//	}	
+		//}
 
 		m_pMainWindow->clear();
 		renderScene();

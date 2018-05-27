@@ -18,10 +18,10 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 		new MemberFunction<RenderSystem, void, const Event*>
 		(this, &RenderSystem::onKeyUp, &Keyboard::Get().event()));
 
-	Mouse::Get().addEventListener(
-		MouseEvent::MOUSE_MOVE,
-		new MemberFunction<RenderSystem, void, const Event*>
-		(this, &RenderSystem::onMouseEvent, &Mouse::Get().event()));
+	//Mouse::Get().addEventListener(
+	//	MouseEvent::MOUSE_MOVE,
+	//	new MemberFunction<RenderSystem, void, const Event*>
+	//	(this, &RenderSystem::onMouseEvent, &Mouse::Get().event()));
 
 	m_pRenderer = pRenderer;
 	m_pRenderer->info();

@@ -26,6 +26,7 @@ void GameObject::makeRoot() {
 		getComponent<components::Transform>()->isRoot() = true;
 		level->addGameObjectToRoots(idx);
 	}
+	parentIDX = -1;
 	getComponent<RigidBody>()->activate(true);
 }
 void GameObject::setParent(const I32 pIDX) {

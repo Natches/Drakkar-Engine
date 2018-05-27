@@ -78,6 +78,10 @@ class LevelSystem {
 
 	std::string filename;
 	ResourceSystemData m_data;
+
+	void DestroyChild(U64 idx);
+
+	void setComponentGameObjectIDX(U32 originalIDX, U32 newIDX);
 public:
 
 	void loadScene(const char* name);
@@ -117,9 +121,7 @@ public:
 	}
 
 	template <typename T>
-	void DestroyComponent(U32 idx) {
-		if (components::ComponentType<T>::id == components::ComponentType<Transform>::id)
-			return;
+	void destroyComponent(U32 idx) {
 		T& target = __getComponentContainer(T)[idx];
 		T& last = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
 		U32 newIDX = static_cast<components::AComponent*>(&target)->idx;
@@ -137,21 +139,11 @@ public:
 		__getComponentContainer(T).pop_back();
 	}
 
-	GameObject& addGameObject() {
-		try {
-			m_gameObjects.push_back(GameObject());
-		}
-		catch (std::bad_array_new_length &e) {
-			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
-		}
-		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
-		gameObject.setIdx((U32)m_gameObjects.size() - 1);
-		gameObject.setLevel(this);
-		m_rootIdxs.push_back(gameObject.getIdx());
-		//Add transform to all game objects
-		addComponentToGameObject<components::Transform>(gameObject);
-		return gameObject;
-	}
+
+
+	void destroyGameObject(U64 idx);
+
+	DRAK_API GameObject& addGameObject();
 
 	Scene getScene() {
 		return Scene(m_gameObjects, m_rootIdxs, __getComponentContainer(components::Transform),
