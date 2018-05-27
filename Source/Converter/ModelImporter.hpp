@@ -41,15 +41,11 @@ public:
 
 	bool operator==(const ModelImporter& m);
 
-	bool startImport(const std::string& filename, bool optimizeMesh = false, bool leftHanded = false);
+	bool startImport(const std::string& filename, bool optimizeMesh = true, bool leftHanded = false);
 
-	void importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials, TexVec& aTextures,
-		definition::ResourceName& aNames, bool extractMaterialsAndTexture = true);
-
-	void importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials, TexVec& aTextures,
-		definition::ResourceName& aNames, bool extractMaterialsAndTexture = true);
-
-	bool hasAnimation();
+	void importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec& aSkelMeshes,
+		MatVec& aMaterials, TexVec& aTextures, definition::ResourceName& aNames,
+		bool extractMaterialsAndTexture = true);
 
 	DK_GETTER_REF_C(std::string, filename, m_filename)
 
@@ -66,7 +62,7 @@ private:
 	void buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 		definition::Skeleton& skeleton);
 	void extractAnimation(std::vector<definition::Animation>& outAnimations);
-	void extractKeyframe(aiNodeAnim* inKeyframe, definition::Keyframe& outKeyframe);
+	void extractKeyframe(aiNodeAnim* inKeyframe, std::vector<definition::Keyframe>& outKeyframe);
 
 	template<typename MeshType>
 	void AddIndices(aiMesh* inMesh, MeshType& outMesh);

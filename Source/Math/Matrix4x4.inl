@@ -17,7 +17,7 @@ Matrix4x4<T>::Matrix4x4(const T f1, const T f2, const T f3, const T f4,
 }
 
 template<typename T>
-Matrix4x4<T>::Matrix4x4(const T* arr) : m_row12(arr), m_row34(arr + 8) {
+Matrix4x4<T>::Matrix4x4(T* arr) : m_row12(arr), m_row34(arr + 8) {
 }
 
 template<typename T>

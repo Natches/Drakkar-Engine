@@ -24,7 +24,7 @@ KeyFrame& KeyFrame::operator=(KeyFrame&& kFrame) {
 core::EError KeyFrame::jointByName(const std::string& name, Joint& j) const {
 	if (m_jointList.find(name) != m_jointList.end()) {
 		j = m_jointList.at(name);
-		return core::EError::NO_ERROR;
+		return DK_OK;
 	}
 	else
 		return core::EError::JOINT_NOT_FOUND;

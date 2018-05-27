@@ -21,7 +21,7 @@ public:
 
 	DK_GETTER_REF_C(std::string, name, m_name)
 	DK_GETTER_REF_C(std::vector<KeyFrame>, frames, m_frames)
-	DK_GETTER_C(I32, frameNumber, m_frames.size())
+	DK_GETTER_C(U32, frameNumber, (U32)m_frames.size())
 	DK_GETTER_C(F32, animationDuration, m_animationDuration)
 
 private:

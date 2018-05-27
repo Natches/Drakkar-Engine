@@ -139,36 +139,20 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 	tools::importer::ModelImporter importer(m_modelImporterPool.load()->borrow());
 	m_mutex.unlock();
 	if (importer.startImport(filename, optimizeMesh)) {
-		if (!importer.hasAnimation()) {
-			std::vector<Texture> textures;
-			std::vector<Material> materials;
-			std::vector<Model> models;
-			std::vector<Mesh> meshes;
-			ResourceName rName;
+		std::vector<Texture> textures;
+		std::vector<Material> materials;
+		std::vector<Model> models;
+		std::vector<Mesh> meshes;
+		std::vector<SkeletalMesh> skelMeshes;
+		ResourceName rName;
 
-			importer.importModel(models, meshes, materials, textures, rName);
+		importer.importModel(models, meshes, skelMeshes, materials, textures, rName);
 
-			std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
-			path.insert(path.end() - path.begin(), ".dkResources");
+		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
+		path.insert(path.end() - path.begin(), ".dkResources");
 
-			Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
-				("Resources/Models/", path.c_str(), rName, models, meshes, materials, textures);
-		}
-		else {
-			std::vector<Texture> textures;
-			std::vector<Material> materials;
-			std::vector<Model> models;
-			std::vector<SkeletalMesh> skelMeshes;
-			ResourceName rName;
-
-			importer.importSkeletalModel(models, skelMeshes, materials, textures, rName);
-
-			std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
-			path.insert(path.end() - path.begin(), ".dkResources");
-
-			Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
-				("Resources/Models/", path.c_str(), rName, models, skelMeshes, materials, textures);
-		}
+		Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
+			("Resources/Models/", path.c_str(), rName, models, meshes, skelMeshes, materials, textures);
 	}
 	m_mutex.lock();
 	m_modelImporterPool.load()->getBack(std::move(importer));

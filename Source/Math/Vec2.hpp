@@ -16,7 +16,7 @@ struct Vec2 {
 public:
 	Vec2();
 	explicit Vec2(const T n);
-	Vec2(const T* arr);
+	explicit Vec2(T* arr);
 	Vec2(const T X, const T Y);
 	Vec2(const Vec2<T>& v);
 	Vec2(Vec2<T>&& v);

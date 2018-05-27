@@ -16,7 +16,7 @@ public:
 		const T f5, const T f6, const T f7, const T f8,
 		const T f9, const T f10, const T f11, const T f12,
 		const T f13, const T f14, const T f15, const T f16);
-	Matrix4x4(const T* arr);
+	Matrix4x4(T* arr);
 	Matrix4x4(const Vec8<T>& v1, const Vec8<T>& v2);
 	Matrix4x4(Vec8<T>&& v1, Vec8<T>&& v2);
 	Matrix4x4(const Vec4<T>& v1, const Vec4<T>& v2, const Vec4<T>& v3, const Vec4<T>& v4);

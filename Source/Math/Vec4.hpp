@@ -21,7 +21,7 @@ struct Vec4 {
 public:
 	Vec4();
 	explicit Vec4(const T n);
-	Vec4(T* arr);
+	explicit Vec4(T* arr);
 	Vec4(const T X, const T Y, const T Z, const T W);
 	Vec4(const Vec4<T>& v);
 	Vec4(Vec4<T>&& v);

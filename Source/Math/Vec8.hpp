@@ -18,7 +18,7 @@ struct Vec8 {
 public:
 	Vec8();
 	explicit Vec8(const T n);
-	Vec8(T* arr);
+	explicit Vec8(T* arr);
 	Vec8(const T X, const T Y, const T Z, const T W,
 		const T A, const T B, const T C, const T D);
 	Vec8(const Vec8<T>& v);

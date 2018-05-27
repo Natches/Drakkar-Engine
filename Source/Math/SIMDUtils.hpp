@@ -140,7 +140,7 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 		return _mm_load_si128((SIMDType const*)arr);
 	}
 	static SIMDType loadu(T const* arr) {
-		return _mm_loadu_si128((SIMDType const*)arr);;
+		return _mm_loadu_si128((SIMDType const*)arr);
 	}
 
 	static bool areEqual(const SIMDType& m1, const SIMDType& m2) {

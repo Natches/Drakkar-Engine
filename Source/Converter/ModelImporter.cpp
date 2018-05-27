@@ -62,7 +62,8 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 		aiProcess_GenUVCoords |
 		(optimizeMesh ? aiProcess_OptimizeMeshes |
 			aiProcess_OptimizeGraph |
-			aiProcess_ImproveCacheLocality : 0) |
+			aiProcess_ImproveCacheLocality | aiProcess_FindInstances |
+			aiProcess_Debone | aiProcess_FixInfacingNormals | aiProcess_FindInvalidData : 0) |
 			(leftHanded ? aiProcess_ConvertToLeftHanded : 0));
 	if (pScene) {
 		m_pScene = pScene;
@@ -74,8 +75,9 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 	return false;
 }
 
-void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMaterials,
-	TexVec& aTextures, definition::ResourceName& aNames, bool extractMaterialsAndTexture) {
+void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkelMeshVec& aSkelMeshes,
+	MatVec& aMaterials, TexVec& aTextures, definition::ResourceName& aNames,
+	bool extractMaterialsAndTexture) {
 
 	if (m_pScene == nullptr) {
 		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
@@ -83,19 +85,6 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, MatVec& aMa
 	}
 
 	extractMeshes(aModels, aMeshes, aNames);
-	if (extractMaterialsAndTexture) {
-		extractMaterials(aMaterials, aNames);
-		extractTextures(aTextures, aNames);
-	}
-}
-
-void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMeshes, MatVec& aMaterials,
-	TexVec& aTextures, definition::ResourceName& aNames, bool extractMaterialsAndTexture) {
-	if (m_pScene == nullptr) {
-		std::cout << "AssetSceneImporter: Please load a valid asset scene first\n";
-		return;
-	}
-
 	extractSkeletalMeshes(aModels, aSkelMeshes, aNames);
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials, aNames);
@@ -103,57 +92,57 @@ void ModelImporter::importSkeletalModel(ModelVec& aModels, SkelMeshVec& aSkelMes
 	}
 }
 
-bool ModelImporter::hasAnimation() {
-	return m_pScene->HasAnimations();
-}
-
 void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 	definition::ResourceName& aNames) {
-	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
-	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::Mesh());
+	aOutModelVec.resize(m_pScene->mNumMeshes);
+	aOutMeshVec.resize(m_pScene->mNumMeshes);
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
-		aOutMeshVec[i].name = inMesh->mName.C_Str();
-		aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
-		extractVertex(inMesh, aOutMeshVec[i]);
-		AddIndices(inMesh, aOutMeshVec[i]);
-		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
-		if (str != aiString("")) {
-			aNames.names[aOutModelVec[i].mesh] =
-				definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
-			aOutModelVec[i].mesh = inMesh->mName.C_Str();
-			aOutModelVec[i].material = str.C_Str();
-			str.Clear();
+		if (!inMesh->HasBones()) {
+			aOutMeshVec[i].name = inMesh->mName.C_Str();
+			aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
+			extractVertex(inMesh, aOutMeshVec[i]);
+			AddIndices(inMesh, aOutMeshVec[i]);
+			m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
+			if (str != aiString("")) {
+				aNames.names[aOutModelVec[i].mesh] =
+					definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
+				aOutModelVec[i].mesh = inMesh->mName.C_Str();
+				aOutModelVec[i].material = str.C_Str();
+				str.Clear();
+			}
 		}
 	}
 }
 
 void ModelImporter::extractSkeletalMeshes(ModelVec& aOutModelVec, SkelMeshVec& aOutMeshVec,
 	definition::ResourceName& aNames) {
-	aOutModelVec.insert(aOutModelVec.begin(), m_pScene->mNumMeshes, definition::Model());
-	aOutMeshVec.insert(aOutMeshVec.begin(), m_pScene->mNumMeshes, definition::SkeletalMesh());
+	aOutModelVec.resize(m_pScene->mNumMeshes);
+	aOutMeshVec.resize(m_pScene->mNumMeshes);
 	aiString str;
 	for (U32 i = 0u, size = m_pScene->mNumMeshes; i < size; ++i) {
 		aiMesh* inMesh = m_pScene->mMeshes[i];
-		aOutMeshVec[i].name = inMesh->mName.C_Str();
-		aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
-		extractSkeleton(inMesh, aOutMeshVec[i].skeleton);
-		extractSkeletalVertex(inMesh, aOutMeshVec[i]);
-		AddIndices(inMesh, aOutMeshVec[i]);
-		m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
-		if (str != aiString("")) {
-			aNames.names[aOutModelVec[i].mesh] =
-				definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
-			aOutModelVec[i].mesh = inMesh->mName.C_Str();
-			aOutModelVec[i].material = str.C_Str();
-			str.Clear();
+		if (inMesh->HasBones()) {
+			aOutMeshVec[i].name = inMesh->mName.C_Str();
+			aNames.names[aOutMeshVec[i].name] = definition::EFileType::MESH;
+			extractSkeleton(inMesh, aOutMeshVec[i].skeleton);
+			extractSkeletalVertex(inMesh, aOutMeshVec[i]);
+			AddIndices(inMesh, aOutMeshVec[i]);
+			m_pScene->mMaterials[inMesh->mMaterialIndex]->Get(AI_MATKEY_NAME, str);
+			if (str != aiString("")) {
+				aNames.names[aOutModelVec[i].mesh] =
+					definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
+				aOutModelVec[i].mesh = inMesh->mName.C_Str();
+				aOutModelVec[i].material = str.C_Str();
+				str.Clear();
+			}
 		}
 	}
 }
 
 void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames) {
-	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, definition::Material());
+	aOutMatVec.resize(m_pScene->mNumMaterials);
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
 		aiVector3D temp;
@@ -188,7 +177,7 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 }
 
 void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames) {
-	aOutTexVec.insert(aOutTexVec.begin(), m_textureToLoadLater.size(), definition::Texture());
+	aOutTexVec.resize(m_textureToLoadLater.size());
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {
 		definition::Texture& temp = aOutTexVec[i];
@@ -232,7 +221,7 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 
 void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 	outMesh.vertices.resize(inMesh->mNumVertices);
-	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
+	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
 		outMesh.vertices[i] =
 		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i),
 			*reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i),
@@ -253,15 +242,15 @@ void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkeletalMe
 	for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
 		aiBone* bone = inMesh->mBones[i];
 		for (U32 i2 = 0, size2 = bone->mNumWeights; i2 < size2; ++i2) {
-			std::pair<std::vector<U32>, std::vector<F32>> weightPair =
+			std::pair<std::vector<U32>, std::vector<F32>>& weightPair =
 				weightMap[bone->mWeights[i2].mVertexId];
 			weightPair.first.emplace_back(i);
 			weightPair.second.emplace_back(bone->mWeights[i2].mWeight);
 		}
 	}
 	for (auto& weightNode : weightMap) {
-		outMesh.vertices[weightNode.first].boneId = { weightNode.second.first.data() };
-		outMesh.vertices[weightNode.first].weight = { weightNode.second.second.data() };
+		outMesh.vertices[weightNode.first].boneId = math::Vec4u(weightNode.second.first.data());
+		outMesh.vertices[weightNode.first].weight = math::Vec4f(weightNode.second.second.data());
 	}
 }
 
@@ -272,13 +261,15 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 		aiVector3D pos, scale;
 		aiQuaternion quat;
 		for (unsigned int size = inMesh->mNumBones, i = 0; i < size; ++i) {
-			definition::Bone& b = outSkeleton.bones[inMesh->mBones[i]->mName.C_Str()];
-			b.name = inMesh->mBones[i]->mName.C_Str();
-			definition::Joint& j = b.joint;
-			inMesh->mBones[i]->mOffsetMatrix.Decompose(scale, quat, pos);
-			new (&j.pos) math::Vec3f((F32*)&pos);
-			new (&j.rot) math::Quat(math::Vec4f((F32*)&quat));
-			new (&j.scale) math::Vec3f((F32*)&scale);
+			if (inMesh->mBones[i]->mName.length) {
+				definition::Bone& b = outSkeleton.bones[inMesh->mBones[i]->mName.C_Str()];
+				b.name = inMesh->mBones[i]->mName.C_Str();
+				definition::Joint& j = b.joint;
+				inMesh->mBones[i]->mOffsetMatrix.Decompose(scale, quat, pos);
+				new (&j.pos) math::Vec3f((F32*)&pos);
+				new (&j.rot) math::Quat(math::Vec4f((F32*)&quat));
+				new (&j.scale) math::Vec3f((F32*)&scale);
+			}
 		}
 		buildBoneHierarchy(m_pScene->mRootNode->FindNode(inMesh->mBones[0]->mName.C_Str()),
 			outSkeleton.bones[std::string(inMesh->mBones[0]->mName.C_Str())], outSkeleton);
@@ -286,23 +277,63 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 	if (m_pScene->HasAnimations()) {
 		extractAnimation(outSkeleton.animations);
 		outSkeleton.optimizeBoneList();
+		outSkeleton.interpolateKeyframe();
 	}
 }
 
 void ModelImporter::buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 	definition::Skeleton& skeleton) {
+	b.children.reserve(inNode->mNumChildren);
 	for (unsigned int i = 0, size = inNode->mNumChildren; i < size; ++i) {
-		b.children.emplace_back(std::string(inNode->mChildren[i]->mName.C_Str()));
-		skeleton.bones[b.children[b.children.size() - 1]].parent = b.name;
-		buildBoneHierarchy(inNode->mChildren[i],
-			skeleton.bones[std::string(inNode->mChildren[i]->mName.C_Str())], skeleton);
+		if (inNode->mChildren[i]->mName.length) {
+			b.children.emplace_back(std::string(inNode->mChildren[i]->mName.C_Str()));
+			skeleton.bones[b.children[b.children.size() - 1]].parent = b.name;
+
+			buildBoneHierarchy(inNode->mChildren[i],
+				skeleton.bones[std::string(inNode->mChildren[i]->mName.C_Str())], skeleton);
+		}
+		else {
+			buildBoneHierarchy(inNode->mChildren[i], b, skeleton);
+		}
 	}
 }
 
 void ModelImporter::extractAnimation(std::vector<definition::Animation>& outAnimations) {
+	outAnimations.resize(m_pScene->mNumAnimations);
+	for (U32 i = 0, size = m_pScene->mNumAnimations; i < size; ++i) {
+		aiAnimation* aiAnim = m_pScene->mAnimations[i];
+		definition::Animation& anim = outAnimations[i];
+		anim.animationDuration = (F32)aiAnim->mDuration;
+		anim.tickPerSecond = (F32)aiAnim->mTicksPerSecond;
+		anim.name = std::string(aiAnim->mName.C_Str());
+		for (U32 i2 = 0, size2 = aiAnim->mNumChannels; i2 < size2; ++i2) {
+			extractKeyframe(aiAnim->mChannels[i2], anim.frames);
+		}
+		if (!anim.tickPerSecond) {
+			anim.tickPerSecond = (F32)anim.frames.size() /
+				(F32)(aiAnim->mDuration ? aiAnim->mDuration : 1.f);
+		}
+	}
 }
 
-void ModelImporter::extractKeyframe(aiNodeAnim* inKeyframe, definition::Keyframe& outKeyframe) {
+void ModelImporter::extractKeyframe(aiNodeAnim* inKeyframe, std::vector<definition::Keyframe>& outKeyframe) {
+	U32 outKeyframeSize = (U32)outKeyframe.size();
+	U32 max = std::max(inKeyframe->mNumPositionKeys,
+		std::max(inKeyframe->mNumRotationKeys, inKeyframe->mNumScalingKeys));
+	if(outKeyframeSize < max)
+		outKeyframe.resize(max);
+	for (U32 i = 0, size = inKeyframe->mNumPositionKeys; i < size; ++i) {
+		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
+		j.pos = *reinterpret_cast<math::Vec3f*>(&inKeyframe->mPositionKeys[i].mValue);
+	}
+	for (U32 i = 0, size = inKeyframe->mNumRotationKeys; i < size; ++i) {
+		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
+		j.rot = *reinterpret_cast<math::Quat*>(&inKeyframe->mRotationKeys[i].mValue);
+	}
+	for (U32 i = 0, size = inKeyframe->mNumScalingKeys; i < size; ++i) {
+		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
+		j.scale = *reinterpret_cast<math::Vec3f*>(&inKeyframe->mScalingKeys[i].mValue);
+	}
 }
 
 template<typename MeshType>
@@ -311,9 +342,9 @@ void ModelImporter::AddIndices(aiMesh* inMesh, MeshType& outMesh) {
 	for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
 		const aiFace& inFace = inMesh->mFaces[f];
 		if (inFace.mNumIndices == 3u) {
-			outMesh.indices[f](inFace.mIndices[0]);
-			outMesh.indices[f + 1](inFace.mIndices[1]);
-			outMesh.indices[f + 2](inFace.mIndices[2]);
+			outMesh.indices[f] = inFace.mIndices[0];
+			outMesh.indices[f + 1] = inFace.mIndices[1];
+			outMesh.indices[f + 2] = inFace.mIndices[2];
 		}
 	}
 }

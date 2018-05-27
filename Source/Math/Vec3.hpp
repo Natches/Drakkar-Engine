@@ -15,7 +15,7 @@ struct Vec3 {
 public:
 	Vec3();
 	explicit Vec3(const T n);
-	Vec3(const T* arr);
+	explicit Vec3(T* arr);
 	Vec3(const T X, const T Y, const T Z);
 	Vec3(const Vec4<T>& v);
 	Vec3(Vec4<T>&& v);

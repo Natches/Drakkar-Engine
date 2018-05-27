@@ -4,7 +4,7 @@
 namespace drak {
 namespace math {
 
-Quaternion::Quaternion() : m_scalar(0), m_vecPart(0) {
+Quaternion::Quaternion() : m_scalar(0.f), m_vecPart(0.f) {
 }
 
 Quaternion::Quaternion(const Vec4f& v) : quat(v) {
@@ -31,7 +31,7 @@ Quaternion::Quaternion(Vec3f&& euler) {
 }
 
 Quaternion::Quaternion(Axis axis, F32 Angle)
-	: m_scalar(0), m_vecPart(0) {
+	: m_scalar(0), m_vecPart(0.f) {
 	Angle *= ToRadF * 0.5f;
 	m_scalar = cos(Angle);
 	DK_SELECT(axis)
@@ -126,10 +126,10 @@ Mat4f Quaternion::matrix() {
 		Vec8f(Vec4f(m_vecPart, m_vecPart.y),
 			Vec4f(m_scalar, m_scalar, m_scalar, m_vecPart.z)));
 	F32 vYZ = (m_vecPart.y * m_vecPart.z);
-	return Mat4f( 0.5f - (vec.y + vec.z), (vec.w - vec.c), (vec.d + vec.b), 0,
-						(vec.w + vec.c), 0.5f - (vec.x + vec.z), (vYZ - vec.a), 0,
-						(vec.d - vec.b), (vYZ + vec.a), 0.5f - (vec.x + vec.y), 0,
-						 0, 0, 0, 1);
+	return Mat4f( 0.5f - (vec.y + vec.z), (vec.w - vec.c), (vec.d + vec.b), 0.f,
+						(vec.w + vec.c), 0.5f - (vec.x + vec.z), (vYZ - vec.a), 0.f,
+						(vec.d - vec.b), (vYZ + vec.a), 0.5f - (vec.x + vec.y), 0.f,
+						 0.f, 0.f, 0.f, 1.f);
 }
 
 Vec3f Quaternion::euler() const {
@@ -138,7 +138,7 @@ Vec3f Quaternion::euler() const {
 	float s = atanf(quat.w / quat.x);
 	float d = atan2f(quat.z, quat.y);
 
-	return  Vec3f(s + d, IsNotEqual_V(c2, 0.f) ? 2.0f * atanf(sqrtf(s2 / c2)) : (0.5f > s2) ? 0 : M_PIF, s - d) * ToDegF;
+	return  Vec3f(s + d, IsNotEqual_V(c2, 0.f) ? 2.0f * atanf(sqrtf(s2 / c2)) : (0.5f > s2) ? 0.f : M_PIF, s - d) * ToDegF;
 }
 
 inline Vec4f Quaternion::forward() {
@@ -167,11 +167,11 @@ void Quaternion::fromEuler(U&& u) {
 
 template<typename U>
 void Quaternion::fromMatrix(U&& u) {
-	Vec4f v{ 1 + std::forward<U>(u).a00 + std::forward<U>(u).a11 +
-		std::forward<U>(u).a22, 1 + std::forward<U>(u).a00 -
+	Vec4f v{ 1.f + std::forward<U>(u).a00 + std::forward<U>(u).a11 +
+		std::forward<U>(u).a22, 1.f + std::forward<U>(u).a00 -
 		std::forward<U>(u).a11 - std::forward<U>(u).a22,
-		1 - std::forward<U>(u).a00 + std::forward<U>(u).a11 -
-		std::forward<U>(u).a22, 1 - std::forward<U>(u).a00 -
+		1.f - std::forward<U>(u).a00 + std::forward<U>(u).a11 -
+		std::forward<U>(u).a22, 1.f - std::forward<U>(u).a00 -
 		std::forward<U>(u).a11 + std::forward<U>(u).a22 };
 	Vec3f signV = Vec3f(std::forward<U>(u).a21 - std::forward<U>(u).a12,
 		std::forward<U>(u).a02 - std::forward<U>(u).a20,

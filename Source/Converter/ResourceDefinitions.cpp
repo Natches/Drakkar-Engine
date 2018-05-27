@@ -60,11 +60,47 @@ core::EError Skeleton::jointByName(const std::string& name, Joint& j) const {
 		return core::EError::JOINT_NOT_FOUND;
 }
 
+void Skeleton::interpolateKeyframe() {
+	for (auto& anim : animations) {
+		std::vector<Keyframe> tempFrame;
+		tempFrame.reserve(anim.frames.size());
+		for (U32 i = 0, size = (U32)anim.frames.size(); i < size; ++i) {
+			definition::Keyframe& frame = anim.frames[i], newFrame;
+			Joint j, j2;
+			for (auto& bone : bones) {
+				if (frame.jointByName(bone.first, j) == DK_OK) {
+					if (i != size - 1) {
+						if (anim.frames[i + 1].jointByName(bone.first, j2) == DK_OK) {
+							math::Lerp(j.pos, j2.pos, 0.5f);
+							math::SLerp(j.rot, j2.rot, 0.5f);
+							math::Lerp(j.scale, j2.scale, 0.5f);
+						}
+					}
+					else if (i == size - 1) {
+						if (anim.frames[0].jointByName(bone.first, j2) == DK_OK) {
+							math::Lerp(j.pos, j2.pos, 0.5f);
+							math::SLerp(j.rot, j2.rot, 0.5f);
+							math::Lerp(j.scale, j2.scale, 0.5f);
+						}
+					}
+					if (j == bone.second.joint)
+						frame.joints.erase(bone.first);
+					else
+						newFrame.joints[bone.first] = j;
+				}
+			}
+			tempFrame.emplace_back(newFrame);
+		}
+		anim.frames = std::move(tempFrame);
+	}
+}
+
 void Skeleton::eraseFromHierarchy(Bone& b, Bone* parent) {
 	for (auto& child : b.children) {
-		eraseFromHierarchy(bones[child], &b);
+		if (bones.find(child) != bones.end())
+			eraseFromHierarchy(bones[child], &b);
 	}
-	if(parent)
+	if (parent)
 		parent->children.erase(std::find(parent->children.begin(), parent->children.end(), b.name));
 	bones.erase(b.name);
 }
@@ -73,12 +109,15 @@ void Skeleton::optimizeBoneList() {
 	std::unordered_map<std::string, bool> neededBones;
 	for (auto& bone : bones)
 		neededBones[bone.first] = false;
-	for (auto& anim : animations) {
+	for (auto& anim : animations)
 		anim.buildNecessaryBoneList(neededBones);
-	}
 	for (auto& nBone : neededBones) {
-		if (!nBone.second)
-			eraseFromHierarchy(bones[nBone.first], &bones[bones[nBone.first].parent]);
+		bool find = false;
+		Bone& b = bones[nBone.first];
+		if (!nBone.second && b.parent.size() && (find = bones.find(b.parent) != bones.end()))
+			eraseFromHierarchy(b, &bones[b.parent]);
+		else if((!nBone.second && !b.parent.size()) || (!nBone.second && b.parent.size() && !find))
+			eraseFromHierarchy(b, nullptr);
 	}
 }
 
@@ -92,6 +131,10 @@ bool IsMesh(const char* file) {
 
 bool Bone::operator==(const Bone& b) {
 	return b.name == name;
+}
+
+bool Joint::operator==(const Joint& j) {
+	return pos == j.pos && scale == j.scale && rot == j.rot;
 }
 
 } // namespace definition

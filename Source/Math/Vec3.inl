@@ -17,7 +17,8 @@ Vec3<T>::Vec3(const T n) : xy(n), z(n) {
 }
 
 template<typename T>
-Vec3<T>::Vec3(const T* arr) : memcpy(m_vec, arr, sizeof(m_vec)) {
+Vec3<T>::Vec3(T* arr) {
+	memcpy(m_vec, arr, sizeof(m_vec));
 }
 
 template<typename T>
