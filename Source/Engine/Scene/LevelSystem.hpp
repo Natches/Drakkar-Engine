@@ -73,7 +73,7 @@ class LevelSystem {
 		}
 	}
 
-	void propogateMovementFromRoots();
+	DRAK_API void propagateMovementFromRoots();
 
 	std::string filename;
 	ResourceSystemData m_data;

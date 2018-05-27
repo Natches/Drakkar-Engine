@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "SceneGraphWidget.hpp"
 #include "Engine/Engine.hpp"
 #include "Engine/Scene/LevelSystem.hpp"
@@ -18,8 +20,7 @@ SceneGraphWidget::SceneGraphWidget(QWidget *parent)
     setSelectionMode(QAbstractItemView::MultiSelection);
     setDragDropMode(QAbstractItemView::InternalMove);
 
-    drak::core::Engine::Get().currentLevel().getGameObjects();
-
+    Engine::Get().currentLevel().propagateMovementFromRoots();
 }
 
 
