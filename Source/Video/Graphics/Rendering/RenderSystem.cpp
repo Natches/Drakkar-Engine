@@ -52,7 +52,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 	pShader->use();
 	pShader->uniform("viewPrsp", m_mainCam.viewPerspective());
 
-	Transform*	pXform;
+	const Transform* pXform;
 	Quaternion	quat;
 	Mat4f		modelMx;
 
@@ -91,8 +91,8 @@ void RenderSystem::forwardRender(Scene& scene) {
 			quat.matrix() *
 			Scale(pXform->getGlobalScale());
 
-		Mat4f boxMx = 
-			Translate(box.localPosition) * 
+		Mat4f boxMx =
+			Translate(box.localPosition) *
 			Rotation(box.localRotation) *
 			Scale(Vec3f(box.width, box.height, box.depth));
 
@@ -101,7 +101,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 
 		m_renderables["cube"]->render();
 	}
-	
+
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
 	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {

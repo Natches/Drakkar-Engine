@@ -54,9 +54,6 @@
     <ClInclude Include="..\..\Source\Animation\AnimationScene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Animation\AnimationSystem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Animation\Geometry\SkinnedVertex.hpp">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
@@ -68,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Animation\Animator.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Component\AnimatorComponent.hpp">
+      <Filter>Header Files\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +84,9 @@
       <Filter>Source Files\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Animation\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\AnimationScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

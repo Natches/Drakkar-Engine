@@ -100,3 +100,4 @@
 #include <Animation/Skeleton/Bone/Bone.hpp>
 #include <Animation/Skeleton/Bone/Joint.hpp>
 #include <Animation/Skeleton/Skeleton.hpp>
+#include <Animation/Component/AnimatorComponent.hpp>

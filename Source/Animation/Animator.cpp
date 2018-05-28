@@ -4,18 +4,17 @@
 namespace drak {
 namespace animation {
 
-Animator::Animator(const Skeleton& skeleton, const std::string& anim) : m_skeleton(skeleton),
-	m_animation(anim), m_speed(1.f), m_time(0.f), m_frame(0) {
+Animator::Animator() : m_time(0.f), m_frame(0) {
 }
 
-Animator::Animator(const Skeleton& skeleton, const std::string& anim, const F32 speed)
-	: m_skeleton(skeleton), m_animation(anim), m_speed(speed), m_time(0.f), m_frame(0) {
-}
 
-void Animator::advance(const F32 deltaTime) {
-	m_time += deltaTime * m_speed;
-	const Animation* anim = m_skeleton.animationByName(m_animation);
+void Animator::advance(const F32 deltaTime, const components::Animator& animator,
+	const Skeleton& skeleton) {
+	m_time += deltaTime * animator.speed;
+	const Animation* anim = skeleton.animationByName(animator.animation());
 	if (anim) {
+		if (animator.dirty())
+			m_timeBetweenTwoFrame = (F32)anim->frameCount() / anim->animationDuration();
 		while (m_time > m_timeBetweenTwoFrame) {
 			m_time -= m_timeBetweenTwoFrame;
 			++m_frame;
@@ -24,29 +23,29 @@ void Animator::advance(const F32 deltaTime) {
 	}
 }
 
-std::vector<math::Mat4f> Animator::frameMatricies() {
+std::vector<math::Mat4f> Animator::frameMatricies(const std::string& animation, const Skeleton& skeleton) {
 	std::vector<math::Mat4f> finalMatricies;
-	finalMatricies.resize(m_skeleton.boneCount(), m_skeleton.invGlobal());
-	const Animation* anim = m_skeleton.animationByName(m_animation);
+	finalMatricies.resize(skeleton.boneCount(), skeleton.invGlobal());
+	const Animation* anim = skeleton.animationByName(animation);
 	if (anim) {
-		buildGlobalTransformation(finalMatricies, m_skeleton.base(),
-			anim, 0, math::Identity<F32>());
+		buildGlobalTransformation(finalMatricies, skeleton.base(),
+			anim, 0, math::Identity<F32>(), skeleton);
 	}
 	return finalMatricies;
 }
 
 void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformation, const Bone& b,
-	const Animation* animation, I32 i, const math::Mat4f& parentTransform) {
+	const Animation* animation, I32 i, const math::Mat4f& parentTransform, const Skeleton& skeleton) {
 	Joint j1, j2;
 
 	if (animation->frames[m_frame].jointByName(b.name, j1) != DK_OK)
-		m_skeleton.jointByName(b.name, j1);
+		skeleton.jointByName(b.name, j1);
 	if (animation->frames[m_frame + 1 == animation->frameCount() ? 0 : m_frame + 1].jointByName(b.name, j2) != DK_OK)
-		m_skeleton.jointByName(b.name, j2);
+		skeleton.jointByName(b.name, j2);
 
 	j1 = interpolateJoints(j1, j2, m_time);
 
-	m_skeleton.jointByName(b.name, j2);
+	skeleton.jointByName(b.name, j2);
 
 	math::Mat4f Global = parentTransform *
 		(math::Translate(j1.pos) * j1.rot.matrix() * math::Scale(j1.scale));

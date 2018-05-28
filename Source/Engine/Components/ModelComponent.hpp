@@ -1,8 +1,7 @@
 #pragma once
 
 #include <Core/Utils/AComponentUtils.hpp>
-#include <Video/Graphics/Common/Color.hpp>
-#include <Serialization\MetaData.hpp>
+#include <Serialization/MetaData.hpp>
 
 DRAK_COMPONENT_START(Model)
 DK_SERIALIZED_OBJECT(Model)
