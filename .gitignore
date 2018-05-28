@@ -13,16 +13,14 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
 [Rr]eleases/
-x64/
 x86/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
+[Bb]inaries/
+[Ii]ntermediate
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -72,6 +70,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.sln
 
 # Chutzpah Test files
 _Chutzpah*
@@ -286,3 +285,87 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+/Source/LogTest/Main.cpp
+/Projects/DrakMath/My Advisor Results - DrakMath
+/Projects/DrakMath/My Amplifier Results - DrakMath
+<<<<<<< Temporary merge branch 1
+/Source/Log/main.cpp
+/Source/LogTest
+/Projects/DrakLog/LOG_FILE
+/Projects/LogTest/LOG_FILE
+/Projects/LogTest/LogTest.vcxproj
+/Projects/LogTest/LogTest.vcxproj.filters
+=======
+>>>>>>> Temporary merge branch 2
+
+/Projects/DrakMath/My Amplifier Results - DrakMath
+/Projects/DrakLog/LOG_FILE
+/Projects/LogTest/LOG_FILE
+/Projects/LogTest/LogTest.vcxproj
+/Projects/LogTest/LogTest.vcxproj.filters
+/Source/LogTest/Main.cpp
+/Projects/DrakMath/My Advisor Results - DrakMath
+/Projects/DrakMath/My Amplifier Results - DrakMathProjects/_ProjectTemplate/My Advisor Results - _ProjectTemplate/
+
+Projects/Game/EngineLog
+
+Projects/Game/GAME
+
+Projects/Game/SCENE_SYSTEM_LOG
+
+Projects/Log/Debug/Log\.tlog/
+
+Projects/Log/Release/Log\.tlog/
+
+Projects/Log/x64/
+
+Projects/Log/Release/
+
+Projects/Log/Debug/
+/Projects/DrakCore/My Advisor Results - DrakCore
+/Projects/DrakThreading/My Advisor Results - DrakThreading
+/Projects/DrakSerialization/serializedData.txt
+
+Projects/DrakVideo/Intermediate/
+
+Projects/Game/Intermediate/
+
+Projects/DrakSerialization/serializedData1\.txt
+
+Projects/DrakSerialization/serializedData2\.txt
+
+Projects/DrakSerialization/SerializedDataOfTest\.txt
+
+Projects/DrakSerialization/testJSON\.json
+
+Projects/DrakSerialization/testINI\.ini
+
+Projects/DrakSerialization/Test\.bin
+
+Projects/DrakSerialization/Test\.ini
+
+Projects/DrakSerialization/Test\.json
+
+PrecompiledHeader/
+
+Projects/DrakVideo/Resources/
+
+Projects/DrakConverter/Resources/
+
+Projects/Game/Models/
+
+Projects/Game/Shaders/
+
+Projects/Game/Textures/
+
+Projects/DrakEditor/\.qmake\.stash
+
+Projects/DrakEditor/Makefile
+
+CodeGraphData/
+Projects/DrakConverter/Resources/
+
+CodeGraphData/
+
+*.rc

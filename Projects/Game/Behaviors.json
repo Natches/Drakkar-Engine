@@ -1,0 +1,16 @@
+drak::BehaviorMonolith: {
+PublicFields: {
+	"CubeBehaviorContainer": [
+	],
+	"CameraControllerBehaviorContainer": [
+	],
+	"PlayerBehaviorContainer": [
+		behavior::Player: {
+			PublicFields: {
+				"gameObjectID": "100",
+				"name": ""
+			}
+		}
+	]
+}
+}

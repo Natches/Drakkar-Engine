@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{5853c5ca-19cd-496d-bdfb-57f1ade5436f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{912da90a-a633-4813-9fc8-e270fbf6dbf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ServiceLocator">
+      <UniqueIdentifier>{baae4ef6-9eea-4d70-bea8-cb25b358026e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ServiceLocator">
+      <UniqueIdentifier>{2754ec27-e8db-4299-921c-f24271cc32da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{75b2fb33-9351-4bb9-a01b-5f91143f5eec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{e639913c-7184-41ce-b905-5981f5eae6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{3ab9e3a4-010c-444f-905b-3dd28771935f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{07ff0b39-aecc-4eb2-8937-1ced435f34e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pool">
+      <UniqueIdentifier>{d7219557-a9de-44d8-b223-8cd79c6f57b4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Core\Core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Types.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\TypeTraits.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\ServiceLocator\ServiceLocator.hpp">
+      <Filter>Header Files\ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Timer\ATimer.hpp">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Timer\FrameTimer.hpp">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\AComponentUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\ClassUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\MacroUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\ServiceUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\TemplateUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Event.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\FileUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utils\VA_ArgsUtils.hpp">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Engine\Error.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Pool\Pool.hpp">
+      <Filter>Header Files\Pool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Core\Timer\ATimer.cpp">
+      <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Timer\FrameTimer.cpp">
+      <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Engine\Event.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Utils\FileUtils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\Pool\Pool.inl">
+      <Filter>Header Files\Pool</Filter>
+    </None>
+  </ItemGroup>
+</Project>
