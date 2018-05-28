@@ -20,7 +20,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QWidget>
@@ -48,8 +47,6 @@ public:
     QDockWidget *dock_Inspector;
     QWidget *dockWidgetContents_10;
     QGridLayout *gridLayout_2;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
     QDockWidget *dock_Console;
     QWidget *dockWidgetContents_11;
     QToolBar *toolBar;
@@ -137,9 +134,10 @@ public:
         Editor->setMenuBar(menuBar);
         dock_Inspector = new QDockWidget(Editor);
         dock_Inspector->setObjectName(QStringLiteral("dock_Inspector"));
-        dock_Inspector->setMinimumSize(QSize(340, 450));
-        dock_Inspector->setMaximumSize(QSize(340, 524287));
+        dock_Inspector->setMinimumSize(QSize(380, 35));
+        dock_Inspector->setMaximumSize(QSize(380, 524287));
         dock_Inspector->setCursor(QCursor(Qt::ArrowCursor));
+        dock_Inspector->setFocusPolicy(Qt::ClickFocus);
         dock_Inspector->setAcceptDrops(false);
         dock_Inspector->setStyleSheet(QStringLiteral(""));
         dock_Inspector->setFeatures(QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable);
@@ -150,21 +148,7 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        scrollArea = new QScrollArea(dockWidgetContents_10);
-        scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setMinimumSize(QSize(320, 0));
-        scrollArea->setFrameShape(QFrame::NoFrame);
-        scrollArea->setFrameShadow(QFrame::Plain);
-        scrollArea->setLineWidth(1);
-        scrollArea->setMidLineWidth(1);
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 322, 413));
-        scrollArea->setWidget(scrollAreaWidgetContents);
-
-        gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);
-
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
         dock_Inspector->setWidget(dockWidgetContents_10);
         Editor->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dock_Inspector);
         dock_Console = new QDockWidget(Editor);
@@ -224,6 +208,7 @@ public:
         dock_SceneGraph = new QDockWidget(Editor);
         dock_SceneGraph->setObjectName(QStringLiteral("dock_SceneGraph"));
         dock_SceneGraph->setMinimumSize(QSize(256, 300));
+        dock_SceneGraph->setFocusPolicy(Qt::ClickFocus);
         dock_SceneGraph->setFeatures(QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable);
         dockWidgetContents_2 = new QWidget();
         dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));

@@ -46,6 +46,8 @@ SOURCES     +=                                      \
             $$DKSRC/Editor/GLEditorWidget.cpp       \
             $$DKSRC/Editor/TransformWidget.cpp      \
             $$DKSRC/Editor/SceneGraphWidget.cpp     \
+            $$DKSRC/Editor/InspectorWidget.cpp      \
+            $$DKSRC/Editor/BoxColliderWidget.cpp    \
 
 HEADERS     +=                                      \
             $$DKSRC/Editor/DarkStyle.h              \
@@ -57,6 +59,8 @@ HEADERS     +=                                      \
             $$DKSRC/Editor/SceneGraphWidget.hpp     \
             $$DKSRC/Engine/Engine.hpp               \
             $$DKSRC/Engine/Scene/LevelSystem.hpp    \
+            $$DKSRC/Editor/InspectorWidget.hpp      \
+            $$DKSRC/Editor/BoxColliderWidget.hpp    \
 
 ###############################################################################
 
@@ -74,9 +78,10 @@ RC_ICONS    +=                                      \
 FORMDIR     = "Forms"
 
 FORMS       +=                                      \
-            $$FORMDIR/Editor.ui                     \
             $$FORMDIR/framelesswindow.ui            \
-            $$FORMDIR/transformwidget.ui
+            $$FORMDIR/Editor.ui                     \
+            $$FORMDIR/TransformWidget.ui            \
+            $$FORMDIR/BoxColliderWidget.ui          \
 
 ###############################################################################
 

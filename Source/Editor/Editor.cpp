@@ -33,7 +33,6 @@ void Editor::init() {
 void Editor::setupWidgets() {
     setCentralWidget(ui->dock_RenderTarget);
     splitDockWidget(ui->dock_Project, ui->dock_Console, Qt::Horizontal);
-    //ui->scrollArea->layout()->addWidget(new TransformWidget);
 
     folderModel = new QFileSystemModel(this);
     folderModel->setFilter(QDir::NoDot | QDir::AllDirs);
@@ -46,6 +45,9 @@ void Editor::setupWidgets() {
 
     sceneGraph = new SceneGraphWidget;
     ui->dock_SceneGraph->setWidget(sceneGraph);
+
+    inspector = new InspectorWidget;
+    ui->dock_Inspector->setWidget(inspector);
 
     setProjectPath("");
 }
