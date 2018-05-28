@@ -76,7 +76,7 @@ FORMDIR     = "Forms"
 FORMS       +=                                      \
             $$FORMDIR/Editor.ui                     \
             $$FORMDIR/framelesswindow.ui            \
-            $$FORMDIR/transformwidget.ui            \
+            $$FORMDIR/transformwidget.ui
 
 ###############################################################################
 

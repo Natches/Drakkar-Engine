@@ -2,6 +2,7 @@
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Engine/Physics/PhysicsSystem.hpp>
+#include <PxPhysicsAPI.h>
 
 using namespace drak;
 using namespace core;
@@ -53,8 +54,6 @@ void LevelSystem::loadScene(const char* name) {
 	_INIT_COMPONENTS_OF_TYPE(BoxCollider)
 	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
 		m_gameObjects[i].setLevel(this);
-		if(m_gameObjects[i].getParent() >= 0 )
-			m_gameObjects[i].setParent(m_gameObjects[i].getParent());
 	}
 	m_resourceManager->startup();
 }
@@ -78,15 +77,20 @@ bool LevelSystem::startup() {
 
 void LevelSystem::moveChildren(const Transform& parentTransform, const std::vector<U32>& children) {
 	for (U32 i = 0; i < children.size(); ++i) {
-		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+		if (m_gameObjects[children[i]].getComponentFlag(ComponentType<RigidBody>::id) && m_gameObjects[children[i]].getComponent<RigidBody>()->active()) {
+			Engine::Get().getPhysicsSystem().goTo(*m_gameObjects[children[i]].getComponent<RigidBody>(), parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()), parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+		}
+		else {
+			m_gameObjects[children[i]].getComponent<Transform>()->setGlobalPosition(parentTransform.getGlobalPosition() + math::Rotate(parentTransform.getGlobalRotation(), m_gameObjects[children[i]].getComponent<Transform>()->getLocalPosition()));
+			m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
+			m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
+		}
 		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalScale(parentTransform.getGlobalScale() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalScale());
-		m_gameObjects[children[i]].getComponent<Transform>()->setGlobalRotation(parentTransform.getGlobalRotation() * m_gameObjects[children[i]].getComponent<Transform>()->getLocalRotation());
-		m_gameObjects[children[i]].getComponent<Transform>()->isDirty() = true;
 		moveChildren(*m_gameObjects[children[i]].getComponent<Transform>(), m_gameObjects[children[i]].children());
 	}
 }
 
-void drak::LevelSystem::propogateMovementFromRoots() {
+void drak::LevelSystem::propagateMovementFromRoots() {
 	for (I32 i = 0; i < m_rootIdxs.size(); ++i) {
 		moveChildren(*m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
 	}
@@ -105,4 +109,82 @@ void LevelSystem::shutdown() {
 	//SerializeLevel();
 	m_resourceManager->shutdown();
 	delete m_resourceManager;
+}
+
+
+void LevelSystem::DestroyChild(U64 idx) {
+	if (m_gameObjects.size() < idx)
+		return;
+	GameObject& target = m_gameObjects[idx];
+	target.markForDestruction();
+	for (U32 i = 0; i < m_gameObjects[idx].children().size(); ++i) {
+		DestroyChild(m_gameObjects[idx].children()[i]);
+	}
+	m_gameObjects[idx].makeRoot();
+	m_rootIdxs.pop_back();
+
+	if (target.getComponentFlag(components::ComponentType<components::RigidBody>::id)) {
+		destroyComponent<components::RigidBody>(target.getComponentHandles()[components::ComponentType<components::RigidBody>::id]);
+	}
+	if (target.getComponentFlag(components::ComponentType<components::Model>::id)) {
+		destroyComponent<components::Model>(target.getComponentHandles()[components::ComponentType<components::Model>::id]);
+	}
+	if (target.getComponentFlag(components::ComponentType<components::BoxCollider>::id)) {
+		destroyComponent<components::BoxCollider>(target.getComponentHandles()[components::ComponentType<components::BoxCollider>::id]);
+	}
+	if (target.getComponentFlag(components::ComponentType<components::SphereCollider>::id)) {
+		destroyComponent<components::SphereCollider>(target.getComponentHandles()[components::ComponentType<components::SphereCollider>::id]);
+	}
+	if (target.getComponentFlag(components::ComponentType<components::Transform>::id)) {
+		destroyComponent<components::Transform>(target.getComponentHandles()[components::ComponentType<components::Transform>::id]);
+	}
+}
+
+void LevelSystem::setComponentGameObjectIDX(U32 originalIDX, U32 newIDX) {
+	GameObject& target = m_gameObjects[originalIDX];
+	if (target.getComponentFlag(components::ComponentType<components::RigidBody>::id)) {
+		target.getComponent<components::RigidBody>()->GameObjectID = newIDX;
+		target.getComponent<components::RigidBody>()->rigidActor->userData = reinterpret_cast<void*>(newIDX);
+	}
+	if (target.getComponentFlag(components::ComponentType<components::Model>::id)) {
+		target.getComponent<components::Model>()->GameObjectID = newIDX;
+	}
+	if (target.getComponentFlag(components::ComponentType<components::BoxCollider>::id)) {
+		target.getComponent<components::BoxCollider>()->GameObjectID = newIDX;
+	}
+	if (target.getComponentFlag(components::ComponentType<components::SphereCollider>::id)) {
+		target.getComponent<components::SphereCollider>()->GameObjectID = newIDX;
+	}
+	if (target.getComponentFlag(components::ComponentType<components::Transform>::id)) {
+		target.getComponent<components::Transform>()->GameObjectID = newIDX;
+	}
+}
+
+void LevelSystem::destroyGameObject(U64 idx) {
+	DestroyChild(idx);
+	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i].isMarkedForDestruction()) {
+			U32 tmpIDX = m_gameObjects[i].getIdx();
+			setComponentGameObjectIDX(m_gameObjects[m_gameObjects.size() - 1].getIdx(), tmpIDX);
+			std::swap(m_gameObjects[i], m_gameObjects[m_gameObjects.size() - 1]);
+			m_gameObjects[i].setIdx(tmpIDX);
+			m_gameObjects.pop_back();
+		}
+	}
+}
+
+GameObject& LevelSystem::addGameObject() {
+	try {
+		m_gameObjects.push_back(GameObject());
+	}
+	catch (std::bad_array_new_length &e) {
+		Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
+	}
+	GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
+	gameObject.setIdx((U32)m_gameObjects.size() - 1);
+	gameObject.setLevel(this);
+	m_rootIdxs.push_back(gameObject.getIdx());
+	//Add transform to all game objects
+	addComponentToGameObject<components::Transform>(gameObject);
+	return gameObject;
 }

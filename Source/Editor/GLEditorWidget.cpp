@@ -1,4 +1,5 @@
 #include <QTimer>
+#include <QDebug>
 #include "Engine/Engine.hpp"
 #include "GLEditorWidget.hpp"
 
@@ -29,6 +30,7 @@ void GLEditorWidget::initializeGL() {
     QSurfaceFormat::setDefaultFormat(format);
 
     Engine::Get().startup(true);
+    Engine::Get().loadScene("Scene");
 }
 
 

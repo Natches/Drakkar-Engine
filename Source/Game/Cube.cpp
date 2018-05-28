@@ -52,7 +52,7 @@ void Cube::OnKeyPress(const events::Event * pEvent) {
 	{
 	case(Key::KEY_SPACE):
 		if(getComponent<BoxCollider>())
-			EngineCurrentLevel.DestroyComponent<BoxCollider>(getComponent<BoxCollider>()->idx);
+			EngineCurrentLevel.destroyComponent<BoxCollider>(getComponent<BoxCollider>()->idx);
 		break;
 	default:
 		break;

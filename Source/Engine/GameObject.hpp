@@ -70,10 +70,14 @@ public:
 	}
 	DRAK_API void makeRoot();
 	DRAK_API void setParent(const I32 pIDX);
+	inline void setParentIndex(const I32 pIDX) { parentIDX = pIDX; }
 	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
 	std::string name;
+	inline void markForDestruction() { m_markedForDestrution = true; }
+	inline bool isMarkedForDestruction() { return m_markedForDestrution; }
 private:
+	bool m_markedForDestrution = false;
 	std::map<U64, U64> m_componentHandles;
 	U64 m_componentFlags = 0;
 	LevelSystem* level;

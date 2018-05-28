@@ -28,11 +28,15 @@ public:
 	bool startup(IRenderer* pRenderer);
 	void shutdown();
 
+	//DRAK_API void toggleWireframe();
+
 	void forwardRender(Scene& scene);
 	void renderGrid();
 
 	void startFrame();
 	void endFrame();
+
+	inline Camera& mainCamera() { return m_mainCam; }
 
 private:
 	bool loadShaders();
@@ -55,8 +59,8 @@ private:
 	IRenderable*		m_pGrid;
 	gl::GLTexture		m_gridTex;
 
-	std::map<std::string, IRenderable*> m_renderable;
-	std::map<std::string, gl::GLTexture> m_texture;
+	std::map<std::string, IRenderable*> m_renderables;
+	std::map<std::string, gl::GLTexture> m_textures;
 
 	IRenderer*			m_pRenderer;
 	IFrameBuffer*		m_pFrame;

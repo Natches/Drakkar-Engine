@@ -5,6 +5,7 @@
 #include <Engine/Scene/LevelSystem.hpp>
 #include <Video/VideoSystem.hpp>
 #include <Video/Graphics/Rendering/RenderSystem.hpp>
+#include <Engine/InputManager.hpp>
 
 using namespace drak::components;
 using namespace drak::time;
@@ -17,6 +18,16 @@ namespace core {
 Engine* Engine::m_pInstance = nullptr;
 
 bool Engine::s_running = true;
+
+bool Engine::CameraRaycast(U32& hitGameObjectID){
+	math::Vec2i mousePos(InputManager::mousePos());
+	float x = (2.0f * mousePos.x) / m_pMainWindow->width() - 1.0f;
+	float y = 1.0f - (2.0f * mousePos.y) / m_pMainWindow->height();
+	math::Vec4f ndcPoint4 = math::Vec4f(x, y, -1, 1);
+	math::Vec4f worldSpacePoint4 = math::Inverse(m_pRenderSystem->mainCamera().viewPerspective()) * ndcPoint4;
+	math::Vec3f worldSpacePoint3 = worldSpacePoint4.xyz / worldSpacePoint4.w;
+	return m_pPhysicsSystem->raycast(m_pRenderSystem->mainCamera().eye(), worldSpacePoint3 - m_pRenderSystem->mainCamera().eye(), 10000.f, hitGameObjectID);
+}
 
 Engine::Engine() {
 	m_pVideoSystem		= new video::VideoSystem();
@@ -38,6 +49,10 @@ DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 
 DRAK_API LevelSystem & Engine::currentLevel(){
 		return *m_pLevelSystem;
+}
+
+DRAK_API gfx::Camera & Engine::getMainCamera(){
+	return m_pRenderSystem->mainCamera();
 }
 
 int Engine::startup(bool editorMode) {
@@ -97,6 +112,11 @@ void Engine::startLoop() {
 			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
 	}
 
+	for (U32 i = 0; i < gameObjects.size(); ++i) {
+		if (gameObjects[i].getParent() >= 0)
+			gameObjects[i].setParent(gameObjects[i].getParent());
+	}
+
 	m_evt.type = events::EngineEventDispatcher::UPDATE_START;
 	m_eventDispatcher.dispatchEvent(&m_evt);
 
@@ -107,10 +127,18 @@ void Engine::startLoop() {
 		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&m_evt);
 
-		m_pLevelSystem->propogateMovementFromRoots();
+		m_pLevelSystem->propagateMovementFromRoots();
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
+
+		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
+			U32 hitID; 
+			if (CameraRaycast(hitID)) {
+				if (m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
+					m_pLevelSystem->destroyGameObject(hitID);			
+			}	
+		}
 
 		m_pMainWindow->clear();
 		renderScene();

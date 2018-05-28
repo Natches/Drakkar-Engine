@@ -20,18 +20,29 @@ public:
 public:
 	DK_GETTER(F32, aspect, m_aspect)
 	DK_GETTER(math::Mat4f, viewPerspective, m_prsp * m_view)
-	DK_GETTER_REF_C(math::Vec3f, eye, m_eye)
+	DK_GETTER(math::Mat4f&, perspective, m_prsp)
+	DK_GETTER(math::Mat4f&, view, m_view)
+	DK_GETTER(math::Vec3f&, at, m_at)
+	DK_GETTER(math::Vec3f&, eye, m_eye)
+	DK_GETTER(F32, near, m_nearZ)
+
+	inline math::Vec3f right() { return math::Cross(m_up, forward()).normalize(); }
+	inline math::Vec3f forward() { return (m_eye - m_at).normalize(); }
+	inline math::Vec3f up() { return m_up; }
+	void move(const math::Vec3f& delta);
+
+	void buildView();
 
 private:
-	void buildView();
+
 	void buildPerspective();
 	void buildOrthographic();
 
-	inline math::Vec3f right()	 { return math::Cross(m_up, forward()).normalize(); }
-	inline math::Vec3f forward() { return (m_eye - m_at).normalize(); }
+	//inline math::Vec3f right()	 { return math::Cross(m_up, forward()).normalize(); }
+	//inline math::Vec3f forward() { return (m_eye - m_at).normalize(); }
 
 	// Keyboard controls
-	void move(const math::Vec3f& delta);
+	//void move(const math::Vec3f& delta);
 	void onKeyDown(const events::Event* pEvt);
 	
 private:

@@ -14,6 +14,7 @@ class LevelSystem;
 
 namespace gfx {
 	class RenderSystem;
+	class Camera;
 } // namespace gfx
 
 namespace video {
@@ -67,11 +68,14 @@ public:
 	//	Getters
 	DRAK_API PhysicsSystem&			getPhysicsSystem();
 	DRAK_API LevelSystem&			currentLevel();
-
+	DRAK_API gfx::Camera&			getMainCamera();
 	events::EngineEventDispatcher&	GetEventDispatcher()	{ return m_eventDispatcher; }
 
 	time::FrameTimer&				getFrameTimer()			{ return s_frameTime; }
+	inline bool						inEditorMode()			{ return m_editorMode; }
 	thread::ThreadPool m_pool;
+
+	bool CameraRaycast(U32& hitGameObjectID);
 
 private:
 	static Engine* m_pInstance;

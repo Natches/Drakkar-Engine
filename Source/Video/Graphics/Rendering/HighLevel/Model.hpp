@@ -17,8 +17,8 @@ public:
 	using Manager = ModelManager;
 
 public:
-	std::string m_meshName;
-	std::string m_materialName;
+	std::string meshName;
+	std::string materialName;
 
 private:
 	Model() = default;

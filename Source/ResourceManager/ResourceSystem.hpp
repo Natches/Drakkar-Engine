@@ -33,7 +33,7 @@ class ResourceSystem final {
 	using func = typename function::MemberFunction<ResourceSystem, void, const std::string, void*>;
 public:
 	template<typename T>
-	ResourcePtr<T> loadOrGet(const std::string& name, const std::string& filename);
+	ResourcePtr<T> loadOrGet(const std::string& name, const std::string& filename = "");
 
 	void convertOrLoad(const std::string& filename);
 

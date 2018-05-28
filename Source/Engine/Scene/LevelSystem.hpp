@@ -28,18 +28,28 @@ public:
 };
 
 struct Scene {
-	Scene(std::vector<GameObject>& gameObjects, std::vector<U32>& rootIDXs,
-		std::vector<components::Transform>& transforms, std::vector<components::Model>& models,
+	Scene(
+		std::vector<GameObject>& gameObjects,
+		std::vector<U32>& rootIDXs,
+		std::vector<components::Transform>& transforms,
+		std::vector<components::Model>& models,
+		std::vector<components::BoxCollider>& hitBoxes,
 		ResourceSystem& resourceManager) :
+		gameObjects(gameObjects),
+		rootIDXs(rootIDXs),
 		transforms(transforms),
 		models(models),
-		gameObjects(gameObjects),
-		rootIDXs(rootIDXs), resourceManager(resourceManager){}
-	std::vector<components::Transform>& transforms;
-	std::vector<components::Model>& models;
-	std::vector<GameObject>& gameObjects;
-	std::vector<U32>& rootIDXs;
-	ResourceSystem& resourceManager;
+		hitBoxes(hitBoxes),
+		resourceManager(resourceManager) {}
+
+	ResourceSystem&							resourceManager;
+	std::vector<U32>&						rootIDXs;
+	std::vector<GameObject>&				gameObjects;
+	std::vector<components::Transform>&		transforms;
+	std::vector<components::Model>&			models;
+	std::vector<components::BoxCollider>&	hitBoxes;
+	
+	
 };
 
 class LevelSystem {
@@ -55,6 +65,7 @@ class LevelSystem {
 	COMPONENT_CONTAINER(Transform)
 	COMPONENT_CONTAINER(Model)
 	COMPONENT_CONTAINER(BoxCollider)
+	COMPONENT_CONTAINER(SphereCollider)
 
 	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
@@ -73,10 +84,14 @@ class LevelSystem {
 		}
 	}
 
-	void propogateMovementFromRoots();
+	DRAK_API void propagateMovementFromRoots();
 
 	std::string filename;
 	ResourceSystemData m_data;
+
+	void DestroyChild(U64 idx);
+
+	void setComponentGameObjectIDX(U32 originalIDX, U32 newIDX);
 public:
 
 	void loadScene(const char* name);
@@ -116,9 +131,7 @@ public:
 	}
 
 	template <typename T>
-	void DestroyComponent(U32 idx) {
-		if (components::ComponentType<T>::id == components::ComponentType<Transform>::id)
-			return;
+	void destroyComponent(U32 idx) {
 		T& target = __getComponentContainer(T)[idx];
 		T& last = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
 		U32 newIDX = static_cast<components::AComponent*>(&target)->idx;
@@ -136,33 +149,34 @@ public:
 		__getComponentContainer(T).pop_back();
 	}
 
-	GameObject& addGameObject() {
-		try {
-			m_gameObjects.push_back(GameObject());
-		}
-		catch (std::bad_array_new_length &e) {
-			Logbook::Log(Logbook::EOutput::CONSOLE, "Level System", e.what());
-		}
-		GameObject& gameObject = m_gameObjects[m_gameObjects.size() - 1];
-		gameObject.setIdx((U32)m_gameObjects.size() - 1);
-		gameObject.setLevel(this);
-		m_rootIdxs.push_back(gameObject.getIdx());
-		//Add transform to all game objects
-		addComponentToGameObject<components::Transform>(gameObject);
-		return gameObject;
-	}
+
+
+	void destroyGameObject(U64 idx);
+
+	DRAK_API GameObject& addGameObject();
 
 	Scene getScene() {
-		return Scene(m_gameObjects, m_rootIdxs, __getComponentContainer(components::Transform),
-			__getComponentContainer(components::Model), *m_resourceManager);
+		return Scene(
+			m_gameObjects, 
+			m_rootIdxs, 
+			__getComponentContainer(components::Transform),
+			__getComponentContainer(components::Model), 
+			__getComponentContainer(components::BoxCollider),
+			*m_resourceManager);
 	}
 
 	ResourceSystem* m_resourceManager;
 };
-} //core
+} // core
 
 DK_METADATA_BEGIN(drak::LevelSystem)
-DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer,
-	BoxColliderComponentContainer, m_gameObjects, m_rootIdxs, m_data)
+DK_PUBLIC_FIELDS(
+	RigidBodyComponentContainer, 
+	TransformComponentContainer, 
+	ModelComponentContainer,
+	BoxColliderComponentContainer, 
+	m_gameObjects, 
+	m_rootIdxs, 
+	m_data)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

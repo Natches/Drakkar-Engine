@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\Source\Engine\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Source\Engine\GameObject.cpp" />
+    <ClCompile Include="..\..\Source\Engine\InputManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Engine\Physics\SimulationEvent.cpp" />
     <ClCompile Include="..\..\Source\Engine\Scene\LevelSystem.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="..\..\Source\Engine\Engine.hpp" />
     <ClInclude Include="..\..\Source\Engine\CreateDerivative.hpp" />
     <ClInclude Include="..\..\Source\Engine\GameObject.hpp" />
+    <ClInclude Include="..\..\Source\Engine\InputManager.hpp" />
     <ClInclude Include="..\..\Source\Engine\Physics\PhysicsSystem.hpp" />
     <ClInclude Include="..\..\Source\Engine\Physics\SimulationEvent.hpp" />
     <ClInclude Include="..\..\Source\Engine\Scene\LevelSystem.hpp" />

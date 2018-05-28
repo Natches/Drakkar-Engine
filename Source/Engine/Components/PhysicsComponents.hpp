@@ -38,6 +38,22 @@ DK_PUBLIC_FIELDS(localPosition, localRotation, material, width, height, depth, i
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
+DRAK_COMPONENT_START(SphereCollider)
+DK_SERIALIZED_OBJECT(SphereCollider)
+physx::PxShape* shape;
+math::Vec3f localPosition = math::Vec3f(0, 0, 0);
+math::Vec4f localRotation = math::Vec4f(0, 0, 0, 1);
+PhysicsMaterial material;
+F32 radius;
+DRAK_API virtual void deleteComponent() override;
+DRAK_API virtual void initComponent() override { ; }
+DRAK_COMPONENT_END(SphereCollider)
+DK_METADATA_BEGIN(drak::components::SphereCollider)
+DK_PUBLIC_FIELDS(localPosition, localRotation, material, radius, idx, GameObjectID)
+DK_PUBLIC_FIELD_COMPLEMENT
+DK_METADATA_END
+
+
 DRAK_COMPONENT_START(RigidBody)
 DK_SERIALIZED_OBJECT(RigidBody)
 	physx::PxRigidActor* rigidActor;// = nullptr;

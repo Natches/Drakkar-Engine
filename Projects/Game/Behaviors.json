@@ -3,7 +3,13 @@ PublicFields: {
 	"CubeBehaviorContainer": [
 		behavior::Cube: {
 			PublicFields: {
-				"gameObjectID": "0",
+				"gameObjectID": "1",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "2",
 				"name": "Cube"
 			}
 		},
@@ -15,7 +21,31 @@ PublicFields: {
 		},
 		behavior::Cube: {
 			PublicFields: {
+				"gameObjectID": "4",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "5",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
 				"gameObjectID": "6",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "7",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "8",
 				"name": "Cube"
 			}
 		},
@@ -27,7 +57,31 @@ PublicFields: {
 		},
 		behavior::Cube: {
 			PublicFields: {
+				"gameObjectID": "10",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "11",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
 				"gameObjectID": "12",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "13",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "14",
 				"name": "Cube"
 			}
 		},
@@ -39,86 +93,40 @@ PublicFields: {
 		},
 		behavior::Cube: {
 			PublicFields: {
+				"gameObjectID": "16",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "17",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
 				"gameObjectID": "18",
 				"name": "Cube"
 			}
 		},
 		behavior::Cube: {
 			PublicFields: {
+				"gameObjectID": "19",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "20",
+				"name": "Cube"
+			}
+		}
+	],
+	"CameraControllerBehaviorContainer": [
+		behavior::CameraController: {
+			PublicFields: {
 				"gameObjectID": "21",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "24",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "27",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "30",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "33",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "36",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "39",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "42",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "45",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "48",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "51",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "54",
-				"name": "Cube"
-			}
-		},
-		behavior::Cube: {
-			PublicFields: {
-				"gameObjectID": "57",
-				"name": "Cube"
+				"name": ""
 			}
 		}
 	]
