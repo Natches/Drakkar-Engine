@@ -14,21 +14,23 @@ void TextureManager::preload(const std::string& names, const std::string& filena
 }
 
 void TextureManager::preload(const ResourceName& rName, const std::string& filename) {
-	for (auto name : rName.names) {
-		if (name.second == EFileType::TEXTURE)
+	for (auto& name : rName.names) {
+		if (name.second == EFileType::TEXTURE && name.first.c_str() != "")
 			m_map[name.first] = TexturePtr(new Resource<gfx::Texture>(filename));
 	}
 }
 
 void TextureManager::load(const std::string& filename, std::vector<definition::Texture>& inTextures) {
 	for (auto& texture : inTextures) {
-		if (!m_map[texture.name].get())
-			m_map[texture.name].reset(new Resource<gfx::Texture>(filename));
-		new (m_map[texture.name].get()) Resource<gfx::Texture>(filename,
-			gfx::Texture(texture.name, std::move(texture.pixels),
-				texture.width, texture.height, texture.format, texture.channels));
+		if (texture.name.c_str() != "") {
+			if (!m_map[texture.name].get())
+				m_map[texture.name].reset(new Resource<gfx::Texture>(filename));
+			new (m_map[texture.name].get()) Resource<gfx::Texture>(filename,
+				gfx::Texture(texture.name, std::move(texture.pixels),
+					texture.width, texture.height, texture.format, texture.channels));
 
-		m_map[texture.name]->loadState(Resource<gfx::Texture>::ELoadState::READY);
+			m_map[texture.name]->loadState(Resource<gfx::Texture>::ELoadState::READY);
+		}
 	}
 }
 

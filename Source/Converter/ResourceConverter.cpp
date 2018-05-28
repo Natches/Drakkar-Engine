@@ -149,7 +149,7 @@ void ResourceConverter::convertModel(const char* filename, bool optimizeMesh) {
 		importer.importModel(models, meshes, skMeshes, materials, textures, rName);
 
 		std::string path = drak::io::FileNameNoExtension(importer.filename().c_str());
-		path.insert(path.end() - path.begin(), ".dkResources");
+		path.insert(path.end() - path.begin(), ".dkrsrc");
 
 		Serializer::SerializeToFile<EExtension::BINARY, false, ResourceName>
 			("Resources/Models/", path.c_str(), rName, models, meshes, skMeshes, materials, textures);
@@ -168,7 +168,7 @@ void ResourceConverter::convertTexture(const char* filename) {
 	std::string path = drak::io::FileNameNoExtension(filename);
 	ResourceName rName;
 	rName.names[path] = EFileType::TEXTURE;
-	path.insert(path.end() - path.begin(), ".dkResources");
+	path.insert(path.end() - path.begin(), ".dkrsrc");
 	Serializer::SerializeToFile<EExtension::BINARY, false, Texture>("Resources/Textures/", path.c_str(), tex, rName);
 }
 

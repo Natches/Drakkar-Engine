@@ -11,13 +11,13 @@ out VS_OUT {
 	vec3 pos;
 	vec3 normal;
 	vec2 uv;
-} vert;
+} frag;
 
 void main()
 {
-	vert.pos	= vec3(model * vec4(pos, 1.0));
-	vert.normal	= normal;
-	vert.uv		= uv;
+	frag.pos	= vec3(model * vec4(pos, 1.0));
+	frag.normal	= normal;
+	frag.uv		= uv;
 
 	gl_Position	= viewPrsp * model * vec4(pos, 1.0);
 }

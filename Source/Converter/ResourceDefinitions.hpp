@@ -54,6 +54,7 @@ struct Material {
 struct Model {
 	std::string mesh;
 	std::string material;
+	bool skinned;
 };
 
 struct Joint {
@@ -144,7 +145,7 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Model)
-DK_PUBLIC_FIELDS(mesh, material)
+DK_PUBLIC_FIELDS(mesh, material, skinned)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 

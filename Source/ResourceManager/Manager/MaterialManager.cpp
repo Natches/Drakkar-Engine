@@ -14,24 +14,26 @@ void MaterialManager::preload(const std::string& names, const std::string& filen
 }
 
 void MaterialManager::preload(const ResourceName& rName, const std::string& filename) {
-	for (auto name : rName.names) {
-		if (name.second == EFileType::MATERIAL)
+	for (auto& name : rName.names) {
+		if (name.second == EFileType::MATERIAL && name.first.c_str() != "")
 			m_map[name.first] = MaterialPtr(new Resource<gfx::Material>(filename));
 	}
 }
 
 void MaterialManager::load(const std::string& filename, std::vector<definition::Material>& inMaterials) {
 	for (auto& material : inMaterials) {
-		if (!m_map[material.name].get())
-			m_map[material.name].reset(new Resource<gfx::Material>(filename));
-		new (m_map[material.name].get()) Resource<gfx::Material>(filename,
-			gfx::Material(material.name, std::move(material.albedo), std::move(material.normal),
-				std::move(material.diffuseColor), std::move(material.specularColor),
-				std::move(material.ambientColor), std::move(material.transparentColor),
-				material.opacity, material.shininess, material.shininessStrength,
-				material.wireframe, material.twoSided));
+		if (material.name.c_str() != "") {
+			if (!m_map[material.name].get())
+				m_map[material.name].reset(new Resource<gfx::Material>(filename));
+			new (m_map[material.name].get()) Resource<gfx::Material>(filename,
+				gfx::Material(material.name, std::move(material.albedo), std::move(material.normal),
+					std::move(material.diffuseColor), std::move(material.specularColor),
+					std::move(material.ambientColor), std::move(material.transparentColor),
+					material.opacity, material.shininess, material.shininessStrength,
+					material.wireframe, material.twoSided));
 
-		m_map[material.name]->loadState(Resource<gfx::Material>::ELoadState::READY);
+			m_map[material.name]->loadState(Resource<gfx::Material>::ELoadState::READY);
+		}
 	}
 }
 

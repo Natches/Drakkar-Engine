@@ -6,6 +6,7 @@
 #include <Engine/Scene/LevelSystemUtils.hpp>
 #include <Serialization/Serializer.hpp>
 #include <ResourceManager/ResourceSystem.hpp>
+#include <Animation/AnimationScene.hpp>
 
 namespace physx{
 	class PxScene;
@@ -34,22 +35,26 @@ struct Scene {
 		std::vector<components::Transform>& transforms,
 		std::vector<components::Model>& models,
 		std::vector<components::BoxCollider>& hitBoxes,
-		ResourceSystem& resourceManager) :
+		ResourceSystem& resourceManager,
+		animation::AnimationScene& animScene) :
 		gameObjects(gameObjects),
 		rootIDXs(rootIDXs),
 		transforms(transforms),
 		models(models),
 		hitBoxes(hitBoxes),
-		resourceManager(resourceManager) {}
+		resourceManager(resourceManager),
+		animationScene(animScene)
+	{}
 
 	ResourceSystem&							resourceManager;
+	animation::AnimationScene&				animationScene;
 	std::vector<U32>&						rootIDXs;
 	std::vector<GameObject>&				gameObjects;
 	std::vector<components::Transform>&		transforms;
 	std::vector<components::Model>&			models;
 	std::vector<components::BoxCollider>&	hitBoxes;
-	
-	
+
+
 };
 
 class LevelSystem {
@@ -66,6 +71,7 @@ class LevelSystem {
 	COMPONENT_CONTAINER(Model)
 	COMPONENT_CONTAINER(BoxCollider)
 	COMPONENT_CONTAINER(SphereCollider)
+	COMPONENT_CONTAINER(Animator)
 
 	std::vector<GameObject> m_gameObjects;
 	std::vector<U32> m_rootIdxs;
@@ -92,6 +98,9 @@ class LevelSystem {
 	void DestroyChild(U64 idx);
 
 	void setComponentGameObjectIDX(U32 originalIDX, U32 newIDX);
+
+	ResourceSystem* m_resourceManager;
+	animation::AnimationScene* m_pAnimationScene = nullptr;
 public:
 
 	void loadScene(const char* name);
@@ -157,26 +166,27 @@ public:
 
 	Scene getScene() {
 		return Scene(
-			m_gameObjects, 
-			m_rootIdxs, 
+			m_gameObjects,
+			m_rootIdxs,
 			__getComponentContainer(components::Transform),
-			__getComponentContainer(components::Model), 
+			__getComponentContainer(components::Model),
 			__getComponentContainer(components::BoxCollider),
-			*m_resourceManager);
+			*m_resourceManager,
+			*m_pAnimationScene);
 	}
-
-	ResourceSystem* m_resourceManager;
 };
 } // core
 
 DK_METADATA_BEGIN(drak::LevelSystem)
 DK_PUBLIC_FIELDS(
-	RigidBodyComponentContainer, 
-	TransformComponentContainer, 
+	RigidBodyComponentContainer,
+	TransformComponentContainer,
 	ModelComponentContainer,
-	BoxColliderComponentContainer, 
-	m_gameObjects, 
-	m_rootIdxs, 
+	BoxColliderComponentContainer,
+	AnimatorComponentContainer,
+	m_pAnimationScene,
+	m_gameObjects,
+	m_rootIdxs,
 	m_data)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

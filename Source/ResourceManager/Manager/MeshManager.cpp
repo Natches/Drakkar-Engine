@@ -12,22 +12,24 @@ void MeshManager::preload(const std::string& names, const std::string& filename)
 }
 
 void MeshManager::preload(const ResourceName& rName, const std::string& filename) {
-	for (auto name : rName.names) {
-		if ((name.second & EFileType::MESH) == EFileType::MESH)
+	for (auto& name : rName.names) {
+		if ((name.second & EFileType::MESH) == EFileType::MESH && name.first.c_str() != "")
 			m_map[name.first] = MeshPtr(new Resource<geom::Mesh>(filename));
 	}
 }
 
 void MeshManager::load(const std::string& filename, std::vector<definition::Mesh>& inMeshes) {
 	for (auto& mesh : inMeshes) {
-		if (!m_map[mesh.name].get())
-			m_map[mesh.name].reset(new Resource<geom::Mesh>(filename));
-		new (m_map[mesh.name].get())
-			Resource<geom::Mesh>(filename, geom::Mesh(mesh.name,
-			std::move(*reinterpret_cast<std::vector<geom::Vertex1P1N1UV>*>(&mesh.vertices)),
-			std::move(mesh.indices)));
+		if (mesh.name.c_str() != "") {
+			if (!m_map[mesh.name].get())
+				m_map[mesh.name].reset(new Resource<geom::Mesh>(filename));
+			new (m_map[mesh.name].get())
+				Resource<geom::Mesh>(filename, geom::Mesh(mesh.name,
+					std::move(*reinterpret_cast<std::vector<geom::Vertex1P1N1UV>*>(&mesh.vertices)),
+					std::move(mesh.indices)));
 
-		m_map[mesh.name]->loadState(Resource<geom::Mesh>::ELoadState::READY);
+			m_map[mesh.name]->loadState(Resource<geom::Mesh>::ELoadState::READY);
+		}
 	}
 }
 

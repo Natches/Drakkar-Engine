@@ -9,7 +9,7 @@ ResourceSystem::ResourceSystem(ResourceSystemData& data) : m_systemData(data) {
 
 void ResourceSystem::convert(const std::string& filename, definition::Pak& pak) {
 	std::string ext = io::Extension(filename.c_str());
-	if (ext != std::string("dkResources") && ext != std::string("pak")) {
+	if (ext != std::string("dkrsrc") && ext != std::string("pak")) {
 		const char* temp = filename.data();
 		m_converter.convert(1, &temp);
 	}
@@ -105,9 +105,9 @@ void ResourceSystem::convertLoad(const std::string filename, void* task) {
 	convert(filename, pak);
 	if (!pak.filenames.size()) {
 		std::string ext = io::AllExtension(filename.c_str());
-		if (ext != "dkResources" && ext != "pak") {
+		if (ext != "dkrsrc" && ext != "pak") {
 			load(io::Directories(filename.c_str()) +
-				io::FileNameNoExtension(filename.c_str()) + ".dkResources");
+				io::FileNameNoExtension(filename.c_str()) + ".dkrsrc");
 		}
 		else
 			load(filename);

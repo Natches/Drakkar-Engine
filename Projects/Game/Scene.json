@@ -1857,140 +1857,140 @@ PublicFields: {
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "2",
 				"GameObjectID": "2"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "3",
 				"GameObjectID": "3"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "4",
 				"GameObjectID": "4"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "5",
 				"GameObjectID": "5"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "6",
 				"GameObjectID": "6"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "7",
 				"GameObjectID": "7"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "8",
 				"GameObjectID": "8"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "9",
 				"GameObjectID": "9"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "10",
 				"GameObjectID": "10"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "11",
 				"GameObjectID": "11"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "12",
 				"GameObjectID": "12"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "13",
 				"GameObjectID": "13"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "14",
 				"GameObjectID": "14"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "15",
 				"GameObjectID": "15"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "16",
 				"GameObjectID": "16"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "17",
 				"GameObjectID": "17"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "18",
 				"GameObjectID": "18"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "19",
 				"GameObjectID": "19"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "SK_Mannequin1",
+				"name": "140101kino",
 				"idx": "20",
 				"GameObjectID": "20"
 			}
@@ -2740,6 +2740,349 @@ PublicFields: {
 			}
 		}
 	],
+	"AnimatorComponentContainer": [
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "0",
+				"GameObjectID": "1"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "1",
+				"GameObjectID": "2"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "2",
+				"GameObjectID": "3"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "3",
+				"GameObjectID": "4"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "4",
+				"GameObjectID": "5"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "5",
+				"GameObjectID": "6"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "6",
+				"GameObjectID": "7"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "7",
+				"GameObjectID": "8"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "8",
+				"GameObjectID": "9"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "9",
+				"GameObjectID": "10"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "10",
+				"GameObjectID": "11"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "11",
+				"GameObjectID": "12"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "12",
+				"GameObjectID": "13"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "13",
+				"GameObjectID": "14"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "14",
+				"GameObjectID": "15"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "15",
+				"GameObjectID": "16"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "16",
+				"GameObjectID": "17"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "17",
+				"GameObjectID": "18"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "18",
+				"GameObjectID": "19"
+			}
+		},
+		drak::components::Animator: {
+			PublicFields: {
+				"speed": "0.000000",
+				"m_animation": "01idle",
+				"animator": drak::animation::Animator: {
+					PublicFields: {
+						"m_time": "0.000000",
+						"m_timeBetweenTwoFrame": "0.000000",
+						"m_frame": "0"
+					}
+				},
+				"m_dirty": "true",
+				"idx": "19",
+				"GameObjectID": "20"
+			}
+		}
+	],
+	"m_pAnimationScene": drak::animation::AnimationScene: {
+		PublicFields: {
+			"m_highPriority": [
+			],
+			"m_middlePriority": [
+			],
+			"m_lowPriority": [
+			],
+			"m_lowerPriority": [
+			],
+			"m_updateCount": "0",
+			"m_highPriorityUpdateTime": "1",
+			"m_middlePriorityUpdateTime": "4",
+			"m_lowPriorityUpdateTime": "8",
+			"m_lowerPriorityUpdateTime": "24",
+			"m_highDistance": "40",
+			"m_middleDistance": "80",
+			"m_lowDistance": "120",
+			"m_lowerDistance": "200"
+		}
+	},
 	"m_gameObjects": [
 		drak::GameObject: {
 			PublicFields: {
@@ -2765,7 +3108,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2782,9 +3125,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"0"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"0"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2794,7 +3141,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2811,9 +3158,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"1"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"1"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2823,7 +3174,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2840,9 +3191,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"2"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"2"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2852,7 +3207,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2869,9 +3224,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"3"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"3"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2881,7 +3240,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2898,9 +3257,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"4"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"4"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2910,7 +3273,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2927,9 +3290,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"5"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"5"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2939,7 +3306,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2956,9 +3323,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"6"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"6"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2968,7 +3339,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -2985,9 +3356,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"7"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"7"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -2997,7 +3372,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3014,9 +3389,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"8"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"8"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3026,7 +3405,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3043,9 +3422,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"9"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"9"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3055,7 +3438,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3072,9 +3455,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"10"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"10"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3084,7 +3471,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3101,9 +3488,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"11"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"11"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3113,7 +3504,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3130,9 +3521,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"12"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"12"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3142,7 +3537,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3159,9 +3554,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"13"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"13"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3171,7 +3570,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3188,9 +3587,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"14"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"14"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3200,7 +3603,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3217,9 +3620,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"15"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"15"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3229,7 +3636,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3246,9 +3653,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"16"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"16"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3258,7 +3669,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3275,9 +3686,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"17"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"17"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3287,7 +3702,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3304,9 +3719,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"18"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"18"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3316,7 +3735,7 @@ PublicFields: {
 		drak::GameObject: {
 			PublicFields: {
 				"name": "",
-				"componentCount": "3",
+				"componentCount": "4",
 				"m_componentHandles": [
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"0",
@@ -3333,9 +3752,13 @@ PublicFields: {
 					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
 						"4",
 						"19"
+					},
+					struct std::pair<unsigned __int64 const ,unsigned __int64>: {
+						"5",
+						"19"
 					}
 				],
-				"m_componentFlags": "23",
+				"m_componentFlags": "55",
 				"childrenIDXs": [
 				],
 				"parentIDX": "-1",
@@ -3417,8 +3840,8 @@ PublicFields: {
 	"m_data": drak::ResourceSystemData: {
 		PrivateFields: {
 			"fileLoaded": [
-				"./Resources/Models/zombii.dkResources",
-				"./Resources/Models/cube.dkResources"
+				"./Resources/Models/Mushroomboy.dkrsrc",
+				"./Resources/Models/cube.dkrsrc"
 			],
 			"packageLoaded": [
 			]

@@ -72,6 +72,8 @@ bool LevelSystem::startup() {
 	//	new function::MemberFunction<LevelSystem, void, const events::Event*>(this, &LevelSystem::SerializeEvent, &events::Keyboard::Get().event()));
 	m_resourceManager = new ResourceSystem(m_data);
 	m_resourceManager->startup();
+	if(!m_pAnimationScene)
+		m_pAnimationScene = new animation::AnimationScene();
 	return true;
 }
 

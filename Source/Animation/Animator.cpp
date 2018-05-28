@@ -19,7 +19,7 @@ void Animator::advance(const F32 deltaTime, const components::Animator& animator
 			m_time -= m_timeBetweenTwoFrame;
 			++m_frame;
 		}
-		m_frame % anim->frameCount();
+		m_frame %= anim->frameCount();
 	}
 }
 
@@ -38,9 +38,9 @@ void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformatio
 	const Animation* animation, I32 i, const math::Mat4f& parentTransform, const Skeleton& skeleton) {
 	Joint j1, j2;
 
-	if (animation->frames[m_frame].jointByName(b.name, j1) != DK_OK)
+	if (animation->frames()[m_frame].jointByName(b.name, j1) != DK_OK)
 		skeleton.jointByName(b.name, j1);
-	if (animation->frames[m_frame + 1 == animation->frameCount() ? 0 : m_frame + 1].jointByName(b.name, j2) != DK_OK)
+	if (animation->frames()[m_frame + 1 == animation->frameCount() ? 0 : m_frame + 1].jointByName(b.name, j2) != DK_OK)
 		skeleton.jointByName(b.name, j2);
 
 	j1 = interpolateJoints(j1, j2, m_time);
@@ -54,7 +54,7 @@ void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformatio
 			(math::Translate(j2.pos) * j2.rot.matrix() * math::Scale(j2.scale)));
 
 	for (auto& child : b.children)
-		buildGlobalTransformation(transformation, child, animation, ++i, Global);
+		buildGlobalTransformation(transformation, child, animation, ++i, Global, skeleton);
 }
 
 Joint Animator::interpolateJoints(const Joint& j1, const Joint& j2, const F32 time) {

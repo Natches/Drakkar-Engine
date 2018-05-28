@@ -18,7 +18,7 @@ bool GLRenderer::init() {
 		#endif
 		glDebugMessageCallback((GLDEBUGPROC)debugLog, 0);
 
-		clearColorValue(Color3(0.1f, 0.1f, 0.1f));
+		clearColorValue(Color3(0.8f, 0.8f, 0.8f));
 
 		return true;
 	}

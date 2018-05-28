@@ -42,7 +42,7 @@ private:
 	bool loadShaders();
 	void convertModelToRenderable(const std::vector<components::Model>& models,
 		ResourceSystem& manager);
-
+	void renderSkinnedMeshes(Scene& scene);
 	void opaquePass();
 	void transparentPass();
 
@@ -60,6 +60,8 @@ private:
 	gl::GLTexture		m_gridTex;
 
 	std::map<std::string, IRenderable*> m_renderables;
+	std::map<std::string, IRenderable*> m_skinnedRenderables;
+	std::map<std::string, gl::GLStorageBuffer> m_buffers;
 	std::map<std::string, gl::GLTexture> m_textures;
 
 	IRenderer*			m_pRenderer;

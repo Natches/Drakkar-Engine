@@ -38,6 +38,7 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLObject.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.hpp" />
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLStorageBuffer.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTypes.hpp" />
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.hpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLIndexBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLShader.cpp" />
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLStorageBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLTexture.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLVertexArray.cpp" />

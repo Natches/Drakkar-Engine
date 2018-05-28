@@ -24,18 +24,17 @@ struct Animator;
 } //namespace components
 namespace animation {
 class Animator;
-class AnimationSystem;
 
 class AnimationScene final {
-	DK_NONMOVABLE_NONCOPYABLE(AnimationScene)
 	DK_SERIALIZED_OBJECT(AnimationScene)
-	friend class AnimationSystem;
+	friend class LevelSystem;
 	using func = typename function::MemberFunction<AnimationScene, void, const std::vector<U32>>;
 public:
-	void update(const F32 deltatime, const math::Vec3f& camPos, const math::Vec3f& camDir);
-
-private:
 	AnimationScene();
+	void update(const F32 deltatime, const math::Vec3f& camPos, const math::Vec3f& camDir);
+	DK_GETTER_REF_C(std::vector<components::Animator>, animators, m_components)
+	DK_GETTER_REF_C(std::vector<std::vector<math::Mat4f>>, matricies, m_lastFrameMatricies)
+private:
 	~AnimationScene() = default;
 
 	void CheckDistance(const math::Vec3f& camPos, const math::Vec3f& camDir);
@@ -43,7 +42,8 @@ private:
 	void UpdateMatrix(const std::vector<U32> priority);
 
 private:
-	std::vector<components::Animator> m_components;
+	LevelSystem& m_level;
+	std::vector<components::Animator>& m_components;
 	std::vector<U32> m_highPriority, m_middlePriority, m_lowPriority, m_lowerPriority;
 	std::vector<std::vector<math::Mat4f>> m_lastFrameMatricies;
 	U8 m_updateCount;
@@ -55,7 +55,6 @@ private:
 	U16 m_middleDistance          = MIDDLE_DISTANCE;
 	U16 m_lowDistance             = LOW_DISTANCE;
 	U16 m_lowerDistance           = LOWER_DISTANCE;
-	LevelSystem& m_level;
 	thread::task::TaskGroup<thread::task::Task<func>> m_grp;
 	F32 m_time;
 };
@@ -64,7 +63,7 @@ private:
 } // namespace drak
 
 DK_METADATA_BEGIN(drak::animation::AnimationScene)
-DK_PUBLIC_FIELDS(m_components, m_highPriority, m_middlePriority, m_lowPriority, m_lowerPriority,
+DK_PUBLIC_FIELDS(m_highPriority, m_middlePriority, m_lowPriority, m_lowerPriority,
 	m_updateCount, m_highPriorityUpdateTime, m_middlePriorityUpdateTime, m_lowPriorityUpdateTime, m_lowerPriorityUpdateTime,
 	m_highDistance, m_middleDistance, m_lowDistance, m_lowerDistance);
 DK_PUBLIC_FIELD_COMPLEMENT

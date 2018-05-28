@@ -77,6 +77,7 @@
 #include <Video/Graphics/Rendering/OpenGL/GLTypes.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexArray.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLStorageBuffer.hpp>
 
 #include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
 #include <Video/Graphics/Rendering/HighLevel/Texture.hpp>

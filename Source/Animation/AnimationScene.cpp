@@ -9,7 +9,8 @@ namespace drak {
 namespace animation {
 
 AnimationScene::AnimationScene() : m_grp(core::Engine::Get().m_pool),
-	m_level(core::Engine::Get().currentLevel()), m_time(0.f) {
+	m_level(core::Engine::Get().currentLevel()), m_time(0.f),
+	m_components(m_level.getComponentContainerByType<components::Animator>()) {
 }
 
 void AnimationScene::update(const F32 deltatime, const math::Vec3f& camPos, const math::Vec3f& camDir) {
@@ -81,7 +82,7 @@ void AnimationScene::UpdateMatrix(const std::vector<U32> priority) {
 			m_level.getGameObjects()[anim.GameObjectID].getComponent<components::Model>();
 		SkinnedMeshPtr skMesh = m_level.m_resourceManager->loadOrGet<geom::SkinnedMesh>(mdl->name);
 		m_lastFrameMatricies[pr] = anim.animator.frameMatricies
-		(anim.animation, skMesh->resource().skeleton());
+		(anim.animation(), skMesh->resource().skeleton());
 	}
 }
 

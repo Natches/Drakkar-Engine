@@ -138,6 +138,9 @@
     <ClInclude Include="..\..\Source\Video\Graphics\Rendering\HighLevel\Texture.hpp">
       <Filter>Header Files\Graphics\Rendering\HighLevel</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLStorageBuffer.hpp">
+      <Filter>Header Files\Graphics\Rendering\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Video\main.cpp">
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Video\Graphics\Geometry\Mesh.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Video\Graphics\Rendering\OpenGL\GLStorageBuffer.cpp">
+      <Filter>Source Files\Graphics\Rendering\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

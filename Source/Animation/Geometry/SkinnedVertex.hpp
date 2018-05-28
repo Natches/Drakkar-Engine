@@ -8,7 +8,7 @@
 namespace drak {
 namespace geom {
 
-const VertexAttribDesc g_SkeletalVertexAttribDesc[5] = {
+const VertexAttribDesc g_SkinnedVertexAttribDesc[5] = {
 	{ VERT_ATTR_POS,	FLOAT, 3u, false },
 	{ VERT_ATTR_NORMAL, FLOAT, 3u, false },
 	{ VERT_ATTR_UV,		FLOAT, 2u, false },

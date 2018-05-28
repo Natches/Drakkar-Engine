@@ -615,15 +615,15 @@ Vec3f Sqrt(const Vec3f& v) {
 
 template<typename T>
 bool ArePerpendicular(const Vec3<T>& v1, const Vec3<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(0));
 }
 template<typename T>
 bool AreColinear(const Vec3<T>& v1, const Vec3<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(1));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(1));
 }
 template<typename T>
 bool AreOpposed(const Vec3<T>& v1, const Vec3<T>& v2) {
-	return types::IsEqual_V<T>(Dot(v1, v2), static_cast<T>(-1));
+	return IsEqual_V<T>(Dot(v1, v2), static_cast<T>(-1));
 }
 template<typename T>
 bool AreSameDirection(const Vec3<T>& v1, const Vec3<T>& v2) {

@@ -46,7 +46,6 @@ void RenderSystem::shutdown() {
 
 void RenderSystem::forwardRender(Scene& scene) {
 	convertModelToRenderable(scene.models, scene.resourceManager);
-
 	m_pRenderer->cullTest(true);
 	IShader* pShader = m_shaderManager.get("DefaultShader")->resource();
 	pShader->use();
@@ -55,11 +54,10 @@ void RenderSystem::forwardRender(Scene& scene) {
 	const Transform* pXform;
 	Quaternion	quat;
 	Mat4f		modelMx;
-
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	for (auto& model : scene.models) {
-		if (model.name == "cube")
+		if (scene.resourceManager.loadOrGet<Model>(model.name)->resource().isSkinned())
 			continue;
 
 		pXform	= scene.gameObjects[model.GameObjectID].getComponent<Transform>();
@@ -80,6 +78,8 @@ void RenderSystem::forwardRender(Scene& scene) {
 
 		m_renderables[model.name]->render();
 	}
+
+	renderSkinnedMeshes(scene);
 
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
 	pShader->uniform("lightColor", { 0.f, 0.f, 0.f });
@@ -161,21 +161,76 @@ bool drak::gfx::RenderSystem::loadShaders() {
 void RenderSystem::convertModelToRenderable(const std::vector<components::Model>& models,
 	ResourceSystem& manager) {
 	for (auto& model : models) {
-		if (m_renderables.find(model.name) == m_renderables.end()) {
+		if (m_renderables.find(model.name) == m_renderables.end() &&
+			m_skinnedRenderables.find(model.name) == m_skinnedRenderables.end()) {
 			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.name);
 			if (modelPtr->loadState() == Resource<geom::Mesh>::ELoadState::READY) {
-				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.name);
-				gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
-				vertBuffer->create(meshPtr->resource().vertices().data(), geom::g_VertexAttribDesc, 3,
-					(U32)meshPtr->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
-				gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
-				indexBuffer->create(meshPtr->resource().indices().data(),
-					(U32)meshPtr->resource().indices().size());
-				gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
-				vertexArray->create(vertBuffer, indexBuffer);
-				m_renderables[model.name] = vertexArray;
+				if (!modelPtr->resource().isSkinned()) {
+					const geom::Mesh& mesh = manager.loadOrGet<geom::Mesh>(model.name)->resource();
+					gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
+					vertBuffer->create(mesh.vertices().data(), geom::g_VertexAttribDesc, 3,
+						(U32)mesh.vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
+					gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
+					indexBuffer->create(mesh.indices().data(),
+						(U32)mesh.indices().size());
+					gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
+					vertexArray->create(vertBuffer, indexBuffer);
+					m_renderables[model.name] = vertexArray;
+				}
+				else {
+					const geom::SkinnedMesh& meshPtr = manager.loadOrGet<geom::SkinnedMesh>(model.name)->resource();
+					gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
+					vertBuffer->create(meshPtr.vertices().data(), geom::g_SkinnedVertexAttribDesc, 5,
+						(U32)meshPtr.vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV1B1W)));
+					gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
+					indexBuffer->create(meshPtr.indices().data(),
+						(U32)meshPtr.indices().size());
+					gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
+					vertexArray->create(vertBuffer, indexBuffer);
+					m_skinnedRenderables[model.name] = vertexArray;
+				}
 			}
 		}
+	}
+}
+
+void RenderSystem::renderSkinnedMeshes(Scene& scene) {
+	IShader* pShader = m_shaderManager.get("SkinningShader")->resource();
+	pShader->use();
+	pShader->uniform("viewPrsp", m_mainCam.viewPerspective());
+
+	const Transform* pXform;
+	Quaternion	quat;
+	Mat4f		modelMx;
+	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
+	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
+	U32 i = 0;
+	for (auto& animator : scene.animationScene.animators()) {
+		const Model& mdl =
+			scene.resourceManager.loadOrGet<Model>(scene.gameObjects[animator.GameObjectID].getComponent<components::Model>()->name)->resource();
+		if (m_buffers.find(mdl.meshName) == m_buffers.end()) {
+			m_buffers[mdl.meshName].create(scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f));
+		}
+		m_buffers[mdl.meshName].write(0, scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f),
+			(void*)scene.animationScene.matricies()[i].data());
+		m_buffers[mdl.meshName].bind();
+
+		pXform = scene.gameObjects[animator.GameObjectID].getComponent<Transform>();
+		quat = pXform->getGlobalRotation();
+		modelMx =
+			Translate(pXform->getGlobalPosition()) *
+			quat.matrix() *
+			Scale(pXform->getGlobalScale());
+
+		auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
+
+		pShader->uniform("model", modelMx);
+		pShader->uniform("ambientColor", mat.ambientColor);
+		pShader->uniform("diffuseColor", mat.diffuseColor);
+		pShader->uniform("specularColor", mat.specularColor);
+		pShader->uniform("shininess", mat.shininess);
+
+		m_skinnedRenderables[mdl.meshName]->render();
 	}
 }
 

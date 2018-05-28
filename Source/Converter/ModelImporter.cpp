@@ -115,6 +115,7 @@ void ModelImporter::extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
 					definition::EFileType(definition::EFileType::MESH | definition::EFileType::MODEL);
 				aOutModelVec[i].mesh = name;
 				aOutModelVec[i].material = str.C_Str();
+				aOutModelVec[i].skinned = false;
 				str.Clear();
 			}
 		}
@@ -146,6 +147,7 @@ void ModelImporter::extractSkinnedMeshes(ModelVec& aOutModelVec, SkinnedMeshVec&
 					definition::EFileType(definition::EFileType::SKINNEDMESH | definition::EFileType::MODEL);
 				aOutModelVec[i].mesh = name;
 				aOutModelVec[i].material = str.C_Str();
+				aOutModelVec[i].skinned = true;
 				str.Clear();
 			}
 		}

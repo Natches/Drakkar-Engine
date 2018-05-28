@@ -21,8 +21,8 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/zombii.dkResources"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/Mushroomboy.dkrsrc"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkrsrc"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -41,6 +41,7 @@ public:
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
 			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
+			drak::components::Animator& cube_anim = cube.addComponent<drak::components::Animator>();
 			BoxCollider& cube_SC = cube.addComponent<BoxCollider>();
 
 			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 5.f, 0.f));
@@ -49,7 +50,8 @@ public:
 
 			cube_RB.mass = 100.f;
 
-			cube_MDL.name = "SK_Mannequin1";
+			cube_MDL.name = "140101kino";
+			cube_anim.animation("01idle");
 
 			cube_SC.width = 10.f;
 			cube_SC.height = 10.f;

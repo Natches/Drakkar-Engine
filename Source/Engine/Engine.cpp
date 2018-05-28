@@ -47,7 +47,7 @@ DRAK_API drak::PhysicsSystem& Engine::getPhysicsSystem(){
 	return *m_pPhysicsSystem;
 }
 
-DRAK_API LevelSystem & Engine::currentLevel(){
+DRAK_API LevelSystem& Engine::currentLevel(){
 		return *m_pLevelSystem;
 }
 
@@ -133,12 +133,14 @@ void Engine::startLoop() {
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
 		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
-			U32 hitID; 
+			U32 hitID;
 			if (CameraRaycast(hitID)) {
 				if (m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
-					m_pLevelSystem->destroyGameObject(hitID);			
-			}	
+					m_pLevelSystem->destroyGameObject(hitID);
+			}
 		}
+		m_pLevelSystem->m_pAnimationScene->update(s_frameTime.deltaTime(),
+			m_pRenderSystem->mainCamera().eye(), m_pRenderSystem->mainCamera().forward());
 
 		m_pMainWindow->clear();
 		renderScene();
