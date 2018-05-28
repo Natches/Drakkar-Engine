@@ -3,6 +3,7 @@
 #include <Engine/Components/ABehavior.hpp>
 #include <Game/Cube.hpp>
 #include <Game/CameraController.hpp>
+#include <Game/Player.hpp>
 
 namespace drak {
 #define BEHAVIOR_CONTAINER(c)																				\
@@ -23,6 +24,7 @@ DK_SERIALIZED_OBJECT(BehaviorMonolith)
 	//#include "BehaviorContainers.gen"
 	BEHAVIOR_CONTAINER(Cube)
 	BEHAVIOR_CONTAINER(CameraController)
+	BEHAVIOR_CONTAINER(Player)
 	BehaviorMonolith();
 public:
 	static BehaviorMonolith& Get() {
@@ -37,7 +39,6 @@ public:
 };
 }
 DK_METADATA_BEGIN(drak::BehaviorMonolith)
-DK_PUBLIC_FIELDS(BHVR_CONTAINER_PROPER(Cube), BHVR_CONTAINER_PROPER(CameraController))
+DK_PUBLIC_FIELDS(BHVR_CONTAINER_PROPER(Cube), BHVR_CONTAINER_PROPER(CameraController), BHVR_CONTAINER_PROPER(Player))
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
-

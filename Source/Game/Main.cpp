@@ -28,68 +28,48 @@ public:
 		mat.restitution = 0.5f;
 		mat.staticFriction = 0.5f;
 		name = "Scene";
-		GameObject& raycastPointer = scene.addGameObject();
-		Transform& raycastPointer_TR = *raycastPointer.getComponent<Transform>();
-		drak::components::Model& raycastPointer_MDL = raycastPointer.addComponent<drak::components::Model>();
-		raycastPointer_TR.setGlobalPosition(Vec3f(0.f, 0.f, 0.f));
-		raycastPointer_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
-		raycastPointer_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-		raycastPointer_MDL.name = "cube";
 
-		for (int i = 0; i < 20; ++i) {
-			GameObject& cube = scene.addGameObject();
-			Transform& cube_TR = *cube.getComponent<Transform>();
-			RigidBody& cube_RB = cube.addComponent<RigidBody>();
-			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
-			BoxCollider& cube_SC = cube.addComponent<BoxCollider>();
-
-			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 5.f, 0.f));
-			cube_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
-			cube_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
-
-			cube_RB.mass = 100.f;
-
-			cube_MDL.name = "SK_Mannequin1";
-
-			cube_SC.width = 10.f;
-			cube_SC.height = 10.f;
-			cube_SC.depth = 10.f;
-			cube_SC.material = mat;
-
-			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
-			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube.getIdx();
-			I32 parentIdx = cube.getIdx();
-
-			GameObject& cube2 = scene.addGameObject();
-			Transform& cube2_TR = *cube2.getComponent<Transform>();
-			RigidBody& cube2_RB = cube2.addComponent<RigidBody>();
-			drak::components::Model& cube2_MDL = cube2.addComponent<drak::components::Model>();
-			BoxCollider& cube2_SC = cube2.addComponent<BoxCollider>();
-
-			cube2_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 10.f, 0.f));
-			cube2_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
-			cube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
-			
-			cube2_RB.mass = 100.f;
-			
-			cube2_MDL.name = "SK_Mannequin1";
-			
-			cube2_SC.width = 10.f;
-			cube2_SC.height = 10.f;
-			cube2_SC.depth = 10.f;
-			cube2_SC.material = mat;
-
-			cube2.name = "joajda";
-
-			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
-			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube2.getIdx();
-			cube2.setParentIndex(parentIdx);
+		for (I32 i = 0; i < 10; ++i) {
+			for (I32 j = 0; j < 10; ++j) {
+				GameObject& box = scene.addGameObject();
+				box.name = "Box";
+				Transform& boxTrans = *box.getComponent<Transform>();
+				RigidBody& boxRigid = box.addComponent<RigidBody>();
+				drak::components::Model& boxModel = box.addComponent<drak::components::Model>();
+				BoxCollider& boxCollider = box.addComponent<BoxCollider>();
+				boxTrans.setGlobalPosition(Vec3f(j * 50.f, 0.f, i * 50.f));
+				boxTrans.setGlobalScale(Vec3f(100.f, 100.f, 100.f));
+				boxTrans.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
+				boxRigid.mass = 10.f;
+				boxModel.name = "SK_Mannequin1";
+				boxCollider.width = 50.f;
+				boxCollider.height = 50.f;
+				boxCollider.depth = 50.f;
+				boxCollider.material = mat;
+			}
 		}
 
-		GameObject& cameraController = scene.addGameObject();
-		cameraController.name = "CameraController";
-		BHVR.getCameraControllerBehaviorContainer().emplace_back(new behavior::CameraController());
-		BHVR.getCameraControllerBehaviorContainer()[BHVR.getCameraControllerBehaviorContainer().size() - 1]->gameObjectID = cameraController.getIdx();
+
+
+		GameObject& player = scene.addGameObject();
+		player.name = "Player";
+		Transform& playerTrans = *player.getComponent<Transform>();
+		RigidBody& playerRigid = player.addComponent<RigidBody>();
+		BoxCollider& playerCollider = player.addComponent<BoxCollider>();
+		drak::components::Model& playerModel = player.addComponent<drak::components::Model>();
+		playerTrans.setGlobalPosition(Vec3f(0, -30.f, 50));
+		playerTrans.setGlobalScale(Vec3f(100.f, 100.f, 100.f));
+		playerTrans.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
+		playerRigid.mass = 1000.f;
+		playerRigid.isKinematic = true;
+		playerModel.name = "cube";
+		playerCollider.width = 50.f;
+		playerCollider.height = 50.f;
+		playerCollider.depth = 50.f;
+		playerCollider.material = mat;
+		BHVR.getPlayerBehaviorContainer().emplace_back(new behavior::Player ());
+		BHVR.getPlayerBehaviorContainer()[BHVR.getPlayerBehaviorContainer().size() - 1]->gameObjectID = player.getIdx();
+
 
 		GameObject& floor = scene.addGameObject();
 		floor.name = "Floor";
@@ -97,19 +77,15 @@ public:
 		RigidBody& floor_RB = floor.addComponent<RigidBody>();
 		drak::components::Model& floor_MDL = floor.addComponent<drak::components::Model>();
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
-
-		floor_TR.setGlobalPosition(Vec3f(0, -50.f, 0));
-		floor_TR.setGlobalScale(Vec3f(1000.f, 2.f, 1000.f));
+		floor_TR.setGlobalPosition(Vec3f(0, -40.f, 0));
+		floor_TR.setGlobalScale(Vec3f(10000.f, 2.f, 10000.f));
 		floor_TR.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
-
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
-
 		floor_MDL.name = "cube";
-
-		floor_BC.width = 1000.f;
-		floor_BC.height = 2.f;
-		floor_BC.depth = 1000.f;
+		floor_BC.width = 5000.f;
+		floor_BC.height = 25.f;
+		floor_BC.depth = 5000.f;
 		floor_BC.material = mat;
 
 		BHVR.init();

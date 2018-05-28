@@ -79,6 +79,9 @@ int Engine::startup(bool editorMode) {
 
 		return 0;
 	}
+
+	InputManager::mousePos();
+
 	return 1;
 }
 
@@ -123,14 +126,6 @@ void Engine::startLoop() {
 
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
-
-		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
-			U32 hitID; 
-			if (CameraRaycast(hitID)) {
-				if (m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
-					m_pLevelSystem->destroyGameObject(hitID);			
-			}	
-		}
 
 		m_pMainWindow->clear();
 		renderScene();

@@ -59,8 +59,8 @@ void RenderSystem::forwardRender(Scene& scene) {
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	for (auto& model : scene.models) {
-		if (model.name == "cube")
-			continue;
+		//if (model.name == "cube")
+		//	continue;
 
 		pXform	= scene.gameObjects[model.GameObjectID].getComponent<Transform>();
 		quat	= pXform->getGlobalRotation();
@@ -81,26 +81,27 @@ void RenderSystem::forwardRender(Scene& scene) {
 		m_renderables[model.name]->render();
 	}
 
-	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
-	pShader->uniform("lightColor", { 0.f, 0.f, 0.f });
-	for (auto& box : scene.hitBoxes) {
-		pXform = scene.gameObjects[box.GameObjectID].getComponent<Transform>();
-		quat = pXform->getGlobalRotation();
-		modelMx =
-			Translate(pXform->getGlobalPosition()) *
-			quat.matrix() *
-			Scale(pXform->getGlobalScale());
+	//m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
+	//pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
+	//for (auto& box : scene.hitBoxes) {
+	//	pXform = scene.gameObjects[box.GameObjectID].getComponent<Transform>();
+	//	quat = pXform->getGlobalRotation();
+	//	modelMx =
+	//		Translate(pXform->getGlobalPosition()) *
+	//		quat.matrix();
 
-		Mat4f boxMx = 
-			Translate(box.localPosition) * 
-			Rotation(box.localRotation) *
-			Scale(Vec3f(box.width, box.height, box.depth));
+	//	Mat4f boxMx = 
+	//		Translate(box.localPosition) * 
+	//		Rotation(box.localRotation) *
+	//		Scale(Vec3f(box.width, box.height, box.depth));
 
-		pShader->uniform("model", modelMx * boxMx);
-		pShader->uniform("ambientColor", {0.f, 1.f, 0.f});
+	//	pShader->uniform("model", modelMx * boxMx);
+	//	pShader->uniform("ambientColor", {0.01f, 0.4f, 0.2f});
+	//	pShader->uniform("diffuseColor", { 0.01f, 0.4f, 0.2f });
+	//	pShader->uniform("lightDir", { 1, 1, 1 });
 
-		m_renderables["cube"]->render();
-	}
+	//	m_renderables["cube"]->render();
+	//}
 	
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
