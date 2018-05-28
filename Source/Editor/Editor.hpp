@@ -7,6 +7,7 @@
 #include "GLEditorWidget.hpp"
 #include "SceneGraphWidget.hpp"
 #include "TransformWidget.hpp"
+#include "InspectorWidget.hpp"
 
 namespace Ui {
 class Editor;
@@ -62,6 +63,8 @@ private:
 
     GLEditorWidget      *glTarget;
     SceneGraphWidget    *sceneGraph;
+    TransformWidget     *transformWidget;
+    InspectorWidget     *inspector;
     QFileSystemModel    *folderModel, *fileModel;
 };
 

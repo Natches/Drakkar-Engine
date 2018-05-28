@@ -276,6 +276,7 @@ QTreeView::branch:open:has-children:has-siblings{
   border-image:none;
   image:url(:/darkstyle/icon_branch_open.png);
 }
+
 QScrollBar:vertical{
   background:palette(base);
   border-top-right-radius:2px;
@@ -348,4 +349,40 @@ QSlider::sub-page:horizontal{
 }
 QSlider::sub-page:horizontal:disabled{
   background:rgb(80,80,80);
+}
+
+InspectorWidget::branch{
+    background-color:palette(base);
+}
+InspectorWidget::branch:has-siblings:!adjoins-item{
+   border-image:none;
+}
+InspectorWidget::branch:has-siblings:adjoins-item{
+    border-image:none;
+}
+InspectorWidget::branch:!has-children:!has-siblings:adjoins-item{
+    border-image:none;
+}
+InspectorWidget::branch:has-children:!has-siblings:closed,
+InspectorWidget::branch:closed:has-children:has-siblings{
+    border-image:none;
+}
+InspectorWidget::branch:open:has-children:!has-siblings,
+InspectorWidget::branch:open:has-children:has-siblings{
+    border-image:none;
+}
+
+InspectorWidget::item:selected {
+    background:palette(base);
+}
+
+InspectorWidget::item:has-children {
+    padding:4px;
+    background-color:qlineargradient(x1:0,y1:1,x2:0,y2:0,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
+    border:1px solid rgba(25,25,25,75);
+    border-bottom:2px solid rgba(25,25,25,75);
+}
+
+QDoubleSpinBox {
+    background-color: rgb(25, 25, 25);
 }

@@ -3,6 +3,7 @@
 #include "SceneGraphWidget.hpp"
 #include "Engine/Engine.hpp"
 #include "Engine/Scene/LevelSystem.hpp"
+#include "TransformWidget.hpp"
 
 using namespace drak::core;
 
@@ -14,13 +15,15 @@ SceneGraphWidget::SceneGraphWidget(QWidget *parent)
     addTreeRoot("B");
     addTreeRoot("C");
 
-    setHeaderLabel("Game Object");
+    setHeaderHidden(true);
     setDragEnabled(true);
     setDropIndicatorShown(true);
-    setSelectionMode(QAbstractItemView::MultiSelection);
+
+    setFocusPolicy(Qt::FocusPolicy::ClickFocus);
+    setSelectionMode(QAbstractItemView::SingleSelection);
     setDragDropMode(QAbstractItemView::InternalMove);
 
-    Engine::Get().currentLevel().propagateMovementFromRoots();
+    //Engine::Get().currentLevel().propagateMovementFromRoots();
 }
 
 
@@ -31,7 +34,6 @@ SceneGraphWidget::~SceneGraphWidget() {
 
 void SceneGraphWidget::addTreeRoot(QString name) {
     QTreeWidgetItem *treeItem = new QTreeWidgetItem(this);
-
     treeItem->setText(0, name);
     addTreeChild(treeItem, name + "A");
     addTreeChild(treeItem, name + "B");

@@ -5,10 +5,8 @@
 
 namespace Ui { class TransformWidget; }
 
-class TransformWidget : public QWidget
-{
+class TransformWidget : public QWidget {
     Q_OBJECT
-
 public:
     explicit TransformWidget(QWidget *parent = 0);
     ~TransformWidget();

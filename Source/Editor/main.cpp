@@ -13,15 +13,14 @@ int main(int argc, char *argv[]) {
     Editor editor;
     editor.setWindowTitle("Drakkar Editor");
     editor.setWindowState(Qt::WindowMaximized);
-    editor.show();
+    //editor.show();
 
-    /*
     FramelessWindow framelessWin;
     framelessWin.setContent(&editor);
     framelessWin.setWindowTitle("Drakkar Editor");
     framelessWin.setWindowState(Qt::WindowMaximized);
     framelessWin.show();
-    */
+
 
     return drakEditor.exec();
 }
