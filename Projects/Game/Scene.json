@@ -8969,14 +8969,14 @@ PublicFields: {
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "cube",
+				"name": "SK_Mannequin1",
 				"idx": "100",
 				"GameObjectID": "100"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "cube",
+				"name": "pCube1",
 				"idx": "101",
 				"GameObjectID": "101"
 			}
@@ -15621,8 +15621,9 @@ PublicFields: {
 	"m_data": drak::ResourceSystemData: {
 		PrivateFields: {
 			"fileLoaded": [
+				"./Resources/Models/quad.dkResources",
 				"./Resources/Models/SK_Mannequin.dkResources",
-				"./Resources/Models/cube.dkResources"
+				"./Resources/Models/MayaCube.dkResources"
 			],
 			"packageLoaded": [
 			]

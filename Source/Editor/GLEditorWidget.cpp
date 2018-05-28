@@ -1,6 +1,7 @@
 #include <QTimer>
 #include <QDebug>
 #include "Engine/Engine.hpp"
+#include "Engine/Scene/LevelSystem.hpp"
 #include "GLEditorWidget.hpp"
 
 using namespace drak::core;
@@ -31,6 +32,7 @@ void GLEditorWidget::initializeGL() {
 
     Engine::Get().startup(true);
     Engine::Get().loadScene("Scene");
+    Engine::Get().initGameObjects();
 }
 
 

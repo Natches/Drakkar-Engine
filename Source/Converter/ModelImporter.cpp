@@ -202,7 +202,7 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 }
 
 void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
-	for (unsigned i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
+	for (unsigned i = 0, size = inMesh->mNumVertices; i < size; ++i) {
 		outMesh.vertices.emplace_back
 		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(&(inMesh->mVertices[i])),
 			*reinterpret_cast<math::Vec3f*>(&(inMesh->mNormals[i])),

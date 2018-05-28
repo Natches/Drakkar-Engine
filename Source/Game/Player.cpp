@@ -52,7 +52,7 @@ void Player::update(const Event* pEvent) {
 		//		++oldMouseX;
 		//	}
 		//}
-		camera.eye() = transform->getGlobalPosition() + math::Rotate(transform->getGlobalRotation(), cameraOffset);
+		camera.eye() = transform->getGlobalPosition() + math::Rotate(transform->getGlobalRotation(),cameraOffset);
 		camera.at() = transform->getGlobalPosition();
 	}
 

@@ -122,8 +122,6 @@ void Engine::startLoop() {
 		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&m_evt);
 
-		m_pLevelSystem->propagateMovementFromRoots();
-
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
 
@@ -140,9 +138,10 @@ void Engine::startLoop() {
 }
 
 void Engine::renderScene() {
+	m_pLevelSystem->propagateMovementFromRoots();
 	m_pRenderSystem->startFrame();
-	//m_pRenderSystem->renderGrid();
 	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+	m_pRenderSystem->renderGrid();
 	m_pRenderSystem->endFrame();
 }
 

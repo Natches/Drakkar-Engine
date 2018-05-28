@@ -21,8 +21,9 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/quad.dkResources"));
 		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/SK_Mannequin.dkResources"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkResources"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkResources"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -59,10 +60,10 @@ public:
 		drak::components::Model& playerModel = player.addComponent<drak::components::Model>();
 		playerTrans.setGlobalPosition(Vec3f(0, -30.f, 50));
 		playerTrans.setGlobalScale(Vec3f(100.f, 100.f, 100.f));
-		playerTrans.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
+		playerTrans.setGlobalRotation(Quaternion(math::Axis::Y, 0.f));
 		playerRigid.mass = 1000.f;
 		playerRigid.isKinematic = true;
-		playerModel.name = "cube";
+		playerModel.name = "SK_Mannequin1";
 		playerCollider.width = 50.f;
 		playerCollider.height = 50.f;
 		playerCollider.depth = 50.f;
@@ -82,7 +83,7 @@ public:
 		floor_TR.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
-		floor_MDL.name = "cube";
+		floor_MDL.name = "pCube1";
 		floor_BC.width = 5000.f;
 		floor_BC.height = 25.f;
 		floor_BC.depth = 5000.f;

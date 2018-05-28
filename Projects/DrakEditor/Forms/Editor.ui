@@ -396,7 +396,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Add Game Object</string>
+    <string>Populate Graph</string>
    </property>
   </action>
   <action name="actionWireframe">

@@ -16,7 +16,7 @@ out VS_OUT {
 void main()
 {
 	vert.pos	= vec3(model * vec4(pos, 1.0));
-	vert.normal	= (viewPrsp * inverse(transpose(model)) * vec4(normal, 0.f)).xyz;
+	vert.normal	=  (inverse(transpose(model)) * vec4(normal, 0.f)).xyz;
 	vert.uv		= uv;
 
 	gl_Position	= viewPrsp * model * vec4(pos, 1.0);
