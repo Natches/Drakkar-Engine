@@ -1,9 +1,15 @@
+#include <QDebug>
 #include <QFontDatabase>
 #include <QFileDialog>
 
 #include "Editor.hpp"
 #include "ui_editor.h"
 #include "Engine/Engine.hpp"
+#include "Engine/Scene/LevelSystem.hpp"
+
+
+using namespace drak;
+using namespace drak::core;
 
 Editor::Editor(QWidget *parent) :
     QMainWindow(parent),
@@ -14,7 +20,7 @@ Editor::Editor(QWidget *parent) :
 
 
 Editor::~Editor() {
-    drak::core::Engine::Get().shutdown();
+    Engine::Get().shutdown();
     delete ui;
 }
 
@@ -43,11 +49,18 @@ void Editor::setupWidgets() {
     glTarget = new GLEditorWidget;
     ui->dock_RenderTarget->setWidget(glTarget);
 
+    inspector = new InspectorWidget;
+    ui->dock_Inspector->setWidget(inspector);
+
     sceneGraph = new SceneGraphWidget;
     ui->dock_SceneGraph->setWidget(sceneGraph);
 
-    inspector = new InspectorWidget;
-    ui->dock_Inspector->setWidget(inspector);
+    connect(
+        sceneGraph, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
+        this, SLOT(onGameObjectSelected(QTreeWidgetItem*, int)));
+
+    //Engine::Get().currentLevel().propagateMovementFromRoots();
+
 
     setProjectPath("");
 }
@@ -142,7 +155,31 @@ void Editor::on_actionWireframe_triggered(bool toggle) {
     (void)toggle;
 }
 
-
-void Editor::on_actionAdd_Cube_triggered() {
-
+void Editor::recursive(unsigned int idx, SceneGameObject* parent) {
+    auto& g = Engine::Get().currentLevel().getGameObjects()[idx];
+    SceneGameObject* p = new SceneGameObject(g);
+    parent->addGameObject(p);
+    for (auto& c : g.children()) {
+        recursive(c, p);
+    }
 }
+
+void Editor::on_actionAdd_GameObject_triggered() {
+    qDebug() << Engine::Get().currentLevel().getGameObjects().size();
+    Engine::Get().initGameObjects();
+    Engine::Get().currentLevel().propagateMovementFromRoots();
+    for (auto& g : Engine::Get().currentLevel().m_rootIdxs) {
+        SceneGameObject* p = new SceneGameObject(
+            Engine::Get().currentLevel().getGameObjects()[g], sceneGraph);
+        sceneGraph->addGameObject(p);
+        for (auto& c : Engine::Get().currentLevel().getGameObjects()[g].children()) {
+            recursive(c, p);
+        }
+    }
+}
+
+void Editor::onGameObjectSelected(QTreeWidgetItem *item, int column) {
+    auto& obj = static_cast<SceneGameObject*>(item)->gameObject;
+    inspector->inspect(&obj);
+}
+

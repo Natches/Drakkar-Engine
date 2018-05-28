@@ -67,10 +67,10 @@ public:
 //#if defined(QUAT)
 	template<Axis ax>
 	Vec3<F32>& rotate(const F32 angle);
-	Vec3<F32>& rotate(const Vec3<F32>& axis, const F32 angle);
-	Vec3<F32>& rotate(const Vec3<F32>& euler);
-	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle);
-	Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle, const F32 distance);
+	inline Vec3<F32>& rotate(const Vec3<F32>& axis, const F32 angle);
+	inline Vec3<F32>& rotate(const Vec3<F32>& euler);
+	inline Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle);
+	inline Vec3<F32>& rotateAround(const Vec3<F32>& point, const F32 angle, const F32 distance);
 //#endif
 	Vec3<F32>& ceil();
 	Vec3<F32>& floor();
@@ -206,24 +206,24 @@ inline Vec3f Ceil(const Vec3f& v);
 inline Vec3f Floor(const Vec3f& v);
 inline Vec3f Round(const Vec3f& v);
 inline Vec3f Sqrt(const Vec3f& v);
-#if defined(QUAT)
+//#if defined(QUAT)
 template<Axis ax>
-Vec3f Rotate(const Vec3f& v, const F32 angle);
+inline Vec3f Rotate(const Vec3f& v, const F32 angle);
 
 inline Vec3f Rotate(const Vec3f& v, const Vec3f& axis, const F32 angle);
 
 inline Vec3f Rotate(const Vec3f& v, const Vec3f& euler);
 
 template<Axis ax>
-Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle);
+inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle);
 
 inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler);
 
 template<Axis ax>
-Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle, const F32 distance);
+inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const F32 angle, const F32 distance);
 
 inline Vec3f RotateAround(const Vec3f& v, const Vec3f& point, const Vec3f& euler, const F32 distance);
-#endif
+//#endif
 template<typename T>
 Vec3<T> Min(const Vec3<T>& v1, const Vec3<T>& v2);
 

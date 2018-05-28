@@ -372,15 +372,15 @@ InspectorWidget::branch:open:has-children:has-siblings{
     border-image:none;
 }
 
-InspectorWidget::item:selected {
-    background:palette(base);
-}
-
-InspectorWidget::item:has-children {
+InspectorWidget::item:has-children:!selected {
     padding:4px;
     background-color:qlineargradient(x1:0,y1:1,x2:0,y2:0,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
     border:1px solid rgba(25,25,25,75);
     border-bottom:2px solid rgba(25,25,25,75);
+}
+
+InspectorWidget::item:!has-children:selected {
+    background-color: palette(base);
 }
 
 QDoubleSpinBox {

@@ -58,6 +58,32 @@ public:
 
 			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
 			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube.getIdx();
+			I32 parentIdx = cube.getIdx();
+
+			GameObject& cube2 = scene.addGameObject();
+			Transform& cube2_TR = *cube2.getComponent<Transform>();
+			RigidBody& cube2_RB = cube2.addComponent<RigidBody>();
+			drak::components::Model& cube2_MDL = cube2.addComponent<drak::components::Model>();
+			BoxCollider& cube2_SC = cube2.addComponent<BoxCollider>();
+
+			cube2_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 10.f, 0.f));
+			cube2_TR.setGlobalScale(Vec3f(1.f, 1.f, 1.f));
+			cube2_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 45.f)));
+			
+			cube2_RB.mass = 100.f;
+			
+			cube2_MDL.name = "SK_Mannequin1";
+			
+			cube2_SC.width = 10.f;
+			cube2_SC.height = 10.f;
+			cube2_SC.depth = 10.f;
+			cube2_SC.material = mat;
+
+			cube2.name = "joajda";
+
+			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
+			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube2.getIdx();
+			cube2.setParentIndex(parentIdx);
 		}
 
 		GameObject& cameraController = scene.addGameObject();

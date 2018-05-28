@@ -68,7 +68,6 @@ class LevelSystem {
 	COMPONENT_CONTAINER(SphereCollider)
 
 	std::vector<GameObject> m_gameObjects;
-	std::vector<U32> m_rootIdxs;
 	void moveChildren(const components::Transform& parentTransform, const std::vector<U32>& children);
 
 	void addGameObjectToRoots(U32 idx) {
@@ -149,7 +148,7 @@ public:
 		__getComponentContainer(T).pop_back();
 	}
 
-
+	std::vector<U32> m_rootIdxs;
 
 	void destroyGameObject(U64 idx);
 

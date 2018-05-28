@@ -120,12 +120,132 @@ PublicFields: {
 				"gameObjectID": "20",
 				"name": "Cube"
 			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "21",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "22",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "23",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "24",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "25",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "26",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "27",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "28",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "29",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "30",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "31",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "32",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "33",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "34",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "35",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "36",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "37",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "38",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "39",
+				"name": "Cube"
+			}
+		},
+		behavior::Cube: {
+			PublicFields: {
+				"gameObjectID": "40",
+				"name": "Cube"
+			}
 		}
 	],
 	"CameraControllerBehaviorContainer": [
 		behavior::CameraController: {
 			PublicFields: {
-				"gameObjectID": "21",
+				"gameObjectID": "41",
 				"name": ""
 			}
 		}

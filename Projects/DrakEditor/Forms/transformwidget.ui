@@ -312,7 +312,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosY_4">
+          <widget class="QDoubleSpinBox" name="spin_PosX">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -561,7 +561,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosX_4">
+          <widget class="QDoubleSpinBox" name="spin_PosY">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -810,7 +810,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosZ_4">
+          <widget class="QDoubleSpinBox" name="spin_PosZ">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1063,7 +1063,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosY_5">
+          <widget class="QDoubleSpinBox" name="spin_RotX">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1312,7 +1312,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosX_5">
+          <widget class="QDoubleSpinBox" name="spin_RotY">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1561,7 +1561,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosZ_5">
+          <widget class="QDoubleSpinBox" name="spin_RotZ">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1814,7 +1814,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosY_6">
+          <widget class="QDoubleSpinBox" name="spin_ScaleX">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2063,7 +2063,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosX_6">
+          <widget class="QDoubleSpinBox" name="spin_ScaleY">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2312,7 +2312,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosZ_6">
+          <widget class="QDoubleSpinBox" name="spin_ScaleZ">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
