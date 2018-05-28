@@ -59,7 +59,6 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 		aiProcess_SortByPType |
 		aiProcess_RemoveRedundantMaterials |
 		aiProcess_GenNormals |
-		aiProcess_GenUVCoords |
 		(optimizeMesh ? aiProcess_OptimizeMeshes |
 			aiProcess_OptimizeGraph |
 			aiProcess_ImproveCacheLocality : 0) |
@@ -124,19 +123,22 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 	aOutMatVec.insert(aOutMatVec.begin(), m_pScene->mNumMaterials, definition::Material());
 	for (U32 i = 0u, size = m_pScene->mNumMaterials; i < size; ++i) {
 		aiString str;
-		aiVector3D temp;
+		aiColor3D temp;
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_NAME, str);
 		aOutMatVec[i].name = str.C_Str();
 		str.Clear();
+
 		aNames.names[aOutMatVec[i].name] = definition::EFileType::MATERIAL;
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), str);
 		aOutMatVec[i].albedo = str.C_Str();
 		str.Clear();
+
 		if(aOutMatVec[i].albedo != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].albedo));
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_TEXTURE_NORMALS(0), str);
 		aOutMatVec[i].normal = str.C_Str();
 		str.Clear();
+
 		if (aOutMatVec[i].normal != "")
 			m_textureToLoadLater.emplace_back(std::tuple<std::string&>(aOutMatVec[i].normal));
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, temp);
@@ -147,6 +149,7 @@ void ModelImporter::extractMaterials(MatVec& aOutMatVec, definition::ResourceNam
 		aOutMatVec[i].ambientColor = *reinterpret_cast<math::Vec3f*>(&temp);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_COLOR_TRANSPARENT, temp);
 		aOutMatVec[i].transparentColor = *reinterpret_cast<math::Vec3f*>(&temp);
+
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_OPACITY, aOutMatVec[i].opacity);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS, aOutMatVec[i].shininess);
 		m_pScene->mMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, aOutMatVec[i].shininessStrength);
@@ -160,8 +163,8 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 	int i = 0;
 	for (auto& texture : m_textureToLoadLater) {
 		definition::Texture& temp = aOutTexVec[i];
-		const aiTexture* tex;
-		if (tex = m_pScene->GetEmbeddedTexture(std::get<0>(texture).c_str())) {
+		const aiTexture* tex = m_pScene->GetEmbeddedTexture(std::get<0>(texture).c_str());
+		if (tex) {
 			if (tex->mHeight) {
 				temp.width = tex->mWidth;
 				temp.height = tex->mHeight;
@@ -183,8 +186,8 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 				temp.width = width;
 			}
 		}
-		else if (io::FileExists(std::get<0>(texture).c_str()) == DK_OK)
-			loadTextureFromFile(std::get<0>(texture), temp);
+		else if (io::FileExists(io::FileName(std::get<0>(texture).c_str()).c_str()) == DK_OK)
+			loadTextureFromFile(io::FileName(std::get<0>(texture).c_str()), temp);
 		else {
 			std::cout << "Failed to extract Texture : " <<
 				std::get<0>(texture) << " in : " << m_filename << "\n";

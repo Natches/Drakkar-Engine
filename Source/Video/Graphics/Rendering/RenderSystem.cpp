@@ -8,6 +8,7 @@
 using namespace drak::events;
 using namespace drak::function;
 using namespace drak::components;
+using namespace drak::math;
 
 namespace drak {
 namespace gfx {
@@ -17,11 +18,6 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 		KeyEvent::KEY_UP,
 		new MemberFunction<RenderSystem, void, const Event*>
 		(this, &RenderSystem::onKeyUp, &Keyboard::Get().event()));
-
-	//Mouse::Get().addEventListener(
-	//	MouseEvent::MOUSE_MOVE,
-	//	new MemberFunction<RenderSystem, void, const Event*>
-	//	(this, &RenderSystem::onMouseEvent, &Mouse::Get().event()));
 
 	m_pRenderer = pRenderer;
 	m_pRenderer->info();
@@ -44,24 +40,68 @@ void RenderSystem::shutdown() {
 		delete model.second;
 }
 
+//void RenderSystem::toggleWireframe() {
+	//m_pRenderer->
+//}
+
 void RenderSystem::forwardRender(Scene& scene) {
 	convertModelToRenderable(scene.models, scene.resourceManager);
-	m_pRenderer->cullTest(true);
-	ShaderPtr shader = m_shaderManager.get("DefaultShader");
-	shader->resource()->use();
-	shader->resource()->uniform("viewPrsp", m_mainCam.viewPerspective());
 
+	m_pRenderer->cullTest(true);
+	IShader* pShader = m_shaderManager.get("DefaultShader")->resource();
+	pShader->use();
+	pShader->uniform("viewPrsp", m_mainCam.viewPerspective());
+
+	Transform*	pXform;
+	Quaternion	quat;
+	Mat4f		modelMx;
+
+	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
+	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	for (auto& model : scene.models) {
-		Transform* t = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
-		math::Quaternion q = t->getGlobalRotation();
-		math::Mat4f mMatrix =
-			math::Translate(t->getGlobalPosition()) *
-			q.matrix() *
-			math::Scale(t->getGlobalScale());
-		shader->resource()->uniform("model", mMatrix);
-		m_renderables[model.model]->render();
+		if (model.name == "cube")
+			continue;
+
+		pXform	= scene.gameObjects[model.GameObjectID].getComponent<Transform>();
+		quat	= pXform->getGlobalRotation();
+		modelMx =
+			Translate(pXform->getGlobalPosition()) *
+			quat.matrix() *
+			Scale(pXform->getGlobalScale());
+
+		auto& mdl = scene.resourceManager.loadOrGet<Model>(model.name)->resource();
+		auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
+
+		pShader->uniform("model",			modelMx);
+		pShader->uniform("ambientColor",	mat.ambientColor);
+		pShader->uniform("diffuseColor",	mat.diffuseColor);
+		pShader->uniform("specularColor",	mat.specularColor);
+		pShader->uniform("shininess",		mat.shininess);
+
+		m_renderables[model.name]->render();
 	}
 
+	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
+	pShader->uniform("lightColor", { 0.f, 0.f, 0.f });
+	for (auto& box : scene.hitBoxes) {
+		pXform = scene.gameObjects[box.GameObjectID].getComponent<Transform>();
+		quat = pXform->getGlobalRotation();
+		modelMx =
+			Translate(pXform->getGlobalPosition()) *
+			quat.matrix() *
+			Scale(pXform->getGlobalScale());
+
+		Mat4f boxMx = 
+			Translate(box.localPosition) * 
+			Rotation(box.localRotation) *
+			Scale(Vec3f(box.width, box.height, box.depth));
+
+		pShader->uniform("model", modelMx * boxMx);
+		pShader->uniform("ambientColor", {0.f, 1.f, 0.f});
+
+		m_renderables["cube"]->render();
+	}
+	
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
 	for (size_t B = 0u, n = scene.models.size(); B < n; B += BATCH_SIZE) {
@@ -119,10 +159,10 @@ bool drak::gfx::RenderSystem::loadShaders() {
 void RenderSystem::convertModelToRenderable(const std::vector<components::Model>& models,
 	ResourceSystem& manager) {
 	for (auto& model : models) {
-		if (m_renderables.find(model.model) == m_renderables.end()) {
-			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.model, std::string(""));
+		if (m_renderables.find(model.name) == m_renderables.end()) {
+			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.name);
 			if (modelPtr->loadState() == Resource<geom::Mesh>::ELoadState::READY) {
-				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.model, std::string(""));
+				MeshPtr meshPtr = manager.loadOrGet<geom::Mesh>(model.name);
 				gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
 				vertBuffer->create(meshPtr->resource().vertices().data(), geom::g_VertexAttribDesc, 3,
 					(U32)meshPtr->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
@@ -131,7 +171,7 @@ void RenderSystem::convertModelToRenderable(const std::vector<components::Model>
 					(U32)meshPtr->resource().indices().size());
 				gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
 				vertexArray->create(vertBuffer, indexBuffer);
-				m_renderables[model.model] = vertexArray;
+				m_renderables[model.name] = vertexArray;
 			}
 		}
 	}

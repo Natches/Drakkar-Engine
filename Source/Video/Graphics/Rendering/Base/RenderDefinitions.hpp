@@ -34,6 +34,12 @@ enum class ECullMode : U32 {
 	BOTH
 };
 
+enum class EPolygonMode : U32 {
+	POINT,
+	LINE,
+	FILL
+};
+
 enum class EWindingOrder : U32 {
 	CLOCKWISE,
 	COUNTERCLOCKWISE

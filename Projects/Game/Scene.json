@@ -1790,7 +1790,7 @@ PublicFields: {
 					PublicFields: {
 						"m_vec": [
 							"1000.000000",
-							"10.000000",
+							"2.000000",
 							"1000.000000"
 						]
 					}
@@ -1850,154 +1850,154 @@ PublicFields: {
 	"ModelComponentContainer": [
 		drak::components::Model: {
 			PublicFields: {
-				"model": "cube",
+				"name": "cube",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "2",
 				"GameObjectID": "2"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "3",
 				"GameObjectID": "3"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "4",
 				"GameObjectID": "4"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "5",
 				"GameObjectID": "5"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "6",
 				"GameObjectID": "6"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "7",
 				"GameObjectID": "7"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "8",
 				"GameObjectID": "8"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "9",
 				"GameObjectID": "9"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "10",
 				"GameObjectID": "10"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "11",
 				"GameObjectID": "11"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "12",
 				"GameObjectID": "12"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "13",
 				"GameObjectID": "13"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "14",
 				"GameObjectID": "14"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "15",
 				"GameObjectID": "15"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "16",
 				"GameObjectID": "16"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "17",
 				"GameObjectID": "17"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "18",
 				"GameObjectID": "18"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "19",
 				"GameObjectID": "19"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "SK_Mannequin1",
+				"name": "SK_Mannequin1",
 				"idx": "20",
 				"GameObjectID": "20"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"model": "cube",
+				"name": "cube",
 				"idx": "21",
 				"GameObjectID": "22"
 			}
@@ -2032,9 +2032,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "0",
 				"GameObjectID": "1"
 			}
@@ -2067,9 +2067,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "1",
 				"GameObjectID": "2"
 			}
@@ -2102,9 +2102,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "2",
 				"GameObjectID": "3"
 			}
@@ -2137,9 +2137,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "3",
 				"GameObjectID": "4"
 			}
@@ -2172,9 +2172,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "4",
 				"GameObjectID": "5"
 			}
@@ -2207,9 +2207,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "5",
 				"GameObjectID": "6"
 			}
@@ -2242,9 +2242,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "6",
 				"GameObjectID": "7"
 			}
@@ -2277,9 +2277,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "7",
 				"GameObjectID": "8"
 			}
@@ -2312,9 +2312,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "8",
 				"GameObjectID": "9"
 			}
@@ -2347,9 +2347,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "9",
 				"GameObjectID": "10"
 			}
@@ -2382,9 +2382,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "10",
 				"GameObjectID": "11"
 			}
@@ -2417,9 +2417,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "11",
 				"GameObjectID": "12"
 			}
@@ -2452,9 +2452,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "12",
 				"GameObjectID": "13"
 			}
@@ -2487,9 +2487,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "13",
 				"GameObjectID": "14"
 			}
@@ -2522,9 +2522,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "14",
 				"GameObjectID": "15"
 			}
@@ -2557,9 +2557,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "15",
 				"GameObjectID": "16"
 			}
@@ -2592,9 +2592,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "16",
 				"GameObjectID": "17"
 			}
@@ -2627,9 +2627,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "17",
 				"GameObjectID": "18"
 			}
@@ -2662,9 +2662,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "18",
 				"GameObjectID": "19"
 			}
@@ -2697,9 +2697,9 @@ PublicFields: {
 						"restitution": "0.500000"
 					}
 				},
-				"width": "4.000000",
-				"height": "2.000000",
-				"depth": "2.000000",
+				"width": "10.000000",
+				"height": "10.000000",
+				"depth": "10.000000",
 				"idx": "19",
 				"GameObjectID": "20"
 			}
@@ -2733,14 +2733,12 @@ PublicFields: {
 					}
 				},
 				"width": "1000.000000",
-				"height": "10.000000",
+				"height": "2.000000",
 				"depth": "1000.000000",
 				"idx": "20",
 				"GameObjectID": "22"
 			}
 		}
-	],
-	"SphereColliderComponentContainer": [
 	],
 	"m_gameObjects": [
 		drak::GameObject: {

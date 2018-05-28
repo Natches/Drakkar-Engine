@@ -27,17 +27,18 @@ public:
 	using Manager = MaterialManager;
 
 public:
-	std::string m_albedo;
-	std::string m_normal;
-	math::Vec3f m_diffuseColor;
-	math::Vec3f m_specularColor;
-	math::Vec3f m_ambientColor;
-	math::Vec3f m_transparentColor;
-	F32 m_opacity;
-	F32 m_shininess;
-	F32 m_shininessStrength;
-	bool m_wireframe;
-	bool m_twoSided;
+	std::string		albedo;
+	std::string		normal;
+	math::Vec3f		diffuseColor;
+	math::Vec3f		specularColor;
+	math::Vec3f		ambientColor;
+	math::Vec3f		transparentColor;
+	F32				opacity;
+	F32				shininess;
+	F32				shininessStrength;
+	bool			wireframe;
+	bool			twoSided;
+	bool			instantiated;
 
 private:
 	Material() = default;

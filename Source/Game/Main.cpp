@@ -34,7 +34,7 @@ public:
 		raycastPointer_TR.setGlobalPosition(Vec3f(0.f, 0.f, 0.f));
 		raycastPointer_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
 		raycastPointer_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-		raycastPointer_MDL.model = "cube";
+		raycastPointer_MDL.name = "cube";
 
 		for (int i = 0; i < 20; ++i) {
 			GameObject& cube = scene.addGameObject();
@@ -49,11 +49,11 @@ public:
 
 			cube_RB.mass = 100.f;
 
-			cube_MDL.model = "SK_Mannequin1";
+			cube_MDL.name = "SK_Mannequin1";
 
-			cube_SC.width = 4.f;
-			cube_SC.height = 2.f;
-			cube_SC.depth = 2.f;
+			cube_SC.width = 10.f;
+			cube_SC.height = 10.f;
+			cube_SC.depth = 10.f;
 			cube_SC.material = mat;
 
 			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
@@ -73,16 +73,16 @@ public:
 		BoxCollider& floor_BC = floor.addComponent<BoxCollider>();
 
 		floor_TR.setGlobalPosition(Vec3f(0, -50.f, 0));
-		floor_TR.setGlobalScale(Vec3f(1000.f, 10.f, 1000.f));
+		floor_TR.setGlobalScale(Vec3f(1000.f, 2.f, 1000.f));
 		floor_TR.setGlobalRotation(Quaternion(1.f, Vec3f(0.f, 0.f, 0.f)));
 
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
 
-		floor_MDL.model = "cube";
+		floor_MDL.name = "cube";
 
 		floor_BC.width = 1000.f;
-		floor_BC.height = 10.f;
+		floor_BC.height = 2.f;
 		floor_BC.depth = 1000.f;
 		floor_BC.material = mat;
 
@@ -94,9 +94,9 @@ public:
 void main() {
 	BP bp;
 	Engine::Get().startup();
-	//Engine::Get().loadScene(bp);
-	Engine::Get().loadScene("Scene");
-	BHVR.load();
+	Engine::Get().loadScene(bp);
+	//Engine::Get().loadScene("Scene");
+	//BHVR.load();
 	Engine::Get().startLoop();
 	Engine::Get().shutdown();
 }

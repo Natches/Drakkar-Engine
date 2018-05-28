@@ -23,7 +23,6 @@ public:
 	virtual bool init() = 0;
 	virtual void info() = 0;
 
-	//virtual void bindFrameBuffer() = 0;
 	virtual void bindWindowFrameBuffer() = 0;
 
 	virtual void clear() = 0;
@@ -33,12 +32,15 @@ public:
 
 	virtual void depthTest(bool on, EDepthMode mode = EDepthMode::LEQUAL) = 0;
 
+	virtual void cullTest(bool on, ECullMode mode = ECullMode::BACK) = 0;
+
+	virtual void polygonMode(ECullMode cull, EPolygonMode poly) = 0;
+
+	virtual void windingOrder(EWindingOrder order) = 0;
+
 	virtual void blendTest(bool on,
 		EBlendMode srcFactor = EBlendMode::SRC_ALPHA,
 		EBlendMode dstFactor = EBlendMode::ONE_MINUS_SRC_ALPHA) = 0;
-
-	virtual void cullTest(bool on, ECullMode mode = ECullMode::BACK) = 0;
-	virtual void windingOrder(EWindingOrder order) = 0;
 
 	virtual void multisampling(bool on) = 0;
 };

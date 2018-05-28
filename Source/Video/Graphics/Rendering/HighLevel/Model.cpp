@@ -4,7 +4,7 @@ namespace drak {
 namespace gfx {
 
 Model::Model(const std::string& meshName, const std::string& materialName)
-:	m_meshName(meshName), m_materialName(materialName) {
+:	meshName(meshName), materialName(materialName) {
 }
 
 } //namespace gfx

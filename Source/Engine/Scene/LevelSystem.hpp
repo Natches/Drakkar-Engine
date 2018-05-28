@@ -28,18 +28,28 @@ public:
 };
 
 struct Scene {
-	Scene(std::vector<GameObject>& gameObjects, std::vector<U32>& rootIDXs,
-		std::vector<components::Transform>& transforms, std::vector<components::Model>& models,
+	Scene(
+		std::vector<GameObject>& gameObjects,
+		std::vector<U32>& rootIDXs,
+		std::vector<components::Transform>& transforms,
+		std::vector<components::Model>& models,
+		std::vector<components::BoxCollider>& hitBoxes,
 		ResourceSystem& resourceManager) :
+		gameObjects(gameObjects),
+		rootIDXs(rootIDXs),
 		transforms(transforms),
 		models(models),
-		gameObjects(gameObjects),
-		rootIDXs(rootIDXs), resourceManager(resourceManager){}
-	std::vector<components::Transform>& transforms;
-	std::vector<components::Model>& models;
-	std::vector<GameObject>& gameObjects;
-	std::vector<U32>& rootIDXs;
-	ResourceSystem& resourceManager;
+		hitBoxes(hitBoxes),
+		resourceManager(resourceManager) {}
+
+	ResourceSystem&							resourceManager;
+	std::vector<U32>&						rootIDXs;
+	std::vector<GameObject>&				gameObjects;
+	std::vector<components::Transform>&		transforms;
+	std::vector<components::Model>&			models;
+	std::vector<components::BoxCollider>&	hitBoxes;
+	
+	
 };
 
 class LevelSystem {
@@ -146,16 +156,27 @@ public:
 	DRAK_API GameObject& addGameObject();
 
 	Scene getScene() {
-		return Scene(m_gameObjects, m_rootIdxs, __getComponentContainer(components::Transform),
-			__getComponentContainer(components::Model), *m_resourceManager);
+		return Scene(
+			m_gameObjects, 
+			m_rootIdxs, 
+			__getComponentContainer(components::Transform),
+			__getComponentContainer(components::Model), 
+			__getComponentContainer(components::BoxCollider),
+			*m_resourceManager);
 	}
 
 	ResourceSystem* m_resourceManager;
 };
-} //core
+} // core
 
 DK_METADATA_BEGIN(drak::LevelSystem)
-DK_PUBLIC_FIELDS(RigidBodyComponentContainer, TransformComponentContainer, ModelComponentContainer,
-	BoxColliderComponentContainer, SphereColliderComponentContainer, m_gameObjects, m_rootIdxs, m_data)
+DK_PUBLIC_FIELDS(
+	RigidBodyComponentContainer, 
+	TransformComponentContainer, 
+	ModelComponentContainer,
+	BoxColliderComponentContainer, 
+	m_gameObjects, 
+	m_rootIdxs, 
+	m_data)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END

@@ -28,6 +28,8 @@ public:
 	bool startup(IRenderer* pRenderer);
 	void shutdown();
 
+	//DRAK_API void toggleWireframe();
+
 	void forwardRender(Scene& scene);
 	void renderGrid();
 

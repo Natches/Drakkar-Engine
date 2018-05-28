@@ -20,23 +20,23 @@ public:
 	~GLRenderer() = default;
 
 public:
-	bool init() override;
-	void info() override;
+	bool init()																			override;
+	void info()																			override;
 
-	void clear() override;
-	void clearColorValue(const Color3& k) override;
-	void clearColorValue(const Color4& k) override;
-	void clearDepthValue(F32 depth) override;
+	void clear()																		override;
+	void clearColorValue		(const Color3& k)										override;
+	void clearColorValue		(const Color4& k)										override;
+	void clearDepthValue		(F32 depth)												override;
 
-	void depthTest(bool on, EDepthMode mode) override;
-	void blendTest(bool on, EBlendMode srcFactor,EBlendMode dstFactor) override;
-	void cullTest(bool on, ECullMode mode) override;
-	void windingOrder(EWindingOrder order) override;
+	void depthTest				(bool on, EDepthMode mode)								override;
+	void blendTest				(bool on, EBlendMode srcFactor,EBlendMode dstFactor)	override;
+	void cullTest				(bool on, ECullMode mode)								override;
+	void polygonMode			(ECullMode cull, EPolygonMode poly)						override;
+	void windingOrder			(EWindingOrder order)									override;
 
-	void multisampling(bool on) override;
+	void multisampling			(bool on)												override;
 
-	//void bindFrameBuffer() override;
-	void bindWindowFrameBuffer() override;
+	void bindWindowFrameBuffer()														override;
 
 private:
 	static void debugLog(
