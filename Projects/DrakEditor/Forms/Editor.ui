@@ -76,7 +76,7 @@
     <property name="title">
      <string>Scene</string>
     </property>
-    <addaction name="actionAdd_Cube"/>
+    <addaction name="actionAdd_GameObject"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -391,12 +391,12 @@
     <string>Scene Graph</string>
    </property>
   </action>
-  <action name="actionAdd_Cube">
+  <action name="actionAdd_GameObject">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Add Cube</string>
+    <string>Populate Graph</string>
    </property>
   </action>
   <action name="actionWireframe">

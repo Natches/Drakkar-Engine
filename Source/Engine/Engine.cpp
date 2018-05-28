@@ -79,6 +79,9 @@ int Engine::startup(bool editorMode) {
 
 		return 0;
 	}
+
+	InputManager::mousePos();
+
 	return 1;
 }
 
@@ -106,19 +109,11 @@ void Engine::startLoop() {
 
 	s_frameTime.start();
 
-	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
-	for (auto& go : gameObjects) {
-		if(go.getComponentFlag(ComponentType<RigidBody>::id))
-			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
-	}
-
-	for (U32 i = 0; i < gameObjects.size(); ++i) {
-		if (gameObjects[i].getParent() >= 0)
-			gameObjects[i].setParent(gameObjects[i].getParent());
-	}
-
 	m_evt.type = events::EngineEventDispatcher::UPDATE_START;
 	m_eventDispatcher.dispatchEvent(&m_evt);
+
+	initGameObjects();
+
 
 	while (s_running) {
 		s_frameTime.update();
@@ -127,20 +122,8 @@ void Engine::startLoop() {
 		m_evt.type = events::EngineEventDispatcher::UPDATE_LOOP_START;
 		m_eventDispatcher.dispatchEvent(&m_evt);
 
-		m_pLevelSystem->propagateMovementFromRoots();
-
 		if(m_pPhysicsSystem->advance(s_frameTime.deltaTime(), *m_pLevelSystem))
 			m_pPhysicsSystem->updateComponents(*m_pLevelSystem);
-
-		if (InputManager::mouseButtonDown(events::MouseEvent::MouseButton::MOUSE_LEFT)) {
-			U32 hitID;
-			if (CameraRaycast(hitID)) {
-				if (m_pLevelSystem->m_gameObjects[hitID].getComponent<components::Model>())
-					m_pLevelSystem->destroyGameObject(hitID);
-			}
-		}
-		m_pLevelSystem->m_pAnimationScene->update(s_frameTime.deltaTime(),
-			m_pRenderSystem->mainCamera().eye(), m_pRenderSystem->mainCamera().forward());
 
 		m_pMainWindow->clear();
 		renderScene();
@@ -155,9 +138,10 @@ void Engine::startLoop() {
 }
 
 void Engine::renderScene() {
+	m_pLevelSystem->propagateMovementFromRoots();
 	m_pRenderSystem->startFrame();
-	//m_pRenderSystem->renderGrid();
 	m_pRenderSystem->forwardRender(m_pLevelSystem->getScene());
+	m_pRenderSystem->renderGrid();
 	m_pRenderSystem->endFrame();
 }
 
@@ -171,6 +155,21 @@ void Engine::loadScene(IManualSceneBlueprint& sceneBlueprint) {
 
 void Engine::loadScene(const char* filename) {
 	m_pLevelSystem->loadScene(filename);
+}
+
+void Engine::initGameObjects()
+{
+	std::vector<GameObject>& gameObjects = m_pLevelSystem->getGameObjects();
+	for (auto& go : gameObjects) {
+		if (go.getComponentFlag(ComponentType<RigidBody>::id))
+			m_pPhysicsSystem->InitRigidBody(*go.getComponent<RigidBody>(), *go.getComponent<Transform>(), *m_pLevelSystem);
+	}
+
+	for (U32 i = 0; i < gameObjects.size(); ++i) {
+		if (gameObjects[i].getParent() >= 0)
+			gameObjects[i].setParent(gameObjects[i].getParent());
+	}
+	m_pLevelSystem->SerializeLevel();
 }
 
 DRAK_API Engine& Engine::Get(){

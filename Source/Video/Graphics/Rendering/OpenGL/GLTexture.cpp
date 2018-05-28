@@ -1,7 +1,6 @@
 #include <PrecompiledHeader/pch.hpp>
-/*
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>*/
+
+#include <Converter/ModelImporter.hpp>
 
 namespace drak {
 namespace gfx {
@@ -20,34 +19,27 @@ void GLTexture::bind() const {
 	glBindTextureUnit(0, m_glID);
 }
 
-/*
 bool GLTexture::loadFromFile(const char* filename, bool verticalFlip) {
-	stbi_set_flip_vertically_on_load(verticalFlip);
+	definition::Texture tex;
+	tools::importer::loadTextureFromFile(filename, tex);
+	GLenum formatSz	= tex.format == GL_RGB ? GL_RGB8 : GL_RGBA8;
 
-	I32 dimX, dimY, channels;
-	U8* img = stbi_load(filename, &dimX, &dimY, &channels, 0);
-
-	GLenum format	= channels == 3 ? GL_RGB : GL_RGBA;
-	GLenum formatSz	= format == GL_RGB ? GL_RGB8 : GL_RGBA8;
-
-	if (img) {
+	if (tex.pixels.size() > 0) {
 		glCreateTextures		(GL_TEXTURE_2D, 1, &m_glID);
-		glTextureStorage2D		(m_glID, 8, formatSz, dimX, dimY);
-		glTextureSubImage2D		(m_glID, 0, 0, 0, dimX, dimY, format, GL_UNSIGNED_BYTE, img);
+		glTextureStorage2D		(m_glID, 8, formatSz, tex.width, tex.height);
+		glTextureSubImage2D		(m_glID, 0, 0, 0, tex.width, tex.height, tex.format, 
+								 GL_UNSIGNED_BYTE, tex.pixels.data());
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTextureParameteri		(m_glID, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
 		glGenerateTextureMipmap	(m_glID);
-
-		stbi_image_free(img);
-
 		return true;
 	}
 	return false;
 }
-*/
+
 
 } // namespace gl
 } // namespace gfx

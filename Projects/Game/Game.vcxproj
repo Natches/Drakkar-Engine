@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\Source\Game\CameraController.cpp" />
     <ClCompile Include="..\..\Source\Game\Cube.cpp" />
     <ClCompile Include="..\..\Source\Game\Main.cpp" />
+    <ClCompile Include="..\..\Source\Game\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Game\BehaviorContainerNames.gen" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\..\Source\Game\BehaviorMonolith.h" />
     <ClInclude Include="..\..\Source\Game\CameraController.hpp" />
     <ClInclude Include="..\..\Source\Game\Cube.hpp" />
+    <ClInclude Include="..\..\Source\Game\Player.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

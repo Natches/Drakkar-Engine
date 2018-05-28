@@ -1,7 +1,11 @@
 #include <QDebug>
 #include <QLabel>
 
+#include "Engine/Scene/LevelSystem.hpp"
 #include "InspectorWidget.hpp"
+
+using namespace drak;
+using namespace drak::components;
 
 InspectorWidget::InspectorWidget(QWidget *parent)
 :   QTreeWidget(parent) {
@@ -17,6 +21,10 @@ InspectorWidget::~InspectorWidget() {
 
 }
 
+void InspectorWidget::inspect(GameObject* target) {
+    m_pTarget = target;
+    transformWidget->setTransform(target->getComponent<Transform>());
+}
 
 void InspectorWidget::addComponents() {
     transformWidget = new TransformWidget;
@@ -24,6 +32,9 @@ void InspectorWidget::addComponents() {
 
     boxColliderWidget = new BoxColliderWidget;
     addComponent(boxColliderWidget, "Box Collider");
+
+    rigidBodyWidget = new RigidBodyWidget;
+    addComponent(rigidBodyWidget, "Rigid Body");
 }
 
 void InspectorWidget::addComponent(QWidget* widget, QString name) {

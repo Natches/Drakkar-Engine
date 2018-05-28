@@ -63,7 +63,7 @@ public:
 	DRAK_API void					renderScene();
 	DRAK_API void					loadScene(IManualSceneBlueprint& sceneBlueprint);
 	DRAK_API void					loadScene(const char* name);
-
+	DRAK_API void					initGameObjects();
 	//---------------------------------------------------------------------------------------------
 	//	Getters
 	DRAK_API PhysicsSystem&			getPhysicsSystem();

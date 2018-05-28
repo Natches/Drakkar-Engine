@@ -3,6 +3,7 @@
 #include <vector>
 #include <Converter/ModelImporter.hpp>
 #include <Core/Pool/Pool.hpp>
+#include <mutex>
 
 namespace drak {
 namespace thread {

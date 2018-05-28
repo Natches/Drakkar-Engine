@@ -47,7 +47,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		);
 		if (rb.isKinematic)
 			((physx::PxRigidDynamic*)rb.rigidActor)->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-		physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+
 	}
 
 	if (level.getGameObjects()[rb.GameObjectID].getComponentFlag(ComponentType<BoxCollider>::id)) {
@@ -57,7 +57,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 			boxCollider.material.dynamicFriction,
 			boxCollider.material.restitution
 		);
-		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width * 0.50f, boxCollider.height * 0.50f, boxCollider.depth * 0.50f), *mat);
+		boxCollider.shape = PxRigidActorExt::createExclusiveShape(*rb.rigidActor, PxBoxGeometry(boxCollider.width*0.25, boxCollider.height*0.25, boxCollider.depth*0.25), *mat);
 		boxCollider.shape->setLocalPose(
 			PxTransform(
 				boxCollider.localPosition.x,
@@ -68,6 +68,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
 		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		if (!rb.isStatic) {
+			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		}
 	}
 
 	if (level.getGameObjects()[rb.GameObjectID].getComponentFlag(ComponentType<SphereCollider>::id)) {
@@ -88,6 +91,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					sphereCollider.localRotation.z,
 					sphereCollider.localRotation.w)));
 		sphereCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		if (!rb.isStatic) {
+			physx::PxRigidBodyExt::updateMassAndInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		}
 	}
 	
 	rb.rigidActor->userData = reinterpret_cast<void*>(rb.GameObjectID);
@@ -162,8 +168,8 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 	std::vector<RigidBody>& rigidBodies = levelSystem.getComponentContainerByType<RigidBody>();
 	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (int i = 0; i < transforms.size(); ++i) {
+		GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 		if (transforms[i].isDirty()) {
-			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {
 				transforms[i].isDirty() = false;
 				PxTransform trans(
@@ -171,9 +177,10 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 					transforms[i].getGlobalPosition().y,
 					transforms[i].getGlobalPosition().z,
 					PxQuat(transforms[i].getGlobalRotation().m_vecPart.x, transforms[i].getGlobalRotation().m_vecPart.y, transforms[i].getGlobalRotation().m_vecPart.z, transforms[i].getGlobalRotation().m_scalar));
-				rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)].rigidActor->setGlobalPose(trans);
 			}
 		}
+		goTo(rigidBodies[gameObject.getComponentIDX(ComponentType<RigidBody>::id)], transforms[i].getGlobalPosition(), transforms[i].getGlobalRotation());
+
 	}
 	m_pPhysicsScene->simulate(SIM_RATE);
 	return true;
@@ -253,7 +260,7 @@ void drak::PhysicsSystem::changeVelocity(components::RigidBody & target, math::V
 	((PxRigidDynamic*)target.rigidActor)->addForce(PxVec3(newVelocity.x, newVelocity.y, newVelocity.z), PxForceMode::eVELOCITY_CHANGE);
 }
 
-void drak::PhysicsSystem::goTo(components::RigidBody & target, math::Vec3f& newPos, math::Quaternion& newRot) {
+void drak::PhysicsSystem::goTo(components::RigidBody & target, const math::Vec3f& newPos, const math::Quaternion& newRot) {
 	if (target.rigidActor->getConcreteType() == PxConcreteType::eRIGID_DYNAMIC) {
 		if (((PxRigidDynamic*)target.rigidActor)->getRigidBodyFlags().isSet(PxRigidBodyFlag::eKINEMATIC)) {
 			((PxRigidDynamic*)target.rigidActor)->setKinematicTarget(PxTransform(newPos.x, newPos.y, newPos.z, PxQuat(newRot.m_vecPart.x, newRot.m_vecPart.y, newRot.m_vecPart.z, newRot.m_scalar)));

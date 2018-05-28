@@ -56,7 +56,6 @@ private:
 	RenderQueue			m_opaqueArr;
 	RenderQueue			m_transpArr;
 
-	IRenderable*		m_pGrid;
 	gl::GLTexture		m_gridTex;
 
 	std::map<std::string, IRenderable*> m_renderables;
