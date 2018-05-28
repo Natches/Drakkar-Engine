@@ -1850,154 +1850,154 @@ PublicFields: {
 	"ModelComponentContainer": [
 		drak::components::Model: {
 			PublicFields: {
-				"name": "cube",
+				"name": "pCube1",
 				"idx": "0",
 				"GameObjectID": "0"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "1",
 				"GameObjectID": "1"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "2",
 				"GameObjectID": "2"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "3",
 				"GameObjectID": "3"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "4",
 				"GameObjectID": "4"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "5",
 				"GameObjectID": "5"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "6",
 				"GameObjectID": "6"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "7",
 				"GameObjectID": "7"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "8",
 				"GameObjectID": "8"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "9",
 				"GameObjectID": "9"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "10",
 				"GameObjectID": "10"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "11",
 				"GameObjectID": "11"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "12",
 				"GameObjectID": "12"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "13",
 				"GameObjectID": "13"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "14",
 				"GameObjectID": "14"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "15",
 				"GameObjectID": "15"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "16",
 				"GameObjectID": "16"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "17",
 				"GameObjectID": "17"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "18",
 				"GameObjectID": "18"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "19",
 				"GameObjectID": "19"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "140101kino",
+				"name": "creature/giantspider/giantspider",
 				"idx": "20",
 				"GameObjectID": "20"
 			}
 		},
 		drak::components::Model: {
 			PublicFields: {
-				"name": "cube",
+				"name": "pCube1",
 				"idx": "21",
 				"GameObjectID": "22"
 			}
@@ -2744,7 +2744,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2760,7 +2760,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2776,7 +2776,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2792,7 +2792,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2808,7 +2808,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2824,7 +2824,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2840,7 +2840,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2856,7 +2856,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2872,7 +2872,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2888,7 +2888,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2904,7 +2904,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2920,7 +2920,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2936,7 +2936,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2952,7 +2952,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2968,7 +2968,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -2984,7 +2984,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -3000,7 +3000,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -3016,7 +3016,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -3032,7 +3032,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -3048,7 +3048,7 @@ PublicFields: {
 		drak::components::Animator: {
 			PublicFields: {
 				"speed": "0.000000",
-				"m_animation": "01idle",
+				"m_animation": "Take 001",
 				"animator": drak::animation::Animator: {
 					PublicFields: {
 						"m_time": "0.000000",
@@ -3840,8 +3840,8 @@ PublicFields: {
 	"m_data": drak::ResourceSystemData: {
 		PrivateFields: {
 			"fileLoaded": [
-				"./Resources/Models/Mushroomboy.dkrsrc",
-				"./Resources/Models/cube.dkrsrc"
+				"./Resources/Models/GiantSpider_ASCII.dkrsrc",
+				"./Resources/Models/MayaCube.dkrsrc"
 			],
 			"packageLoaded": [
 			]

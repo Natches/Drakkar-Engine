@@ -84,7 +84,8 @@ void ModelImporter::importModel(ModelVec& aModels, MeshVec& aMeshes, SkinnedMesh
 	}
 
 	extractMeshes(aModels, aMeshes, aNames);
-	extractSkinnedMeshes(aModels, aSkMeshes, aNames);
+	if(m_pScene->HasAnimations())
+		extractSkinnedMeshes(aModels, aSkMeshes, aNames);
 	if (extractMaterialsAndTexture) {
 		extractMaterials(aMaterials, aNames);
 		extractTextures(aTextures, aNames);
@@ -238,7 +239,7 @@ void ModelImporter::extractTextures(TexVec& aOutTexVec, definition::ResourceName
 
 void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 	outMesh.vertices.resize(inMesh->mNumVertices);
-	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
+	for (U32 i = 0, size = inMesh->mNumVertices; i < size; ++i) {
 		outMesh.vertices[i] =
 		(definition::Vertex{ *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i),
 			*reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i),
@@ -249,25 +250,23 @@ void ModelImporter::extractVertex(aiMesh* inMesh, definition::Mesh& outMesh) {
 void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outSkMesh) {
 	definition::SkeletalVertex skelVert;
 	outSkMesh.vertices.resize(inMesh->mNumVertices);
-	for (U32 i = 0, size = inMesh->mNumVertices - 1; i < size; ++i) {
+	for (U32 i = 0, size = inMesh->mNumVertices; i < size; ++i) {
 		skelVert.pos = *reinterpret_cast<math::Vec3f*>(inMesh->mVertices + i);
 		skelVert.normal = *reinterpret_cast<math::Vec3f*>(inMesh->mNormals + i);
 		skelVert.uv = *reinterpret_cast<math::Vec2f*>(inMesh->mTextureCoords[0] + i);
 		outSkMesh.vertices[i] = skelVert;
 	}
-	std::map<U32, std::pair<std::vector<U32>, std::vector<F32>>> weightMap;
+
 	for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
 		aiBone* bone = inMesh->mBones[i];
 		for (U32 i2 = 0, size2 = bone->mNumWeights; i2 < size2; ++i2) {
-			std::pair<std::vector<U32>, std::vector<F32>>& weightPair =
-				weightMap[bone->mWeights[i2].mVertexId];
-			weightPair.first.emplace_back(i);
-			weightPair.second.emplace_back(bone->mWeights[i2].mWeight);
+			aiVertexWeight weight = bone->mWeights[i2];
+			unsigned int vertexStart = weight.mVertexId * 4;
+			for (int k = 0; k < 4; k++) {
+				outSkMesh.vertices[weight.mVertexId].boneId.m_vec[k] = i;
+				outSkMesh.vertices[weight.mVertexId].weight.m_vec[k] = weight.mWeight;
+			}
 		}
-	}
-	for (auto& weightNode : weightMap) {
-		outSkMesh.vertices[weightNode.first].boneId = math::Vec4u(weightNode.second.first.data());
-		outSkMesh.vertices[weightNode.first].weight = math::Vec4f(weightNode.second.second.data());
 	}
 }
 
@@ -278,27 +277,27 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 		aiVector3D pos, scale;
 		aiQuaternion quat;
 		bool first = true;
+		outSkeleton.bones.resize(inMesh->mNumBones);
 		for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
 			if (inMesh->mBones[i]->mName.length) {
-				definition::Bone& b = outSkeleton.bones[inMesh->mBones[i]->mName.C_Str()];
+				definition::Bone& b = outSkeleton.bones[i];
+				outSkeleton.handles[inMesh->mBones[i]->mName.C_Str()] = i;
 				b.name = inMesh->mBones[i]->mName.C_Str();
 				definition::Joint& j = b.joint;
-				inMesh->mBones[i]->mOffsetMatrix.Decompose(scale, quat, pos);
-				new (&j.pos) math::Vec3f((F32*)&pos);
-				new (&j.rot) math::Quat(math::Vec4f((F32*)&quat));
-				new (&j.scale) math::Vec3f((F32*)&scale);
-				if (first) {
-					outSkeleton.base = b.name;
-					first = false;
-				}
+				memcpy(&b.offsetMatrix.a00, inMesh->mBones[i]->mOffsetMatrix[0], sizeof(math::Mat4f));
+				const aiNode* node = m_pScene->mRootNode->FindNode(inMesh->mBones[i]->mName);
+				node->mTransformation.DecomposeNoScaling(quat, pos);
+				j.pos = math::Vec3f(pos.x, pos.y, pos.z);
+				j.rot = math::Quat(math::Vec4f(quat.w, quat.x, quat.y, quat.z));
+				if (j.rot.quat == math::Vec4f(0.f, 0.f, 0.f, 0.f))
+					j.rot.m_scalar = 1.f;
 			}
 		}
 		buildBoneHierarchy(m_pScene->mRootNode->FindNode(inMesh->mBones[0]->mName.C_Str()),
-			outSkeleton.bones[std::string(inMesh->mBones[0]->mName.C_Str())], outSkeleton);
+			outSkeleton.bones[0], outSkeleton);
 	}
 	if (m_pScene->HasAnimations()) {
 		extractAnimation(outSkeleton.animations);
-		outSkeleton.optimizeBoneList();
 		outSkeleton.interpolateKeyframe();
 	}
 }
@@ -309,10 +308,10 @@ void ModelImporter::buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
 	for (unsigned int i = 0, size = inNode->mNumChildren; i < size; ++i) {
 		if (inNode->mChildren[i]->mName.length) {
 			b.children.emplace_back(std::string(inNode->mChildren[i]->mName.C_Str()));
-			skeleton.bones[b.children[b.children.size() - 1]].parent = b.name;
+			skeleton.bones[skeleton.handles[b.children[b.children.size() - 1]]].parent = b.name;
 
 			buildBoneHierarchy(inNode->mChildren[i],
-				skeleton.bones[std::string(inNode->mChildren[i]->mName.C_Str())], skeleton);
+				skeleton.bones[skeleton.handles[std::string(inNode->mChildren[i]->mName.C_Str())]], skeleton);
 		}
 		else {
 			buildBoneHierarchy(inNode->mChildren[i], b, skeleton);
@@ -345,27 +344,26 @@ void ModelImporter::extractKeyframe(aiNodeAnim* inKeyframe, std::vector<definiti
 		outKeyframe.resize(max);
 	for (U32 i = 0, size = inKeyframe->mNumPositionKeys; i < size; ++i) {
 		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
-		j.pos = *reinterpret_cast<math::Vec3f*>(&inKeyframe->mPositionKeys[i].mValue);
+		aiVector3D temp = inKeyframe->mPositionKeys[i].mValue;
+		j.pos = math::Vec3f(temp.x, temp.y, temp.z);
 	}
 	for (U32 i = 0, size = inKeyframe->mNumRotationKeys; i < size; ++i) {
 		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
-		j.rot = *reinterpret_cast<math::Quat*>(&inKeyframe->mRotationKeys[i].mValue);
-	}
-	for (U32 i = 0, size = inKeyframe->mNumScalingKeys; i < size; ++i) {
-		definition::Joint& j = outKeyframe[i].joints[std::string(inKeyframe->mNodeName.C_Str())];
-		j.scale = *reinterpret_cast<math::Vec3f*>(&inKeyframe->mScalingKeys[i].mValue);
+		aiQuaternion temp = inKeyframe->mRotationKeys[i].mValue;
+		j.rot = math::Quat(math::Vec4f(temp.w, temp.x, temp.y, temp.z));
+		if (j.rot.quat == math::Vec4f(0.f, 0.f, 0.f, 0.f))
+			j.rot.m_scalar = 1.f;
 	}
 }
 
 template<typename MeshType>
 void ModelImporter::AddIndices(aiMesh* inMesh, MeshType& outMesh) {
-	outMesh.indices.resize(inMesh->mNumFaces * 3);
 	for (U32 f = 0u; f < inMesh->mNumFaces; ++f) {
 		const aiFace& inFace = inMesh->mFaces[f];
 		if (inFace.mNumIndices == 3u) {
-			outMesh.indices[f] = inFace.mIndices[0];
-			outMesh.indices[f + 1] = inFace.mIndices[1];
-			outMesh.indices[f + 2] = inFace.mIndices[2];
+			outMesh.indices.emplace_back(inFace.mIndices[0]);
+			outMesh.indices.emplace_back(inFace.mIndices[1]);
+			outMesh.indices.emplace_back(inFace.mIndices[2]);
 		}
 	}
 }

@@ -79,8 +79,6 @@ void RenderSystem::forwardRender(Scene& scene) {
 		m_renderables[model.name]->render();
 	}
 
-	renderSkinnedMeshes(scene);
-
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
 	pShader->uniform("lightColor", { 0.f, 0.f, 0.f });
 	for (auto& box : scene.hitBoxes) {
@@ -99,7 +97,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		pShader->uniform("model", modelMx * boxMx);
 		pShader->uniform("ambientColor", {0.f, 1.f, 0.f});
 
-		m_renderables["cube"]->render();
+		m_renderables["pCube1"]->render();
 	}
 
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
@@ -120,6 +118,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		modelBatch.clear();
 	}*/
 	//renderGrid();
+	renderSkinnedMeshes(scene);
 }
 
 void RenderSystem::renderGrid() {
@@ -166,25 +165,24 @@ void RenderSystem::convertModelToRenderable(const std::vector<components::Model>
 			ModelPtr modelPtr = manager.loadOrGet<gfx::Model>(model.name);
 			if (modelPtr->loadState() == Resource<geom::Mesh>::ELoadState::READY) {
 				if (!modelPtr->resource().isSkinned()) {
-					const geom::Mesh& mesh = manager.loadOrGet<geom::Mesh>(model.name)->resource();
+					MeshPtr mesh = manager.loadOrGet<geom::Mesh>(model.name);
 					gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
-					vertBuffer->create(mesh.vertices().data(), geom::g_VertexAttribDesc, 3,
-						(U32)mesh.vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
+					vertBuffer->create(mesh->resource().vertices().data(), geom::g_VertexAttribDesc, 3,
+						(U32)mesh->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV)));
 					gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
-					indexBuffer->create(mesh.indices().data(),
-						(U32)mesh.indices().size());
+					indexBuffer->create(mesh->resource().indices().data(), (U32)mesh->resource().indices().size());
 					gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
 					vertexArray->create(vertBuffer, indexBuffer);
 					m_renderables[model.name] = vertexArray;
 				}
 				else {
-					const geom::SkinnedMesh& meshPtr = manager.loadOrGet<geom::SkinnedMesh>(model.name)->resource();
+					SkinnedMeshPtr& mesh = manager.loadOrGet<geom::SkinnedMesh>(model.name);
 					gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
-					vertBuffer->create(meshPtr.vertices().data(), geom::g_SkinnedVertexAttribDesc, 5,
-						(U32)meshPtr.vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV1B1W)));
+					vertBuffer->create(mesh->resource().vertices().data(), geom::g_SkinnedVertexAttribDesc, 5,
+						(U32)mesh->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV1B1W)));
 					gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
-					indexBuffer->create(meshPtr.indices().data(),
-						(U32)meshPtr.indices().size());
+					indexBuffer->create(mesh->resource().indices().data(),
+						(U32)mesh->resource().indices().size());
 					gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
 					vertexArray->create(vertBuffer, indexBuffer);
 					m_skinnedRenderables[model.name] = vertexArray;

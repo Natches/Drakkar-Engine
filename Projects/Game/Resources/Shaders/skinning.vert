@@ -9,7 +9,7 @@ layout(location = 4) in vec4 boneWeights;
 uniform mat4 model;
 uniform mat4 viewPrsp;
 
-layout(binding = 0, std430, row_major) buffer SkinningInfo {
+layout(binding = 0, std430) buffer SkinningInfo {
 	mat4 boneTransform[];
 } skinInfo;
 
@@ -26,9 +26,9 @@ void main()
 					boneWeights.z * (skinInfo.boneTransform[boneIndices.z] * vec4(pos, 1.0f)) +
 					boneWeights.w * (skinInfo.boneTransform[boneIndices.w] * vec4(pos, 1.0f));
 
-	frag.pos	= vec3(model * skinPos);
+	frag.pos	= vec3(model * vec4(skinPos.xyz, 1.0f));
 	frag.normal	= normal;
 	frag.uv		= uv;
 
-	gl_Position	= viewPrsp * model * skinPos;
+	gl_Position	= viewPrsp * (model * vec4(skinPos.xyz, 1.0f));
 }

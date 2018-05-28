@@ -42,18 +42,9 @@ core::EError Keyframe::jointByName(const std::string& name, Joint& j) const {
 		return core::EError::JOINT_NOT_FOUND;
 }
 
-void Animation::buildNecessaryBoneList(std::unordered_map<std::string, bool>& neededBones) const {
-	for (auto kFrame : frames) {
-		for (auto& nBone : neededBones) {
-			if (kFrame.jointByName(nBone.first, Joint()) == DK_OK)
-				nBone.second = true;
-		}
-	}
-}
-
 core::EError Skeleton::jointByName(const std::string& name, Joint& j) const {
-	if (bones.find(name) != bones.end()) {
-		j = bones.at(name).joint;
+	if (handles.find(name) != handles.end()) {
+		j = bones.at(handles.at(name)).joint;
 		return DK_OK;
 	}
 	else
@@ -69,56 +60,28 @@ void Skeleton::interpolateKeyframe() {
 			definition::Keyframe& frame = anim.frames[i], newFrame;
 			Joint j, j2;
 			for (auto& bone : bones) {
-				if (frame.jointByName(bone.first, j) == DK_OK) {
+				if (frame.jointByName(bone.name, j) == DK_OK) {
 					if (i != size - 1) {
-						if (anim.frames[i + 1].jointByName(bone.first, j2) == DK_OK) {
-							math::Lerp(j.pos, j2.pos, 0.5f);
-							math::SLerp(j.rot, j2.rot, 0.5f);
-							math::Lerp(j.scale, j2.scale, 0.5f);
+						if (anim.frames[i + 1].jointByName(bone.name, j2) == DK_OK) {
+							j.pos = math::Lerp(j.pos, j2.pos, 0.5f);
+							//j.rot = math::SLerp(j.rot, j2.rot, 0.5f);
 						}
 					}
 					else if (i == size - 1) {
-						if (anim.frames[0].jointByName(bone.first, j2) == DK_OK) {
-							math::Lerp(j.pos, j2.pos, 0.5f);
-							math::SLerp(j.rot, j2.rot, 0.5f);
-							math::Lerp(j.scale, j2.scale, 0.5f);
+						if (anim.frames[0].jointByName(bone.name, j2) == DK_OK) {
+							j.pos = math::Lerp(j.pos, j2.pos, 0.5f);
+							//j.rot = math::SLerp(j.rot, j2.rot, 0.5f);
 						}
 					}
-					if (j == bone.second.joint)
-						frame.joints.erase(bone.first);
+					if (j == bone.joint)
+						frame.joints.erase(bone.name);
 					else
-						newFrame.joints[bone.first] = j;
+						newFrame.joints[bone.name] = j;
 				}
 			}
 			tempFrame.emplace_back(newFrame);
 		}
 		anim.frames = std::move(tempFrame);
-	}
-}
-
-void Skeleton::eraseFromHierarchy(Bone& b, Bone* parent) {
-	for (auto& child : b.children) {
-		if (bones.find(child) != bones.end())
-			eraseFromHierarchy(bones[child], &b);
-	}
-	if (parent)
-		parent->children.erase(std::find(parent->children.begin(), parent->children.end(), b.name));
-	bones.erase(b.name);
-}
-
-void Skeleton::optimizeBoneList() {
-	std::unordered_map<std::string, bool> neededBones;
-	for (auto& bone : bones)
-		neededBones[bone.first] = false;
-	for (auto& anim : animations)
-		anim.second.buildNecessaryBoneList(neededBones);
-	for (auto& nBone : neededBones) {
-		bool find = false;
-		Bone& b = bones[nBone.first];
-		if (!nBone.second && b.parent.size() && (find = bones.find(b.parent) != bones.end()))
-			eraseFromHierarchy(b, &bones[b.parent]);
-		else if((!nBone.second && !b.parent.size()) || (!nBone.second && b.parent.size() && !find))
-			eraseFromHierarchy(b, nullptr);
 	}
 }
 
@@ -135,7 +98,7 @@ bool Bone::operator==(const Bone& b) {
 }
 
 bool Joint::operator==(const Joint& j) {
-	return pos == j.pos && scale == j.scale && rot == j.rot;
+	return pos == j.pos  && rot == j.rot;
 }
 
 } // namespace definition

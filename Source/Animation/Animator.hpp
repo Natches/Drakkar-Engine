@@ -22,7 +22,7 @@ public:
 
 private:
 	void buildGlobalTransformation(std::vector<math::Mat4f>& transformation, const Bone& b,
-		const Animation* animation, I32 i, const math::Mat4f& parentTransform,
+		const Animation* animation, const math::Mat4f& parentTransform,
 		const Skeleton& skeleton);
 	Joint interpolateJoints(const Joint& j1, const Joint& j2, const F32 time);
 

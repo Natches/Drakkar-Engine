@@ -10,6 +10,7 @@ struct Bone final {
 	std::string name;
 	std::vector<Bone> children;
 	Joint joint;
+	math::Mat4f offsetMatrix;
 };
 
 } // namespace animation

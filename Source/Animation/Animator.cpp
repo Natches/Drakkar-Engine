@@ -29,13 +29,13 @@ std::vector<math::Mat4f> Animator::frameMatricies(const std::string& animation, 
 	const Animation* anim = skeleton.animationByName(animation);
 	if (anim) {
 		buildGlobalTransformation(finalMatricies, skeleton.base(),
-			anim, 0, math::Identity<F32>(), skeleton);
+			anim, math::Identity<F32>(), skeleton);
 	}
 	return finalMatricies;
 }
 
 void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformation, const Bone& b,
-	const Animation* animation, I32 i, const math::Mat4f& parentTransform, const Skeleton& skeleton) {
+	const Animation* animation, const math::Mat4f& parentTransform, const Skeleton& skeleton) {
 	Joint j1, j2;
 
 	if (animation->frames()[m_frame].jointByName(b.name, j1) != DK_OK)
@@ -43,23 +43,22 @@ void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformatio
 	if (animation->frames()[m_frame + 1 == animation->frameCount() ? 0 : m_frame + 1].jointByName(b.name, j2) != DK_OK)
 		skeleton.jointByName(b.name, j2);
 
-	j1 = interpolateJoints(j1, j2, m_time);
+	//j1 = interpolateJoints(j1, j2, m_time);
 
 	skeleton.jointByName(b.name, j2);
 
-	math::Mat4f Global = parentTransform *
-		(math::Translate(j1.pos) * j1.rot.matrix() * math::Scale(j1.scale));
+	math::Mat4f Global = parentTransform * (math::Translate(j1.pos) * j1.rot.matrix());
 
-		transformation[i] *= (Global *
-			(math::Translate(j2.pos) * j2.rot.matrix() * math::Scale(j2.scale)));
+	U32 temp;
+	skeleton.idxByName(b.name, temp);
+	transformation[temp] = (/*Global **/ b.offsetMatrix);
 
 	for (auto& child : b.children)
-		buildGlobalTransformation(transformation, child, animation, ++i, Global, skeleton);
+		buildGlobalTransformation(transformation, child, animation, Global, skeleton);
 }
 
 Joint Animator::interpolateJoints(const Joint& j1, const Joint& j2, const F32 time) {
 	return Joint{ math::Lerp(j1.pos, j2.pos, time),
-		math::Lerp(j1.scale, j2.scale, time),
 		math::SLerp(j1.rot, j2.rot, time) };
 }
 

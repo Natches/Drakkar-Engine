@@ -21,8 +21,8 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/Mushroomboy.dkrsrc"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/cube.dkrsrc"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider_ASCII.dkrsrc"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkrsrc"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -34,7 +34,7 @@ public:
 		raycastPointer_TR.setGlobalPosition(Vec3f(0.f, 0.f, 0.f));
 		raycastPointer_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
 		raycastPointer_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-		raycastPointer_MDL.name = "cube";
+		raycastPointer_MDL.name = "pCube1";
 
 		for (int i = 0; i < 20; ++i) {
 			GameObject& cube = scene.addGameObject();
@@ -50,8 +50,9 @@ public:
 
 			cube_RB.mass = 100.f;
 
-			cube_MDL.name = "140101kino";
-			cube_anim.animation("01idle");
+			cube_MDL.name = "creature/giantspider/giantspider";
+			cube_anim.animation("Take 001");
+			//cube_anim.speed = 1.f;
 
 			cube_SC.width = 10.f;
 			cube_SC.height = 10.f;
@@ -81,7 +82,7 @@ public:
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
 
-		floor_MDL.name = "cube";
+		floor_MDL.name = "pCube1";
 
 		floor_BC.width = 1000.f;
 		floor_BC.height = 2.f;

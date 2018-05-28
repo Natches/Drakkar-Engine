@@ -28,7 +28,7 @@ class Animator;
 class AnimationScene final {
 	DK_SERIALIZED_OBJECT(AnimationScene)
 	friend class LevelSystem;
-	using func = typename function::MemberFunction<AnimationScene, void, const std::vector<U32>>;
+	using func = typename function::MemberFunction<AnimationScene, void, std::vector<U32>>;
 public:
 	AnimationScene();
 	void update(const F32 deltatime, const math::Vec3f& camPos, const math::Vec3f& camDir);
@@ -39,7 +39,7 @@ private:
 
 	void CheckDistance(const math::Vec3f& camPos, const math::Vec3f& camDir);
 
-	void UpdateMatrix(const std::vector<U32> priority);
+	void UpdateMatrix(std::vector<U32> priority);
 
 private:
 	LevelSystem& m_level;
@@ -55,7 +55,7 @@ private:
 	U16 m_middleDistance          = MIDDLE_DISTANCE;
 	U16 m_lowDistance             = LOW_DISTANCE;
 	U16 m_lowerDistance           = LOWER_DISTANCE;
-	thread::task::TaskGroup<thread::task::Task<func>> m_grp;
+	thread::task::TaskGroup<thread::task::Task<func>*> m_grp;
 	F32 m_time;
 };
 

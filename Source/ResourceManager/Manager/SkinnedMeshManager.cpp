@@ -24,19 +24,46 @@ void SkinnedMeshManager::load(const std::string& filename, std::vector<SkinnedMe
 			if (!m_map[skMesh.name].get())
 				m_map[skMesh.name].reset(new Resource<geom::SkinnedMesh>(filename));
 			animation::Skeleton skeleton;
+			skeleton.m_handleList = skMesh.skeleton.handles;
+			skeleton.m_boneList.resize(skMesh.skeleton.bones.size());
+			U32 i = 0;
 			for (auto& bone : skMesh.skeleton.bones) {
-				skeleton.m_boneList[bone.first].joint = *reinterpret_cast<animation::Joint*>(&bone.second.joint);
-				skeleton.m_boneList[bone.first].name = bone.second.name;
-				for (auto& bone2 : bone.second.children) {
-					skeleton.m_boneList[bone2].joint =
-						*reinterpret_cast<animation::Joint*>(&skMesh.skeleton.bones[bone2].joint);
-					skeleton.m_boneList[bone2].name = bone2;
-					skeleton.m_boneList[bone.first].children.emplace_back(skeleton.m_boneList[bone2]);
+				skeleton.m_boneList[i].joint.pos = bone.joint.pos;
+				skeleton.m_boneList[i].joint.rot = bone.joint.rot;
+				if (bone.joint.rot.quat.isNull())
+					bone.joint.rot.m_scalar = 1.f;
+				skeleton.m_boneList[i].offsetMatrix = bone.offsetMatrix;
+				skeleton.m_boneList[i].name = bone.name;
+				for (auto& bone2 : bone.children) {
+					U32 idx = skeleton.m_handleList[bone2];
+					skeleton.m_boneList[idx].joint.pos = skMesh.skeleton.bones[idx].joint.pos;
+					skeleton.m_boneList[idx].joint.rot = skMesh.skeleton.bones[idx].joint.rot;
+					if (skeleton.m_boneList[idx].joint.rot.quat.isNull())
+						skeleton.m_boneList[idx].joint.rot.m_scalar = 1.f;
+					skeleton.m_boneList[idx].offsetMatrix = skMesh.skeleton.bones[idx].offsetMatrix;
+					skeleton.m_boneList[idx].name = bone2;
+					skeleton.m_boneList[i].children.emplace_back(skeleton.m_boneList[idx]);
 				}
+				++i;
 			}
-			skeleton.m_animList =
-				*reinterpret_cast<std::map<std::string, animation::Animation>*>(&skMesh.skeleton.animations);
-			skeleton.m_base = skMesh.skeleton.base;
+			for (auto& animation : skMesh.skeleton.animations) {
+				animation::Animation anim;
+				anim.m_name = animation.second.name;
+				anim.m_animationDuration = animation.second.animationDuration;
+				anim.m_tickPerSecond = animation.second.tickPerSecond;
+				U32 i = 0;
+				anim.m_frames.resize(animation.second.frames.size());
+				for (auto& frame : animation.second.frames) {
+					for (auto& joint : frame.joints) {
+						anim.m_frames[i].m_jointList[joint.first].pos = joint.second.pos;
+						anim.m_frames[i].m_jointList[joint.first].rot = joint.second.rot;
+						if (anim.m_frames[i].m_jointList[joint.first].rot.quat.isNull())
+							anim.m_frames[i].m_jointList[joint.first].rot.m_scalar = 1.f;
+					}
+					++i;
+				}
+				skeleton.m_animList.insert({ animation.first, anim });
+			}
 			skeleton.m_invGlobalPos = skMesh.skeleton.invGlobalPos;
 			new (m_map[skMesh.name].get())
 				Resource<geom::SkinnedMesh>(filename, geom::SkinnedMesh(skMesh.name,

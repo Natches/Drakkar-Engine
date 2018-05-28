@@ -7,7 +7,6 @@ namespace animation {
 
 struct Joint final {
 	math::Vec3f pos;
-	math::Vec3f scale;
 	math::Quat  rot;
 };
 

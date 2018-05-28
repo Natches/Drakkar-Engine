@@ -4,9 +4,11 @@
 #include <Animation/Skeleton/Bone/Bone.hpp>
 
 namespace drak {
+class SkinnedMeshManager;
 namespace animation {
 
 class Keyframe final {
+	friend class SkinnedMeshManager;
 public:
 	Keyframe() = default;
 	~Keyframe() = default;

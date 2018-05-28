@@ -26,27 +26,27 @@ void AnimationScene::update(const F32 deltatime, const math::Vec3f& camPos, cons
 		cmp.animator.advance(deltatime, cmp, skMesh->resource().skeleton());
 	}
 	if (!(m_updateCount % m_highPriorityUpdateTime) || firstUpdate)
-		m_grp.registerTask(thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
-		(const std::vector<U32>)m_highPriority)));
+		m_grp.registerTask(new thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
+			std::vector<U32>(m_highPriority))));
 
 	if (!(m_updateCount % m_middlePriorityUpdateTime) || firstUpdate)
-		m_grp.registerTask(thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
-		(const std::vector<U32>)m_middlePriority)));
+		m_grp.registerTask(new thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
+			std::vector<U32>(m_middlePriority))));
 
 	if (!(m_updateCount % m_lowPriorityUpdateTime) || firstUpdate)
-		m_grp.registerTask(thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
-		(const std::vector<U32>)m_lowPriority)));
+		m_grp.registerTask(new thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
+			std::vector<U32>(m_lowPriority))));
 
 	if (!(m_updateCount % m_lowerPriorityUpdateTime) || firstUpdate) {
-		m_grp.registerTask(thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
-			(const std::vector<U32>)m_lowerPriority)));
+		m_grp.registerTask(new thread::task::Task<func>(func(this, &AnimationScene::UpdateMatrix,
+			std::vector<U32>(m_lowerPriority))));
 		m_updateCount = 0;
 	}
 	m_grp.sendGroupToThreadPool();
 	if(!firstUpdate)
 		CheckDistance(camPos, camDir);
 	m_grp.waitForTasks();
-	m_grp.clearGroup<false>();
+	m_grp.clearGroup<true>();
 }
 
 void AnimationScene::CheckDistance(const math::Vec3f& camPos, const math::Vec3f& camDir) {
@@ -75,7 +75,7 @@ void AnimationScene::CheckDistance(const math::Vec3f& camPos, const math::Vec3f&
 	}
 }
 
-void AnimationScene::UpdateMatrix(const std::vector<U32> priority) {
+void AnimationScene::UpdateMatrix(std::vector<U32> priority) {
 	for (auto& pr : priority) {
 		components::Animator& anim = m_components[pr];
 		const components::Model* mdl =

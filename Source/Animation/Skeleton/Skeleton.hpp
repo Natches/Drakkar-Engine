@@ -15,16 +15,17 @@ public:
 	Skeleton& operator=(const Skeleton& skTon);
 	Skeleton& operator=(Skeleton&& skTon);
 
-	DK_GETTER_REF_C(Bone, base, m_boneList.at(m_base))
+	DK_GETTER_REF_C(Bone, base, m_boneList[0])
 	DK_GETTER_C(math::Mat4f, invGlobal, m_invGlobalPos)
 	DK_GETTER_C(U32, boneCount, (U32)m_boneList.size())
 
+	core::EError idxByName(const std::string& name, U32& i) const;
 	core::EError jointByName(const std::string& name, Joint& j) const;
 	const Animation* animationByName(const std::string& name) const;
 
 private:
-	std::string m_base;
-	std::map<std::string, Bone> m_boneList;
+	std::vector<Bone> m_boneList;
+	std::map<std::string, U32> m_handleList;
 	std::map<std::string, Animation> m_animList;
 	math::Mat4f m_invGlobalPos;
 };

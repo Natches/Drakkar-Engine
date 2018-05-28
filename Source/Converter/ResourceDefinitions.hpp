@@ -60,7 +60,6 @@ struct Model {
 struct Joint {
 	bool operator==(const Joint& j);
 	math::Vec3f pos;
-	math::Vec3f scale;
 	math::Quat rot;
 };
 
@@ -69,6 +68,7 @@ struct Bone {
 	std::string name;
 	std::vector<std::string> children;
 	Joint joint;
+	math::Mat4f offsetMatrix;
 	std::string parent;
 };
 
@@ -88,10 +88,8 @@ struct Animation {
 struct Skeleton {
 	core::EError jointByName(const std::string& name, Joint& j) const;
 	void interpolateKeyframe();
-	void optimizeBoneList();
-	void eraseFromHierarchy(Bone& b, Bone* parent);
-	std::string base;
-	std::map<std::string, Bone> bones;
+	std::vector<Bone> bones;
+	std::map<std::string, U32> handles;
 	std::map<std::string, Animation> animations;
 	math::Mat4f invGlobalPos;
 };
@@ -160,12 +158,12 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Joint)
-DK_PUBLIC_FIELDS(pos, scale, rot)
+DK_PUBLIC_FIELDS(pos, rot)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Bone)
-DK_PUBLIC_FIELDS(name, children, joint)
+DK_PUBLIC_FIELDS(name, children, joint, offsetMatrix)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
@@ -180,7 +178,7 @@ DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
 DK_METADATA_BEGIN(drak::definition::Skeleton)
-DK_PUBLIC_FIELDS(base, bones, animations,invGlobalPos)
+DK_PUBLIC_FIELDS(bones, handles, animations,invGlobalPos)
 DK_PUBLIC_FIELD_COMPLEMENT
 DK_METADATA_END
 
