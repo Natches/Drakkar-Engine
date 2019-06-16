@@ -6,22 +6,22 @@ namespace gl {
 
 GLStorageBuffer::~GLStorageBuffer() {
 	if (m_glID != GL_INVALID) {
+		glUnmapNamedBuffer(m_glID);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		glDeleteBuffers(1, &m_glID);
 	}
 }
 
 void GLStorageBuffer::create(U64 bytes, void* pData) {
-	glGenBuffers(1, &m_glID);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_glID);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, bytes, pData, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glCreateBuffers(1, &m_glID);
+	glNamedBufferStorage(m_glID, bytes, pData, GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT);
 }
 
 void GLStorageBuffer::write(U64 offset, U64 bytes, void* pData) {
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_glID);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, bytes, pData);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	if (!m_pMappedBufferData) {
+		m_pMappedBufferData = glMapNamedBuffer(m_glID, GL_WRITE_ONLY);
+	}
+	memcpy(m_pMappedBufferData, pData, bytes);
 }
 
 void GLStorageBuffer::bind() {

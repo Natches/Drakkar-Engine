@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Core/Core.hpp>
 #include <Serialization\MetaData.hpp>
 #include <unordered_map>
@@ -7,7 +6,7 @@
 #include <string>
 
 namespace drak {
-    class LevelSystem;
+	class LevelSystem;
 namespace components {
 	struct Transform;
 }
@@ -20,7 +19,7 @@ public:
 	~GameObject() = default;
 
 	template <typename T>
-    T* getComponent() {
+T* getComponent() {
 		if (getComponentFlag(components::ComponentType<T>::id))
 			return &level->getComponentByHandle<T>(m_componentHandles[components::ComponentType<T>::id]);
 		return nullptr;
@@ -74,7 +73,7 @@ public:
 	inline void setParentIndex(const I32 pIDX) { parentIDX = pIDX; }
 	inline const I32 getParent() { return parentIDX; }
 	U64 componentCount;
-	std::string name = "GameObject";
+	std::string name;
 	inline void markForDestruction() { m_markedForDestrution = true; }
 	inline bool isMarkedForDestruction() { return m_markedForDestrution; }
 private:

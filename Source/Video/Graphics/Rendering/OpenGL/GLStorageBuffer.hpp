@@ -22,7 +22,7 @@ public:
 	void write(U64 offset, U64 bytes, void* pData);
 
 private:
-	U64	bytes;
+	void* m_pMappedBufferData;
 
 };
 

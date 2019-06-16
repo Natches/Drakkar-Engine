@@ -29,9 +29,7 @@ bool RenderSystem::startup(IRenderer* pRenderer) {
 	m_mainCam.view({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	m_mainCam.perspective(60.f, 16.f / 9.f, 1.f, 2048.f);
 
-	m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
-
-
+	//m_gridTex.loadFromFile("Resources/Textures/grid_cell.png");
 	m_modelUBO.create(BATCH_SIZE * sizeof(math::Mat4f));
 
 	return loadShaders();
@@ -59,7 +57,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	for (auto& model : scene.models) {
-		if (model.name == "quad")
+		if (scene.resourceManager.loadOrGet<Model>(model.name)->resource().isSkinned())
 			continue;
 
 		pXform	= scene.gameObjects[model.GameObjectID].getComponent<Transform>();
@@ -73,11 +71,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
 
 		pShader->uniform("model",			modelMx);
-
-		if (model.name == "pCube1")
-			pShader->uniform("ambientColor", { 0.2f, 0.2f, 0.2f });
-		else
-			pShader->uniform("ambientColor", mat.ambientColor);
+		pShader->uniform("ambientColor",	mat.ambientColor);
 		pShader->uniform("diffuseColor",	mat.diffuseColor);
 		pShader->uniform("specularColor",	mat.specularColor);
 		pShader->uniform("shininess",		mat.shininess);
@@ -128,20 +122,21 @@ void RenderSystem::forwardRender(Scene& scene) {
 }
 
 void RenderSystem::renderGrid() {
+	m_pRenderer->cullTest(false);
+
 	math::Mat4f mvp = m_mainCam.viewPerspective()
-		* math::Translate<F32>({ 0.f, 0.f, 0.f })
+		* math::Translate<F32>({ 0.f, -100.f, 0.f })
 		* math::Scale<F32>({ 2048.f, 1.f, 2048.f });
 
 	ShaderPtr shader = m_shaderManager.get("GridShader");
 	shader->resource()->use();
 
-	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	m_gridTex.bind();
 	shader->resource()->uniform("tex", 0);
 	shader->resource()->uniform("MVP", mvp);
 	shader->resource()->uniform("resolution", math::Vec2f{ 64.f, 64.f });
 	shader->resource()->uniform("tint", math::Vec4f{ 0.259f, 0.957f, 0.843f, 1.f });
-	//m_renderables["quad"]->render();
+	m_pGrid->render();
 }
 
 void RenderSystem::startFrame() {
@@ -212,11 +207,11 @@ void RenderSystem::renderSkinnedMeshes(Scene& scene) {
 		const Model& mdl =
 			scene.resourceManager.loadOrGet<Model>(scene.gameObjects[animator.GameObjectID].getComponent<components::Model>()->name)->resource();
 		if (m_buffers.find(mdl.meshName) == m_buffers.end()) {
-			m_buffers[mdl.meshName].create(scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f));
+			m_buffers[mdl.meshName].create(scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f), (void*)scene.animationScene.matricies()[i].data());
 		}
+		m_buffers[mdl.meshName].bind();
 		m_buffers[mdl.meshName].write(0, scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f),
 			(void*)scene.animationScene.matricies()[i].data());
-		m_buffers[mdl.meshName].bind();
 
 		pXform = scene.gameObjects[animator.GameObjectID].getComponent<Transform>();
 		quat = pXform->getGlobalRotation();

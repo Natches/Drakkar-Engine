@@ -48,7 +48,6 @@ SOURCES     +=                                      \
             $$DKSRC/Editor/SceneGraphWidget.cpp     \
             $$DKSRC/Editor/InspectorWidget.cpp      \
             $$DKSRC/Editor/BoxColliderWidget.cpp    \
-            $$DKSRC/Editor/RigidBodyWidget.cpp      \
 
 HEADERS     +=                                      \
             $$DKSRC/Editor/DarkStyle.h              \
@@ -58,13 +57,10 @@ HEADERS     +=                                      \
             $$DKSRC/Editor/GLEditorWidget.hpp       \
             $$DKSRC/Editor/TransformWidget.hpp      \
             $$DKSRC/Editor/SceneGraphWidget.hpp     \
-            $$DKSRC/Editor/InspectorWidget.hpp      \
-            $$DKSRC/Editor/BoxColliderWidget.hpp    \
-            $$DKSRC/Editor/RigidBodyWidget.hpp      \
             $$DKSRC/Engine/Engine.hpp               \
             $$DKSRC/Engine/Scene/LevelSystem.hpp    \
-            $$DKSRC/Engine/GameObject.hpp           \
-            $$DKSRC/Engine/Components/TransformComponent.hpp    \
+            $$DKSRC/Editor/InspectorWidget.hpp      \
+            $$DKSRC/Editor/BoxColliderWidget.hpp    \
 
 ###############################################################################
 
@@ -86,7 +82,6 @@ FORMS       +=                                      \
             $$FORMDIR/Editor.ui                     \
             $$FORMDIR/TransformWidget.ui            \
             $$FORMDIR/BoxColliderWidget.ui          \
-            $$FORMDIR/RigidBodyWidget.ui            \
 
 ###############################################################################
 

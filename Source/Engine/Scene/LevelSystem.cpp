@@ -62,6 +62,7 @@ void LevelSystem::loadScene(const char* name) {
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
 	filename = sceneBluePrint.name;
+	SerializeLevel();
 	m_resourceManager->updateFromData();
 }
 

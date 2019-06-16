@@ -28,9 +28,6 @@ void drak::BehaviorMonolith::init()
 	for (int i = 0; i < GET_BHVR_CONTAINER(CameraController).size(); ++i) {
 		GET_BHVR_CONTAINER(CameraController)[i]->init();
 	}
-	for (int i = 0; i < GET_BHVR_CONTAINER(Player).size(); ++i) {
-		GET_BHVR_CONTAINER(Player)[i]->init();
-	}
 }
 
 void BehaviorMonolith::serializeEvent(const events::Event* pEvent) {

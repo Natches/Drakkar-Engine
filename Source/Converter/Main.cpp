@@ -8,7 +8,7 @@ int main(int ac, char**av) {
 	r.startup(nullptr);
 	char** toConvert = new char*[ac];
 	char** alreadyConverted = new char*[ac];
-	U32 sizeToConvert = 1, sizeAlreadyConverted = 0;
+	U32 sizeToConvert = 0, sizeAlreadyConverted = 0;
 	std::vector<std::string> files;
 	for (int i = 1; i < ac; ++i) {
 		if (drak::io::AllExtension(av[i]) == "dkResources.bin") {
@@ -26,9 +26,8 @@ int main(int ac, char**av) {
 			}
 		}
 	}
-	av[0] = "quad.obj";
 	if(sizeToConvert)
-		r.convert(1, (const char**)av);
+		r.convert(sizeToConvert, (const char**)toConvert);
 	char choice;
 	std::cout << "Do you want to compress files ? (y/n) \n";
 	std::cin >> choice;

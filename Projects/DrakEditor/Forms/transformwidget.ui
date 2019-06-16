@@ -312,18 +312,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosX">
+          <widget class="QDoubleSpinBox" name="spin_PosY_4">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -567,18 +561,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosY">
+          <widget class="QDoubleSpinBox" name="spin_PosX_4">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -822,18 +810,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_PosZ">
+          <widget class="QDoubleSpinBox" name="spin_PosZ_4">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -1081,18 +1063,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_RotX">
+          <widget class="QDoubleSpinBox" name="spin_PosY_5">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -1336,18 +1312,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_RotY">
+          <widget class="QDoubleSpinBox" name="spin_PosX_5">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -1591,18 +1561,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_RotZ">
+          <widget class="QDoubleSpinBox" name="spin_PosZ_5">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -1850,18 +1814,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_ScaleX">
+          <widget class="QDoubleSpinBox" name="spin_PosY_6">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -2105,18 +2063,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_ScaleY">
+          <widget class="QDoubleSpinBox" name="spin_PosX_6">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -2360,18 +2312,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_ScaleZ">
+          <widget class="QDoubleSpinBox" name="spin_PosZ_6">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimum">
-            <double>-99.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>99.000000000000000</double>
            </property>
           </widget>
          </item>

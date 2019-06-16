@@ -30,8 +30,6 @@ private:
     void setProjectPath(QString dir);
     void loadFonts();
 
-    void recursive(unsigned int idx, SceneGameObject* parent);
-
 private slots:
     /**********************************************************************************************
      *  File Menu
@@ -58,10 +56,7 @@ private slots:
      * Toolbar Actions
      *********************************************************************************************/
     void on_actionWireframe_triggered(bool checked);
-    void on_actionAdd_GameObject_triggered();
-
-private slots:
-    void onGameObjectSelected(QTreeWidgetItem *item, int column);
+    void on_actionAdd_Cube_triggered();
 
 private:
     Ui::Editor          *ui;

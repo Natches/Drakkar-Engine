@@ -30,8 +30,7 @@ void GLVertexBuffer::create(
 		glNamedBufferStorage(
 			m_glID,
 			vertexCount * m_vertexSize,
-			pVerts,
-			GL_MAP_WRITE_BIT); // flags
+			pVerts, 0x0); // flags
 	}
 }
 
