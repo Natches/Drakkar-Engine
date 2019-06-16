@@ -648,14 +648,14 @@ Vec4<U> Vec4<T>::cast() const {
 
 template<typename T>
 bool operator==(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>::SIMDStruct::areEqual(v1.m_simdVec, v2.m_simdVec);
 	else
 		return v1.xyz == v2.xyz && v1.w == v2.w;
 }
 template<typename T>
 bool operator!=(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return !Vec4<T>::SIMDStruct::areEqual(v1.m_simdVec, v2.m_simdVec);
 	else
 		return !(v1.xyz == v2.xyz && v1.w == v2.w);
@@ -663,7 +663,7 @@ bool operator!=(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 bool operator>(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return !Vec4<T>::SIMDStruct::isGreaterThan(v2.m_simdVec, v1.m_simdVec);
 	else
 		return !(v1.xyz < v2.xyz && v1.w < v2.w);
@@ -671,7 +671,7 @@ bool operator>(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 bool operator<(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return !Vec4<T>::SIMDStruct::isGreaterThan(v1.m_simdVec, v2.m_simdVec);
 	else
 		return !(v1.xyz > v2.xyz && v1.w > v2.w);
@@ -679,7 +679,7 @@ bool operator<(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 bool operator>=(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return !Vec4<T>::SIMDStruct::isGreaterOrEqThan(v2.m_simdVec, v1.m_simdVec);
 	else
 		return !(v1.xyz <= v2.xyz && v1.w <= v2.w);
@@ -687,7 +687,7 @@ bool operator>=(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 bool operator<=(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return !Vec4<T>::SIMDStruct::isGreaterOrEqThan(v1.m_simdVec, v2.m_simdVec);
 	else
 		return !(v1.xyz >= v2.xyz && v1.w >= v2.w);
@@ -695,7 +695,7 @@ bool operator<=(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 Vec4<T> operator+(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::add(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz + v2.xyz, v1.w + v2.w);
@@ -703,7 +703,7 @@ Vec4<T> operator+(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 Vec4<T> operator-(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::sub(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz - v2.xyz, v1.w - v2.w);
@@ -711,7 +711,7 @@ Vec4<T> operator-(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 Vec4<T> operator*(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::mul(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz * v2.xyz, v1.w * v2.w);
@@ -719,7 +719,7 @@ Vec4<T> operator*(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 Vec4<T> operator/(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::div(v1.m_simdVec, v2.m_simdVec));
 	else {
 		if (!v2.isNull())
@@ -730,7 +730,7 @@ Vec4<T> operator/(const Vec4<T>& v1, const Vec4<T>& v2) {
 template<typename T>
 Vec4<T> operator>>(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::rShift(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz >> v2.xyz, v1.w >> v2.w);
@@ -738,7 +738,7 @@ Vec4<T> operator>>(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TY
 template<typename T>
 Vec4<T> operator<<(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::lShift(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz << v2.xyz, v1.w << v2.w);
@@ -746,7 +746,7 @@ Vec4<T> operator<<(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TY
 template<typename T>
 Vec4<T> operator&(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::andOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz & v2.xyz, v1.w & v2.w);
@@ -754,7 +754,7 @@ Vec4<T> operator&(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYP
 template<typename T>
 Vec4<T> operator^(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::xorOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz ^ v2.xyz, v1.w ^ v2.w);
@@ -762,7 +762,7 @@ Vec4<T> operator^(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYP
 template<typename T>
 Vec4<T> operator|(const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v1,
 	const ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::orOp(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(v1.xyz | v2.xyz, v1.w | v2.w);
@@ -816,7 +816,7 @@ Vec4<T>& operator|=(ENABLE_IF_ELSE_T(Vec4<T>::isIntegral, Vec4<T>, NOT_A_TYPE)& 
 
 template<typename T>
 T Dot(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>::SIMDStruct::horizontalAdd((v1 * v2).m_simdVec);
 	else
 		return Dot(v1.xyz, v2.xyz) + v1.w * v2.w;
@@ -824,7 +824,7 @@ T Dot(const Vec4<T>& v1, const Vec4<T>& v2) {
 
 template<typename T>
 Vec4<T> Cross(const Vec4<T>& v1, const Vec4<T>& v2) {
-	if constexpr (!std::is_same_v<Vec4<T>::SIMDType, NOT_A_TYPE>)
+	if constexpr (!std::is_same_v<typename Vec4<T>::SIMDType, NOT_A_TYPE>)
 		return Vec4<T>(Vec4<T>::SIMDStruct::cross(v1.m_simdVec, v2.m_simdVec));
 	else
 		return Vec4<T>(Cross(v1.xyz, v2.xyz), static_cast<T>(0));

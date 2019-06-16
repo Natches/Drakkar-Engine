@@ -48,7 +48,7 @@ struct BestSIMDType<T, 4, 32, false, true, true> {
 	static T horizontalAdd(const SIMDType& m) {
 		__m128 m2 = _mm_hadd_ps(m, m);
 		m2 = _mm_hadd_ps(m2, m2);
-		return m2.m128_f32[0];
+		return reinterpret_cast<T*>(&m2)[0];
 	}
 
 	static SIMDType add(const SIMDType& m, const T f) {
@@ -84,10 +84,10 @@ struct BestSIMDType<T, 4, 32, false, true, true> {
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m256 temp1, temp2;
 
-		temp1 = _mm256_set_ps(0.f, m1.m128_f32[1], m1.m128_f32[0], m1.m128_f32[2], 0.f,
-			m1.m128_f32[0], m1.m128_f32[2], m1.m128_f32[1]);
-		temp2 = _mm256_set_ps(0.f, m2.m128_f32[0], m2.m128_f32[2], m2.m128_f32[1], 0.f,
-			m2.m128_f32[1], m2.m128_f32[0], m2.m128_f32[2]);
+		temp1 = _mm256_set_ps(0.f, reinterpret_cast<T*>(&m1)[1], reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], 0.f,
+			reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], reinterpret_cast<T*>(&m1)[1]);
+		temp2 = _mm256_set_ps(0.f, reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2], reinterpret_cast<T*>(&m2)[1], 0.f,
+			reinterpret_cast<T*>(&m2)[1], reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2]);
 
 		temp1 = _mm256_mul_ps(temp1, temp2);
 
@@ -158,10 +158,10 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 	}
 	static T horizontalAdd(const SIMDType& m) {
 #if defined(_M_IX86) || defined(__INTEL_COMPILER)
-		__m64 m2 = _mm_hadd_pi32(*(__m64 const*)m.m128i_i64, *(__m64 const*)&m.m128i_i64[1]);
+		__m64 m2 = _mm_hadd_pi32(*(__m64 const*)&m, ((__m64 const*)&m)[1]);
 		m2 = _mm_hadd_pi32(m2, m2);
 		_m_empty();
-		return m2.m64_i32[0];
+		return reinterpret_cast<T*>(&m2)[0];
 #else
 		SIMDType m2 = _mm_hadd_epi32(m, m);
 		m2 = _mm_hadd_epi32(m2, m2);
@@ -180,19 +180,14 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 		__m128 temp1, temp2;
-		if constexpr (isSigned)
-			BestSIMDType<F32, 4>::set(temp1,
-				static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
-				static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]));
-		else
-			BestSIMDType<F32, 4>::set(temp1,
-				static_cast<F32>(m.m128i_u32[0]), static_cast<F32>(m.m128i_u32[1]),
-				static_cast<F32>(m.m128i_u32[2]), static_cast<F32>(m.m128i_u32[3]));
+		BestSIMDType<F32, 4>::set(temp1,
+			static_cast<F32>(reinterpret_cast<T*>(&m)[0]), static_cast<F32>(reinterpret_cast<T*>(&m)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&m)[2]), static_cast<F32>(reinterpret_cast<T*>(&m)[3]));
 		BestSIMDType<F32, 4>::set(temp2, static_cast<F32>(i));
 		temp1 = BestSIMDType<F32, 4>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
+		set(res, static_cast<T>(static_cast<F32*>(&temp1)[0]), static_cast<T>(static_cast<F32*>(&temp1)[1]),
+			static_cast<T>(static_cast<F32*>(&temp1)[2]), static_cast<T>(static_cast<F32*>(&temp1)[3]));
 
 		return res;
 	}
@@ -230,26 +225,16 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 		__m128 temp1, temp2;
-		if constexpr (isSigned) {
-			BestSIMDType<F32, 4>::set(temp1,
-				static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
-				static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]));
-			BestSIMDType<F32, 4>::set(temp2,
-				static_cast<F32>(m2.m128i_i32[0]), static_cast<F32>(m2.m128i_i32[1]),
-				static_cast<F32>(m2.m128i_i32[2]), static_cast<F32>(m2.m128i_i32[3]));
-		}
-		else {
-			BestSIMDType<F32, 4>::set(temp1,
-				static_cast<F32>(m.m128i_u32[0]), static_cast<F32>(m.m128i_u32[1]),
-				static_cast<F32>(m.m128i_u32[2]), static_cast<F32>(m.m128i_u32[3]));
-			BestSIMDType<F32, 4>::set(temp2,
-				static_cast<F32>(m2.m128i_u32[0]), static_cast<F32>(m2.m128i_u32[1]),
-				static_cast<F32>(m2.m128i_u32[2]), static_cast<F32>(m2.m128i_u32[3]));
-		}
+		BestSIMDType<F32, 4>::set(temp1,
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[0]), static_cast<F32>(reinterpret_cast<T*>(&m1)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[2]), static_cast<F32>(reinterpret_cast<T*>(&m1)[3]));
+		BestSIMDType<F32, 4>::set(temp2,
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[0]), static_cast<F32>(reinterpret_cast<T*>(&m2)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[2]), static_cast<F32>(reinterpret_cast<T*>(&m2)[3]));
 		temp1 = BestSIMDType<F32, 4>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m128_f32[0]), static_cast<T>(temp1.m128_f32[1]),
-			static_cast<T>(temp1.m128_f32[2]), static_cast<T>(temp1.m128_f32[3]));
+		set(res, static_cast<T>(static_cast<F32*>(&temp1)[0]), static_cast<T>(static_cast<F32*>(&temp1)[1]),
+			static_cast<T>(static_cast<F32*>(&temp1)[2]), static_cast<T>(static_cast<F32*>(&temp1)[3]));
 		return res;
 	}
 
@@ -271,19 +256,10 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m256i temp1, temp2;
-
-		if constexpr (isSigned) {
-			temp1 = _mm256_set_epi32(0, m1.m128i_i32[1], m1.m128i_i32[0], m1.m128i_i32[2], 0,
-				m1.m128i_i32[0], m1.m128i_i32[2], m1.m128i_i32[1]);
-			temp2 = _mm256_set_epi32(0, m2.m128i_i32[0], m2.m128i_i32[2], m2.m128i_i32[1], 0,
-				m2.m128i_i32[1], m2.m128i_i32[0], m2.m128i_i32[2]);
-		}
-		else {
-			temp1 = _mm256_set_epi32(0, m1.m128i_u32[1], m1.m128i_u32[0], m1.m128i_u32[2], 0,
-				m1.m128i_u32[0], m1.m128i_u32[2], m1.m128i_u32[1]);
-			temp2 = _mm256_set_epi32(0, m2.m128i_u32[0], m2.m128i_u32[2], m2.m128i_u32[1], 0,
-				m2.m128i_u32[1], m2.m128i_u32[0], m2.m128i_u32[2]);
-		}
+		temp1 = _mm256_set_epi32(0, reinterpret_cast<T*>(&m1)[1], reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], 0,
+				reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], reinterpret_cast<T*>(&m1)[1]);
+		temp2 = _mm256_set_epi32(0, reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2], reinterpret_cast<T*>(&m2)[1], 0,
+				reinterpret_cast<T*>(&m2)[1], reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2]);
 		temp1 = _mm256_mullo_epi32(temp1, temp2);
 
 		return sub(_mm256_extractf128_si256(temp1, 0), _mm256_extractf128_si256(temp1, 1));
@@ -312,11 +288,11 @@ struct BestSIMDType<T, 4, 32, true, false, isSigned> {
 
 	static SIMDType sign(const SIMDType& m) {
 		if constexpr (isSigned) {
-			__m128 temp = _mm_setr_ps(static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
-				static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]));
+			__m128 temp = _mm_setr_ps(static_cast<F32>(reinterpret_cast<T*>(&m)[0]), static_cast<F32>(reinterpret_cast<T*>(&m)[1]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[2]), static_cast<F32>(reinterpret_cast<T*>(&m)[3]));
 			temp = _mm_or_ps(_mm_and_ps(_mm_set1_ps(-0.f), temp), _mm_set1_ps(1.f));
-			return _mm_setr_epi32(static_cast<I32>(temp.m128_f32[0]), static_cast<I32>(temp.m128_f32[1]),
-				static_cast<I32>(temp.m128_f32[2]), static_cast<I32>(temp.m128_f32[3]));
+			return _mm_setr_epi32(static_cast<I32>(reinterpret_cast<T*>(&temp)[0]), static_cast<I32>(reinterpret_cast<T*>(&temp)[1]),
+				static_cast<I32>(reinterpret_cast<T*>(&temp)[2]), static_cast<I32>(reinterpret_cast<T*>(&temp)[3]));
 		}
 		else
 			return _mm_set1_epi32(1);
@@ -365,7 +341,7 @@ struct BestSIMDType<T, 4, 16, true, false, isSigned> {
 		SIMDType m2 = _mm_hadd_pi16(m, m);
 		m2 = _mm_hadd_pi16(m2, m2);
 		_m_empty();
-		return m2.m64_i16[0];
+		return reinterpret_cast<T*>(&m2)[0];
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
@@ -436,20 +412,12 @@ struct BestSIMDType<T, 4, 16, true, false, isSigned> {
 
 	static SIMDType cross(const SIMDType& m1, const SIMDType& m2) {
 		__m128i temp1, temp2;
-		if constexpr (isSigned) {
-			temp1 = _mm_set_epi16(0, m1.m64_i16[1], m1.m64_i16[0], m1.m64_i16[2], 0,
-				m1.m64_i16[0], m1.m64_i16[2], m1.m64_i16[1]);
-			temp2 = _mm_set_epi16(0, m2.m64_i16[0], m2.m64_i16[2], m2.m64_i16[1], 0,
-				m2.m64_i16[1], m2.m64_i16[0], m2.m64_i16[2]);
-		}
-		else {
-			temp1 = _mm_set_epi16(0, m1.m64_u16[1], m1.m64_u16[0], m1.m64_u16[2], 0,
-				m1.m64_u16[0], m1.m64_u16[2], m1.m64_u16[1]);
-			temp2 = _mm_set_epi16(0, m2.m64_u16[0], m2.m64_u16[2], m2.m64_u16[1], 0,
-				m2.m64_u16[1], m2.m64_u16[0], m2.m64_u16[2]);
-		}
+		temp1 = _mm_set_epi16(0, reinterpret_cast<T*>(&m1)[1], reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], 0,
+			reinterpret_cast<T*>(&m1)[0], reinterpret_cast<T*>(&m1)[2], reinterpret_cast<T*>(&m1)[1]);
+		temp2 = _mm_set_epi16(0, reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2], reinterpret_cast<T*>(&m2)[1], 0,
+			reinterpret_cast<T*>(&m2)[1], reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m2)[2]);
 		temp1 = _mm_mullo_epi16(temp1, temp2);
-		return sub(*(__m64 const*)temp1.m128i_u64, *(__m64 const*)&temp1.m128i_u64[1]);
+		return sub(*(__m64 const*)&temp1, ((__m64 const*)&temp1)[1]);
 	}
 
 	static SIMDType max(const SIMDType& m1, const SIMDType& m2) {
@@ -512,25 +480,14 @@ struct BestSIMDType<T, 8, 16, true, false, isSigned> {
 
 	static T horizontalAdd(const SIMDType& m) {
 #if defined(_M_IX86) || defined(__INTEL_COMPILER)
-		if constexpr (isSigned) {
-			__m64 m2 = _mm_hadd_pi16(*(__m64*)(m.m128i_i64), *(__m64*)(m.m128i_i64 + 1));
-			m2 = _mm_hadd_pi16(m2, m2);
-			_m_empty();
-			return m2.m64_i16[0] + m2.m64_i16[1];
-		}
-		else {
-			__m64 m2 = _mm_hadd_pi16(*(__m64*)(m.m128i_u64), *(__m64*)(m.m128i_u64 + 1));
-			m2 = _mm_hadd_pi16(m2, m2);
-			_m_empty();
-			return m2.m64_u16[0] + m2.m64_u16[1];
-		}
+		__m64 m2 = _mm_hadd_pi16(*(__m64*)(&m), *((__m64*)(m) + 1));
+		m2 = _mm_hadd_pi16(m2, m2);
+		_m_empty();
+		return reinterpret_cast<T*>(&m2)[0] + reinterpret_cast<T*>(&m2)[1];
 #else
-			__m128i m2 = _mm_hadd_epi16(m, m);
-			m2 = _mm_hadd_epi16(m2, m2);
-		if constexpr (isSigned)
-			return _mm_hadd_epi16(m2, m2).m128i_i16[0];
-		else
-			return _mm_hadd_epi16(m2, m2).m128i_u16[0];
+		__m128i m2 = _mm_hadd_epi16(m, m);
+		m2 = _mm_hadd_epi16(m2, m2);
+		return *reinterpret_cast<T*>(&_mm_hadd_epi16(m2, m2));
 #endif
 	}
 
@@ -628,18 +585,10 @@ struct BestSIMDType<T, 8, 16, true, false, isSigned> {
 	}
 
 	static void transpose(const SIMDType& m1, const SIMDType& m2, SIMDType& m3, SIMDType& m4) {
-		if constexpr (isSigned) {
-			m3 = _mm_set_epi16(m2.m128i_i16[5], m2.m128i_i16[1], m1.m128i_i16[5], m1.m128i_i16[1],
-				m2.m128i_i16[4], m2.m128i_i16[0], m1.m128i_i16[4], m1.m128i_i16[0]);
-			m4 = _mm_set_epi16(m2.m128i_i16[7], m2.m128i_i16[3], m1.m128i_i16[7], m1.m128i_i16[3],
-				m2.m128i_i16[6], m2.m128i_i16[2], m1.m128i_i16[6], m1.m128i_i16[2]);
-		}
-		else {
-			m3 = _mm_set_epi16(m2.m128i_u16[5], m2.m128i_u16[1], m1.m128i_u16[5], m1.m128i_u16[1],
-				m2.m128i_u16[4], m2.m128i_u16[0], m1.m128i_u16[4], m1.m128i_u16[0]);
-			m4 = _mm_set_epi16(m2.m128i_u16[7], m2.m128i_u16[3], m1.m128i_u16[7], m1.m128i_u16[3],
-				m2.m128i_u16[6], m2.m128i_u16[2], m1.m128i_u16[6], m1.m128i_u16[2]);
-		}
+		m3 = _mm_set_epi16(reinterpret_cast<T*>(&m2)[5], reinterpret_cast<T*>(&m2)[1], reinterpret_cast<T*>(&m1)[5], reinterpret_cast<T*>(&m1)[1],
+			reinterpret_cast<T*>(&m2)[4], reinterpret_cast<T*>(&m2)[0], reinterpret_cast<T*>(&m1)[4], reinterpret_cast<T*>(&m1)[0]);
+		m4 = _mm_set_epi16(reinterpret_cast<T*>(&m2)[7], reinterpret_cast<T*>(&m2)[3], reinterpret_cast<T*>(&m1)[7], reinterpret_cast<T*>(&m1)[3],
+			reinterpret_cast<T*>(&m2)[6], reinterpret_cast<T*>(&m2)[2], reinterpret_cast<T*>(&m1)[6], reinterpret_cast<T*>(&m1)[2]);
 	}
 
 	static SIMDType abs(const SIMDType& m) {
@@ -651,15 +600,15 @@ struct BestSIMDType<T, 8, 16, true, false, isSigned> {
 
 	static SIMDType sign(const SIMDType& m) {
 		if constexpr (isSigned) {
-			__m256 temp = _mm256_setr_ps(static_cast<F32>(m.m128i_i16[0]), static_cast<F32>(m.m128i_i16[1]),
-				static_cast<F32>(m.m128i_i16[2]), static_cast<F32>(m.m128i_i16[3]),
-				static_cast<F32>(m.m128i_i16[4]), static_cast<F32>(m.m128i_i16[5]),
-				static_cast<F32>(m.m128i_i16[6]), static_cast<F32>(m.m128i_i16[7]));
+			__m256 temp = _mm256_setr_ps(static_cast<F32>(reinterpret_cast<T*>(&m)[0]), static_cast<F32>(reinterpret_cast<T*>(&m)[1]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[2]), static_cast<F32>(reinterpret_cast<T*>(&m)[3]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[4]), static_cast<F32>(reinterpret_cast<T*>(&m)[5]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[6]), static_cast<F32>(reinterpret_cast<T*>(&m)[7]));
 			temp = _mm256_or_ps(_mm256_and_ps(_mm256_set1_ps(-0.f), temp), _mm256_set1_ps(1.f));
-			return _mm_setr_epi16(static_cast<I16>(temp.m256_f32[0]), static_cast<I16>(temp.m256_f32[1]),
-				static_cast<I16>(temp.m256_f32[2]), static_cast<I16>(temp.m256_f32[3]),
-				static_cast<I16>(temp.m256_f32[4]), static_cast<I16>(temp.m256_f32[5]),
-				static_cast<I16>(temp.m256_f32[6]), static_cast<I16>(temp.m256_f32[7]));
+			return _mm_setr_epi16(static_cast<I16>(static_cast<F32*>(&temp)[0]), static_cast<I16>(static_cast<F32*>(&temp)[1]),
+				static_cast<I16>(static_cast<F32*>(&temp)[2]), static_cast<I16>(static_cast<F32*>(&temp)[3]),
+				static_cast<I16>(static_cast<F32*>(&temp)[4]), static_cast<I16>(static_cast<F32*>(&temp)[5]),
+				static_cast<I16>(static_cast<F32*>(&temp)[6]), static_cast<I16>(static_cast<F32*>(&temp)[7]));
 		}
 		else
 			return _mm_set1_epi16(1);
@@ -708,10 +657,7 @@ struct BestSIMDType<T, 8, 32, true, false, isSigned> {
 	static T horizontalAdd(const SIMDType& m) {
 		__m128i m2 = _mm_hadd_epi32(_mm256_castsi256_si128(m), _mm256_extractf128_si256(m, 1));
 		m2 = _mm_hadd_epi32(m2, m2);
-		if constexpr(isSigned)
-			return m2.m128i_i32[0] + m2.m128i_i32[1];
-		else
-			return m2.m128i_u32[0] + m2.m128i_u32[1];
+		return reinterpret_cast<T*>(&m2)[0] + reinterpret_cast<T*>(&m2)[1];
 	}
 
 	static SIMDType add(const SIMDType& m, const T i) {
@@ -725,25 +671,18 @@ struct BestSIMDType<T, 8, 32, true, false, isSigned> {
 	}
 	static SIMDType div(const SIMDType& m, const T i) {
 		__m256 temp1, temp2;
-		if constexpr (isSigned)
-			BestSIMDType<F32, 8>::set(temp1,
-				static_cast<F32>(m.m256i_i32[0]), static_cast<F32>(m.m256i_i32[1]),
-				static_cast<F32>(m.m256i_i32[2]), static_cast<F32>(m.m256i_i32[3]),
-				static_cast<F32>(m.m256i_i32[4]), static_cast<F32>(m.m256i_i32[5]),
-				static_cast<F32>(m.m256i_i32[6]), static_cast<F32>(m.m256i_i32[7]));
-		else
-			BestSIMDType<F32, 8>::set(temp1,
-				static_cast<F32>(m.m256i_u32[0]), static_cast<F32>(m.m256i_u32[1]),
-				static_cast<F32>(m.m256i_u32[2]), static_cast<F32>(m.m256i_u32[3]),
-				static_cast<F32>(m.m256i_u32[4]), static_cast<F32>(m.m256i_u32[5]),
-				static_cast<F32>(m.m256i_u32[6]), static_cast<F32>(m.m256i_u32[7]));
+		BestSIMDType<F32, 8>::set(temp1,
+			static_cast<F32>(reinterpret_cast<T*>(&&m)[0]), static_cast<F32>(reinterpret_cast<T*>(&&m)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&&m)[2]), static_cast<F32>(reinterpret_cast<T*>(&&m)[3]),
+			static_cast<F32>(reinterpret_cast<T*>(&&m)[4]), static_cast<F32>(reinterpret_cast<T*>(&&m)[5]),
+			static_cast<F32>(reinterpret_cast<T*>(&&m)[6]), static_cast<F32>(reinterpret_cast<T*>(&&m)[7]));
 		BestSIMDType<F32, 8>::set(temp2, static_cast<F32>(i));
 		temp1 = BestSIMDType<F32, 8>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m256_f32[0]), static_cast<T>(temp1.m256_f32[1]),
-			static_cast<T>(temp1.m256_f32[2]), static_cast<T>(temp1.m256_f32[3]),
-			static_cast<T>(temp1.m256_f32[4]), static_cast<T>(temp1.m256_f32[5]),
-			static_cast<T>(temp1.m256_f32[6]), static_cast<T>(temp1.m256_f32[7]));
+		set(res, static_cast<T>(static_cast<F32*>(&temp1)[0]), static_cast<T>(static_cast<F32*>(&temp1)[1]),
+			static_cast<T>(static_cast<F32*>(&temp1)[2]), static_cast<T>(static_cast<F32*>(&temp1)[3]),
+			static_cast<T>(static_cast<F32*>(&temp1)[4]), static_cast<T>(static_cast<F32*>(&temp1)[5]),
+			static_cast<T>(static_cast<F32*>(&temp1)[6]), static_cast<T>(static_cast<F32*>(&temp1)[7]));
 		return res;
 	}
 
@@ -777,38 +716,23 @@ struct BestSIMDType<T, 8, 32, true, false, isSigned> {
 	}
 	static SIMDType div(const SIMDType& m1, const SIMDType& m2) {
 		__m256 temp1, temp2;
-		if constexpr (isSigned) {
-			BestSIMDType<F32, 8>::set(temp1,
-				static_cast<F32>(m1.m256i_i32[0]), static_cast<F32>(m1.m256i_i32[1]),
-				static_cast<F32>(m1.m256i_i32[2]), static_cast<F32>(m1.m256i_i32[3]),
-				static_cast<F32>(m1.m256i_i32[4]), static_cast<F32>(m1.m256i_i32[5]),
-				static_cast<F32>(m1.m256i_i32[6]), static_cast<F32>(m1.m256i_i32[7]));
+		BestSIMDType<F32, 8>::set(temp1,
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[0]), static_cast<F32>(reinterpret_cast<T*>(&m1)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[2]), static_cast<F32>(reinterpret_cast<T*>(&m1)[3]),
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[4]), static_cast<F32>(reinterpret_cast<T*>(&m1)[5]),
+			static_cast<F32>(reinterpret_cast<T*>(&m1)[6]), static_cast<F32>(reinterpret_cast<T*>(&m1)[7]));
 
-			BestSIMDType<F32, 8>::set(temp2,
-				static_cast<F32>(m2.m256i_i32[0]), static_cast<F32>(m2.m256i_i32[1]),
-				static_cast<F32>(m2.m256i_i32[2]), static_cast<F32>(m2.m256i_i32[3]),
-				static_cast<F32>(m2.m256i_i32[4]), static_cast<F32>(m2.m256i_i32[5]),
-				static_cast<F32>(m2.m256i_i32[6]), static_cast<F32>(m2.m256i_i32[7]));
-		}
-		else {
-			BestSIMDType<F32, 8>::set(temp1,
-				static_cast<F32>(m1.m256i_u32[0]), static_cast<F32>(m1.m256i_u32[1]),
-				static_cast<F32>(m1.m256i_u32[2]), static_cast<F32>(m1.m256i_u32[3]),
-				static_cast<F32>(m1.m256i_u32[4]), static_cast<F32>(m1.m256i_u32[5]),
-				static_cast<F32>(m1.m256i_u32[6]), static_cast<F32>(m1.m256i_u32[7]));
-
-			BestSIMDType<F32, 8>::set(temp2,
-				static_cast<F32>(m2.m256i_u32[0]), static_cast<F32>(m2.m256i_u32[1]),
-				static_cast<F32>(m2.m256i_u32[2]), static_cast<F32>(m2.m256i_u32[3]),
-				static_cast<F32>(m2.m256i_u32[4]), static_cast<F32>(m2.m256i_u32[5]),
-				static_cast<F32>(m2.m256i_u32[6]), static_cast<F32>(m2.m256i_u32[7]));
-		}
+		BestSIMDType<F32, 8>::set(temp2,
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[0]), static_cast<F32>(reinterpret_cast<T*>(&m2)[1]),
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[2]), static_cast<F32>(reinterpret_cast<T*>(&m2)[3]),
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[4]), static_cast<F32>(reinterpret_cast<T*>(&m2)[5]),
+			static_cast<F32>(reinterpret_cast<T*>(&m2)[6]), static_cast<F32>(reinterpret_cast<T*>(&m2)[7]));
 		temp1 = BestSIMDType<F32, 8>::div(temp1, temp2);
 		SIMDType res;
-		set(res, static_cast<T>(temp1.m256_f32[0]), static_cast<T>(temp1.m256_f32[1]),
-			static_cast<T>(temp1.m256_f32[2]), static_cast<T>(temp1.m256_f32[3]),
-			static_cast<T>(temp1.m256_f32[4]), static_cast<T>(temp1.m256_f32[5]),
-			static_cast<T>(temp1.m256_f32[6]), static_cast<T>(temp1.m256_f32[7]));
+		set(res, static_cast<T>(static_cast<F32*>(&temp1)[0]), static_cast<T>(static_cast<F32*>(&temp1)[1]),
+			static_cast<T>(static_cast<F32*>(&temp1)[2]), static_cast<T>(static_cast<F32*>(&temp1)[3]),
+			static_cast<T>(static_cast<F32*>(&temp1)[4]), static_cast<T>(static_cast<F32*>(&temp1)[5]),
+			static_cast<T>(static_cast<F32*>(&temp1)[6]), static_cast<T>(static_cast<F32*>(&temp1)[7]));
 		return res;
 	}
 
@@ -865,15 +789,15 @@ struct BestSIMDType<T, 8, 32, true, false, isSigned> {
 
 	static SIMDType sign(const SIMDType& m) {
 		if constexpr (isSigned) {
-			__m256 temp = _mm256_setr_ps(static_cast<F32>(m.m128i_i32[0]), static_cast<F32>(m.m128i_i32[1]),
-				static_cast<F32>(m.m128i_i32[2]), static_cast<F32>(m.m128i_i32[3]),
-				static_cast<F32>(m.m128i_i32[4]), static_cast<F32>(m.m128i_i32[5]),
-				static_cast<F32>(m.m128i_i32[6]), static_cast<F32>(m.m128i_i32[7]));
+			__m256 temp = _mm256_setr_ps(static_cast<F32>(reinterpret_cast<T*>(&m)[0]), static_cast<F32>(reinterpret_cast<T*>(&m)[1]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[2]), static_cast<F32>(reinterpret_cast<T*>(&m)[3]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[4]), static_cast<F32>(reinterpret_cast<T*>(&m)[5]),
+				static_cast<F32>(reinterpret_cast<T*>(&m)[6]), static_cast<F32>(reinterpret_cast<T*>(&m)[7]));
 			temp = _mm256_or_ps(_mm256_and_ps(_mm256_set1_ps(-0.f), temp), _mm256_set1_ps(1.f));
-			return _mm_setr_epi32(static_cast<I32>(temp.m256_f32[0]), static_cast<I32>(temp.m256_f32[1]),
-				static_cast<I32>(temp.m256_f32[2]), static_cast<I32>(temp.m256_f32[3]),
-				static_cast<I32>(temp.m256_f32[4]), static_cast<I32>(temp.m256_f32[5]),
-				static_cast<I32>(temp.m256_f32[6]), static_cast<I32>(temp.m256_f32[7]));
+			return _mm_setr_epi32(static_cast<I32>(static_cast<F32*>(&temp)[0]), static_cast<I32>(static_cast<F32*>(&temp)[1]),
+				static_cast<I32>(static_cast<F32*>(&temp)[2]), static_cast<I32>(static_cast<F32*>(&temp)[3]),
+				static_cast<I32>(static_cast<F32*>(&temp)[4]), static_cast<I32>(static_cast<F32*>(&temp)[5]),
+				static_cast<I32>(static_cast<F32*>(&temp)[6]), static_cast<I32>(static_cast<F32*>(&temp)[7]));
 		}
 		else
 			return _mm_set1_epi32(1);
@@ -932,7 +856,7 @@ struct BestSIMDType<T, 8, 32, false, true, true> {
 	static T horizontalAdd(const SIMDType& m) {
 		__m128 m2 = _mm_hadd_ps(_mm256_castps256_ps128(m), _mm256_extractf128_ps(m, 1));
 		m2 = _mm_hadd_ps(m2, m2);
-		return m2.m128_f32[0] + m2.m128_f32[1];
+		return reinterpret_cast<T*>(&m2)[0] + reinterpret_cast<T*>(&m2)[1];
 	}
 
 	static __m128 fourHorizontalAdd(const SIMDType& m1, const SIMDType& m2) {

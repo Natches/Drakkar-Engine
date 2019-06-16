@@ -35,7 +35,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{2aa57f66-23ef-48b7-a476-12edefbe470f}</ProjectGuid>
     <RootNamespace>DrakWindowing</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

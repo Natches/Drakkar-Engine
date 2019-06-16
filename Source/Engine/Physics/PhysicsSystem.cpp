@@ -68,6 +68,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					boxCollider.localRotation.z,
 					boxCollider.localRotation.w)));
 		boxCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		if (!rb.isStatic) {
+			physx::PxRigidBodyExt::setMassAndUpdateInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		}
 	}
 
 	if (level.getGameObjects()[rb.GameObjectID].getComponentFlag(ComponentType<SphereCollider>::id)) {
@@ -88,6 +91,9 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 					sphereCollider.localRotation.z,
 					sphereCollider.localRotation.w)));
 		sphereCollider.shape->setFlag(physx::PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		if (!rb.isStatic) {
+			physx::PxRigidBodyExt::setMassAndUpdateInertia(*(physx::PxRigidDynamic*)rb.rigidActor, rb.mass);
+		}
 	}
 	
 	rb.rigidActor->userData = reinterpret_cast<void*>(rb.GameObjectID);
@@ -180,10 +186,10 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 }
 
 bool PhysicsSystem::Startup() {
-	physx::PxDefaultErrorCallback* gDefaultErrorCallback = new physx::PxDefaultErrorCallback();
-	physx::PxDefaultAllocator* gDefaultAllocatorCallback = new physx::PxDefaultAllocator();
+	physx::PxDefaultErrorCallback* gDefaultErrorCallback = new physx::PxDefaultErrorCallback;
+	physx::PxDefaultAllocator* gDefaultAllocatorCallback = new physx::PxDefaultAllocator;
 
-	m_pFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, *gDefaultAllocatorCallback, *gDefaultErrorCallback);
+	m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, *gDefaultAllocatorCallback, *gDefaultErrorCallback);
 	if (!m_pFoundation)
 		Logbook::Log(Logbook::EOutput::BOTH, "Physics Log","Failed to create PhysX foundation.\n");
 
@@ -204,7 +210,7 @@ bool PhysicsSystem::Startup() {
 
 	physx::PxSceneDesc desc(*m_cScale);
 	desc.filterShader = DrakFilterShader;
-	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
+	desc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	desc.broadPhaseType = physx::PxBroadPhaseType::eSAP;
 	desc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
 	m_pPhysicsScene = m_pPhysics->createScene(desc);

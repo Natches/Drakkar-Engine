@@ -118,7 +118,7 @@ Matrix4x4<T> Matrix4x4<T>::operator/(const T n) const {
 
 template<typename T>
 Matrix4x4<T>& Matrix4x4<T>::transpose() {
-	if constexpr (!std::is_same_v<Vec8<T>::SIMDType, NOT_A_TYPE>) {
+	if constexpr (!std::is_same_v<typename Vec8<T>::SIMDType, NOT_A_TYPE>) {
 		Vec8<T>::SIMDStruct::transpose(m_row12.m_simdVec, m_row34.m_simdVec);
 		return *this;
 	}
