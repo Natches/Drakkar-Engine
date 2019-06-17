@@ -58,9 +58,6 @@ public:
 			cube_SC.height = 10.f;
 			cube_SC.depth = 10.f;
 			cube_SC.material = mat;
-
-			BHVR.getCubeBehaviorContainer().emplace_back(new behavior::Cube());
-			BHVR.getCubeBehaviorContainer()[BHVR.getCubeBehaviorContainer().size() - 1]->gameObjectID = cube.getIdx();
 		}
 
 		GameObject& cameraController = scene.addGameObject();
