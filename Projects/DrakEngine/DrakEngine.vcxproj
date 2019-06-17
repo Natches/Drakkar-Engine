@@ -156,7 +156,7 @@
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries);</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)" /y /c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -188,7 +188,7 @@
       <ShowProgress>NotSet</ShowProgress>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)" /y /c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -225,7 +225,7 @@
       <ShowProgress>NotSet</ShowProgress>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)" /y /c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -263,7 +263,7 @@
       <ShowProgress>NotSet</ShowProgress>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy "$(SolutionDir)ThirdParty\PhysX-4.1\$(Platform)\$(Configuration)\*.dll" "$(OutDir)" /y /c</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

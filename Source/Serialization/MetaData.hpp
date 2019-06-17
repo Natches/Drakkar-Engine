@@ -18,15 +18,22 @@ namespace serialization {
 DK_ENUM_CLASS(EExtension, U8, BINARY, JSON, INI)
 
 template<typename T>
-struct MetaData {};
+struct MetaData {
+};
 
-template<typename T>
+DK_DATA_STRUCT
+
+DK_SET_DATA()
+DK_GET_DATA()
+
+template<typename _Ty>
 struct IFields {
+	using type = _Ty;
 	virtual const char* varName(int idx) = 0;
 	virtual int varN() = 0;
 	virtual size_t totalSizeAllVar() = 0;
-	virtual std::string getVar(T& t, const char* name) = 0;
-	virtual bool setVar(T& t, const char* name, const std::string& data) = 0;
+	virtual std::string getVar(_Ty& t, const char* name) = 0;
+	virtual bool setVar(_Ty& t, const char* name, const std::string& data) = 0;
 };
 
 template<typename T>
@@ -85,7 +92,7 @@ static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 template<typename T>
 static std::string ValueToString(const T& value) {
 	if constexpr(drak::types::IsBaseType_V<T>) {
-		if constexpr(std::is_same_v<bool, T>) {
+		if constexpr (std::is_same_v<bool, T>) {
 			if (value)
 				return std::string("true");
 			else
@@ -172,16 +179,14 @@ return !AreEqual(t1, t2);																		\
 #define DK_METADATA_FIELDS(fieldName, ...)												\
 struct fieldName : public drak::serialization::IFields<type> {							\
 private:																				\
-DK_DATA_STRUCT()																		\
-DK_SET_DATA()																			\
-DK_GET_DATA()																			\
 DK_EXPAND(DK_SERIALIZE_FIELD_TO_BINARY_FUNC(__VA_ARGS__))								\
 DK_EXPAND(DK_DESERIALIZE_BINARY_TO_FIELD_FUNC(__VA_ARGS__))								\
 DK_EXPAND(DK_SERIALIZE_FIELD_TO_JSON_FUNC(__VA_ARGS__))									\
-DK_EXPAND(DK_DESERIALIZE_JSON_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_DESERIALIZE_JSON_TO_FIELD_FUNC(__VA_ARGS__))							\
 DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI_FUNC(__VA_ARGS__))									\
-DK_EXPAND(DK_DESERIALIZE_INI_TO_FIELD_FUNC(__VA_ARGS__))								\
+DK_EXPAND(DK_DESERIALIZE_INI_TO_FIELD_FUNC(__VA_ARGS__))						\
 public:																					\
+DK_FIELD_SERIALIZATION																	\
 static constexpr char* FieldName{ #fieldName };											\
 DK_EXPAND(DK_NAME_ARRAY(__VA_ARGS__))													\
 DK_EXPAND(DK_MEMBER_TUPLE(__VA_ARGS__))													\
@@ -191,7 +196,6 @@ DK_EXPAND(DK_GET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_SET_BY_NAME(__VA_ARGS__))													\
 DK_EXPAND(DK_GET_SIZE_BY_NAME(__VA_ARGS__))												\
 DK_EXPAND(DK_GET_TYPENAME_BY_NAME(__VA_ARGS__))											\
-DK_FIELD_SERIALIZATION																	\
 static constexpr int s_varN = DK_ARGS_N(__VA_ARGS__);									\
 virtual const char* varName(int idx)override{											\
 	return s_varName[idx];																\

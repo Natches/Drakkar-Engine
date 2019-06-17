@@ -11,7 +11,7 @@ for (int i = 0; i < x; ++i)		\
   sstr << "\t";
 
 
-#define DK_DATA_STRUCT()																		\
+#define DK_DATA_STRUCT																			\
 template<typename T>																			\
 struct BaseType {																				\
 	static void DeserializeBinary(T& t, std::stringstream& sstr) {								\
@@ -271,6 +271,7 @@ struct ComplexType<Type*> {																		\
 };
 
 #define DK_SET_DATA()																			\
+namespace utils {\
 template<typename T>																			\
 static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr) {				\
 	t.clear();																					\
@@ -446,9 +447,11 @@ static void DeserializeINI(T& t, std::stringstream& sstr) {										\
 	else if constexpr (std::is_same_v<T, std::string>) {										\
 		sstr >> t;																				\
 	}																							\
+}\
 }
 
 #define DK_GET_DATA()															\
+namespace utils {\
 static std::string SerializeStringToBinary(const std::string& s) {				\
 	size_t size = s.size();														\
 	std::string temp = s;														\
@@ -465,7 +468,7 @@ static std::string SerializeVectorToBinary(const T& t) {						\
 	data.reserve(t.size() + sizeof(size_t));									\
 	data.insert(0, (char*)&size, sizeof(size_t));								\
 	for(auto& x : t)															\
-		data.append(SerializeToBinary<TYPEOF(x)>(x));							\
+		data.append(utils::SerializeToBinary<TYPEOF(x)>(x));							\
 	return data;																\
 }																				\
 template<typename T>															\
@@ -649,6 +652,7 @@ static std::string SerializeToINI(const T& t) {									\
 	}																			\
 	else																		\
 		return "";																\
+}\
 }
 
 #define DK_FIELD_SERIALIZATION																	\
@@ -764,7 +768,7 @@ DK_EXPAND(DK_CONCAT(DK_DESERIALIZE_BINARY_TO_FIELD, DK_ARGS_N(__VA_ARGS__))(__VA
 }
 
 #define DK_DESERIALIZE_BINARY_TO_FIELD_IMPL(ty)	\
-DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);
+utils::DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);
 
 #define DK_DESERIALIZE_BINARY_TO_FIELD0
 #define DK_DESERIALIZE_BINARY_TO_FIELD1(ty)					\
@@ -903,7 +907,7 @@ DK_EXPAND(DK_CONCAT(DK_SERIALIZE_FIELD_TO_BINARY_IMPL, DK_ARGS_N(__VA_ARGS__))(_
 }
 
 #define DK_SERIALIZE_FIELD_TO_BINARY_IMPL(ty)				\
-data.append(SerializeToBinary<TYPEOF(t.ty)>(t.ty));
+data.append(utils::SerializeToBinary<TYPEOF(t.ty)>(t.ty));
 
 #define DK_SERIALIZE_FIELD_TO_BINARY_IMPL0
 
@@ -1052,7 +1056,7 @@ return str;																				\
 for(int i = 0; i < indent; ++i)						\
 		str += '\t';								\
 str += "\""#ty"\": ";								\
-str += SerializeToJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + ",\n";	\
+str += utils::SerializeToJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + ",\n";	\
 
 #define DK_SERIALIZE_FIELD_TO_JSON0
 
@@ -1060,7 +1064,7 @@ str += SerializeToJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + ",\n";	\
 for(int i = 0; i < indent; ++i)				\
 		str += '\t';						\
 str += "\""#ty"\": ";						\
-str += SerializeToJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + '\n';
+str += utils::SerializeToJSON<TYPEOF(t.ty)>(t.ty, indent + 1) + '\n';
 
 #define DK_SERIALIZE_FIELD_TO_JSON2(t, ...)\
 DK_SERIALIZE_FIELD_TO_JSON_IMPL(t)	\
@@ -1188,7 +1192,7 @@ DK_EXPAND(DK_SERIALIZE_FIELD_TO_JSON31(__VA_ARGS__))
 
 #define DK_DESERIALIZE_JSON_TO_FIELD_IMPL(ty)					\
 if(name == std::string(#ty))						\
-	DeserializeJSON(t.ty, sstr);						\
+	utils::DeserializeJSON(t.ty, sstr);						\
 else
 
 #define DK_DESERIALIZE_JSON_TO_FIELD0	\
@@ -1336,7 +1340,7 @@ if constexpr (drak::types::IsBaseType_V<TYPEOF(t.ty)> ||				\
 std::is_same_v<TYPEOF(t.ty), std::string>){								\
 	atLeastOne = true;													\
 	str += #ty"=";														\
-	str += SerializeToINI<TYPEOF(t.ty)>(t.ty) + "\n";							\
+	str += utils::SerializeToINI<TYPEOF(t.ty)>(t.ty) + "\n";							\
 }
 #define DK_SERIALIZE_FIELD_TO_INI0	\
 if(!atLeastOne)				\
@@ -1473,7 +1477,7 @@ DK_EXPAND(DK_SERIALIZE_FIELD_TO_INI31(__VA_ARGS__))
 #define DK_DESERIALIZE_INI_TO_FIELD_IMPL(ty)										\
 if(name == std::string(#ty)){														\
 	sstr.seekg(std::streamoff(-((int)(str.size()) - postEqual)), std::ios::cur);	\
-	DeserializeINI(t.ty, sstr);														\
+	utils::DeserializeINI(t.ty, sstr);														\
 }																					\
 else
 

@@ -705,7 +705,7 @@ DK_EXPAND(DK_TYPE_NAME31(__VA_ARGS__))
 
 #define DK_GET_DATA_IMPL(ty)	\
 if (!strcmp(str, #ty))			\
-return SerializeToBinary<TYPEOF(t.ty)>(t.ty);
+return utils::SerializeToBinary<TYPEOF(t.ty)>(t.ty);
 
 #define DK_GET_DATA0 return std::string("");
 #define DK_GET_DATA1(ty)\
@@ -839,7 +839,7 @@ DK_EXPAND(DK_GET_DATA31(__VA_ARGS__))
 #define DK_SET_DATA_IMPL(ty)									\
 if (!strcmp(name, #ty)) {										\
 std::stringstream sstr(data);									\
-DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);					\
+utils::DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);					\
 return true;													\
 }
 

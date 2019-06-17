@@ -142,7 +142,10 @@
       <Command>mkdir "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
 mkdir "$(ProjectDir)Resources"
 xcopy /s /e /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
-xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
+xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
+del "$(OutDir)*.lib"
+del "$(OutDir)*.pdb"
+del "$(OutDir)*.ilk"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -174,7 +177,10 @@ xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
       <Command>mkdir "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
 mkdir "$(ProjectDir)Resources"
 xcopy /s /e /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
-xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
+xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
+del "$(OutDir)*.lib"
+del "$(OutDir)*.pdb"
+del "$(OutDir)*.ilk"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -211,7 +217,10 @@ xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
       <Command>mkdir "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
 mkdir "$(ProjectDir)Resources"
 xcopy /s /e /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
-xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
+xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
+del "$(OutDir)*.lib"
+del "$(OutDir)*.pdb"
+del "$(OutDir)*.ilk"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -247,7 +256,10 @@ xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
       <Command>mkdir "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
 mkdir "$(ProjectDir)Resources"
 xcopy /s /e /y "$(SolutionDir)Resources" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\Resources"
-xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
+xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
+del "$(OutDir)*.lib"
+del "$(OutDir)*.pdb"
+del "$(OutDir)*.ilk"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
