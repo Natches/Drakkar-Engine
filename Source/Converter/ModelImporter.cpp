@@ -54,7 +54,8 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 	m_textureToLoadLater.clear();
 	const aiScene* pScene = m_pImporter->ReadFile(
 		filename,
-		aiProcess_JoinIdenticalVertices |
+		aiProcess_JoinIdenticalVertices | 
+		aiProcess_LimitBoneWeights |
 		aiProcess_Triangulate |
 		aiProcess_SortByPType |
 		aiProcess_RemoveRedundantMaterials |
@@ -62,7 +63,7 @@ bool ModelImporter::startImport(const std::string& filename, bool optimizeMesh, 
 		(optimizeMesh ? aiProcess_OptimizeMeshes |
 			aiProcess_OptimizeGraph |
 			aiProcess_ImproveCacheLocality | aiProcess_FindInstances |
-			aiProcess_Debone | aiProcess_FixInfacingNormals | aiProcess_FindInvalidData : 0) |
+			aiProcess_FixInfacingNormals | aiProcess_FindInvalidData : 0) |
 			(leftHanded ? aiProcess_ConvertToLeftHanded : 0));
 	if (pScene) {
 		m_pScene = pScene;
@@ -257,15 +258,24 @@ void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMes
 		outSkMesh.vertices[i] = skelVert;
 	}
 
+	std::vector<std::vector<std::pair<U32, float>>> weights(inMesh->mNumVertices);
+
+	weights.resize(inMesh->mNumVertices);
+
 	for (U32 size = inMesh->mNumBones, i = 0; i < size; ++i) {
 		aiBone* bone = inMesh->mBones[i];
 		for (U32 i2 = 0, size2 = bone->mNumWeights; i2 < size2; ++i2) {
 			aiVertexWeight weight = bone->mWeights[i2];
-			unsigned int vertexStart = weight.mVertexId * 4;
-			for (int k = 0; k < 4; k++) {
-				outSkMesh.vertices[weight.mVertexId].boneId.m_vec[k] = i;
-				outSkMesh.vertices[weight.mVertexId].weight.m_vec[k] = weight.mWeight;
-			}
+			weights[weight.mVertexId].emplace_back(std::make_pair(i, weight.mWeight));
+		}
+	}
+
+	for (U32 idx = 0, size = outSkMesh.vertices.size(); idx < size; ++idx) {
+		auto& vertex = outSkMesh.vertices[idx];
+		const auto& weight = weights[idx];
+		for (int j = 0, size2 = weight.size(); j < size2; ++j) {
+			vertex.weight.m_vec[j] = weight[j].second;
+			vertex.boneId.m_vec[j] = weight[j].first;
 		}
 	}
 }

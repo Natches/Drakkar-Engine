@@ -42,7 +42,7 @@ void SkinnedMeshManager::load(const std::string& filename, std::vector<SkinnedMe
 						skeleton.m_boneList[idx].joint.rot.m_scalar = 1.f;
 					skeleton.m_boneList[idx].offsetMatrix = skMesh.skeleton.bones[idx].offsetMatrix;
 					skeleton.m_boneList[idx].name = bone2;
-					skeleton.m_boneList[i].children.emplace_back(skeleton.m_boneList[idx]);
+					skeleton.m_boneList[i].children.emplace_back(skeleton.m_boneList[idx].name);
 				}
 				++i;
 			}

@@ -10,17 +10,18 @@ Animator::Animator() : m_time(0.f), m_frame(0) {
 
 void Animator::advance(const F32 deltaTime, const components::Animator& animator,
 	const Skeleton& skeleton) {
-	/*m_time += deltaTime * animator.speed;
+	m_time += deltaTime * animator.speed;
 	const Animation* anim = skeleton.animationByName(animator.animation());
 	if (anim) {
 		if (animator.dirty())
 			m_timeBetweenTwoFrame = (F32)anim->frameCount() / anim->animationDuration();
+		m_normalizedTime = m_time / m_timeBetweenTwoFrame;
 		while (m_time > m_timeBetweenTwoFrame) {
 			m_time -= m_timeBetweenTwoFrame;
 			++m_frame;
 		}
 		m_frame %= anim->frameCount();
-	}*/
+	}
 }
 
 std::vector<math::Mat4f> Animator::frameMatricies(const std::string& animation, const Skeleton& skeleton) {
@@ -43,16 +44,18 @@ void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformatio
 	if (animation->frames()[m_frame + 1 == animation->frameCount() ? 0 : m_frame + 1].jointByName(b.name, j2) != DK_OK)
 		skeleton.jointByName(b.name, j2);
 
-	//j1 = interpolateJoints(j1, j2, m_time);
+	//j1 = interpolateJoints(j1, j2, m_normalizedTime);
 
 	math::Mat4f Global = parentTransform * (math::Translate(j1.pos) * j1.rot.matrix());
 
 	U32 temp;
 	skeleton.idxByName(b.name, temp);
-	transformation[temp] = (Global * b.offsetMatrix);
+	transformation[temp] = (Global * b.offsetMatrix).transpose();
 
-	for (auto& child : b.children)
-		buildGlobalTransformation(transformation, child, animation, Global, skeleton);
+	for (auto& child : b.children) {
+		skeleton.idxByName(child, temp);
+		buildGlobalTransformation(transformation, skeleton.bone(temp), animation, Global, skeleton);
+	}
 }
 
 Joint Animator::interpolateJoints(const Joint& j1, const Joint& j2, const F32 time) {

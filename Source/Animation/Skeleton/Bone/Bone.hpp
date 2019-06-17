@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <Animation/Skeleton/Bone/Joint.hpp>
 
@@ -8,7 +9,7 @@ namespace animation {
 
 struct Bone final {
 	std::string name;
-	std::vector<Bone> children;
+	std::vector<std::string> children;
 	Joint joint;
 	math::Mat4f offsetMatrix;
 };

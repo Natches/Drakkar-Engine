@@ -28,6 +28,7 @@ private:
 
 private:
 	F32 m_time;
+	F32 m_normalizedTime;
 	F32 m_timeBetweenTwoFrame;
 	U32 m_frame;
 };

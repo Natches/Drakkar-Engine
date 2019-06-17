@@ -929,7 +929,9 @@ Vec4f Lerp(const Vec4f& start, const Vec4f& end, F32 percent) {
 }
 
 Vec4f SLerp(const Vec4f& start, const Vec4f& end, F32 percent) {
-	F32 dot = Dot(Normalize(start), Normalize(end));
+	auto startNormalized = Normalize(start).x == std::numeric_limits<F32>::quiet_NaN() ? Vec4f() : Normalize(start);
+	auto endNormalized = Normalize(end).x == std::numeric_limits<F32>::quiet_NaN() ? Vec4f() : Normalize(end);
+	F32 dot = Dot(startNormalized, endNormalized);
 	F32 theta = acos(dot) * percent;
 	return Vec4f(start * cos(theta) + (Direction(start, end) * dot).normalize() * sin(theta));
 }
