@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <vector>
 #include <Animation/Skeleton/Bone/Bone.hpp>
 
 namespace drak {
@@ -16,7 +17,8 @@ public:
 	Skeleton& operator=(const Skeleton& skTon);
 	Skeleton& operator=(Skeleton&& skTon);
 
-	DK_GETTER_REF_C(Bone, base, m_boneList[0])
+	DK_GETTER_REF_C(Bone, root, m_boneList[0])
+	DK_GETTER_REF_C(std::vector<math::Mat4f>, bindPose, m_bindPose)
 	DK_GETTER_C(math::Mat4f, invGlobal, m_invGlobalPos)
 	DK_GETTER_C(U32, boneCount, (U32)m_boneList.size())
 
@@ -26,7 +28,11 @@ public:
 	const Animation* animationByName(const std::string& name) const;
 
 private:
+	void ComputeBindPose(const Bone& bone, math::Mat4f& global = math::Identity<F32>());
+
+private:
 	std::vector<Bone> m_boneList;
+	std::vector<math::Mat4f> m_bindPose;
 	std::map<std::string, U32> m_handleList;
 	std::map<std::string, Animation> m_animList;
 	math::Mat4f m_invGlobalPos;

@@ -57,7 +57,8 @@ void RenderSystem::forwardRender(Scene& scene) {
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	for (auto& model : scene.models) {
-		if (scene.resourceManager.loadOrGet<Model>(model.name)->resource().isSkinned())
+		const gfx::Model& mdl = scene.resourceManager.loadOrGet<Model>(model.name)->resource();
+		if (mdl.isSkinned())
 			continue;
 
 		pXform	= scene.gameObjects[model.GameObjectID].getComponent<Transform>();
@@ -67,7 +68,6 @@ void RenderSystem::forwardRender(Scene& scene) {
 			quat.matrix() *
 			Scale(pXform->getGlobalScale());
 
-		auto& mdl = scene.resourceManager.loadOrGet<Model>(model.name)->resource();
 		auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
 
 		pShader->uniform("model",			modelMx);
@@ -203,32 +203,36 @@ void RenderSystem::renderSkinnedMeshes(Scene& scene) {
 	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::FILL);
 	pShader->uniform("lightColor", { 1.f, 1.f, 1.f });
 	U32 i = 0;
-	for (auto& animator : scene.animationScene.animators()) {
-		const Model& mdl =
-			scene.resourceManager.loadOrGet<Model>(scene.gameObjects[animator.GameObjectID].getComponent<components::Model>()->name)->resource();
-		if (m_buffers.find(mdl.meshName) == m_buffers.end()) {
-			m_buffers[mdl.meshName].create(scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f), (void*)scene.animationScene.matricies()[i].data());
+	for (auto& model : scene.models) {
+		const gfx::Model& mdl = scene.resourceManager.loadOrGet<Model>(model.name)->resource();
+		if (mdl.isSkinned()) {
+			Animator* animator = scene.gameObjects[model.GameObjectID].getComponent<Animator>();
+			U32 matriceCount = animator ? scene.animationScene.matricies()[i].size() : scene.resourceManager.loadOrGet<geom::SkinnedMesh>(model.name)->resource().skeleton().boneCount();
+			const std::vector<math::Mat4f>& matricies = animator ? scene.animationScene.matricies()[i] : scene.resourceManager.loadOrGet<geom::SkinnedMesh>(model.name)->resource().skeleton().bindPose();
+			if (m_buffers.find(mdl.meshName) == m_buffers.end()) {
+				m_buffers[mdl.meshName].create(matriceCount * sizeof(math::Mat4f), (void*)matricies.data());
+			}
+			m_buffers[mdl.meshName].bind();
+			m_buffers[mdl.meshName].write(0, matriceCount * sizeof(math::Mat4f),
+				(void*)matricies.data());
+
+			pXform = scene.gameObjects[model.GameObjectID].getComponent<Transform>();
+			quat = pXform->getGlobalRotation();
+			modelMx =
+				Translate(pXform->getGlobalPosition()) *
+				quat.matrix() *
+				Scale(pXform->getGlobalScale());
+
+			auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
+
+			pShader->uniform("model", modelMx);
+			pShader->uniform("ambientColor", mat.ambientColor);
+			pShader->uniform("diffuseColor", mat.diffuseColor);
+			pShader->uniform("specularColor", mat.specularColor);
+			pShader->uniform("shininess", mat.shininess);
+
+			m_skinnedRenderables[mdl.meshName]->render();
 		}
-		m_buffers[mdl.meshName].bind();
-		m_buffers[mdl.meshName].write(0, scene.animationScene.matricies()[i].size() * sizeof(math::Mat4f),
-			(void*)scene.animationScene.matricies()[i].data());
-
-		pXform = scene.gameObjects[animator.GameObjectID].getComponent<Transform>();
-		quat = pXform->getGlobalRotation();
-		modelMx =
-			Translate(pXform->getGlobalPosition()) *
-			quat.matrix() *
-			Scale(pXform->getGlobalScale());
-
-		auto& mat = scene.resourceManager.loadOrGet<Material>(mdl.materialName)->resource();
-
-		pShader->uniform("model", modelMx);
-		pShader->uniform("ambientColor", mat.ambientColor);
-		pShader->uniform("diffuseColor", mat.diffuseColor);
-		pShader->uniform("specularColor", mat.specularColor);
-		pShader->uniform("shininess", mat.shininess);
-
-		m_skinnedRenderables[mdl.meshName]->render();
 	}
 }
 

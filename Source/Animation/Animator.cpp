@@ -29,7 +29,7 @@ std::vector<math::Mat4f> Animator::frameMatricies(const std::string& animation, 
 	finalMatricies.resize(skeleton.boneCount(), skeleton.invGlobal());
 	const Animation* anim = skeleton.animationByName(animation);
 	if (anim) {
-		buildGlobalTransformation(finalMatricies, skeleton.base(),
+		buildGlobalTransformation(finalMatricies, skeleton.root(),
 			anim, math::Identity<F32>(), skeleton);
 	}
 	return finalMatricies;
@@ -46,11 +46,11 @@ void Animator::buildGlobalTransformation(std::vector<math::Mat4f>& transformatio
 
 	//j1 = interpolateJoints(j1, j2, m_normalizedTime);
 
-	math::Mat4f Global = parentTransform * (math::Translate(j1.pos) * j1.rot.matrix());
+	math::Mat4f Global = parentTransform * (j1.rot.matrix() * math::Translate(j1.pos));
 
 	U32 temp;
 	skeleton.idxByName(b.name, temp);
-	transformation[temp] = (Global * b.offsetMatrix).transpose();
+	transformation[temp] = Transpose(skeleton.invGlobal() * Global * b.offsetMatrix);
 
 	for (auto& child : b.children) {
 		skeleton.idxByName(child, temp);

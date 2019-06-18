@@ -22,7 +22,7 @@ public:
 	virtual void build(LevelSystem& scene) override
 	{
 		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkrsrc"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider_ASCII.dkrsrc"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider_ASCII.fbx"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -41,7 +41,7 @@ public:
 			Transform& cube_TR = *cube.getComponent<Transform>();
 			RigidBody& cube_RB = cube.addComponent<RigidBody>();
 			drak::components::Model& cube_MDL = cube.addComponent<drak::components::Model>();
-			drak::components::Animator& cube_anim = cube.addComponent<drak::components::Animator>();
+			//drak::components::Animator& cube_anim = cube.addComponent<drak::components::Animator>();
 			BoxCollider& cube_SC = cube.addComponent<BoxCollider>();
 
 			cube_TR.setGlobalPosition(Vec3f(0.f, 0.f + i * 5.f, 0.f));
@@ -51,8 +51,8 @@ public:
 			cube_RB.mass = 100.f;
 
 			cube_MDL.name = "creature/giantspider/giantspider";
-			cube_anim.animation("Take 001");
-			cube_anim.speed = 1.f;
+			//cube_anim.animation("Take 001");
+			//cube_anim.speed = 1.f;
 
 			cube_SC.width = 10.f;
 			cube_SC.height = 10.f;

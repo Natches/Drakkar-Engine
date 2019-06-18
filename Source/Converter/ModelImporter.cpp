@@ -294,7 +294,7 @@ void ModelImporter::extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSke
 				outSkeleton.handles[inMesh->mBones[i]->mName.C_Str()] = i;
 				b.name = inMesh->mBones[i]->mName.C_Str();
 				definition::Joint& j = b.joint;
-				memcpy(&b.offsetMatrix.a00, inMesh->mBones[i]->mOffsetMatrix[0], sizeof(math::Mat4f));
+				memcpy(&b.offsetMatrix.a00, inMesh->mBones[i]->mOffsetMatrix.Transpose()[0], sizeof(math::Mat4f));
 				const aiNode* node = m_pScene->mRootNode->FindNode(inMesh->mBones[i]->mName);
 				node->mTransformation.DecomposeNoScaling(quat, pos);
 				j.pos = math::Vec3f(pos.x, pos.y, pos.z);
