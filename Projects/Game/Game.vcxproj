@@ -215,7 +215,9 @@ xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.iobj"
+del "$(OutDir)*.ipdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -255,7 +257,9 @@ xcopy /s /e /y "$(SolutionDir)Resources" "$(ProjectDir)Resources"
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.iobj"
+del "$(OutDir)*.ipdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

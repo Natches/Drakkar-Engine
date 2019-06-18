@@ -134,7 +134,15 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.ipdb"
+del "$(OutDir)*.iobj"
+del "../$(OutDir)*.lib"
+del "../$(OutDir)*.pdb"
+del "../$(OutDir)*.ilk"
+del "../$(OutDir)*.exp"
+del "../$(OutDir)*.ipdb"
+del "../$(OutDir)*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
@@ -174,7 +182,15 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.ipdb"
+del "$(OutDir)*.iobj"
+del "../$(OutDir)*.lib"
+del "../$(OutDir)*.pdb"
+del "../$(OutDir)*.ilk"
+del "../$(OutDir)*.exp"
+del "../$(OutDir)*.ipdb"
+del "../$(OutDir)*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
@@ -221,7 +237,15 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.ipdb"
+del "$(OutDir)*.iobj"
+del "../$(OutDir)*.lib"
+del "../$(OutDir)*.pdb"
+del "../$(OutDir)*.ilk"
+del "../$(OutDir)*.exp"
+del "../$(OutDir)*.ipdb"
+del "../$(OutDir)*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
@@ -265,7 +289,15 @@ xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
 del "$(OutDir)*.ilk"
-del "$(OutDir)*.exp"</Command>
+del "$(OutDir)*.exp"
+del "$(OutDir)*.ipdb"
+del "$(OutDir)*.iobj"
+del "../$(OutDir)*.lib"
+del "../$(OutDir)*.pdb"
+del "../$(OutDir)*.ilk"
+del "../$(OutDir)*.exp"
+del "../$(OutDir)*.ipdb"
+del "../$(OutDir)*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
