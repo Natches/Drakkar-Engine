@@ -5,7 +5,7 @@ namespace animation {
 
 Skeleton::Skeleton(const Skeleton& skTon) : m_boneList(skTon.m_boneList), m_bindPose(skTon.m_bindPose),
 	m_handleList(skTon.m_handleList), m_animList(skTon.m_animList),
-	m_invGlobalPos(skTon.m_invGlobalPos) {
+	m_invGlobalPos(skTon.m_invGlobalPos), m_mesh(skTon.m_mesh) {
 	if (!m_bindPose.size()) {
 		m_bindPose.resize(boneCount());
 		ComputeBindPose(root());
@@ -14,7 +14,7 @@ Skeleton::Skeleton(const Skeleton& skTon) : m_boneList(skTon.m_boneList), m_bind
 
 Skeleton::Skeleton(Skeleton&& skTon) : m_boneList(std::move(skTon.m_boneList)), m_bindPose(std::move(skTon.m_bindPose)),
 	m_handleList(std::move(skTon.m_handleList)), m_animList(std::move(skTon.m_animList)),
-	m_invGlobalPos(std::move(skTon.m_invGlobalPos)) {
+	m_invGlobalPos(std::move(skTon.m_invGlobalPos)), m_mesh(std::move(skTon.m_mesh)) {
 	if (!m_bindPose.size()) {
 		m_bindPose.resize(boneCount());
 		ComputeBindPose(root());
@@ -25,6 +25,7 @@ Skeleton& Skeleton::operator=(const Skeleton& skTon) {
 	m_handleList = skTon.m_handleList;
 	m_boneList = skTon.m_boneList;
 	m_bindPose = skTon.m_bindPose;
+	m_mesh = skTon.m_mesh;
 	m_animList = skTon.m_animList;
 	m_invGlobalPos = skTon.m_invGlobalPos;
 	if (!m_bindPose.size()) {
@@ -37,6 +38,7 @@ Skeleton& Skeleton::operator=(const Skeleton& skTon) {
 Skeleton& Skeleton::operator=(Skeleton&& skTon) {
 	m_handleList = std::move(skTon.m_handleList);
 	m_boneList = std::move(skTon.m_boneList);
+	m_mesh = std::move(skTon.m_mesh);
 	m_bindPose = std::move(skTon.m_bindPose);
 	m_animList = std::move(skTon.m_animList);
 	m_invGlobalPos = std::move(skTon.m_invGlobalPos);
@@ -59,9 +61,11 @@ void Skeleton::ComputeBindPose(const Bone& b, math::Mat4f& global) {
 	idxByName(b.name, temp);
 	global = (Translate(b.joint.pos) * Matrix(b.joint.rot)) * global;
 	m_bindPose[temp] = b.offsetMatrix * global;
+	m_mesh.emplace_back((Transpose(m_bindPose[temp]) * math::Vec4f(1, 1, 1, 1)).xyz);
 	for (auto& child : b.children) {
 		idxByName(child, temp);
 		ComputeBindPose(bone(temp), global);
+		m_mesh.emplace_back((Transpose(m_bindPose[temp]) * math::Vec4f(1, 1, 1, 1)).xyz);
 	}
 }
 

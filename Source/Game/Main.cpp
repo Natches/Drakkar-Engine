@@ -22,7 +22,7 @@ public:
 	virtual void build(LevelSystem& scene) override
 	{
 		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkrsrc"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider_ASCII.fbx"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider.dkrsrc"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -50,7 +50,7 @@ public:
 
 			cube_RB.mass = 100.f;
 
-			cube_MDL.name = "creature/giantspider/giantspider";
+			cube_MDL.name = "creature/eredar/eredar";
 			//cube_anim.animation("Take 001");
 			//cube_anim.speed = 1.f;
 

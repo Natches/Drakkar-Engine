@@ -13,13 +13,16 @@ GLVertexArray::~GLVertexArray() {
 		glDeleteVertexArrays(1, &m_glID);
 }
 
-void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO) {
+void GLVertexArray::create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO, GLenum prim) {
 	if (pVBO == nullptr)
 		return;
 
 	m_pVBO = pVBO;
 	m_pIBO = pIBO;
-	m_prim = GL_TRIANGLES;
+	m_prim = prim;
+
+	if (pVBO)
+		m_vertexCount = pVBO->vertexCount();
 
 	glCreateVertexArrays(1, &m_glID);
 	glVertexArrayVertexBuffer(

@@ -177,15 +177,26 @@ void RenderSystem::convertModelToRenderable(const std::vector<components::Model>
 				}
 				else {
 					SkinnedMeshPtr& mesh = manager.loadOrGet<geom::SkinnedMesh>(model.name);
-					gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
-					vertBuffer->create(mesh->resource().vertices().data(), geom::g_SkinnedVertexAttribDesc, 5,
-						(U32)mesh->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV1B1W)));
-					gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
-					indexBuffer->create(mesh->resource().indices().data(),
-						(U32)mesh->resource().indices().size());
-					gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
-					vertexArray->create(vertBuffer, indexBuffer);
-					m_skinnedRenderables[model.name] = vertexArray;
+					{
+						gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
+						vertBuffer->create(mesh->resource().vertices().data(), geom::g_SkinnedVertexAttribDesc, 5,
+							(U32)mesh->resource().vertices().size(), (U32)(sizeof(geom::Vertex1P1N1UV1B1W)));
+						gl::GLIndexBuffer* indexBuffer = new gl::GLIndexBuffer();
+						indexBuffer->create(mesh->resource().indices().data(),
+							(U32)mesh->resource().indices().size());
+						gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
+						vertexArray->create(vertBuffer, indexBuffer);
+						m_skinnedRenderables[model.name] = vertexArray;
+					}
+					{
+						const std::vector<geom::Vertex1P>& boneMesh = mesh->resource().skeleton().mesh();
+						gl::GLVertexBuffer* vertBuffer = new gl::GLVertexBuffer();
+						vertBuffer->create(boneMesh.data(), geom::g_Vertex1PAttribDesc, 1,
+							boneMesh.size(), (U32)(sizeof(geom::Vertex1P)));
+						gl::GLVertexArray* vertexArray = new gl::GLVertexArray();
+						vertexArray->create(vertBuffer, nullptr, GL_LINES);
+						m_skeleton[model.name] = vertexArray;
+					}
 				}
 			}
 		}
@@ -232,6 +243,18 @@ void RenderSystem::renderSkinnedMeshes(Scene& scene) {
 			pShader->uniform("shininess", mat.shininess);
 
 			m_skinnedRenderables[mdl.meshName]->render();
+
+			IShader* pShader = m_shaderManager.get("DefaultShader")->resource();
+			pShader->use();
+			pShader->uniform("viewPrsp", m_mainCam.viewPerspective());
+
+			pShader->uniform("model", modelMx);
+			pShader->uniform("ambientColor", mat.ambientColor);
+			pShader->uniform("diffuseColor", mat.diffuseColor);
+			pShader->uniform("specularColor", mat.specularColor);
+			pShader->uniform("shininess", mat.shininess);
+
+			m_skeleton[mdl.meshName]->render();
 		}
 	}
 }

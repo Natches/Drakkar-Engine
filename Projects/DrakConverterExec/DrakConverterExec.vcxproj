@@ -231,8 +231,7 @@ del "../$(OutDir)*.iobj"</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\dynamic;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
 xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
@@ -240,12 +239,12 @@ del "$(OutDir)*.ilk"
 del "$(OutDir)*.exp"
 del "$(OutDir)*.ipdb"
 del "$(OutDir)*.iobj"
-del "../$(OutDir)*.lib"
-del "../$(OutDir)*.pdb"
-del "../$(OutDir)*.ilk"
-del "../$(OutDir)*.exp"
-del "../$(OutDir)*.ipdb"
-del "../$(OutDir)*.iobj"</Command>
+del "$(OutDir)../*.lib"
+del "$(OutDir)../*.pdb"
+del "$(OutDir)../*.ilk"
+del "$(OutDir)../*.exp"
+del "$(OutDir)../*.ipdb"
+del "$(OutDir)../*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>
@@ -283,8 +282,7 @@ del "../$(OutDir)*.iobj"</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\assimp-4.1.0\lib\$(Platform)\$(Configuration);$(SolutionDir)ThirdParty\zlib-1.2.11\lib\$(Platform)\$(Configuration)\dynamic;</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)ThirdParty\VLD\bin\$(Platform)" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable" 
-xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
+      <Command>xcopy /y "$(SolutionDir)ThirdParty\assimp-4.1.0\bin\$(Platform)\$(Configuration)\assimp-vc140-mt.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
 xcopy /y "$(SolutionDir)ThirdParty\zlib-1.2.11\bin\$(Platform)\$(Configuration)\zlib.dll" "$(SolutionDir)Binaries\$(Configuration)\$(Platform)\ConverterExecutable"
 del "$(OutDir)*.lib"
 del "$(OutDir)*.pdb"
@@ -292,12 +290,12 @@ del "$(OutDir)*.ilk"
 del "$(OutDir)*.exp"
 del "$(OutDir)*.ipdb"
 del "$(OutDir)*.iobj"
-del "../$(OutDir)*.lib"
-del "../$(OutDir)*.pdb"
-del "../$(OutDir)*.ilk"
-del "../$(OutDir)*.exp"
-del "../$(OutDir)*.ipdb"
-del "../$(OutDir)*.iobj"</Command>
+del "$(OutDir)../*.lib"
+del "$(OutDir)../*.pdb"
+del "$(OutDir)../*.ilk"
+del "$(OutDir)../*.exp"
+del "$(OutDir)../*.ipdb"
+del "$(OutDir)../*.iobj"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>zlib.lib;DrakAPI.lib;assimp-vc140-mt.lib;DrakCore.lib;DrakSerialization.lib;DrakThreading.lib;</AdditionalDependencies>

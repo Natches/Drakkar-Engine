@@ -19,7 +19,7 @@ public:
 	GLVertexArray() = default;
 	~GLVertexArray();
 
-	void create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO);
+	void create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO, GLenum prim = GL_TRIANGLES);
 	void render() override;
 
 	bool			m_instanced = false;

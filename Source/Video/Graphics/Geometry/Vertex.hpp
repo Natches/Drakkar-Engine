@@ -54,6 +54,10 @@ struct VertexAttribDesc {
 	bool				normalized;
 };
 
+const VertexAttribDesc g_Vertex1PAttribDesc[3] = {
+	{ VERT_ATTR_POS,	FLOAT, 3u, false },
+};
+
 const VertexAttribDesc g_VertexAttribDesc[3] = {
 	{ VERT_ATTR_POS,	FLOAT, 3u, false },
 	{ VERT_ATTR_NORMAL, FLOAT, 3u, false },

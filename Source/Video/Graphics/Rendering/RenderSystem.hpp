@@ -61,6 +61,7 @@ private:
 
 	std::map<std::string, IRenderable*> m_renderables;
 	std::map<std::string, IRenderable*> m_skinnedRenderables;
+	std::map<std::string, IRenderable*> m_skeleton;
 	std::map<std::string, gl::GLStorageBuffer> m_buffers;
 	std::map<std::string, gl::GLTexture> m_textures;
 
