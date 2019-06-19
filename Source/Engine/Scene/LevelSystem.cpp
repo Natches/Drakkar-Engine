@@ -57,7 +57,7 @@ void LevelSystem::loadScene(const char* name) {
 	}
 	m_resourceManager->startup();
 }
-#undef _INIT_COMPONENTS_OF_TYPE(type)
+#undef _INIT_COMPONENTS_OF_TYPE
 
 void LevelSystem::loadScene(IManualSceneBlueprint& sceneBluePrint) {
 	sceneBluePrint.build(*this);
@@ -93,7 +93,7 @@ void LevelSystem::moveChildren(const Transform& parentTransform, const std::vect
 }
 
 void drak::LevelSystem::propagateMovementFromRoots() {
-	for (I32 i = 0; i < m_rootIdxs.size(); ++i) {
+	for (I32 i = 0, size = (I32)m_rootIdxs.size(); i < size; ++i) {
 		moveChildren(*m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
 	}
 }
@@ -114,7 +114,7 @@ void LevelSystem::shutdown() {
 }
 
 
-void LevelSystem::DestroyChild(U64 idx) {
+void LevelSystem::DestroyChild(U32 idx) {
 	if (m_gameObjects.size() < idx)
 		return;
 	GameObject& target = m_gameObjects[idx];
@@ -146,7 +146,7 @@ void LevelSystem::setComponentGameObjectIDX(U32 originalIDX, U32 newIDX) {
 	GameObject& target = m_gameObjects[originalIDX];
 	if (target.getComponentFlag(components::ComponentType<components::RigidBody>::id)) {
 		target.getComponent<components::RigidBody>()->GameObjectID = newIDX;
-		target.getComponent<components::RigidBody>()->rigidActor->userData = reinterpret_cast<void*>(newIDX);
+		target.getComponent<components::RigidBody>()->rigidActor->userData = *reinterpret_cast<void**>(&newIDX);
 	}
 	if (target.getComponentFlag(components::ComponentType<components::Model>::id)) {
 		target.getComponent<components::Model>()->GameObjectID = newIDX;
@@ -162,7 +162,7 @@ void LevelSystem::setComponentGameObjectIDX(U32 originalIDX, U32 newIDX) {
 	}
 }
 
-void LevelSystem::destroyGameObject(U64 idx) {
+void LevelSystem::destroyGameObject(U32 idx) {
 	DestroyChild(idx);
 	for (U32 i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i].isMarkedForDestruction()) {

@@ -270,10 +270,10 @@ void ModelImporter::extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMes
 		}
 	}
 
-	for (U32 idx = 0, size = outSkMesh.vertices.size(); idx < size; ++idx) {
+	for (U32 idx = 0, size = static_cast<U32>(outSkMesh.vertices.size()); idx < size; ++idx) {
 		auto& vertex = outSkMesh.vertices[idx];
 		const auto& weight = weights[idx];
-		for (int j = 0, size2 = weight.size(); j < size2; ++j) {
+		for (U32 j = 0, size2 = static_cast<U32>(weight.size()); j < size2; ++j) {
 			vertex.weight.m_vec[j] = weight[j].second;
 			vertex.boneId.m_vec[j] = weight[j].first;
 		}

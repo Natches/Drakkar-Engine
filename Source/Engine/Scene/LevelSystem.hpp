@@ -95,7 +95,7 @@ class LevelSystem {
 	std::string filename;
 	ResourceSystemData m_data;
 
-	void DestroyChild(U64 idx);
+	void DestroyChild(U32 idx);
 
 	void setComponentGameObjectIDX(U32 originalIDX, U32 newIDX);
 
@@ -119,7 +119,7 @@ public:
 	}
 
 	template <typename T>
-	T& getComponentByHandle(U64 handle) {
+	T& getComponentByHandle(U32 handle) {
 		return __getComponentContainer(T)[handle];
 	}
 
@@ -133,9 +133,9 @@ public:
 		gameObject.setComponentFlag(components::ComponentType<T>::id, true);
 		__getComponentContainer(T).push_back(T());
 		T& component = __getComponentContainer(T)[__getComponentContainer(T).size() - 1];
-		static_cast<components::AComponent*>(&component)->idx = __getComponentContainer(T).size() - 1;
+		static_cast<components::AComponent*>(&component)->idx = static_cast<U32>(__getComponentContainer(T).size()) - 1;
 		static_cast<components::AComponent*>(&component)->GameObjectID = gameObject.getIdx();
-		gameObject.setHandleIDPair(components::ComponentType<T>::id, __getComponentContainer(T).size() - 1);
+		gameObject.setHandleIDPair(components::ComponentType<T>::id, static_cast<U32>(__getComponentContainer(T).size() - 1));
 		return component;
 	}
 
@@ -160,7 +160,7 @@ public:
 
 
 
-	void destroyGameObject(U64 idx);
+	void destroyGameObject(U32 idx);
 
 	DRAK_API GameObject& addGameObject();
 
