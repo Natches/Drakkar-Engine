@@ -21,7 +21,7 @@ void GLUniformBuffer::create(U64 bytes, void* pData) {
 
 	glGenBuffers(1, &m_glID);
 	glBindBuffer(GL_UNIFORM_BUFFER, m_glID);
-	glBufferData(GL_UNIFORM_BUFFER, bytes, pData, GL_DYNAMIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, (GLsizeiptr)bytes, pData, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
@@ -38,7 +38,7 @@ void GLUniformBuffer::write(U64 offset, U64 bytes, void* pData) {
 	}*/
 
 	glBindBuffer(GL_UNIFORM_BUFFER, m_glID);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, bytes, pData);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, (GLsizeiptr)bytes, pData);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 

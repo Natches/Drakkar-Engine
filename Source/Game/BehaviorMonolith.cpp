@@ -22,10 +22,10 @@ void BehaviorMonolith::save() {
 
 void drak::BehaviorMonolith::init()
 {
-	for (int i = 0; i < GET_BHVR_CONTAINER(Cube).size(); ++i) {
+	for (int i = 0, size = (I32)GET_BHVR_CONTAINER(Cube).size(); i < size; ++i) {
 		GET_BHVR_CONTAINER(Cube)[i]->init();
 	}
-	for (int i = 0; i < GET_BHVR_CONTAINER(CameraController).size(); ++i) {
+	for (int i = 0, size = (I32)GET_BHVR_CONTAINER(CameraController).size(); i < size; ++i) {
 		GET_BHVR_CONTAINER(CameraController)[i]->init();
 	}
 }

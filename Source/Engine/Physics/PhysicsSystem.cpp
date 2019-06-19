@@ -167,7 +167,7 @@ bool drak::PhysicsSystem::advance(F64 deltaTime, LevelSystem& levelSystem) {
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
 	std::vector<RigidBody>& rigidBodies = levelSystem.getComponentContainerByType<RigidBody>();
 	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
-	for (int i = 0; i < transforms.size(); ++i) {
+	for (int i = 0, size = (I32)transforms.size(); i < size; ++i) {
 		if (transforms[i].isDirty()) {
 			GameObject& gameObject = gameObjects[transforms[i].GameObjectID];
 			if (gameObject.getComponentFlag(ComponentType<RigidBody>::id)) {

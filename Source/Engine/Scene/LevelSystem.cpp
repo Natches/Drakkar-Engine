@@ -93,7 +93,7 @@ void LevelSystem::moveChildren(const Transform& parentTransform, const std::vect
 }
 
 void drak::LevelSystem::propagateMovementFromRoots() {
-	for (I32 i = 0; i < m_rootIdxs.size(); ++i) {
+	for (I32 i = 0, size = (I32)m_rootIdxs.size(); i < size; ++i) {
 		moveChildren(*m_gameObjects[m_rootIdxs[i]].getComponent<Transform>(), m_gameObjects[m_rootIdxs[i]].children());
 	}
 }
