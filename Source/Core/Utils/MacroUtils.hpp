@@ -23,5 +23,6 @@
 #define DK_USE_NAMESPACE(name) using namespace name;
 #define DK_USE(usingType, type) using usingType = type;
 #define TYPEOF(x) std::remove_cv_t<std::remove_reference_t<decltype(x)>>
+#define NAKED_TYPE(T) std::remove_cv_t<std::remove_reference_t<std::remove_pointer_t<std::remove_all_extents_t<T>>>>
 #define REMOVE_ALL_TYPE_MODIFIER(T) \
 std::remove_cv_t<std::remove_reference_t<std::remove_pointer_t<std::remove_all_extents_t<drak::types::VectorType_T<T>>>>>

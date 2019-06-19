@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace drak {
 namespace gfx {
 
@@ -17,7 +19,7 @@ public:
 	virtual void render() = 0;
 };
 
-using RenderArray = std::vector<IRenderable*>;
+using RenderQueue = std::vector<IRenderable*>;
 
 } // namespace gfx
 } // namespace drak

@@ -12,7 +12,7 @@ IniFile::~IniFile()
 {
 }
 
-bool IniFile::LoadFile(const char * name)
+bool IniFile::LoadFromFile(const char * name)
 {
 	filename = name;
 	std::ifstream fs;

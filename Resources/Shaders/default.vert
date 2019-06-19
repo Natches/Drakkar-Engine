@@ -4,8 +4,8 @@ layout(location = 0) in vec3 pos;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 uv;
 
-uniform mat4 viewPrsp;
 uniform mat4 model;
+uniform mat4 viewPrsp;
 
 out VS_OUT {
 	vec3 pos;
@@ -15,9 +15,9 @@ out VS_OUT {
 
 void main()
 {
-	vert.pos = pos;
-	vert.normal = normal;
-	vert.uv = uv;
-	
-	gl_Position = viewPrsp * model * vec4(vert.pos, 1.0f);
+	vert.pos	= vec3(model * vec4(pos, 1.0));
+	vert.normal	= normal;
+	vert.uv		= uv;
+
+	gl_Position	= viewPrsp * model * vec4(pos, 1.0);
 }

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Skeleton">
+      <UniqueIdentifier>{e7f043ab-eb5b-40ba-ac3a-d5f8e47adbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Skeleton\Bone">
+      <UniqueIdentifier>{1cd527fd-7514-4c2e-99a4-3ed85db43b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Skeleton">
+      <UniqueIdentifier>{bcf6bda8-80f2-4446-9f0d-31594578a515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component">
+      <UniqueIdentifier>{d31ee4a5-5c4c-4f59-afe5-2efe50c7f8a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\KeyFrame">
+      <UniqueIdentifier>{fcbb8695-2e1c-4361-a654-7f9ed41ca552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KeyFrame">
+      <UniqueIdentifier>{4907c141-7088-4571-908d-b26ec6da5500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{77ed2d81-f282-4d91-82ba-b88f19515056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{38044368-250b-4e1d-8466-0041db6a3cf7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Skeleton.hpp">
+      <Filter>Header Files\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Joint.hpp">
+      <Filter>Header Files\Skeleton\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Skeleton\Bone\Bone.hpp">
+      <Filter>Header Files\Skeleton\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Animation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\AnimationScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Geometry\SkinnedVertex.hpp">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Geometry\SkinnedMesh.hpp">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\KeyFrame\KeyFrame.hpp">
+      <Filter>Header Files\KeyFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Animator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Animation\Component\AnimatorComponent.hpp">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Animation\Skeleton\Skeleton.cpp">
+      <Filter>Source Files\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\KeyFrame\KeyFrame.cpp">
+      <Filter>Source Files\KeyFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Geometry\SkinnedMesh.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Animation\AnimationScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

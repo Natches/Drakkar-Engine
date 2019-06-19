@@ -1,0 +1,8 @@
+#pragma once
+
+#include <Math/Vec2.fwd>
+#include <Math/Vec3.fwd>
+#include <Math/Vec4.fwd>
+#include <Math/Vec8.fwd>
+#include <Math/Matrix4x4.fwd>
+#include <Math/Quaternion.fwd>

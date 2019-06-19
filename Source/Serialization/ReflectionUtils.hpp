@@ -9,7 +9,7 @@ DK_EXPAND(DK_CONCAT(DK_POINT_MEMBER_IMPL, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 DK_EXPAND(DK_CONCAT(DK_SIZEOF_VA_ARGS, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
 #define DK_NAME_ARRAY(...)																\
-static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_varName =	\
+static constexpr std::array<const char* const, DK_ARGS_N(__VA_ARGS__)> s_varName =	\
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };
 
 #define DK_MEMBER_TUPLE(...)																	\
@@ -66,7 +66,7 @@ static constexpr std::array<IFields<type>*, DK_ARGS_N(__VA_ARGS__)> s_fields =		
 { DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_ARRAY, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__)) };	\
 
 #define DK_METADATA_FIELD_NAME_ARRAY(...)												\
-static constexpr std::array<constexpr const char*, DK_ARGS_N(__VA_ARGS__)> s_fieldName	\
+static constexpr std::array<const char* const, DK_ARGS_N(__VA_ARGS__)> s_fieldName	\
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };
 
 #define DK_METADATA_FIELD_STATIC_SIZE(...)	\
@@ -705,7 +705,7 @@ DK_EXPAND(DK_TYPE_NAME31(__VA_ARGS__))
 
 #define DK_GET_DATA_IMPL(ty)	\
 if (!strcmp(str, #ty))			\
-return SerializeToBinary<TYPEOF(t.ty)>(t.ty);
+return utils::SerializeToBinary<TYPEOF(t.ty)>(t.ty);
 
 #define DK_GET_DATA0 return std::string("");
 #define DK_GET_DATA1(ty)\
@@ -839,7 +839,7 @@ DK_EXPAND(DK_GET_DATA31(__VA_ARGS__))
 #define DK_SET_DATA_IMPL(ty)									\
 if (!strcmp(name, #ty)) {										\
 std::stringstream sstr(data);									\
-DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);					\
+utils::DeserializeBinary<TYPEOF(t.ty)>(t.ty, sstr);					\
 return true;													\
 }
 

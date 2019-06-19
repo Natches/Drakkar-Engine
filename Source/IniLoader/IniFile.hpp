@@ -8,7 +8,7 @@ class IniFile
 public:
 	IniFile();
 	~IniFile();
-	bool LoadFile(const char* name);
+	bool LoadFromFile(const char* name);
 	template <typename T>
 	T GetValue(const char* parameterName);
 };

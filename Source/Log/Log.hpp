@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <stdarg.h>
+#include <string>
 #include <map>
 
 /*!
@@ -19,11 +20,11 @@ struct Logbook {
 	};
 	static void CloseLogs();
 
-	static void Log(EOutput output, const char* filename, const char* message, ...);
+	static void Log(EOutput output, std::string filename, const char* message, ...);
 
 private:
-	static std::map<const char*, FILE*> logs;
-	static FILE* OpenLogFile(const char* filename);
+	static std::map<std::string, FILE*> logs;
+	static FILE* OpenLogFile(std::string filename);
 	static void CloseLogFile(FILE* file);
 };
 

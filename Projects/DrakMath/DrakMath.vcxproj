@@ -19,16 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Math\Math.fwd" />
+    <ClInclude Include="..\..\Source\Math\Math.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix4x4.hpp" />
     <ClInclude Include="..\..\Source\Math\MathUtils.hpp" />
+    <ClInclude Include="..\..\Source\Math\Matrix4x4.fwd" />
+    <ClInclude Include="..\..\Source\Math\Quaternion.hpp" />
+    <ClInclude Include="..\..\Source\Math\Quaternion.fwd" />
     <ClInclude Include="..\..\Source\Math\SIMDUtils.hpp" />
     <ClInclude Include="..\..\Source\Math\Vec2.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vec2.fwd" />
     <ClInclude Include="..\..\Source\Math\Vec3.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vec3.fwd" />
     <ClInclude Include="..\..\Source\Math\Vec4.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vec4.fwd" />
     <ClInclude Include="..\..\Source\Math\Vec8.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vec8.fwd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Math\Matrix4x4.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Source\Math\Quaternion.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -69,7 +84,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{d9be413d-e677-48aa-b0e9-6f1b91f59367}</ProjectGuid>
     <RootNamespace>DrakMath</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>DrakMath</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -77,7 +92,7 @@
     <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <UseIntelMKL>No</UseIntelMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -85,20 +100,20 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

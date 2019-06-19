@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include <Video/Graphics/Rendering/Base/IRenderable.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLVertexBuffer.hpp>
 #include <Video/Graphics/Rendering/OpenGL/GLIndexBuffer.hpp>
@@ -12,7 +10,7 @@ namespace gl {
 
 /*!
 * \class GLVertexArray
-* \ingroup DrakVideo
+* \ingroup Graphics
 * \brief
 *
 */
@@ -21,12 +19,17 @@ public:
 	GLVertexArray() = default;
 	~GLVertexArray();
 
-	void create(const GLVertexBuffer& vbo, const GLIndexBuffer& ibo);
+	void create(GLVertexBuffer* pVBO, GLIndexBuffer* pIBO);
 	void render() override;
 
+	bool			m_instanced = false;
 private:
-	GLuint	m_iboID;
-	GLsizei	m_vertCount;
+	GLVertexBuffer* m_pVBO;
+	GLIndexBuffer*	m_pIBO;
+	
+	U32				m_vertexCount;
+	GLenum			m_prim;
+
 };
 
 } // namespace gl

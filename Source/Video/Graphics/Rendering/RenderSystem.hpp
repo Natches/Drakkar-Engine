@@ -1,15 +1,16 @@
 #pragma once
 
-#include <unordered_map>
-
 #include <Core/Core.hpp>
-#include <Engine/Components/Components.h>
-#include <Video/Graphics/Rendering/Camera.hpp>
+#include <Video/Graphics/Rendering/HighLevel/Camera.hpp>
 #include <Video/Graphics/Rendering/Base/IRenderer.hpp>
-#include <Video/Graphics/Rendering/Base/IColorBuffer.hpp>
-#include <Video/Graphics/Rendering/Base/IShader.hpp>
+#include <Video/Graphics/Rendering/Base/IFrameBuffer.hpp>
+#include <Video/Graphics/Rendering/OpenGL/GLUniformBuffer.hpp>
+#include <ResourceManager/Manager/ShaderManager.hpp>
+#include <Engine/Components/ModelComponent.hpp>
 
 namespace drak {
+
+struct Scene;
 namespace gfx {
 
 /*!
@@ -18,8 +19,7 @@ namespace gfx {
 * \brief
 *
 */
-class RenderSystem final
-{
+class RenderSystem final {
 	DK_NONMOVABLE_NONCOPYABLE(RenderSystem)
 public:
 	RenderSystem() = default;
@@ -28,32 +28,48 @@ public:
 	bool startup(IRenderer* pRenderer);
 	void shutdown();
 
-	void forwardRender(
-		std::vector<components::Model>* models, 
-		std::vector<components::Transform>* xforms);
+	//DRAK_API void toggleWireframe();
+
+	void forwardRender(Scene& scene);
+	void renderGrid();
 
 	void startFrame();
 	void endFrame();
 
-private:
-	bool loadResources(const std::string& dir);
+	inline Camera& mainCamera() { return m_mainCam; }
 
+private:
+	bool loadShaders();
+	void convertModelToRenderable(const std::vector<components::Model>& models,
+		ResourceSystem& manager);
+	void renderSkinnedMeshes(Scene& scene);
 	void opaquePass();
 	void transparentPass();
 
 private:
-	Camera			m_mainCam;
+	void onKeyUp(const events::Event* pEvt);
+	void onMouseEvent(const events::Event* pEvt);
 
-	ShaderMap		m_shaderMap;
-	RenderArray		m_opaqueArr;
-	RenderArray		m_transpArr;
+private:
+	Camera				m_mainCam;
 
-	IRenderable*	m_pUnitCube;
-	IRenderable*	m_pGrid;
-	U32				m_gridTex;
-	
-	IRenderer*		m_pRenderer;
-	IColorBuffer*	m_pColorBuffer;
+	RenderQueue			m_opaqueArr;
+	RenderQueue			m_transpArr;
+
+	IRenderable*		m_pGrid;
+	gl::GLTexture		m_gridTex;
+
+	std::map<std::string, IRenderable*> m_renderables;
+	std::map<std::string, IRenderable*> m_skinnedRenderables;
+	std::map<std::string, gl::GLStorageBuffer> m_buffers;
+	std::map<std::string, gl::GLTexture> m_textures;
+
+	IRenderer*			m_pRenderer;
+	IFrameBuffer*		m_pFrame;
+
+	gl::GLUniformBuffer	 m_modelUBO;
+
+	ShaderManager		 m_shaderManager;
 };
 
 } // namespace gfx

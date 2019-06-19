@@ -20,27 +20,26 @@ public:
 	~GLRenderer() = default;
 
 public:
-	bool init() override;
-	void info() override;
+	bool init()																			override;
+	void info()																			override;
 
-	bool loadShaders(const std::string& dir, ShaderMap& outMap) override;
-	bool loadRenderables(const std::string& dir, IRenderable*& rdr) override;
+	void clear()																		override;
+	void clearColorValue		(const Color3& k)										override;
+	void clearColorValue		(const Color4& k)										override;
+	void clearDepthValue		(F32 depth)												override;
 
-	void clear() override;
-	void clearColorValue(const Color3& color) override;
-	void clearColorValue(const Color4& color) override;
-	void clearDepthValue(F32 depth) override;
+	void depthTest				(bool on, EDepthMode mode)								override;
+	void blendTest				(bool on, EBlendMode srcFactor,EBlendMode dstFactor)	override;
+	void cullTest				(bool on, ECullMode mode)								override;
+	void polygonMode			(ECullMode cull, EPolygonMode poly)						override;
+	void windingOrder			(EWindingOrder order)									override;
 
-	void depthTest(bool on, EDepthMode mode) override;
-	void blendTest(bool on, EBlendMode srcFactor,EBlendMode dstFactor) override;
-	void cullTest(bool on, ECullMode mode) override;
-	void windingOrder(EWindingOrder order) override;
+	void multisampling			(bool on)												override;
 
-	//void bindFrameBuffer() override;
-	virtual void bindWindowFrameBuffer() override;
+	void bindWindowFrameBuffer()														override;
 
 private:
-	static void errorCallback(
+	static void debugLog(
 		GLenum			source,
 		GLenum			type,
 		GLuint			id,

@@ -60,6 +60,11 @@ enum class Key : U8 {
 };
 
 struct KeyEvent : public Event {
+	enum : EventType {
+		KEY_DOWN,
+		KEY_UP
+	};
+
 	KeyEvent() = default;
 	KeyEvent(Key k, EventType t);
 
@@ -69,15 +74,9 @@ struct KeyEvent : public Event {
 class Keyboard final : public IEventDispatcher {
 	DK_NONMOVABLE_NONCOPYABLE(Keyboard)
 public:
-	enum : EventType {
-		KEY_DOWN,
-		KEY_UP
-	};
+	DRAK_API static Keyboard& Get();
 
-public:
-	static Keyboard& Get();
-
-	void addEventListener(EventType type, EventListener listener) override;
+	DRAK_API void addEventListener(EventType type, EventListener listener) override;
 	void removeEventListener(EventType type, EventListener listener) override;
 
 	DK_GETTER_REF_V(KeyEvent, event, m_evt)
@@ -86,8 +85,8 @@ protected:
 	void dispatchEvent(const Event* e) override;
 
 private:
-	Keyboard();
-	~Keyboard();
+	Keyboard()	= default;
+	~Keyboard()	= default;
 
 private:
 	std::map<EventType, std::list<EventListener>> m_listeners;
@@ -96,5 +95,5 @@ private:
 friend void video::AWindow::handleKeyEvent(const KeyEvent& e);
 };
 
-} // namespace input
+} // namespace events
 } // namespace drak

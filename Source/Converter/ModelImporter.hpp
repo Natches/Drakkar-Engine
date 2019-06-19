@@ -1,0 +1,81 @@
+#pragma once
+
+#include <string>
+#include <Converter/ResourceDefinitions.hpp>
+
+#pragma region Assimp Forward Declarations
+namespace Assimp {
+class Importer;
+} // namespace Assimp
+
+struct aiScene;
+struct aiMesh;
+struct aiBone;
+struct aiNode;
+struct aiAnimation;
+struct aiNodeAnim;
+#pragma endregion
+
+namespace drak {
+namespace tools {
+namespace importer{
+/*!
+* \class ModelImporter
+* \ingroup Tools
+* \brief
+*/
+class ModelImporter final {
+	using TexVec = std::vector<definition::Texture>;
+	using MatVec = std::vector<definition::Material>;
+	using ModelVec = std::vector<definition::Model>;
+	using MeshVec = std::vector<definition::Mesh>;
+	using SkinnedMeshVec = std::vector<definition::SkinnedMesh>;
+public:
+	ModelImporter();
+	ModelImporter(const ModelImporter& m);
+	ModelImporter(ModelImporter&& m);
+	~ModelImporter();
+
+	ModelImporter& operator=(const ModelImporter& m);
+	ModelImporter& operator=(ModelImporter&& m);
+
+	bool operator==(const ModelImporter& m);
+
+	bool startImport(const std::string& filename, bool optimizeMesh = true, bool leftHanded = false);
+
+	void importModel(ModelVec& aModels, MeshVec& aMeshes, SkinnedMeshVec& aSkMeshes,
+		MatVec& aMaterials, TexVec& aTextures, definition::ResourceName& aNames,
+		bool extractMaterialsAndTexture = true);
+
+	DK_GETTER_REF_C(std::string, filename, m_filename)
+
+private:
+	void extractMeshes(ModelVec& aOutModelVec, MeshVec& aOutMeshVec,
+		definition::ResourceName& aNames);
+	void extractSkinnedMeshes(ModelVec& aOutModelVec, SkinnedMeshVec& aOutSkMeshVec,
+		definition::ResourceName& aNames);
+	void extractMaterials(MatVec& aOutMatVec, definition::ResourceName& aNames);
+	void extractTextures(TexVec& aOutTexVec, definition::ResourceName& aNames);
+	void extractVertex(aiMesh* inMesh, definition::Mesh& outMesh);
+	void extractSkeletalVertex(aiMesh* inMesh, definition::SkinnedMesh& outSkMesh);
+	void extractSkeleton(aiMesh* inMesh, definition::Skeleton& outSkeleton);
+	void buildBoneHierarchy(aiNode* inNode, definition::Bone& b,
+		definition::Skeleton& skeleton);
+	void extractAnimation(std::map<std::string, definition::Animation>& outAnimations);
+	void extractKeyframe(aiNodeAnim* inKeyframe, std::vector<definition::Keyframe>& outKeyframe);
+
+	template<typename MeshType>
+	void AddIndices(aiMesh* inMesh, MeshType& outMesh);
+
+private:
+	Assimp::Importer*	m_pImporter;
+	const aiScene*		m_pScene;
+	std::vector<std::tuple<std::string&>> m_textureToLoadLater;
+	std::string m_filename;
+};
+
+void loadTextureFromFile(const std::string& filename, definition::Texture& aOutTexture);
+
+} // namespace importer
+} // namespace tools
+} // namespace drak

@@ -4,8 +4,6 @@
 
 #include <Windowing/Window/SDLWindow.hpp>
 
-#include <GL/glew.h>
-
 using namespace drak::events;
 
 namespace drak {
@@ -18,6 +16,8 @@ SDLWindow::SDLWindow(const WindowSettings& settings)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
 	m_pWin = SDL_CreateWindow(
 		settings.title,
@@ -25,17 +25,17 @@ SDLWindow::SDLWindow(const WindowSettings& settings)
 		SDL_WINDOWPOS_CENTERED,
 		settings.resX,
 		settings.resY,
-		winFlags
-	);
-
-	m_pEvt = new SDL_Event;
+		winFlags);
 
 	m_glContext = SDL_GL_CreateContext(static_cast<SDL_Window*>(m_pWin));
+
+	m_pEvt = new SDL_Event;
 	m_open = true;
 }
 
 SDLWindow::~SDLWindow() {
-	if (m_open) close();
+	if (m_open) 
+		close();
 }
 
 bool SDLWindow::InitSDLVideo() {
@@ -55,13 +55,25 @@ void SDLWindow::pollEvents() {
 		break;
 	case SDL_KEYDOWN:
 	case SDL_KEYUP:
-		KeyEvent e {
+		handleKeyEvent({
 			keyConvert(m_pEvt->key.keysym.sym),
-			m_pEvt->key.type == SDL_KEYDOWN ? Keyboard::KEY_DOWN : Keyboard::KEY_UP
-		};
-		handleKeyEvent(e);
+			m_pEvt->key.type == SDL_KEYDOWN ? 
+				KeyEvent::KEY_DOWN : 
+				KeyEvent::KEY_UP});
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEBUTTONUP:
+		handleMouseEvent({
+			m_pEvt->button.button == SDL_BUTTON_LEFT ?
+				MouseEvent::MOUSE_LEFT : MouseEvent::MOUSE_RIGHT,
+			m_pEvt->button.type == SDL_MOUSEBUTTONDOWN ?
+				MouseEvent::MOUSE_DOWN : MouseEvent::MOUSE_UP});
+		break;
+	case SDL_MOUSEMOTION:
+		handleMouseEvent({m_pEvt->button.x, m_pEvt->button.y, MouseEvent::MOUSE_MOVE});
 		break;
 	}
+	m_pEvt->type = SDL_FIRSTEVENT;
 }
 
 Key SDLWindow::keyConvert(int sdlKey) const {

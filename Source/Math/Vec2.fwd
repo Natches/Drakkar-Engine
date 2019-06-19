@@ -1,0 +1,20 @@
+#pragma once
+
+#include <Core/Engine/Types.hpp>
+
+namespace drak {
+namespace math {
+
+template<typename T>
+struct Vec2;
+
+using Vec2c = typename Vec2<U8>;
+using Vec2sc = typename Vec2<I8>;
+using Vec2s = typename Vec2<I16>;
+using Vec2us = typename Vec2<U16>;
+using Vec2i = typename Vec2<I32>;
+using Vec2u = typename Vec2<U32>;
+using Vec2f = typename Vec2<F32>;
+
+} // namespace math
+} // namespace drak

@@ -3,13 +3,6 @@
 namespace drak {
 namespace events {
 
-Keyboard::Keyboard() {
-
-}
-
-Keyboard::~Keyboard() {
-
-}
 
 Keyboard& Keyboard::Get() {
 	static Keyboard s_keyboard;
@@ -31,7 +24,7 @@ void Keyboard::removeEventListener(EventType type, EventListener listener) {
 void Keyboard::dispatchEvent(const Event* e) {
 	if (m_listeners.find(e->type) != m_listeners.end())
 		for (auto& l : m_listeners[e->type])
-			l->invoke();
+			l->invoke(std::move(e));
 }
 
 KeyEvent::KeyEvent(Key k, EventType t)

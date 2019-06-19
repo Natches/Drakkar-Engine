@@ -15,7 +15,6 @@
 # Build results
 [Dd]ebugPublic/
 [Rr]eleases/
-x86/
 bld/
 [Oo]bj/
 [Ll]og/
@@ -348,3 +347,28 @@ Projects/DrakSerialization/Test\.ini
 Projects/DrakSerialization/Test\.json
 
 PrecompiledHeader/
+
+Projects/DrakVideo/Resources/
+
+Projects/DrakConverter/Resources/
+
+Projects/Game/Models/
+
+Projects/Game/Shaders/
+
+Projects/Game/Textures/
+
+Projects/DrakEditor/\.qmake\.stash
+
+Projects/DrakEditor/Makefile
+
+CodeGraphData/
+Projects/DrakConverter/Resources/
+
+CodeGraphData/
+
+*.rc
+
+*.rar
+
+Projects/Game/Resources/
