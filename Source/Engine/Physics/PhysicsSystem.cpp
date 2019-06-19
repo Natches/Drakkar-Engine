@@ -96,7 +96,7 @@ void drak::PhysicsSystem::InitRigidBody(components::RigidBody& rb, components::T
 		}
 	}
 	
-	rb.rigidActor->userData = reinterpret_cast<void*>(rb.GameObjectID);
+	rb.rigidActor->userData = *reinterpret_cast<void**>(&rb.GameObjectID);
 	m_pPhysicsScene->addActor(*rb.rigidActor);
 	rb.rigidActor->setActorFlag(PxActorFlag::eDISABLE_SIMULATION, !rb.active());
 	return;
@@ -148,7 +148,7 @@ void drak::PhysicsSystem::updateComponents(LevelSystem& levelSystem) {
 	std::vector<Transform>& transforms = levelSystem.getComponentContainerByType<Transform>();
 	std::vector<GameObject>& gameObjects = levelSystem.getGameObjects();
 	for (U32 i = 0; i < nbActiveActors; ++i) {
-		U32 idx = reinterpret_cast<U32>(activeActors[i]->userData);
+		U32 idx = *reinterpret_cast<U32*>(&activeActors[i]->userData);
 		Transform& t = transforms[gameObjects[idx].getComponentIDX(ComponentType<Transform>::id)];
 		PxRigidActor& actor = *(PxRigidActor*)activeActors[i];
 		PxTransform actorTransform = actor.getGlobalPose();
@@ -275,7 +275,7 @@ bool drak::PhysicsSystem::raycast(math::Vec3f position, math::Vec3f direction, F
 	PxRaycastBuffer hit;
 	direction.normalize();
 	if (m_pPhysicsScene->raycast(PxVec3(position.x, position.y, position.z), PxVec3(direction.x, direction.y, direction.z), maxLength, hit)){
-		gameObjectID = (U32)hit.block.actor->userData;
+		gameObjectID = *reinterpret_cast<U32*>(&hit.block.actor->userData);
 		return true;
 	}
 	return false;

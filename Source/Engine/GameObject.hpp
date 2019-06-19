@@ -35,16 +35,16 @@ T* getComponent() {
 			return level->getComponentByHandle<T>(getComponentIDX(components::ComponentType<T>::id));
 	}
 
-	void setComponentFlag(I64 id, bool value) {
+	void setComponentFlag(U32 id, bool value) {
 		m_componentFlags = value ? m_componentFlags | (1LL << id) : m_componentFlags ^ (1LL << id);
 	}
-	bool getComponentFlag(I64 id) {
+	bool getComponentFlag(U32 id) {
 		return (m_componentFlags & (1LL << id)) == (1LL << id);
 	}
-	void setHandleIDPair(U64 id, U64 handle) {
+	void setHandleIDPair(U32 id, U32 handle) {
 		m_componentHandles.insert(std::make_pair(id, handle));
 	}
-	inline U64 getComponentIDX(U64 id) {
+	inline U32 getComponentIDX(U32 id) {
 		if (getComponentFlag(id))
 			return m_componentHandles[id];
 		return -1;
@@ -65,20 +65,20 @@ T* getComponent() {
 	inline LevelSystem* getLevel() {
 		return level;
 	}
-	std::map<U64, U64>& getComponentHandles() {
+	std::map<U32, U32>& getComponentHandles() {
 		return m_componentHandles;
 	}
 	DRAK_API void makeRoot();
 	DRAK_API void setParent(const I32 pIDX);
 	inline void setParentIndex(const I32 pIDX) { parentIDX = pIDX; }
 	inline const I32 getParent() { return parentIDX; }
-	U64 componentCount;
+	U32 componentCount;
 	std::string name;
 	inline void markForDestruction() { m_markedForDestrution = true; }
 	inline bool isMarkedForDestruction() { return m_markedForDestrution; }
 private:
 	bool m_markedForDestrution = false;
-	std::map<U64, U64> m_componentHandles;
+	std::map<U32, U32> m_componentHandles;
 	U64 m_componentFlags = 0;
 	LevelSystem* level;
 	std::vector<U32> childrenIDXs;

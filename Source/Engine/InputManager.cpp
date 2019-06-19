@@ -22,6 +22,7 @@ bool drak::InputManager::mouseButtonDown(events::MouseEvent::MouseButton button)
 		return drak::InputManager::get()->m_mouseRightButtonSate;
 		break;
 	}
+	return false;
 }
 
 drak::math::Vec2i drak::InputManager::mousePos(){

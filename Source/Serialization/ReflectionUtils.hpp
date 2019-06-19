@@ -16,10 +16,10 @@ static constexpr std::array<const char* const, DK_ARGS_N(__VA_ARGS__)> s_varName
 static constexpr auto s_var = std::make_tuple(DK_REVERSE_VA_ARGS(DK_POINT_MEMBER(__VA_ARGS__)));
 
 #define DK_STATIC_SIZE(...)											\
-static constexpr size_t s_staticSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);
+static constexpr U32 s_staticSize = DK_SIZEOF_VA_ARGS(__VA_ARGS__);
 
 #define DK_TOTAL_SIZE(...)																				\
-static size_t ComputeTotalSize(const type& t) {															\
+static U32 ComputeTotalSize(const type& t) {															\
 	return s_staticSize + DK_EXPAND(DK_CONCAT(DK_DYNAMIC_SIZE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__));	\
 };
 
@@ -35,7 +35,7 @@ static bool set(type& t, const char* name, const std::string& data) {		\
 }
 
 #define DK_GET_SIZE_BY_NAME(...)												\
-static size_t SizeOf(const type* t, const char* str) {							\
+static U32 SizeOf(const type* t, const char* str) {							\
 	DK_EXPAND(DK_CONCAT(DK_SIZEOF_TYPE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 
@@ -70,11 +70,11 @@ static constexpr std::array<const char* const, DK_ARGS_N(__VA_ARGS__)> s_fieldNa
 { DK_REVERSE_VA_ARGS(DK_STRINGIZE_VA_ARGS(__VA_ARGS__)) };
 
 #define DK_METADATA_FIELD_STATIC_SIZE(...)	\
-static constexpr size_t s_staticSize =		\
+static constexpr U32 s_staticSize =		\
 DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_STATIC_SIZE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))
 
 #define DK_METADATA_FIELD_TOTAL_SIZE(...)														\
-static size_t ComputeTotalSize(const type& t) {													\
+static U32 ComputeTotalSize(const type& t) {													\
 return DK_EXPAND(DK_CONCAT(DK_METADATA_FIELD_TOTAL_SIZE, DK_ARGS_N(__VA_ARGS__))(__VA_ARGS__))	\
 }
 

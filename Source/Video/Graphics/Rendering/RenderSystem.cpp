@@ -79,7 +79,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		m_renderables[model.name]->render();
 	}
 
-	m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
+	/*m_pRenderer->polygonMode(ECullMode::BOTH, EPolygonMode::LINE);
 	pShader->uniform("lightColor", { 0.f, 0.f, 0.f });
 	for (auto& box : scene.hitBoxes) {
 		pXform = scene.gameObjects[box.GameObjectID].getComponent<Transform>();
@@ -98,7 +98,7 @@ void RenderSystem::forwardRender(Scene& scene) {
 		pShader->uniform("ambientColor", {0.f, 1.f, 0.f});
 
 		m_renderables["pCube1"]->render();
-	}
+	}*/
 
 	/*U32 flag = 1u << ComponentType<components::Model>::id;
 	std::vector<math::Mat4f> modelBatch;
@@ -207,7 +207,7 @@ void RenderSystem::renderSkinnedMeshes(Scene& scene) {
 		const gfx::Model& mdl = scene.resourceManager.loadOrGet<Model>(model.name)->resource();
 		if (mdl.isSkinned()) {
 			Animator* animator = scene.gameObjects[model.GameObjectID].getComponent<Animator>();
-			U32 matriceCount = animator ? scene.animationScene.matricies()[i].size() : scene.resourceManager.loadOrGet<geom::SkinnedMesh>(model.name)->resource().skeleton().boneCount();
+			U32 matriceCount = static_cast<U32>(animator ? scene.animationScene.matricies()[i].size() : scene.resourceManager.loadOrGet<geom::SkinnedMesh>(model.name)->resource().skeleton().boneCount());
 			const std::vector<math::Mat4f>& matricies = animator ? scene.animationScene.matricies()[i] : scene.resourceManager.loadOrGet<geom::SkinnedMesh>(model.name)->resource().skeleton().bindPose();
 			if (m_buffers.find(mdl.meshName) == m_buffers.end()) {
 				m_buffers[mdl.meshName].create(matriceCount * sizeof(math::Mat4f), (void*)matricies.data());
