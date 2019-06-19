@@ -31,13 +31,13 @@ struct IFields {
 	using type = _Ty;
 	virtual const char* varName(int idx) = 0;
 	virtual int varN() = 0;
-	virtual size_t totalSizeAllVar() = 0;
+	virtual U32 totalSizeAllVar() = 0;
 	virtual std::string getVar(_Ty& t, const char* name) = 0;
 	virtual bool setVar(_Ty& t, const char* name, const std::string& data) = 0;
 };
 
 template<typename T>
-static constexpr size_t SizeOfSerializedType() {
+static constexpr U32 SizeOfSerializedType() {
 	using namespace drak::types;
 	if constexpr(IsBaseType_V<T> && !std::is_pointer_v<T>)
 		return sizeof(T);
@@ -55,12 +55,12 @@ static constexpr size_t SizeOfSerializedType() {
 }
 
 template<typename T>
-static size_t SizeOfDynamiclyAllocatedType(const T& t) {
+static U32 SizeOfDynamiclyAllocatedType(const T& t) {
 	using namespace drak::types;
 	if constexpr (std::is_same_v<T, std::string>)
-		return t.size() + sizeof(size_t);
+		return static_cast<U32>(t.size() + sizeof(U32));
 	else if constexpr (IsVector_V<T>) {
-		size_t size = sizeof(size_t);
+		U32 size = sizeof(U32);
 		for (auto& x : t) {
 			size += SizeOfSerializedType<VectorType_T<T>>() +
 				SizeOfDynamiclyAllocatedType<VectorType_T<T>>(x);
@@ -74,13 +74,13 @@ static size_t SizeOfDynamiclyAllocatedType(const T& t) {
 			SizeOfDynamiclyAllocatedType<PairType_T2<T>>(t.second);
 	}
 	else if constexpr (IsMap_V<T>) {
-		size_t size = sizeof(size_t);
+		U32 size = sizeof(U32);
 		for (auto& x : t)
 			size += SizeOfDynamiclyAllocatedType(x);
 		return size;
 	}
 	else if constexpr (IsUnorderedMap_V<T>) {
-		size_t size = sizeof(size_t);
+		U32 size = sizeof(U32);
 		for (auto& x : t)
 			size += SizeOfDynamiclyAllocatedType(x);
 		return size;
@@ -203,7 +203,7 @@ virtual const char* varName(int idx)override{											\
 virtual int varN() override {															\
 	return s_varN;																		\
 };																						\
-virtual size_t totalSizeAllVar() override {												\
+virtual U32 totalSizeAllVar() override {												\
 	return s_staticSize;																\
 };																						\
 virtual std::string getVar(type& t, const char* str)override {							\

@@ -18,7 +18,7 @@ struct  ComponentType
 
 struct AComponent
 {
-	U64 idx;
+	U32 idx;
 	U32 GameObjectID;
 	virtual void deleteComponent() = 0;
 	virtual void initComponent() = 0;

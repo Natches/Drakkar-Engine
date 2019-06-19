@@ -24,7 +24,7 @@ public:
 	DK_GETTER_C(math::Mat4f, invGlobal, m_invGlobalPos)
 	DK_GETTER_C(U32, boneCount, (U32)m_boneList.size())
 
-	const Bone& bone(int idx) const { assert(idx < m_boneList.size()); return m_boneList[idx]; }
+	const Bone& bone(int idx) const { assert(idx < (I32)m_boneList.size()); return m_boneList[idx]; }
 	core::EError idxByName(const std::string& name, U32& i) const;
 	core::EError jointByName(const std::string& name, Joint& j) const;
 	const Animation* animationByName(const std::string& name) const;

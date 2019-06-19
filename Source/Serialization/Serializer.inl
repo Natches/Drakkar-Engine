@@ -391,7 +391,7 @@ core::EError Serializer::LoadFromINI(T& t, const char* path) {
 			std::stringstream ini(std::ios::in | std::ios::out);
 			ini << file.rdbuf();
 			file.close();
-			size_t it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
+			U32 it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 			if (it != std::string::npos) {
 				ini.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::INI>(t, ini);
@@ -412,7 +412,7 @@ core::EError Serializer::LoadFromINI(std::vector<T>& t, const char* path) {
 			std::stringstream ini(std::ios::in | std::ios::out);
 			ini << file.rdbuf();
 			file.close();
-			size_t it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
+			U32 it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 			if (it != std::string::npos) {
 				while (it != std::string::npos) {
 					ini.seekg(it, std::ios::beg);
@@ -480,7 +480,7 @@ core::EError Serializer::LoadFromJSON(T& t, const char* path) {
 			std::stringstream json(std::ios::in | std::ios::out);
 			json << file.rdbuf();
 			file.close();
-			size_t it = json.str().find(std::string(MetaData<T>::TypeName()) + ":");
+			U32 it = static_cast<U32>(json.str().find(std::string(MetaData<T>::TypeName()) + ":"));
 			if (it != std::string::npos) {
 				json.seekg(it, std::ios::beg);
 				MetaData<T>::Deserialize<EExtension::JSON>(t, json);
@@ -751,7 +751,7 @@ core::EError Serializer::ContainINI(const char* path, U32& count) {
 			std::stringstream ini(std::ios::in | std::ios::out);
 			ini << file.rdbuf();
 			file.close();
-			size_t it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
+			U32 it = ini.str().find((std::string("[") + MetaData<T>::TypeName()) + "]");
 			if (it != std::string::npos) {
 				while (it != std::string::npos) {
 					ini.seekg(it + 1, std::ios::beg);

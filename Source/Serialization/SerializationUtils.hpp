@@ -41,7 +41,7 @@ struct BaseType {																				\
 		StringToValue<T>(str.c_str(), t);														\
 	}																							\
 };																								\
-template<typename Type, U64 N>																\
+template<typename Type, U32 N>																\
 struct BaseType<Type[N]> {																		\
 	using T = Type[N];																			\
 	static void DeserializeBinary(T& t, std::stringstream& sstr) {								\
@@ -55,7 +55,7 @@ struct BaseType<Type[N]> {																		\
 	}																							\
 	static std::string SerializeToJSON(const T& t, int indent) {								\
 		std::string str("[\n");																	\
-		for(U64 i = 0; i < N; ++i){															\
+		for(U32 i = 0; i < N; ++i){															\
 			for(int i2 = 0; i2 < indent; ++i2)													\
 				str += '\t';																	\
 			str += BaseType<Type>::SerializeToJSON(t[i], indent + 1);							\
@@ -71,7 +71,7 @@ struct BaseType<Type[N]> {																		\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
 		std::string str;																		\
 		while (str != std::string("["))sstr >> str;												\
-		for(U64 i = 0; i < N; ++i) {															\
+		for(U32 i = 0; i < N; ++i) {															\
 			sstr >> str;																		\
 			str.erase(std::remove(str.begin(), str.end(), '"'), str.end());						\
 			str.erase(std::remove(str.begin(), str.end(), ','), str.end());						\
@@ -81,7 +81,7 @@ struct BaseType<Type[N]> {																		\
 	}																							\
 	static std::string SerializeToINI(const T& t) {												\
 		std::string str("{ ");																	\
-		for(U64 i = 0; i < N; ++i){															\
+		for(U32 i = 0; i < N; ++i){															\
 			str += BaseType<Type>::SerializeToINI(t[i]);										\
 			str += ", ";																		\
 		}																						\
@@ -92,7 +92,7 @@ struct BaseType<Type[N]> {																		\
 	static void DeserializeINI(T& t, std::stringstream& sstr) {									\
 		std::string str;																		\
 		sstr >> str;																			\
-		for(U64 i = 0; i < N; ++i) {															\
+		for(U32 i = 0; i < N; ++i) {															\
 			sstr >> str;																		\
 			str.erase(std::remove(str.begin(), str.end(), ','), str.end());						\
 			StringToValue<Type>(str.c_str(), t[i]);												\
@@ -170,7 +170,7 @@ struct ComplexType {																			\
 		MetaData::Deserialize<EExtension::JSON>(t, sstr);										\
 	}																							\
 };																								\
-template<typename Type, U64 N>																\
+template<typename Type, U32 N>																\
 struct ComplexType<Type[N]> {																	\
 	using T = Type[N];																			\
 	using MetaData = MetaData<Type>;															\
@@ -180,7 +180,7 @@ struct ComplexType<Type[N]> {																	\
 	}																							\
 	static std::string SerializeToBinary(const T& t) {											\
 		std::string str;																		\
-		U64 totalArraySize = 0;																\
+		U32 totalArraySize = 0;																\
 		for (auto& x : t)																		\
 			totalArraySize += MetaData::ComputeTotalSize(x);									\
 		str.reserve(totalArraySize);															\
@@ -192,7 +192,7 @@ struct ComplexType<Type[N]> {																	\
 	}																							\
 	static std::string SerializeToJSON(const T& t, int indent) {								\
 		std::string str("[\n");																	\
-		for(U64 i = 0; i < N; ++i){															\
+		for(U32 i = 0; i < N; ++i){															\
 			for(int i2 = 0; i2 < indent; ++i2)													\
 				str += '\t';																	\
 			std::stringstream sstr;																\
@@ -209,7 +209,7 @@ struct ComplexType<Type[N]> {																	\
 	}																							\
 	static void DeserializeJSON(T& t, std::stringstream& sstr) {								\
 		std::string str;																		\
-		for(U64 i = 0; i < N; ++i) {															\
+		for(U32 i = 0; i < N; ++i) {															\
 			MetaData::Deserialize<EExtension::JSON>(t[i], sstr);								\
 		}																						\
 		sstr >> str;																			\
@@ -275,10 +275,10 @@ namespace utils {\
 template<typename T>																			\
 static void DeserializeBinaryToVector(std::vector<T>& t, std::stringstream& sstr) {				\
 	t.clear();																					\
-	U64 size;																				\
-	sstr.read((char*)&size, sizeof(U64));													\
+	U32 size;																				\
+	sstr.read((char*)&size, sizeof(U32));													\
 	t.resize(size);																				\
-	for(U64 i = 0; i < size; ++i) {															\
+	for(U32 i = 0; i < size; ++i) {															\
 		DeserializeBinary(t[i], sstr);															\
 	}																							\
 }																								\
@@ -298,8 +298,8 @@ static void DeserializeJSONToVector(std::vector<T>& t, std::stringstream& sstr) 
 }																								\
 static void DeserializeBinaryToString(std::string& t, std::stringstream& sstr) {				\
 	t.clear();																					\
-	U64 size;																				\
-	sstr.read((char*)&size, sizeof(U64));													\
+	U32 size;																				\
+	sstr.read((char*)&size, sizeof(U32));													\
 	t.insert(0, sstr.str().c_str() + (int)sstr.tellg(), size);									\
 	sstr.seekg(std::streamoff(size), std::ios::cur);											\
 }																								\
@@ -330,10 +330,10 @@ static void DeserializeBinaryToPair(T& p, std::stringstream& sstr) {							\
 template<typename T, typename U>																\
 static void DeserializeBinaryToMap(std::map<T, U>& m, std::stringstream& sstr) {				\
 	m.clear();																					\
-	U64 size;																				\
-	sstr.read((char*)&size, sizeof(U64));													\
+	U32 size;																				\
+	sstr.read((char*)&size, sizeof(U32));													\
 	std::pair<T, U> p;																			\
-	for(U64 i = 0; i < size; ++i) {															\
+	for(U32 i = 0; i < size; ++i) {															\
 		DeserializeBinaryToPair(p, sstr);														\
 		m.insert(p);																			\
 	}																							\
@@ -342,10 +342,10 @@ template<typename T, typename U>																\
 static void DeserializeBinaryToUnorderedMap														\
 	(std::unordered_map<T, U>& um, std::stringstream& sstr) {									\
 	um.clear();																					\
-	U64 size;																				\
-	sstr.read((char*)&size, sizeof(U64));													\
+	U32 size;																				\
+	sstr.read((char*)&size, sizeof(U32));													\
 	std::pair<T, U> p;																			\
-	for(U64 i = 0; i < size; ++i) {															\
+	for(U32 i = 0; i < size; ++i) {															\
 		DeserializeBinaryToPair(p, sstr);														\
 		um.insert(p);																			\
 	}																							\
@@ -453,9 +453,9 @@ static void DeserializeINI(T& t, std::stringstream& sstr) {										\
 #define DK_GET_DATA()															\
 namespace utils {\
 static std::string SerializeStringToBinary(const std::string& s) {				\
-	U64 size = s.size();														\
+	U32 size = static_cast<U32>(s.size());														\
 	std::string temp = s;														\
-	temp.insert(0, (char*)&size, sizeof(U64));								\
+	temp.insert(0, (char*)&size, sizeof(U32));								\
 	return temp;																\
 }																				\
 static std::string SerializeStringToJSON(const std::string& s) {				\
@@ -463,10 +463,10 @@ static std::string SerializeStringToJSON(const std::string& s) {				\
 }																				\
 template<typename T>															\
 static std::string SerializeVectorToBinary(const T& t) {						\
-	U64 size = t.size(), size2 = 0;											\
+	U32 size = static_cast<U32>(t.size()), size2 = 0;											\
 	std::string data;															\
-	data.reserve(t.size() + sizeof(U64));									\
-	data.insert(0, (char*)&size, sizeof(U64));								\
+	data.reserve(static_cast<U32>(t.size()) + sizeof(U32));									\
+	data.insert(0, (char*)&size, sizeof(U32));								\
 	for(auto& x : t)															\
 		data.append(utils::SerializeToBinary<TYPEOF(x)>(x));							\
 	return data;																\
@@ -526,8 +526,8 @@ static std::string SerializePairToBinary(const T& p) {							\
 template<typename T>															\
 static std::string SerializeMapToBinary(const T& m) {							\
 	std::string str;															\
-	U64 size = m.size();														\
-	str.append((char*)&size, sizeof(U64));									\
+	U32 size = static_cast<U32>(m.size());														\
+	str.append((char*)&size, sizeof(U32));									\
 	for(auto& pair : m)															\
 		str.append(SerializePairToBinary(pair));								\
 	return str;																	\
@@ -536,8 +536,8 @@ template<typename T>															\
 static std::string SerializeUnorderedMapToBinary								\
 	(const T& m) {																\
 	std::string str;															\
-	U64 size = m.size();														\
-	str.append((char*)&size, sizeof(U64));									\
+	U32 size = static_cast<U32>(m.size());														\
+	str.append((char*)&size, sizeof(U32));									\
 	for(auto& pair : m)															\
 		str.append(SerializePairToBinary(pair));								\
 	return str;																	\

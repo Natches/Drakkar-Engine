@@ -93,7 +93,7 @@ static void DeserializeBinary(type& t, std::stringstream& sstr) {										\
 
 #define DK_METADATA_SERIALIZE_FIELD_TO_BINARY(...)														\
 static std::string SerializeToBinary(const type& t) {													\
-	size_t size = ComputeTotalSize(t);																	\
+	U32 size = ComputeTotalSize(t);																	\
 	std::string data;																					\
 	data.reserve(size);																					\
 	std::stringstream sstr;																				\

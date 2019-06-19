@@ -21,8 +21,8 @@ public:
 	// Inherited via IManualSceneBlueprint
 	virtual void build(LevelSystem& scene) override
 	{
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkrsrc"));
-		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider.dkrsrc"));
+		//scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/MayaCube.dkrsrc"));
+		scene.m_resourceManager->convertOrLoad(std::string("./Resources/Models/GiantSpider_ASCII.fbx"));
 		PhysicsMaterial mat;
 		mat.dynamicFriction = 0.5f;
 		mat.restitution = 0.5f;
@@ -34,7 +34,7 @@ public:
 		raycastPointer_TR.setGlobalPosition(Vec3f(0.f, 0.f, 0.f));
 		raycastPointer_TR.setGlobalScale(Vec3f(10.f, 10.f, 10.f));
 		raycastPointer_TR.setGlobalRotation(Quaternion(Vec3f(0.f, 0.f, 0.f)));
-		raycastPointer_MDL.name = "pCube1";
+		raycastPointer_MDL.name = "creature/giantspider/giantspider";
 
 		for (int i = 0; i < 1; ++i) {
 			GameObject& cube = scene.addGameObject();
@@ -79,7 +79,7 @@ public:
 		floor_RB.mass = 1000.f;
 		floor_RB.isStatic = true;
 
-		floor_MDL.name = "pCube1";
+		floor_MDL.name = "creature/giantspider/giantspider";
 
 		floor_BC.width = 1000.f;
 		floor_BC.height = 2.f;
